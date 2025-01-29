@@ -1,0 +1,300 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/theme.json",
+    "version": 3,
+    "title": "Fau Elemental",
+    "slug": "fau-elemental",
+    "description": "Fau Elemental",
+    "settings": {
+        "appearanceTools": false,
+        "border": {},
+        "color": {
+            "palette": [
+                {
+                    "name": "FAU_Col_FAU-Blau_100",
+                    "slug": "fau-blau-100",
+                    "color": "#04316A"
+                },
+                {
+                    "name": "FAU_Col_FAU-Dunkelblau_100",
+                    "slug": "fau-dunkelblau-100",
+                    "color": "#041E42"
+                },
+                {
+                    "name": "FAU_Col_FAU-Blau_62,5",
+                    "slug": "fau-blau-62,5",
+                    "color": "#617DA1"
+                },
+                {
+                    "name": "FAU_Col_FAU-Dunkelblau_62,5",
+                    "slug": "fau-dunkelblau-62,5",
+                    "color": "#617188"
+                },
+                {
+                    "name": "FAU_Col_FAU-Blau_37,5",
+                    "slug": "fau-blau-37,5",
+                    "color": "#A0B1C6"
+                },
+                {
+                    "name": "FAU_Col_FAU-Dunkelblau_37,5",
+                    "slug": "fau-dunkelblau-37,5",
+                    "color": "#A0A9B7"
+                },
+                {
+                    "name": "FAU_Col_FAU-Blau_25",
+                    "slug": "fau-blau-25",
+                    "color": "#C0CBDA"
+                },
+                {
+                    "name": "FAU_Col_FAU-Dunkelblau_25",
+                    "slug": "fau-dunkelblau-25",
+                    "color": "#C0C7D0"
+                },
+                {
+                    "name": "FAU_Col_FAU-Blau_12,5",
+                    "slug": "fau-blau-12,5",
+                    "color": "#D3DCF2"
+                },
+                {
+                    "name": "FAU_Col_FAU-Dunkelblau_12,5",
+                    "slug": "fau-dunkelblau-12,5",
+                    "color": "#DFE2E7"
+                }
+            ]
+        },
+        "custom": {
+            "responsive": {
+                "xs": 393,
+                "sm": 768,
+                "md": 1440,
+                "lg": 1920
+            }
+        },
+        "dimensions": {},
+        "layout": {},
+        "position": {},
+        "shadow": {},
+        "spacing": {
+            "spacingSizes": [
+                {
+                    "slug": "05x",
+                    "name": "Spacing-0.5x",
+                    "size": "2px"
+                },
+                {
+                    "slug": "1x",
+                    "name": "Spacing-1x",
+                    "size": "4px"
+                },
+                {
+                    "slug": "2x",
+                    "name": "Spacing-2x",
+                    "size": "8px"
+                },
+                {
+                    "slug": "3x",
+                    "name": "Spacing-3x",
+                    "size": "12px"
+                },
+                {
+                    "slug": "4x",
+                    "name": "Spacing-4x",
+                    "size": "16px"
+                },
+                {
+                    "slug": "5x",
+                    "name": "Spacing-5x",
+                    "size": "20px"
+                },
+                {
+                    "slug": "6x",
+                    "name": "Spacing-6x",
+                    "size": "24px"
+                },
+                {
+                    "slug": "8x",
+                    "name": "Spacing-8x",
+                    "size": "32px"
+                },
+                {
+                    "slug": "10x",
+                    "name": "Spacing-10x",
+                    "size": "40px"
+                },
+                {
+                    "slug": "12x",
+                    "name": "Spacing-12x",
+                    "size": "48px"
+                },
+                {
+                    "slug": "14x",
+                    "name": "Spacing-14x",
+                    "size": "56px"
+                },
+                {
+                    "slug": "16x",
+                    "name": "Spacing-16x",
+                    "size": "64px"
+                },
+                {
+                    "slug": "20x",
+                    "name": "Spacing-20x",
+                    "size": "80px"
+                },
+                {
+                    "slug": "24x",
+                    "name": "Spacing-24x",
+                    "size": "96px"
+                },
+                {
+                    "slug": "30x",
+                    "name": "Spacing-30x",
+                    "size": "120px"
+                }
+            ]
+        },
+        "typography": {
+            "fontSizes": [
+                {
+                    "slug": "di-display-1",
+                    "name": "Display 1",
+                    "size": "72px"
+                },
+                {
+                    "slug": "di-display-2",
+                    "name": "Display 2",
+                    "size": "64px"
+                },
+                {
+                    "slug": "h-heading-1",
+                    "name": "Heading 1",
+                    "size": "48px"
+                },
+                {
+                    "slug": "h-heading-big-teaser",
+                    "name": "Heading Big Teaser",
+                    "size": "40px"
+                },
+                {
+                    "slug": "h-heading-2",
+                    "name": "Heading 2",
+                    "size": "32px"
+                },
+                {
+                    "slug": "h-heading-3",
+                    "name": "Heading 3",
+                    "size": "24px"
+                },
+                {
+                    "slug": "h-heading-4",
+                    "name": "Heading 4",
+                    "size": "20px"
+                },
+                {
+                    "slug": "h-heading-5",
+                    "name": "Heading 5",
+                    "size": "18px"
+                },
+                {
+                    "slug": "h-heading-6",
+                    "name": "Heading 6",
+                    "size": "16px"
+                },
+                {
+                    "slug": "p-intro-text",
+                    "name": "Intro Text",
+                    "size": "20px"
+                },
+                {
+                    "slug": "p-body-text",
+                    "name": "Body Text",
+                    "size": "18px"
+                },
+                {
+                    "slug": "p-body-text-small",
+                    "name": "Body Text Small",
+                    "size": "16px"
+                },
+                {
+                    "slug": "p-caption",
+                    "name": "Caption",
+                    "size": "14px"
+                }
+            ]
+        },
+        "useRootPaddingAwareAlignments": false,
+        "blocks": {}
+    },
+    "styles": {
+        "color": {
+            "text": "#000000",
+            "background": "#ffffff"
+        },
+        "elements": {
+            "h1": {
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--h-heading-1)"
+                }
+            },
+            "h2": {
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--h-heading-2)"
+                }
+            },
+            "h3": {
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--h-heading-3)"
+                }
+            },
+            "h4": {
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--h-heading-4)"
+                }
+            },
+            "h5": {
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--h-heading-5)"
+                }
+            },
+            "h6": {
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--h-heading-6)"
+                }
+            }
+        },
+        "blocks": {
+            "core/heading": {
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--h-heading-1)"
+                }
+            },
+            "core/paragraph": {
+                "typography": {
+                    "fontSize": "var(--wp--preset--font-size--p-body-text)"
+                }
+            }
+        }
+    },
+    "customTemplates": [
+        {
+            "name": "just-content",
+            "title": "Just Content",
+            "postTypes": [
+                "page",
+                "post"
+            ]
+        }
+    ],
+    "templateParts": [
+        {
+            "area": "header",
+            "name": "header",
+            "title": "Header"
+        },
+        {
+            "area": "footer",
+            "name": "footer",
+            "title": "Footer"
+        }
+    ],
+    "patterns": []
+}

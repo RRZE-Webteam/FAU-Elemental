@@ -1,0 +1,105 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Naturwissenschaftliche Fakultät",
+	"slug": "natur",
+	"description": "Naturwissenschaftliche Fakultät",
+	"settings": {
+		"appearanceTools": false,
+		"border": {},
+		"color": {
+			"palette": [
+				{
+					"name": "FAU_Col_Nat-Grün_100",
+					"slug": "nat-gruen-100",
+					"color": "#7BB725"
+				},
+				{
+					"name": "FAU_Col_Nat-Dunkelgrün_100",
+					"slug": "nat-dunkelgruen-100",
+					"color": "#266141"
+				},
+				{
+					"name": "FAU_Col_Nat-Grün_62,5",
+					"slug": "nat-gruen-62,5",
+					"color": "#ACD275"
+				},
+				{
+					"name": "FAU_Col_Nat-Dunkelgrün_62,5",
+					"slug": "nat-dunkelgruen-62,5",
+					"color": "#769B87"
+				},
+				{
+					"name": "FAU_Col_Nat-Grün_37,5",
+					"slug": "nat-gruen-37,5",
+					"color": "#CDE4AC"
+				},
+				{
+					"name": "FAU_Col_Nat-Dunkelgrün_37,5",
+					"slug": "nat-dunkelgruen-37,5",
+					"color": "#ACC3B7"
+				},
+				{
+					"name": "FAU_Col_Nat-Grün_25",
+					"slug": "nat-gruen-25",
+					"color": "#DEEDC8"
+				},
+				{
+					"name": "FAU_Col_Nat-Dunkelgrün_25",
+					"slug": "nat-dunkelgruen-25",
+					"color": "#C9D7CF"
+				},
+				{
+					"name": "FAU_Col_Nat-Grün_12,5",
+					"slug": "nat-gruen-12,5",
+					"color": "#E6FCDC"
+				},
+				{
+					"name": "FAU_Col_Nat-Dunkelgrün_12,5",
+					"slug": "nat-dunkelgruen-12,5",
+					"color": "#E3EBE6"
+				}
+			]
+		},
+		"custom": {},
+		"dimensions": {},
+		"layout": {},
+		"position": {},
+		"shadow": {},
+		"spacing": {},
+		"typography": {},
+		"useRootPaddingAwareAlignments": false,
+		"blocks": {}
+	},
+	"styles": {
+		"color": {
+			"text": "#000000",
+			"background": "#ffffff"
+		},
+		"elements": {},
+		"blocks": {}
+	},
+	"customTemplates": [
+		{
+			"name": "just-content",
+			"title": "Just Content",
+			"postTypes": [
+				"page",
+				"post"
+			]
+		}
+	],
+	"templateParts": [
+		{
+			"area": "header",
+			"name": "header",
+			"title": "Header"
+		},
+		{
+			"area": "footer",
+			"name": "footer",
+			"title": "Footer"
+		}
+	],
+	"patterns": []
+}

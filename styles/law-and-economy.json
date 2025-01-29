@@ -1,0 +1,105 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Rechts- und Wirtschaftswissenschaftliche Fakultät",
+	"slug": "law-and-economy",
+	"description": "Rechts- und Wirtschaftswissenschaftliche Fakultät",
+	"settings": {
+		"appearanceTools": false,
+		"border": {},
+		"color": {
+			"palette": [
+				{
+					"name": "FAU_Col_RW-Rot_100",
+					"slug": "lw-rot-100",
+					"color": "#C50F3C"
+				},
+				{
+					"name": "FAU_Col_RW-Dunkelrot_100",
+					"slug": "lw-dunkelrot-100",
+					"color": "#971B2F"
+				},
+				{
+					"name": "FAU_Col_RW-Rot_62,5",
+					"slug": "lw-rot-62,5",
+					"color": "#DD737C"
+				},
+				{
+					"name": "FAU_Col_RW-Dunkelrot_62,5",
+					"slug": "lw-dunkelrot-62,5",
+					"color": "#BE717D"
+				},
+				{
+					"name": "FAU_Col_RW-Rot_37,5",
+					"slug": "lw-rot-37,5",
+					"color": "#EBABAE"
+				},
+				{
+					"name": "FAU_Col_RW-Dunkelrot_37,5",
+					"slug": "lw-dunkelrot-37,5",
+					"color": "#D8A9B1"
+				},
+				{
+					"name": "FAU_Col_RW-Rot_25",
+					"slug": "lw-rot-25",
+					"color": "#F1C8C9"
+				},
+				{
+					"name": "FAU_Col_RW-Dunkelrot_25",
+					"slug": "lw-dunkelrot-25",
+					"color": "#E6C6CB"
+				},
+				{
+					"name": "FAU_Col_RW-Rot_12,5",
+					"slug": "lw-rot-12,5",
+					"color": "#FCDCE3"
+				},
+				{
+					"name": "FAU_Col_RW-Dunkelrot_12,5",
+					"slug": "lw-dunkelrot-12,5",
+					"color": "#F2E2E5"
+				}
+			]
+		},
+		"custom": {},
+		"dimensions": {},
+		"layout": {},
+		"position": {},
+		"shadow": {},
+		"spacing": {},
+		"typography": {},
+		"useRootPaddingAwareAlignments": false,
+		"blocks": {}
+	},
+	"styles": {
+		"color": {
+			"text": "#000000",
+			"background": "#ffffff"
+		},
+		"elements": {},
+		"blocks": {}
+	},
+	"customTemplates": [
+		{
+			"name": "just-content",
+			"title": "Just Content",
+			"postTypes": [
+				"page",
+				"post"
+			]
+		}
+	],
+	"templateParts": [
+		{
+			"area": "header",
+			"name": "header",
+			"title": "Header"
+		},
+		{
+			"area": "footer",
+			"name": "footer",
+			"title": "Footer"
+		}
+	],
+	"patterns": []
+}
