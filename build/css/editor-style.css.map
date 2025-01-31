@@ -1,0 +1,1 @@
+{"version":3,"file":"css/editor-style.css","mappings":";;;AAAA;EACI;AACJ,C","sources":["webpack:///./src/scss/editor-style.scss"],"sourcesContent":["body {\n    background-color: red;\n}"],"names":[],"sourceRoot":""}

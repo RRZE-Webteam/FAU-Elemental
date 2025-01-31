@@ -6,7 +6,7 @@
   "title": "FAU Gallary",
   "category": "fau-elemental/FAU",
   "icon": "format-gallery",
-  "description": "Example block scaffolded with Create Block tool.",
+  "description": "Gallery block with custom features",
   "example": {},
   "supports": {
     "html": false

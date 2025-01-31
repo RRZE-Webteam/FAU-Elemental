@@ -19,6 +19,7 @@
     "@wordpress/create-block": "^4.59.0",
     "@wordpress/env": "^10.15.0",
     "@wordpress/scripts": "^30.9.0",
-    "webpack-cli": "^6.0.1"
+    "webpack-cli": "^6.0.1",
+    "webpack-remove-empty-scripts": "^1.0.0"
   }
 }

@@ -4,17 +4,18 @@
 
 function fau_elemental_enqueue_styles()
 {
+    $theme_asset = include get_theme_file_path('build/css/theme.asset.php');
+
     wp_enqueue_style(
         'fau-elemental-style',
         get_stylesheet_uri()
     );
 
     wp_enqueue_style(
-        'fau-elemental-primary',
-        get_parent_theme_file_uri('assets/css/primary.css'),
-        array(),
-        wp_get_theme()->get('Version'),
-        'all'
+        'fau-elemental-theme',
+        get_theme_file_uri('build/css/theme.css'),
+        $theme_asset['dependencies'],
+        $theme_asset['version']
     );
 
     // wp_add_inline_style(
@@ -30,7 +31,7 @@ function fau_elemental_setup()
 {
     add_editor_style(array(
         'style.css',
-        'assets/css/primary.css',
+        'build/css/editor-style.css'
     ));
 }
 add_action('after_setup_theme', 'fau_elemental_setup');
@@ -70,11 +71,12 @@ add_action('enqueue_block_editor_assets', 'fau_elemental_enqueue_editor_scripts'
 
 // Register Blocks
 
-function register_fau_blocks() {
+function register_fau_blocks()
+{
     $build_dir = __DIR__ . '/build';
     if (is_dir($build_dir)) {
         $blocks = array_filter(glob($build_dir . '/*'), 'is_dir');
-        
+
         foreach ($blocks as $block) {
             register_block_type($block);
         }
@@ -100,7 +102,8 @@ add_filter('block_categories_all', 'fau_elemental_register_block_categories');
 
 // Theme Settings
 
-function my_theme_settings_page() {
+function my_theme_settings_page()
+{
     add_menu_page(
         'My Theme Settings',
         'Theme Settings',
@@ -111,7 +114,8 @@ function my_theme_settings_page() {
 }
 add_action('admin_menu', 'my_theme_settings_page');
 
-function my_theme_settings_callback() {
+function my_theme_settings_callback()
+{
     echo '<h1>My Theme Settings</h1>';
     echo '<form method="post" action="options.php">';
     settings_fields('my-theme-settings-group');
@@ -120,21 +124,24 @@ function my_theme_settings_callback() {
     echo '</form>';
 }
 
-function my_theme_register_settings() {
+function my_theme_register_settings()
+{
     register_setting('my-theme-settings-group', 'custom_setting');
     add_settings_section('my-theme-section', 'Custom Options', null, 'my-theme-settings');
     add_settings_field('custom-setting', 'Custom Setting', 'custom_setting_callback', 'my-theme-settings', 'my-theme-section');
 }
 add_action('admin_init', 'my_theme_register_settings');
 
-function custom_setting_callback() {
+function custom_setting_callback()
+{
     $value = get_option('custom_setting', '');
     echo '<input type="text" name="custom_setting" value="' . esc_attr($value) . '">';
 }
 
 // Allow SVG Upload
 
-function allow_svg_upload($mimes) {
+function allow_svg_upload($mimes)
+{
     $mimes['svg'] = 'image/svg+xml';
     return $mimes;
 }
