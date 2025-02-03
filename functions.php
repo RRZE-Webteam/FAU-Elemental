@@ -48,10 +48,10 @@ function fau_elemental_enqueue_scripts()
         true
     );
 
-    wp_add_inline_script(
-        'fau-elemental-example',
-        'console.log( "Inline script" );',
-    );
+    // wp_add_inline_script(
+    //     'fau-elemental-example',
+    //     'console.log( "Inline script" );',
+    // );
 }
 add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_scripts');
 
@@ -69,20 +69,6 @@ function fau_elemental_enqueue_editor_scripts()
 }
 add_action('enqueue_block_editor_assets', 'fau_elemental_enqueue_editor_scripts');
 
-// Register Blocks
-
-function register_fau_blocks()
-{
-    $build_dir = __DIR__ . '/build';
-    if (is_dir($build_dir)) {
-        $blocks = array_filter(glob($build_dir . '/*'), 'is_dir');
-
-        foreach ($blocks as $block) {
-            register_block_type($block);
-        }
-    }
-}
-add_action('init', 'register_fau_blocks');
 
 // Register Block Category
 
@@ -100,37 +86,52 @@ function fau_elemental_register_block_categories($categories)
 }
 add_filter('block_categories_all', 'fau_elemental_register_block_categories');
 
+// Register Blocks
+
+function fau_elemental_register_blocks() {
+    // Get all directories in the build folder that start with 'fau-'
+    $block_folders = glob(get_theme_file_path('build/fau-*'), GLOB_ONLYDIR);
+    
+    // Register each block
+    foreach ($block_folders as $block_folder) {
+        if (file_exists($block_folder . '/block.json')) {
+            register_block_type($block_folder);
+        }
+    }
+}
+add_action('init', 'fau_elemental_register_blocks');
+
 // Theme Settings
 
-function my_theme_settings_page()
+function fau_elemental_settings_page()
 {
     add_menu_page(
-        'My Theme Settings',
-        'Theme Settings',
+        'FAU Elemental Settings',
+        'FAU Elemental',
         'manage_options',
-        'my-theme-settings',
-        'my_theme_settings_callback'
+        'fau-elemental-settings',
+        'fau_elemental_settings_callback'
     );
 }
-add_action('admin_menu', 'my_theme_settings_page');
+add_action('admin_menu', 'fau_elemental_settings_page');
 
-function my_theme_settings_callback()
+function fau_elemental_settings_callback()
 {
-    echo '<h1>My Theme Settings</h1>';
+    echo '<h1>FAU Elemental Settings</h1>';
     echo '<form method="post" action="options.php">';
-    settings_fields('my-theme-settings-group');
-    do_settings_sections('my-theme-settings');
+    settings_fields('fau-elemental-settings-group');
+    do_settings_sections('fau-elemental-settings');
     submit_button();
     echo '</form>';
 }
 
-function my_theme_register_settings()
+function fau_elemental_register_settings()
 {
-    register_setting('my-theme-settings-group', 'custom_setting');
-    add_settings_section('my-theme-section', 'Custom Options', null, 'my-theme-settings');
-    add_settings_field('custom-setting', 'Custom Setting', 'custom_setting_callback', 'my-theme-settings', 'my-theme-section');
+    register_setting('fau-elemental-settings-group', 'fau_elemental_setting');
+    add_settings_section('fau-elemental-section', 'Custom Options', null, 'fau-elemental-settings');
+    add_settings_field('fau-elemental-setting', 'Custom Setting', 'fau_elemental_setting_callback', 'fau-elemental-settings', 'fau-elemental-section');
 }
-add_action('admin_init', 'my_theme_register_settings');
+add_action('admin_init', 'fau_elemental_register_settings');
 
 function custom_setting_callback()
 {

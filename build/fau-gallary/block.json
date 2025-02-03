@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "title": "FAU Gallary",
   "category": "fau-elemental/FAU",
-  "icon": "format-gallery",
+  "icon": "smiley",
   "description": "Gallery block with custom features",
   "example": {},
   "supports": {
