@@ -11,7 +11,8 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, SelectControl } from '@wordpress/components';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -31,8 +32,17 @@ import './editor.scss';
  */
 export default function Edit() {
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'Fau Button – hello from the editor!', 'fau-button' ) }
-		</p>
+		<>
+			<InspectorControls>
+				<PanelBody title={__('Button Settings', 'fau-button')}>
+
+				</PanelBody>
+			</InspectorControls>
+			<p {...useBlockProps({
+				className: `wp-block-fau-elemental-fau-button`
+			})}>
+				{__('Fau Button', 'fau-button')}
+			</p>
+		</>
 	);
 }

@@ -10,6 +10,21 @@
         "color": {
             "palette": [
                 {
+                    "name": "FAU_Col_Base-Schwarz_100",
+                    "slug": "base-schwarz-100",
+                    "color": "#000000"
+                },
+                {
+                    "name": "FAU_Col_Base-Schwarz_90",
+                    "slug": "base-schwarz-90",
+                    "color": "#1A1A1A"
+                },
+                {
+                    "name": "FAU_Col_Base-Weiß_100",
+                    "slug": "base-weiss-100",
+                    "color": "#FFFFFF"
+                },
+                {
                     "name": "FAU_Col_FAU-Blau_100",
                     "slug": "fau-blau-100",
                     "color": "#04316A"
@@ -262,14 +277,36 @@
             }
         },
         "blocks": {
-            "core/heading": {
-                "typography": {
-                    "fontSize": "var(--wp--preset--font-size--h-heading-1)"
-                }
-            },
-            "core/paragraph": {
-                "typography": {
-                    "fontSize": "var(--wp--preset--font-size--p-body-text)"
+            "fau-elemental/fau-button": {
+                "variations": {
+                    "primary": {
+                        "color": {
+                            "background": "var:preset|color|fau-blau-100",
+                            "text": "#ffffff"
+                        },
+                        "border": {
+                            "color": "var:preset|color|fau-blau-100",
+                            "width": "var:preset|spacing|05x",
+                            "style": "solid"
+                        }
+                    },
+                    "secondary": {
+                        "color": {
+                            "background": "transparent",
+                            "text": "var:preset|color|fau-blau-100"
+                        },
+                        "border": {
+                            "color": "var:preset|color|fau-blau-100",
+                            "width": "var:preset|spacing|05x",
+                            "style": "solid"
+                        }
+                    },
+                    "tertiary": {
+                        "color": {
+                            "background": "transparent",
+                            "text": "var:preset|color|fau-blau-100"
+                        }
+                    }
                 }
             }
         }

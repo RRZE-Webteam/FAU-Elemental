@@ -6,22 +6,29 @@
   "title": "Fau Button",
   "category": "fau-elemental/FAU",
   "icon": "smiley",
-  "description": "Example block scaffolded with Create Block tool.",
+  "description": "A button block with different styles",
+  "styles": [
+    {
+      "name": "primary",
+      "label": "Primary",
+      "isDefault": true
+    },
+    {
+      "name": "secondary",
+      "label": "Secondary"
+    },
+    {
+      "name": "tertiary",
+      "label": "Tertiary"
+    }
+  ],
   "attributes": {
-    "mode": {
+    "style": {
       "type": "string",
-      "enum": [
-        "primary",
-        "secondary",
-        "tertiary"
-      ],
       "default": "primary"
     }
   },
   "example": {},
-  "supports": {
-    "html": false
-  },
   "textdomain": "fau-button",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

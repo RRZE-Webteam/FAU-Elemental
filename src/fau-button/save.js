@@ -5,6 +5,7 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -17,8 +18,10 @@ import { useBlockProps } from '@wordpress/block-editor';
  */
 export default function save() {
 	return (
-		<p { ...useBlockProps.save() }>
-			{ 'Fau Button – hello from the saved content!' }
+		<p {...useBlockProps.save({
+			className: `wp-block-fau-elemental-fau-button`
+		})}>
+			{__('Fau Button', 'fau-button')}
 		</p>
 	);
 }

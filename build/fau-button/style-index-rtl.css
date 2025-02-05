@@ -7,8 +7,26 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-create-block-fau-button {
-  background-color: #21759b;
-  color: #fff;
-  padding: 2px;
+.wp-block-fau-elemental-fau-button {
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+}
+.wp-block-fau-elemental-fau-button.is-style-fau-button-primary {
+  border: 2px solid var(--wp--preset--color--standard);
+  border-radius: 4px;
+  padding: 10px 20px;
+}
+.wp-block-fau-elemental-fau-button.is-style-fau-button-secondary {
+  border: 2px solid var(--wp--preset--color--standard);
+  border-radius: 4px;
+  padding: 10px 20px;
+}
+.wp-block-fau-elemental-fau-button.is-style-fau-button-tertiary {
+  border: none;
+  padding: 10px 20px;
+  text-decoration: underline;
+}
+.wp-block-fau-elemental-fau-button.is-style-fau-button-tertiary:hover {
+  text-decoration: none;
 }
