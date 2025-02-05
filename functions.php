@@ -128,7 +128,7 @@ add_action('admin_menu', 'fau_elemental_settings_page');
 function fau_elemental_settings_callback()
 {
     echo '<h1>FAU Elemental Settings</h1>';
-    
+
     // Add settings update message
     if (isset($_GET['settings-updated'])) {
         if (get_settings_errors()) {
@@ -150,7 +150,7 @@ function fau_elemental_settings_callback()
 function fau_elemental_register_settings()
 {
     register_setting(
-        'fau-elemental-settings-group', 
+        'fau-elemental-settings-group',
         'fau_elemental_website_type',
         array(
             'sanitize_callback' => 'fau_elemental_sanitize_website_type'
@@ -181,7 +181,7 @@ function fau_elemental_website_type_callback()
         'other' => __('Sonstige', 'fau-elemental'),
         'cooperation' => __('Kooperation', 'fau-elemental')
     );
-    
+
     echo '<select name="fau_elemental_website_type">';
     foreach ($options as $value => $label) {
         echo '<option value="' . esc_attr($value) . '" ' . selected($website_type, $value, false) . '>';
@@ -195,7 +195,7 @@ function fau_elemental_website_type_callback()
 function fau_elemental_sanitize_website_type($input)
 {
     $valid_types = array('fau', 'faculty', 'chair', 'other', 'cooperation');
-    
+
     if (!in_array($input, $valid_types)) {
         add_settings_error(
             'fau_elemental_website_type',
@@ -205,16 +205,17 @@ function fau_elemental_sanitize_website_type($input)
         );
         return get_option('fau_elemental_website_type', 'fau');
     }
-    
+
     return $input;
 }
 
 // Conditional Patterns
 
-function fau_elemental_register_patterns() {
+function fau_elemental_register_patterns()
+{
     // Get the website type from options
     $website_type = get_option('fau_elemental_website_type', 'fau');
-    
+
     // Map website types to their corresponding pattern files
     $pattern_map = array(
         'fau' => 'hero-fau',
@@ -223,18 +224,23 @@ function fau_elemental_register_patterns() {
         'other' => 'hero-other',
         'cooperation' => 'hero-cooperation'
     );
-    
+
     // Unregister the pattern if it exists
     unregister_block_pattern('fau-elemental/hero');
-    
+
     // Register the pattern with content based on website type
     $pattern_name = isset($pattern_map[$website_type]) ? $pattern_map[$website_type] : 'hero-fau';
     register_block_pattern(
         'fau-elemental/hero',
         array(
             'title' => __('Hero Pattern', 'fau-elemental'),
-            'content' => file_get_contents(get_theme_file_path("/conditional-patterns/{$pattern_name}.php"))
+            'source' => 'theme',
+            'content' => (function() use ($pattern_name) {
+                ob_start();
+                include get_theme_file_path("/conditional-patterns/{$pattern_name}.php");
+                return ob_get_clean();
+            })()
         )
     );
 }
-add_action('init', 'fau_elemental_register_patterns', 11);
+add_action('init', 'fau_elemental_register_patterns');

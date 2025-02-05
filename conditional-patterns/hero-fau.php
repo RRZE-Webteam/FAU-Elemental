@@ -1,6 +1,9 @@
 <!-- wp:group {"style":{"spacing":{"padding":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
-<div id="hero" class="wp-block-group" style="padding-top:0;padding-bottom:0"><!-- wp:cover {"url":"<?php echo get_theme_file_uri('assets/images/hero-fau.jpeg'); ?>","id":99,"dimRatio":50,"customOverlayColor":"#537f89","isUserOverlayColor":false,"layout":{"type":"constrained"}} -->
-    <div class="wp-block-cover"><span aria-hidden="true" class="wp-block-cover__background has-background-dim" style="background-color:#537f89"></span><img class="wp-block-cover__image-background wp-image-99" alt="" src="<?php echo get_theme_file_uri('assets/images/hero-fau.jpeg'); ?>" data-object-fit="cover" />
+<div id="hero" class="wp-block-group" style="padding-top:0;padding-bottom:0">
+    <!-- wp:cover {"url":"<?php echo esc_url( get_theme_file_uri( 'assets/images/hero-fau.jpg' ) ); ?>","id":99,"dimRatio":50,"customOverlayColor":"#537f89","isUserOverlayColor":false,"layout":{"type":"constrained"}} -->
+    <div class="wp-block-cover">
+        <span aria-hidden="true" class="wp-block-cover__background has-background-dim" style="background-color:#537f89"></span>
+        <img class="wp-block-cover__image-background wp-image-99" alt="" src="<?php echo esc_url( get_theme_file_uri( 'assets/images/hero-fau.jpg' ) ); ?>" data-object-fit="cover" />
         <div class="wp-block-cover__inner-container"><!-- wp:paragraph {"align":"center","placeholder":"Write title…","fontSize":"large"} -->
             <p class="has-text-align-center has-large-font-size"></p>
             <!-- /wp:paragraph -->
