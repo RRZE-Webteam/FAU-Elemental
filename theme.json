@@ -168,6 +168,27 @@
             ]
         },
         "typography": {
+            "fontFamilies": [
+                {
+                    "name": "Source Sans 3",
+                    "slug": "source-sans-3",
+                    "fontFamily": "\"Source Sans 3\", sans-serif",
+                    "fontFace": [
+                        {
+                            "fontFamily": "Source Sans 3",
+                            "fontWeight": "200 900",
+                            "fontStyle": "normal",
+                            "src": ["file:./assets/fonts/SourceSans3-VariableFont_wght.ttf"]
+                        },
+                        {
+                            "fontFamily": "Source Sans 3",
+                            "fontWeight": "200 900",
+                            "fontStyle": "italic",
+                            "src": ["file:./assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf"]
+                        }
+                    ]
+                }
+            ],
             "fontSizes": [
                 {
                     "slug": "di-display-1",
@@ -240,6 +261,9 @@
         "blocks": {}
     },
     "styles": {
+        "typography": {
+            "fontFamily": "var:preset|font-family|source-sans-3"
+        },
         "color": {
             "text": "var:preset|color|base-schwarz-100",
             "background": "var:preset|color|base-weiss-100"
