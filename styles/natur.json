@@ -241,8 +241,8 @@
 	},
 	"styles": {
 		"color": {
-			"text": "#000000",
-			"background": "#ffffff"
+			"text": "var:preset|color|base-schwarz-100",
+			"background": "var:preset|color|base-weiss-100"
 		},
 		"elements": {
 			"h1": {
@@ -282,7 +282,7 @@
 					"fau-button-primary": {
 						"color": {
 							"background": "var:preset|color|nat-gruen-100",
-							"text": "#ffffff"
+							"text": "var:preset|color|base-weiss-100"
 						},
 						"border": {
 							"color": "var:preset|color|nat-gruen-100",

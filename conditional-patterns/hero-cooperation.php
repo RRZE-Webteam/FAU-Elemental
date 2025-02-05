@@ -1,18 +1,3 @@
-<?php
-
-/**
- * Title: Hero
- * Slug: fau-elemental/hero
- * Description: Hero pattern for the FAU website.
- * Categories: hero
- */
-
-$buttons = array(
-    __('Button A', 'themeslug'),
-    __('Button B', 'themeslug')
-);
-?>
-
 <!-- wp:group {"tagName":"header","style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50"}}},"backgroundColor":"background","layout":{"type":"constrained"}} -->
 <header class="wp-block-group has-background-background-color has-background" style="padding-top:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50)">
 
@@ -25,7 +10,7 @@ $buttons = array(
     <!-- /wp:group -->
 
     <!-- wp:heading {"textAlign":"center","level":1} -->
-    <h1 class="wp-block-heading has-text-align-center">Hero Pattern</h1>
+    <h1 class="wp-block-heading has-text-align-center">Cooperation Hero Pattern</h1>
     <!-- /wp:heading -->
 </header>
 <!-- /wp:group -->
