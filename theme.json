@@ -6,73 +6,97 @@
     "description": "Fau Elemental",
     "settings": {
         "appearanceTools": false,
-        "border": {},
+        "background": {
+            "backgroundImage": false,
+            "backgroundSize": false
+        },
+        "blocks": {},
+        "border": {
+            "color": false,
+            "radius": false,
+            "style": false,
+            "width": false
+        },
         "color": {
+            "defaultPalette": false,
+            "button": false,
+            "heading": false,
+            "background": false,
+            "caption": false,
+            "custom": false,
+            "customDuotone": false,
+            "customGradient": false,
+            "defaultDuotone": false,
+            "defaultGradients": false,
+            "duotone": [],
+            "gradients": [],
+            "link": false,
+            "text": false,
             "palette": [
                 {
+                    "name": "FAU_Col_FAU-Blau_100",
+                    "slug": "base-100",
+                    "color": "#04316A"
+                },
+                {
+                    "name": "FAU_Col_FAU-Blau_62,5",
+                    "slug": "base-62,5",
+                    "color": "#617DA1"
+                },
+                {
+                    "name": "FAU_Col_FAU-Blau_37,5",
+                    "slug": "base-37,5",
+                    "color": "#A0B1C6"
+                },
+                {
+                    "name": "FAU_Col_FAU-Blau_25",
+                    "slug": "base-25",
+                    "color": "#C0CBDA"
+                },
+                {
+                    "name": "FAU_Col_FAU-Blau_12,5",
+                    "slug": "base-12,5",
+                    "color": "#D3DCF2"
+                },
+                {
+                    "name": "FAU_Col_FAU-Dunkelblau_100",
+                    "slug": "base-dark-100",
+                    "color": "#041E42"
+                },
+                {
+                    "name": "FAU_Col_FAU-Dunkelblau_62,5",
+                    "slug": "base-dark-62,5",
+                    "color": "#617188"
+                },
+                {
+                    "name": "FAU_Col_FAU-Dunkelblau_37,5",
+                    "slug": "base-dark-37,5",
+                    "color": "#A0A9B7"
+                },
+                {
+                    "name": "FAU_Col_FAU-Dunkelblau_25",
+                    "slug": "base-dark-25",
+                    "color": "#C0C7D0"
+                },
+                {
+                    "name": "FAU_Col_FAU-Dunkelblau_12,5",
+                    "slug": "base-dark-12,5",
+                    "color": "#DFE2E7"
+                },
+                {
                     "name": "FAU_Col_Base-Schwarz_100",
-                    "slug": "base-schwarz-100",
+                    "slug": "black-100",
                     "color": "#000000"
                 },
                 {
                     "name": "FAU_Col_Base-Schwarz_90",
-                    "slug": "base-schwarz-90",
+                    "slug": "black-90",
                     "color": "#1A1A1A"
                 },
                 {
                     "name": "FAU_Col_Base-Weiß_100",
-                    "slug": "base-weiss-100",
+                    "slug": "white-100",
                     "color": "#FFFFFF"
-                },
-                {
-                    "name": "FAU_Col_FAU-Blau_100",
-                    "slug": "fau-blau-100",
-                    "color": "#04316A"
-                },
-                {
-                    "name": "FAU_Col_FAU-Dunkelblau_100",
-                    "slug": "fau-dunkelblau-100",
-                    "color": "#041E42"
-                },
-                {
-                    "name": "FAU_Col_FAU-Blau_62,5",
-                    "slug": "fau-blau-62,5",
-                    "color": "#617DA1"
-                },
-                {
-                    "name": "FAU_Col_FAU-Dunkelblau_62,5",
-                    "slug": "fau-dunkelblau-62,5",
-                    "color": "#617188"
-                },
-                {
-                    "name": "FAU_Col_FAU-Blau_37,5",
-                    "slug": "fau-blau-37,5",
-                    "color": "#A0B1C6"
-                },
-                {
-                    "name": "FAU_Col_FAU-Dunkelblau_37,5",
-                    "slug": "fau-dunkelblau-37,5",
-                    "color": "#A0A9B7"
-                },
-                {
-                    "name": "FAU_Col_FAU-Blau_25",
-                    "slug": "fau-blau-25",
-                    "color": "#C0CBDA"
-                },
-                {
-                    "name": "FAU_Col_FAU-Dunkelblau_25",
-                    "slug": "fau-dunkelblau-25",
-                    "color": "#C0C7D0"
-                },
-                {
-                    "name": "FAU_Col_FAU-Blau_12,5",
-                    "slug": "fau-blau-12,5",
-                    "color": "#D3DCF2"
-                },
-                {
-                    "name": "FAU_Col_FAU-Dunkelblau_12,5",
-                    "slug": "fau-dunkelblau-12,5",
-                    "color": "#DFE2E7"
                 }
             ]
         },
@@ -84,90 +108,127 @@
                 "lg": 1920
             }
         },
-        "dimensions": {},
-        "layout": {},
-        "position": {},
-        "shadow": {},
+        "dimensions": {
+            "aspectRatio": false,
+            "aspectRatios": [],
+            "defaultAspectRatios": false,
+            "minHeight": false
+        },
+        "layout": {
+            "allowCustomContentAndWideSize": false,
+            "allowEditing": false,
+            "contentSize": "",
+            "wideSize": ""
+        },
+        "lightbox": {
+            "allowEditing": false,
+            "enabled": false
+        },
+        "position": {
+            "sticky": false
+        },
+        "shadow": {
+            "defaultPresets": false,
+            "presets": []
+        },
         "spacing": {
+            "blockGap": null,
+            "customSpacingSize": false,
+            "defaultSpacingSizes": false,
+            "margin": false,
+            "padding": false,
+            "spacingScale": {},
+            "units": [
+                "px",
+                "em",
+                "rem",
+                "vh",
+                "vw",
+                "%"
+            ],
             "spacingSizes": [
                 {
-                    "slug": "05x",
                     "name": "Spacing-0.5x",
+                    "slug": "05x",
                     "size": "2px"
                 },
                 {
-                    "slug": "1x",
                     "name": "Spacing-1x",
+                    "slug": "1x",
                     "size": "4px"
                 },
                 {
-                    "slug": "2x",
                     "name": "Spacing-2x",
+                    "slug": "2x",
                     "size": "8px"
                 },
                 {
-                    "slug": "3x",
                     "name": "Spacing-3x",
+                    "slug": "3x",
                     "size": "12px"
                 },
                 {
-                    "slug": "4x",
                     "name": "Spacing-4x",
+                    "slug": "4x",
                     "size": "16px"
                 },
                 {
-                    "slug": "5x",
                     "name": "Spacing-5x",
+                    "slug": "5x",
                     "size": "20px"
                 },
                 {
-                    "slug": "6x",
                     "name": "Spacing-6x",
+                    "slug": "6x",
                     "size": "24px"
                 },
                 {
-                    "slug": "8x",
                     "name": "Spacing-8x",
+                    "slug": "8x",
                     "size": "32px"
                 },
                 {
-                    "slug": "10x",
                     "name": "Spacing-10x",
+                    "slug": "10x",
                     "size": "40px"
                 },
                 {
-                    "slug": "12x",
                     "name": "Spacing-12x",
+                    "slug": "12x",
                     "size": "48px"
                 },
                 {
-                    "slug": "14x",
                     "name": "Spacing-14x",
+                    "slug": "14x",
                     "size": "56px"
                 },
                 {
-                    "slug": "16x",
                     "name": "Spacing-16x",
+                    "slug": "16x",
                     "size": "64px"
                 },
                 {
-                    "slug": "20x",
                     "name": "Spacing-20x",
+                    "slug": "20x",
                     "size": "80px"
                 },
                 {
-                    "slug": "24x",
                     "name": "Spacing-24x",
+                    "slug": "24x",
                     "size": "96px"
                 },
                 {
-                    "slug": "30x",
                     "name": "Spacing-30x",
+                    "slug": "30x",
                     "size": "120px"
                 }
             ]
         },
         "typography": {
+            "customFontSize": false,
+            "defaultFontSizes": false,
+            "dropCap": false,
+            "fluid": false,
             "fontFamilies": [
                 {
                     "name": "Source Sans 3",
@@ -178,95 +239,103 @@
                             "fontFamily": "Source Sans 3",
                             "fontWeight": "200 900",
                             "fontStyle": "normal",
-                            "src": ["file:./assets/fonts/SourceSans3-VariableFont_wght.ttf"]
+                            "src": [
+                                "file:./assets/fonts/SourceSans3-VariableFont_wght.ttf"
+                            ]
                         },
                         {
                             "fontFamily": "Source Sans 3",
                             "fontWeight": "200 900",
                             "fontStyle": "italic",
-                            "src": ["file:./assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf"]
+                            "src": [
+                                "file:./assets/fonts/SourceSans3-Italic-VariableFont_wght.ttf"
+                            ]
                         }
                     ]
                 }
             ],
             "fontSizes": [
                 {
-                    "slug": "di-display-1",
                     "name": "Display 1",
+                    "slug": "di-display-1",
                     "size": "72px"
                 },
                 {
-                    "slug": "di-display-2",
                     "name": "Display 2",
+                    "slug": "di-display-2",
                     "size": "64px"
                 },
                 {
-                    "slug": "h-heading-1",
                     "name": "Heading 1",
+                    "slug": "h-heading-1",
                     "size": "48px"
                 },
                 {
-                    "slug": "h-heading-big-teaser",
                     "name": "Heading Big Teaser",
+                    "slug": "h-heading-big-teaser",
                     "size": "40px"
                 },
                 {
-                    "slug": "h-heading-2",
                     "name": "Heading 2",
+                    "slug": "h-heading-2",
                     "size": "32px"
                 },
                 {
-                    "slug": "h-heading-3",
                     "name": "Heading 3",
+                    "slug": "h-heading-3",
                     "size": "24px"
                 },
                 {
-                    "slug": "h-heading-4",
                     "name": "Heading 4",
+                    "slug": "h-heading-4",
                     "size": "20px"
                 },
                 {
-                    "slug": "h-heading-5",
                     "name": "Heading 5",
+                    "slug": "h-heading-5",
                     "size": "18px"
                 },
                 {
-                    "slug": "h-heading-6",
                     "name": "Heading 6",
+                    "slug": "h-heading-6",
                     "size": "16px"
                 },
                 {
-                    "slug": "p-intro-text",
                     "name": "Intro Text",
+                    "slug": "p-intro-text",
                     "size": "20px"
                 },
                 {
-                    "slug": "p-body-text",
                     "name": "Body Text",
+                    "slug": "p-body-text",
                     "size": "18px"
                 },
                 {
-                    "slug": "p-body-text-small",
                     "name": "Body Text Small",
+                    "slug": "p-body-text-small",
                     "size": "16px"
                 },
                 {
-                    "slug": "p-caption",
                     "name": "Caption",
+                    "slug": "p-caption",
                     "size": "14px"
                 }
-            ]
+            ],
+            "fontStyle": false,
+            "fontWeight": false,
+            "letterSpacing": false,
+            "lineHeight": false,
+            "textAlign": false,
+            "textColumns": false,
+            "textDecoration": false,
+            "textTransform": false,
+            "writingMode": false
         },
-        "useRootPaddingAwareAlignments": false,
-        "blocks": {}
+        "useRootPaddingAwareAlignments": false
     },
     "styles": {
         "typography": {
             "fontFamily": "var:preset|font-family|source-sans-3"
-        },
-        "color": {
-            "text": "var:preset|color|base-schwarz-100",
-            "background": "var:preset|color|base-weiss-100"
         },
         "elements": {
             "h1": {
@@ -300,40 +369,7 @@
                 }
             }
         },
-        "blocks": {
-            "fau-elemental/fau-button": {
-                "variations": {
-                    "primary": {
-                        "color": {
-                            "background": "var:preset|color|fau-blau-100",
-                            "text": "var:preset|color|base-weiss-100"
-                        },
-                        "border": {
-                            "color": "var:preset|color|fau-blau-100",
-                            "width": "var:preset|spacing|05x",
-                            "style": "solid"
-                        }
-                    },
-                    "secondary": {
-                        "color": {
-                            "background": "transparent",
-                            "text": "var:preset|color|fau-blau-100"
-                        },
-                        "border": {
-                            "color": "var:preset|color|fau-blau-100",
-                            "width": "var:preset|spacing|05x",
-                            "style": "solid"
-                        }
-                    },
-                    "tertiary": {
-                        "color": {
-                            "background": "transparent",
-                            "text": "var:preset|color|fau-blau-100"
-                        }
-                    }
-                }
-            }
-        }
+        "blocks": {}
     },
     "customTemplates": [
         {
@@ -357,5 +393,6 @@
             "title": "Footer"
         }
     ],
-    "patterns": []
+    "patterns": [],
+    "blockTypes": []
 }

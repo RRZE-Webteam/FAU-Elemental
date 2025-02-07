@@ -6,32 +6,76 @@
  */
 
 .wp-block-fau-elemental-fau-button {
-	display: inline-block;
-	text-decoration: none;
+	display: flex;
+	align-items: center;
+	background-color: #002F3C;
+	color: white;
 	cursor: pointer;
+	text-decoration: none;
+	width: fit-content;
+	height: 48px;
+	gap: 0;
 
-	// Primary - Filled version
-	&.is-style-fau-button-primary {
-		border: 2px solid var(--wp--preset--color--standard);
-		border-radius: 4px;
-		padding: 10px 20px;
+	.button-text {
+		font-size: 18px;
+		font-weight: 500;
+		padding: 8px 16px;
 	}
 
-	// Secondary - Outlined version
-	&.is-style-fau-button-secondary {
-		border: 2px solid var(--wp--preset--color--standard);
-		border-radius: 4px;
-		padding: 10px 20px;
+	.button-arrow {
+		font-size: 24px;
+		background-color: #004153;
+		height: 48px;
+		width: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
-	// Tertiary - Text only version
-	&.is-style-fau-button-tertiary {
-		border: none;
-		padding: 10px 20px;
-		text-decoration: underline;
+	&:hover {
+		opacity: 0.9;
+	}
+
+	// Secondary button style
+	&.is-style-secondary {
+		background-color: transparent;
+		border: 2px solid #002F3C;
+		box-sizing: border-box;
+
+		.button-text {
+			color: #002F3C;
+			padding: 6px 14px;
+		}
+
+		.button-arrow {
+			background-color: #002F3C;
+			color: white;
+			height: 100%;
+			width: 48px;
+			margin-right: -2px;
+		}
+	}
+
+	// Tertiary button style
+	&.is-style-tertiary {
+		background-color: transparent;
+		height: auto;
+		color: #002F3C;
+
+		.button-text {
+			padding: 0;
+			margin-right: 8px;
+		}
+
+		.button-arrow {
+			background-color: transparent;
+			height: auto;
+			width: auto;
+			color: #002F3C;
+		}
 
 		&:hover {
-			text-decoration: none;
+			text-decoration: underline;
 		}
 	}
 }

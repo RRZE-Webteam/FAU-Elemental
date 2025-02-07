@@ -26,6 +26,12 @@
 		"style": {
 			"type": "string",
 			"default": "primary"
+		},
+		"buttonText": {
+			"type": "string"
+		},
+		"url": {
+			"type": "string"
 		}
 	},
 	"example": {},

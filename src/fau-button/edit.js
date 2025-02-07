@@ -11,8 +11,16 @@ import { __ } from '@wordpress/i18n';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl } from '@wordpress/components';
+import {
+	useBlockProps,
+	RichText,
+	InspectorControls,
+	URLInput,
+} from '@wordpress/block-editor';
+import {
+	PanelBody,
+	TextControl,
+} from '@wordpress/components';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -30,19 +38,39 @@ import './editor.scss';
  *
  * @return {Element} Element to render.
  */
-export default function Edit() {
+export default function Edit({ attributes, setAttributes }) {
+	const { buttonText, url } = attributes;
+	const blockProps = useBlockProps();
+
 	return (
 		<>
 			<InspectorControls>
 				<PanelBody title={__('Button Settings', 'fau-button')}>
-
+					<TextControl
+						label={__('Button Text', 'fau-button')}
+						value={buttonText}
+						onChange={(value) => setAttributes({ buttonText: value })}
+					/>
+					<URLInput
+						label={__('Button Link', 'fau-button')}
+						value={url}
+						onChange={(url) => setAttributes({ url })}
+					/>
 				</PanelBody>
 			</InspectorControls>
-			<p {...useBlockProps({
-				className: `wp-block-fau-elemental-fau-button`
-			})}>
-				{__('Fau Button', 'fau-button')}
-			</p>
+
+			<div {...blockProps}>
+				<RichText
+					className="button-text"
+					value={buttonText}
+					onChange={(value) => setAttributes({ buttonText: value })}
+					placeholder={__('Label text', 'fau-button')}
+					allowedFormats={[]}
+					multiline={false}
+					keepPlaceholderOnFocus={true}
+				/>
+				<span className="button-arrow">→</span>
+			</div>
 		</>
 	);
 }

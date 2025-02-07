@@ -229,13 +229,13 @@ function fau_elemental_register_patterns()
     unregister_block_pattern('fau-elemental/hero');
 
     // Register the pattern with content based on website type
-    $pattern_name = isset($pattern_map[$website_type]) ? $pattern_map[$website_type] : 'hero-fau';
+    $pattern_name = isset($pattern_map[$website_type]) ? $pattern_map[$website_type] : 'hero';
     register_block_pattern(
         'fau-elemental/hero',
         array(
             'title' => __('Hero Pattern', 'fau-elemental'),
             'source' => 'theme',
-            'content' => (function() use ($pattern_name) {
+            'content' => (function () use ($pattern_name) {
                 ob_start();
                 include get_theme_file_path("/conditional-patterns/{$pattern_name}.php");
                 return ob_get_clean();

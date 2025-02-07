@@ -5,333 +5,74 @@
 	"slug": "law-and-economy",
 	"description": "Rechts- und Wirtschaftswissenschaftliche Fakultät",
 	"settings": {
-		"appearanceTools": false,
-		"border": {},
 		"color": {
 			"palette": [
 				{
-                    "name": "FAU_Col_Base-Schwarz_100",
-                    "slug": "base-schwarz-100",
-                    "color": "#000000"
-                },
-                {
-                    "name": "FAU_Col_Base-Schwarz_90",
-                    "slug": "base-schwarz-90",
-                    "color": "#1A1A1A"
-                },
-                {
-                    "name": "FAU_Col_Base-Weiß_100",
-                    "slug": "base-weiss-100",
-                    "color": "#FFFFFF"
-                },
-				{
 					"name": "FAU_Col_RW-Rot_100",
-					"slug": "lw-rot-100",
+					"slug": "base-100",
 					"color": "#C50F3C"
 				},
 				{
-					"name": "FAU_Col_RW-Dunkelrot_100",
-					"slug": "lw-dunkelrot-100",
-					"color": "#971B2F"
-				},
-				{
 					"name": "FAU_Col_RW-Rot_62,5",
-					"slug": "lw-rot-62,5",
+					"slug": "base-62,5",
 					"color": "#DD737C"
 				},
 				{
-					"name": "FAU_Col_RW-Dunkelrot_62,5",
-					"slug": "lw-dunkelrot-62,5",
-					"color": "#BE717D"
-				},
-				{
 					"name": "FAU_Col_RW-Rot_37,5",
-					"slug": "lw-rot-37,5",
+					"slug": "base-37,5",
 					"color": "#EBABAE"
 				},
 				{
-					"name": "FAU_Col_RW-Dunkelrot_37,5",
-					"slug": "lw-dunkelrot-37,5",
-					"color": "#D8A9B1"
-				},
-				{
 					"name": "FAU_Col_RW-Rot_25",
-					"slug": "lw-rot-25",
+					"slug": "base-25",
 					"color": "#F1C8C9"
 				},
 				{
-					"name": "FAU_Col_RW-Dunkelrot_25",
-					"slug": "lw-dunkelrot-25",
-					"color": "#E6C6CB"
-				},
-				{
 					"name": "FAU_Col_RW-Rot_12,5",
-					"slug": "lw-rot-12,5",
+					"slug": "base-12,5",
 					"color": "#FCDCE3"
 				},
 				{
+					"name": "FAU_Col_RW-Dunkelrot_100",
+					"slug": "base-dark-100",
+					"color": "#971B2F"
+				},
+				{
+					"name": "FAU_Col_RW-Dunkelrot_62,5",
+					"slug": "base-dark-62,5",
+					"color": "#BE717D"
+				},
+				{
+					"name": "FAU_Col_RW-Dunkelrot_37,5",
+					"slug": "base-dark-37,5",
+					"color": "#D8A9B1"
+				},
+				{
+					"name": "FAU_Col_RW-Dunkelrot_25",
+					"slug": "base-dark-25",
+					"color": "#E6C6CB"
+				},
+				{
 					"name": "FAU_Col_RW-Dunkelrot_12,5",
-					"slug": "lw-dunkelrot-12,5",
+					"slug": "base-dark-12,5",
 					"color": "#F2E2E5"
+				},
+				{
+					"name": "FAU_Col_Base-Schwarz_100",
+					"slug": "black-100",
+					"color": "#000000"
+				},
+				{
+					"name": "FAU_Col_Base-Schwarz_90",
+					"slug": "black-90",
+					"color": "#1A1A1A"
+				},
+				{
+					"name": "FAU_Col_Base-Weiß_100",
+					"slug": "white-100",
+					"color": "#FFFFFF"
 				}
-			]
-		},
-		"custom": {
-			"responsive": {
-				"xs": 393,
-				"sm": 768,
-				"md": 1440,
-				"lg": 1920
-			}
-		},
-		"dimensions": {},
-		"layout": {},
-		"position": {},
-		"shadow": {},
-		"spacing": {
-			"spacingSizes": [
-				{
-					"slug": "05x",
-					"name": "Spacing-0.5x",
-					"size": "2px"
-				},
-				{
-					"slug": "1x",
-					"name": "Spacing-1x",
-					"size": "4px"
-				},
-				{
-					"slug": "2x",
-					"name": "Spacing-2x",
-					"size": "8px"
-				},
-				{
-					"slug": "3x",
-					"name": "Spacing-3x",
-					"size": "12px"
-				},
-				{
-					"slug": "4x",
-					"name": "Spacing-4x",
-					"size": "16px"
-				},
-				{
-					"slug": "5x",
-					"name": "Spacing-5x",
-					"size": "20px"
-				},
-				{
-					"slug": "6x",
-					"name": "Spacing-6x",
-					"size": "24px"
-				},
-				{
-					"slug": "8x",
-					"name": "Spacing-8x",
-					"size": "32px"
-				},
-				{
-					"slug": "10x",
-					"name": "Spacing-10x",
-					"size": "40px"
-				},
-				{
-					"slug": "12x",
-					"name": "Spacing-12x",
-					"size": "48px"
-				},
-				{
-					"slug": "14x",
-					"name": "Spacing-14x",
-					"size": "56px"
-				},
-				{
-					"slug": "16x",
-					"name": "Spacing-16x",
-					"size": "64px"
-				},
-				{
-					"slug": "20x",
-					"name": "Spacing-20x",
-					"size": "80px"
-				},
-				{
-					"slug": "24x",
-					"name": "Spacing-24x",
-					"size": "96px"
-				},
-				{
-					"slug": "30x",
-					"name": "Spacing-30x",
-					"size": "120px"
-				}
-			]
-		},
-		"typography": {
-			"fontSizes": [
-				{
-					"slug": "di-display-1",
-					"name": "Display 1",
-					"size": "72px"
-				},
-				{
-					"slug": "di-display-2",
-					"name": "Display 2",
-					"size": "64px"
-				},
-				{
-					"slug": "h-heading-1",
-					"name": "Heading 1",
-					"size": "48px"
-				},
-				{
-					"slug": "h-heading-big-teaser",
-					"name": "Heading Big Teaser",
-					"size": "40px"
-				},
-				{
-					"slug": "h-heading-2",
-					"name": "Heading 2",
-					"size": "32px"
-				},
-				{
-					"slug": "h-heading-3",
-					"name": "Heading 3",
-					"size": "24px"
-				},
-				{
-					"slug": "h-heading-4",
-					"name": "Heading 4",
-					"size": "20px"
-				},
-				{
-					"slug": "h-heading-5",
-					"name": "Heading 5",
-					"size": "18px"
-				},
-				{
-					"slug": "h-heading-6",
-					"name": "Heading 6",
-					"size": "16px"
-				},
-				{
-					"slug": "p-intro-text",
-					"name": "Intro Text",
-					"size": "20px"
-				},
-				{
-					"slug": "p-body-text",
-					"name": "Body Text",
-					"size": "18px"
-				},
-				{
-					"slug": "p-body-text-small",
-					"name": "Body Text Small",
-					"size": "16px"
-				},
-				{
-					"slug": "p-caption",
-					"name": "Caption",
-					"size": "14px"
-				}
-			]
-		},
-		"useRootPaddingAwareAlignments": false,
-		"blocks": {}
-	},
-	"styles": {
-		"color": {
-			"text": "var:preset|color|base-schwarz-100",
-			"background": "var:preset|color|base-weiss-100"
-		},
-		"elements": {
-			"h1": {
-				"typography": {
-					"fontSize": "var:preset|font-size|h-heading-1"
-				}
-			},
-			"h2": {
-				"typography": {
-					"fontSize": "var:preset|font-size|h-heading-2"
-				}
-			},
-			"h3": {
-				"typography": {
-					"fontSize": "var:preset|font-size|h-heading-3"
-				}
-			},
-			"h4": {
-				"typography": {
-					"fontSize": "var:preset|font-size|h-heading-4"
-				}
-			},
-			"h5": {
-				"typography": {
-					"fontSize": "var:preset|font-size|h-heading-5"
-				}
-			},
-			"h6": {
-				"typography": {
-					"fontSize": "var:preset|font-size|h-heading-6"
-				}
-			}
-		},
-		"blocks": {
-			"fau-elemental/fau-button": {
-				"variations": {
-					"fau-button-primary": {
-						"color": {
-							"background": "var:preset|color|lw-rot-100",
-							"text": "var:preset|color|base-weiss-100"
-						},
-						"border": {
-							"color": "var:preset|color|lw-rot-100",
-							"width": "var:preset|spacing|05x",
-							"style": "solid"
-						}
-					},
-					"fau-button-secondary": {
-						"color": {
-							"background": "transparent",
-							"text": "var:preset|color|lw-rot-100"
-						},
-						"border": {
-							"color": "var:preset|color|lw-rot-100",
-							"width": "var:preset|spacing|05x",
-							"style": "solid"
-						}
-					},
-					"fau-button-tertiary": {
-						"color": {
-							"background": "transparent",
-							"text": "var:preset|color|lw-rot-100"
-						}
-					}
-				}
-			}
-		}
-	},
-	"customTemplates": [
-		{
-			"name": "just-content",
-			"title": "Just Content",
-			"postTypes": [
-				"page",
-				"post"
 			]
 		}
-	],
-	"templateParts": [
-		{
-			"area": "header",
-			"name": "header",
-			"title": "Header"
-		},
-		{
-			"area": "footer",
-			"name": "footer",
-			"title": "Footer"
-		}
-	],
-	"patterns": []
+	}
 }

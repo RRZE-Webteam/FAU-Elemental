@@ -16,12 +16,27 @@ import { __ } from '@wordpress/i18n';
  *
  * @return {Element} Element to render.
  */
-export default function save() {
-	return (
-		<p {...useBlockProps.save({
-			className: `wp-block-fau-elemental-fau-button`
-		})}>
-			{__('Fau Button', 'fau-button')}
-		</p>
+export default function save({ attributes }) {
+	const { buttonText, url } = attributes;
+	
+	const blockProps = useBlockProps.save({
+		className: `wp-block-fau-elemental-fau-button`
+	});
+
+	const content = (
+		<>
+			<span className="button-text">{buttonText || __('Label text', 'fau-button')}</span>
+			<span className="button-arrow">→</span>
+		</>
+	);
+
+	return url ? (
+		<a {...blockProps} href={url}>
+			{content}
+		</a>
+	) : (
+		<div {...blockProps}>
+			{content}
+		</div>
 	);
 }
