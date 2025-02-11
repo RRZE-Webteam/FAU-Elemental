@@ -5,6 +5,20 @@
 	"slug": "med",
 	"description": "Medizinische Fakultät",
 	"settings": {
+		"blocks": {
+			"fau-elemental/fau-button": {
+				"custom": {
+					"primary": {
+						"arrow-background": "var:preset|color|base-100",
+						"arrow-text": "var(--wp--custom--color--fau-base-100)"
+					},
+					"secondary": {
+						"arrow-background": "var:preset|color|base-100",
+						"arrow-text": "var(--wp--custom--color--fau-base-100)"
+					}
+				}
+			}
+		},
 		"color": {
 			"palette": [
 				{
@@ -56,21 +70,6 @@
 					"name": "FAU_Col_Med-Dunkelblau_12,5",
 					"slug": "base-dark-12,5",
 					"color": "#DEE9EF"
-				},
-				{
-					"name": "FAU_Col_Base-Schwarz_100",
-					"slug": "black-100",
-					"color": "#000000"
-				},
-				{
-					"name": "FAU_Col_Base-Schwarz_90",
-					"slug": "black-90",
-					"color": "#1A1A1A"
-				},
-				{
-					"name": "FAU_Col_Base-Weiß_100",
-					"slug": "white-100",
-					"color": "#FFFFFF"
 				}
 			]
 		}

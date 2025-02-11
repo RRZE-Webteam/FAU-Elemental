@@ -67,7 +67,6 @@ export default function Edit({ attributes, setAttributes }) {
 					placeholder={__('Label text', 'fau-button')}
 					allowedFormats={[]}
 					multiline={false}
-					keepPlaceholderOnFocus={true}
 				/>
 				<span className="button-arrow">→</span>
 			</div>

@@ -91,8 +91,7 @@ function Edit({
         }),
         placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Label text', 'fau-button'),
         allowedFormats: [],
-        multiline: false,
-        keepPlaceholderOnFocus: true
+        multiline: false
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("span", {
         className: "button-arrow",
         children: "\u2192"
@@ -303,7 +302,7 @@ module.exports = window["wp"]["i18n"];
   \***********************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"fau-elemental/fau-button","version":"0.1.0","title":"Fau Button","category":"fau-elemental/FAU","icon":"smiley","description":"A button block with different styles","styles":[{"name":"primary","label":"Primary","isDefault":true},{"name":"secondary","label":"Secondary"},{"name":"tertiary","label":"Tertiary"}],"attributes":{"style":{"type":"string","default":"primary"},"buttonText":{"type":"string"},"url":{"type":"string"}},"example":{},"textdomain":"fau-button","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"fau-elemental/fau-button","version":"0.1.0","title":"FAU Button","category":"fau-elemental/FAU","icon":"smiley","description":"A button block with different styles","styles":[{"name":"primary","label":"Primary","isDefault":true},{"name":"secondary","label":"Secondary"},{"name":"tertiary","label":"Tertiary"}],"attributes":{"buttonText":{"type":"string"},"url":{"type":"string"}},"example":{},"textdomain":"fau-button","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

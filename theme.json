@@ -10,7 +10,20 @@
             "backgroundImage": false,
             "backgroundSize": false
         },
-        "blocks": {},
+        "blocks": {
+            "fau-elemental/fau-button": {
+                "custom": {
+                    "primary": {
+                        "arrow-background": "var:preset|color|base-100",
+                        "arrow-text": "var(--wp--custom--color--white-100)"
+                    },
+                    "secondary": {
+                        "arrow-background": "var:preset|color|base-dark-100",
+                        "arrow-text": "var(--wp--custom--color--white-100)"
+                    }
+                }
+            }
+        },
         "border": {
             "color": false,
             "radius": false,
@@ -82,21 +95,6 @@
                     "name": "FAU_Col_FAU-Dunkelblau_12,5",
                     "slug": "base-dark-12,5",
                     "color": "#DFE2E7"
-                },
-                {
-                    "name": "FAU_Col_Base-Schwarz_100",
-                    "slug": "black-100",
-                    "color": "#000000"
-                },
-                {
-                    "name": "FAU_Col_Base-Schwarz_90",
-                    "slug": "black-90",
-                    "color": "#1A1A1A"
-                },
-                {
-                    "name": "FAU_Col_Base-Weiß_100",
-                    "slug": "white-100",
-                    "color": "#FFFFFF"
                 }
             ]
         },
@@ -106,6 +104,21 @@
                 "sm": 768,
                 "md": 1440,
                 "lg": 1920
+            },
+            "color": {
+                "fau-base-100": "#04316A",
+                "fau-base-62,5": "#617DA1",
+                "fau-base-37,5": "#A0B1C6",
+                "fau-base-25": "#C0CBDA",
+                "fau-base-12,5": "#D3DCF2",
+                "fau-base-dark-100": "#041E42",
+                "fau-base-dark-62,5": "#617188",
+                "fau-base-dark-37,5": "#A0A9B7",
+                "fau-base-dark-25": "#C0C7D0",
+                "fau-base-dark-12,5": "#DFE2E7",
+                "black-100": "#000000",
+                "black-90": "#1A1A1A",
+                "white-100": "#FFFFFF"
             }
         },
         "dimensions": {

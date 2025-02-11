@@ -3,7 +3,7 @@
   "apiVersion": 3,
   "name": "fau-elemental/fau-button",
   "version": "0.1.0",
-  "title": "Fau Button",
+  "title": "FAU Button",
   "category": "fau-elemental/FAU",
   "icon": "smiley",
   "description": "A button block with different styles",
@@ -23,10 +23,6 @@
     }
   ],
   "attributes": {
-    "style": {
-      "type": "string",
-      "default": "primary"
-    },
     "buttonText": {
       "type": "string"
     },

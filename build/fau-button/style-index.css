@@ -10,65 +10,66 @@
 .wp-block-fau-elemental-fau-button {
   display: flex;
   align-items: center;
-  background-color: #002F3C;
-  color: white;
   cursor: pointer;
   text-decoration: none;
-  width: -moz-fit-content;
-  width: fit-content;
-  height: 48px;
-  gap: 0;
+  height: 46px;
 }
 .wp-block-fau-elemental-fau-button .button-text {
-  font-size: 18px;
-  font-weight: 500;
-  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  border: 1px solid var(--wp--custom--color--fau-base-dark-100);
+  border-right: none;
+  padding: 0px 16px;
+  background-color: var(--wp--custom--color--fau-base-dark-100);
+  color: var(--wp--custom--color--white-100);
+  font-size: 16px;
+  font-weight: 600;
 }
 .wp-block-fau-elemental-fau-button .button-arrow {
-  font-size: 24px;
-  background-color: #004153;
-  height: 48px;
-  width: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  width: 46px;
+  border: 1px solid var(--wp--custom--primary--arrow-background);
+  background-color: var(--wp--custom--primary--arrow-background);
+  color: var(--wp--custom--primary--arrow-text);
+  font-size: 24px;
 }
 .wp-block-fau-elemental-fau-button:hover {
   opacity: 0.9;
 }
-.wp-block-fau-elemental-fau-button.is-style-secondary {
-  background-color: transparent;
-  border: 2px solid #002F3C;
-  box-sizing: border-box;
-}
 .wp-block-fau-elemental-fau-button.is-style-secondary .button-text {
-  color: #002F3C;
-  padding: 6px 14px;
+  border: 1px solid var(--wp--custom--color--fau-base-100);
+  border-right: none;
+  background-color: transparent;
+  color: var(--wp--custom--color--fau-base-100);
 }
 .wp-block-fau-elemental-fau-button.is-style-secondary .button-arrow {
-  background-color: #002F3C;
-  color: white;
-  height: 100%;
-  width: 48px;
-  margin-right: -2px;
+  border-color: var(--wp--custom--secondary--arrow-background);
+  background-color: var(--wp--custom--secondary--arrow-background);
+  color: var(--wp--custom--secondary--arrow-text);
 }
 .wp-block-fau-elemental-fau-button.is-style-tertiary {
-  background-color: transparent;
   height: auto;
-  color: #002F3C;
 }
 .wp-block-fau-elemental-fau-button.is-style-tertiary .button-text {
-  padding: 0;
+  border: none;
   margin-right: 8px;
+  padding: 0;
+  background-color: transparent;
+  color: var(--wp--custom--color--fau-base-100);
+}
+.wp-block-fau-elemental-fau-button.is-style-tertiary .button-text:hover {
+  text-decoration: underline;
 }
 .wp-block-fau-elemental-fau-button.is-style-tertiary .button-arrow {
+  border: none;
   background-color: transparent;
   height: auto;
   width: auto;
-  color: #002F3C;
-}
-.wp-block-fau-elemental-fau-button.is-style-tertiary:hover {
-  text-decoration: underline;
+  color: var(--wp--custom--color--fau-base-100);
 }
 
 /*# sourceMappingURL=style-index.css.map*/
