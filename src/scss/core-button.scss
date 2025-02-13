@@ -63,6 +63,10 @@
                 color: theme.$FAU_Col_FAU-Blau_100;
             }
         }
+
+        .fauorg-fakultaet.faculty-rw &::after {
+            color: theme.$FAU_Col_FAU-Weiß_100;
+        }
     }
 
     &.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
@@ -75,11 +79,17 @@
             background-color: theme.$FAU_Col_FAU-Dunkelblau_100;
             color: theme.$FAU_Col_FAU-Weiß_100;
             border: 1px solid theme.$FAU_Col_FAU-Dunkelblau_100;
+            border-left: none;
         }
 
         .dark & {
             color: theme.$FAU_Col_FAU-Dunkelblau_12_5;
             border-color: theme.$FAU_Col_FAU-Dunkelblau_12_5;
+
+            &::after {
+                border-color: theme.$FAU_Col_FAU-Dunkelblau_12_5 !important;
+                border-left: none;
+            }
         }
 
         @each $faculty, $color in (
@@ -93,6 +103,10 @@
                 background-color: $color;
                 color: theme.$FAU_Col_FAU-Blau_100;
             }
+        }
+
+        .fauorg-fakultaet.faculty-rw &::after {
+            color: theme.$FAU_Col_FAU-Weiß_100;
         }
     }
 

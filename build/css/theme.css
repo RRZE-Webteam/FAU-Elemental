@@ -78,6 +78,9 @@
   border-color: #8C9FB1;
   color: #04316A;
 }
+.fauorg-fakultaet.faculty-rw .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
+  color: #FFFFFF;
+}
 .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
   background-color: transparent;
   color: #04316A;
@@ -88,10 +91,15 @@
   background-color: #041E42;
   color: #FFFFFF;
   border: 1px solid #041E42;
+  border-left: none;
 }
 .dark .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
   color: #DFE2E7;
   border-color: #DFE2E7;
+}
+.dark .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
+  border-color: #DFE2E7 !important;
+  border-left: none;
 }
 .fauorg-fakultaet.faculty-phil .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
   background-color: #FDB735;
@@ -112,6 +120,9 @@
 .fauorg-fakultaet.faculty-tf .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
   background-color: #8C9FB1;
   color: #04316A;
+}
+.fauorg-fakultaet.faculty-rw .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
+  color: #FFFFFF;
 }
 .wp-block-button.is-style-tertiary .wp-block-button__link {
   padding: 0;
