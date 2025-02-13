@@ -28,6 +28,10 @@
     },
     "url": {
       "type": "string"
+    },
+    "theme": {
+      "type": "string",
+      "default": "dark"
     }
   },
   "example": {},

@@ -17,10 +17,10 @@ import { __ } from '@wordpress/i18n';
  * @return {Element} Element to render.
  */
 export default function save({ attributes }) {
-	const { buttonText, url } = attributes;
+	const { buttonText, url, theme } = attributes;
 	
 	const blockProps = useBlockProps.save({
-		className: `wp-block-fau-elemental-fau-button`
+		className: `wp-block-fau-elemental-fau-button ${theme}-theme`
 	});
 
 	const content = (

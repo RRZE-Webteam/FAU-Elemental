@@ -9,12 +9,12 @@
 			"fau-elemental/fau-button": {
 				"custom": {
 					"primary": {
-						"arrow-background": "var:preset|color|base-100",
-						"arrow-text": "var(--wp--custom--color--fau-base-100)"
+						"arrow-background": "var:preset|color|theme-1000",
+						"arrow-text": "var(--wp--custom--color--fau-base-1000)"
 					},
 					"secondary": {
-						"arrow-background": "var:preset|color|base-100",
-						"arrow-text": "var(--wp--custom--color--fau-base-100)"
+						"arrow-background": "var:preset|color|theme-1000",
+						"arrow-text": "var(--wp--custom--color--fau-base-1000)"
 					}
 				}
 			}
@@ -23,53 +23,68 @@
 			"palette": [
 				{
 					"name": "FAU_Col_TF-Metallic_100",
-					"slug": "base-100",
+					"slug": "theme-1000",
 					"color": "#8C9FB1"
 				},
 				{
 					"name": "FAU_Col_TF-Metallic_62,5",
-					"slug": "base-62,5",
+					"slug": "theme-0625",
 					"color": "#B6C2CE"
 				},
 				{
 					"name": "FAU_Col_TF-Metallic_37,5",
-					"slug": "base-37,5",
+					"slug": "theme-0375",
 					"color": "#D3DAE1"
 				},
 				{
 					"name": "FAU_Col_TF-Metallic_25",
-					"slug": "base-25",
+					"slug": "theme-0250",
 					"color": "#E2E7EB"
 				},
 				{
 					"name": "FAU_Col_TF-Metallic_12,5",
-					"slug": "base-12,5",
+					"slug": "theme-0125",
 					"color": "#EBF5F7"
 				},
 				{
 					"name": "FAU_Col_TF-Dunkel-Metallic_100",
-					"slug": "base-dark-100",
+					"slug": "theme-dark-1000",
 					"color": "#2F586E"
 				},
 				{
 					"name": "FAU_Col_TF-Dunkel-Metallic_62,5",
-					"slug": "base-dark-62,5",
+					"slug": "theme-dark-0625",
 					"color": "#7C96A3"
 				},
 				{
 					"name": "FAU_Col_TF-Dunkel-Metallic_37,5",
-					"slug": "base-dark-37,5",
+					"slug": "theme-dark-0375",
 					"color": "#B0BFC8"
 				},
 				{
 					"name": "FAU_Col_TF-Dunkel-Metallic_25",
-					"slug": "base-dark-25",
+					"slug": "theme-dark-0250",
 					"color": "#CBD5DB"
 				},
 				{
 					"name": "FAU_Col_TF-Dunkel-Metallic_12,5",
-					"slug": "base-dark-12,5",
+					"slug": "theme-dark-0125",
 					"color": "#E4E9EC"
+				},
+				{
+					"name": "FAU_Col_FAU-Schwarz_100",
+					"slug": "black-1000",
+					"color": "#000000"
+				},
+				{
+					"name": "FAU_Col_FAU-Schwarz_90",
+					"slug": "black-0900",
+					"color": "#1A1A1A"
+				},
+				{
+					"name": "FAU_Col_FAU-Weiß_100",
+					"slug": "white-1000",
+					"color": "#FFFFFF"
 				}
 			]
 		}

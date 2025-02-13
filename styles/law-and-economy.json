@@ -9,12 +9,12 @@
 			"fau-elemental/fau-button": {
 				"custom": {
 					"primary": {
-						"arrow-background": "var:preset|color|base-100",
-						"arrow-text": "var(--wp--custom--color--white-100)"
+						"arrow-background": "var:preset|color|theme-1000",
+						"arrow-text": "var:preset|color|white-1000"
 					},
 					"secondary": {
-						"arrow-background": "var:preset|color|base-100",
-						"arrow-text": "var(--wp--custom--color--white-100)"
+						"arrow-background": "var:preset|color|theme-1000",
+						"arrow-text": "var:preset|color|white-1000"
 					}
 				}
 			}
@@ -23,54 +23,69 @@
 			"palette": [
 				{
 					"name": "FAU_Col_RW-Rot_100",
-					"slug": "base-100",
+					"slug": "theme-1000",
 					"color": "#C50F3C"
 				},
 				{
 					"name": "FAU_Col_RW-Rot_62,5",
-					"slug": "base-62,5",
+					"slug": "theme-0625",
 					"color": "#DD737C"
 				},
 				{
 					"name": "FAU_Col_RW-Rot_37,5",
-					"slug": "base-37,5",
+					"slug": "theme-0375",
 					"color": "#EBABAE"
 				},
 				{
 					"name": "FAU_Col_RW-Rot_25",
-					"slug": "base-25",
+					"slug": "theme-0250",
 					"color": "#F1C8C9"
 				},
 				{
 					"name": "FAU_Col_RW-Rot_12,5",
-					"slug": "base-12,5",
+					"slug": "theme-0125",
 					"color": "#FCDCE3"
 				},
 				{
 					"name": "FAU_Col_RW-Dunkelrot_100",
-					"slug": "base-dark-100",
+					"slug": "theme-dark-1000",
 					"color": "#971B2F"
 				},
 				{
 					"name": "FAU_Col_RW-Dunkelrot_62,5",
-					"slug": "base-dark-62,5",
+					"slug": "theme-dark-0625",
 					"color": "#BE717D"
 				},
 				{
 					"name": "FAU_Col_RW-Dunkelrot_37,5",
-					"slug": "base-dark-37,5",
+					"slug": "theme-dark-0375",
 					"color": "#D8A9B1"
 				},
 				{
 					"name": "FAU_Col_RW-Dunkelrot_25",
-					"slug": "base-dark-25",
+					"slug": "theme-dark-0250",
 					"color": "#E6C6CB"
 				},
 				{
 					"name": "FAU_Col_RW-Dunkelrot_12,5",
-					"slug": "base-dark-12,5",
+					"slug": "theme-dark-0125",
 					"color": "#F2E2E5"
-				}
+				},
+                {
+                    "name": "FAU_Col_FAU-Schwarz_100",
+                    "slug": "black-1000",
+                    "color": "#000000"
+                },
+                {
+                    "name": "FAU_Col_FAU-Schwarz_90",
+                    "slug": "black-0900",
+                    "color": "#1A1A1A"
+                },
+                {
+                    "name": "FAU_Col_FAU-Weiß_100",
+                    "slug": "white-1000",
+                    "color": "#FFFFFF"
+                }
 			]
 		}
 	}

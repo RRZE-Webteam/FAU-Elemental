@@ -16,11 +16,7 @@
 		display: flex;
 		align-items: center;
 		height: 100%;
-		border: 1px solid var(--wp--custom--color--fau-base-dark-100);
-		border-right: none;
 		padding: 0px 16px;
-		background-color: var(--wp--custom--color--fau-base-dark-100);
-		color: var(--wp--custom--color--white-100);
 		font-size: 16px;
 		font-weight: 600;
 	}
@@ -30,10 +26,7 @@
 		align-items: center;
 		justify-content: center;
 		height: 100%;
-		width: 46px;
-		border: 1px solid var(--wp--custom--primary--arrow-background);
-		background-color: var(--wp--custom--primary--arrow-background);
-		color: var(--wp--custom--primary--arrow-text);
+		width: 47px;
 		font-size: 24px;
 	}
 
@@ -41,44 +34,119 @@
 		opacity: 0.9;
 	}
 
-	// Secondary button style
-	&.is-style-secondary {	
-		.button-text {	
-			border: 1px solid var(--wp--custom--color--fau-base-100);
+	&.dark-theme {
+		.button-text {
+			border: 1px solid var(--wp--custom--color--fau-base-dark-1000);
 			border-right: none;
-			background-color: transparent;
-			color: var(--wp--custom--color--fau-base-100);
+			background-color: var(--wp--custom--color--fau-base-dark-1000);
+			color: var(--wp--preset--color--white-1000);
 		}
 
 		.button-arrow {
-			border-color: var(--wp--custom--secondary--arrow-background);
-			background-color: var(--wp--custom--secondary--arrow-background);
-			color: var(--wp--custom--secondary--arrow-text);
+			border: 1px solid var(--wp--custom--primary--arrow-background);
+			border-left: none;
+			background-color: var(--wp--custom--primary--arrow-background);
+			color: var(--wp--custom--primary--arrow-text);
 		}
-	}
 
-	// Tertiary button style
-	&.is-style-tertiary {
-		height: auto;
+		&.is-style-secondary {
+			.button-text {
+				border: 1px solid var(--wp--custom--color--fau-base-1000);
+				border-right: none;
+				background-color: transparent;
+				color: var(--wp--custom--color--fau-base-1000);
+			}
 
-		.button-text {
-			border: none;
-			margin-right: 8px;
-			padding: 0;
-			background-color: transparent;
-			color: var(--wp--custom--color--fau-base-100);
-
-			&:hover {
-				text-decoration: underline;
+			.button-arrow {
+				border: 1px solid var(--wp--custom--secondary--arrow-background);
+				border-left: none;
+				background-color: var(--wp--custom--secondary--arrow-background);
+				color: var(--wp--custom--secondary--arrow-text);
 			}
 		}
 
-		.button-arrow {
-			border: none;
-			background-color: transparent;
+		&.is-style-tertiary {
 			height: auto;
-			width: auto;
-			color: var(--wp--custom--color--fau-base-100);
+
+			.button-text {
+				border: none;
+				margin-right: 8px;
+				padding: 0;
+				background-color: transparent;
+				color: var(--wp--custom--color--fau-base-1000);	
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+
+			.button-arrow {
+				border: none;
+				background-color: transparent;
+				height: auto;
+				width: auto;
+				color: var(--wp--custom--color--fau-base-1000);	
+			}
 		}
 	}
+
+	&.light-theme {
+		.button-text {
+			border: 1px solid var(--wp--custom--color--fau-base-dark-1000);
+			border-right: none;
+			background-color: var(--wp--custom--color--fau-base-dark-1000);
+			color: var(--wp--preset--color--white-1000);
+		}
+
+		.button-arrow {
+			border: 1px solid var(--wp--custom--primary--arrow-background);
+			border-left: none;
+			background-color: var(--wp--custom--primary--arrow-background);
+			color: var(--wp--custom--primary--arrow-text);
+		}
+
+		&.is-style-secondary {
+			.button-text {
+				border: 1px solid var(--wp--custom--color--fau-base-0125);
+				border-right: none;
+				background-color: transparent;
+				color: var(--wp--custom--color--fau-base-0125);
+			}
+
+			.button-arrow {
+				border: 1px solid var(--wp--custom--color--fau-base-0125);
+				border-left: none;
+				background-color: var(--wp--custom--secondary--arrow-background);
+				color: var(--wp--custom--secondary--arrow-text);
+			}
+		}
+
+		&.is-style-tertiary {
+			height: auto;
+
+			.button-text {
+				border: none;
+				margin-right: 8px;
+				padding: 0;
+				background-color: transparent;
+				color: var(--wp--preset--color--white-1000);
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+
+			.button-arrow {
+				border: none;
+				background-color: transparent;
+				height: auto;
+				width: auto;
+				color: var(--wp--preset--color--white-1000);
+
+			}
+		}
+	}
+
+	// Secondary button style
+
 }

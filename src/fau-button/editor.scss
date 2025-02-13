@@ -3,3 +3,9 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
+
+@media (min-width: 600px) {
+    .block-editor-block-list__block .block-editor-url-input, .block-editor-url-input, .components-popover .block-editor-url-input {
+        min-width: unset;
+    }
+}

@@ -20,6 +20,7 @@ import {
 import {
 	PanelBody,
 	TextControl,
+	SelectControl
 } from '@wordpress/components';
 
 /**
@@ -39,13 +40,24 @@ import './editor.scss';
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { buttonText, url } = attributes;
-	const blockProps = useBlockProps();
+	const { buttonText, url, theme } = attributes;
+	const blockProps = useBlockProps({
+		className: `${theme}-theme`
+	});
 
 	return (
 		<>
 			<InspectorControls>
 				<PanelBody title={__('Button Settings', 'fau-button')}>
+					<SelectControl
+						label={__('Theme', 'fau-button')}
+						value={theme}
+						options={[
+							{ label: __('Dark', 'fau-button'), value: 'dark' },
+							{ label: __('Light', 'fau-button'), value: 'light' }
+						]}
+						onChange={(value) => setAttributes({ theme: value })}
+					/>
 					<TextControl
 						label={__('Button Text', 'fau-button')}
 						value={buttonText}
