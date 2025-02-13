@@ -66,17 +66,17 @@ add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_scripts');
 
 // Enqueue Editor Scripts
 
-function fau_elemental_enqueue_editor_scripts()
+function fau_elemental_enqueue_block_editor_script()
 {
     wp_enqueue_script(
-        'fau-elemental-editor',
-        get_parent_theme_file_uri('assets/js/example.js'),
-        array(),
+        'fau-elemental-block-editor-script',
+        get_parent_theme_file_uri('assets/js/block-editor-script.js'),
+        array('wp-blocks', 'wp-dom-ready', 'wp-edit-post', 'wp-element', 'wp-components'),
         wp_get_theme()->get('Version'),
         true
     );
 }
-add_action('enqueue_block_editor_assets', 'fau_elemental_enqueue_editor_scripts');
+add_action('enqueue_block_editor_assets', 'fau_elemental_enqueue_block_editor_script');
 
 
 // Register Block Category
@@ -157,6 +157,14 @@ function fau_elemental_register_settings()
         )
     );
 
+    register_setting(
+        'fau-elemental-settings-group',
+        'fau_elemental_faculty',
+        array(
+            'sanitize_callback' => 'fau_elemental_sanitize_faculty'
+        )
+    );
+
     add_settings_section('fau-elemental-section', 'Custom Options', null, 'fau-elemental-settings');
 
     // Add new website type field
@@ -164,6 +172,15 @@ function fau_elemental_register_settings()
         'fau_elemental_website_type',
         'Website Type',
         'fau_elemental_website_type_callback',
+        'fau-elemental-settings',
+        'fau-elemental-section'
+    );
+
+    // Add faculty field
+    add_settings_field(
+        'fau_elemental_faculty',
+        'Faculty',
+        'fau_elemental_faculty_callback',
         'fau-elemental-settings',
         'fau-elemental-section'
     );
@@ -191,6 +208,28 @@ function fau_elemental_website_type_callback()
     echo '</select>';
 }
 
+// Add the callback function for the faculty dropdown
+function fau_elemental_faculty_callback()
+{
+    $faculty = get_option('fau_elemental_faculty', '');
+    $options = array(
+        'phil' => __('Philosophische Fakultät', 'fau-elemental'),
+        'nat' => __('Naturwissenschaftliche Fakultät', 'fau-elemental'),
+        'med' => __('Medizinische Fakultät', 'fau-elemental'),
+        'rw' => __('Rechtswissenschaftliche Fakultät', 'fau-elemental'),
+        'tf' => __('Technische Fakultät', 'fau-elemental')
+    );
+
+    echo '<select name="fau_elemental_faculty">';
+    echo '<option value="">' . esc_html__('Select Faculty', 'fau-elemental') . '</option>';
+    foreach ($options as $value => $label) {
+        echo '<option value="' . esc_attr($value) . '" ' . selected($faculty, $value, false) . '>';
+        echo esc_html($label);
+        echo '</option>';
+    }
+    echo '</select>';
+}
+
 // Add sanitization callback
 function fau_elemental_sanitize_website_type($input)
 {
@@ -208,6 +247,60 @@ function fau_elemental_sanitize_website_type($input)
 
     return $input;
 }
+
+// Add sanitization callback for faculty
+function fau_elemental_sanitize_faculty($input)
+{
+    $valid_faculties = array('phil', 'nat', 'med', 'rw', 'tf', '');
+
+    if (!in_array($input, $valid_faculties)) {
+        add_settings_error(
+            'fau_elemental_faculty',
+            'invalid_faculty',
+            __('Invalid faculty selected.', 'fau-elemental'),
+            'error'
+        );
+        return get_option('fau_elemental_faculty', '');
+    }
+
+    return $input;
+}
+
+// Add Body Classes
+function fau_elemental_body_class($classes)
+{
+    // Add theme-specific classes
+    $classes[] = 'fau-theme';
+    $classes[] = 'fau-elemental';
+
+    // Get website type from options
+    $website_type = get_option('fau_elemental_website_type', 'fau');
+
+    // Add website type specific classes
+    switch ($website_type) {
+        case 'fau':
+            $classes[] = 'fauorg-home';
+            break;
+        case 'faculty':
+            $classes[] = 'fauorg-fakultaet';
+            break;
+        case 'chair':
+            $classes[] = 'fauorg-unterorg';
+            break;
+        case 'cooperation':
+            $classes[] = 'fauorg-kooperation';
+            break;
+    }
+
+    // Add faculty-specific class if set
+    $faculty = get_option('fau_elemental_faculty', '');
+    if ($faculty) {
+        $classes[] = 'faculty-' . sanitize_html_class($faculty);
+    }
+
+    return $classes;
+}
+add_filter('body_class', 'fau_elemental_body_class');
 
 // Conditional Patterns
 
@@ -244,3 +337,15 @@ function fau_elemental_register_patterns()
     );
 }
 add_action('init', 'fau_elemental_register_patterns');
+
+// Add this to your theme's functions.php or a custom plugin file
+
+function register_custom_button_attributes()
+{
+    wp_register_script(
+        'custom-button-extensions',
+        get_parent_theme_file_uri('assets/js/custom-button.js'),
+        array('wp-blocks', 'wp-element', 'wp-components')
+    );
+}
+add_action('init', 'register_custom_button_attributes');

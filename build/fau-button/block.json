@@ -34,7 +34,13 @@
       "default": "dark"
     }
   },
-  "example": {},
+  "example": {
+    "attributes": {
+      "buttonText": "Label text",
+      "url": "https://www.fau.de",
+      "theme": "dark"
+    }
+  },
   "textdomain": "fau-button",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",

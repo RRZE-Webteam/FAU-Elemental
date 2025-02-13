@@ -2,3 +2,130 @@
   !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/scss/theme.scss ***!
   \****************************************************************************************************************************************************************************************************************************************************************************/
 
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/scss/core-button.scss ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
+.wp-block-button {
+  margin: 0;
+  white-space: nowrap;
+  padding-left: 48px;
+}
+.wp-block-button:not(.is-style-tertiary) .wp-block-button__link {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 48px;
+  position: relative;
+  border-radius: 0;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid #041E42;
+  border-left: none;
+  background-color: #041E42;
+  color: #FFFFFF;
+}
+.wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
+  content: "→";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: -48px;
+  top: -1px;
+  width: 47px;
+  height: 46px;
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  background-color: #04316A;
+  color: #FFFFFF;
+  border: 1px solid #04316A;
+  border-left: none;
+}
+.dark .wp-block-button:not(.is-style-tertiary) .wp-block-button__link {
+  background-color: #041E42;
+  color: #FFFFFF;
+  border-color: #041E42;
+}
+.dark .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #DFE2E7;
+  border-color: #DFE2E7;
+  color: #04316A;
+}
+.fauorg-fakultaet.faculty-phil .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #FDB735;
+  border-color: #FDB735;
+  color: #04316A;
+}
+.fauorg-fakultaet.faculty-nat .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #7BB725;
+  border-color: #7BB725;
+  color: #04316A;
+}
+.fauorg-fakultaet.faculty-med .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #18B4F1;
+  border-color: #18B4F1;
+  color: #04316A;
+}
+.fauorg-fakultaet.faculty-rw .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #C50F3C;
+  border-color: #C50F3C;
+  color: #04316A;
+}
+.fauorg-fakultaet.faculty-tf .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #8C9FB1;
+  border-color: #8C9FB1;
+  color: #04316A;
+}
+.wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
+  background-color: transparent;
+  color: #04316A;
+  border: 1px solid #04316A;
+  border-left: none;
+}
+.wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #041E42;
+  color: #FFFFFF;
+  border: 1px solid #041E42;
+}
+.dark .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
+  color: #DFE2E7;
+  border-color: #DFE2E7;
+}
+.fauorg-fakultaet.faculty-phil .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #FDB735;
+  color: #04316A;
+}
+.fauorg-fakultaet.faculty-nat .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #7BB725;
+  color: #04316A;
+}
+.fauorg-fakultaet.faculty-med .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #18B4F1;
+  color: #04316A;
+}
+.fauorg-fakultaet.faculty-rw .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #C50F3C;
+  color: #04316A;
+}
+.fauorg-fakultaet.faculty-tf .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
+  background-color: #8C9FB1;
+  color: #04316A;
+}
+.wp-block-button.is-style-tertiary .wp-block-button__link {
+  padding: 0;
+  background-color: transparent;
+  color: #04316A;
+}
+.wp-block-button.is-style-tertiary .wp-block-button__link::after {
+  content: "→";
+  padding-right: 10px;
+  color: #04316A;
+}
+.dark .wp-block-button.is-style-tertiary .wp-block-button__link {
+  color: #FFFFFF;
+}
+.dark .wp-block-button.is-style-tertiary .wp-block-button__link::after {
+  color: #FFFFFF;
+}

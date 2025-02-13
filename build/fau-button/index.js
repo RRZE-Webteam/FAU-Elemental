@@ -319,7 +319,7 @@ module.exports = window["wp"]["i18n"];
   \***********************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"fau-elemental/fau-button","version":"0.1.0","title":"FAU Button","category":"fau-elemental/FAU","icon":"smiley","description":"A button block with different styles","styles":[{"name":"primary","label":"Primary","isDefault":true},{"name":"secondary","label":"Secondary"},{"name":"tertiary","label":"Tertiary"}],"attributes":{"buttonText":{"type":"string"},"url":{"type":"string"},"theme":{"type":"string","default":"dark"}},"example":{},"textdomain":"fau-button","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"fau-elemental/fau-button","version":"0.1.0","title":"FAU Button","category":"fau-elemental/FAU","icon":"smiley","description":"A button block with different styles","styles":[{"name":"primary","label":"Primary","isDefault":true},{"name":"secondary","label":"Secondary"},{"name":"tertiary","label":"Tertiary"}],"attributes":{"buttonText":{"type":"string"},"url":{"type":"string"},"theme":{"type":"string","default":"dark"}},"example":{"attributes":{"buttonText":"Label text","url":"https://www.fau.de","theme":"dark"}},"textdomain":"fau-button","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","viewScript":"file:./view.js"}');
 
 /***/ })
 

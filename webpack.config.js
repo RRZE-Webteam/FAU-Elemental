@@ -17,6 +17,12 @@ const blockEntries = blockFolders.reduce((entries, folder) => {
     };
 }, {});
 
+// Define shared SCSS files
+const sharedScssFiles = [
+    path.resolve(process.cwd(), 'src/scss/theme.scss'),
+    path.resolve(process.cwd(), 'src/scss/core-button.scss')
+];
+
 module.exports = {
     ...defaultConfig,
     entry: {
@@ -25,8 +31,12 @@ module.exports = {
         // Add all block entries
         ...blockEntries,
         // Add theme style entries
-        'css/theme': path.resolve(process.cwd(), 'src/scss/theme.scss'),
-        'css/editor-style': path.resolve(process.cwd(), 'src/scss/editor-style.scss'),
+        'css/theme': sharedScssFiles,
+        // Add all SCSS files to editor styles as well
+        'css/editor-style': [
+            ...sharedScssFiles,
+            path.resolve(process.cwd(), 'src/scss/editor-style.scss')
+        ],
     },
     plugins: [
         ...defaultConfig.plugins,

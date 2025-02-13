@@ -1,0 +1,118 @@
+@use "theme";
+
+.wp-block-button {
+    margin: 0;
+    white-space: nowrap;
+    padding-right: 48px;
+
+    &:not(.is-style-tertiary) .wp-block-button__link {
+        display: flex;
+        align-items: center;
+        padding: 0 16px;
+        height: 48px;
+        position: relative;
+        border-radius: 0;
+        font-size: 16px;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid theme.$FAU_Col_FAU-Dunkelblau_100;
+        border-right: none;
+        background-color: theme.$FAU_Col_FAU-Dunkelblau_100;
+        color: theme.$FAU_Col_FAU-Weiß_100;
+
+        &::after {
+            content: "→";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            right: -48px;
+            top: -1px;
+            width: 47px;
+            height: 46px;
+            flex-shrink: 0;
+            font-size: 1.5rem;
+            background-color: theme.$FAU_Col_FAU-Blau_100;
+            color: theme.$FAU_Col_FAU-Weiß_100;
+            border: 1px solid theme.$FAU_Col_FAU-Blau_100;
+            border-right: none;
+        }
+
+        .dark & {
+            background-color: theme.$FAU_Col_FAU-Dunkelblau_100;
+            color: theme.$FAU_Col_FAU-Weiß_100;
+            border-color: theme.$FAU_Col_FAU-Dunkelblau_100;
+            
+            &::after {
+                background-color: theme.$FAU_Col_FAU-Dunkelblau_12_5;
+                border-color: theme.$FAU_Col_FAU-Dunkelblau_12_5;
+                color: theme.$FAU_Col_FAU-Blau_100;
+            }
+        }
+
+        @each $faculty, $color in (
+            "phil": theme.$FAU_Col_Phil-Gelb_100,
+            "nat": theme.$FAU_Col_Nat-Grün_100,
+            "med": theme.$FAU_Col_Med-Blau_100,
+            "rw": theme.$FAU_Col_RW-Rot_100,
+            "tf": theme.$FAU_Col_TF-Metallic_100
+        ) {
+            .fauorg-fakultaet.faculty-#{$faculty} &::after {
+                background-color: $color;
+                border-color: $color;
+                color: theme.$FAU_Col_FAU-Blau_100;
+            }
+        }
+    }
+
+    &.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
+        background-color: transparent;
+        color: theme.$FAU_Col_FAU-Blau_100;
+        border: 1px solid theme.$FAU_Col_FAU-Blau_100;
+        border-right: none;
+
+        &::after {
+            background-color: theme.$FAU_Col_FAU-Dunkelblau_100;
+            color: theme.$FAU_Col_FAU-Weiß_100;
+            border: 1px solid theme.$FAU_Col_FAU-Dunkelblau_100;
+        }
+
+        .dark & {
+            color: theme.$FAU_Col_FAU-Dunkelblau_12_5;
+            border-color: theme.$FAU_Col_FAU-Dunkelblau_12_5;
+        }
+
+        @each $faculty, $color in (
+            "phil": theme.$FAU_Col_Phil-Gelb_100,
+            "nat": theme.$FAU_Col_Nat-Grün_100,
+            "med": theme.$FAU_Col_Med-Blau_100,
+            "rw": theme.$FAU_Col_RW-Rot_100,
+            "tf": theme.$FAU_Col_TF-Metallic_100
+        ) {
+            .fauorg-fakultaet.faculty-#{$faculty} &::after {
+                background-color: $color;
+                color: theme.$FAU_Col_FAU-Blau_100;
+            }
+        }
+    }
+
+    &.is-style-tertiary .wp-block-button__link {
+        padding: 0;
+        background-color: transparent;
+        color: theme.$FAU_Col_FAU-Blau_100;
+        
+        &::after {
+            content: "→";
+            padding-left: 10px;
+            color: theme.$FAU_Col_FAU-Blau_100;
+        }
+
+        .dark & {
+            color: theme.$FAU_Col_FAU-Weiß_100;
+
+            &::after {
+                color: theme.$FAU_Col_FAU-Weiß_100;
+            }
+        }
+    }
+}

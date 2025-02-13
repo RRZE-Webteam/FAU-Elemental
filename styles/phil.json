@@ -5,6 +5,9 @@
 	"slug": "phil",
 	"description": "Philosophische Fakultät",
 	"settings": {
+		"custom": {
+			"variation": "phil"
+		},
 		"blocks": {
 			"fau-elemental/fau-button": {
 				"custom": {
