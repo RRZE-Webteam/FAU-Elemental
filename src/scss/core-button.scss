@@ -1,5 +1,3 @@
-@use "theme";
-
 .wp-block-button {
     margin: 0;
     white-space: nowrap;
@@ -8,17 +6,17 @@
     &:not(.is-style-tertiary) .wp-block-button__link {
         display: flex;
         align-items: center;
-        padding: 0 16px;
+        padding: 0 var(--Spacing-4x);
         height: 48px;
         position: relative;
         border-radius: 0;
-        font-size: 16px;
+        font-size: var(--H-Heading-6);
         font-weight: 600;
         text-decoration: none;
-        border: 1px solid theme.$FAU_Col_FAU-Dunkelblau_100;
+        border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
         border-right: none;
-        background-color: theme.$FAU_Col_FAU-Dunkelblau_100;
-        color: theme.$FAU_Col_FAU-Weiß_100;
+        background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+        color: var(--FAU-Col-FAU-Weiss-100);
 
         &::after {
             content: "→";
@@ -31,101 +29,101 @@
             width: 47px;
             height: 46px;
             flex-shrink: 0;
-            font-size: 1.5rem;
-            background-color: theme.$FAU_Col_FAU-Blau_100;
-            color: theme.$FAU_Col_FAU-Weiß_100;
-            border: 1px solid theme.$FAU_Col_FAU-Blau_100;
+            font-size: var(--H-Heading-3);
+            background-color: var(--FAU-Col-FAU-Blau-100);
+            color: var(--FAU-Col-FAU-Weiss-100);
+            border: 1px solid var(--FAU-Col-FAU-Blau-100);
             border-right: none;
         }
 
         .dark & {
-            background-color: theme.$FAU_Col_FAU-Dunkelblau_100;
-            color: theme.$FAU_Col_FAU-Weiß_100;
-            border-color: theme.$FAU_Col_FAU-Dunkelblau_100;
+            background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+            color: var(--FAU-Col-FAU-Weiss-100);
+            border-color: var(--FAU-Col-FAU-Dunkelblau-100);
             
             &::after {
-                background-color: theme.$FAU_Col_FAU-Dunkelblau_12_5;
-                border-color: theme.$FAU_Col_FAU-Dunkelblau_12_5;
-                color: theme.$FAU_Col_FAU-Blau_100;
+                background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+                border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+                color: var(--FAU-Col-FAU-Blau-100);
             }
         }
 
         @each $faculty, $color in (
-            "phil": theme.$FAU_Col_Phil-Gelb_100,
-            "nat": theme.$FAU_Col_Nat-Grün_100,
-            "med": theme.$FAU_Col_Med-Blau_100,
-            "rw": theme.$FAU_Col_RW-Rot_100,
-            "tf": theme.$FAU_Col_TF-Metallic_100
+            "phil": var(--FAU-Col-Phil-Gelb-100),
+            "nat": var(--FAU-Col-Nat-Gruen-100),
+            "med": var(--FAU-Col-Med-Blau-100),
+            "rw": var(--FAU-Col-RW-Rot-100),
+            "tf": var(--FAU-Col-TF-Metallic-100)
         ) {
             .fauorg-fakultaet.faculty-#{$faculty} &::after {
                 background-color: $color;
                 border-color: $color;
-                color: theme.$FAU_Col_FAU-Blau_100;
+                color: var(--FAU-Col-FAU-Blau-100);
             }
         }
 
         .fauorg-fakultaet.faculty-rw &::after {
-            color: theme.$FAU_Col_FAU-Weiß_100;
+            color: var(--FAU-Col-FAU-Weiss-100);
         }
     }
 
     &.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
         background-color: transparent;
-        color: theme.$FAU_Col_FAU-Blau_100;
-        border: 1px solid theme.$FAU_Col_FAU-Blau_100;
+        color: var(--FAU-Col-FAU-Blau-100);
+        border: 1px solid var(--FAU-Col-FAU-Blau-100);
         border-right: none;
 
         &::after {
-            background-color: theme.$FAU_Col_FAU-Dunkelblau_100;
-            color: theme.$FAU_Col_FAU-Weiß_100;
-            border: 1px solid theme.$FAU_Col_FAU-Dunkelblau_100;
+            background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+            color: var(--FAU-Col-FAU-Weiss-100);
+            border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
             border-left: none;
         }
 
         .dark & {
-            color: theme.$FAU_Col_FAU-Dunkelblau_12_5;
-            border-color: theme.$FAU_Col_FAU-Dunkelblau_12_5;
+            color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+            border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
 
             &::after {
-                border-color: theme.$FAU_Col_FAU-Dunkelblau_12_5 !important;
+                border-color: var(--FAU-Col-FAU-Dunkelblau-12_5) !important;
                 border-left: none;
             }
         }
 
         @each $faculty, $color in (
-            "phil": theme.$FAU_Col_Phil-Gelb_100,
-            "nat": theme.$FAU_Col_Nat-Grün_100,
-            "med": theme.$FAU_Col_Med-Blau_100,
-            "rw": theme.$FAU_Col_RW-Rot_100,
-            "tf": theme.$FAU_Col_TF-Metallic_100
+            "phil": var(--FAU-Col-Phil-Gelb-100),
+            "nat": var(--FAU-Col-Nat-Gruen-100),
+            "med": var(--FAU-Col-Med-Blau-100),
+            "rw": var(--FAU-Col-RW-Rot-100),
+            "tf": var(--FAU-Col-TF-Metallic-100)
         ) {
             .fauorg-fakultaet.faculty-#{$faculty} &::after {
                 background-color: $color;
-                color: theme.$FAU_Col_FAU-Blau_100;
+                color: var(--FAU-Col-FAU-Blau-100);
             }
         }
 
         .fauorg-fakultaet.faculty-rw &::after {
-            color: theme.$FAU_Col_FAU-Weiß_100;
+            color: var(--FAU-Col-FAU-Weiss-100);
         }
     }
 
     &.is-style-tertiary .wp-block-button__link {
         padding: 0;
         background-color: transparent;
-        color: theme.$FAU_Col_FAU-Blau_100;
+        color: var(--FAU-Col-FAU-Blau-100);
         
         &::after {
             content: "→";
             padding-left: 10px;
-            color: theme.$FAU_Col_FAU-Blau_100;
+            color: var(--FAU-Col-FAU-Blau-100);
         }
 
         .dark & {
-            color: theme.$FAU_Col_FAU-Weiß_100;
+            color: var(--FAU-Col-FAU-Weiss-100);
 
             &::after {
-                color: theme.$FAU_Col_FAU-Weiß_100;
+                color: var(--FAU-Col-FAU-Weiss-100);
             }
         }
     }

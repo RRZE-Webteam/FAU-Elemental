@@ -22,6 +22,19 @@
                         "arrow-text": "var:preset|color|white-1000"
                     }
                 }
+            },
+            "core/button": {
+                "border": {
+                    "radius": false
+                },
+                "color": {
+                    "background": false,
+                    "text": false
+                },
+                "typography": {
+                    "fontFamilies": [],
+                    "fontSizes": []
+                }
             }
         },
         "border": {

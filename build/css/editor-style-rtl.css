@@ -1,7 +1,103 @@
 /*!****************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/scss/theme.scss ***!
   \****************************************************************************************************************************************************************************************************************************************************************************/
-
+:root {
+  --FAU-Col-FAU-Blau-100: #04316A;
+  --FAU-Col-FAU-Blau-62_5: #617DA1;
+  --FAU-Col-FAU-Blau-37_5: #A0B1C6;
+  --FAU-Col-FAU-Blau-25: #C0CBDA;
+  --FAU-Col-FAU-Blau-12_5: #D3DCF2;
+  --FAU-Col-FAU-Dunkelblau-100: #041E42;
+  --FAU-Col-FAU-Dunkelblau-62_5: #617188;
+  --FAU-Col-FAU-Dunkelblau-37_5: #A0A9B7;
+  --FAU-Col-FAU-Dunkelblau-25: #C0C7D0;
+  --FAU-Col-FAU-Dunkelblau-12_5: #DFE2E7;
+  --FAU-Col-FAU-Schwarz-100: #000000;
+  --FAU-Col-FAU-Schwarz-90: #1A1A1A;
+  --FAU-Col-FAU-Weiss-100: #FFFFFF;
+  --FAU-Col-RW-Rot-100: #C50F3C;
+  --FAU-Col-RW-Rot-62_5: #DD737C;
+  --FAU-Col-RW-Rot-37_5: #EBABAE;
+  --FAU-Col-RW-Rot-25: #F1C8C9;
+  --FAU-Col-RW-Rot-12_5: #FCDCE3;
+  --FAU-Col-RW-Dunkelrot-100: #971B2F;
+  --FAU-Col-RW-Dunkelrot-62_5: #BE717D;
+  --FAU-Col-RW-Dunkelrot-37_5: #D8A9B1;
+  --FAU-Col-RW-Dunkelrot-25: #E6C6CB;
+  --FAU-Col-RW-Dunkelrot-12_5: #F2E2E5;
+  --FAU-Col-Med-Blau-100: #18B4F1;
+  --FAU-Col-Med-Blau-62_5: #6DD0F6;
+  --FAU-Col-Med-Blau-37_5: #A7E2FA;
+  --FAU-Col-Med-Blau-25: #C5ECFB;
+  --FAU-Col-Med-Blau-12_5: #E3FAFC;
+  --FAU-Col-Med-Dunkelblau-100: #005287;
+  --FAU-Col-Med-Dunkelblau-62_5: #5E92B3;
+  --FAU-Col-Med-Dunkelblau-37_5: #9EBDD1;
+  --FAU-Col-Med-Dunkelblau-25: #BFD4E1;
+  --FAU-Col-Med-Dunkelblau-12_5: #DEE9EF;
+  --FAU-Col-Nat-Gruen-100: #7BB725;
+  --FAU-Col-Nat-Gruen-62_5: #ACD275;
+  --FAU-Col-Nat-Gruen-37_5: #CDE4AC;
+  --FAU-Col-Nat-Gruen-25: #DEEDC8;
+  --FAU-Col-Nat-Gruen-12_5: #E6FCDC;
+  --FAU-Col-Nat-Dunkelgruen-100: #266141;
+  --FAU-Col-Nat-Dunkelgruen-62_5: #769B87;
+  --FAU-Col-Nat-Dunkelgruen-37_5: #ACC3B7;
+  --FAU-Col-Nat-Dunkelgruen-25: #C9D7CF;
+  --FAU-Col-Nat-Dunkelgruen-12_5: #E3EBE6;
+  --FAU-Col-Phil-Gelb-100: #FDB735;
+  --FAU-Col-Phil-Gelb-62_5: #FECE76;
+  --FAU-Col-Phil-Gelb-37_5: #FEE4B2;
+  --FAU-Col-Phil-Gelb-25: #FEEDCC;
+  --FAU-Col-Phil-Gelb-12_5: #FFF5E0;
+  --FAU-Col-Phil-Orange-100: #E87722;
+  --FAU-Col-Phil-Orange-62_5: #EFA369;
+  --FAU-Col-Phil-Orange-37_5: #F6CBAB;
+  --FAU-Col-Phil-Orange-25: #F9DDC8;
+  --FAU-Col-Phil-Orange-12_5: #FCEDE2;
+  --FAU-Col-TF-Metallic-100: #8C9FB1;
+  --FAU-Col-TF-Metallic-62_5: #B6C2CE;
+  --FAU-Col-TF-Metallic-37_5: #D3DAE1;
+  --FAU-Col-TF-Metallic-25: #E2E7EB;
+  --FAU-Col-TF-Metallic-12_5: #EBF5F7;
+  --FAU-Col-TF-Dunkel-Metallic-100: #2F586E;
+  --FAU-Col-TF-Dunkel-Metallic-62_5: #7C96A3;
+  --FAU-Col-TF-Dunkel-Metallic-37_5: #B0BFC8;
+  --FAU-Col-TF-Dunkel-Metallic-25: #CBD5DB;
+  --FAU-Col-TF-Dunkel-Metallic-12_5: #E4E9EC;
+  --xs: 393px;
+  --sm: 768px;
+  --md: 1440px;
+  --lg: 1920px;
+  --Spacing-05x: 2px;
+  --Spacing-1x: 4px;
+  --Spacing-2x: 8px;
+  --Spacing-3x: 12px;
+  --Spacing-4x: 16px;
+  --Spacing-5x: 20px;
+  --Spacing-6x: 24px;
+  --Spacing-8x: 32px;
+  --Spacing-10x: 40px;
+  --Spacing-12x: 48px;
+  --Spacing-14x: 56px;
+  --Spacing-16x: 64px;
+  --Spacing-20x: 80px;
+  --Spacing-24x: 96px;
+  --Spacing-30x: 120px;
+  --DI-Display-1: 3.85rem;
+  --DI-Display-2: 3.85rem;
+  --H-Heading-1: 3.85rem;
+  --H-Heading-Big-Teaser: 3.00rem;
+  --H-Heading-2: 1.95rem;
+  --H-Heading-3: 1.50rem;
+  --H-Heading-4: 1.25rem;
+  --H-Heading-5: 1.15rem;
+  --H-Heading-6: 1.00rem;
+  --P-Intro-Text: 1.25rem;
+  --P-Body-Text: 1.15rem;
+  --P-Body-Text-Small: 1.00rem;
+  --P-Caption: 0.85rem;
+}
 /*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/scss/core-button.scss ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************/
@@ -14,17 +110,17 @@
 .wp-block-button:not(.is-style-tertiary) .wp-block-button__link {
   display: flex;
   align-items: center;
-  padding: 0 16px;
+  padding: 0 var(--Spacing-4x);
   height: 48px;
   position: relative;
   border-radius: 0;
-  font-size: 16px;
+  font-size: var(--H-Heading-6);
   font-weight: 600;
   text-decoration: none;
-  border: 1px solid #041E42;
+  border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
   border-left: none;
-  background-color: #041E42;
-  color: #FFFFFF;
+  background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+  color: var(--FAU-Col-FAU-Weiss-100);
 }
 .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
   content: "→";
@@ -37,108 +133,108 @@
   width: 47px;
   height: 46px;
   flex-shrink: 0;
-  font-size: 1.5rem;
-  background-color: #04316A;
-  color: #FFFFFF;
-  border: 1px solid #04316A;
+  font-size: var(--H-Heading-3);
+  background-color: var(--FAU-Col-FAU-Blau-100);
+  color: var(--FAU-Col-FAU-Weiss-100);
+  border: 1px solid var(--FAU-Col-FAU-Blau-100);
   border-left: none;
 }
 .dark .wp-block-button:not(.is-style-tertiary) .wp-block-button__link {
-  background-color: #041E42;
-  color: #FFFFFF;
-  border-color: #041E42;
+  background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+  color: var(--FAU-Col-FAU-Weiss-100);
+  border-color: var(--FAU-Col-FAU-Dunkelblau-100);
 }
 .dark .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #DFE2E7;
-  border-color: #DFE2E7;
-  color: #04316A;
+  background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+  border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .fauorg-fakultaet.faculty-phil .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #FDB735;
-  border-color: #FDB735;
-  color: #04316A;
+  background-color: var(--FAU-Col-Phil-Gelb-100);
+  border-color: var(--FAU-Col-Phil-Gelb-100);
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .fauorg-fakultaet.faculty-nat .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #7BB725;
-  border-color: #7BB725;
-  color: #04316A;
+  background-color: var(--FAU-Col-Nat-Gruen-100);
+  border-color: var(--FAU-Col-Nat-Gruen-100);
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .fauorg-fakultaet.faculty-med .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #18B4F1;
-  border-color: #18B4F1;
-  color: #04316A;
+  background-color: var(--FAU-Col-Med-Blau-100);
+  border-color: var(--FAU-Col-Med-Blau-100);
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .fauorg-fakultaet.faculty-rw .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #C50F3C;
-  border-color: #C50F3C;
-  color: #04316A;
+  background-color: var(--FAU-Col-RW-Rot-100);
+  border-color: var(--FAU-Col-RW-Rot-100);
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .fauorg-fakultaet.faculty-tf .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #8C9FB1;
-  border-color: #8C9FB1;
-  color: #04316A;
+  background-color: var(--FAU-Col-TF-Metallic-100);
+  border-color: var(--FAU-Col-TF-Metallic-100);
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .fauorg-fakultaet.faculty-rw .wp-block-button:not(.is-style-tertiary) .wp-block-button__link::after {
-  color: #FFFFFF;
+  color: var(--FAU-Col-FAU-Weiss-100);
 }
 .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
   background-color: transparent;
-  color: #04316A;
-  border: 1px solid #04316A;
+  color: var(--FAU-Col-FAU-Blau-100);
+  border: 1px solid var(--FAU-Col-FAU-Blau-100);
   border-left: none;
 }
 .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #041E42;
-  color: #FFFFFF;
-  border: 1px solid #041E42;
+  background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+  color: var(--FAU-Col-FAU-Weiss-100);
+  border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
   border-right: none;
 }
 .dark .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
-  color: #DFE2E7;
-  border-color: #DFE2E7;
+  color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+  border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
 }
 .dark .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
-  border-color: #DFE2E7 !important;
+  border-color: var(--FAU-Col-FAU-Dunkelblau-12_5) !important;
   border-right: none;
 }
 .fauorg-fakultaet.faculty-phil .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #FDB735;
-  color: #04316A;
+  background-color: var(--FAU-Col-Phil-Gelb-100);
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .fauorg-fakultaet.faculty-nat .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #7BB725;
-  color: #04316A;
+  background-color: var(--FAU-Col-Nat-Gruen-100);
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .fauorg-fakultaet.faculty-med .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #18B4F1;
-  color: #04316A;
+  background-color: var(--FAU-Col-Med-Blau-100);
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .fauorg-fakultaet.faculty-rw .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #C50F3C;
-  color: #04316A;
+  background-color: var(--FAU-Col-RW-Rot-100);
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .fauorg-fakultaet.faculty-tf .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
-  background-color: #8C9FB1;
-  color: #04316A;
+  background-color: var(--FAU-Col-TF-Metallic-100);
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .fauorg-fakultaet.faculty-rw .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
-  color: #FFFFFF;
+  color: var(--FAU-Col-FAU-Weiss-100);
 }
 .wp-block-button.is-style-tertiary .wp-block-button__link {
   padding: 0;
   background-color: transparent;
-  color: #04316A;
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .wp-block-button.is-style-tertiary .wp-block-button__link::after {
   content: "→";
   padding-right: 10px;
-  color: #04316A;
+  color: var(--FAU-Col-FAU-Blau-100);
 }
 .dark .wp-block-button.is-style-tertiary .wp-block-button__link {
-  color: #FFFFFF;
+  color: var(--FAU-Col-FAU-Weiss-100);
 }
 .dark .wp-block-button.is-style-tertiary .wp-block-button__link::after {
-  color: #FFFFFF;
+  color: var(--FAU-Col-FAU-Weiss-100);
 }
 /*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/scss/editor-style.scss ***!
