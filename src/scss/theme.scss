@@ -88,34 +88,34 @@
     --lg: 1920px;
 
     // Spacing Sizes
-    --Spacing-05x: 2px;
-    --Spacing-1x: 4px;
-    --Spacing-2x: 8px;
-    --Spacing-3x: 12px;
-    --Spacing-4x: 16px;
-    --Spacing-5x: 20px;
-    --Spacing-6x: 24px;
-    --Spacing-8x: 32px;
-    --Spacing-10x: 40px;
-    --Spacing-12x: 48px;
-    --Spacing-14x: 56px;
-    --Spacing-16x: 64px;
-    --Spacing-20x: 80px;
-    --Spacing-24x: 96px;
-    --Spacing-30x: 120px;
+    --Spacing-05x: 0.125rem;
+    --Spacing-1x: 0.25rem;
+    --Spacing-2x: 0.5rem;
+    --Spacing-3x: 0.75rem;
+    --Spacing-4x: 1rem;
+    --Spacing-5x: 1.25rem;
+    --Spacing-6x: 1.5rem;
+    --Spacing-8x: 2rem;
+    --Spacing-10x: 2.5rem;
+    --Spacing-12x: 3rem;
+    --Spacing-14x: 3.5rem;
+    --Spacing-16x: 4rem;
+    --Spacing-20x: 5rem;
+    --Spacing-24x: 6rem;
+    --Spacing-30x: 7.5rem;
 
     // Font Sizes
     --DI-Display-1: 3.85rem;
     --DI-Display-2: 3.85rem;
     --H-Heading-1: 3.85rem;
-    --H-Heading-Big-Teaser: 3.00rem;
+    --H-Heading-Big-Teaser: 3rem;
     --H-Heading-2: 1.95rem;
-    --H-Heading-3: 1.50rem;
+    --H-Heading-3: 1.5rem;
     --H-Heading-4: 1.25rem;
     --H-Heading-5: 1.15rem;
-    --H-Heading-6: 1.00rem;
+    --H-Heading-6: 1rem;
     --P-Intro-Text: 1.25rem;
     --P-Body-Text: 1.15rem;
-    --P-Body-Text-Small: 1.00rem;
+    --P-Body-Text-Small: 1rem;
     --P-Caption: 0.85rem;
 }
