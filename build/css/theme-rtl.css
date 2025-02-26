@@ -124,38 +124,6 @@ h1.big-teaser {
   font-size: var(--H-Heading-Big-Teaser);
 }
 
-h2 {
-  font-size: var(--H-Heading-2);
-}
-
-h3 {
-  font-size: var(--H-Heading-3);
-}
-
-h4 {
-  font-size: var(--H-Heading-4);
-}
-
-h5 {
-  font-size: var(--H-Heading-5);
-}
-
-h6 {
-  font-size: var(--H-Heading-6);
-}
-
-p {
-  font-size: var(--P-Body-Text);
-}
-
-p.intro-text {
-  font-size: var(--P-Intro-Text);
-}
-
-p.body-text-small {
-  font-size: var(--P-Body-Text-Small);
-}
-
 p.caption {
   font-size: var(--P-Caption);
 }
@@ -302,5 +270,64 @@ p.caption {
   color: var(--FAU-Col-FAU-Weiss-100);
 }
 .dark .wp-block-button.is-style-tertiary .wp-block-button__link::after {
+  color: var(--FAU-Col-FAU-Weiss-100);
+}
+/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/scss/core-text.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
+/**
+ * Core Text Styles
+ */
+h2 {
+  font-size: var(--H-Heading-2);
+}
+
+h3 {
+  font-size: var(--H-Heading-3);
+}
+
+h4 {
+  font-size: var(--H-Heading-4);
+}
+
+h5 {
+  font-size: var(--H-Heading-5);
+}
+
+h6 {
+  font-size: var(--H-Heading-6);
+}
+
+p {
+  font-size: var(--P-Body-Text);
+}
+
+p.intro-text {
+  font-size: var(--P-Intro-Text);
+}
+
+p.small-text {
+  font-size: var(--P-Body-Text-Small);
+}
+
+.list-icons ul {
+  list-style-type: none;
+  padding-right: 0;
+}
+
+.list-icons ul li {
+  position: relative;
+  padding-right: 24px;
+}
+
+.list-icons ul li::before {
+  content: "✔"; /* You can replace this with an actual icon */
+  position: absolute;
+  right: 0;
+  color: var(--FAU-Col-FAU-Dunkelblau-100); /* Adjust color if needed */
+}
+
+.dark h2, .dark h3, .dark h4, .dark h5, .dark h6, .dark p {
   color: var(--FAU-Col-FAU-Weiss-100);
 }

@@ -1,5 +1,4 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "react/jsx-runtime":
@@ -8,6 +7,7 @@
   \**********************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = window["ReactJSXRuntime"];
 
 /***/ })
@@ -81,8 +81,10 @@ module.exports = window["ReactJSXRuntime"];
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
+"use strict";
+var __webpack_exports__ = {};
 /*!*******************************!*\
   !*** ./src/js/core-button.js ***!
   \*******************************/
@@ -138,6 +140,63 @@ addFilter('editor.BlockEdit', 'fau-elemental/with-button-selected-class', create
     });
   };
 }, 'withButtonSelectedClass'));
+})();
+
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other entry modules.
+(() => {
+/*!*****************************!*\
+  !*** ./src/js/core-text.js ***!
+  \*****************************/
+const {
+  registerBlockVariation,
+  unregisterBlockVariation
+} = wp.blocks;
+wp.domReady(() => {
+  // Unregister Quote as a transform option for Paragraph
+  unregisterBlockVariation('core/paragraph', 'core/quote');
+
+  // Register "Intro Text" variation for core/paragraph with an icon
+  registerBlockVariation('core/paragraph', {
+    name: 'intro-text',
+    title: 'Intro Text',
+    description: 'A paragraph styled as an introduction.',
+    attributes: {
+      className: 'intro-text'
+    },
+    icon: 'editor-textcolor',
+    // Dashicon for text
+    isDefault: false,
+    scope: ['block', 'inserter', 'transform']
+  });
+
+  // Register "Small Text" variation for core/paragraph with an icon
+  registerBlockVariation('core/paragraph', {
+    name: 'small-text',
+    title: 'Small Text',
+    description: 'A smaller paragraph for fine print or secondary content.',
+    attributes: {
+      className: 'small-text'
+    },
+    icon: 'editor-paragraph',
+    // Dashicon for paragraph text
+    isDefault: false,
+    scope: ['block', 'inserter', 'transform']
+  });
+
+  // Register "List with Icons" variation for core/list with an icon
+  registerBlockVariation('core/list', {
+    name: 'list-with-icons',
+    title: 'List with Icons',
+    description: 'An unordered list with icons.',
+    attributes: {
+      className: 'list-icons'
+    },
+    icon: 'editor-ul',
+    // Dashicon for list
+    isDefault: false,
+    scope: ['block', 'inserter', 'transform']
+  });
+});
 })();
 
 /******/ })()
