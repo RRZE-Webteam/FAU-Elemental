@@ -1,6 +1,18 @@
 /*!****************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/scss/theme.scss ***!
   \****************************************************************************************************************************************************************************************************************************************************************************/
+@font-face {
+  font-family: "Source Sans 3";
+  src: url(../fonts/SourceSans3-VariableFont_wght.f0bd6d19.ttf) format("truetype-variations");
+  font-weight: 200 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  src: url(../fonts/SourceSans3-Italic-VariableFont_wght.50eeadfa.ttf) format("truetype-variations");
+  font-weight: 200 900;
+  font-style: italic;
+}
 :root {
   --FAU-Col-FAU-Blau-100: #04316A;
   --FAU-Col-FAU-Blau-62_5: #617DA1;
@@ -97,15 +109,71 @@
   --P-Body-Text: 1.15rem;
   --P-Body-Text-Small: 1rem;
   --P-Caption: 0.85rem;
+  --font-family-base: "Source Sans 3", sans-serif;
+}
+
+body {
+  font-family: var(--font-family-base);
+}
+
+h1 {
+  font-size: var(--H-Heading-1);
+}
+
+h1.big-teaser {
+  font-size: var(--H-Heading-Big-Teaser);
+}
+
+h2 {
+  font-size: var(--H-Heading-2);
+}
+
+h3 {
+  font-size: var(--H-Heading-3);
+}
+
+h4 {
+  font-size: var(--H-Heading-4);
+}
+
+h5 {
+  font-size: var(--H-Heading-5);
+}
+
+h6 {
+  font-size: var(--H-Heading-6);
+}
+
+p {
+  font-size: var(--P-Body-Text);
+}
+
+p.intro-text {
+  font-size: var(--P-Intro-Text);
+}
+
+p.body-text-small {
+  font-size: var(--P-Body-Text-Small);
+}
+
+p.caption {
+  font-size: var(--P-Caption);
+}
+
+.dark {
+  color: var(--FAU-Col-FAU-Weiss-100);
 }
 /*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/scss/core-button.scss ***!
   \**********************************************************************************************************************************************************************************************************************************************************************************/
 @charset "UTF-8";
+/**
+ * Core Button Styles
+ */
 .wp-block-button {
   margin: 0;
   white-space: nowrap;
-  padding-left: 48px;
+  padding-right: 48px;
 }
 .wp-block-button:not(.is-style-tertiary) .wp-block-button__link {
   display: flex;
@@ -118,7 +186,7 @@
   font-weight: 600;
   text-decoration: none;
   border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
-  border-left: none;
+  border-right: none;
   background-color: var(--FAU-Col-FAU-Dunkelblau-100);
   color: var(--FAU-Col-FAU-Weiss-100);
 }
@@ -128,7 +196,7 @@
   align-items: center;
   justify-content: center;
   position: absolute;
-  left: -48px;
+  right: -48px;
   top: -1px;
   width: 47px;
   height: 46px;
@@ -137,7 +205,7 @@
   background-color: var(--FAU-Col-FAU-Blau-100);
   color: var(--FAU-Col-FAU-Weiss-100);
   border: 1px solid var(--FAU-Col-FAU-Blau-100);
-  border-left: none;
+  border-right: none;
 }
 .dark .wp-block-button:not(.is-style-tertiary) .wp-block-button__link {
   background-color: var(--FAU-Col-FAU-Dunkelblau-100);
@@ -181,13 +249,13 @@
   background-color: transparent;
   color: var(--FAU-Col-FAU-Blau-100);
   border: 1px solid var(--FAU-Col-FAU-Blau-100);
-  border-left: none;
+  border-right: none;
 }
 .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
   background-color: var(--FAU-Col-FAU-Dunkelblau-100);
   color: var(--FAU-Col-FAU-Weiss-100);
   border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
-  border-right: none;
+  border-left: none;
 }
 .dark .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
   color: var(--FAU-Col-FAU-Dunkelblau-12_5);
@@ -195,7 +263,7 @@
 }
 .dark .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
   border-color: var(--FAU-Col-FAU-Dunkelblau-12_5) !important;
-  border-right: none;
+  border-left: none;
 }
 .fauorg-fakultaet.faculty-phil .wp-block-button.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link::after {
   background-color: var(--FAU-Col-Phil-Gelb-100);
@@ -227,7 +295,7 @@
 }
 .wp-block-button.is-style-tertiary .wp-block-button__link::after {
   content: "→";
-  padding-right: 10px;
+  padding-left: 10px;
   color: var(--FAU-Col-FAU-Blau-100);
 }
 .dark .wp-block-button.is-style-tertiary .wp-block-button__link {
@@ -236,7 +304,11 @@
 .dark .wp-block-button.is-style-tertiary .wp-block-button__link::after {
   color: var(--FAU-Col-FAU-Weiss-100);
 }
-/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/scss/editor-style.scss ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************/
+/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/scss/editor.scss ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************/
+/**
+ * Editor Styles
+ */
 
+/*# sourceMappingURL=editor.css.map*/

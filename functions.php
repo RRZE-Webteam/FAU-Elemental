@@ -35,18 +35,27 @@ function fau_elemental_enqueue_styles()
 add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_styles');
 
 // Enqueue Editor Styles
-
 function fau_elemental_setup()
 {
     add_editor_style(array(
         'style.css',
-        'build/css/editor-style.css'
+        'build/css/editor.css'
     ));
 }
 add_action('after_setup_theme', 'fau_elemental_setup');
 
-// Enqueue Scripts
+// Enqueue Editor Wrapper Styles
+function fau_elemental_enqueue_editor_assets() {
+    wp_enqueue_style(
+        'fau-elemental-editor-wrapper',
+        get_theme_file_uri('build/css/editor-wrapper.css'),
+        array(),
+        wp_get_theme()->get('Version')
+    );
+}
+add_action('enqueue_block_editor_assets', 'fau_elemental_enqueue_editor_assets');
 
+// Enqueue Scripts
 function fau_elemental_enqueue_scripts()
 {
     wp_enqueue_script(
@@ -65,13 +74,12 @@ function fau_elemental_enqueue_scripts()
 add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_scripts');
 
 // Enqueue Editor Scripts
-
 function fau_elemental_enqueue_block_editor_script()
 {
     wp_enqueue_script(
         'fau-elemental-block-editor-script',
-        get_parent_theme_file_uri('assets/js/block-editor-script.js'),
-        array('wp-blocks', 'wp-dom-ready', 'wp-edit-post', 'wp-element', 'wp-components'),
+        get_parent_theme_file_uri('build/js/editor.js'),
+        array('wp-dom-ready', 'wp-blocks', 'wp-hooks', 'wp-edit-post', 'wp-element', 'wp-components'),
         wp_get_theme()->get('Version'),
         true
     );
@@ -80,7 +88,6 @@ add_action('enqueue_block_editor_assets', 'fau_elemental_enqueue_block_editor_sc
 
 
 // Register Block Category
-
 function fau_elemental_register_block_categories($categories)
 {
     return array_merge(
@@ -96,7 +103,6 @@ function fau_elemental_register_block_categories($categories)
 add_filter('block_categories_all', 'fau_elemental_register_block_categories');
 
 // Register Blocks
-
 function fau_elemental_register_blocks()
 {
     // Get all directories in the build folder that start with 'fau-'
@@ -266,12 +272,9 @@ function fau_elemental_sanitize_faculty($input)
     return $input;
 }
 
-// Add Body Classes
-function fau_elemental_body_class($classes)
+function fau_elemental_get_org_classes()
 {
-    // Add theme-specific classes
-    $classes[] = 'fau-theme';
-    $classes[] = 'fau-elemental';
+    $classes = array('fau-theme', 'fau-elemental');
 
     // Get website type from options
     $website_type = get_option('fau_elemental_website_type', 'fau');
@@ -300,10 +303,15 @@ function fau_elemental_body_class($classes)
 
     return $classes;
 }
+
+// Frontend body classes
+function fau_elemental_body_class($classes)
+{
+    return array_merge($classes, fau_elemental_get_org_classes());
+}
 add_filter('body_class', 'fau_elemental_body_class');
 
 // Conditional Patterns
-
 function fau_elemental_register_patterns()
 {
     // Get the website type from options
@@ -337,15 +345,3 @@ function fau_elemental_register_patterns()
     );
 }
 add_action('init', 'fau_elemental_register_patterns');
-
-// Add this to your theme's functions.php or a custom plugin file
-
-function register_custom_button_attributes()
-{
-    wp_register_script(
-        'custom-button-extensions',
-        get_parent_theme_file_uri('assets/js/custom-button.js'),
-        array('wp-blocks', 'wp-element', 'wp-components')
-    );
-}
-add_action('init', 'register_custom_button_attributes');
