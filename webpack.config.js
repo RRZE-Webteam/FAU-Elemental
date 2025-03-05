@@ -20,7 +20,7 @@ const blockEntries = blockFolders.reduce((entries, folder) => {
 const themeStyles = [
     path.resolve(process.cwd(), 'src/scss/theme.scss'),
     path.resolve(process.cwd(), 'src/scss/core-button.scss'),
-    path.resolve(process.cwd(), 'src/scss/core-text.scss')
+    path.resolve(process.cwd(), 'src/scss/core-text.scss'),
 ];
 
 const editorStyles = [

@@ -40,6 +40,52 @@
                     "textDecoration": false,
                     "textTransform": false
                 }
+            },
+            "core/heading": {
+                "color": {
+                    "background": false,
+                    "text": false
+                },
+                "typography": {
+                    "customFontSize": false,
+                    "defaultFontSizes": false,
+                    "fontStyle": false,
+                    "fontWeight": false,
+                    "letterSpacing": false,
+                    "textDecoration": false,
+                    "textTransform": false
+                }
+            },
+            "core/paragraph": {
+                "color": {
+                    "background": false,
+                    "text": false
+                },
+                "typography": {
+                    "customFontSize": false,
+                    "defaultFontSizes": false,
+                    "fontStyle": false,
+                    "fontWeight": false,
+                    "letterSpacing": false,
+                    "textDecoration": false,
+                    "textTransform": false,
+                    "dropCap": false
+                }
+            },
+            "core/list": {
+                "color": {
+                    "background": false,
+                    "text": false
+                },
+                "typography": {
+                    "customFontSize": false,
+                    "defaultFontSizes": false,
+                    "fontStyle": false,
+                    "fontWeight": false,
+                    "letterSpacing": false,
+                    "textDecoration": false,
+                    "textTransform": false
+                }
             }
         }
     },

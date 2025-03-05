@@ -1,15 +1,1 @@
-/*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/@wordpress/scripts/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/scss/editor-wrapper.scss ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************/
-/**
- * Editor Wrapper Styles
- */
-.faue-is-button-block-selected .block-editor-block-toolbar > .components-toolbar-group:nth-child(3), .faue-is-button-block-selected .block-editor-block-toolbar > .components-toolbar-group:nth-child(5) {
-  display: none;
-}
-.faue-is-button-block-selected .block-editor-block-toolbar > .components-toolbar-group:nth-child(4) .components-dropdown-menu {
-  display: none;
-}
-.faue-is-button-block-selected .block-editor-block-inspector > div:nth-child(3) {
-  display: none;
-}
+.faue-is-button-block-selected .block-editor-block-inspector>div:nth-child(3),.faue-is-button-block-selected .block-editor-block-toolbar>.components-toolbar-group:nth-child(3),.faue-is-button-block-selected .block-editor-block-toolbar>.components-toolbar-group:nth-child(4) .components-dropdown-menu,.faue-is-button-block-selected .block-editor-block-toolbar>.components-toolbar-group:nth-child(5),.faue-is-heading-block-selected .block-editor-block-toolbar>.components-toolbar-group:nth-child(4),.faue-is-heading-block-selected .block-library-heading-level-dropdown>div>div>button:first-child,.faue-is-intro-text-selected .block-editor-block-toolbar>.components-toolbar-group:nth-child(4) button:first-child,.faue-is-intro-text-selected .block-editor-block-toolbar>.components-toolbar-group:nth-child(4) button:nth-child(2),.faue-is-paragraph-block-selected .block-editor-block-inspector .typography-block-support-panel,.faue-is-paragraph-block-selected .block-editor-block-toolbar>.components-toolbar-group:nth-child(4) .components-dropdown-menu{display:none}
