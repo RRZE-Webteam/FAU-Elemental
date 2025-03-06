@@ -21,6 +21,7 @@ const themeStyles = [
     path.resolve(process.cwd(), 'src/scss/theme.scss'),
     path.resolve(process.cwd(), 'src/scss/core-button.scss'),
     path.resolve(process.cwd(), 'src/scss/core-text.scss'),
+    path.resolve(process.cwd(), 'src/scss/core-table.scss'),
 ];
 
 const editorStyles = [
@@ -30,7 +31,8 @@ const editorStyles = [
 
 const editorScripts = [
     path.resolve(process.cwd(), 'src/js/core-button.js'),
-    path.resolve(process.cwd(), 'src/js/core-text.js')
+    path.resolve(process.cwd(), 'src/js/core-text.js'),
+    path.resolve(process.cwd(), 'src/js/core-table.js')
 ];
 
 module.exports = {

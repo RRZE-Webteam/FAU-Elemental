@@ -1,0 +1,132 @@
+/**
+ * Core Table Styles
+ */
+
+.wp-block-table-wrapper {
+    margin-bottom: var(--Spacing-4x);
+
+    // Table heading styles
+    .wp-block-table__heading {
+        font-size: var(--H-Heading-3);
+        font-weight: 600;
+        margin-bottom: var(--Spacing-2x);
+        color: var(--FAU-Col-FAU-Dunkelblau-100);
+    }
+}
+
+.wp-block-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: var(--Text-S);
+    background-color: var(--FAU-Col-FAU-Weiss-100);
+
+    table {
+        width: 100%;
+        border: none;
+        background-color: var(--FAU-Col-FAU-Weiss-100);
+    }
+
+    // Cell styles
+    td, th {
+        padding: var(--Spacing-2x);
+        border: none;
+        vertical-align: middle;
+        line-height: 1.4;
+        background-color: inherit;
+    }
+
+    // Header row styles
+    thead {
+        th {
+            background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+            color: var(--FAU-Col-FAU-Weiss-100);
+            font-weight: normal;
+            text-align: left;
+            padding: var(--Spacing-2x);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+
+    // Row styles
+    tbody {
+        tr {
+            background-color: var(--FAU-Col-FAU-Weiss-100);
+
+            // First column styling
+            td:first-child {
+                font-weight: normal;
+                padding-right: var(--Spacing-4x);
+                background-color: inherit;
+            }
+
+            // Value columns
+            td {
+                text-align: left;
+                padding: var(--Spacing-2x);
+                background-color: inherit;
+                border-right: 1px solid var(--FAU-Col-FAU-Dunkelblau-12_5);
+
+                &:last-child {
+                    border-right: none;
+                }
+            }
+
+            // Alternating row colors
+            &:nth-child(even) {
+                background-color: var(--FAU-Col-FAU-Schwarz-12_5);
+
+                td {
+                    border-right-color: var(--FAU-Col-FAU-Dunkelblau-25);
+                }
+            }
+        }
+    }
+
+    // Special characters and units
+    .unit, .subscript {
+        color: var(--FAU-Col-FAU-Dunkelblau-50);
+    }
+
+    // Superscript and subscript styles
+    sup, sub {
+        font-size: 0.75em;
+        line-height: 0;
+        position: relative;
+    }
+
+    sup {
+        vertical-align: super;
+    }
+
+    sub {
+        vertical-align: sub;
+    }
+
+    // Footer text
+    tfoot {
+        border-top: none;
+        background-color: var(--FAU-Col-FAU-Schwarz-5);
+        td {
+            padding: var(--Spacing-2x);
+            font-style: italic;
+            color: var(--FAU-Col-FAU-Dunkelblau-50);
+            background-color: transparent !important;
+            border: none;
+        }
+
+        tr {
+            background: none;
+            border: none;
+        }
+    }
+
+    // Special case for numerical values in parentheses
+    .parenthetical {
+        color: var(--FAU-Col-FAU-Dunkelblau-50);
+    }
+} 

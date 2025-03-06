@@ -86,6 +86,22 @@
                     "textDecoration": false,
                     "textTransform": false
                 }
+            },
+            "core/table": {
+                "color": {
+                    "background": false,
+                    "text": false
+                },
+                "typography": {
+                    "customFontSize": false,
+                    "defaultFontSizes": false,
+                    "fontStyle": false,
+                    "fontWeight": false,
+                    "letterSpacing": false,
+                    "textDecoration": false,
+                    "textTransform": false,
+                    "dropCap": false
+                }
             }
         }
     },
