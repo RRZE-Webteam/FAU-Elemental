@@ -22,6 +22,7 @@ const themeStyles = [
     path.resolve(process.cwd(), 'src/scss/core-button.scss'),
     path.resolve(process.cwd(), 'src/scss/core-text.scss'),
     path.resolve(process.cwd(), 'src/scss/core-table.scss'),
+    path.resolve(process.cwd(), 'src/scss/core-image.scss'),
 ];
 
 const editorStyles = [
@@ -30,9 +31,11 @@ const editorStyles = [
 ];
 
 const editorScripts = [
+    path.resolve(process.cwd(), 'src/js/editor.js'),
     path.resolve(process.cwd(), 'src/js/core-button.js'),
     path.resolve(process.cwd(), 'src/js/core-text.js'),
-    path.resolve(process.cwd(), 'src/js/core-table.js')
+    path.resolve(process.cwd(), 'src/js/core-table.js'),
+    path.resolve(process.cwd(), 'src/js/core-image.js')
 ];
 
 module.exports = {
@@ -49,7 +52,9 @@ module.exports = {
         // Add block editor scripts
         'js/editor': editorScripts,
         // Add the editor wrapper styles
-        'css/editor-wrapper': path.resolve(process.cwd(), 'src/scss/editor-wrapper.scss')
+        'css/editor-wrapper': path.resolve(process.cwd(), 'src/scss/editor-wrapper.scss'),
+        // Add the image fullscreen script
+        'js/image-fullscreen': path.resolve(process.cwd(), 'src/js/image-fullscreen.js')
     },
     plugins: [
         ...defaultConfig.plugins,

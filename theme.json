@@ -102,7 +102,17 @@
                     "textTransform": false,
                     "dropCap": false
                 }
+            },
+            "core/image": {
+                "color": {
+                    "customDuotone": false,
+                    "defaultDuotone": false
+                },
+                "shadow": {}
             }
+        },
+        "layout": {
+            "contentSize": "1320px"
         }
     },
     "customTemplates": [

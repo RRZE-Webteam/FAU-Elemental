@@ -33,4 +33,9 @@
   display: none;
 }
 
+.faue-is-image-block-selected button[aria-label="Add text over image"],
+.faue-is-image-block-selected button[aria-label=Link] {
+  display: none;
+}
+
 /*# sourceMappingURL=editor-wrapper.css.map*/

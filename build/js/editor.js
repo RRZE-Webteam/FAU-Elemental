@@ -1,5 +1,4 @@
 /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "react/jsx-runtime":
@@ -8,6 +7,7 @@
   \**********************************/
 /***/ ((module) => {
 
+"use strict";
 module.exports = window["ReactJSXRuntime"];
 
 /***/ })
@@ -81,12 +81,13 @@ module.exports = window["ReactJSXRuntime"];
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry needs to be wrapped in an IIFE because it needs to be isolated against other entry modules.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
+"use strict";
 var __webpack_exports__ = {};
-/*!*******************************!*\
-  !*** ./src/js/core-button.js ***!
-  \*******************************/
+/*!**************************!*\
+  !*** ./src/js/editor.js ***!
+  \**************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
@@ -100,12 +101,55 @@ const {
 const {
   useEffect
 } = wp.element;
-const {
-  BlockControls
-} = wp.blockEditor;
+
+/**
+ * Add selected block classes to body
+ * This filter adds specific classes to the body tag when certain blocks are selected
+ * to allow for contextual styling in the editor.
+ */
+addFilter('editor.BlockEdit', 'fau-elemental/with-block-selected-classes', createHigherOrderComponent(BlockEdit => {
+  return props => {
+    const {
+      isSelected,
+      name,
+      attributes
+    } = props;
+    useEffect(() => {
+      if (isSelected) {
+        // Define block types and their corresponding classes
+        const blockClasses = {
+          'core/button': 'faue-is-button-block-selected',
+          'core/heading': 'faue-is-heading-block-selected',
+          'core/paragraph': 'faue-is-paragraph-block-selected',
+          'core/image': 'faue-is-image-block-selected'
+        };
+
+        // Add/remove the basic block type class
+        Object.entries(blockClasses).forEach(([blockName, className]) => {
+          document.body.classList.toggle(className, name === blockName);
+        });
+
+        // Handle special variations (like intro-text)
+        const isParagraph = name === 'core/paragraph';
+        const isIntroText = isParagraph && attributes.className?.includes('intro-text');
+        document.body.classList.toggle('faue-is-intro-text-selected', isIntroText);
+      }
+    }, [isSelected, name, attributes?.className]);
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BlockEdit, {
+      ...props
+    });
+  };
+}, 'withBlockSelectedClasses'));
+})();
+
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other entry modules.
+(() => {
+/*!*******************************!*\
+  !*** ./src/js/core-button.js ***!
+  \*******************************/
+// Core button block customizations
 wp.domReady(() => {
   wp.blocks.unregisterBlockStyle('core/button', ['fill', 'outline']);
-  wp.blocks.unregisterBlockVariation('core/button', 'width');
   wp.blocks.registerBlockStyle('core/button', {
     name: 'primary',
     label: 'Primary',
@@ -122,27 +166,11 @@ wp.domReady(() => {
     isDefault: false
   });
 });
-addFilter('editor.BlockEdit', 'fau-elemental/with-button-selected-class', createHigherOrderComponent(BlockEdit => {
-  return props => {
-    const {
-      isSelected,
-      name
-    } = props;
-    useEffect(() => {
-      if (isSelected) {
-        const isButtonBlock = name === 'core/button';
-        document.body.classList.toggle('faue-is-button-block-selected', isButtonBlock);
-      }
-    }, [isSelected]);
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BlockEdit, {
-      ...props
-    });
-  };
-}, 'withButtonSelectedClass'));
 })();
 
-// This entry needs to be wrapped in an IIFE because it needs to be isolated against other entry modules.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
+"use strict";
 var __webpack_exports__ = {};
 /*!*****************************!*\
   !*** ./src/js/core-text.js ***!
@@ -157,9 +185,6 @@ const {
 const {
   createHigherOrderComponent
 } = wp.compose;
-const {
-  useEffect
-} = wp.element;
 const {
   getBlockType,
   registerBlockType,
@@ -222,30 +247,8 @@ wp.domReady(() => {
     scope: ['block', 'inserter', 'transform']
   });
 });
-addFilter('editor.BlockEdit', 'fau-elemental/with-selected-class', createHigherOrderComponent(BlockEdit => {
-  return props => {
-    const {
-      isSelected,
-      name,
-      attributes
-    } = props;
-    useEffect(() => {
-      if (isSelected) {
-        const isHeadingBlock = name === 'core/heading';
-        const isParagraphBlock = name === 'core/paragraph';
-        const isIntroText = isParagraphBlock && attributes.className?.includes('intro-text');
 
-        // Toggle classes based on block type and variation
-        document.body.classList.toggle('faue-is-heading-block-selected', isHeadingBlock);
-        document.body.classList.toggle('faue-is-paragraph-block-selected', isParagraphBlock);
-        document.body.classList.toggle('faue-is-intro-text-selected', isIntroText);
-      }
-    }, [isSelected, attributes.className]);
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BlockEdit, {
-      ...props
-    });
-  };
-}, 'withSelectedClass'));
+// Add list style controls
 addFilter('editor.BlockEdit', 'fau-elemental/with-list-style-controls', createHigherOrderComponent(BlockEdit => {
   return props => {
     const {
@@ -301,8 +304,10 @@ addFilter('editor.BlockEdit', 'fau-elemental/with-list-style-controls', createHi
 }, 'withListStyleControls'));
 })();
 
-// This entry needs to be wrapped in an IIFE because it needs to be isolated against other entry modules.
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
 (() => {
+"use strict";
+var __webpack_exports__ = {};
 /*!******************************!*\
   !*** ./src/js/core-table.js ***!
   \******************************/
@@ -482,6 +487,32 @@ addFilter('editor.BlockEdit', 'fau-elemental/with-table-formatting-removed', cre
     });
   };
 }, 'withTableFormattingRemoved'));
+})();
+
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other entry modules.
+(() => {
+/*!******************************!*\
+  !*** ./src/js/core-image.js ***!
+  \******************************/
+// Core image block customizations
+wp.domReady(() => {
+  wp.blocks.unregisterBlockStyle('core/image', ['default', 'rounded']);
+  wp.blocks.registerBlockStyle('core/image', {
+    name: 'large',
+    label: 'Large',
+    isDefault: true
+  });
+  wp.blocks.registerBlockStyle('core/image', {
+    name: 'medium',
+    label: 'Medium',
+    isDefault: false
+  });
+  wp.blocks.registerBlockStyle('core/image', {
+    name: 'small',
+    label: 'Small',
+    isDefault: false
+  });
+});
 })();
 
 /******/ })()

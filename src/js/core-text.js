@@ -1,6 +1,5 @@
 const { addFilter } = wp.hooks;
 const { createHigherOrderComponent } = wp.compose;
-const { useEffect } = wp.element;
 const { getBlockType, registerBlockType, registerBlockVariation, unregisterBlockVariation } = wp.blocks;
 const { BlockControls, InspectorControls } = wp.blockEditor;
 const { ToolbarGroup, ToolbarButton, PanelBody, SelectControl } = wp.components;
@@ -49,31 +48,7 @@ wp.domReady(() => {
     });
 });
 
-addFilter(
-    'editor.BlockEdit',
-    'fau-elemental/with-selected-class',
-    createHigherOrderComponent((BlockEdit) => {
-        return (props) => {
-            const { isSelected, name, attributes } = props;
-
-            useEffect(() => {
-                if (isSelected) {
-                    const isHeadingBlock = name === 'core/heading';
-                    const isParagraphBlock = name === 'core/paragraph';
-                    const isIntroText = isParagraphBlock && attributes.className?.includes('intro-text');
-
-                    // Toggle classes based on block type and variation
-                    document.body.classList.toggle('faue-is-heading-block-selected', isHeadingBlock);
-                    document.body.classList.toggle('faue-is-paragraph-block-selected', isParagraphBlock);
-                    document.body.classList.toggle('faue-is-intro-text-selected', isIntroText);
-                }
-            }, [isSelected, attributes.className]);
-
-            return <BlockEdit {...props} />;
-        };
-    }, 'withSelectedClass')
-);
-
+// Add list style controls
 addFilter(
     'editor.BlockEdit',
     'fau-elemental/with-list-style-controls',
