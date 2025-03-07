@@ -1,0 +1,20 @@
+/**
+ * Core List Block Styles
+ */
+
+ .list-icons ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.list-icons ul li {
+    position: relative;
+    padding-left: 24px;
+}
+
+.list-icons ul li::before {
+    content: '✔'; /* You can replace this with an actual icon */
+    position: absolute;
+    left: 0;
+    color: var(--FAU-Col-FAU-Dunkelblau-100); /* Adjust color if needed */
+}

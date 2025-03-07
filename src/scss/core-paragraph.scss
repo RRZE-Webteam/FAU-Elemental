@@ -1,0 +1,21 @@
+/**
+ * Core Paragraph Block Styles
+ */
+
+p {
+    font-size: var(--P-Body-Text);
+}
+
+.is-style-intro-text {
+    font-size: var(--P-Intro-Text);
+}
+
+.is-style-small-text {
+    font-size: var(--P-Body-Text-Small);
+}
+
+.dark {
+    p {
+        color: var(--FAU-Col-FAU-Weiss-100);
+    }
+}

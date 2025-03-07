@@ -5,7 +5,7 @@
  * Slug: fau-elemental/page-starter
  * Categories: page
  * Block Types: core/post-content
- * Post Types: page
+ * Post Types: post
  * Viewport width: 1376
  */
 ?>
