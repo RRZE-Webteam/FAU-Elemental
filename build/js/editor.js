@@ -10,6 +10,17 @@
 "use strict";
 module.exports = window["ReactJSXRuntime"];
 
+/***/ }),
+
+/***/ "@wordpress/blocks":
+/*!********************************!*\
+  !*** external ["wp","blocks"] ***!
+  \********************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["blocks"];
+
 /***/ })
 
 /******/ 	});
@@ -121,7 +132,8 @@ addFilter('editor.BlockEdit', 'fau-elemental/with-block-selected-classes', creat
           'core/button': 'faue-is-button-block-selected',
           'core/heading': 'faue-is-heading-block-selected',
           'core/paragraph': 'faue-is-paragraph-block-selected',
-          'core/image': 'faue-is-image-block-selected'
+          'core/image': 'faue-is-image-block-selected',
+          'core/table': 'faue-is-table-block-selected'
         };
 
         // Add/remove the basic block type class
@@ -312,8 +324,11 @@ var __webpack_exports__ = {};
   !*** ./src/js/core-table.js ***!
   \******************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__);
+
 
 const {
   addFilter
@@ -322,10 +337,6 @@ const {
   createHigherOrderComponent
 } = wp.compose;
 const {
-  useEffect,
-  Fragment
-} = wp.element;
-const {
   InspectorControls
 } = wp.blockEditor;
 const {
@@ -333,160 +344,86 @@ const {
   TextControl
 } = wp.components;
 
-// Disable rich text formatting for table cells
-const disableRichTextFormatting = (settings, name) => {
-  if (name === 'core/table') {
-    return {
-      ...settings,
-      attributes: {
-        ...settings.attributes,
-        tableHeading: {
-          type: 'string',
-          default: ''
-        }
-      },
-      supports: {
-        ...settings.supports,
-        typography: false,
-        color: false,
-        align: false,
-        spacing: false,
-        anchor: false
-      }
-    };
-  }
-  return settings;
-};
+// Unregister default styles
 wp.domReady(() => {
-  // Unregister default block styles
   wp.blocks.unregisterBlockStyle('core/table', ['regular', 'stripes']);
-
-  // Remove typography and color support
-  wp.blocks.unregisterBlockVariation('core/table', 'typography');
-  wp.blocks.unregisterBlockVariation('core/table', 'color');
-
-  // Disable rich text formatting for table cells
-  wp.richText.unregisterFormatType('core/bold');
-  wp.richText.unregisterFormatType('core/italic');
-  wp.richText.unregisterFormatType('core/link');
 });
 
-// Remove formatting options from block registration
-addFilter('blocks.registerBlockType', 'fau-elemental/remove-table-supports', disableRichTextFormatting);
+// Add heading attribute
+addFilter('blocks.registerBlockType', 'fau-elemental/table-heading', (settings, name) => {
+  if (name !== 'core/table') {
+    return settings;
+  }
+  return {
+    ...settings,
+    attributes: {
+      ...settings.attributes,
+      tableHeading: {
+        type: 'string',
+        default: ''
+      }
+    },
+    // Add save component to handle frontend rendering
+    save: props => {
+      const {
+        attributes
+      } = props;
+      const blockProps = wp.blockEditor.useBlockProps.save({
+        className: 'wp-block-table-wrapper'
+      });
 
-// Remove cell formatting options
-addFilter('blocks.getSaveContent.extraProps', 'fau-elemental/remove-table-cell-formats', (props, blockType, attributes) => {
-  if (blockType.name === 'core/table') {
-    if (props.className) {
-      props.className = props.className.replace(/has-[\w-]+-(color|background|font-size|text-align)/, '');
+      // Get the original saved content
+      const originalSaveElement = settings.save(props);
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        ...blockProps,
+        children: [attributes.tableHeading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "wp-block-table__heading",
+          children: attributes.tableHeading
+        }), originalSaveElement]
+      });
     }
-  }
-  return props;
-});
-addFilter('blocks.getSaveElement', 'fau-elemental/with-table-heading-save', (element, blockType, attributes) => {
-  if (blockType.name !== 'core/table' || !attributes.tableHeading) {
-    return element;
-  }
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
-    className: "wp-block-table-wrapper",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
-      className: "wp-block-table__heading",
-      children: attributes.tableHeading
-    }), element]
-  });
+  };
 });
 
-// Add table heading control and display
-addFilter('editor.BlockEdit', 'fau-elemental/with-table-heading', createHigherOrderComponent(BlockEdit => {
+// Add inspector controls
+const withInspectorControls = createHigherOrderComponent(BlockEdit => {
   return props => {
     const {
-      name,
       attributes,
-      setAttributes
+      setAttributes,
+      name
     } = props;
     if (name !== 'core/table') {
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BlockEdit, {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(BlockEdit, {
         ...props
       });
     }
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(Fragment, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(InspectorControls, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(PanelBody, {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(InspectorControls, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(PanelBody, {
           title: "Table Settings",
-          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(TextControl, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(TextControl, {
             label: "Table Heading",
             value: attributes.tableHeading || '',
             onChange: value => setAttributes({
               tableHeading: value
-            })
+            }),
+            help: "Add a heading that will appear above the table"
           })
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
         className: "wp-block-table-wrapper",
-        children: [attributes.tableHeading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("h3", {
+        children: [attributes.tableHeading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
           className: "wp-block-table__heading",
           children: attributes.tableHeading
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BlockEdit, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(BlockEdit, {
           ...props
         })]
       })]
     });
   };
-}, 'withTableHeading'));
-// Additional cleanup for any remaining formatting buttons
-addFilter('editor.BlockEdit', 'fau-elemental/with-table-formatting-removed', createHigherOrderComponent(BlockEdit => {
-  return props => {
-    const {
-      name
-    } = props;
-    useEffect(() => {
-      if (name === 'core/table') {
-        const removeFormattingButtons = () => {
-          // Target all possible toolbar locations
-          const selectors = ['.block-editor-table-block__fixed-toolbar', '.block-editor-block-toolbar', '.block-editor-table-cell-toolbar', '.block-editor-rich-text__inline-format-toolbar-group', '.components-toolbar-group', '.block-editor-rich-text__inline-format-toolbar'];
-          const toolbars = document.querySelectorAll(selectors.join(', '));
-          toolbars.forEach(toolbar => {
-            if (toolbar) {
-              // Target all formatting buttons and controls
-              const formatButtons = toolbar.querySelectorAll('[aria-label*="Bold"], ' + '[aria-label*="Italic"], ' + '[aria-label*="Link"], ' + '[aria-label*="caption"], ' + 'button[aria-label*="More text settings"], ' + '.block-editor-format-toolbar, ' + '.format-library-text-color-button, ' + '.components-dropdown-menu__toggle');
-              formatButtons.forEach(button => {
-                button.style.display = 'none';
-              });
-
-              // Hide the entire toolbar if it's empty
-              if (toolbar.children.length === 0 || Array.from(toolbar.children).every(child => child.style.display === 'none')) {
-                toolbar.style.display = 'none';
-              }
-            }
-          });
-        };
-
-        // Initial removal
-        removeFormattingButtons();
-
-        // Set up observer for dynamically added buttons
-        const observer = new MutationObserver(mutations => {
-          removeFormattingButtons();
-        });
-
-        // Observe the entire editor area
-        const editor = document.querySelector('.block-editor-block-list__layout');
-        if (editor) {
-          observer.observe(editor, {
-            childList: true,
-            subtree: true,
-            attributes: true,
-            attributeFilter: ['class']
-          });
-        }
-        return () => observer.disconnect();
-      }
-    }, [name]);
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BlockEdit, {
-      ...props
-    });
-  };
-}, 'withTableFormattingRemoved'));
+}, 'withInspectorControls');
+addFilter('editor.BlockEdit', 'fau-elemental/with-inspector-controls', withInspectorControls);
 })();
 
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other entry modules.

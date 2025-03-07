@@ -38,4 +38,23 @@
   display: none;
 }
 
+.faue-is-table-block-selected button[aria-label="Change column alignment"],
+.faue-is-table-block-selected button[aria-label=Align] {
+  display: none;
+}
+.faue-is-table-block-selected button[aria-label=Bold],
+.faue-is-table-block-selected button[aria-label=Italic],
+.faue-is-table-block-selected button[aria-label=Link] {
+  display: none;
+}
+.faue-is-table-block-selected .components-dropdown-menu__menu[aria-label=More] button:nth-child(1),
+.faue-is-table-block-selected .components-dropdown-menu__menu[aria-label=More] button:nth-child(2),
+.faue-is-table-block-selected .components-dropdown-menu__menu[aria-label=More] button:nth-child(3),
+.faue-is-table-block-selected .components-dropdown-menu__menu[aria-label=More] button:nth-child(4),
+.faue-is-table-block-selected .components-dropdown-menu__menu[aria-label=More] button:nth-child(5),
+.faue-is-table-block-selected .components-dropdown-menu__menu[aria-label=More] button:nth-child(6),
+.faue-is-table-block-selected .components-dropdown-menu__menu[aria-label=More] button:nth-child(7) {
+  display: none;
+}
+
 /*# sourceMappingURL=editor-wrapper.css.map*/

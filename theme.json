@@ -99,8 +99,7 @@
                     "fontWeight": false,
                     "letterSpacing": false,
                     "textDecoration": false,
-                    "textTransform": false,
-                    "dropCap": false
+                    "textTransform": false
                 }
             },
             "core/image": {
