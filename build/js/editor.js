@@ -515,6 +515,103 @@ wp.domReady(() => {
 });
 })();
 
+// This entry needs to be wrapped in an IIFE because it needs to be in strict mode.
+(() => {
+"use strict";
+/*!*****************************!*\
+  !*** ./src/js/core-code.js ***!
+  \*****************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+
+const {
+  addFilter
+} = wp.hooks;
+const {
+  createHigherOrderComponent
+} = wp.compose;
+const {
+  InspectorControls
+} = wp.blockEditor;
+const {
+  PanelBody,
+  TextControl,
+  ToggleControl
+} = wp.components;
+
+// Add heading attribute
+addFilter('blocks.registerBlockType', 'core/code-dark-mode', (settings, name) => {
+  if (name !== 'core/code') {
+    return settings;
+  }
+  return {
+    ...settings,
+    attributes: {
+      ...settings.attributes,
+      darkMode: {
+        type: 'boolean',
+        default: false
+      }
+    },
+    save: props => {
+      const {
+        attributes
+      } = props;
+      const blockProps = wp.blockEditor.useBlockProps.save({
+        'data-dark-mode': attributes.darkMode,
+        className: attributes.darkMode ? 'dark' : ''
+      });
+
+      // Get the original saved content
+      const originalSaveElement = settings.save(props);
+      return wp.element.cloneElement(originalSaveElement, blockProps);
+    }
+  };
+});
+
+// Add inspector controls
+const withInspectorControls = createHigherOrderComponent(BlockEdit => {
+  return props => {
+    const {
+      attributes,
+      setAttributes,
+      name
+    } = props;
+    if (name !== 'core/code') {
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BlockEdit, {
+        ...props
+      });
+    }
+
+    // Add dark class in editor
+    const blockProps = wp.blockEditor.useBlockProps({
+      className: attributes.darkMode ? 'dark' : ''
+    });
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(InspectorControls, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(PanelBody, {
+          title: "Block Settings",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(ToggleControl, {
+            label: "Dark Mode",
+            checked: attributes.darkMode,
+            onChange: value => setAttributes({
+              darkMode: value
+            })
+          })
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("div", {
+        ...blockProps,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(BlockEdit, {
+          ...props
+        })
+      })]
+    });
+  };
+}, 'withInspectorControls');
+addFilter('editor.BlockEdit', 'fau-elemental/with-inspector-controls', withInspectorControls);
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=editor.js.map
