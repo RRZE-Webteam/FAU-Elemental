@@ -22,8 +22,24 @@
         background-color: var(--FAU-Col-FAU-Dunkelblau-100);
         color: var(--FAU-Col-FAU-Weiss-100);
 
-        &::after {
+        &::before {
             content: "→";
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            right: -48px;
+            width: 47px;
+            height: 46px;
+            font-size: var(--H-Heading-3);
+            color: var(--FAU-Col-FAU-Weiss-100);
+            z-index: 1;
+            transition: all .15s ease-in-out;
+        }
+        
+        &::after {
+            content: "";
             display: flex;
             align-items: center;
             justify-content: center;
@@ -33,11 +49,15 @@
             width: 47px;
             height: 46px;
             flex-shrink: 0;
-            font-size: var(--H-Heading-3);
             background-color: var(--FAU-Col-FAU-Blau-100);
-            color: var(--FAU-Col-FAU-Weiss-100);
             border: 1px solid var(--FAU-Col-FAU-Blau-100);
             border-right: none;
+        }
+
+        &:hover::before,
+        &:focus::before {
+            transition: all .15s ease-in-out;
+            right: -52px;
         }
 
         .dark & {
@@ -45,10 +65,13 @@
             color: var(--FAU-Col-FAU-Weiss-100);
             border-color: var(--FAU-Col-FAU-Dunkelblau-100);
             
+            &::before {
+                color: var(--FAU-Col-FAU-Blau-100);
+            }
+            
             &::after {
                 background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
                 border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
-                color: var(--FAU-Col-FAU-Blau-100);
             }
         }
 
@@ -59,14 +82,17 @@
             "rw": var(--FAU-Col-RW-Rot-100),
             "tf": var(--FAU-Col-TF-Metallic-100)
         ) {
+            .fauorg-fakultaet.faculty-#{$faculty} &::before {
+                color: var(--FAU-Col-FAU-Blau-100);
+            }
+
             .fauorg-fakultaet.faculty-#{$faculty} &::after {
                 background-color: $color;
                 border-color: $color;
-                color: var(--FAU-Col-FAU-Blau-100);
             }
         }
 
-        .fauorg-fakultaet.faculty-rw &::after {
+        .fauorg-fakultaet.faculty-rw &::before {
             color: var(--FAU-Col-FAU-Weiss-100);
         }
     }
@@ -77,9 +103,12 @@
         border: 1px solid var(--FAU-Col-FAU-Blau-100);
         border-right: none;
 
+        &::before {
+            color: var(--FAU-Col-FAU-Weiss-100);
+        }
+
         &::after {
             background-color: var(--FAU-Col-FAU-Dunkelblau-100);
-            color: var(--FAU-Col-FAU-Weiss-100);
             border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
             border-left: none;
         }
@@ -101,13 +130,16 @@
             "rw": var(--FAU-Col-RW-Rot-100),
             "tf": var(--FAU-Col-TF-Metallic-100)
         ) {
+            .fauorg-fakultaet.faculty-#{$faculty} &::before {
+                color: var(--FAU-Col-FAU-Blau-100);
+            }
+
             .fauorg-fakultaet.faculty-#{$faculty} &::after {
                 background-color: $color;
-                color: var(--FAU-Col-FAU-Blau-100);
             }
         }
 
-        .fauorg-fakultaet.faculty-rw &::after {
+        .fauorg-fakultaet.faculty-rw &::before {
             color: var(--FAU-Col-FAU-Weiss-100);
         }
     }
