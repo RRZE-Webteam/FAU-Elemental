@@ -109,6 +109,11 @@
                     "defaultDuotone": false
                 },
                 "shadow": {}
+            },
+            "core/file": {
+                "color": {
+                    "background": false
+                }
             }
         },
         "layout": {
