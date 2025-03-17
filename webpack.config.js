@@ -37,7 +37,6 @@ const editorScripts = [
     path.resolve(process.cwd(), 'src/js/core-text.js'),
     path.resolve(process.cwd(), 'src/js/core-table.js'),
     path.resolve(process.cwd(), 'src/js/core-image.js'),
-    path.resolve(process.cwd(), 'src/js/core-code.js'),
 ];
 
 module.exports = {
