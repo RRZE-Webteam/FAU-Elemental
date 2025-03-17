@@ -139,7 +139,7 @@ a {
 		transition: all 0.2s ease-in-out;
 	}
 
-	&[data-type="link"] {
+	&[target="_blank"] {
 
 		&::before {
 			content: "";

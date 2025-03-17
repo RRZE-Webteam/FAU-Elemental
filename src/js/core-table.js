@@ -38,9 +38,9 @@ wp.domReady( () => {
 	wp.blocks.unregisterBlockVariation( 'core/table', 'color' );
 
 	// Disable rich text formatting for table cells
-	wp.richText.unregisterFormatType( 'core/bold' );
-	wp.richText.unregisterFormatType( 'core/italic' );
-	wp.richText.unregisterFormatType( 'core/link' );
+	//wp.richText.unregisterFormatType( 'core/bold' );
+	//wp.richText.unregisterFormatType( 'core/italic' );
+	//wp.richText.unregisterFormatType( 'core/link' );
 } );
 
 // Remove formatting options from block registration
