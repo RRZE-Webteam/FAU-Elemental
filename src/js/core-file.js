@@ -1,7 +1,7 @@
 const { addFilter } = wp.hooks;
 const { createHigherOrderComponent } = wp.compose;
 const { InspectorControls, MediaUpload, MediaUploadCheck } = wp.blockEditor;
-const { PanelBody, ToggleControl, Button } = wp.components;
+const { PanelBody, Button } = wp.components;
 const { useSelect } = wp.data;
 const { getSaveElement } = wp.blocks;
 
@@ -37,7 +37,7 @@ const getFileType = (fileDetails) => {
 // Add block attributes
 addFilter(
     'blocks.registerBlockType',
-    'core/file-dark-mode',
+    'core/file-extended',
     (settings, name) => {
         if (name !== 'core/file') {
             return settings;
@@ -47,10 +47,6 @@ addFilter(
             ...settings,
             attributes: {
                 ...settings.attributes,
-                darkMode: {
-                    type: 'boolean',
-                    default: false
-                },
                 coverImage: {
                     type: 'object',
                     default: null
@@ -62,10 +58,7 @@ addFilter(
             },
             save: (props) => {
                 const { attributes } = props;
-                const blockProps = wp.blockEditor.useBlockProps.save({
-                    'data-dark-mode': attributes.darkMode || null,
-                    className: attributes.darkMode ? 'dark' : ''
-                });
+                const blockProps = wp.blockEditor.useBlockProps.save();
 
                 const originalContent = getSaveElement(settings, attributes);
                 
@@ -156,19 +149,12 @@ const withInspectorControls = createHigherOrderComponent((BlockEdit) => {
             });
         };
 
-        const blockProps = wp.blockEditor.useBlockProps({
-            className: attributes.darkMode ? 'dark' : ''
-        });
+        const blockProps = wp.blockEditor.useBlockProps();
 
         return (
             <>
                 <InspectorControls>
                     <PanelBody title="Block Settings">
-                        <ToggleControl
-                            label="Dark Mode"
-                            checked={attributes.darkMode}
-                            onChange={(value) => setAttributes({ darkMode: value })}
-                        />
                         <div className="editor-file-cover-image">
                             <MediaUploadCheck>
                                 <MediaUpload
