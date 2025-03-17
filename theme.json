@@ -1,142 +1,139 @@
 {
-    "$schema": "https://schemas.wp.org/trunk/theme.json",
-    "version": 3,
-    "title": "Fau Elemental",
-    "slug": "fau-elemental",
-    "description": "Fau Elemental",
-    "settings": {
-        "blocks": {
-            "core/button": {
-                "border": {
-                    "radius": false
-                },
-                "color": {
-                    "custom": false,
-                    "customGradient": false,
-                    "defaultGradients": false,
-                    "defaultPalette": false
-                },
-                "shadow": {},
-                "typography": {
-                    "customFontSize": false,
-                    "defaultFontSizes": false,
-                    "fontStyle": false,
-                    "fontWeight": false,
-                    "letterSpacing": false,
-                    "textDecoration": false,
-                    "textTransform": false
-                }
-            },
-            "core/buttons": {
-                "color": {
-                    "background": false
-                },
-                "typography": {
-                    "customFontSize": false,
-                    "defaultFontSizes": false,
-                    "fontStyle": false,
-                    "fontWeight": false,
-                    "letterSpacing": false,
-                    "textDecoration": false,
-                    "textTransform": false
-                }
-            },
-            "core/heading": {
-                "color": {
-                    "background": false,
-                    "text": false
-                },
-                "typography": {
-                    "customFontSize": false,
-                    "defaultFontSizes": false,
-                    "fontStyle": false,
-                    "fontWeight": false,
-                    "letterSpacing": false,
-                    "textDecoration": false,
-                    "textTransform": false
-                }
-            },
-            "core/paragraph": {
-                "color": {
-                    "background": false,
-                    "text": false
-                },
-                "typography": {
-                    "customFontSize": false,
-                    "defaultFontSizes": false,
-                    "fontStyle": false,
-                    "fontWeight": false,
-                    "letterSpacing": false,
-                    "textDecoration": false,
-                    "textTransform": false,
-                    "dropCap": false
-                }
-            },
-            "core/list": {
-                "color": {
-                    "background": false,
-                    "text": false
-                },
-                "typography": {
-                    "customFontSize": false,
-                    "defaultFontSizes": false,
-                    "fontStyle": false,
-                    "fontWeight": false,
-                    "letterSpacing": false,
-                    "textDecoration": false,
-                    "textTransform": false
-                }
-            },
-            "core/table": {
-                "color": {
-                    "background": false,
-                    "text": false
-                },
-                "typography": {
-                    "customFontSize": false,
-                    "defaultFontSizes": false,
-                    "fontStyle": false,
-                    "fontWeight": false,
-                    "letterSpacing": false,
-                    "textDecoration": false,
-                    "textTransform": false,
-                    "dropCap": false
-                }
-            },
-            "core/image": {
-                "color": {
-                    "customDuotone": false,
-                    "defaultDuotone": false
-                },
-                "shadow": {}
-            }
-        },
-        "layout": {
-            "contentSize": "1320px"
-        }
-    },
-    "customTemplates": [
-        {
-            "name": "just-content",
-            "title": "Just Content",
-            "postTypes": [
-                "page",
-                "post"
-            ]
-        }
-    ],
-    "templateParts": [
-        {
-            "area": "header",
-            "name": "header",
-            "title": "Header"
-        },
-        {
-            "area": "footer",
-            "name": "footer",
-            "title": "Footer"
-        }
-    ],
-    "patterns": [],
-    "blockTypes": []
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"title": "Fau Elemental",
+	"slug": "fau-elemental",
+	"description": "Fau Elemental",
+	"settings": {
+		"blocks": {
+			"core/button": {
+				"border": {
+					"radius": false
+				},
+				"color": {
+					"custom": false,
+					"customGradient": false,
+					"defaultGradients": false,
+					"defaultPalette": false
+				},
+				"shadow": {},
+				"typography": {
+					"customFontSize": false,
+					"defaultFontSizes": false,
+					"fontStyle": false,
+					"fontWeight": false,
+					"letterSpacing": false,
+					"textDecoration": false,
+					"textTransform": false
+				}
+			},
+			"core/buttons": {
+				"color": {
+					"background": false
+				},
+				"typography": {
+					"customFontSize": false,
+					"defaultFontSizes": false,
+					"fontStyle": false,
+					"fontWeight": false,
+					"letterSpacing": false,
+					"textDecoration": false,
+					"textTransform": false
+				}
+			},
+			"core/heading": {
+				"color": {
+					"background": false,
+					"text": false
+				},
+				"typography": {
+					"customFontSize": false,
+					"defaultFontSizes": false,
+					"fontStyle": false,
+					"fontWeight": false,
+					"letterSpacing": false,
+					"textDecoration": false,
+					"textTransform": false
+				}
+			},
+			"core/paragraph": {
+				"color": {
+					"background": false,
+					"text": false
+				},
+				"typography": {
+					"customFontSize": false,
+					"defaultFontSizes": false,
+					"fontStyle": false,
+					"fontWeight": false,
+					"letterSpacing": false,
+					"textDecoration": false,
+					"textTransform": false,
+					"dropCap": false
+				}
+			},
+			"core/list": {
+				"color": {
+					"background": false,
+					"text": false
+				},
+				"typography": {
+					"customFontSize": false,
+					"defaultFontSizes": false,
+					"fontStyle": false,
+					"fontWeight": false,
+					"letterSpacing": false,
+					"textDecoration": false,
+					"textTransform": false
+				}
+			},
+			"core/table": {
+				"color": {
+					"background": false,
+					"text": false
+				},
+				"typography": {
+					"customFontSize": false,
+					"defaultFontSizes": false,
+					"fontStyle": false,
+					"fontWeight": false,
+					"letterSpacing": false,
+					"textDecoration": false,
+					"textTransform": false,
+					"dropCap": false
+				}
+			},
+			"core/image": {
+				"color": {
+					"customDuotone": false,
+					"defaultDuotone": false
+				},
+				"shadow": {}
+			}
+		},
+		"layout": {
+			"contentSize": "1320px"
+		}
+	},
+	"customTemplates": [
+		{
+			"name": "just-content",
+			"title": "Just Content",
+			"postTypes": [ "page", "post" ]
+		}
+	],
+	"templateParts": [
+		{
+			"area": "header",
+			"name": "header",
+			"title": "Header"
+		},
+		{
+			"area": "footer",
+			"name": "footer",
+			"title": "Footer"
+		}
+	],
+	"patterns": [],
+	"blockTypes": []
 }

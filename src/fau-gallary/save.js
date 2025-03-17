@@ -1,33 +1,43 @@
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 
-export default function save({ attributes }) {
+export default function save( { attributes } ) {
 	const { galleryItems } = attributes;
 
 	return (
-		<div {...useBlockProps.save()} className="fau-gallery">
-			{galleryItems?.map((item, index) => (
-				<div key={index} className="gallery-item">
-					{item.imageUrl && (
-						<div className="gallery-item-wrapper" style={{ position: 'relative' }}>
+		<div { ...useBlockProps.save() } className="fau-gallery">
+			{ galleryItems?.map( ( item, index ) => (
+				<div key={ index } className="gallery-item">
+					{ item.imageUrl && (
+						<div
+							className="gallery-item-wrapper"
+							style={ { position: 'relative' } }
+						>
 							<img
-								src={item.imageUrl}
-								alt={item.caption || `Gallery Image ${index + 1}`}
+								src={ item.imageUrl }
+								alt={
+									item.caption ||
+									`Gallery Image ${ index + 1 }`
+								}
 								className="gallery-image"
 							/>
 							<button
 								className="fullscreen-button"
-								onClick={(e) => {
+								onClick={ ( e ) => {
 									e.preventDefault();
 									const img = new Image();
 									img.src = item.imageUrl;
-									const fullscreenWindow = window.open('', '_blank');
-									fullscreenWindow.document.write(
-										`<img src="${img.src}" style="width: 100%; height: auto;" />`
+									const fullscreenWindow = window.open(
+										'',
+										'_blank'
 									);
-									fullscreenWindow.document.title = 'Fullscreen Image';
-								}}
+									fullscreenWindow.document.write(
+										`<img src="${ img.src }" style="width: 100%; height: auto;" />`
+									);
+									fullscreenWindow.document.title =
+										'Fullscreen Image';
+								} }
 								aria-label="Open Fullscreen"
-								style={{
+								style={ {
 									position: 'absolute',
 									top: '8px',
 									right: '8px',
@@ -41,16 +51,24 @@ export default function save({ attributes }) {
 									alignItems: 'center',
 									justifyContent: 'center',
 									cursor: 'pointer',
-								}}
+								} }
 							>
 								🔍
 							</button>
 						</div>
-					)}
-					{item.caption && <RichText.Content tagName="p" className="gallery-caption" value={item.caption} />}
-					{item.copyright && <p className="gallery-copyright">{item.copyright}</p>}
+					) }
+					{ item.caption && (
+						<RichText.Content
+							tagName="p"
+							className="gallery-caption"
+							value={ item.caption }
+						/>
+					) }
+					{ item.copyright && (
+						<p className="gallery-copyright">{ item.copyright }</p>
+					) }
 				</div>
-			))}
+			) ) }
 		</div>
 	);
 }
