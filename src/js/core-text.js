@@ -1,16 +1,8 @@
 const { addFilter } = wp.hooks;
 const { createHigherOrderComponent } = wp.compose;
-const {
-	getBlockType,
-	registerBlockType,
-	registerBlockVariation,
-	unregisterBlockVariation,
-} = wp.blocks;
-const { BlockControls, InspectorControls } = wp.blockEditor;
-const { ToolbarGroup, ToolbarButton, PanelBody, SelectControl } = wp.components;
-
-// Get the original Heading block
-const headingBlock = getBlockType( 'core/heading' );
+const { registerBlockVariation } = wp.blocks;
+const { InspectorControls } = wp.blockEditor;
+const { PanelBody, SelectControl } = wp.components;
 
 wp.domReady( () => {
 	// Register "Intro Text" variation for core/paragraph with an icon

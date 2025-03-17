@@ -1,6 +1,7 @@
 ( function ( $ ) {
 	/**
 	 * Image fullscreen functionality
+	 * @param {string} imgSrc - The source URL of the image to display in fullscreen
 	 */
 	function openImageFullscreen( imgSrc ) {
 		const fullscreenContainer = $(
