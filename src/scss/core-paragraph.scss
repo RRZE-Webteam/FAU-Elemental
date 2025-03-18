@@ -43,6 +43,7 @@ a {
 	}
 
 	&[target="_blank"] {
+
 		&::before {
 			content: "";
 			background-image: var(--icon-external-link-fau-blau);
@@ -75,9 +76,10 @@ figcaption {
 }
 
 .dark {
+
 	p,
 	a,
 	figcaption {
 		color: var(--FAU-Col-FAU-Weiss-100);
 	}
-} 
+}

@@ -27,7 +27,9 @@ ul {
 	}
 
 	&:not(.list-icons) {
+
 		li {
+
 			&::before {
 				content: "";
 				position: absolute;
@@ -77,6 +79,7 @@ ol {
 }
 
 .dark {
+
 	ul,
 	ol,
 	ol li::marker {
@@ -90,4 +93,4 @@ ol {
 	.list-icons li::before {
 		background-image: var(--icon-arrow-weiss);
 	}
-} 
+}
