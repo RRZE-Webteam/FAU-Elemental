@@ -30,7 +30,9 @@ const blockEntries = blockFolders.reduce( ( entries, folder ) => {
 const themeStyles = [
 	path.resolve( process.cwd(), 'src/scss/theme.scss' ),
 	path.resolve( process.cwd(), 'src/scss/core-button.scss' ),
-	path.resolve( process.cwd(), 'src/scss/core-text.scss' ),
+	path.resolve( process.cwd(), 'src/scss/core-paragraph.scss' ),
+	path.resolve( process.cwd(), 'src/scss/core-list.scss' ),
+	path.resolve( process.cwd(), 'src/scss/core-heading.scss' ),
 	path.resolve( process.cwd(), 'src/scss/core-table.scss' ),
 	path.resolve( process.cwd(), 'src/scss/core-image.scss' ),
 ];
@@ -43,7 +45,8 @@ const editorStyles = [
 const editorScripts = [
 	path.resolve( process.cwd(), 'src/js/editor.js' ),
 	path.resolve( process.cwd(), 'src/js/core-button.js' ),
-	path.resolve( process.cwd(), 'src/js/core-text.js' ),
+	path.resolve( process.cwd(), 'src/js/core-paragraph.js' ),
+	path.resolve( process.cwd(), 'src/js/core-list.js' ),
 	path.resolve( process.cwd(), 'src/js/core-table.js' ),
 	path.resolve( process.cwd(), 'src/js/core-image.js' ),
 ];
