@@ -1,20 +1,96 @@
 /**
- * Core List Block Styles
+ * Core List Styles
  */
 
- .list-icons ul {
-    list-style-type: none;
-    padding-left: 0;
+ul,
+ol {
+	font-size: var(--P-Body-Text);
+	color: var(--FAU-Col-FAU-Schwarz-100);
+	font-weight: 400;
+	line-height: 1.5;
+
+	strong {
+		font-weight: 700;
+	}
+
+	em {
+		letter-spacing: var(--letter-spacing-small);
+	}
 }
 
-.list-icons ul li {
-    position: relative;
-    padding-left: 24px;
+ul {
+	list-style-type: none;
+	padding-left: var(--Spacing-14x);
+
+	li {
+		position: relative;
+	}
+
+	&:not(.list-icons) {
+
+		li {
+
+			&::before {
+				content: "";
+				position: absolute;
+				background-color: var(--FAU-Col-FAU-Blau-100);
+				width: var(--Spacing-8x);
+				height: 2px;
+				left: calc(-1 * var(--Spacing-14x));
+				top: var(--Spacing-3x);
+			}
+		}
+	}
 }
 
-.list-icons ul li::before {
-    content: '✔'; /* You can replace this with an actual icon */
-    position: absolute;
-    left: 0;
-    color: var(--FAU-Col-FAU-Dunkelblau-100); /* Adjust color if needed */
+ol {
+	padding-left: var(--Spacing-6x);
+
+	li {
+		padding-left: var(--Spacing-8x);
+
+		&::marker {
+			color: var(--FAU-Col-FAU-Blau-100);
+			font-size: var(--H-Heading-3);
+			font-weight: 700;
+		}
+	}
+}
+
+.list-icons {
+	list-style-type: none;
+	padding-left: var(--Spacing-8x);
+
+	li {
+		position: relative;
+		padding-left: 24px;
+
+		&::before {
+			content: "";
+			background-image: var(--icon-arrow-fau-blau);
+			background-repeat: no-repeat;
+			position: absolute;
+			width: 22px;
+			height: 15px;
+			left: calc(-1 * var(--Spacing-8x));
+			top: 5px;
+		}
+	}
+}
+
+.dark {
+
+	ul,
+	ol,
+	ol li::marker {
+		color: var(--FAU-Col-FAU-Weiss-100);
+	}
+
+	ul:not(.list-icons) li::before {
+		background-color: var(--FAU-Col-FAU-Weiss-100);
+	}
+
+	.list-icons li::before {
+		background-image: var(--icon-arrow-weiss);
+	}
 }

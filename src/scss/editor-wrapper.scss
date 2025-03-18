@@ -4,75 +4,84 @@
 
 // When a button block is selected, hide the following:
 .faue-is-button-block-selected {
-    // In the Block Toolbar, hide the following:
-    .block-editor-block-toolbar > .components-toolbar-group {
-        // Hide Alignment- and Font-Controls
-        &:nth-child(3),
-        &:nth-child(5)
-        {
-            display: none;
-        }
+	// In the Block Toolbar, hide the following:
+	.block-editor-block-toolbar > .components-toolbar-group {
+		// Hide Alignment- and Font-Controls
+		&:nth-child(3),
+		&:nth-child(5) {
+			display: none;
+		}
 
-        // Hide Text Align Dropdown Menu
-        &:nth-child(4) {
-            .components-dropdown-menu {
-                display: none;
-            }
-        }
-    }
+		// Hide Text Align Dropdown Menu
+		&:nth-child(4) {
 
-    // Hide Settings-Panel for Width-Options in the Block Inspector
-    .block-editor-block-inspector>div:nth-child(3) {
-        display: none;
-    }
+			.components-dropdown-menu {
+				display: none;
+			}
+		}
+	}
+
+	// Hide Settings-Panel for Width-Options in the Block Inspector
+	.block-editor-block-inspector > div:nth-child(3) {
+		display: none;
+	}
 }
 
 // When a heading block is selected, hide the following:
 .faue-is-heading-block-selected {
-    // Hide Settings-Panel for Width-Options in the Block Inspector
-    .block-editor-block-toolbar > .components-toolbar-group {
-        // Hide Font Controls
-        &:nth-child(4) {
-            display: none;
-        }
-    }
+	// Hide Settings-Panel for Width-Options in the Block Inspector
+	.block-editor-block-toolbar > .components-toolbar-group {
+		// Hide Font Controls
+		&:nth-child(4) {
+			display: none;
+		}
+	}
 
-    // Remove the "H1" option from the Font Size Dropdown Menu
-    .block-library-heading-level-dropdown > div > div > button:nth-child(1) {
-        display: none;
-    }
+	// Remove the "H1" option from the Font Size Dropdown Menu
+	.block-library-heading-level-dropdown > div > div > button:nth-child(1) {
+		display: none;
+	}
 }
 
 // When a paragraph block is selected, hide the following:
 .faue-is-paragraph-block-selected {
-    // Hide Settings-Panel for Width-Options in the Block Inspector
-    .block-editor-block-toolbar > .components-toolbar-group {
-        // Hide Font Controls
-        &:nth-child(4) {
-            // Hide Bold and Italic options 
-            .components-dropdown-menu {
-                display: none;
-            }
-        }
-    }
+	// Hide Settings-Panel for Width-Options in the Block Inspector
+	.block-editor-block-toolbar > .components-toolbar-group {
+		// Hide Font Controls
+		&:nth-child(4) {
+			// Hide Bold and Italic options
+			.components-dropdown-menu {
+				display: none;
+			}
+		}
+	}
 
-    // Hide the Typography-Panel in the Block Inspector
-    .block-editor-block-inspector .typography-block-support-panel {
-        display: none;
-    }
+	// Hide the Typography-Panel in the Block Inspector
+	.block-editor-block-inspector .typography-block-support-panel {
+		display: none;
+	}
 }
 
 // When a paragraph block with the "Intro Text" variation is selected, hide the following:
 .faue-is-intro-text-selected {
-    // Hide Settings-Panel for Width-Options in the Block Inspector
-    .block-editor-block-toolbar > .components-toolbar-group {
-        // Hide Font Controls
-        &:nth-child(4) {
-            // Hide Bold and Italic options 
-            button:nth-child(1),
-            button:nth-child(2) {
-                display: none;
-            }
-        }
-    }
+	// Hide Settings-Panel for Width-Options in the Block Inspector
+	.block-editor-block-toolbar > .components-toolbar-group {
+		// Hide Font Controls
+		&:nth-child(4) {
+			// Hide Bold and Italic options
+			button:nth-child(1),
+			button:nth-child(2) {
+				display: none;
+			}
+		}
+	}
+}
+
+// When an image block is selected, hide the following:
+.faue-is-image-block-selected {
+
+	button[aria-label="Add text over image"],
+	button[aria-label="Link"] {
+		display: none;
+	}
 }

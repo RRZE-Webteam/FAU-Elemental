@@ -1,0 +1,1 @@
+(()=>{var e;e=jQuery,window.openImageFullscreen=function(n){const c=e("<div class='image-fullscreen-container'></div>"),i=e("<img src='"+n+"'></img>"),o=e("<button class='image-fullscreen-close'>×</button>");o.click((function(){c.remove()})),c.append(i).append(o).appendTo("body"),c.click((function(n){n.target===this&&e(this).remove()}))}})();

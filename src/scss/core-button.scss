@@ -3,132 +3,212 @@
  */
 
 .wp-block-button {
-    margin: 0;
-    white-space: nowrap;
-    padding-right: 48px;
+	margin: 0;
+	white-space: nowrap;
+	padding-right: 48px;
 
-    &:not(.is-style-tertiary) .wp-block-button__link {
-        display: flex;
-        align-items: center;
-        padding: 0 var(--Spacing-4x);
-        height: 48px;
-        position: relative;
-        border-radius: 0;
-        font-size: var(--H-Heading-6);
-        font-weight: 600;
-        text-decoration: none;
-        border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
-        border-right: none;
-        background-color: var(--FAU-Col-FAU-Dunkelblau-100);
-        color: var(--FAU-Col-FAU-Weiss-100);
+	.wp-block-button__link {
+		font-weight: 600;
+	}
 
-        &::after {
-            content: "→";
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: absolute;
-            right: -48px;
-            top: -1px;
-            width: 47px;
-            height: 46px;
-            flex-shrink: 0;
-            font-size: var(--H-Heading-3);
-            background-color: var(--FAU-Col-FAU-Blau-100);
-            color: var(--FAU-Col-FAU-Weiss-100);
-            border: 1px solid var(--FAU-Col-FAU-Blau-100);
-            border-right: none;
-        }
+	&:not(.is-style-tertiary) .wp-block-button__link {
+		display: flex;
+		align-items: center;
+		padding: 0 var(--Spacing-4x);
+		height: 48px;
+		position: relative;
+		border-radius: 0;
+		font-size: var(--H-Heading-6);
+		text-decoration: none;
+		border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
+		border-right: none;
+		background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+		color: var(--FAU-Col-FAU-Weiss-100);
 
-        .dark & {
-            background-color: var(--FAU-Col-FAU-Dunkelblau-100);
-            color: var(--FAU-Col-FAU-Weiss-100);
-            border-color: var(--FAU-Col-FAU-Dunkelblau-100);
-            
-            &::after {
-                background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
-                border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
-                color: var(--FAU-Col-FAU-Blau-100);
-            }
-        }
+		&::before {
+			content: "";
+			background-image: var(--icon-arrow-weiss);
+			background-repeat: no-repeat;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: absolute;
+			right: -35px;
+			width: 21px;
+			height: 14px;
+			font-size: var(--H-Heading-3);
+			color: var(--FAU-Col-FAU-Weiss-100);
+			z-index: 1;
+			transition: all 0.2s ease-in-out;
+		}
 
-        @each $faculty, $color in (
-            "phil": var(--FAU-Col-Phil-Gelb-100),
-            "nat": var(--FAU-Col-Nat-Gruen-100),
+		&::after {
+			content: "";
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: absolute;
+			right: -48px;
+			top: -1px;
+			width: 47px;
+			height: 46px;
+			flex-shrink: 0;
+			background-color: var(--FAU-Col-FAU-Blau-100);
+			border: 1px solid var(--FAU-Col-FAU-Blau-100);
+			border-right: none;
+		}
+
+		&:hover,
+		&:focus {
+
+			&::before {
+				transition: all 0.2s ease-in-out;
+				right: -39px;
+			}
+		}
+
+		.dark & {
+			background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+			color: var(--FAU-Col-FAU-Weiss-100);
+			border-color: var(--FAU-Col-FAU-Dunkelblau-100);
+
+			&::before {
+				color: var(--FAU-Col-FAU-Blau-100);
+			}
+
+			&::after {
+				background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+				border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+			}
+		}
+
+		.fauorg-home .dark &,
+		.fauorg-unterorg .dark &,
+		.fauorg-kooperation .dark & {
+
+			&::before {
+				background-image: var(--icon-arrow-fau-blau);
+			}
+		}
+
+		@each $faculty, $color in (
+			"phil": var(--FAU-Col-Phil-Gelb-100),
+			"nat": var(--FAU-Col-Nat-Gruen-100),
+			"med": var(--FAU-Col-Med-Blau-100),
+			"rw": var(--FAU-Col-RW-Rot-100),
+			"tf": var(--FAU-Col-TF-Metallic-100)
+		) {
+			.fauorg-fakultaet.faculty-#{$faculty} &::before {
+				color: var(--FAU-Col-FAU-Blau-100);
+			}
+
+			.fauorg-fakultaet:not(.faculty-#{rw}) &::before {
+				background-image: var(--icon-arrow-fau-blau);
+			}
+
+			.fauorg-fakultaet.faculty-#{$faculty} &::after {
+				background-color: $color;
+				border-color: $color;
+			}
+		}
+
+		.fauorg-fakultaet.faculty-rw &::before {
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+	}
+
+	&.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
+		background-color: transparent;
+		color: var(--FAU-Col-FAU-Blau-100);
+		border: 1px solid var(--FAU-Col-FAU-Blau-100);
+		border-right: none;
+
+		&::before {
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		&::after {
+			background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+			border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
+			border-left: none;
+		}
+
+		.dark & {
+			color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+			border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+
+			&::after {
+				border-color: var(--FAU-Col-FAU-Dunkelblau-12_5) !important;
+				border-left: none;
+			}
+		}
+
+		.fauorg-home .dark &,
+		.fauorg-unterorg .dark &,
+		.fauorg-kooperation .dark & {
+
+			&::before {
+				background-image: var(--icon-arrow-weiss);
+			}
+		}
+
+		@each $faculty, $color in (
+			"phil": var(--FAU-Col-Phil-Gelb-100),
+			"nat": var(--FAU-Col-Nat-Gruen-100),
             "med": var(--FAU-Col-Med-Blau-100),
             "rw": var(--FAU-Col-RW-Rot-100),
             "tf": var(--FAU-Col-TF-Metallic-100)
         ) {
-            .fauorg-fakultaet.faculty-#{$faculty} &::after {
-                background-color: $color;
-                border-color: $color;
-                color: var(--FAU-Col-FAU-Blau-100);
-            }
-        }
+			.fauorg-fakultaet.faculty-#{$faculty} &::before {
+				color: var(--FAU-Col-FAU-Blau-100);
+			}
 
-        .fauorg-fakultaet.faculty-rw &::after {
-            color: var(--FAU-Col-FAU-Weiss-100);
-        }
-    }
+			.fauorg-fakultaet.faculty-#{$faculty} &::after {
+				background-color: $color;
+			}
+		}
 
-    &.is-style-secondary:not(.is-style-tertiary) .wp-block-button__link {
-        background-color: transparent;
-        color: var(--FAU-Col-FAU-Blau-100);
-        border: 1px solid var(--FAU-Col-FAU-Blau-100);
-        border-right: none;
+		.fauorg-fakultaet.faculty-rw &::before {
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+	}
 
-        &::after {
-            background-color: var(--FAU-Col-FAU-Dunkelblau-100);
-            color: var(--FAU-Col-FAU-Weiss-100);
-            border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
-            border-left: none;
-        }
+	&.is-style-tertiary .wp-block-button__link {
+		padding: 0;
+		background-color: transparent;
+		color: var(--FAU-Col-FAU-Blau-100);
+		position: relative;
 
-        .dark & {
-            color: var(--FAU-Col-FAU-Dunkelblau-12_5);
-            border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+		&::after {
+			content: "";
+			background-image: var(--icon-arrow-fau-blau);
+			background-repeat: no-repeat;
+			position: absolute;
+			width: 16px;
+			height: 12px;
+			right: -25px;
+			top: 5px;
+			color: var(--FAU-Col-FAU-Blau-100);
+			transition: all 0.2s ease-in-out;
+			border-left: 15px solid transparent;
+		}
 
-            &::after {
-                border-color: var(--FAU-Col-FAU-Dunkelblau-12_5) !important;
-                border-left: none;
-            }
-        }
+		&:hover,
+		&:focus {
 
-        @each $faculty, $color in (
-            "phil": var(--FAU-Col-Phil-Gelb-100),
-            "nat": var(--FAU-Col-Nat-Gruen-100),
-            "med": var(--FAU-Col-Med-Blau-100),
-            "rw": var(--FAU-Col-RW-Rot-100),
-            "tf": var(--FAU-Col-TF-Metallic-100)
-        ) {
-            .fauorg-fakultaet.faculty-#{$faculty} &::after {
-                background-color: $color;
-                color: var(--FAU-Col-FAU-Blau-100);
-            }
-        }
+			&::after {
+				right: -29px;
+				transition: all 0.2s ease-in-out;
+			}
+		}
 
-        .fauorg-fakultaet.faculty-rw &::after {
-            color: var(--FAU-Col-FAU-Weiss-100);
-        }
-    }
+		.dark & {
+			color: var(--FAU-Col-FAU-Weiss-100);
 
-    &.is-style-tertiary .wp-block-button__link {
-        padding: 0;
-        background-color: transparent;
-        color: var(--FAU-Col-FAU-Blau-100);
-        
-        &::after {
-            content: "→";
-            padding-left: 10px;
-            color: var(--FAU-Col-FAU-Blau-100);
-        }
-
-        .dark & {
-            color: var(--FAU-Col-FAU-Weiss-100);
-
-            &::after {
-                color: var(--FAU-Col-FAU-Weiss-100);
-            }
-        }
-    }
+			&::after {
+				background-image: var(--icon-arrow-weiss);
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+		}
+	}
 }
