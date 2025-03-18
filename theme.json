@@ -25,6 +25,9 @@
 					"letterSpacing": false,
 					"textDecoration": false,
 					"textTransform": false
+				},
+				"spacing": {
+					"padding": false
 				}
 			},
 			"core/buttons": {
@@ -109,12 +112,29 @@
 					"defaultDuotone": false
 				},
 				"shadow": {}
+			},
+			"core/group": {
+				"typography": {
+					"defaultFontSizes": false,
+					"customFontSize": false,
+					"fontStyle": false,
+					"fontWeight": false,
+					"letterSpacing": false,
+					"textDecoration": false,
+					"textTransform": false
+				},
+				"color": {
+					"text": false,
+					"button": false,
+					"heading": false
+				}
 			}
 		},
         "spacing": {
             "blockGap": true,
             "margin": true,
             "padding": true,
+			"defaultSpacingSizes": false,
             "customSpacingSize": false,
             "spacingSizes": [
                 {
