@@ -14,15 +14,16 @@ addFilter(
 		return ( props ) => {
 			const { isSelected, name, attributes } = props;
 
-			useEffect( () => {
-				if ( isSelected ) {
-					// Define block types and their corresponding classes
-					const blockClasses = {
-						'core/button': 'faue-is-button-block-selected',
-						'core/heading': 'faue-is-heading-block-selected',
-						'core/paragraph': 'faue-is-paragraph-block-selected',
-						'core/image': 'faue-is-image-block-selected',
-					};
+            useEffect(() => {
+                if (isSelected) {
+                    // Define block types and their corresponding classes
+                    const blockClasses = {
+                        'core/button': 'faue-is-button-block-selected',
+                        'core/heading': 'faue-is-heading-block-selected',
+                        'core/paragraph': 'faue-is-paragraph-block-selected',
+                        'core/image': 'faue-is-image-block-selected',
+                        'core/table': 'faue-is-table-block-selected'
+                    };
 
 					// Add/remove the basic block type class
 					Object.entries( blockClasses ).forEach(
