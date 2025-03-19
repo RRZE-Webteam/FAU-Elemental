@@ -1,41 +1,11 @@
-.code-container {
-  font-family: 'Source Code Pro', monospace;
-  overflow-x: auto;
-  white-space: nowrap;
-  padding: 1rem;
-  background-color: #f5f5f5;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  
-  // Ensure proper scrollbar appearance across browsers
-  &::-webkit-scrollbar {
-    height: 8px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-  }
-  
-  &::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-}
-
 .wp-block-code {
   font-family: 'Source Code Pro', monospace;
   overflow-x: auto;
   white-space: pre;
   max-width: 100%;
-  padding: 1rem;
-  background-color: #f5f5f5;
-  color: #333;
-  border: none;
-  border-radius: 4px;
+  background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+  color: var(--FAU-Col-FAU-Schwarz-100);
+  padding: var(--Spacing-6x) var(--Spacing-5x) !important;
   
   // Ensure proper scrollbar appearance across browsers
   &::-webkit-scrollbar {
@@ -47,42 +17,25 @@
   }
   
   &::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
+    background: #888888;
+    border-radius: 10px;
     
     &:hover {
-      background: #555;
+      background: #555555;
     }
   }
   
-  // Ensure code inside maintains formatting
   code {
     display: block;
     white-space: pre;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
   }
   
   // Dark mode
   &.dark {
-    background-color: var(--FAU-Col-FAU-Blau-100);
-    color: var(--FAU-Col-FAU-Weiss-100);
-    border-color: var(--FAU-Col-FAU-Blau-100);
-    
-    // Adjust scrollbar for dark mode
-    &::-webkit-scrollbar-track {
-      background: var(--FAU-Col-FAU-Blau-80);
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      background: var(--FAU-Col-FAU-Blau-50);
-      
-      &:hover {
-        background: var(--FAU-Col-FAU-Blau-30);
-      }
-    }
-    .wp-block-code{
-        background-color: var(--FAU-Col-FAU-Blau-100);
-    color: var(--FAU-Col-FAU-Weiss-100);
-    border:none;
-    }
+    background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+    color: var(--FAU-Col-FAU-Schwarz-5);
   }
 }
