@@ -84,3 +84,13 @@
         display: none;
     }
 }
+
+// When a file block is selected, hide the following:
+.faue-is-file-block-selected {
+    // Only hide the second panel (PDF settings) when it's a PDF file
+    &.is-pdf-file {
+        .block-editor-block-inspector > .css-0 > .components-panel__body:nth-child(2) {
+            display: none;
+        }
+    }
+}

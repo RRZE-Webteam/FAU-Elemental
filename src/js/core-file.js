@@ -14,11 +14,6 @@ const formatFileSize = (bytes) => {
     return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 };
 
-const formatDate = (date) => {
-    if (!date) return '';
-    return new Date(date).toLocaleDateString();
-};
-
 const getFileType = (fileDetails) => {
     if (!fileDetails?.mime_type) return '';
     const mimeType = fileDetails.mime_type;
@@ -33,6 +28,71 @@ const getFileType = (fileDetails) => {
     };
     return mimeMap[mimeType] || mimeType.split('/')[1].toUpperCase();
 };
+
+// Add this filter near the top with your other filters
+addFilter(
+    'editor.BlockListBlock',
+    'core/file/add-pdf-class',
+    (BlockListBlock) => (props) => {
+        if (props.name !== 'core/file') {
+            return <BlockListBlock {...props} />;
+        }
+
+        const { attributes } = props;
+        const isPDF = attributes?.fileDetails?.mime_type === 'application/pdf';
+        
+        return (
+            <BlockListBlock
+                {...props}
+                className={isPDF ? 'is-pdf-file' : ''}
+            />
+        );
+    }
+);
+
+// Replace your existing PDF-related filters with this one
+addFilter(
+    'blocks.registerBlockType',
+    'core/file-remove-pdf-settings',
+    (settings, name) => {
+        if (name !== 'core/file') {
+            return settings;
+        }
+
+        // Remove PDF preview support entirely
+        if (settings.supports) {
+            settings.supports = {
+                ...settings.supports,
+                displayPreview: false
+            };
+        }
+
+        // Remove PDF-related attributes
+        if (settings.attributes) {
+            const { displayPreview, ...otherAttributes } = settings.attributes;
+            settings.attributes = otherAttributes;
+        }
+
+        // Store the original edit component
+        const OriginalEdit = settings.edit;
+
+        // Wrap the edit component to ensure PDF settings stay disabled
+        settings.edit = (props) => {
+            const { attributes, setAttributes } = props;
+
+            // Remove displayPreview if it somehow gets added
+            React.useEffect(() => {
+                if (attributes.displayPreview !== undefined) {
+                    setAttributes({ displayPreview: undefined });
+                }
+            }, [attributes.displayPreview]);
+
+            return <OriginalEdit {...props} />;
+        };
+
+        return settings;
+    }
+);
 
 // Add block attributes
 addFilter(
@@ -66,7 +126,7 @@ addFilter(
                 const fileInfoElements = attributes.fileDetails ? [
                     wp.element.createElement('div', { className: 'file-info-wrapper' }, [
                         wp.element.createElement('span', { className: 'file-info' }, 
-                            formatDate(attributes.fileDetails.date)
+                            attributes.fileDetails.filename
                         ),
                         wp.element.createElement('span', { className: 'file-info' }, 
                             formatFileSize(attributes.fileDetails.filesize)
@@ -125,12 +185,21 @@ const withInspectorControls = createHigherOrderComponent((BlockEdit) => {
             return attributes.id ? getMedia(attributes.id) : null;
         }, [attributes.id]);
 
-        // Save file details to attributes when they change
+        // Add PDF class and save file details when fileDetails changes
         React.useEffect(() => {
             if (fileDetails) {
+                const blockWrapper = document.querySelector('.faue-is-file-block-selected');
+                if (blockWrapper) {
+                    if (fileDetails.mime_type === 'application/pdf') {
+                        blockWrapper.classList.add('is-pdf-file');
+                    } else {
+                        blockWrapper.classList.remove('is-pdf-file');
+                    }
+                }
+
                 setAttributes({
                     fileDetails: {
-                        date: fileDetails.date,
+                        filename: fileDetails.title?.rendered || fileDetails.filename || fileDetails.source_url?.split('/').pop(),
                         filesize: fileDetails.media_details?.filesize,
                         mime_type: fileDetails.mime_type
                     }
@@ -218,7 +287,7 @@ const withInspectorControls = createHigherOrderComponent((BlockEdit) => {
                             {fileDetails && (
                                 <>
                                     <span className="file-info">
-                                        {formatDate(fileDetails.date)}
+                                        {fileDetails.title?.rendered || fileDetails.filename || fileDetails.source_url?.split('/').pop()}
                                     </span>
                                     <span className="file-info">
                                         {formatFileSize(fileDetails.media_details?.filesize)}
