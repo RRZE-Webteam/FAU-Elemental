@@ -2,6 +2,12 @@ import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, TextControl } from '@wordpress/components';
+import { unregisterBlockStyle } from '@wordpress/blocks';
+
+// Unregister the rounded style for image blocks
+wp.domReady(() => {
+    unregisterBlockStyle('core/image', 'rounded');
+});
 
 /**
  * Adds a custom 'copyrightInfo' attribute to all Image blocks and modifies block supports.
@@ -16,15 +22,11 @@ function editImageBlockAttributesAndSupports(settings, name) {
         return settings;
     }
 
-    console.log('Attributes:', settings.attributes);
-    console.log('Supports:', settings.supports);
-
     // Modify block supports
     settings.supports = {
         ...settings.supports,
         // Disable specific features
         align: ['full', 'center'], // Keep alignment support
-        anchor: false,
         filter: false,
         shadow: false,
     };
