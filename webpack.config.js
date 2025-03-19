@@ -35,6 +35,7 @@ const themeStyles = [
 	path.resolve( process.cwd(), 'src/scss/core-heading.scss' ),
 	path.resolve( process.cwd(), 'src/scss/core-table.scss' ),
 	path.resolve( process.cwd(), 'src/scss/core-image.scss' ),
+	path.resolve( process.cwd(), 'src/scss/core-code.scss' ),
 ];
 
 const editorStyles = [
