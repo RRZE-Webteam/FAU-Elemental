@@ -188,14 +188,17 @@ const withInspectorControls = createHigherOrderComponent((BlockEdit) => {
         // Add PDF class and save file details when fileDetails changes
         React.useEffect(() => {
             if (fileDetails) {
-                const blockWrapper = document.querySelector('.faue-is-file-block-selected');
-                if (blockWrapper) {
-                    if (fileDetails.mime_type === 'application/pdf') {
-                        blockWrapper.classList.add('is-pdf-file');
-                    } else {
-                        blockWrapper.classList.remove('is-pdf-file');
-                    }
-                }
+                const isPDF = fileDetails.mime_type === 'application/pdf';
+                document.body.classList.toggle('is-pdf-file', isPDF);
+                
+                // const blockWrapper = document.querySelector('.faue-is-file-block-selected');
+                // if (blockWrapper) {
+                //     if (fileDetails.mime_type === 'application/pdf') {
+                //         blockWrapper.classList.add('is-pdf-file');
+                //     } else {
+                //         blockWrapper.classList.remove('is-pdf-file');
+                //     }
+                // }
 
                 setAttributes({
                     fileDetails: {
