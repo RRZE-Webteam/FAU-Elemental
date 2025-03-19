@@ -14,7 +14,6 @@
 
 		// Hide Text Align Dropdown Menu
 		&:nth-child(4) {
-
 			.components-dropdown-menu {
 				display: none;
 			}
@@ -32,14 +31,9 @@
 	// Hide Settings-Panel for Width-Options in the Block Inspector
 	.block-editor-block-toolbar > .components-toolbar-group {
 		// Hide Font Controls
-		&:nth-child(4) {
+		&:nth-last-child(2) {
 			display: none;
 		}
-	}
-
-	// Remove the "H1" option from the Font Size Dropdown Menu
-	.block-library-heading-level-dropdown > div > div > button:nth-child(1) {
-		display: none;
 	}
 }
 
@@ -48,8 +42,8 @@
 	// Hide Settings-Panel for Width-Options in the Block Inspector
 	.block-editor-block-toolbar > .components-toolbar-group {
 		// Hide Font Controls
-		&:nth-child(4) {
-			// Hide Bold and Italic options
+		&:nth-last-child(2) {
+			// Hide Dropdown for Font options
 			.components-dropdown-menu {
 				display: none;
 			}
@@ -67,7 +61,7 @@
 	// Hide Settings-Panel for Width-Options in the Block Inspector
 	.block-editor-block-toolbar > .components-toolbar-group {
 		// Hide Font Controls
-		&:nth-child(4) {
+		&:nth-last-child(2) {
 			// Hide Bold and Italic options
 			button:nth-child(1),
 			button:nth-child(2) {

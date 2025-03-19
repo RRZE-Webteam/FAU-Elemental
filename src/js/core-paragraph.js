@@ -9,7 +9,7 @@ wp.domReady( () => {
 		attributes: {
 			className: 'text',
 		},
-		icon: 'editor-paragraph', // Dashicon for text
+		icon: 'editor-paragraph',
 		isDefault: true,
 		scope: [ 'block', 'inserter', 'transform' ],
 	} );
@@ -22,7 +22,7 @@ wp.domReady( () => {
 		attributes: {
 			className: 'intro-text',
 		},
-		icon: 'editor-paragraph', // Dashicon for text
+		icon: 'editor-paragraph',
 		isDefault: false,
 		scope: [ 'block', 'inserter', 'transform' ],
 	} );
@@ -35,7 +35,7 @@ wp.domReady( () => {
 		attributes: {
 			className: 'small-text',
 		},
-		icon: 'editor-paragraph', // Dashicon for paragraph text
+		icon: 'editor-paragraph',
 		isDefault: false,
 		scope: [ 'block', 'inserter', 'transform' ],
 	} );
