@@ -1,0 +1,1 @@
+{"version":3,"file":"fau-copyright-info/editor.css","mappings":";;;AAAA;;;EAAA,C","sources":["webpack:///./src/fau-copyright-info/editor.scss"],"sourcesContent":["/**\n * Editor-specific styles for the copyright info block\n * This file is required by the build process\n */\n\n// Editor styles are already defined in style.scss "],"names":[],"sourceRoot":""}

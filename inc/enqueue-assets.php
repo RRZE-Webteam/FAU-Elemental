@@ -60,4 +60,33 @@ function fau_elemental_enqueue_block_editor_script() {
         true
     );
 }
-add_action('enqueue_block_editor_assets', 'fau_elemental_enqueue_block_editor_script'); 
+add_action('enqueue_block_editor_assets', 'fau_elemental_enqueue_block_editor_script');
+
+// Enqueue Admin Scripts
+function fau_elemental_enqueue_admin_scripts($hook) {
+    // Only load on our settings page
+    if ($hook !== 'toplevel_page_fau-elemental-settings') {
+        return;
+    }
+
+    $script_asset = include(get_template_directory() . '/build/js/admin.asset.php');
+    $style_asset = include(get_template_directory() . '/build/css/admin.asset.php');
+
+    // Enqueue admin script
+    wp_enqueue_script(
+        'fau-elemental-admin-settings',
+        get_template_directory_uri() . '/build/js/admin.js',
+        array_merge(['jquery'], $script_asset['dependencies']),
+        $script_asset['version'],
+        true
+    );
+
+    // Enqueue admin styles
+    wp_enqueue_style(
+        'fau-elemental-admin-styles',
+        get_template_directory_uri() . '/build/css/admin.css',
+        $style_asset['dependencies'],
+        $style_asset['version']
+    );
+}
+add_action('admin_enqueue_scripts', 'fau_elemental_enqueue_admin_scripts'); 

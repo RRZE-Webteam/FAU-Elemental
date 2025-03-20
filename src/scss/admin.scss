@@ -1,0 +1,40 @@
+.fau-faculty-field {
+    &__content {
+        transform-origin: top;
+        transform: scaleY(1);
+        opacity: 1;
+        transition: all 0.2s ease-in-out;
+        height: auto;
+        position: relative;
+    }
+
+    td {
+        padding: 15px 10px;
+        transition: padding 0.3s ease-in-out;
+        background: transparent;
+    }
+
+    th {
+        padding: 20px 10px 20px 0;
+        transition: padding 0.3s ease-in-out;
+        background: transparent;
+    }
+
+    &--hidden {
+        td {
+            padding: 0 10px;
+            border: 0;
+        }
+
+        th {
+            padding: 0;
+            border: 0;
+        }
+
+        .fau-faculty-field__content {
+            transform: scaleY(0);
+            opacity: 0;
+            height: 0;
+        }
+    }
+} 

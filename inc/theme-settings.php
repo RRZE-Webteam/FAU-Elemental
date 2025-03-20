@@ -100,7 +100,7 @@ function fau_elemental_website_type_callback() {
 }
 
 function fau_elemental_faculty_callback() {
-    $faculty = get_option('fau_elemental_faculty', '');
+    $faculty = get_option('fau_elemental_faculty', 'phil');
     $options = array(
         'phil' => __('Philosophische Fakultät', 'fau-elemental'),
         'nat' => __('Naturwissenschaftliche Fakultät', 'fau-elemental'),
@@ -110,7 +110,6 @@ function fau_elemental_faculty_callback() {
     );
 
     echo '<select name="fau_elemental_faculty">';
-    echo '<option value="">' . esc_html__('Select Faculty', 'fau-elemental') . '</option>';
     foreach ($options as $value => $label) {
         echo '<option value="' . esc_attr($value) . '" ' . selected($faculty, $value, false) . '>';
         echo esc_html($label);

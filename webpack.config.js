@@ -51,6 +51,16 @@ const editorScripts = [
 	path.resolve( process.cwd(), 'src/js/core-image.js' ),
 ];
 
+// Add admin scripts array
+const adminScripts = [
+	path.resolve( process.cwd(), 'src/js/admin/settings.js' ),
+];
+
+// Add admin styles array
+const adminStyles = [
+	path.resolve( process.cwd(), 'src/scss/admin.scss' ),
+];
+
 module.exports = {
 	...defaultConfig,
 	entry: {
@@ -64,6 +74,10 @@ module.exports = {
 		'css/editor': editorStyles,
 		// Add block editor scripts
 		'js/editor': editorScripts,
+		// Add admin scripts
+		'js/admin': adminScripts,
+		// Add admin styles
+		'css/admin': adminStyles,
 		// Add the editor wrapper styles
 		'css/editor-wrapper': path.resolve(
 			process.cwd(),
