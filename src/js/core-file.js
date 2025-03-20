@@ -28,29 +28,6 @@ const getFileType = (fileDetails) => {
     };
     return mimeMap[mimeType] || mimeType.split('/')[1].toUpperCase();
 };
-
-// Add this filter near the top with your other filters
-addFilter(
-    'editor.BlockListBlock',
-    'core/file/add-pdf-class',
-    (BlockListBlock) => (props) => {
-        if (props.name !== 'core/file') {
-            return <BlockListBlock {...props} />;
-        }
-
-        const { attributes } = props;
-        const isPDF = attributes?.fileDetails?.mime_type === 'application/pdf';
-        
-        return (
-            <BlockListBlock
-                {...props}
-                className={isPDF ? 'is-pdf-file' : ''}
-            />
-        );
-    }
-);
-
-// Replace your existing PDF-related filters with this one
 addFilter(
     'blocks.registerBlockType',
     'core/file-remove-pdf-settings',
@@ -65,12 +42,6 @@ addFilter(
                 ...settings.supports,
                 displayPreview: false
             };
-        }
-
-        // Remove PDF-related attributes
-        if (settings.attributes) {
-            const { displayPreview, ...otherAttributes } = settings.attributes;
-            settings.attributes = otherAttributes;
         }
 
         // Store the original edit component
@@ -185,21 +156,9 @@ const withInspectorControls = createHigherOrderComponent((BlockEdit) => {
             return attributes.id ? getMedia(attributes.id) : null;
         }, [attributes.id]);
 
-        // Add PDF class and save file details when fileDetails changes
+        // Save file details to attributes when they change
         React.useEffect(() => {
             if (fileDetails) {
-                const isPDF = fileDetails.mime_type === 'application/pdf';
-                document.body.classList.toggle('is-pdf-file', isPDF);
-                
-                // const blockWrapper = document.querySelector('.faue-is-file-block-selected');
-                // if (blockWrapper) {
-                //     if (fileDetails.mime_type === 'application/pdf') {
-                //         blockWrapper.classList.add('is-pdf-file');
-                //     } else {
-                //         blockWrapper.classList.remove('is-pdf-file');
-                //     }
-                // }
-
                 setAttributes({
                     fileDetails: {
                         filename: fileDetails.title?.rendered || fileDetails.filename || fileDetails.source_url?.split('/').pop(),
