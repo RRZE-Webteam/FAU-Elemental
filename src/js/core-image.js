@@ -2,11 +2,38 @@ import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, TextControl } from '@wordpress/components';
-import { unregisterBlockStyle } from '@wordpress/blocks';
+import { unregisterBlockStyle, registerBlockVariation, registerBlockStyle } from '@wordpress/blocks';
 
-// Unregister the rounded style for image blocks
+// Unregister the rounded style and register new styles for image blocks
 wp.domReady(() => {
-    unregisterBlockStyle('core/image', 'rounded');
+    unregisterBlockStyle('core/image', ['default', 'rounded']);
+
+    registerBlockStyle('core/image', {
+        name: 'large',
+        label: __('Large', 'fau-elemental'),
+        isDefault: true,
+    });
+
+    registerBlockStyle('core/image', {
+        name: 'medium',
+        label: __('Medium', 'fau-elemental'),
+        isDefault: false,
+    });
+
+    registerBlockStyle('core/image', {
+        name: 'small',
+        label: __('Small', 'fau-elemental'),
+        isDefault: false,
+    });
+});
+
+// Register a default block variation with preconfigured attributes
+registerBlockVariation('core/image', {
+    name: 'fau-default-image',
+    isDefault: true,
+    attributes: {
+        align: 'full',
+    },
 });
 
 /**

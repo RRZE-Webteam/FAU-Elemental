@@ -22,6 +22,8 @@
     <div class="wp-block-group alignwide">
         <!-- wp:site-title {"level":0,"isLink":false,"className":"is-style-normalize"} /-->
 
+        <!-- wp:fau-elemental/fau-copyright-info /-->
+
         <!-- wp:paragraph -->
         <p>Powered by WordPress.</p>
         <!-- /wp:paragraph -->
