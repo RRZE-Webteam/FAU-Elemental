@@ -109,6 +109,22 @@
                     "defaultDuotone": false
                 },
                 "shadow": {}
+            },
+            "core/quote": {
+                "color": {
+                    "background": false,
+                    "text": false,
+                    "heading":false
+                },
+                "typography": {
+                    "customFontSize": false,
+                    "defaultFontSizes": false,
+                    "fontStyle": false,
+                    "fontWeight": false,
+                    "letterSpacing": false,
+                    "textDecoration": false,
+                    "textTransform": false
+                }
             }
         },
         "layout": {

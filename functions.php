@@ -398,3 +398,16 @@ function add_fullscreen_button_to_images( $block_content, $block ) {
     return $block_content;
 }
 add_filter( 'render_block', 'add_fullscreen_button_to_images', 10, 2 );
+function enqueue_quote_block_scripts() {
+    // Frontend only
+    if (!is_admin()) {
+        wp_enqueue_script(
+            'quote-carousel-frontend',
+            get_template_directory_uri() . '/src/js/quote-carousel-frontend.js',
+            array(),
+            '1.0.0',
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'enqueue_quote_block_scripts');
