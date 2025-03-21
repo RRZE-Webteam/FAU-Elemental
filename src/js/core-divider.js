@@ -32,7 +32,6 @@ wp.domReady(() => {
                     padding: false,
                     margin: false,
                     dimensions: false,
-                    __experimentalBorder: false,
                     customClassName: true,
                     align: true,
                 },
