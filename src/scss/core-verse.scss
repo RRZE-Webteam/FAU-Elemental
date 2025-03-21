@@ -14,11 +14,8 @@
         overflow-wrap: break-word;
     }
 
-    &.light-verse {
-        color: var(--FAU-Col-FAU-Schwarz-100);
-    }
 
-    &.dark-verse {
+    &.dark {
         color: var(--FAU-Col-FAU-Weiss-100);
     }
 } 
