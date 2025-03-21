@@ -142,14 +142,7 @@
 					"letterSpacing": false,
 					"textDecoration": false,
 					"textTransform": false
-				},
-				"spacing": {
-					"padding": false,
-					"margin": false,
-					"blockGap": false
-				},
-				"dimensions": false,
-				"__experimentalBorder": false
+				}
 			}
 		},
 		"spacing": {
