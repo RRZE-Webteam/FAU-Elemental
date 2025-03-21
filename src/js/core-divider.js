@@ -15,4 +15,28 @@ wp.domReady(() => {
         name: 'full-grid',
         label: 'Full-Grid',
     });
+
+    // Disable all unwanted features
+    wp.hooks.addFilter(
+        'blocks.registerBlockType',
+        'custom/separator-settings',
+        (settings, name) => {
+            if (name !== 'core/separator') return settings;
+
+            return {
+                ...settings,
+                supports: {
+                    ...settings.supports,
+                    color: false,
+                    spacing: false,
+                    padding: false,
+                    margin: false,
+                    dimensions: false,
+                    __experimentalBorder: false,
+                    customClassName: true,
+                    align: true,
+                },
+            };
+        }
+    );
 }); 

@@ -128,6 +128,23 @@
 					"button": false,
 					"heading": false
 				}
+			},
+			"core/separator": {
+				"color": {
+					"background": false,
+					"custom": false,
+					"customGradient": false,
+					"defaultGradients": false,
+					"defaultPalette": false,
+					"text": false
+				},
+				"spacing": {
+					"margin": false,
+					"padding": false,
+					"blockGap": false
+				},
+				"dimensions": false,
+				"__experimentalBorder": false
 			}
 		},
 		"spacing": {
