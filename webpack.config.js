@@ -1,64 +1,40 @@
-const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
-const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
-const path = require( 'path' );
-const fs = require( 'fs' );
+const defaultConfig = require('@wordpress/scripts/config/webpack.config');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const path = require('path');
+const fs = require('fs');
 
 // Get all block folders from src directory
 const blockFolders = fs
-	.readdirSync( path.resolve( process.cwd(), 'src' ) )
-	.filter( ( folder ) => folder.startsWith( 'fau-' ) );
+	.readdirSync(path.resolve(process.cwd(), 'src/blocks'))
+	.filter((folder) => folder.startsWith('fau-'));
 
 // Create entries for each block
-const blockEntries = blockFolders.reduce( ( entries, folder ) => {
+const blockEntries = blockFolders.reduce((entries, folder) => {
 	return {
 		...entries,
-		[ `${ folder }/index` ]: path.resolve(
+		[`${folder}/index`]: path.resolve(
 			process.cwd(),
-			`src/${ folder }/index.js`
+			`src/blocks/${folder}/index.js`
 		),
-		[ `${ folder }/style` ]: path.resolve(
+		[`${folder}/style`]: path.resolve(
 			process.cwd(),
-			`src/${ folder }/style.scss`
+			`src/blocks/${folder}/style.scss`
 		),
-		[ `${ folder }/editor` ]: path.resolve(
+		[`${folder}/editor`]: path.resolve(
 			process.cwd(),
-			`src/${ folder }/editor.scss`
+			`src/blocks/${folder}/editor.scss`
 		),
 	};
-}, {} );
-
-const themeStyles = [
-	path.resolve( process.cwd(), 'src/scss/theme.scss' ),
-	path.resolve( process.cwd(), 'src/scss/core-button.scss' ),
-	path.resolve( process.cwd(), 'src/scss/core-paragraph.scss' ),
-	path.resolve( process.cwd(), 'src/scss/core-list.scss' ),
-	path.resolve( process.cwd(), 'src/scss/core-heading.scss' ),
-	path.resolve( process.cwd(), 'src/scss/core-table.scss' ),
-	path.resolve( process.cwd(), 'src/scss/core-image.scss' ),
-];
-
-const editorStyles = [
-	...themeStyles,
-	path.resolve( process.cwd(), 'src/scss/editor.scss' ),
-];
+}, {});
 
 const editorScripts = [
-	path.resolve( process.cwd(), 'src/js/editor.js' ),
-	path.resolve( process.cwd(), 'src/js/core-button.js' ),
-	path.resolve( process.cwd(), 'src/js/core-paragraph.js' ),
-	path.resolve( process.cwd(), 'src/js/core-list.js' ),
-	path.resolve( process.cwd(), 'src/js/core-table.js' ),
-	path.resolve( process.cwd(), 'src/js/core-image.js' ),
-];
-
-// Add admin scripts array
-const adminScripts = [
-	path.resolve( process.cwd(), 'src/js/admin/settings.js' ),
-];
-
-// Add admin styles array
-const adminStyles = [
-	path.resolve( process.cwd(), 'src/scss/admin.scss' ),
+	path.resolve(process.cwd(), 'src/editor/editor.js'),
+	path.resolve(process.cwd(), 'src/blocks/core-button/index.js'),
+	path.resolve(process.cwd(), 'src/blocks/core-heading/index.js'),
+	path.resolve(process.cwd(), 'src/blocks/core-paragraph/index.js'),
+	path.resolve(process.cwd(), 'src/blocks/core-list/index.js'),
+	path.resolve(process.cwd(), 'src/blocks/core-table/index.js'),
+	path.resolve(process.cwd(), 'src/blocks/core-image/index.js'),
 ];
 
 module.exports = {
@@ -69,30 +45,27 @@ module.exports = {
 		// Add all block entries
 		...blockEntries,
 		// Add theme styles
-		'css/theme': themeStyles,
+		'css/theme': path.resolve(process.cwd(), 'src/theme.scss'),
 		// Add block editor styles
-		'css/editor': editorStyles,
+		'css/editor': path.resolve(process.cwd(), 'src/editor/editor.scss'),
 		// Add block editor scripts
 		'js/editor': editorScripts,
-		// Add admin scripts
-		'js/admin': adminScripts,
 		// Add admin styles
-		'css/admin': adminStyles,
+		'css/admin': path.resolve(process.cwd(), 'src/admin/admin.scss'),
+		// Add admin scripts
+		'js/admin': path.resolve(process.cwd(), 'src/admin/admin.js'),
 		// Add the editor wrapper styles
-		'css/editor-wrapper': path.resolve(
-			process.cwd(),
-			'src/scss/editor-wrapper.scss'
-		),
+		'css/editor-wrapper': path.resolve(process.cwd(), 'src/editor/editor-wrapper.scss'),
 		// Add the image fullscreen script
 		'js/image-fullscreen': path.resolve(
 			process.cwd(),
-			'src/js/image-fullscreen.js'
+			'src/blocks/core-image/image-fullscreen.js'
 		),
 	},
 	plugins: [
 		...defaultConfig.plugins,
-		new RemoveEmptyScriptsPlugin( {
+		new RemoveEmptyScriptsPlugin({
 			stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS,
-		} ),
+		}),
 	],
 };

@@ -3,14 +3,14 @@
      * Handles the visibility of the faculty field based on website type selection
      */
     function initFacultyFieldToggle() {
-        const $websiteTypeSelect = $('select[name="fau_elemental_website_type"]');
-        const $facultyRow = $('select[name="fau_elemental_faculty"]').closest('tr');
+        const $websiteTypeSelect = $('select[name="faue_elemental_website_type"]');
+        const $facultyRow = $('select[name="faue_elemental_faculty"]').closest('tr');
         
         // Wrap the contents of each cell in a div
         $facultyRow.find('th, td').each(function() {
             const $cell = $(this);
             const $wrapper = $('<div>', {
-                'class': 'fau-faculty-field__content'
+                'class': 'faue-faculty-field__content'
             });
             // Move all contents into the wrapper
             $cell.contents().appendTo($wrapper);
@@ -18,16 +18,16 @@
         });
 
         // Add initial classes
-        $facultyRow.addClass('fau-faculty-field');
+        $facultyRow.addClass('faue-faculty-field');
         if ($websiteTypeSelect.val() !== 'faculty') {
-            $facultyRow.addClass('fau-faculty-field--hidden');
+            $facultyRow.addClass('faue-faculty-field--hidden');
         }
 
         function toggleFacultyField() {
             if ($websiteTypeSelect.val() === 'faculty') {
-                $facultyRow.removeClass('fau-faculty-field--hidden');
+                $facultyRow.removeClass('faue-faculty-field--hidden');
             } else {
-                $facultyRow.addClass('fau-faculty-field--hidden');
+                $facultyRow.addClass('faue-faculty-field--hidden');
             }
         }
 
