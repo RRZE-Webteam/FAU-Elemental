@@ -1,0 +1,48 @@
+/**
+ * Core Divider Styles
+ */
+
+.wp-block-separator {
+    border: none !important;
+    border-bottom: 1px solid var(--FAU-Col-FAU-Schwarz-25) !important;
+    margin: var(--Spacing-8x) 0;
+    opacity: 1;
+    position: relative;
+
+    &.is-style-content {
+        max-width: var(--md);
+        margin-left: auto;
+        margin-right: auto;
+
+        &.dark {
+            padding-left: var(--Spacing-4x);
+            padding-right: var(--Spacing-4x);
+        }
+    }
+
+    &.is-style-full-grid {
+        width: 100%;
+
+        &.dark {
+            padding-left: var(--Spacing-1x);
+            padding-right: var(--Spacing-1x);
+        }
+    }
+
+    &.dark {
+        border: none !important;
+        height: 11px;
+        background-color: var(--FAU-Col-FAU-Blau-100);
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 5px;
+            height: 1px;
+            background-color: var(--FAU-Col-FAU-Weiss-100);
+        }
+    }
+} 
