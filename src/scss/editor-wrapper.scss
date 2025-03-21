@@ -118,3 +118,40 @@
 		}
 	}
 }
+
+// When a verse block is selected, hide the following:
+.faue-is-verse-block-selected {
+	// Hide block transform options
+	.block-editor-block-switcher {
+		display: inline;
+	}
+
+	// Hide alignment options
+	.components-dropdown-menu[aria-label="Align text"] {
+		display: none;
+	}
+
+	// Hide formatting options
+	.components-toolbar-group {
+		button[aria-label="Bold"],
+		button[aria-label="Italic"],
+		button[aria-label="Link"] {
+			display: inline;
+		}
+
+		// Hide the More dropdown
+		.components-dropdown-menu button[aria-label="More"] {
+			display: none;
+		}
+	}
+
+	// Hide block options menu
+	.block-editor-block-settings-menu {
+		display: none;
+	}
+
+	// Hide the Typography panel in the sidebar
+	.block-editor-block-inspector .typography-block-support-panel {
+		display: none;
+	}
+}

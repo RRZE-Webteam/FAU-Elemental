@@ -1,3 +1,32 @@
 /**
  * Editor Styles
  */
+
+// Hide various block toolbar options
+.block-editor-block-toolbar {
+    // Hide the More options button
+    .components-dropdown-menu[aria-label="More"] {
+        display: none !important;
+    }
+
+    // Hide specific toolbar buttons
+    .components-button[aria-label="More options"],
+    .block-editor-block-settings-menu {
+        display: none !important;
+    }
+}
+
+// Hide block pattern inserter options
+.block-editor-inserter__patterns-explorer {
+    display: none !important;
+}
+
+// Hide the block transform options
+.block-editor-block-switcher {
+    display: none !important;
+}
+
+// Hide the footnotes option if it appears in other menus
+.components-menu-item__button:has([aria-label="Footnotes"]) {
+    display: none !important;
+}
