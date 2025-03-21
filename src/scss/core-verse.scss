@@ -1,0 +1,24 @@
+/**
+ * Core Verse Styles
+ */
+
+.wp-block-verse {
+    font-family: var(--font-family-base);
+    font-size: var(--P-Body-Text);
+    font-weight: 400;
+    line-height: 1.5;
+    padding: var(--Spacing-4x) var(--Spacing-8x);
+
+    pre {
+        white-space: pre-wrap;
+        overflow-wrap: break-word;
+    }
+
+    &.light-verse {
+        color: var(--FAU-Col-FAU-Schwarz-100);
+    }
+
+    &.dark-verse {
+        color: var(--FAU-Col-FAU-Weiss-100);
+    }
+} 

@@ -128,6 +128,21 @@
 					"button": false,
 					"heading": false
 				}
+			},
+			"core/verse": {
+				"color": {
+					"background": false,
+					"text": false
+				},
+				"typography": {
+					"customFontSize": false,
+					"defaultFontSizes": false,
+					"fontStyle": false,
+					"fontWeight": false,
+					"letterSpacing": false,
+					"textDecoration": false,
+					"textTransform": false
+				}
 			}
 		},
 		"spacing": {
