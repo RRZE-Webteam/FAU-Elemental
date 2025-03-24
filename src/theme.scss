@@ -174,3 +174,12 @@ p.caption {
 	background-color: var(--FAU-Col-FAU-Blau-100);
 	color: var(--FAU-Col-FAU-Weiss-100);
 }
+
+// Import Core Block Styles
+@import "./blocks/core-button/style";
+@import "./blocks/core-heading/style";
+@import "./blocks/core-paragraph/style";
+@import "./blocks/core-list/style";
+@import "./blocks/core-table/style";
+@import "./blocks/core-code/style";
+@import "./blocks/core-image/style";

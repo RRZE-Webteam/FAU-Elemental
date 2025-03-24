@@ -1,5 +1,5 @@
 /**
- * Core Button Styles
+ * Core Button Block Styles
  */
 
 .wp-block-button {
@@ -157,8 +157,8 @@
 			"nat": var(--FAU-Col-Nat-Gruen-100),
 			"med": var(--FAU-Col-Med-Blau-100),
 			"rw": var(--FAU-Col-RW-Rot-100),
-            "tf": var(--FAU-Col-TF-Metallic-100)
-        ) {
+			"tf": var(--FAU-Col-TF-Metallic-100)
+		) {
 			.fauorg-fakultaet.faculty-#{$faculty} &::before {
 				color: var(--FAU-Col-FAU-Blau-100);
 			}

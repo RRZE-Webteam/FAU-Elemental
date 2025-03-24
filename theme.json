@@ -106,13 +106,6 @@
 					"dropCap": false
 				}
 			},
-			"core/image": {
-				"color": {
-					"customDuotone": false,
-					"defaultDuotone": false
-				},
-				"shadow": {}
-			},
 			"core/group": {
 				"typography": {
 					"defaultFontSizes": false,

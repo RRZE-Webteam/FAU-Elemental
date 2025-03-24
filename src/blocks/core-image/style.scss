@@ -12,12 +12,6 @@
 		padding: 5px 8px;
 		cursor: pointer;
 		z-index: 10;
-		opacity: 0;
-		transition: opacity 0.3s;
-	}
-
-	&:hover .image-fullscreen-btn {
-		opacity: 1;
 	}
 }
 

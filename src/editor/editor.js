@@ -1,6 +1,6 @@
-const { addFilter } = wp.hooks;
-const { createHigherOrderComponent } = wp.compose;
-const { useEffect } = wp.element;
+import { addFilter } from '@wordpress/hooks';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { useEffect } from '@wordpress/element';
 
 /**
  * Add selected block classes to body

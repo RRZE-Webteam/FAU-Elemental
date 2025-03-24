@@ -1,7 +1,7 @@
-const { addFilter } = wp.hooks;
-const { createHigherOrderComponent } = wp.compose;
-const { InspectorControls } = wp.blockEditor;
-const { PanelBody, SelectControl } = wp.components;
+import { addFilter } from '@wordpress/hooks';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, SelectControl } from '@wordpress/components';
 
 // Add list style controls
 addFilter(
