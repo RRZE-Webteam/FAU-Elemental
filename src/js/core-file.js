@@ -65,6 +65,34 @@ addFilter(
     }
 );
 
+//Remove text placeholder
+addFilter(
+    'blocks.registerBlockType',
+    'core/file-remove-placeholder',
+    (settings, name) => {
+        if (name !== 'core/file') {
+            return settings;
+        }
+
+        const OriginalEdit = settings.edit;
+
+        settings.edit = (props) => {
+            const { setAttributes } = props;
+
+            React.useEffect(() => {
+                setAttributes({
+                    downloadButtonText: ' ',  // space character
+                    text: ' '  // space character
+                });
+            }, []);
+
+            return <OriginalEdit {...props} />;
+        };
+
+        return settings;
+    }
+);
+
 // Add block attributes
 addFilter(
     'blocks.registerBlockType',
@@ -90,8 +118,13 @@ addFilter(
             save: (props) => {
                 const { attributes } = props;
                 const blockProps = wp.blockEditor.useBlockProps.save();
-
-                const originalContent = getSaveElement(settings, attributes);
+                
+                // Get the original content with empty text
+                const originalContent = getSaveElement(settings, {
+                    ...attributes,
+                    downloadButtonText: '',
+                    text: ''
+                });
                 
                 // Add file info elements for frontend display
                 const fileInfoElements = attributes.fileDetails ? [
