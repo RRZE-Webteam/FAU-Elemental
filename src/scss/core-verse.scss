@@ -13,7 +13,7 @@
         overflow-wrap: break-word;
     }
 
-    &.dark {
+    .dark & {
         color: var(--FAU-Col-FAU-Weiss-100);
     }
 }
