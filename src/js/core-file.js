@@ -1,9 +1,10 @@
-const { addFilter } = wp.hooks;
-const { createHigherOrderComponent } = wp.compose;
-const { InspectorControls, MediaUpload, MediaUploadCheck } = wp.blockEditor;
-const { PanelBody, Button } = wp.components;
-const { useSelect } = wp.data;
-const { getSaveElement } = wp.blocks;
+import { addFilter } from '@wordpress/hooks';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
+import { PanelBody, Button } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import { getSaveElement } from '@wordpress/blocks';
+import { createElement, useEffect } from '@wordpress/element';
 
 // Shared utility functions
 const formatFileSize = (bytes) => {
@@ -117,7 +118,7 @@ addFilter(
             },
             save: (props) => {
                 const { attributes } = props;
-                const blockProps = wp.blockEditor.useBlockProps.save();
+                const blockProps = useBlockProps.save();
                 
                 // Get the original content with empty text
                 const originalContent = getSaveElement(settings, {
@@ -128,39 +129,39 @@ addFilter(
                 
                 // Add file info elements for frontend display
                 const fileInfoElements = attributes.fileDetails ? [
-                    wp.element.createElement('div', { className: 'file-info-wrapper' }, [
-                        wp.element.createElement('span', { className: 'file-info' }, 
+                    createElement('div', { className: 'file-info-wrapper' }, [
+                        createElement('span', { className: 'file-info' }, 
                             attributes.fileDetails.filename
                         ),
-                        wp.element.createElement('span', { className: 'file-info' }, 
+                        createElement('span', { className: 'file-info' }, 
                             formatFileSize(attributes.fileDetails.filesize)
                         ),
-                        wp.element.createElement('span', { className: 'file-info' }, 
+                        createElement('span', { className: 'file-info' }, 
                             getFileType(attributes.fileDetails)
                         )
                     ])
                 ] : [];
 
-                return wp.element.createElement(
+                return createElement(
                     'div',
                     blockProps,
-                    wp.element.createElement(
+                    createElement(
                         'div',
                         { className: 'wp-block-file__content-wrapper' },
                         [
-                            attributes.coverImage && wp.element.createElement(
+                            attributes.coverImage && createElement(
                                 'div',
                                 { key: 'cover-image', className: 'file-cover-image' },
-                                wp.element.createElement('img', {
+                                createElement('img', {
                                     src: attributes.coverImage.url,
                                     alt: attributes.coverImage.alt || ''
                                 })
                             ),
-                            wp.element.createElement(
+                            createElement(
                                 'div',
                                 { className: 'wp-block-file' },
                                 [
-                                    wp.element.createElement('div', { className: 'file-content' }, [
+                                    createElement('div', { className: 'file-content' }, [
                                         originalContent,
                                         ...fileInfoElements
                                     ])
@@ -213,7 +214,7 @@ const withInspectorControls = createHigherOrderComponent((BlockEdit) => {
             });
         };
 
-        const blockProps = wp.blockEditor.useBlockProps();
+        const blockProps = useBlockProps();
 
         return (
             <>
