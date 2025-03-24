@@ -1,0 +1,43 @@
+.wp-block-fau-elemental-copyright-info {
+	margin-top: var(--Spacing-4x);
+	margin-bottom: var(--Spacing-4x);
+	font-size: var(--Text-S);
+
+	h3 {
+		font-size: var(--H-Heading-6);
+		margin-bottom: var(--Spacing-2x);
+		color: var(--FAU-Col-FAU-Dunkelblau-100);
+	}
+
+	.copyright-info-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		li {
+			margin-bottom: var(--Spacing-1x);
+			color: var(--FAU-Col-FAU-Dunkelblau-50);
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+// Editor styles
+.copyright-info-placeholder {
+	padding: var(--Spacing-4x);
+	background-color: var(--FAU-Col-FAU-Schwarz-5);
+	border: 1px dashed var(--FAU-Col-FAU-Dunkelblau-25);
+
+	h3 {
+		margin-top: 0;
+		margin-bottom: var(--Spacing-2x);
+	}
+
+	.description {
+		margin: 0;
+		color: var(--FAU-Col-FAU-Dunkelblau-50);
+	}
+}

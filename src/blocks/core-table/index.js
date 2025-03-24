@@ -1,8 +1,7 @@
-import { unregisterBlockStyle } from '@wordpress/blocks';
-const { addFilter } = wp.hooks;
-const { createHigherOrderComponent } = wp.compose;
-const { InspectorControls } = wp.blockEditor;
-const { PanelBody, TextControl } = wp.components;
+import { addFilter } from '@wordpress/hooks';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, TextControl } from '@wordpress/components';
 
 // Unregister default styles
 wp.domReady( () => {
