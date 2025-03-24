@@ -8,14 +8,13 @@
     "icon": "grid-view",
     "description": "Display posts or pages in a grid layout with FAU styling",
     "supports": {
-        "html": false,
-        "align": ["wide", "full"]
+        "html": false
     },
-    "textdomain": "fau-elemental",
-    "editorScript": "file:./index.js",
-    "editorStyle": "file:./editor.scss",
-    "style": "file:./style.scss",
-    "viewScript": "file:./view.js",
+	"textdomain": "fau-elemental",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
 
     "attributes": {
         "variant": {
@@ -25,10 +24,6 @@
         "postsPerPage": {
             "type": "number",
             "default": 15
-        },
-        "columns": {
-            "type": "number",
-            "default": 3
         },
         "showFilters": {
             "type": "boolean",

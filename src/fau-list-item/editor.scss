@@ -1,3 +1,6 @@
+// Import the main styles to ensure consistency
+@import './style.scss';
+
 .wp-block-fau-elemental-fau-list {
     border: 1px dashed #ccc;
 }
@@ -41,5 +44,11 @@
             line-height: 1.5;
             color: #444;
         }
+    }
+
+    .teaser-content {
+        // Ensure the editor respects the same layout
+        display: flex;
+        gap: 16px;
     }
 }

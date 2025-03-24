@@ -89,4 +89,33 @@ function faue_enqueue_admin_scripts($hook) {
         $style_asset['version']
     );
 }
-add_action('admin_enqueue_scripts', 'faue_enqueue_admin_scripts'); 
+add_action('admin_enqueue_scripts', 'faue_enqueue_admin_scripts');
+
+// Add this function to handle block view scripts
+function faue_enqueue_block_view_scripts() {
+    // Get all block folders
+    $block_folders = glob(get_theme_file_path('build/fau-*'), GLOB_ONLYDIR);
+
+    foreach ($block_folders as $block_folder) {
+        $block_json_file = $block_folder . '/block.json';
+        
+        if (file_exists($block_json_file)) {
+            $block_json = json_decode(file_get_contents($block_json_file), true);
+            
+            // Check if block has a view script
+            if (isset($block_json['viewScript'])) {
+                $view_script_path = str_replace('file:', '', $block_json['viewScript']);
+                $view_script_url = get_theme_file_uri('build/' . basename($block_folder) . '/' . $view_script_path);
+                
+                wp_enqueue_script(
+                    'faue-' . basename($block_folder) . '-view',
+                    $view_script_url,
+                    array(),
+                    wp_get_theme()->get('Version'),
+                    true
+                );
+            }
+        }
+    }
+}
+add_action('wp_enqueue_scripts', 'faue_enqueue_block_view_scripts'); 

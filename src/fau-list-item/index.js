@@ -1,3 +1,5 @@
+// Make sure view.js is included in the build
+import './view.js';
 import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 import './editor.scss';
@@ -9,13 +11,4 @@ registerBlockType(metadata.name, {
     ...metadata,
     edit: Edit,
     save: Save,
-    example: {
-        attributes: {
-            variant: 'post',
-            postsPerPage: 3,
-            columns: 3,
-            showFilters: false,
-            currentPage: 1
-        }
-    }
 });

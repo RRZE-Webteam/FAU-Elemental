@@ -11,42 +11,68 @@ import {
 import { useSelect } from '@wordpress/data';
 import './editor.scss';
 
-const PostTeaser = ({ post }) => {
+const FALLBACK_IMAGE = './../../assets/images/logo.svg';
+
+function PostTeaser({ post }) {
     if (!post) return null;
 
-    const date = post.date ? new Date(post.date).toLocaleDateString() : '';
+    const dateObj = post.date ? new Date(post.date) : null;
+    const day = dateObj ? dateObj.toLocaleDateString('de-DE', { day: '2-digit' }) : '';
+    const monthYear = dateObj ? dateObj.toLocaleDateString('de-DE', {
+        month: 'short',
+        year: 'numeric'
+    }).replace('.', '').toUpperCase() : '';
     const category = post._embedded?.['wp:term']?.[0]?.[0]?.name || '';
-    const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
+    const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || FALLBACK_IMAGE;
     const title = post.title?.rendered || '';
-    const excerpt = post.excerpt?.rendered || '';
+    const excerpt = (post.excerpt?.rendered || '').replace('[&hellip;]', '..');
     const link = post.link || '#';
 
     return (
         <div className="teaser-item">
-            <div className="teaser-meta">
-                <time>{date}</time>
-                {category && <span className="category">{category}</span>}
-            </div>
             {image && (
-                <div className="teaser-image">
-                    <img src={image} alt={title} />
+                <div className="teaser-image-wrapper">
+                    <div className="teaser-image">
+                        <img src={image} alt={title} />
+                    </div>
+                    <div className="teaser-meta">
+                        <time>
+                            <span className="date-day">{day}</span>
+                            <span className="date-month-year">{monthYear}</span>
+                        </time>
+                    </div>
                 </div>
             )}
-            <h3 dangerouslySetInnerHTML={{ __html: title }} />
-            <div className="excerpt" dangerouslySetInnerHTML={{ __html: excerpt }} />
-            <a href={link} className="teaser-link">
-                {__('Read more', 'fau-elemental')}
-            </a>
+            <div className="teaser-content-wrapper">
+                <div className="teaser-content">
+                    <div className="content-column">
+                        {category && <span className="category">{category}</span>}
+                        <h3 className="clamp-3">
+                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: title }} />
+                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: title }} />
+                        </h3>
+                        <div className="excerpt clamp-3">
+                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: excerpt }} />
+                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: excerpt }} />
+                        </div>
+                    </div>
+                    <div className="button-column">
+                        <div className="wp-block-button is-style-icon-only">
+                            <a href={link} className="wp-block-button__link"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
-};
+}
 
-const PageTeaser = ({ page }) => {
+function PageTeaser({ page }) {
     if (!page) return null;
 
-    const image = page._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
+    const image = page._embedded?.['wp:featuredmedia']?.[0]?.source_url || FALLBACK_IMAGE;
     const title = page.title?.rendered || '';
-    const excerpt = page.excerpt?.rendered || '';
+    const excerpt = (page.excerpt?.rendered || '').replace('[&hellip;]', '..');
     const link = page.link || '#';
 
     return (
@@ -56,20 +82,33 @@ const PageTeaser = ({ page }) => {
                     <img src={image} alt={title} />
                 </div>
             )}
-            <h3 dangerouslySetInnerHTML={{ __html: title }} />
-            <div className="excerpt" dangerouslySetInnerHTML={{ __html: excerpt }} />
-            <a href={link} className="teaser-link">
-                {__('View page', 'fau-elemental')}
-            </a>
+            <div className="teaser-content-wrapper">
+                <div className="teaser-content">
+                    <div className="content-column">
+                        <h3 className="clamp-3">
+                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: title }} />
+                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: title }} />
+                        </h3>
+                        <div className="excerpt clamp-3">
+                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: excerpt }} />
+                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: excerpt }} />
+                        </div>
+                    </div>
+                    <div className="button-column">
+                        <div className="wp-block-button is-style-icon-only">
+                            <a href={link} className="wp-block-button__link"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
-};
+}
 
 export default function Edit({ attributes, setAttributes }) {
     const { 
         variant,
         postsPerPage,
-        columns,
         showFilters,
         selectedCategory,
         currentPage
@@ -127,13 +166,6 @@ export default function Edit({ attributes, setAttributes }) {
                         ]}
                         onChange={(value) => setAttributes({ variant: value })}
                     />
-                    <RangeControl
-                        label={__('Columns', 'fau-elemental')}
-                        value={columns}
-                        onChange={(value) => setAttributes({ columns: value })}
-                        min={1}
-                        max={4}
-                    />
                     {variant === 'post' && (
                         <ToggleControl
                             label={__('Show Category Filters', 'fau-elemental')}
@@ -162,9 +194,7 @@ export default function Edit({ attributes, setAttributes }) {
                     </div>
                 )}
                 
-                <div className="fau-teaser-grid" style={{ 
-                    gridTemplateColumns: `repeat(${columns}, 1fr)`
-                }}>
+                <div className="fau-teaser-grid">
                     {items.map((item) => (
                         variant === 'post' 
                             ? <PostTeaser key={item.id} post={item} />
