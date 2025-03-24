@@ -1,11 +1,15 @@
-const { createElement, Fragment } = wp.element;
-const { addFilter } = wp.hooks;
-const { createHigherOrderComponent } = wp.compose;
-const { InspectorControls, MediaUpload, MediaUploadCheck } = wp.blockEditor;
-const { PanelBody, Button, TextareaControl, TextControl, ToggleControl } = wp.components;
-const { unregisterBlockStyle } = wp.blocks;
+import { createElement, Fragment } from '@wordpress/element';
+import { addFilter } from '@wordpress/hooks';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+import { PanelBody, Button, TextareaControl, TextControl, ToggleControl } from '@wordpress/components';
+import { unregisterBlockStyle } from '@wordpress/blocks';
+import domReady from '@wordpress/dom-ready';
+import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
+import { createBlock } from '@wordpress/blocks';
+import { select, dispatch } from '@wordpress/data';
 
-wp.domReady(() => {
+domReady(() => {
     // Unregister default styles
     unregisterBlockStyle('core/quote', 'default');
     unregisterBlockStyle('core/quote', 'plain');
@@ -46,7 +50,6 @@ addFilter(
             return element;
         }
 
-        const { InnerBlocks } = wp.blockEditor;
         const blockProps = wp.blockEditor.useBlockProps.save();
 
         // Always include the image if it exists
@@ -102,8 +105,6 @@ addFilter(
     createHigherOrderComponent((BlockEdit) => {
         return (props) => {
             const { attributes, name, clientId } = props;
-            const { InnerBlocks, useBlockProps } = wp.blockEditor;
-            const { select } = wp.data;
 
             if (name !== 'core/quote') {
                 return <BlockEdit {...props} />;
@@ -154,7 +155,6 @@ addFilter(
     createHigherOrderComponent((BlockEdit) => {
         return (props) => {
             const { attributes, setAttributes, name, clientId } = props;
-            const { select, dispatch } = wp.data;
 
             if (name !== 'core/quote') {
                 return <BlockEdit {...props} />;
@@ -181,7 +181,7 @@ addFilter(
                     if (innerBlocks.length === 0) {
                         const currentContent = select('core/block-editor').getBlockAttributes(clientId);
                         dispatch('core/block-editor').insertBlock(
-                            wp.blocks.createBlock('core/quote', {
+                            createBlock('core/quote', {
                                 content: currentContent.content,
                                 citation: currentContent.citation
                             }),
