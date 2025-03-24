@@ -1,10 +1,8 @@
-const { addFilter } = wp.hooks;
-const { createHigherOrderComponent } = wp.compose;
-const { InspectorControls, MediaUpload, MediaUploadCheck } = wp.blockEditor;
-const { PanelBody, Button } = wp.components;
-const { useSelect } = wp.data;
-const { getSaveElement } = wp.blocks;
-const { Children } = wp.element;
+import { addFilter } from '@wordpress/hooks';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
+import { PanelBody, Button } from '@wordpress/components';
+import { Children, createElement, cloneElement } from '@wordpress/element';
 
 // Add block attributes
 addFilter(
@@ -37,10 +35,10 @@ addFilter(
                 }
 
                 // Create the cover image element
-                const coverImageElement = wp.element.createElement(
+                const coverImageElement = createElement(
                     'div',
                     { className: 'details-image' },
-                    wp.element.createElement('img', {
+                    createElement('img', {
                         src: attributes.coverImage.url,
                         alt: attributes.coverImage.alt || ''
                     })
@@ -52,7 +50,7 @@ addFilter(
                 const otherContent = children.filter(child => child.type !== 'summary');
 
                 // Clone and modify the summary to add our custom class
-                const modifiedSummary = wp.element.cloneElement(
+                const modifiedSummary = cloneElement(
                     summary,
                     { 
                         ...summary.props,
@@ -61,7 +59,7 @@ addFilter(
                 );
 
                 // Create new content with image after summary
-                return wp.element.cloneElement(
+                return cloneElement(
                     originalContent,
                     originalContent.props,
                     modifiedSummary,
@@ -93,7 +91,7 @@ const withInspectorControls = createHigherOrderComponent((BlockEdit) => {
             });
         };
 
-        const blockProps = wp.blockEditor.useBlockProps();
+        const blockProps = useBlockProps();
 
         return (
             <>
