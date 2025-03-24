@@ -33,6 +33,7 @@ registerBlockVariation('core/image', {
     isDefault: true,
     attributes: {
         align: 'full',
+        className: 'is-style-large',
     },
 });
 

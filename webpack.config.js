@@ -3,9 +3,9 @@ const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const path = require('path');
 const fs = require('fs');
 
-// Get all block folders from src directory
+// Get all block folders from src/blocks directory
 const blockFolders = fs
-	.readdirSync(path.resolve(process.cwd(), 'src/blocks'))
+	.readdirSync(path.resolve(process.cwd(), 'src'))
 	.filter((folder) => folder.startsWith('fau-'));
 
 // Create entries for each block
@@ -14,15 +14,15 @@ const blockEntries = blockFolders.reduce((entries, folder) => {
 		...entries,
 		[`${folder}/index`]: path.resolve(
 			process.cwd(),
-			`src/blocks/${folder}/index.js`
+			`src/${folder}/index.js`
 		),
 		[`${folder}/style`]: path.resolve(
 			process.cwd(),
-			`src/blocks/${folder}/style.scss`
+			`src/${folder}/style.scss`
 		),
 		[`${folder}/editor`]: path.resolve(
 			process.cwd(),
-			`src/blocks/${folder}/editor.scss`
+			`src/${folder}/editor.scss`
 		),
 	};
 }, {});

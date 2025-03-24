@@ -46,9 +46,13 @@ if (!function_exists('fau_elemental_gather_copyright_info')) {
  * @param string $content    Block content.
  * @return string Rendered block output.
  */
+error_log('render.php loaded');
 if (!function_exists('render_block_copyright_info')) {
-    function render_block_copyright_info($attributes, $content) {
+    error_log('render_block_copyright_info function exists');
+    function render_block_fau_copyright_info($attributes, $content) {
+        error_log('FAU Copyright: Rendering block...');
         $copyright_info = fau_elemental_gather_copyright_info();
+        error_log('FAU Copyright: Rendering block with ' . count($copyright_info) . ' copyright entries');
 
         if (empty($copyright_info)) {
             return '';
