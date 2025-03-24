@@ -128,6 +128,26 @@
 					"button": false,
 					"heading": false
 				}
+			},
+			"core/details": {
+				"typography": {
+					"defaultFontSizes": false,
+					"customFontSize": false,
+					"fontStyle": false,
+					"fontWeight": false,
+					"letterSpacing": false,
+					"textDecoration": false,
+					"textTransform": false
+				},
+				"color": {
+					"text": false,
+					"background": false
+				}, 
+				"spacing": {
+                    "padding": false,
+                    "margin": false,
+                    "blockGap": false
+                }
 			}
 		},
 		"spacing": {
