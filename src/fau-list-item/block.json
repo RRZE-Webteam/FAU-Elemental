@@ -1,0 +1,23 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "fau-elemental/fau-list-item",
+    "version": "0.1.0",
+    "title": "FAU List Item",
+    "category": "fau-elemental/FAU",
+    "icon": "list-view",
+    "description": "Custom list item block with FAU styling",
+    "supports": {
+        "html": false
+    },
+    "textdomain": "fau-elemental",
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./editor.scss",
+    "style": "file:./style.scss",
+    "attributes": {
+        "listItems": {
+            "type": "array",
+            "default": []
+        }
+    }
+}
