@@ -3,21 +3,46 @@
   "apiVersion": 3,
   "name": "fau-elemental/fau-list-item",
   "version": "0.1.0",
-  "title": "FAU List Item",
+  "title": "FAU Teaser Grid",
   "category": "fau-elemental/FAU",
-  "icon": "list-view",
-  "description": "Custom list item block with FAU styling",
+  "icon": "grid-view",
+  "description": "Display posts or pages in a grid layout with FAU styling",
   "supports": {
-    "html": false
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ]
   },
   "textdomain": "fau-elemental",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./editor.scss",
   "style": "file:./style.scss",
+  "viewScript": "file:./view.js",
   "attributes": {
-    "listItems": {
-      "type": "array",
-      "default": []
+    "variant": {
+      "type": "string",
+      "default": "post"
+    },
+    "postsPerPage": {
+      "type": "number",
+      "default": 15
+    },
+    "columns": {
+      "type": "number",
+      "default": 3
+    },
+    "showFilters": {
+      "type": "boolean",
+      "default": false
+    },
+    "selectedCategory": {
+      "type": "number",
+      "default": 0
+    },
+    "currentPage": {
+      "type": "number",
+      "default": 1
     }
   }
 }

@@ -6,6 +6,16 @@ import Save from './save';
 import metadata from './block.json';
 
 registerBlockType(metadata.name, {
+    ...metadata,
     edit: Edit,
-    save: Save
+    save: Save,
+    example: {
+        attributes: {
+            variant: 'post',
+            postsPerPage: 3,
+            columns: 3,
+            showFilters: false,
+            currentPage: 1
+        }
+    }
 });

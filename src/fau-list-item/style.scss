@@ -1,3 +1,100 @@
 .wp-block-fau-elemental-fau-list-item {
-    margin: 1em 0;
+    .fau-teaser-grid {
+        display: grid;
+        gap: 2rem;
+        margin: 2rem 0;
+        padding: 2rem;
+    }
+
+    .teaser-item {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background: var(--wp--preset--color--base);
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.2s ease;
+
+        &:hover {
+            transform: translateY(-4px);
+        }
+    }
+
+    .teaser-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.875rem;
+        color: var(--wp--preset--color--contrast);
+
+        .category {
+            &:before {
+                content: '•';
+                margin-right: 1rem;
+            }
+        }
+    }
+
+    .teaser-image {
+        position: relative;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        line-height: 1.4;
+    }
+
+    .excerpt {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .teaser-link {
+        margin-top: auto;
+        padding: 0.5rem 0;
+        color: var(--wp--preset--color--contrast);
+        text-decoration: none;
+        border-bottom: 2px solid transparent;
+        transition: border-color 0.2s ease;
+
+        &:hover {
+            border-color: currentColor;
+        }
+    }
+
+    .list-filter {
+        margin-bottom: 2rem;
+    }
+
+    .pagination {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 2rem;
+
+        .page-number {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background: var(--wp--preset--color--contrast);
+            color: var(--wp--preset--color--base);
+            cursor: pointer;
+
+            &.active {
+                background: var(--wp--preset--color--primary);
+            }
+
+            &:hover:not(.active) {
+                background: var(--wp--preset--color--secondary);
+            }
+        }
+    }
 }
