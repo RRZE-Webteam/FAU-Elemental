@@ -1,12 +1,13 @@
+import { addFilter } from '@wordpress/hooks';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { InspectorControls, useBlockProps } from '@wordpress/blockEditor';
+import { PanelBody, TextControl } from '@wordpress/components';
 import { unregisterBlockStyle } from '@wordpress/blocks';
-const { addFilter } = wp.hooks;
-const { createHigherOrderComponent } = wp.compose;
-const { InspectorControls } = wp.blockEditor;
-const { PanelBody, TextControl } = wp.components;
+import domReady from '@wordpress/dom-ready';
 
 // Unregister default styles
-wp.domReady(() => {
-    wp.blocks.unregisterBlockStyle('core/table', ['regular', 'stripes']);
+domReady(() => {
+    unregisterBlockStyle('core/table', ['regular', 'stripes']);
 });
 
 // Add heading attribute
@@ -30,7 +31,7 @@ addFilter(
             // Add save component to handle frontend rendering
             save: (props) => {
                 const { attributes } = props;
-                const blockProps = wp.blockEditor.useBlockProps.save({
+                const blockProps = useBlockProps.save({
                     className: 'wp-block-table-wrapper'
                 });
 
