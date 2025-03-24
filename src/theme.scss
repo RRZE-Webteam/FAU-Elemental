@@ -170,12 +170,8 @@ p.caption {
 	font-size: var(--P-Caption);
 }
 
-.is-style-dark {
-	background-color: var(--FAU-Col-FAU-Blau-100);
-	color: var(--FAU-Col-FAU-Weiss-100);
-}
-
 // Import Core Block Styles
+@import "./blocks/core-group/style";
 @import "./blocks/core-button/style";
 @import "./blocks/core-heading/style";
 @import "./blocks/core-paragraph/style";
@@ -183,3 +179,4 @@ p.caption {
 @import "./blocks/core-table/style";
 @import "./blocks/core-code/style";
 @import "./blocks/core-image/style";
+@import "./blocks/core-verse/style";
