@@ -121,6 +121,12 @@
 					"button": false,
 					"heading": false
 				}
+			},
+			"core/tag-cloud": {
+				"color": {
+					"text": false,
+					"background": false
+				}
 			}
 		},
 		"spacing": {
