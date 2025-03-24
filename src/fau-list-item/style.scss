@@ -165,6 +165,62 @@
             }
         }
     }
+
+    // List Item Style
+    &.style-list-item {
+        .fau-teaser-grid {
+            grid-template-columns: 1fr;
+            max-width: 800px;
+            margin: 0 auto;
+            
+            .teaser-item {
+                flex-direction: row;
+                
+                .teaser-image {
+                    width: 200px;
+                    flex-shrink: 0;
+                }
+                
+                .teaser-content-wrapper {
+                    margin-top: 0;
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    // Mini List Style
+    &.style-mini-list {
+        .fau-teaser-grid {
+            grid-template-columns: 1fr;
+            
+            .teaser-item {
+                flex-direction: row;
+                padding: 1rem;
+                
+                .teaser-image {
+                    width: 120px;
+                    height: 120px;
+                    flex-shrink: 0;
+                }
+                
+                .teaser-content-wrapper {
+                    margin-top: 0;
+                    width: 100%;
+                }
+                
+                .excerpt {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    // Teaser Grid Style (default)
+    &.style-teaser-grid {
+        // This will use the existing grid styles
+        // ... existing grid styles remain unchanged ...
+    }
 }
 
 .wp-block-button.is-style-icon-only {

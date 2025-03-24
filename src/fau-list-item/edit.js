@@ -6,7 +6,9 @@ import {
     ToggleControl,
     SelectControl,
     Placeholder,
-    Spinner 
+    Spinner,
+    ButtonGroup,
+    Button
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import './editor.scss';
@@ -111,7 +113,8 @@ export default function Edit({ attributes, setAttributes }) {
         postsPerPage,
         showFilters,
         selectedCategory,
-        currentPage
+        currentPage,
+        displayStyle
     } = attributes;
 
     const { items, categories, totalPages } = useSelect((select) => {
@@ -157,6 +160,48 @@ export default function Edit({ attributes, setAttributes }) {
         <>
             <InspectorControls>
                 <PanelBody title={__('Teaser Grid Settings', 'fau-elemental')}>
+                    <div className="components-base-control">
+                        <label className="components-base-control__label">
+                            {__('Display Style', 'fau-elemental')}
+                        </label>
+                        <div className="block-editor-block-styles">
+                            <div className="block-editor-block-styles__variants">
+                                <Button
+                                    className={`block-editor-block-styles__item ${displayStyle === 'list-item' ? 'is-active' : ''}`}
+                                    onClick={() => setAttributes({ displayStyle: 'list-item' })}
+                                >
+                                    <div className="block-editor-block-styles__item-preview">
+                                        <span className="block-editor-block-styles__item-preview-icon list-item-icon"></span>
+                                    </div>
+                                    <span className="block-editor-block-styles__item-label">
+                                        {__('List Item', 'fau-elemental')}
+                                    </span>
+                                </Button>
+                                <Button
+                                    className={`block-editor-block-styles__item ${displayStyle === 'mini-list' ? 'is-active' : ''}`}
+                                    onClick={() => setAttributes({ displayStyle: 'mini-list' })}
+                                >
+                                    <div className="block-editor-block-styles__item-preview">
+                                        <span className="block-editor-block-styles__item-preview-icon mini-list-icon"></span>
+                                    </div>
+                                    <span className="block-editor-block-styles__item-label">
+                                        {__('Mini List', 'fau-elemental')}
+                                    </span>
+                                </Button>
+                                <Button
+                                    className={`block-editor-block-styles__item ${displayStyle === 'teaser-grid' ? 'is-active' : ''}`}
+                                    onClick={() => setAttributes({ displayStyle: 'teaser-grid' })}
+                                >
+                                    <div className="block-editor-block-styles__item-preview">
+                                        <span className="block-editor-block-styles__item-preview-icon teaser-grid-icon"></span>
+                                    </div>
+                                    <span className="block-editor-block-styles__item-label">
+                                        {__('Teaser Grid', 'fau-elemental')}
+                                    </span>
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
                     <SelectControl
                         label={__('Content Type', 'fau-elemental')}
                         value={variant}
@@ -176,7 +221,7 @@ export default function Edit({ attributes, setAttributes }) {
                 </PanelBody>
             </InspectorControls>
             
-            <div {...useBlockProps()}>
+            <div {...useBlockProps({ className: `style-${displayStyle}` })}>
                 {showFilters && categories && categories.length > 0 && variant === 'post' && (
                     <div className="list-filter">
                         <SelectControl
