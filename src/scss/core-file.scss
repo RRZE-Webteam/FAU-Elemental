@@ -77,3 +77,35 @@
         }
     }
 }
+
+// Editor view overrides
+.editor-styles-wrapper {
+    .wp-block-file {
+        display: block;
+        margin-bottom: 1.5rem;
+    
+        .wp-block-file__content-wrapper .wp-block-file {
+            width: 100%;
+            
+            .wp-block-file__content-wrapper {
+                border: none;
+                padding: 0;
+    
+                .wp-element-button {
+                    right: -32px;
+                    top: calc(50% - 10px);
+                }
+            }
+    
+            .file-info {
+                font-size: 1rem;
+                margin-right: 20px;
+            }
+    
+            a {
+                color: var(--FAU-Col-FAU-Schwarz-100);
+                font-size: 1.15rem;
+            }
+        }
+    }
+}
