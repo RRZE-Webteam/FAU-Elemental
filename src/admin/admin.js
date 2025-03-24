@@ -1,6 +1,4 @@
 ( function ( $ ) {
-	console.log( 'FAU Elemental Admin script loaded' );
-
 	/**
 	 * Handles the visibility of the faculty field based on website type selection
 	 */

@@ -61,7 +61,7 @@ a {
 				top: 5px;
 			}
 
-			.dark & {
+			.is-style-dark & {
 				background-image: var(--icon-external-link-weiss);
 			}
 		}
@@ -75,7 +75,7 @@ figcaption {
 	font-weight: 400;
 }
 
-.dark {
+.is-style-dark {
 
 	p,
 	a,

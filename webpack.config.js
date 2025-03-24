@@ -29,6 +29,7 @@ const blockEntries = blockFolders.reduce( ( entries, folder ) => {
 
 const editorScripts = [
 	path.resolve( process.cwd(), 'src/editor/editor.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-group/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-button/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-heading/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-paragraph/index.js' ),
