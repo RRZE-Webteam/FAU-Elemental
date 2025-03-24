@@ -1,11 +1,18 @@
+@import 'mixins';
+
 .wp-block-file {
     .wp-block-file__content-wrapper {
         display: flex;
         align-items: center;
         position: relative;
-        gap: 32px;
+        gap: var(--Spacing-8x);
         border: 1px solid var(--FAU-Col-FAU-Blau-100);
-        padding: 32px;
+        padding: var(--Spacing-8x);
+
+        @include respond-to('x-small') {
+            gap: var(--Spacing-4x);
+            padding: var(--Spacing-4x);
+        }
 
         .wp-block-file {
             margin-bottom: unset;
@@ -14,6 +21,10 @@
                 font-size: 1rem;
                 color: var(--FAU-Col-FAU-Schwarz-100);
                 font-weight: 400;
+
+                @include respond-to('small') {
+                    word-wrap: anywhere;
+                }
     
                 .wp-block-file {
                     margin-bottom: var(--Spacing-4x);
@@ -21,17 +32,18 @@
                     a {
                         font-size: 1.15rem;
                         color: var(--FAU-Col-FAU-Dunkelblau-100);
-                        font-weight: 600;
-
-                        &.wp-block-file__button {
-                            color: transparent; // Hide "Download" text
-                        }
                     }
                 }
     
                 .file-info-wrapper {
                     display: flex;
                     gap: 10px;
+
+                    @include respond-to('small') {
+                        gap: 5px;
+                        padding-right: 40px;
+                        flex-direction: column;
+                    }
                 }
             }
     
@@ -60,6 +72,7 @@
         .file-cover-image {
             img {
                 display: block;
+                max-width: 100px;
             }
         }
     }
