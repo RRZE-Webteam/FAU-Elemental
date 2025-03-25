@@ -41,6 +41,7 @@ addFilter(
         if (settings.supports) {
             settings.supports = {
                 ...settings.supports,
+                align: false,
                 displayPreview: false
             };
         }
