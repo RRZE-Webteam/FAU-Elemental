@@ -37,6 +37,7 @@ const editorScripts = [
 	path.resolve( process.cwd(), 'src/blocks/core-table/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-image/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-verse/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-file/index.js' ),
 ];
 
 module.exports = {

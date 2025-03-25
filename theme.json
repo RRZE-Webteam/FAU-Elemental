@@ -136,6 +136,11 @@
 					"textDecoration": false,
 					"textTransform": false
 				}
+			},
+			"core/file": {
+				"color": {
+					"background": false
+				}
 			}
 		},
 		"spacing": {
