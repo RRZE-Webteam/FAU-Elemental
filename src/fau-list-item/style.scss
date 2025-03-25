@@ -276,6 +276,117 @@
                 }
             }
         }
+
+        // Add dark theme styles when is-style-dark class is present
+        &.is-style-dark .fau-teaser-grid,
+        .fau-teaser-grid.is-style-dark {
+            .teaser-content-wrapper {
+                .teaser-content {
+                    background-color: var(--FAU-Col-FAU-Blau-100);
+                    color: var(--FAU-Col-FAU-Weiss-100);
+
+                    h3, .excerpt, .category {
+                        color: var(--FAU-Col-FAU-Weiss-100);
+                    }
+
+                    .wp-block-button:not(.is-style-tertiary) .wp-block-button__link {
+                        background-color: var(--FAU-Col-FAU-Weiss-100);
+                        color: var(--FAU-Col-FAU-Blau-100);
+
+                        &:hover {
+                            background-color: var(--FAU-Col-FAU-Weiss-80);
+                        }
+                    }
+
+                    .wp-block-button.is-style-icon-only {
+                        .wp-block-button__link::after {
+                            background-color: var(--FAU-Col-FAU-Weiss-100);
+                            border-color: var(--FAU-Col-FAU-Weiss-100);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // When is-style-dark is on the main wrapper
+    &.is-style-dark {
+        .fau-teaser-grid {
+            .teaser-item.post-teaser .teaser-meta,
+            .teaser-item.page-teaser .teaser-meta {
+                background-color: var(--FAU-Col-FAU-Blau-100);
+                color: var(--FAU-Col-FAU-Weiss-100);
+                
+                time, .category {
+                    color: var(--FAU-Col-FAU-Weiss-100);
+                }
+            }
+
+            .teaser-content-wrapper {
+                .teaser-content {
+                    background-color: var(--FAU-Col-FAU-Blau-100);
+                    color: var(--FAU-Col-FAU-Weiss-100);
+
+                    h3, .excerpt, .category, p {
+                        color: var(--FAU-Col-FAU-Weiss-100);
+                    }
+
+                    .wp-block-button:not(.is-style-tertiary) .wp-block-button__link {
+               
+                        color: var(--FAU-Col-FAU-Blau-100);
+
+                      
+                    }
+
+                    .wp-block-button.is-style-icon-only {
+                        .wp-block-button__link::after {
+                            
+                            border-color: var(--FAU-Col-FAU-Weiss-100);
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // When is-style-dark is on the grid or content
+    .fau-teaser-grid.is-style-dark,
+    .teaser-content.is-style-dark {
+        .teaser-item.post-teaser .teaser-meta,
+        .teaser-item.page-teaser .teaser-meta {
+            background-color: var(--FAU-Col-FAU-Blau-100);
+            color: var(--FAU-Col-FAU-Weiss-100);
+            
+            time, .category {
+                color: var(--FAU-Col-FAU-Weiss-100);
+            }
+        }
+
+        .teaser-content {
+            background-color: var(--FAU-Col-FAU-Blau-100);
+            color: var(--FAU-Col-FAU-Weiss-100);
+
+            h3, .excerpt, .category, p {
+                color: var(--FAU-Col-FAU-Weiss-100);
+            }
+
+            .wp-block-button:not(.is-style-tertiary) .wp-block-button__link {
+                background-color: var(--FAU-Col-FAU-Weiss-100);
+                color: var(--FAU-Col-FAU-Blau-100);
+
+                &:hover {
+                    background-color: var(--FAU-Col-FAU-Weiss-80);
+                }
+            }
+
+            .wp-block-button.is-style-icon-only {
+                .wp-block-button__link::after {
+                    background-color: var(--FAU-Col-FAU-Weiss-100);
+                    border-color: var(--FAU-Col-FAU-Weiss-100);
+                }
+            }
+        }
     }
 }
 
