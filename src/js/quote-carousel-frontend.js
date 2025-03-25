@@ -1,43 +1,61 @@
 // Simple carousel functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Handle carousels
-    const carousels = document.querySelectorAll('.quote-carousel');
-    carousels.forEach(carousel => {
-        const slides = carousel.querySelectorAll('.quote-carousel-slides > .wp-block-quote');
-        const prevBtn = carousel.querySelector('.prev');
-        const nextBtn = carousel.querySelector('.next');
+    function initCarousel(container) {
+        const slides = container.querySelectorAll('.quote-slide');
+        const prevButton = container.querySelector('.carousel-prev');
+        const nextButton = container.querySelector('.carousel-next');
+        const dots = container.querySelector('.carousel-dots');
         
-        if (!slides.length) return;
-        
-        let currentIndex = 0;
-        
-        // Set initial styles for all slides
-        slides.forEach((slide, index) => {
-            slide.style.display = index === 0 ? 'block' : 'none';
+        if (slides.length <= 1) {
+            if (prevButton) prevButton.style.display = 'none';
+            if (nextButton) nextButton.style.display = 'none';
+            if (dots) dots.style.display = 'none';
+            return;
+        }
+
+        let currentSlide = 0;
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.style.display = index === currentSlide ? 'block' : 'none';
+            });
+
+            const dotButtons = dots.querySelectorAll('button');
+            dotButtons.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        // Clear existing dots
+        dots.innerHTML = '';
+
+        // Create dots
+        slides.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                updateSlides();
+            });
+            dots.appendChild(dot);
         });
-        
-        function showSlide(index) {
-            slides.forEach(slide => slide.style.display = 'none');
-            slides[index].style.display = 'block';
-        }
-        
-        if (prevBtn && nextBtn && slides.length > 1) {
-            // Show navigation only if there are multiple slides
-            carousel.querySelector('.quote-carousel-nav').style.display = 'flex';
-            
-            nextBtn.onclick = () => {
-                currentIndex = (currentIndex + 1) % slides.length;
-                showSlide(currentIndex);
-            };
-            
-            prevBtn.onclick = () => {
-                currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-                showSlide(currentIndex);
-            };
-        } else {
-            // Hide navigation if there's only one slide
-            carousel.querySelector('.quote-carousel-nav').style.display = 'none';
-        }
+
+        prevButton.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlides();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlides();
+        });
+
+        updateSlides();
+    }
+
+    // Initialize all carousels on the page
+    document.querySelectorAll('.quote-carousel').forEach(carousel => {
+        initCarousel(carousel);
     });
 
     // Handle non-carousel quotes with inner blocks

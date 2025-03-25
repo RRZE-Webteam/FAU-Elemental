@@ -1,4 +1,0 @@
-/* Hide all inner quotes except the first one in non-carousel mode */
-.wp-block-quote:not(.quote-carousel) .wp-block-quote:not(:first-child) {
-    display: none;
-}

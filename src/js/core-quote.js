@@ -1,24 +1,15 @@
-import { createElement, Fragment } from '@wordpress/element';
-import { addFilter } from '@wordpress/hooks';
-import { createHigherOrderComponent } from '@wordpress/compose';
-import { InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { PanelBody, Button, TextareaControl, TextControl, ToggleControl } from '@wordpress/components';
 import { unregisterBlockStyle } from '@wordpress/blocks';
 import domReady from '@wordpress/dom-ready';
-import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
-import { createBlock } from '@wordpress/blocks';
-import { select, dispatch } from '@wordpress/data';
+import { addFilter } from '@wordpress/hooks';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { MediaUpload, MediaUploadCheck, InspectorControls, RichText } from '@wordpress/block-editor';
+import { Button, PanelBody } from '@wordpress/components';
+import { useEffect, useRef } from '@wordpress/element';
 
-domReady(() => {
-    // Unregister default styles
-    unregisterBlockStyle('core/quote', 'default');
-    unregisterBlockStyle('core/quote', 'plain');
-});
-
-// Modify block attributes
+// Add custom attribute to quote block
 addFilter(
     'blocks.registerBlockType',
-    'fau-elemental/quote-attributes',
+    'my-plugin/quote-image-attribute',
     (settings, name) => {
         if (name !== 'core/quote') {
             return settings;
@@ -28,239 +19,329 @@ addFilter(
             ...settings,
             attributes: {
                 ...settings.attributes,
-                isCarousel: {
-                    type: 'boolean',
-                    default: false
-                },
-                quoteImage: {
-                    type: 'object',
-                    default: null
+                quotes: {
+                    type: 'array',
+                    default: [{
+                        id: Date.now(),
+                        content: '',
+                        citation: '',
+                        image: null
+                    }]
                 }
             }
         };
     }
 );
 
-// Modify save element
-addFilter(
-    'blocks.getSaveElement',
-    'fau-elemental/with-quote-save',
-    (element, blockType, attributes) => {
-        if (blockType.name !== 'core/quote') {
-            return element;
-        }
+// Simple carousel initialization
+const initCarousel = (container, initialSlide = 0) => {
+    if (!container) return;
 
-        const blockProps = wp.blockEditor.useBlockProps.save();
-
-        // Always include the image if it exists
-        const imageElement = attributes.quoteImage && createElement('div', 
-            { className: 'quote-image' }, 
-            createElement('img', {
-                src: attributes.quoteImage.url,
-                alt: attributes.quoteImage.alt || ''
-            })
-        );
-
-        if (!attributes.isCarousel) {
-            // For non-carousel mode, preserve the original blockquote structure
-            const blockquote = createElement(
-                'blockquote',
-                { className: 'wp-block-quote' },
-                [
-                    imageElement,
-                    ...element.props.children // Spread the original quote content
-                ]
-            );
-
-            return blockquote;
-        }
-
-        // For carousel mode
-        return createElement(
-            'div',
-            { ...blockProps, className: 'quote-carousel' },
-            [
-                createElement(
-                    'div',
-                    { className: 'quote-carousel-slides' },
-                    createElement(InnerBlocks.Content)
-                ),
-                createElement(
-                    'div',
-                    { className: 'quote-carousel-nav' },
-                    [
-                        createElement('button', { className: 'prev', type: 'button' }, '←'),
-                        createElement('button', { className: 'next', type: 'button' }, '→')
-                    ]
-                )
-            ]
-        );
+    const slides = container.querySelectorAll('.quote-slide');
+    const prevButton = container.querySelector('.carousel-prev');
+    const nextButton = container.querySelector('.carousel-next');
+    const dots = container.querySelector('.carousel-dots');
+    
+    if (!slides.length || slides.length <= 1) {
+        if (prevButton) prevButton.style.display = 'none';
+        if (nextButton) nextButton.style.display = 'none';
+        if (dots) dots.style.display = 'none';
+        return;
     }
-);
 
-// Modify editor wrapper
-addFilter(
-    'editor.BlockEdit',
-    'fau-elemental/with-quote-editor-wrapper',
-    createHigherOrderComponent((BlockEdit) => {
-        return (props) => {
-            const { attributes, name, clientId } = props;
+    let currentSlide = Math.min(initialSlide, slides.length - 1);
 
-            if (name !== 'core/quote') {
-                return <BlockEdit {...props} />;
+    const updateSlides = () => {
+        slides.forEach((slide, index) => {
+            if (slide) {
+                slide.style.display = index === currentSlide ? 'block' : 'none';
             }
+        });
 
-            // Check if this quote block is a child of another quote block
-            const parentBlock = select('core/block-editor').getBlockParents(clientId);
-            const isChildQuote = parentBlock.length > 0 && 
-                select('core/block-editor').getBlockName(parentBlock[0]) === 'core/quote';
+        if (dots) {
+            const dotButtons = dots.querySelectorAll('button');
+            dotButtons.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+    };
 
-            // Get block props
-            const blockProps = useBlockProps();
+    // Clear and create new dots
+    if (dots) {
+        dots.innerHTML = '';
+        slides.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                updateSlides();
+            });
+            dots.appendChild(dot);
+        });
+        dots.style.display = 'flex';
+    }
 
-            // If it's a child quote or not a carousel, render normally
-            if (isChildQuote || !attributes.isCarousel) {
-                return <BlockEdit {...props} />;
+    // Add click handlers directly without cloning
+    if (prevButton) {
+        prevButton.style.display = 'block';
+        prevButton.onclick = () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlides();
+        };
+    }
+
+    if (nextButton) {
+        nextButton.style.display = 'block';
+        nextButton.onclick = () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlides();
+        };
+    }
+
+    updateSlides();
+};
+
+const withImageControl = createHigherOrderComponent((BlockEdit) => {
+    return (props) => {
+        if (props.name !== 'core/quote') {
+            return <BlockEdit {...props} />;
+        }
+
+        const { attributes, setAttributes } = props;
+        const carouselRef = useRef(null);
+        const currentSlideRef = useRef(0);
+
+        useEffect(() => {
+            if (carouselRef.current) {
+                initCarousel(carouselRef.current, currentSlideRef.current);
             }
+        }, [attributes.quotes]);
 
-            // For carousel mode
-            return (
-                <div {...blockProps} className={`${blockProps.className} quote-carousel`}>
-                    <div className="quote-carousel-slides">
-                        <InnerBlocks
-                            allowedBlocks={['core/quote']}
-                            template={[['core/quote']]}
-                            templateLock={false}
-                            renderAppender={
-                                () => <InnerBlocks.ButtonBlockAppender />
-                            }
-                        />
+        const addNewQuote = () => {
+            const quotes = [...(attributes.quotes || [])];
+            quotes.push({
+                id: Date.now(),
+                content: '',
+                citation: '',
+                image: null
+            });
+            // Set the current slide to the new quote
+            currentSlideRef.current = quotes.length - 1;
+            setAttributes({ quotes });
+        };
+
+        const updateQuote = (index, field, value) => {
+            const quotes = [...attributes.quotes];
+            quotes[index] = { ...quotes[index], [field]: value };
+            setAttributes({ quotes });
+        };
+
+        const removeQuote = (index) => {
+            const quotes = [...attributes.quotes];
+            quotes.splice(index, 1);
+            currentSlideRef.current = Math.min(currentSlideRef.current, Math.max(0, quotes.length - 1));
+            setAttributes({ quotes });
+        };
+
+        const moveQuote = (index, direction) => {
+            const quotes = [...attributes.quotes];
+            const newIndex = index + direction;
+            if (newIndex >= 0 && newIndex < quotes.length) {
+                [quotes[index], quotes[newIndex]] = [quotes[newIndex], quotes[index]];
+                setAttributes({ quotes });
+            }
+        };
+
+        const renderQuotes = () => {
+            if (!attributes.quotes?.length) return null;
+
+            if (attributes.quotes.length === 1) {
+                return (
+                    <div className="wp-block-quote-item">
+                        {renderQuoteContent(attributes.quotes[0], 0)}
                     </div>
-                    {select('core/block-editor').getBlocks(clientId).length > 1 && (
-                        <div className="quote-carousel-nav">
-                            <button className="prev" type="button">←</button>
-                            <button className="next" type="button">→</button>
-                        </div>
-                    )}
+                );
+            }
+
+            return (
+                <div className="quote-carousel" ref={carouselRef}>
+                    <div className="carousel-container">
+                        {attributes.quotes.map((quote, index) => (
+                            <div key={quote.id} className="quote-slide">
+                                <div className="wp-block-quote-item">
+                                    {renderQuoteContent(quote, index)}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <button className="carousel-prev" aria-label="Previous slide">❮</button>
+                    <button className="carousel-next" aria-label="Next slide">❯</button>
+                    <div className="carousel-dots"></div>
                 </div>
             );
         };
-    }, 'withQuoteEditorWrapper')
+
+        const renderQuoteContent = (quote, index) => (
+            <div className="quote-wrapper">
+                <div className="quote-controls-wrapper">
+                    <Button 
+                        icon="arrow-up-alt2" 
+                        onClick={() => moveQuote(index, -1)}
+                        disabled={index === 0}
+                        className="quote-control-button"
+                    >
+                        Move Up
+                    </Button>
+                    <Button 
+                        icon="arrow-down-alt2" 
+                        onClick={() => moveQuote(index, 1)}
+                        disabled={index === attributes.quotes.length - 1}
+                        className="quote-control-button"
+                    >
+                        Move Down
+                    </Button>
+                    <Button 
+                        icon="trash" 
+                        onClick={() => removeQuote(index)}
+                        isDestructive
+                        className="quote-control-button"
+                    >
+                        Remove
+                    </Button>
+                </div>
+                <div className="quote-content">
+                    {quote.image && (
+                        <figure className="quote-image">
+                            <img 
+                                src={quote.image.url} 
+                                alt={quote.image.alt || ''} 
+                            />
+                        </figure>
+                    )}
+                    <div className="quote-text">
+                        <RichText
+                            tagName="blockquote"
+                            value={quote.content}
+                            onChange={(content) => updateQuote(index, 'content', content)}
+                            placeholder="Enter quote text..."
+                        />
+                        <RichText
+                            tagName="cite"
+                            value={quote.citation}
+                            onChange={(citation) => updateQuote(index, 'citation', citation)}
+                            placeholder="Enter citation..."
+                        />
+                    </div>
+                </div>
+                <div className="quote-image-controls">
+                    <MediaUploadCheck>
+                        <MediaUpload
+                            onSelect={(media) => updateQuote(index, 'image', media)}
+                            allowedTypes={['image']}
+                            value={quote.image?.id}
+                            render={({ open }) => (
+                                <Button 
+                                    onClick={open}
+                                    variant="secondary"
+                                >
+                                    {!quote.image ? 'Add Image' : 'Change Image'}
+                                </Button>
+                            )}
+                        />
+                    </MediaUploadCheck>
+                    {quote.image && (
+                        <Button 
+                            onClick={() => updateQuote(index, 'image', null)}
+                            variant="link"
+                            isDestructive
+                        >
+                            Remove Image
+                        </Button>
+                    )}
+                </div>
+            </div>
+        );
+
+        return (
+            <>
+                <InspectorControls>
+                    <PanelBody title="Quote Management" initialOpen={true}>
+                        <Button variant="secondary" onClick={addNewQuote}>
+                            Add New Quote
+                        </Button>
+                    </PanelBody>
+                </InspectorControls>
+                <div className="wp-block-quotes-container">
+                    {renderQuotes()}
+                </div>
+            </>
+        );
+    };
+}, 'withImageControl');
+
+// Modify the frontend save element
+addFilter(
+    'blocks.getSaveElement',
+    'my-plugin/quote-with-image',
+    (element, block, attributes) => {
+        if (block.name !== 'core/quote' || !attributes.quotes?.length) {
+            return element;
+        }
+
+        const renderQuote = (quote) => (
+            <div className="quote-content">
+                {quote.image && (
+                    <figure className="quote-image">
+                        <img src={quote.image.url} alt={quote.image.alt || ''} />
+                    </figure>
+                )}
+                <div className="quote-text">
+                    <blockquote>
+                        <RichText.Content value={quote.content} />
+                    </blockquote>
+                    {quote.citation && (
+                        <cite>
+                            <RichText.Content value={quote.citation} />
+                        </cite>
+                    )}
+                </div>
+            </div>
+        );
+
+        if (attributes.quotes.length === 1) {
+            return (
+                <div className="wp-block-quote-item">
+                    {renderQuote(attributes.quotes[0])}
+                </div>
+            );
+        }
+
+        return (
+            <div className="quote-carousel">
+                <div className="carousel-container">
+                    {attributes.quotes.map((quote) => (
+                        <div key={quote.id} className="quote-slide">
+                            <div className="wp-block-quote-item">
+                                {renderQuote(quote)}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <button className="carousel-prev" aria-label="Previous slide">❮</button>
+                <button className="carousel-next" aria-label="Next slide">❯</button>
+                <div className="carousel-dots"></div>
+            </div>
+        );
+    }
 );
 
-// Update inspector controls to handle the transition
 addFilter(
     'editor.BlockEdit',
-    'fau-elemental/with-quote-inspector-controls',
-    createHigherOrderComponent((BlockEdit) => {
-        return (props) => {
-            const { attributes, setAttributes, name, clientId } = props;
-
-            if (name !== 'core/quote') {
-                return <BlockEdit {...props} />;
-            }
-
-            // Check if this quote block is a child of another quote block
-            const parentBlock = select('core/block-editor').getBlockParents(clientId);
-            const isChildQuote = parentBlock.length > 0 && 
-                select('core/block-editor').getBlockName(parentBlock[0]) === 'core/quote';
-
-            // Check if this block has inner quote blocks
-            const innerBlocks = select('core/block-editor').getBlocks(clientId);
-            const hasInnerQuotes = innerBlocks.some(block => block.name === 'core/quote');
-
-            const handleCarouselToggle = (value) => {
-                if (value) {
-                    // Switching to carousel mode
-                    setAttributes({ 
-                        isCarousel: value,
-                        quoteImage: null 
-                    });
-                    
-                    // Ensure there's at least one inner quote block
-                    if (innerBlocks.length === 0) {
-                        const currentContent = select('core/block-editor').getBlockAttributes(clientId);
-                        dispatch('core/block-editor').insertBlock(
-                            createBlock('core/quote', {
-                                content: currentContent.content,
-                                citation: currentContent.citation
-                            }),
-                            0,
-                            clientId
-                        );
-                    }
-                } else {
-                    // Switching from carousel mode
-                    setAttributes({ isCarousel: value });
-                }
-            };
-
-            return (
-                <Fragment>
-                    <InspectorControls>
-                        <PanelBody title="Quote Settings">
-                            {!isChildQuote && (
-                                <ToggleControl
-                                    label="Enable Quotes Carousel"
-                                    checked={attributes.isCarousel}
-                                    onChange={handleCarouselToggle}
-                                />
-                            )}
-                            {!hasInnerQuotes && (
-                                <MediaUploadCheck>
-                                    <MediaUpload
-                                        onSelect={(media) => {
-                                            setAttributes({
-                                                quoteImage: {
-                                                    id: media.id,
-                                                    url: media.url,
-                                                    alt: media.alt || ''
-                                                }
-                                            });
-                                        }}
-                                        allowedTypes={['image']}
-                                        value={attributes.quoteImage?.id}
-                                        render={({ open }) => (
-                                            <div>
-                                                {!attributes.quoteImage ? (
-                                                    <Button onClick={open} variant="secondary">
-                                                        Add Quote Image
-                                                    </Button>
-                                                ) : (
-                                                    <div>
-                                                        <img 
-                                                            src={attributes.quoteImage.url}
-                                                            alt={attributes.quoteImage.alt}
-                                                            style={{ maxWidth: '100%', marginBottom: '8px' }}
-                                                        />
-                                                        <div>
-                                                            <Button 
-                                                                onClick={open}
-                                                                variant="secondary"
-                                                                style={{ marginRight: '8px' }}
-                                                            >
-                                                                Replace
-                                                            </Button>
-                                                            <Button 
-                                                                onClick={() => setAttributes({ quoteImage: null })}
-                                                                variant="secondary"
-                                                                isDestructive
-                                                            >
-                                                                Remove
-                                                            </Button>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )}
-                                    />
-                                </MediaUploadCheck>
-                            )}
-                        </PanelBody>
-                    </InspectorControls>
-                    <BlockEdit {...props} />
-                </Fragment>
-            );
-        };
-    }, 'withQuoteInspectorControls')
+    'my-plugin/quote-with-image',
+    withImageControl
 );
+
+domReady(() => {
+    // Unregister default styles
+    unregisterBlockStyle('core/quote', ['default', 'plain']);
+});
