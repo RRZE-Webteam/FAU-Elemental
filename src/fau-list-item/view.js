@@ -16,12 +16,9 @@ async function initializeTeaserGrid(container) {
     const grid = container.querySelector('.fau-teaser-grid');
     if (!grid) return;
 
-    // Get the display style from data attribute
+    // Get all data attributes
     const displayStyle = grid.dataset.style || 'teaser-grid';
-    
-    // Ensure the correct display style class is applied
-    grid.className = `fau-teaser-grid ${displayStyle}`;
-
+    const teaserLayout = grid.dataset.layout || '3m';
     const variant = grid.dataset.variant || 'post';
     const postsPerPage = parseInt(grid.dataset.postsPerPage) || 15;
     const currentPage = parseInt(grid.dataset.currentPage) || 1;
@@ -30,6 +27,32 @@ async function initializeTeaserGrid(container) {
     const totalPosts = parseInt(grid.dataset.totalPosts) || -1;
     const orderBy = grid.dataset.orderBy || 'date';
     const order = grid.dataset.order || 'DESC';
+    const selectionMode = grid.dataset.selectionMode || 'auto';
+    const selectedPosts = JSON.parse(grid.dataset.selectedPosts || '[]');
+
+    // Ensure the correct classes are applied
+    grid.className = `fau-teaser-grid ${displayStyle} layout-${teaserLayout}`;
+
+    if (selectionMode === 'manual' && selectedPosts.length > 0) {
+        try {
+            // Fetch selected posts in parallel
+            const posts = await Promise.all(
+                selectedPosts.map(post => 
+                    fetch(`/wp-json/wp/v2/posts/${post.id}?_embed`).then(r => r.json())
+                )
+            );
+
+            // Render posts in the same order as they were selected
+            grid.innerHTML = posts.map(post => 
+                renderPostTeaser(post, grid)
+            ).join('');
+
+        } catch (error) {
+            console.error('Error:', error);
+            grid.innerHTML = `<p>Error loading content: ${error.message}</p>`;
+        }
+        return;
+    }
 
     try {
         // First, get total number of posts

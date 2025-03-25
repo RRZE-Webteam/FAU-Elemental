@@ -67,6 +67,14 @@
     "teaserSizes": {
       "type": "array",
       "default": []
+    },
+    "selectedPosts": {
+      "type": "array",
+      "default": []
+    },
+    "selectionMode": {
+      "type": "string",
+      "default": "auto"
     }
   }
 }

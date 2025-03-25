@@ -8,10 +8,12 @@ import {
     Placeholder,
     Spinner,
     ButtonGroup,
-    Button
+    Button,
+    ComboboxControl
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import './editor.scss';
+import { useState } from 'react';
 
 const FALLBACK_IMAGE = './../../assets/images/logo.svg';
 
@@ -191,111 +193,78 @@ export default function Edit({ attributes, setAttributes }) {
         variant,
         teaserLayout,
         postsPerPage,
-        showFilters,
         selectedCategory,
-        selectedTaxonomy,
         currentPage,
         showPagination,
         totalPosts,
         orderBy,
-        order
+        order,
+        selectedPosts,
+        selectionMode
     } = attributes;
 
-    const { postTypes, taxonomies, terms, items, totalPages, isLoading } = useSelect((select) => {
-        const coreSelect = select('core');
-        
-        // Default to 'post' if variant is empty
-        const currentVariant = variant || 'post';
+    // Add this new state for search
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
-        // Keep the original working query
+    // Get post types and categories
+    const { postTypes, categories, items, totalPages, isLoading } = useSelect((select) => {
+        const coreSelect = select('core');
+        const allPostTypes = coreSelect.getPostTypes();
+        
+        // Get all categories
+        const allCategories = coreSelect.getEntityRecords('taxonomy', 'category', { per_page: -1 }) || [];
+        
+        // Get all post types that are viewable (public)
+        const availablePostTypes = allPostTypes?.filter(type => 
+            type.viewable && 
+            type.slug !== 'attachment' &&
+            type.slug !== 'wp_block'
+        ) || [];
+
+        // Build query for current post type
         let query = {
             _embed: true,
             per_page: postsPerPage,
             page: currentPage
         };
 
-        // Only add category if it's actually selected
-        if (selectedCategory && selectedCategory !== 0) {
+        // Add category to query if selected
+        if (selectedCategory) {
             query.categories = selectedCategory;
         }
 
-        // Get posts with the working query
-        let posts = coreSelect.getEntityRecords('postType', currentVariant, query);
-
-        // Sort posts after fetching if we have posts and ordering is specified
-        if (posts && Array.isArray(posts)) {
-            posts = [...posts].sort((a, b) => {
-                if (orderBy === 'title') {
-                    const titleA = a.title?.rendered?.toLowerCase() || '';
-                    const titleB = b.title?.rendered?.toLowerCase() || '';
-                    return order === 'ASC' ? 
-                        titleA.localeCompare(titleB) : 
-                        titleB.localeCompare(titleA);
-                } else {
-                    // Default to date sorting
-                    const dateA = new Date(a.date);
-                    const dateB = new Date(b.date);
-                    return order === 'ASC' ? 
-                        dateA - dateB : 
-                        dateB - dateA;
-                }
-            });
-        }
-
-        // Debug logging
-        console.log('Sorted Posts:', posts);
-
-        // Get total posts count
-        const totalItems = posts?._pagination?.total || 0;
-        const effectiveTotalPosts = totalPosts > 0 ? Math.min(totalPosts, totalItems) : totalItems;
-        const calculatedTotalPages = Math.ceil(effectiveTotalPosts / postsPerPage) || 1;
-
-        const isLoadingPostTypes = coreSelect.isResolving('getPostTypes');
-        const isLoadingTaxonomies = coreSelect.isResolving('getTaxonomies');
-        const isLoadingTerms = selectedTaxonomy ? 
-            coreSelect.isResolving('getEntityRecords', ['taxonomy', selectedTaxonomy, { per_page: -1 }]) : false;
-        const isLoadingPosts = coreSelect.isResolving('getEntityRecords', ['postType', currentVariant, query]);
-
-        // Log loading states
-        console.log('Loading States:', {
-            isLoadingPostTypes,
-            isLoadingTaxonomies,
-            isLoadingTerms,
-            isLoadingPosts
-        });
+        // Get posts
+        const posts = coreSelect.getEntityRecords('postType', variant, query);
+        
+        // Calculate total pages
+        const totalItems = coreSelect.getEntityRecords('postType', variant, { ...query, per_page: -1 })?.length || 0;
+        const calculatedTotalPosts = totalPosts > 0 ? Math.min(totalPosts, totalItems) : totalItems;
+        const calculatedTotalPages = Math.ceil(calculatedTotalPosts / postsPerPage);
 
         return {
-            postTypes: coreSelect.getPostTypes()?.filter(type => 
-                type.viewable && type.slug !== 'attachment'
-            ) || [],
-            taxonomies: coreSelect.getTaxonomies()?.filter(tax => 
-                tax.types.includes(currentVariant)
-            ) || [],
-            terms: selectedTaxonomy ? 
-                coreSelect.getEntityRecords('taxonomy', selectedTaxonomy, { per_page: -1 }) : [],
+            postTypes: availablePostTypes,
+            categories: allCategories,
             items: Array.isArray(posts) ? posts : [],
             totalPages: calculatedTotalPages,
-            isLoading: isLoadingPostTypes || isLoadingTaxonomies || isLoadingTerms || isLoadingPosts
+            isLoading: coreSelect.isResolving('getEntityRecords', ['postType', variant, query])
         };
-    }, [variant, postsPerPage, selectedTaxonomy, selectedCategory, currentPage, totalPosts, orderBy, order]);
+    }, [variant, postsPerPage, currentPage, totalPosts, selectedCategory]);
 
-    // Create options for post types select with proper labels
+    // Convert post types to options
     const postTypeOptions = postTypes.map(type => ({
         label: type.labels?.singular_name || type.name,
         value: type.slug
     }));
 
-    // Create options for taxonomies select with proper labels
-    const taxonomyOptions = taxonomies.map(tax => ({
-        label: tax.labels?.singular_name || tax.name,
-        value: tax.slug
-    }));
-
-    // Create options for terms select
-    const termOptions = terms ? terms.map(term => ({
-        label: term.name,
-        value: term.id.toString() // Ensure ID is a string
-    })) : [];
+    // Convert categories to options
+    const categoryOptions = [
+        { label: __('All Categories', 'fau-elemental'), value: 0 },
+        ...categories.map(category => ({
+            label: category.name,
+            value: category.id
+        }))
+    ];
 
     // Sorting options
     const sortingOptions = [
@@ -307,6 +276,43 @@ export default function Edit({ attributes, setAttributes }) {
         { label: __('Ascending', 'fau-elemental'), value: 'ASC' },
         { label: __('Descending', 'fau-elemental'), value: 'DESC' }
     ];
+
+    // Add this new select to get available posts
+    const { availablePosts } = useSelect((select) => {
+        if (searchTerm) {
+            return {
+                availablePosts: select('core').getEntityRecords('postType', variant, {
+                    search: searchTerm,
+                    per_page: 20,
+                    _fields: ['id', 'title']
+                })
+            };
+        }
+        return { availablePosts: [] };
+    }, [searchTerm, variant]);
+
+    // Add this function to handle post selection
+    const handlePostSelection = (postId) => {
+        if (!postId) return;
+        
+        const post = availablePosts.find(p => p.id === postId);
+        if (!post) return;
+
+        const newSelectedPosts = [...selectedPosts];
+        if (!newSelectedPosts.some(p => p.id === post.id)) {
+            newSelectedPosts.push({
+                id: post.id,
+                title: post.title.rendered
+            });
+            setAttributes({ selectedPosts: newSelectedPosts });
+        }
+    };
+
+    // Add this function to remove selected posts
+    const removeSelectedPost = (postId) => {
+        const newSelectedPosts = selectedPosts.filter(p => p.id !== postId);
+        setAttributes({ selectedPosts: newSelectedPosts });
+    };
 
     const blockProps = useBlockProps({
         className: `style-${displayStyle}`
@@ -337,7 +343,6 @@ export default function Edit({ attributes, setAttributes }) {
                         </Button>
                     </ButtonGroup>
                     
-                    {/* Show teaser layout only when teaser-grid is selected */}
                     {displayStyle === 'teaser-grid' && (
                         <SelectControl
                             label={__('Teaser Layout', 'fau-elemental')}
@@ -348,97 +353,148 @@ export default function Edit({ attributes, setAttributes }) {
                     )}
                 </PanelBody>
 
-                <PanelBody title={__('Content Settings', 'fau-elemental')}>
-                    <SelectControl
-                        label={__('Content Type', 'fau-elemental')}
-                        value={variant}
-                        options={[
-                            { label: __('Posts', 'fau-elemental'), value: 'post' },
-                            { label: __('Pages', 'fau-elemental'), value: 'page' }
-                        ]}
-                        onChange={(value) => setAttributes({ variant: value })}
-                    />
+                <PanelBody title={__('Selection Mode', 'fau-elemental')}>
+                    <ButtonGroup>
+                        <Button
+                            isPrimary={selectionMode === 'auto'}
+                            onClick={() => {
+                                setAttributes({ 
+                                    selectionMode: 'auto',
+                                    selectedPosts: [] // Clear selected posts when switching to auto
+                                });
+                            }}
+                        >
+                            {__('Automatic', 'fau-elemental')}
+                        </Button>
+                        <Button
+                            isPrimary={selectionMode === 'manual'}
+                            onClick={() => setAttributes({ selectionMode: 'manual' })}
+                        >
+                            {__('Manual Selection', 'fau-elemental')}
+                        </Button>
+                    </ButtonGroup>
 
-                    <RangeControl
-                        label={__('Posts per Page', 'fau-elemental')}
-                        value={postsPerPage}
-                        onChange={(value) => setAttributes({ postsPerPage: value })}
-                        min={1}
-                        max={20}
-                    />
+                    {selectionMode === 'manual' && (
+                        <>
+                            <ComboboxControl
+                                label={__('Search and select posts', 'fau-elemental')}
+                                value=""
+                                onChange={handlePostSelection}
+                                options={
+                                    availablePosts
+                                        ? availablePosts.map(post => ({
+                                            value: post.id,
+                                            label: post.title.rendered
+                                        }))
+                                        : []
+                                }
+                                onFilterValueChange={setSearchTerm}
+                            />
 
-                    <RangeControl
-                        label={__('Total Posts', 'fau-elemental')}
-                        value={totalPosts}
-                        onChange={(value) => setAttributes({ totalPosts: value })}
-                        min={-1}
-                        max={100}
-                        help={__('-1 for all posts', 'fau-elemental')}
-                    />
-
-                    <SelectControl
-                        label={__('Sort By', 'fau-elemental')}
-                        value={orderBy}
-                        options={sortingOptions}
-                        onChange={(value) => setAttributes({ orderBy: value })}
-                    />
-
-                    <SelectControl
-                        label={__('Sort Order', 'fau-elemental')}
-                        value={order}
-                        options={orderOptions}
-                        onChange={(value) => setAttributes({ order: value })}
-                    />
-
-                 
-                    <ToggleControl
-                        label={__('Show Pagination', 'fau-elemental')}
-                        checked={showPagination}
-                        onChange={() => setAttributes({ showPagination: !showPagination })}
-                    />
+                            <div className="selected-posts-list">
+                                {selectedPosts.map(post => (
+                                    <div key={post.id} className="selected-post-item">
+                                        <span dangerouslySetInnerHTML={{ __html: post.title }} />
+                                        <Button
+                                            isSmall
+                                            isDestructive
+                                            onClick={() => removeSelectedPost(post.id)}
+                                        >
+                                            {__('Remove', 'fau-elemental')}
+                                        </Button>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
                 </PanelBody>
+
+                {selectionMode === 'auto' && (
+                    <PanelBody title={__('Content Settings', 'fau-elemental')}>
+                        <SelectControl
+                            label={__('Content Type', 'fau-elemental')}
+                            value={variant}
+                            options={postTypeOptions}
+                            onChange={(value) => setAttributes({ variant: value })}
+                        />
+
+                        {variant === 'post' && (
+                            <SelectControl
+                                label={__('Category', 'fau-elemental')}
+                                value={selectedCategory}
+                                options={categoryOptions}
+                                onChange={(value) => setAttributes({ selectedCategory: parseInt(value) })}
+                            />
+                        )}
+
+                        <RangeControl
+                            label={__('Posts per Page', 'fau-elemental')}
+                            value={postsPerPage}
+                            onChange={(value) => setAttributes({ postsPerPage: value })}
+                            min={1}
+                            max={20}
+                        />
+
+                        <RangeControl
+                            label={__('Total Posts', 'fau-elemental')}
+                            value={totalPosts}
+                            onChange={(value) => setAttributes({ totalPosts: value })}
+                            min={-1}
+                            max={100}
+                            help={__('-1 for all posts', 'fau-elemental')}
+                        />
+
+                        <SelectControl
+                            label={__('Sort By', 'fau-elemental')}
+                            value={orderBy}
+                            options={sortingOptions}
+                            onChange={(value) => setAttributes({ orderBy: value })}
+                        />
+
+                        <SelectControl
+                            label={__('Sort Order', 'fau-elemental')}
+                            value={order}
+                            options={orderOptions}
+                            onChange={(value) => setAttributes({ order: value })}
+                        />
+
+                        <ToggleControl
+                            label={__('Show Pagination', 'fau-elemental')}
+                            checked={showPagination}
+                            onChange={() => setAttributes({ showPagination: !showPagination })}
+                        />
+                    </PanelBody>
+                )}
             </InspectorControls>
             
             <div {...blockProps}>
-                {showFilters && taxonomies.length > 0 && (
-                    <div className="list-filter">
-                        <SelectControl
-                            label={__('Filter by', 'fau-elemental')}
-                            value={selectedTaxonomy}
-                            options={[
-                                { label: __('Select a taxonomy', 'fau-elemental'), value: '' },
-                                ...taxonomyOptions
-                            ]}
-                            onChange={(value) => {
-                                setAttributes({ 
-                                    selectedTaxonomy: value,
-                                    selectedCategory: 0
-                                });
-                            }}
-                        />
-                    </div>
-                )}
-                
                 <div className={`fau-teaser-grid ${displayStyle} layout-${teaserLayout}`}>
                     {!isLoading ? (
-                        items && items.length > 0 ? (
-                            items.map((item) => (
-                                variant === 'post' 
-                                    ? <PostTeaser key={item.id} post={item} grid={blockProps} />
-                                    : <PageTeaser key={item.id} page={item} grid={blockProps} />
-                            ))
+                        selectionMode === 'manual' ? (
+                            // Display manually selected posts
+                            selectedPosts.length > 0 ? (
+                                selectedPosts.map((selectedPost) => {
+                                    const post = items.find(item => item.id === selectedPost.id);
+                                    return post ? (
+                                        variant === 'post' 
+                                            ? <PostTeaser key={post.id} post={post} grid={blockProps} />
+                                            : <PageTeaser key={post.id} page={post} grid={blockProps} />
+                                    ) : null;
+                                })
+                            ) : (
+                                <p>{__('No posts selected', 'fau-elemental')}</p>
+                            )
                         ) : (
-                            <div>
+                            // Display automatic posts
+                            items && items.length > 0 ? (
+                                items.map((item) => (
+                                    variant === 'post' 
+                                        ? <PostTeaser key={item.id} post={item} grid={blockProps} />
+                                        : <PageTeaser key={item.id} page={item} grid={blockProps} />
+                                ))
+                            ) : (
                                 <p>{__('No items found', 'fau-elemental')}</p>
-                                <pre style={{fontSize: '12px', background: '#f0f0f0', padding: '10px'}}>
-                                    Current State:
-                                    Content Type: {variant}
-                                    Posts Per Page: {postsPerPage}
-                                    Selected Category: {selectedCategory}
-                                    Selected Taxonomy: {selectedTaxonomy}
-                                    Current Page: {currentPage}
-                                </pre>
-                            </div>
+                            )
                         )
                     ) : (
                         <Placeholder>
@@ -448,7 +504,7 @@ export default function Edit({ attributes, setAttributes }) {
                     )}
                 </div>
 
-                {showPagination && totalPages > 1 && (
+                {showPagination && totalPages > 1 && selectionMode === 'auto' && (
                     createPagination(currentPage, totalPages, (newPage) => 
                         setAttributes({ currentPage: newPage })
                     )
