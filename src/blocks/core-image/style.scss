@@ -6,12 +6,28 @@
 		top: 10px;
 		right: 10px;
 		background: rgba(0, 0, 0, 0.5);
-		color: white;
+		color: var(--FAU-Col-FAU-Weiss-100);
 		border: none;
 		border-radius: 4px;
 		padding: 5px 8px;
 		cursor: pointer;
 		z-index: 10;
+	}
+
+	figcaption {
+		position: absolute;
+		bottom: -50px;
+		background-color: #ffffff;
+		margin: 0;
+		transform: translate( -50%);
+		left: 50%;
+		padding: var(--Spacing-6x) var(--Spacing-8x);
+		font-size: var(--P-Body-Text-Small);
+		line-height: 1.5;
+		font-weight: 400;
+		width: 90%;
+		padding-right: 20%;
+		box-sizing: border-box;
 	}
 }
 
