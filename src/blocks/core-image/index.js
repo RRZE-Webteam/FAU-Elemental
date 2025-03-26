@@ -54,6 +54,7 @@ function editImageBlockAttributesAndSupports(settings, name) {
         ...settings.supports,
         filter: false,
         shadow: false,
+        align: false,
     };
 
     settings.attributes = {
