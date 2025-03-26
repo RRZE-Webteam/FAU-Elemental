@@ -50,23 +50,14 @@ function editImageBlockAttributesAndSupports(settings, name) {
         return settings;
     }
 
-    // Modify block supports
     settings.supports = {
         ...settings.supports,
-        // Disable specific features
-        align: ['full', 'center'], // Keep alignment support
         filter: false,
         shadow: false,
     };
 
     settings.attributes = {
         ...settings.attributes,
-        // Set default alignment to full
-        align: {
-            type: 'string',
-            default: 'full',
-        },
-        // Add copyright info attribute
         copyrightInfo: {
             type: 'string',
             default: '',
@@ -76,6 +67,7 @@ function editImageBlockAttributesAndSupports(settings, name) {
     return settings;
 }
 
+// Comment out each filter temporarily to test
 addFilter(
     'blocks.registerBlockType',
     'fau-elemental/add-copyright-info-attribute',
