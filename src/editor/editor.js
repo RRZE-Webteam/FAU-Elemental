@@ -23,6 +23,7 @@ addFilter(
 						'core/paragraph': 'faue-is-paragraph-block-selected',
 						'core/image': 'faue-is-image-block-selected',
 						'core/table': 'faue-is-table-block-selected',
+						'core/tag-cloud': 'faue-is-tag-cloud-block-selected',
 					};
 
 					// Add/remove the basic block type class
