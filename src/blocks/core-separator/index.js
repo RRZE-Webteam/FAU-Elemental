@@ -33,6 +33,6 @@ function editSeparatorBlockSupports( settings, name ) {
 
 addFilter(
 	'blocks.registerBlockType',
-	'fau-elemental/add-copyright-info-attribute',
+	'fau-elemental/edit-separator-block-supports',
 	editSeparatorBlockSupports
 );
