@@ -166,18 +166,15 @@ h1.big-teaser {
 	font-size: var(--H-Heading-Big-Teaser);
 }
 
-p.caption {
-	font-size: var(--P-Caption);
-}
-
 // Import Core Block Styles
-@import "./blocks/core-group/style";
 @import "./blocks/core-button/style";
-@import "./blocks/core-heading/style";
-@import "./blocks/core-paragraph/style";
-@import "./blocks/core-list/style";
-@import "./blocks/core-table/style";
 @import "./blocks/core-code/style";
-@import "./blocks/core-image/style";
-@import "./blocks/core-verse/style";
 @import "./blocks/core-file/style";
+@import "./blocks/core-group/style";
+@import "./blocks/core-heading/style";
+@import "./blocks/core-image/style";
+@import "./blocks/core-list/style";
+@import "./blocks/core-paragraph/style";
+@import "./blocks/core-separator/style";
+@import "./blocks/core-table/style";
+@import "./blocks/core-verse/style";

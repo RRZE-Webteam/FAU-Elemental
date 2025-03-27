@@ -1,3 +1,7 @@
+/**
+ * Core Code Block Styles
+ */
+
 .wp-block-code {
 	font-family: "Source Code Pro", monospace;
 	overflow-x: auto;
@@ -34,7 +38,8 @@
 	}
 
 	// Dark mode
-	.is-style-dark &, &.is-style-dark {
+	.is-style-dark &,
+ &.is-style-dark {
 		background-color: var(--FAU-Col-FAU-Dunkelblau-100);
 		color: var(--FAU-Col-FAU-Schwarz-5);
 	}

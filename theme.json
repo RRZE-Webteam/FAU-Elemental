@@ -145,6 +145,21 @@
 				"color": {
 					"background": false
 				}
+			},
+			"core/separator": {
+				"color": {
+					"background": false,
+					"custom": false,
+					"customGradient": false,
+					"defaultGradients": false,
+					"defaultPalette": false,
+					"text": false
+				},
+				"spacing": {
+					"margin": false,
+					"padding": false,
+					"blockGap": false
+				}
 			}
 		},
 		"spacing": {
