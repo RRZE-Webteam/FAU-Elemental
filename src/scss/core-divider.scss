@@ -10,23 +10,6 @@
     margin: var(--Spacing-4x) 0 !important; // override WP margins
     border: none;
 
-    @each $faculty in (
-        "phil",
-        "nat",
-        "med",
-        "rw",
-        "tf"
-    ) {
-        .fauorg-fakultaet.faculty-#{$faculty} & {
-            background-color: var(--FAU-Col-FAU-Blau-100);
-        }
-
-        .fauorg-fakultaet.faculty-#{$faculty} .is-style-dark &,
-        .fauorg-fakultaet.faculty-#{rw} &  {
-            background-color: var(--FAU-Col-FAU-Weiss-100);
-        }
-    }
-
     .is-style-dark & {
         background-color: var(--FAU-Col-FAU-Blau-62_5);
     }
