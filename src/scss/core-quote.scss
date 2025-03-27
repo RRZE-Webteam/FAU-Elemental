@@ -1,0 +1,39 @@
+.wp-block-quote-item {
+
+    blockquote {
+        font-size: 1.7rem;
+        color: var(--FAU-Col-FAU-Blau-100);
+        line-height: 1.5;
+        font-weight: 700;
+        font-style: italic;
+        margin: 0;
+        max-width: 700px;
+    }
+
+    cite {
+        font-size: var(--P-Body-Text);
+        color: var(--FAU-Col-FAU-Schwarz-100);
+        line-height: 1.5;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .quote-content {
+        display: flex;
+        align-items: center;
+
+        .quote-text {
+            display: flex;
+            flex-direction: column;
+            gap: var(--Spacing-4x);
+            background-color: var(--FAU-Col-FAU-Weiss-100);
+            margin-left: -80px;
+            padding: var(--Spacing-6x);
+        }
+
+        figure {
+            margin: 0;
+        }
+    }
+
+}
