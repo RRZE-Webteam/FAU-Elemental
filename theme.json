@@ -44,7 +44,8 @@
 					"textTransform": false
 				},
 				"spacing": {
-					"blockGap": false
+					"blockGap": false,
+					"padding": false
 				}
 			},
 			"core/heading": {
