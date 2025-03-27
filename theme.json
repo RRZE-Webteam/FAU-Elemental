@@ -160,6 +160,16 @@
 					"padding": false,
 					"blockGap": false
 				}
+			},
+			"core/gallery": {
+				"color": {
+					"background": false
+				},
+				"spacing": {
+					"margin": false,
+					"padding": false,
+					"blockGap": false
+				}
 			}
 		},
 		"spacing": {

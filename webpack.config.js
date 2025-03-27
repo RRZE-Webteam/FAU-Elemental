@@ -40,6 +40,7 @@ const editorScripts = [
 	path.resolve( process.cwd(), 'src/blocks/core-separator/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-table/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-verse/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-gallery/index.js' ),
 ];
 
 module.exports = {
@@ -68,6 +69,10 @@ module.exports = {
 		'js/image-fullscreen': path.resolve(
 			process.cwd(),
 			'src/blocks/core-image/image-fullscreen.js'
+		),
+		'js/gallery-slider': path.resolve(
+			process.cwd(),
+			'src/blocks/core-gallery/gallery-slider.js'
 		),
 	},
 	plugins: [
