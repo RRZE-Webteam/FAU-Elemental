@@ -21,7 +21,7 @@
             background-color: var(--FAU-Col-FAU-Blau-100);
         }
 
-        .fauorg-fakultaet.faculty-#{$faculty} .dark &,
+        .fauorg-fakultaet.faculty-#{$faculty} .is-style-dark &,
         .fauorg-fakultaet.faculty-#{rw} &  {
             background-color: var(--FAU-Col-FAU-Weiss-100);
         }
