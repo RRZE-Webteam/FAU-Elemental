@@ -42,6 +42,9 @@
 					"letterSpacing": false,
 					"textDecoration": false,
 					"textTransform": false
+				},
+				"spacing": {
+					"blockGap": false
 				}
 			},
 			"core/heading": {
