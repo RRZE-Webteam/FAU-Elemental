@@ -14,7 +14,7 @@ addFilter(
             align: false, // Remove alignment support
         };
 
-        settings.allowedBlocks = ['core/paragraph', 'core/heading', 'core/list', 'core/quote'];
+        settings.allowedBlocks = ['core/paragraph', 'core/heading', 'core/list'];
 
         return settings;
     }
