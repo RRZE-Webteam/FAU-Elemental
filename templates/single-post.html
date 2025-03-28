@@ -12,11 +12,38 @@
     padding-right: var(--wp--preset--spacing--40);
   "
 >
-  <!-- wp:heading {"level":1,"align":"wide","className":"template-name"} -->
-  <h1 class="wp-block-heading alignwide template-name">Single Post Template</h1>
-  <!-- /wp:heading -->
+  <!-- wp:group {"className":"post-header","align":"wide","layout":{"type":"constrained"}} -->
+  <div class="wp-block-group alignwide post-header">
+    <!-- wp:group {"className":"post-meta-top","layout":{"type":"flex","flexWrap":"nowrap"}} -->
+    <div class="wp-block-group post-meta-top">
+      <!-- wp:post-date {"fontSize":"small"} /-->
+      
+      <!-- wp:paragraph {"fontSize":"small","className":"post-categories-separator"} -->
+      <p class="has-small-font-size post-categories-separator">–</p>
+      <!-- /wp:paragraph -->
+      
+      <!-- wp:post-terms {"term":"category","fontSize":"small","className":"post-categories"} /-->
+    </div>
+    <!-- /wp:group -->
+    
+    <!-- wp:post-title {"level":1,"align":"wide"} /-->
+    
+    <!-- wp:group {"className":"post-meta","layout":{"type":"flex","flexWrap":"nowrap"}} -->
+    <div class="wp-block-group post-meta">
+      <!-- wp:paragraph {"className":"reading-time post-reading-time"} -->
+      <p class="reading-time post-reading-time">Lesedauer: <!-- READING_TIME --> min</p>
+      <!-- /wp:paragraph -->
+      
+      <!-- wp:paragraph {"className":"listen-link post-listen-link"} -->
+      <p class="listen-link post-listen-link"><a href="#">Beitrag anhören: <!-- LISTEN_DURATION --> min. abspielen</a></p>
+      <!-- /wp:paragraph -->
+    </div>
+    <!-- /wp:group -->
+    
+    <!-- wp:post-featured-image {"align":"wide","className":"post-featured-image"} /-->
+  </div>
+  <!-- /wp:group -->
 
-  <!-- wp:post-title {"level":1,"align":"wide"} /-->
   <!-- wp:post-content {"align":"wide","layout":{"type":"constrained"}} /-->
 </main>
 <!-- /wp:group -->

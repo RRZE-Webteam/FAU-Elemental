@@ -108,6 +108,9 @@
 	--icon-external-link-fau-blau: url(data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cdefs%3E%3Cstyle%3E .cls-1 %7B fill: %2304316A; %7D %3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='M1.5,14c-.41,0-.77-.15-1.06-.44-.29-.29-.44-.65-.44-1.06V1.5c0-.41.15-.77.44-1.06s.65-.44,1.06-.44h5.5v1.5H1.5v11h11v-5.5h1.5v5.5c0,.41-.15.77-.44,1.06-.29.29-.65.44-1.06.44H1.5ZM5.06,10l-1.06-1.06L11.44,1.5h-2.44V0h5v5h-1.5v-2.44l-7.44,7.44Z'/%3E%3C/svg%3E);
 	--icon-external-link-weiss: url(data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cdefs%3E%3Cstyle%3E .cls-1 %7B fill: %23ffffff; %7D %3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='M1.5,14c-.41,0-.77-.15-1.06-.44-.29-.29-.44-.65-.44-1.06V1.5c0-.41.15-.77.44-1.06s.65-.44,1.06-.44h5.5v1.5H1.5v11h11v-5.5h1.5v5.5c0,.41-.15.77-.44,1.06-.29.29-.65.44-1.06.44H1.5ZM5.06,10l-1.06-1.06L11.44,1.5h-2.44V0h5v5h-1.5v-2.44l-7.44,7.44Z'/%3E%3C/svg%3E);
 
+	// Play Icon for Listen Link
+	--icon-play: url(data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16.5 10C16.5 8.27609 15.8152 6.62279 14.5962 5.40381C13.3772 4.18482 11.7239 3.5 10 3.5C8.27609 3.5 6.62279 4.18482 5.40381 5.40381C4.18482 6.62279 3.5 8.27609 3.5 10C3.5 11.7239 4.18482 13.3772 5.40381 14.5962C6.62279 15.8152 8.27609 16.5 10 16.5C11.7239 16.5 13.3772 15.8152 14.5962 14.5962C15.8152 13.3772 16.5 11.7239 16.5 10ZM2 10C2 7.87827 2.84285 5.84344 4.34315 4.34315C5.84344 2.84285 7.87827 2 10 2C12.1217 2 14.1566 2.84285 15.6569 4.34315C17.1571 5.84344 18 7.87827 18 10C18 12.1217 17.1571 14.1566 15.6569 15.6569C14.1566 17.1571 12.1217 18 10 18C7.87827 18 5.84344 17.1571 4.34315 15.6569C2.84285 14.1566 2 12.1217 2 10ZM7.88438 6.59688C8.12188 6.46563 8.40938 6.46875 8.64375 6.6125L13.1438 9.3625C13.3656 9.5 13.5031 9.74063 13.5031 10.0031C13.5031 10.2656 13.3656 10.5063 13.1438 10.6438L8.64375 13.3938C8.4125 13.5344 8.12188 13.5406 7.88438 13.4094C7.64687 13.2781 7.5 13.0281 7.5 12.7563V7.25625C7.5 6.98438 7.64687 6.73438 7.88438 6.60313V6.59688Z' fill='%2304316A'/%3E%3C/svg%3E);
+
 	// Responsive Breakpoints
 	--xs: 393px;
 	--sm: 768px;
@@ -164,6 +167,94 @@ h1 {
 
 h1.big-teaser {
 	font-size: var(--H-Heading-Big-Teaser);
+}
+
+// Post Header Components
+.post-header {
+	margin-bottom: var(--Spacing-12x);
+	
+	.post-meta-top {
+		display: flex;
+		gap: var(--Spacing-4x);
+		margin-bottom: var(--Spacing-4x);
+		font-size: var(--P-Caption);
+		color: var(--FAU-Col-FAU-Schwarz-62_5);
+		
+		.post-categories {
+			&:before {
+				content: "•";
+				margin-right: var(--Spacing-4x);
+			}
+		}
+	}
+	
+	.post-title {
+		margin-top: 0;
+		margin-bottom: var(--Spacing-6x);
+		font-size: var(--H-Heading-1);
+		font-weight: 700;
+		color: var(--FAU-Col-FAU-Dunkelblau-100);
+		
+		@media (max-width: var(--sm)) {
+			font-size: var(--H-Heading-2);
+		}
+	}
+	
+	.post-meta {
+		display: flex;
+		align-items: center;
+		gap: var(--Spacing-8x);
+		margin-bottom: var(--Spacing-8x);
+		font-size: var(--P-Body-Text-Small);
+		
+		.reading-time {
+			color: var(--FAU-Col-FAU-Schwarz-62_5);
+			margin: 0;
+		}
+		
+		.listen-link {
+			margin: 0;
+			position: relative;
+			
+			a {
+				display: flex;
+				align-items: center;
+				color: var(--FAU-Col-FAU-Blau-100);
+				text-decoration: none;
+				font-weight: 500;
+				padding-left: 28px;
+				position: relative;
+				
+				&:before {
+					content: '';
+					position: absolute;
+					left: 0;
+					top: 50%;
+					transform: translateY(-50%);
+					width: 20px;
+					height: 20px;
+					background-image: var(--icon-play);
+					background-repeat: no-repeat;
+					background-position: center;
+				}
+				
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+	
+	.post-featured-image {
+		margin-top: var(--Spacing-6x);
+		margin-bottom: 0;
+		
+		img {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
+	}
 }
 
 // Import Core Block Styles
