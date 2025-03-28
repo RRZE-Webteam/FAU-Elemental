@@ -58,18 +58,12 @@ function editImageBlockAttributesAndSupports( settings, name ) {
 	settings.supports = {
 		...settings.supports,
 		// Disable specific features
-		align: [ 'full', 'center' ], // Keep alignment support
 		filter: false,
 		shadow: false,
 	};
 
 	settings.attributes = {
 		...settings.attributes,
-		// Set default alignment to full
-		align: {
-			type: 'string',
-			default: 'full',
-		},
 		// Add copyright info attribute
 		copyrightInfo: {
 			type: 'string',
