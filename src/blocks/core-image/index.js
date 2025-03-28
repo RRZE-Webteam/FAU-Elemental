@@ -54,26 +54,25 @@ function editImageBlockAttributesAndSupports( settings, name ) {
 		return settings;
 	}
 
-	// Modify block supports
-	settings.supports = {
-		...settings.supports,
-		// Disable specific features
-		filter: false,
-		shadow: false,
-	};
+    settings.supports = {
+        ...settings.supports,
+        filter: false,
+        shadow: false,
+        align: false,
+    };
 
-	settings.attributes = {
-		...settings.attributes,
-		// Add copyright info attribute
-		copyrightInfo: {
-			type: 'string',
-			default: '',
-		},
-	};
+    settings.attributes = {
+        ...settings.attributes,
+        copyrightInfo: {
+            type: 'string',
+            default: '',
+        },
+    };
 
 	return settings;
 }
 
+// Comment out each filter temporarily to test
 addFilter(
 	'blocks.registerBlockType',
 	'fau-elemental/add-copyright-info-attribute',
