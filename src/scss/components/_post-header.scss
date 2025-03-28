@@ -1,0 +1,86 @@
+.post-header {
+    $spacing: var(--Spacing-12x);
+    $small-spacing: var(--Spacing-4x);
+    
+    margin-bottom: $spacing;
+    
+    // Meta top section
+    .post-meta-top {
+        display: flex;
+        gap: var(--Spacing-2x);
+        margin-bottom: $small-spacing;
+        font-size: var(--P-Caption);
+        color: var(--FAU-Col-FAU-Schwarz-62_5);
+    }
+    
+    // Title
+    .post-title {
+        margin-top: 0;
+        margin-bottom: var(--Spacing-6x);
+        font-size: var(--H-Heading-1);
+        font-weight: 700;
+        color: var(--FAU-Col-FAU-Dunkelblau-100);
+        
+        @media (max-width: var(--sm)) {
+            font-size: var(--H-Heading-2);
+        }
+    }
+    
+    // Meta section
+    .post-meta {
+        display: flex;
+        align-items: center;
+        gap: var(--Spacing-8x);
+        margin-bottom: var(--Spacing-8x);
+        font-size: var(--P-Body-Text-Small);
+        
+        .reading-time {
+            color: var(--FAU-Col-FAU-Schwarz-62_5);
+            margin: 0;
+        }
+        
+        .listen-link {
+            margin: 0;
+            position: relative;
+            
+            a {
+                display: flex;
+                align-items: center;
+                color: var(--FAU-Col-FAU-Blau-100);
+                text-decoration: none;
+                font-weight: 500;
+                padding-left: 28px;
+                position: relative;
+                
+                &::before {
+                    content: '';
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 20px;
+                    height: 20px;
+                    background-image: var(--icon-play);
+                    background-repeat: no-repeat;
+                    background-position: center;
+                }
+                
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+    
+    // Featured image
+    .post-featured-image {
+        margin-top: var(--Spacing-6x);
+        margin-bottom: 0;
+        
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+    }
+} 

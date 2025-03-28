@@ -26,7 +26,7 @@ $show_featured_image = get_post_meta($post_id, 'show_featured_image', true) || h
         
         <?php if (has_category()) : ?>
         <div class="post-categories">
-            <?php the_category(', '); ?>
+            – <?php echo esc_html(get_the_category_list(', ')); ?>
         </div>
         <?php endif; ?>
     </div>
@@ -34,18 +34,20 @@ $show_featured_image = get_post_meta($post_id, 'show_featured_image', true) || h
     <h1 class="post-title"><?php the_title(); ?></h1>
     
     <div class="post-meta">
-        <?php if ($show_reading_time) : ?>
-        <p class="reading-time"><?php echo esc_html($reading_time); ?> read</p>
+        <?php if ($show_reading_time === '1') : ?>
+        <p class="reading-time"><?php echo esc_html(get_reading_time()); ?></p>
         <?php endif; ?>
         
-        <?php if ($show_listen_link && $listen_url) : ?>
+        <?php if ($show_listen_link === '1' && !empty($listen_url)) : ?>
         <p class="listen-link">
-            <a href="<?php echo esc_url($listen_url); ?>">Listen to article</a>
+            <a href="<?php echo esc_url($listen_url); ?>">
+                Beitrag anhören: <?php echo esc_html(get_audio_duration($listen_url)); ?> min. abspielen
+            </a>
         </p>
         <?php endif; ?>
     </div>
     
-    <?php if ($show_featured_image && has_post_thumbnail()) : ?>
+    <?php if (has_post_thumbnail()) : ?>
     <figure class="post-featured-image alignwide">
         <?php the_post_thumbnail('large'); ?>
     </figure>

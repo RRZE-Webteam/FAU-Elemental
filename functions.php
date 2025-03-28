@@ -93,67 +93,19 @@ add_action('add_meta_boxes', 'add_post_header_options_meta_box');
  * Render Post Header Options meta box
  */
 function render_post_header_options_meta_box($post) {
-    // Add nonce for security
     wp_nonce_field('post_header_options_nonce', 'post_header_options_nonce');
     
-    // Get saved values with appropriate defaults
-    $show_featured_image = get_post_meta($post->ID, 'show_featured_image_in_header', true);
+    // Get saved values
     $show_reading_time = get_post_meta($post->ID, 'show_reading_time', true);
     $show_listen_link = get_post_meta($post->ID, 'show_listen_link', true);
     $listen_url = get_post_meta($post->ID, 'listen_url', true);
-    $listen_duration = get_post_meta($post->ID, 'listen_duration', true) ?: '4';
     
-    // Set defaults if empty (for new posts)
-    if ($show_featured_image === '') {
-        $show_featured_image = '1'; // Default to showing
-    }
-    
+    // Set defaults
     if ($show_reading_time === '') {
-        $show_reading_time = '1'; // Default to showing
+        $show_reading_time = '1';
     }
-    
-    // Debug output
-    echo '<!-- Meta box values:
-        show_featured_image_in_header: ' . esc_html($show_featured_image) . '
-        show_reading_time: ' . esc_html($show_reading_time) . '
-        show_listen_link: ' . esc_html($show_listen_link) . '
-        listen_url: ' . esc_html($listen_url) . '
-    -->';
-    
-    // The actual form fields
     ?>
-    <style>
-        .post-header-options label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: normal;
-        }
-        .post-header-options input[type="checkbox"] {
-            margin-right: 8px;
-        }
-        .post-header-listen-fields {
-            margin-top: 5px;
-            margin-left: 25px;
-        }
-        .post-header-listen-fields label {
-            margin-bottom: 5px;
-        }
-        .post-header-listen-duration {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .post-header-listen-duration input {
-            width: 50px;
-        }
-    </style>
-    
     <div class="post-header-options">
-        <label>
-            <input type="checkbox" name="show_featured_image_in_header" value="1" <?php checked($show_featured_image, '1'); ?> />
-            <strong>Show featured image in header</strong>
-        </label>
-        
         <label>
             <input type="checkbox" name="show_reading_time" value="1" <?php checked($show_reading_time, '1'); ?> />
             <strong>Show reading time</strong>
@@ -167,28 +119,8 @@ function render_post_header_options_meta_box($post) {
         <div class="post-header-listen-fields" id="listen-fields" style="<?php echo ($show_listen_link !== '1') ? 'display:none;' : ''; ?>">
             <label for="listen_url">Audio URL:</label>
             <input type="url" id="listen_url" name="listen_url" value="<?php echo esc_url($listen_url); ?>" style="width: 100%;" placeholder="https://..." />
-            
-            <div class="post-header-listen-duration">
-                <label for="listen_duration">Duration:</label>
-                <input type="number" id="listen_duration" name="listen_duration" value="<?php echo esc_attr($listen_duration); ?>" min="1" max="999" step="1" />
-                <span>min</span>
-            </div>
         </div>
     </div>
-    
-    <script>
-        // Simple toggle script for the listen fields
-        document.addEventListener('DOMContentLoaded', function() {
-            var toggle = document.getElementById('show-listen-link-toggle');
-            var fields = document.getElementById('listen-fields');
-            
-            if (toggle && fields) {
-                toggle.addEventListener('change', function() {
-                    fields.style.display = this.checked ? 'block' : 'none';
-                });
-            }
-        });
-    </script>
     <?php
 }
 
@@ -213,9 +145,6 @@ function save_post_header_options_meta_box($post_id) {
     }
     
     // Save the options
-    $show_featured_image = isset($_POST['show_featured_image_in_header']) ? '1' : '0';
-    update_post_meta($post_id, 'show_featured_image_in_header', $show_featured_image);
-    
     $show_reading_time = isset($_POST['show_reading_time']) ? '1' : '0';
     update_post_meta($post_id, 'show_reading_time', $show_reading_time);
     
@@ -224,14 +153,6 @@ function save_post_header_options_meta_box($post_id) {
     
     if (isset($_POST['listen_url'])) {
         update_post_meta($post_id, 'listen_url', esc_url_raw($_POST['listen_url']));
-    }
-    
-    if (isset($_POST['listen_duration'])) {
-        $listen_duration = absint($_POST['listen_duration']);
-        if ($listen_duration < 1) {
-            $listen_duration = 1;
-        }
-        update_post_meta($post_id, 'listen_duration', $listen_duration);
     }
 }
 add_action('save_post', 'save_post_header_options_meta_box');
@@ -251,21 +172,15 @@ function buffer_end() {
         $post_id = get_the_ID();
         
         // Get meta values
-        $show_featured_image = get_post_meta($post_id, 'show_featured_image_in_header', true);
         $show_reading_time = get_post_meta($post_id, 'show_reading_time', true);
         $show_listen_link = get_post_meta($post_id, 'show_listen_link', true);
         $listen_url = get_post_meta($post_id, 'listen_url', true);
-        $listen_duration = get_post_meta($post_id, 'listen_duration', true) ?: '4';
         
         // Calculate reading time
         $reading_time = get_reading_time($post_id);
         
         // Inject CSS to control visibility
         $inject_css = '<style>';
-        
-        if ($show_featured_image !== '1') {
-            $inject_css .= '.post-featured-image, .wp-block-post-featured-image { display: none !important; }';
-        }
         
         if ($show_reading_time !== '1') {
             $inject_css .= '.reading-time, .post-reading-time { display: none !important; }';
@@ -322,7 +237,6 @@ function render_post_header_block($attributes) {
     $post_id = get_the_ID();
     
     // Get meta values
-    $show_featured_image = get_post_meta($post_id, 'show_featured_image_in_header', true);
     $show_reading_time = get_post_meta($post_id, 'show_reading_time', true);
     $show_listen_link = get_post_meta($post_id, 'show_listen_link', true);
     $listen_url = get_post_meta($post_id, 'listen_url', true);
@@ -355,12 +269,6 @@ function render_post_header_block($attributes) {
             </p>
             <?php endif; ?>
         </div>
-        
-        <?php if ($show_featured_image === '1' && has_post_thumbnail()): ?>
-        <figure class="post-featured-image alignwide">
-            <?php the_post_thumbnail('large'); ?>
-        </figure>
-        <?php endif; ?>
     </div>
     
     <?php
@@ -383,17 +291,12 @@ function filter_post_header_content($content) {
         $content = str_replace('<!-- LISTEN_DURATION -->', esc_html($listen_duration), $content);
         
         // Get visibility settings
-        $show_featured_image = get_post_meta($post_id, 'show_featured_image_in_header', true) !== '0';
         $show_reading_time = get_post_meta($post_id, 'show_reading_time', true) !== '0';
         $show_listen_link = get_post_meta($post_id, 'show_listen_link', true) === '1';
         $listen_url = get_post_meta($post_id, 'listen_url', true);
         
         // Apply CSS to hide elements if needed
         $inline_style = '<style>';
-        
-        if (!$show_featured_image) {
-            $inline_style .= '.post-featured-image, .wp-block-post-featured-image { display: none !important; }';
-        }
         
         if (!$show_reading_time) {
             $inline_style .= '.post-reading-time, .reading-time { display: none !important; }';
@@ -424,3 +327,47 @@ function filter_post_header_content($content) {
     return $content;
 }
 add_filter('the_content', 'filter_post_header_content', 1);
+
+/**
+ * Get audio file duration
+ * 
+ * @param string $audio_url URL of the audio file
+ * @return int Duration in minutes (rounded up)
+ */
+function get_audio_duration($audio_url) {
+    // Ensure getID3 is available
+    if (!function_exists('wp_get_audio_metadata')) {
+        require_once(ABSPATH . 'wp-admin/includes/media.php');
+    }
+    
+    // Get file path from URL
+    $audio_path = str_replace(get_site_url(), ABSPATH, $audio_url);
+    
+    // Get audio metadata
+    $metadata = wp_get_audio_metadata($audio_path);
+    
+    if (!empty($metadata['length'])) {
+        // Convert seconds to minutes and round up
+        return ceil($metadata['length'] / 60);
+    }
+    
+    // Fallback to default duration if unable to detect
+    return 4;
+}
+
+/**
+ * Auto-update audio duration when URL is saved
+ */
+function update_audio_duration($post_id) {
+    // Skip if not saving audio URL
+    if (!isset($_POST['listen_url'])) {
+        return;
+    }
+    
+    $listen_url = esc_url_raw($_POST['listen_url']);
+    if (!empty($listen_url)) {
+        $duration = get_audio_duration($listen_url);
+        update_post_meta($post_id, 'listen_duration', $duration);
+    }
+}
+add_action('save_post', 'update_audio_duration');
