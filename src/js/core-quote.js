@@ -174,9 +174,11 @@ const withImageControl = createHigherOrderComponent((BlockEdit) => {
                             </div>
                         ))}
                     </div>
-                    <button className="carousel-prev" aria-label="Previous slide">❮</button>
-                    <button className="carousel-next" aria-label="Next slide">❯</button>
-                    <div className="carousel-dots"></div>
+                    <div className="carousel-controls">
+                        <button className="carousel-prev" aria-label="Previous slide">❮</button>
+                        <button className="carousel-next" aria-label="Next slide">❯</button>
+                        <div className="carousel-dots"></div>
+                    </div>
                 </div>
             );
         };
@@ -327,9 +329,11 @@ addFilter(
                         </div>
                     ))}
                 </div>
-                <button className="carousel-prev" aria-label="Previous slide">❮</button>
-                <button className="carousel-next" aria-label="Next slide">❯</button>
-                <div className="carousel-dots"></div>
+                <div className="carousel-controls">
+                    <button className="carousel-prev" aria-label="Previous slide">❮</button>
+                    <button className="carousel-next" aria-label="Next slide">❯</button>
+                    <div className="carousel-dots"></div>
+                </div>
             </div>
         );
     }
