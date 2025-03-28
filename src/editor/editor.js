@@ -24,6 +24,7 @@ addFilter(
 						'core/image': 'faue-is-image-block-selected',
 						'core/table': 'faue-is-table-block-selected',
 						'core/verse': 'faue-is-verse-block-selected',
+						'core/media-text': 'faue-is-media-text-block-selected',
 					};
 
 					// Add/remove the basic block type class

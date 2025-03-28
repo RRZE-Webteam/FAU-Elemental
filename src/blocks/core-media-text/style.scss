@@ -1,0 +1,87 @@
+.wp-block-media-text {
+    &.text-position-top {
+        display: grid !important;
+        grid-template-columns: 100% !important;
+        grid-template-areas: 
+            "text"
+            "media" !important;
+
+        .wp-block-media-text__media,
+        .wp-block-media-text__content {
+            grid-column: 1 !important;
+        }
+
+        .wp-block-media-text__content {
+            grid-row: 1 !important;
+        }
+
+        .wp-block-media-text__media {
+            grid-row: 2 !important;
+        }
+    }
+
+    &.text-position-bottom {
+        display: grid !important;
+        grid-template-columns: 100% !important;
+        grid-template-areas: 
+            "media"
+            "text" !important;
+
+        .wp-block-media-text__media,
+        .wp-block-media-text__content {
+            grid-column: 1 !important;
+        }
+
+        .wp-block-media-text__media {
+            grid-row: 1 !important;
+        }
+
+        .wp-block-media-text__content {
+            grid-row: 2 !important;
+        }
+    }
+
+    // Preserve image size and spacing
+    &.text-position-top,
+    &.text-position-bottom {
+        gap: 2em;
+        
+        .wp-block-media-text__media {
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .wp-block-media-text__content {
+            padding: 0;
+        }
+    }
+
+    // Mobile styles
+    @media (max-width: 781px) {
+        &.text-position-top {
+            grid-template-areas: "media" "text" !important;
+
+            .wp-block-media-text__content {
+                padding-top: 1em;
+            }
+        }
+
+        &.text-position-middle {
+            grid-template-areas: "media" "text" !important;
+
+            .wp-block-media-text__content {
+                padding-top: 1em;
+            }
+        }
+
+        &.text-position-bottom {
+            grid-template-areas: "text" "media" !important;
+
+            .wp-block-media-text__content {
+                padding-bottom: 1em;
+            }
+        }
+    }
+}
