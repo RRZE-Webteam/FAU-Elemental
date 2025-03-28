@@ -4,18 +4,17 @@
 
 // When a paragraph block is selected, hide the following:
 .faue-is-paragraph-block-selected {
-	// Hide Settings-Panel for Width-Options in the Block Inspector
+
+	// Hide stuff in the Block Toolbar
 	.block-editor-block-toolbar > .components-toolbar-group {
-		// Hide Font Controls
-		&:nth-last-child(2) {
-			// Hide Dropdown for Font options
-			.components-dropdown-menu {
-				display: none;
-			}
+
+		// Hide Text Align Options
+		&:nth-last-child(3) {
+			display: none;
 		}
 	}
 
-	// Hide the Typography-Panel in the Block Inspector
+	// Hide the empty Typography-Panel in the Block Inspector
 	.block-editor-block-inspector .typography-block-support-panel {
 		display: none;
 	}
@@ -23,12 +22,16 @@
 
 // When a paragraph block with the "Intro Text" variation is selected, hide the following:
 .faue-is-intro-text-selected {
-	// Hide Settings-Panel for Width-Options in the Block Inspector
+
+	// Hide stuff in the Block Toolbar
 	.block-editor-block-toolbar > .components-toolbar-group {
+
 		// Hide Font Controls
 		&:nth-last-child(2) {
-			// Hide Bold and Italic options
+
+			// Hide Bold options
 			button:nth-child(1),
+			// Hide Italic option
 			button:nth-child(2) {
 				display: none;
 			}
