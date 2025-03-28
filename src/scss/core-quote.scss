@@ -1,13 +1,14 @@
-.wp-block-quote-item {
+@import "../mixins"; // change to ../../ before push
 
+.wp-block-quote-item {
+    
     blockquote {
-        font-size: 1.7rem;
+        font-size: 1.75rem;
         color: var(--FAU-Col-FAU-Blau-100);
         line-height: 1.5;
         font-weight: 700;
         font-style: italic;
         margin: 0;
-        max-width: 700px;
     }
 
     cite {
@@ -26,13 +27,76 @@
             display: flex;
             flex-direction: column;
             gap: var(--Spacing-4x);
-            background-color: var(--FAU-Col-FAU-Weiss-100);
-            margin-left: -80px;
-            padding: var(--Spacing-6x);
         }
 
         figure {
             margin: 0;
+
+            img {
+                width: 100%;
+                height: auto;
+                max-width: 660px;
+            }
+        }
+
+        // Positioning when image is displayed
+        figure + .quote-text {
+            background-color: var(--FAU-Col-FAU-Weiss-100);
+            margin-left: -80px;
+            padding: var(--Spacing-6x);
+
+            blockquote {
+                max-width: 700px;
+            }
+        }
+
+    }
+
+    @include respond-to("medium") {
+
+        blockquote {
+            font-size: 1.25rem;
+        }
+
+        .quote-content figure + .quote-text {
+            margin-left: -110px;
+        }
+
+    }
+
+
+    @include respond-to("small") {
+
+        .quote-content {
+            flex-direction: column;
+
+            figure + .quote-text {
+                margin-left: unset;
+                margin-top: -120px;
+                width: 50vw;
+            }
+
+            figure img {
+                width: calc(100% + 32px);
+                margin-left: -16px;
+            }
+
+        }
+
+    }
+
+    @media screen and (max-width: 599px) {
+        
+        .quote-content figure + .quote-text {
+            width: 65vw;
+        }
+
+    }
+
+    @include respond-to("x-small") {
+
+        .quote-content figure + .quote-text {
+            width: auto;
         }
     }
 
