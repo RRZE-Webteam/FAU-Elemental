@@ -97,12 +97,11 @@ const withCarouselView = createHigherOrderComponent((BlockEdit) => {
 		const carouselRef = useRef(null);
 
 		useEffect(() => {
-			requestAnimationFrame(() => {
-				if (carouselRef.current) {
-					initCarousel(carouselRef.current);
-				}
-			});
-		}, [props.attributes.images]);
+			// Initialize carousel when block is selected or images change
+			if (carouselRef.current) {
+				initCarousel(carouselRef.current);
+			}
+		}, [props.isSelected, props.attributes.images]);
 
 		return (
 			<Fragment>
