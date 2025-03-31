@@ -1,53 +1,73 @@
+import { select, subscribe, dispatch } from '@wordpress/data';
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { useEffect } from '@wordpress/element';
 
 /**
  * Block Selection Class Manager
- * 
- * This filter manages CSS classes on the body element based on block selection state:
- * - Adds classes for selected core blocks (e.g. 'faue-is-paragraph-block-selected')
- * - Adds classes for block variations based on className attribute
- * - Cleans up classes when selection changes
- * - Enables contextual styling in the editor based on selected block type
- * 
- * The classes follow the pattern:
- * - Core blocks: faue-is-{blocktype}-block-selected
- * - Variations: faue-is-{variation}-selected
+ *
+ * Adds class to the body element based on currently selected block
+ * Class format: 'faue-is-{blocktype}-block-selected'
  */
-addFilter(
-	'editor.BlockEdit',
-	'fau-elemental/with-block-selected-classes',
-	createHigherOrderComponent( ( BlockEdit ) => {
-		return ( props ) => {
-			const { isSelected, name, attributes } = props;
 
-			useEffect( () => {
-				document.body.classList.forEach( ( className ) => {
-					if ( className.startsWith( 'faue-is-' ) ) {
-						document.body.classList.remove( className );
-					}
-				} );
+// Subscribe to block selection changes
+subscribe( () => {
+	// Clear all block selection classes first
+	document.body.classList.forEach( ( className ) => {
+		if (
+			className.startsWith( 'faue-is-' ) &&
+			className.endsWith( '-block-selected' )
+		) {
+			document.body.classList.remove( className );
+		}
+	} );
 
-				if ( isSelected ) {
+	// Get the currently selected block (first in selection array)
+	const selectedBlockId =
+		select( 'core/block-editor' ).getSelectedBlockClientId();
 
-					if ( name.startsWith( 'core/' ) ) {
-						const blockType = name.replace( 'core/', '' );
-						document.body.classList.add( `faue-is-${ blockType }-block-selected` );
+	// Add class for the currently selected block
+	if ( selectedBlockId ) {
+		const block = select( 'core/block-editor' ).getBlock( selectedBlockId );
+		if ( block && block.name.startsWith( 'core/' ) ) {
+			const blockType = block.name.replace( 'core/', '' );
+			document.body.classList.add(
+				`faue-is-${ blockType }-block-selected`
+			);
+		}
+	}
+} );
 
-						if ( attributes?.className ) {
-							const variations = attributes.className.split( ' ' );
-							variations.forEach( ( variation ) => {
-								if ( variation ) {
-									document.body.classList.add( `faue-is-${ variation }-selected` );
-								}
-							} );
-						}
-					}
-				}
-			}, [ isSelected, name, attributes?.className ] );
+/**
+ * Filter Rich Text Format Types
+ *
+ * This filter allows disabling specific format types (like bold, italic)
+ * for specific blocks
+ */
+// addFilter(
+// 	'editor.BlockEdit',
+// 	'fau-elemental/filter-format-types',
+// 	createHigherOrderComponent((BlockEdit) => {
+// 		return (props) => {
+// 			const { name, isSelected } = props;
 
-			return <BlockEdit { ...props } />;
-		};
-	}, 'withBlockSelectedClasses' )
-);
+// 			// When the block is selected, filter available format types
+// 			if (isSelected) {
+// 				// Check for specific block types to customize
+// 				if (name === 'core/paragraph') {
+// 					// Example: Disable bold formatting for paragraphs
+// 					const formatTypes = select('core/rich-text').getFormatTypes();
+// 					const disabledFormats = ['core/bold']; // Add format names to disable
+
+// 					formatTypes.forEach(format => {
+// 						if (disabledFormats.includes(format.name)) {
+// 							// Unregister or modify the format type
+// 							dispatch('core/rich-text').removeFormatTypes(format.name);
+// 						}
+// 					});
+// 				}
+// 			}
+
+// 			return <BlockEdit {...props} />;
+// 		};
+// 	}, 'withFilteredFormatTypes')
+// );

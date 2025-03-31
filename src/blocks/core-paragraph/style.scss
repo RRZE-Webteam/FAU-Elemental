@@ -17,13 +17,13 @@ p {
 	}
 }
 
-.intro-text {
+.is-style-intro-text {
 	font-size: var(--P-Intro-Text);
 	font-weight: 600;
 	line-height: 1.6;
 }
 
-.small-text {
+.is-style-small-text {
 	font-size: var(--P-Body-Text-Small);
 	letter-spacing: var(--letter-spacing-small);
 }
@@ -54,7 +54,7 @@ a {
 			right: calc(-1 * var(--Spacing-6x));
 			top: 6px;
 
-			.small-text & {
+			.is-style-small-text & {
 				height: 13px;
 				width: 13px;
 				right: calc(-1 * var(--Spacing-5x));

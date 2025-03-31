@@ -20,11 +20,10 @@ wp.domReady( () => {
 	} );
 } );
 
-
 /**
  * Modifies the block supports for the Button block.
  * Removes all alignment options from the block.
- * 
+ *
  * @param {Object} settings The block settings for the registered block type.
  * @param {string} name     The block type name, including namespace.
  * @return {Object}         The modified block settings.
@@ -40,8 +39,6 @@ addFilter(
 		settings.supports = {
 			...settings.supports,
 		};
-
-		console.log( settings.supports );
 
 		return settings;
 	}
