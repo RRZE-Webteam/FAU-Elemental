@@ -1,0 +1,23 @@
+.wp-block-tag-cloud {
+    a.tag-cloud-link {
+        font-size: 0.85rem !important; // Override WP inline style
+        font-weight: 600;
+        padding: var(--Spacing-2x) var(--Spacing-3x);
+        border: 1px solid var(--FAU-Col-FAU-Blau-100);
+        color: var(--FAU-Col-FAU-Blau-100);
+        border-radius: 2px;
+        text-decoration: none;
+        letter-spacing: var(--letter-spacing-big);
+        margin-bottom: 8px;
+    }
+}
+
+// Dark mode
+.wp-block-tag-cloud {
+    .is-style-dark & {
+        a.tag-cloud-link {
+            border: 1px solid var(--FAU-Col-FAU-Weiss-100);
+            color: var(--FAU-Col-FAU-Weiss-100);
+        }
+    }
+}
