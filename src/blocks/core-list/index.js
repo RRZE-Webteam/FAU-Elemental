@@ -31,10 +31,10 @@ addFilter(
 											'list-icons'
 										)
 											? 'list-icons'
-											: 'dots'
+											: 'line'
 									}
 									options={ [
-										{ label: 'Dots', value: 'dots' },
+										{ label: 'Line', value: 'line' },
 										{ label: 'Icons', value: 'list-icons' },
 									] }
 									onChange={ ( value ) => {
@@ -50,8 +50,8 @@ addFilter(
 														)
 												: [];
 
-										// Add the new class if it's not 'dots'
-										if ( value !== 'dots' ) {
+										// Add the new class if it's not 'line'
+										if ( value !== 'line' ) {
 											currentClasses.push( value );
 										}
 

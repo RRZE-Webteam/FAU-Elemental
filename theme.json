@@ -15,20 +15,17 @@
 					"customGradient": false,
 					"defaultGradients": false,
 					"defaultPalette": false
-				},
-				"shadow": {}
-			},
-			"core/group": {
-				"color": {
-					"text": false,
-					"button": false,
-					"heading": false
 				}
 			}
 		},
 		"color": {
 			"background": false,
+			"button": false,
+			"heading": false,
 			"text": false
+		},
+		"shadow": {
+			"defaultPresets": false
 		},
 		"spacing": {
 			"blockGap": false,
