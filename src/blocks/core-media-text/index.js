@@ -1,4 +1,22 @@
 import { addFilter } from '@wordpress/hooks';
+import { registerBlockVariation } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+
+registerBlockVariation('core/media-text', {
+    name: 'media-text-with-heading',
+    title: __('Media & Text', 'fau-elemental'),
+    description: __('Set media and words side-by-side for a richer layout.', 'fau-elemental'),
+    attributes: {
+        align: 'full'
+    },
+    isDefault: true,
+    scope: ['block', 'inserter', 'transform' ],
+    innerBlocks: [
+        ['core/heading', { placeholder: __('Heading', 'fau-elemental'), level: 3 }],
+        ['core/paragraph', { placeholder: __('Content', 'fau-elemental') }]
+    ]
+});
+
 
 // Add custom attribute
 addFilter(
