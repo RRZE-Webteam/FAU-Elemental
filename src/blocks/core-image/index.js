@@ -7,29 +7,61 @@ import {
 	registerBlockVariation,
 	registerBlockStyle,
 } from '@wordpress/blocks';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { useEffect } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 
 // Unregister the rounded style and register new styles for image blocks
 wp.domReady( () => {
-	unregisterBlockStyle( 'core/image', [ 'default', 'rounded' ] );
-
-	registerBlockStyle( 'core/image', {
-		name: 'large',
-		label: __( 'Large', 'fau-elemental' ),
-		isDefault: true,
-	} );
-
-	registerBlockStyle( 'core/image', {
-		name: 'medium',
-		label: __( 'Medium', 'fau-elemental' ),
-		isDefault: false,
-	} );
-
-	registerBlockStyle( 'core/image', {
-		name: 'small',
-		label: __( 'Small', 'fau-elemental' ),
-		isDefault: false,
-	} );
+    unregisterBlockStyle( 'core/image', [ 'default', 'rounded' ] );
 } );
+
+const withImageSizeControl = createHigherOrderComponent((BlockEdit) => {
+    return (props) => {
+        const isInGallery = useSelect((select) => {
+            const block = select('core/block-editor').getSelectedBlock();
+            if (!block || block.name !== 'core/image') return false;
+
+            const parentBlocks = select('core/block-editor').getBlockParents(block.clientId);
+            return parentBlocks.some(parentId => {
+                const parent = select('core/block-editor').getBlock(parentId);
+                return parent?.name === 'core/gallery';
+            });
+        });
+
+        useEffect(() => {
+            if (isInGallery) {
+                // Unregister styles when image is in gallery
+                unregisterBlockStyle('core/image', ['large', 'medium', 'small']);
+            } else {
+                // Re-register styles when image is not in gallery
+                registerBlockStyle('core/image', {
+                    name: 'large',
+                    label: __('Large', 'fau-elemental'),
+                    isDefault: true,
+                });
+                registerBlockStyle('core/image', {
+                    name: 'medium',
+                    label: __('Medium', 'fau-elemental'),
+                    isDefault: false,
+                });
+                registerBlockStyle('core/image', {
+                    name: 'small',
+                    label: __('Small', 'fau-elemental'),
+                    isDefault: false,
+                });
+            }
+        }, [isInGallery]);
+
+        return <BlockEdit {...props} />;
+    };
+}, 'withImageSizeControl');
+
+addFilter(
+    'editor.BlockEdit',
+    'core/image-size-control',
+    withImageSizeControl
+);
 
 // Register a default block variation with preconfigured attributes
 registerBlockVariation( 'core/image', {
