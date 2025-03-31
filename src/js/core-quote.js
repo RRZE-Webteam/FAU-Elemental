@@ -39,8 +39,8 @@ const initCarousel = (container, initialSlide = 0) => {
 
     const slides = container.querySelectorAll('.quote-slide');
     const prevButton = container.querySelector('.carousel-prev');
-    const nextButton = container.querySelector('.carousel-next');
     const dots = container.querySelector('.carousel-dots');
+    const nextButton = container.querySelector('.carousel-next');
     
     if (!slides.length || slides.length <= 1) {
         if (prevButton) prevButton.style.display = 'none';
@@ -176,8 +176,8 @@ const withImageControl = createHigherOrderComponent((BlockEdit) => {
                     </div>
                     <div className="carousel-controls">
                         <button className="carousel-prev" aria-label="Previous slide">❮</button>
-                        <button className="carousel-next" aria-label="Next slide">❯</button>
                         <div className="carousel-dots"></div>
+                        <button className="carousel-next" aria-label="Next slide">❯</button>
                     </div>
                 </div>
             );
@@ -331,8 +331,8 @@ addFilter(
                 </div>
                 <div className="carousel-controls">
                     <button className="carousel-prev" aria-label="Previous slide">❮</button>
-                    <button className="carousel-next" aria-label="Next slide">❯</button>
                     <div className="carousel-dots"></div>
+                    <button className="carousel-next" aria-label="Next slide">❯</button>
                 </div>
             </div>
         );
