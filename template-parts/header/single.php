@@ -1,8 +1,8 @@
 <?php
 /**
- * Single Post Header Template Part
+ * Single Post Header Template Part (PHP fallback version)
  *
- * @package YourThemeName
+ * @package Fau-Elemental
  */
 
 // Get post data
@@ -26,7 +26,7 @@ $show_featured_image = get_post_meta($post_id, 'show_featured_image', true) || h
         
         <?php if (has_category()) : ?>
         <div class="post-categories">
-            – <?php echo esc_html(get_the_category_list(', ')); ?>
+            – <?php echo wp_kses_post(get_the_category_list(', ')); ?>
         </div>
         <?php endif; ?>
     </div>
@@ -35,13 +35,13 @@ $show_featured_image = get_post_meta($post_id, 'show_featured_image', true) || h
     
     <div class="post-meta">
         <?php if ($show_reading_time === '1') : ?>
-        <p class="reading-time"><?php echo esc_html(get_reading_time()); ?></p>
+        <p class="reading-time"><?php echo esc_html($reading_time); ?></p>
         <?php endif; ?>
         
         <?php if ($show_listen_link === '1' && !empty($listen_url)) : ?>
         <p class="listen-link">
             <a href="<?php echo esc_url($listen_url); ?>">
-                Beitrag anhören: <?php echo esc_html(get_audio_duration($listen_url)); ?> min. abspielen
+                Beitrag anhören: <?php echo function_exists('get_audio_duration') ? esc_html(get_audio_duration($listen_url)) : ''; ?> min. abspielen
             </a>
         </p>
         <?php endif; ?>
