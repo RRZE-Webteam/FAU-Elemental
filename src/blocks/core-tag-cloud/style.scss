@@ -1,43 +1,46 @@
 .wp-block-tag-cloud-wrapper {
-    .wp-block-tag-cloud__heading {
-        font-size: 0.85rem;
-        color: var(--FAU-Col-FAU-Schwarz-100);
-        font-weight: 400;
-        line-height: 1.5;
-        letter-spacing: var(--letter-spacing-small);
-        margin-bottom: var(--Spacing-2x);
-    }
 
-    .wp-block-tag-cloud {
-        margin: 0;
+	.wp-block-tag-cloud__heading {
+		font-size: 0.85rem;
+		color: var(--FAU-Col-FAU-Schwarz-100);
+		font-weight: 400;
+		line-height: 1.5;
+		letter-spacing: var(--letter-spacing-small);
+		margin-bottom: var(--Spacing-2x);
+	}
 
-        a.tag-cloud-link {
-            font-size: 0.85rem;
-            font-weight: 600;
-            padding: var(--Spacing-2x) var(--Spacing-3x);
-            border: 1px solid var(--FAU-Col-FAU-Blau-100);
-            color: var(--FAU-Col-FAU-Blau-100);
-            border-radius: 2px;
-            text-decoration: none;
-            letter-spacing: var(--letter-spacing-big);
-            margin-bottom: 8px;
-        }
-    }
+	.wp-block-tag-cloud {
+		margin: 0;
+
+		a.tag-cloud-link {
+			font-size: 0.85rem;
+			font-weight: 600;
+			padding: var(--Spacing-2x) var(--Spacing-3x);
+			border: 1px solid var(--FAU-Col-FAU-Blau-100);
+			color: var(--FAU-Col-FAU-Blau-100);
+			border-radius: 2px;
+			text-decoration: none;
+			letter-spacing: var(--letter-spacing-big);
+			margin-bottom: 8px;
+		}
+	}
 }
 
 // Dark mode
 .wp-block-tag-cloud-wrapper {
 
-    .is-style-dark & {
-        .wp-block-tag-cloud__heading {
-            color: var(--FAU-Col-FAU-Weiss-100);
-        }
-    
-        .wp-block-tag-cloud {
-            a.tag-cloud-link {
-                border: 1px solid var(--FAU-Col-FAU-Weiss-100);
-                color: var(--FAU-Col-FAU-Weiss-100);
-            }
-        }
-    }
+	.is-style-dark & {
+
+		.wp-block-tag-cloud__heading {
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		.wp-block-tag-cloud {
+
+			a.tag-cloud-link {
+				border: 1px solid var(--FAU-Col-FAU-Weiss-100);
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+		}
+	}
 }

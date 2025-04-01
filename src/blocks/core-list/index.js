@@ -2,6 +2,7 @@ import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 // Add list style controls
 addFilter(
@@ -23,9 +24,17 @@ addFilter(
 				<>
 					{ isUnordered && (
 						<InspectorControls>
-							<PanelBody title="List Style Settings">
+							<PanelBody
+								title={ __(
+									'List Style Settings',
+									'fau-elemental'
+								) }
+							>
 								<SelectControl
-									label="List Style"
+									label={ __(
+										'List Style',
+										'fau-elemental'
+									) }
 									value={
 										attributes.className?.includes(
 											'list-icons'
@@ -34,8 +43,20 @@ addFilter(
 											: 'line'
 									}
 									options={ [
-										{ label: 'Line', value: 'line' },
-										{ label: 'Icons', value: 'list-icons' },
+										{
+											label: __(
+												'Line',
+												'fau-elemental'
+											),
+											value: 'line',
+										},
+										{
+											label: __(
+												'Icons',
+												'fau-elemental'
+											),
+											value: 'list-icons',
+										},
 									] }
 									onChange={ ( value ) => {
 										// Get current classes as an array
