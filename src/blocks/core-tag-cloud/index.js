@@ -4,29 +4,29 @@ import domReady from '@wordpress/dom-ready';
 import { addFilter } from '@wordpress/hooks';
 
 // Register styles for tag cloud block
-domReady(() => {
-    // Unregister default styles
-    unregisterBlockStyle('core/tag-cloud', ['default', 'outline']);
-});
+domReady( () => {
+	// Unregister default styles
+	unregisterBlockStyle( 'core/tag-cloud', [ 'default', 'outline' ] );
+} );
 
 // Modify block attributes and supports
 addFilter(
-    'blocks.registerBlockType',
-    'fau-elemental/tag-cloud-attributes',
-    (settings, name) => {
-        if (name !== 'core/tag-cloud') {
-            return settings;
-        }
+	'blocks.registerBlockType',
+	'fau-elemental/tag-cloud-attributes',
+	( settings, name ) => {
+		if ( name !== 'core/tag-cloud' ) {
+			return settings;
+		}
 
-        return {
-            ...settings,
-            attributes: {
-                ...settings.attributes,
-            },
-            supports: {
-                ...settings.supports,
-                align: false,
-            },
-        };
-    }
+		return {
+			...settings,
+			attributes: {
+				...settings.attributes,
+			},
+			supports: {
+				...settings.supports,
+				align: false,
+			},
+		};
+	}
 );

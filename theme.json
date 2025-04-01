@@ -31,7 +31,7 @@
 					"textDecoration": false,
 					"textTransform": false
 				},
-				 "spacing": {
+				"spacing": {
 					"blockGap": false,
 					"margin": false,
 					"padding": false
