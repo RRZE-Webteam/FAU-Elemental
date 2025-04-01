@@ -21,10 +21,12 @@
             display: none; // Hide default arrow
         }
 
+
+        // Chevron
         &::before {
             content: '';
             position: absolute;
-            background-image: url("data:image/svg+xml,%3Csvg id='Ebene_1' data-name='Ebene 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8.83 15.42'%3E%3Cdefs%3E%3Cstyle%3E .cls-1 %7B fill: %23ffffff; %7D %3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='M1.12,15.42l-1.12-1.12,6.59-6.59L0,1.12,1.12,0l7.71,7.71L1.12,15.42Z'/%3E%3C/svg%3E");
+            background-image: var(--icon-chevron-weiss);
             transform: rotate(90deg);
             z-index: 1;
             height: 14px;
@@ -34,6 +36,7 @@
             transition: var(--basic-animation);
         }
 
+        // Box for chevron
         &::after {
             content: '';
             position: absolute;
@@ -45,23 +48,66 @@
         }
 
         &:hover,
-        &:focus {
+        &:focus-visible {
             &::before {
                 top: 12px;
                 transition: var(--basic-animation);
             }
         }
+
+        // Faculty color variations
+        @each $faculty, $color in (
+            "phil": var(--FAU-Col-Phil-Gelb-100),
+            "nat": var(--FAU-Col-Nat-Gruen-100),
+            "med": var(--FAU-Col-Med-Blau-100),
+            "rw": var(--FAU-Col-RW-Rot-100),
+            "tf": var(--FAU-Col-TF-Metallic-100)
+        ) {
+            .fauorg-fakultaet.faculty-#{$faculty} &::after {
+                background-color: $color;
+            }
+
+            .fauorg-fakultaet.faculty-#{$faculty} &::before {
+                background-image: var(--icon-chevron-fau-blau);
+            }
+        }
+
+        .fauorg-fakultaet.faculty-rw &::before {
+			background-image: var(--icon-chevron-weiss);
+		}
     }
 
     p {
         padding-right: 80px;
     }
 
+    // Flip chevron when active
     &[open] {
         summary {
             &::before {
                 transform: rotate(-90deg);
             }
+        }
+    }
+}
+
+// Dark mode
+.is-style-dark .wp-block-details {
+    border-bottom: 1px solid var(--FAU-Col-FAU-Weiss-100);
+
+    &:first-child {
+        border-top: 1px solid var(--FAU-Col-FAU-Weiss-100);
+    }
+
+    summary {
+        color: var(--FAU-Col-FAU-Weiss-100);
+
+        &::before {
+            background-image: var(--icon-chevron-fau-blau);
+        }
+
+        &::after {
+            background-color: var(--FAU-Col-FAU-Weiss-100);
         }
     }
 }
