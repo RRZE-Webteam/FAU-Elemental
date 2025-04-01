@@ -719,3 +719,207 @@ function fau_elemental_load_template_part($slug, $name = null, $args = array()) 
         }
     }
 }
+
+/**
+ * Register footer menus and widgets
+ */
+function fau_elemental_footer_setup() {
+    // Register footer menu location
+    register_nav_menus( array(
+        'footer-instance' => esc_html__( 'Footer Instance Menu', 'fau-elemental' ),
+    ) );
+
+    // Register footer widget area
+    register_sidebar( array(
+        'name'          => esc_html__( 'Footer Widgets', 'fau-elemental' ),
+        'id'            => 'footer-widgets',
+        'description'   => esc_html__( 'Add widgets here to appear in your footer.', 'fau-elemental' ),
+        'before_widget' => '<div id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title">',
+        'after_title'   => '</h3>',
+    ) );
+}
+add_action( 'after_setup_theme', 'fau_elemental_footer_setup' );
+
+/**
+ * Register fallback templates for block theme parts
+ */
+function fau_elemental_template_part_areas($areas) {
+    $areas[] = array(
+        'area'        => 'footer',
+        'area_tag'    => 'footer',
+        'description' => __('Footer', 'fau-elemental'),
+        'icon'        => 'footer',
+        'slug'        => 'footer',
+    );
+    return $areas;
+}
+add_filter('default_wp_template_part_areas', 'fau_elemental_template_part_areas');
+
+/**
+ * Handle template part fallback
+ */
+function fau_elemental_template_part_fallback($template, $slug, $name) {
+    if ($slug === 'footer') {
+        ob_start();
+        get_footer();
+        $footer_content = ob_get_clean();
+        return array(
+            'content' => $footer_content,
+            'slug'    => $slug,
+            'name'    => $name,
+            'type'    => 'wp_template_part',
+        );
+    }
+    return $template;
+}
+add_filter('get_block_template', 'fau_elemental_template_part_fallback', 10, 3);
+
+/**
+ * Ensure PHP templates are loaded when block templates don't exist
+ */
+function fau_elemental_template_loading($template) {
+    if (is_singular() && !$template) {
+        $default_template = get_query_template('singular');
+        if ($default_template) {
+            return $default_template;
+        }
+    }
+    return $template;
+}
+add_filter('template_include', 'fau_elemental_template_loading', 99);
+
+add_filter('template_include', function($template) {
+    if (is_null($template)) {
+        // If no template is found, check if we're looking for a footer
+        if (basename($template) === 'footer.html') {
+            // Check if footer.php exists
+            $footer_php = get_template_directory() . '/footer.php';
+            if (file_exists($footer_php)) {
+                return $footer_php;
+            }
+        }
+    }
+    return $template;
+});
+
+// Alternative approach using template_part_hierarchy filter
+add_filter('template_part_hierarchy', function($templates) {
+    if (in_array('footer', $templates)) {
+        // Add footer.php to the template hierarchy
+        $templates[] = 'footer.php';
+    }
+    return $templates;
+});
+
+function render_footer_template() {
+    ob_start();
+    get_footer();  // This will load the main footer.php
+    return ob_get_clean();
+}
+
+register_block_type('fau-elemental/footer', array(
+    'render_callback' => 'render_footer_template'
+));
+
+function fau_elemental_footer_customizer_settings($wp_customize) {
+    // Main FAU Section
+    $wp_customize->add_section('fau_main_footer', array(
+        'title' => __('FAU Main Footer', 'fau-elemental'),
+        'priority' => 120,
+    ));
+
+    // FAU Claim
+    $wp_customize->add_setting('fau_footer_claim_title', array('default' => 'FAU - Wissen in Bewegung'));
+    $wp_customize->add_control('fau_footer_claim_title', array(
+        'label' => __('Main Claim Title', 'fau-elemental'),
+        'section' => 'fau_main_footer',
+        'type' => 'text',
+    ));
+
+    $wp_customize->add_setting('fau_footer_claim_text', array(
+        'default' => 'Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung.'
+    ));
+    $wp_customize->add_control('fau_footer_claim_text', array(
+        'label' => __('Main Claim Text', 'fau-elemental'),
+        'section' => 'fau_main_footer',
+        'type' => 'textarea',
+    ));
+
+    // Target Groups (4 sections)
+    $target_groups = array(
+        'zur_fau' => __('Zur FAU', 'fau-elemental'),
+        'forschung' => __('Forschung', 'fau-elemental'),
+        'studierende' => __('Studierende', 'fau-elemental'),
+        'studieninteressierte' => __('Studieninteressierte', 'fau-elemental')
+    );
+
+    foreach ($target_groups as $key => $label) {
+        $wp_customize->add_setting("target_group_{$key}_title", array('default' => $label));
+        $wp_customize->add_setting("target_group_{$key}_text", array(
+            'default' => __('Schwerpunkte, Leitbild, Reputation, Erfolge u.v.m.', 'fau-elemental')
+        ));
+        $wp_customize->add_setting("target_group_{$key}_link", array('default' => '#'));
+
+        $wp_customize->add_control("target_group_{$key}_title", array(
+            'label' => sprintf(__('%s Title', 'fau-elemental'), $label),
+            'section' => 'fau_main_footer',
+            'type' => 'text',
+        ));
+        $wp_customize->add_control("target_group_{$key}_text", array(
+            'label' => sprintf(__('%s Description', 'fau-elemental'), $label),
+            'section' => 'fau_main_footer',
+            'type' => 'textarea',
+        ));
+        $wp_customize->add_control("target_group_{$key}_link", array(
+            'label' => sprintf(__('%s Link', 'fau-elemental'), $label),
+            'section' => 'fau_main_footer',
+            'type' => 'url',
+        ));
+    }
+
+    // Instance Footer Section
+    $wp_customize->add_section('instance_footer', array(
+        'title' => __('Instance Footer', 'fau-elemental'),
+        'priority' => 121,
+    ));
+
+    // Instance Settings
+    $wp_customize->add_setting('instance_footer_title');
+    $wp_customize->add_control('instance_footer_title', array(
+        'label' => __('Instance Title', 'fau-elemental'),
+        'section' => 'instance_footer',
+        'type' => 'text',
+    ));
+
+    $wp_customize->add_setting('instance_footer_description');
+    $wp_customize->add_control('instance_footer_description', array(
+        'label' => __('Instance Description', 'fau-elemental'),
+        'section' => 'instance_footer',
+        'type' => 'textarea',
+    ));
+
+    // Social Media Links
+    $social_platforms = array(
+        'instagram' => 'Instagram',
+        'facebook' => 'Facebook',
+        'xing' => 'Xing',
+        'linkedin' => 'LinkedIn',
+        'twitter' => 'Twitter',
+        'mastodon' => 'Mastodon',
+        'bluesky' => 'BlueSky',
+        'youtube' => 'YouTube',
+        'tiktok' => 'TikTok'
+    );
+
+    foreach ($social_platforms as $key => $label) {
+        $wp_customize->add_setting("social_{$key}_url");
+        $wp_customize->add_control("social_{$key}_url", array(
+            'label' => $label,
+            'section' => 'instance_footer',
+            'type' => 'url',
+        ));
+    }
+}
+add_action('customize_register', 'fau_elemental_footer_customizer_settings');
