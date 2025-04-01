@@ -31,6 +31,7 @@
             width: 9px;
             right: 15px;
             top: 8px;
+            transition: var(--basic-animation);
         }
 
         &::after {
@@ -42,17 +43,18 @@
             right: 0;
             top: -5px;
         }
+
+        &:hover,
+        &:focus {
+            &::before {
+                top: 12px;
+                transition: var(--basic-animation);
+            }
+        }
     }
 
     p {
         padding-right: 80px;
-    }
-
-    figure {
-        display: flex;
-        justify-content: center;
-        background-color: var(--FAU-Col-FAU-Schwarz-12_5);
-        margin-right: 80px;
     }
 
     &[open] {
