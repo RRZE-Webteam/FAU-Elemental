@@ -1,6 +1,7 @@
 import { select, subscribe, dispatch } from '@wordpress/data';
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
+import { unregisterFormatType, registerFormatType } from '@wordpress/rich-text';
 
 /**
  * Block Selection Class Manager
@@ -36,6 +37,9 @@ subscribe( () => {
 		}
 	}
 } );
+
+// Remove the text-color format type
+unregisterFormatType( 'core/text-color' );
 
 /**
  * Filter Rich Text Format Types

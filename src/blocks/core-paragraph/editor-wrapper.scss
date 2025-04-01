@@ -6,8 +6,6 @@
 
 	// Hide text alignment options in toolbar
 	.block-editor-block-toolbar > .components-toolbar-group:nth-last-child(3),
-	// Hide "Highlight" button in "More" dropdown-menu
-	div[role="menu"][aria-label="More"] > button:nth-child(2),
 	// Hide typography panel in inspector controls
 	.block-editor-block-inspector .typography-block-support-panel {
 		display: none;
