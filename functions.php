@@ -592,6 +592,7 @@ function fau_elemental_theme_setup() {
     register_nav_menus(array(
         'primary' => __('Primary Menu', 'fau-elemental'),
         'footer' => __('Footer Menu', 'fau-elemental'),
+        'footer-instance-menu' => __('Footer Instance Menu', 'fau-elemental')
     ));
     
     // Add custom image sizes if needed
@@ -823,85 +824,102 @@ register_block_type('fau-elemental/footer', array(
     'render_callback' => 'render_footer_template'
 ));
 
-function fau_elemental_footer_customizer_settings($wp_customize) {
-    // Main FAU Section
-    $wp_customize->add_section('fau_main_footer', array(
-        'title' => __('FAU Main Footer', 'fau-elemental'),
-        'priority' => 120,
-    ));
+function fau_footer_customizer_settings($wp_customize) {
+    // Get the website type from theme settings
+    $website_type = get_option('faue_website_type', 'fau');
 
-    // FAU Claim
-    $wp_customize->add_setting('fau_footer_claim_title', array('default' => 'FAU - Wissen in Bewegung'));
-    $wp_customize->add_control('fau_footer_claim_title', array(
-        'label' => __('Main Claim Title', 'fau-elemental'),
-        'section' => 'fau_main_footer',
-        'type' => 'text',
-    ));
+    // Add Footer Settings Section
+    $wp_customize->add_section('footer_settings', [
+        'title' => __('Footer Settings', 'fau'),
+        'priority' => 130,
+    ]);
 
-    $wp_customize->add_setting('fau_footer_claim_text', array(
-        'default' => 'Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung.'
-    ));
-    $wp_customize->add_control('fau_footer_claim_text', array(
-        'label' => __('Main Claim Text', 'fau-elemental'),
-        'section' => 'fau_main_footer',
-        'type' => 'textarea',
-    ));
+    if ($website_type === 'fau') {
+        // Main FAU Website Footer Settings
+        $wp_customize->add_section('fau_main_footer', [
+            'title' => __('Main FAU Footer', 'fau'),
+            'priority' => 131,
+        ]);
 
-    // Target Groups (4 sections)
-    $target_groups = array(
-        'zur_fau' => __('Zur FAU', 'fau-elemental'),
-        'forschung' => __('Forschung', 'fau-elemental'),
-        'studierende' => __('Studierende', 'fau-elemental'),
-        'studieninteressierte' => __('Studieninteressierte', 'fau-elemental')
-    );
-
-    foreach ($target_groups as $key => $label) {
-        $wp_customize->add_setting("target_group_{$key}_title", array('default' => $label));
-        $wp_customize->add_setting("target_group_{$key}_text", array(
-            'default' => __('Schwerpunkte, Leitbild, Reputation, Erfolge u.v.m.', 'fau-elemental')
-        ));
-        $wp_customize->add_setting("target_group_{$key}_link", array('default' => '#'));
-
-        $wp_customize->add_control("target_group_{$key}_title", array(
-            'label' => sprintf(__('%s Title', 'fau-elemental'), $label),
+        // FAU Claim
+        $wp_customize->add_setting('fau_claim_title', [
+            'default' => 'FAU - Wissen in Bewegung'
+        ]);
+        $wp_customize->add_control('fau_claim_title', [
+            'label' => __('FAU Claim Title', 'fau'),
             'section' => 'fau_main_footer',
-            'type' => 'text',
-        ));
-        $wp_customize->add_control("target_group_{$key}_text", array(
-            'label' => sprintf(__('%s Description', 'fau-elemental'), $label),
+            'type' => 'text'
+        ]);
+
+        $wp_customize->add_setting('fau_claim_text', [
+            'default' => 'Die FAU ist die innovativste Universität Deutschlands...'
+        ]);
+        $wp_customize->add_control('fau_claim_text', [
+            'label' => __('FAU Claim Text', 'fau'),
             'section' => 'fau_main_footer',
-            'type' => 'textarea',
-        ));
-        $wp_customize->add_control("target_group_{$key}_link", array(
-            'label' => sprintf(__('%s Link', 'fau-elemental'), $label),
-            'section' => 'fau_main_footer',
-            'type' => 'url',
-        ));
+            'type' => 'textarea'
+        ]);
+
+        // Target Groups
+        $target_groups = [
+            'zur_fau' => __('To FAU', 'fau'),
+            'forschung' => __('Research', 'fau'),
+            'studierende' => __('Students', 'fau'),
+            'studieninteressierte' => __('Prospective Students', 'fau')
+        ];
+
+        foreach ($target_groups as $key => $label) {
+            $wp_customize->add_setting($key . '_title');
+            $wp_customize->add_control($key . '_title', [
+                'label' => sprintf(__('%s Title', 'fau'), $label),
+                'section' => 'fau_main_footer'
+            ]);
+
+            $wp_customize->add_setting($key . '_description');
+            $wp_customize->add_control($key . '_description', [
+                'label' => sprintf(__('%s Description', 'fau'), $label),
+                'section' => 'fau_main_footer',
+                'type' => 'textarea'
+            ]);
+
+            $wp_customize->add_setting($key . '_link');
+            $wp_customize->add_control($key . '_link', [
+                'label' => sprintf(__('%s Link', 'fau'), $label),
+                'section' => 'fau_main_footer'
+            ]);
+        }
+    } else {
+        // Faculty/Instance Footer Settings
+        $wp_customize->add_section('faculty_footer', [
+            'title' => __('Faculty Footer', 'fau'),
+            'priority' => 131,
+        ]);
+
+        // Instance Information
+        $wp_customize->add_setting('instance_title');
+        $wp_customize->add_control('instance_title', [
+            'label' => __('Faculty Title', 'fau'),
+            'section' => 'faculty_footer'
+        ]);
+
+        $wp_customize->add_setting('instance_description');
+        $wp_customize->add_control('instance_description', [
+            'label' => __('Faculty Description', 'fau'),
+            'section' => 'faculty_footer',
+            'type' => 'textarea'
+        ]);
+
+        $wp_customize->add_setting('instance_contact');
+        $wp_customize->add_control('instance_contact', [
+            'label' => __('Contact Information', 'fau'),
+            'section' => 'faculty_footer',
+            'type' => 'textarea'
+        ]);
     }
 
-    // Instance Footer Section
-    $wp_customize->add_section('instance_footer', array(
-        'title' => __('Instance Footer', 'fau-elemental'),
-        'priority' => 121,
-    ));
-
-    // Instance Settings
-    $wp_customize->add_setting('instance_footer_title');
-    $wp_customize->add_control('instance_footer_title', array(
-        'label' => __('Instance Title', 'fau-elemental'),
-        'section' => 'instance_footer',
-        'type' => 'text',
-    ));
-
-    $wp_customize->add_setting('instance_footer_description');
-    $wp_customize->add_control('instance_footer_description', array(
-        'label' => __('Instance Description', 'fau-elemental'),
-        'section' => 'instance_footer',
-        'type' => 'textarea',
-    ));
-
+    // Common Footer Settings (for both types)
     // Social Media Links
-    $social_platforms = array(
+    $social_platforms = [
         'instagram' => 'Instagram',
         'facebook' => 'Facebook',
         'xing' => 'Xing',
@@ -911,15 +929,56 @@ function fau_elemental_footer_customizer_settings($wp_customize) {
         'bluesky' => 'BlueSky',
         'youtube' => 'YouTube',
         'tiktok' => 'TikTok'
-    );
+    ];
 
     foreach ($social_platforms as $key => $label) {
-        $wp_customize->add_setting("social_{$key}_url");
-        $wp_customize->add_control("social_{$key}_url", array(
-            'label' => $label,
-            'section' => 'instance_footer',
-            'type' => 'url',
+        $wp_customize->add_setting('social_' . $key);
+        $wp_customize->add_control('social_' . $key, [
+            'label' => $label . ' URL',
+            'section' => 'footer_settings',
+            'type' => 'url'
+        ]);
+    }
+
+    // Image Credits
+    $wp_customize->add_setting('image_credits');
+    $wp_customize->add_control('image_credits', [
+        'label' => __('Image Credits', 'fau'),
+        'section' => 'footer_settings',
+        'type' => 'textarea'
+    ]);
+}
+add_action('customize_register', 'fau_footer_customizer_settings');
+// Add to your existing fau_footer_customizer function
+function fau_footer_instance_customizer($wp_customize) {
+    // Instance Footer Section
+    $wp_customize->add_section('fau_footer_instance', array(
+        'title' => __('FAU Footer Instance', 'your-theme-text-domain'),
+        'priority' => 31,
+    ));
+
+    // Contact Information
+    $contact_fields = array(
+        'instance_university_name' => 'University Name',
+        'instance_faculty_name' => 'Faculty Name',
+        'instance_street' => 'Street Address',
+        'instance_city' => 'City',
+        'instance_phone' => 'Phone Number',
+        'instance_email' => 'Email Address',
+        'instance_directions_link' => 'Directions Link'
+    );
+
+    foreach ($contact_fields as $setting => $label) {
+        $wp_customize->add_setting($setting, array(
+            'default' => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ));
+
+        $wp_customize->add_control($setting, array(
+            'label' => __($label, 'your-theme-text-domain'),
+            'section' => 'fau_footer_instance',
+            'type' => 'text',
         ));
     }
 }
-add_action('customize_register', 'fau_elemental_footer_customizer_settings');
+add_action('customize_register', 'fau_footer_instance_customizer');
