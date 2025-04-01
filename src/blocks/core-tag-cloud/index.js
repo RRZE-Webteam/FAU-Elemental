@@ -20,9 +20,22 @@ addFilter(
 
         return {
             ...settings,
+            attributes: {
+                ...settings.attributes,
+                smallestFontSize: {
+                    type: 'string',
+                    default: '0.85rem',
+                },
+                largestFontSize: {
+                    type: 'string',
+                    default: '0.85rem',
+                },
+            },
             supports: {
                 ...settings.supports,
-                align: false, // Remove alignment support
+                align: false,
+                fontSize: false,
+                customFontSize: false,
             },
         };
     }
