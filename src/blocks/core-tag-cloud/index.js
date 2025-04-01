@@ -22,14 +22,6 @@ addFilter(
             ...settings,
             attributes: {
                 ...settings.attributes,
-                smallestFontSize: {
-                    type: 'string',
-                    default: '0.85rem',
-                },
-                largestFontSize: {
-                    type: 'string',
-                    default: '0.85rem',
-                },
             },
             supports: {
                 ...settings.supports,
