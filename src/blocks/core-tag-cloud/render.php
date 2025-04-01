@@ -21,6 +21,9 @@ function fau_elemental_render_tag_cloud($block_content, $block) {
         return $block_content;
     }
 
+    // Remove inline font-size styles
+    $block_content = preg_replace('/style="[^"]*font-size[^"]*"/', '', $block_content);
+
     $wrapper_attributes = get_block_wrapper_attributes([
         'class' => 'wp-block-tag-cloud-wrapper'
     ]);

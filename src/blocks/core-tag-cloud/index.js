@@ -34,8 +34,6 @@ addFilter(
             supports: {
                 ...settings.supports,
                 align: false,
-                fontSize: false,
-                customFontSize: false,
             },
         };
     }
