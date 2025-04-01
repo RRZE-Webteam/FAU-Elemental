@@ -56,7 +56,8 @@ const initCarousel = (container, initialSlide = 0) => {
 	const slides = Array.from(container.querySelectorAll('.wp-block-image'));
 	if (!slides.length || slides.length <= 1) return;
 
-	let currentSlide = Math.min(initialSlide, slides.length - 1);
+	// Show the last slide by default
+	let currentSlide = slides.length - 1;
 
 	const updateSlides = () => {
 		slides.forEach((slide, index) => {
@@ -99,7 +100,9 @@ const withCarouselView = createHigherOrderComponent((BlockEdit) => {
 		useEffect(() => {
 			// Initialize carousel when block is selected or images change
 			if (carouselRef.current) {
-				initCarousel(carouselRef.current);
+				// Pass the last index as initial slide
+				const slideCount = props.attributes.images?.length || 0;
+				initCarousel(carouselRef.current, slideCount - 1);
 			}
 		}, [props.isSelected, props.attributes.images]);
 
