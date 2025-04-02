@@ -2,6 +2,7 @@ import {
 	registerBlockStyle,
 	unregisterBlockVariation,
 } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
 
 // Register block styles for core/paragraph
 wp.domReady( () => {
@@ -11,13 +12,13 @@ wp.domReady( () => {
 
 	registerBlockStyle( 'core/paragraph', {
 		name: 'intro-text',
-		label: 'Intro Text',
+		label: __( 'Intro Text', 'fau-elemental' ),
 		isDefault: false,
 	} );
 
 	registerBlockStyle( 'core/paragraph', {
 		name: 'small-text',
-		label: 'Small Text',
+		label: __( 'Small Text', 'fau-elemental' ),
 		isDefault: false,
 	} );
 } );
