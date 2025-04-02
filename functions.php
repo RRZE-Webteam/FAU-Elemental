@@ -684,42 +684,6 @@ function fau_elemental_register_template_parts() {
 }
 add_action('init', 'fau_elemental_register_template_parts');
 
-/**
- * Function to load template parts for both block and PHP templates
- *
- * @param string $slug Template slug
- * @param string $name Template name (optional)
- * @param array $args Additional arguments to pass to the template (optional)
- */
-function fau_elemental_load_template_part($slug, $name = null, $args = array()) {
-    // First check if block template part exists
-    $part_name = $name ? "{$slug}-{$name}" : $slug;
-    $block_part_file = get_theme_file_path("/parts/{$part_name}.html");
-    
-    if (file_exists($block_part_file) && filesize($block_part_file) > 0) {
-        // Block template exists, use it
-        echo do_blocks(file_get_contents($block_part_file));
-    } else {
-        // Fall back to PHP template part
-        // Use WordPress's standard structure for template-parts
-        $directory = '';
-        
-        // Organize by type if slug has a recognizable prefix
-        if (strpos($slug, 'header') === 0) {
-            $directory = 'header';
-        } elseif (strpos($slug, 'footer') === 0) {
-            $directory = 'footer';
-        } elseif (strpos($slug, 'content') === 0) {
-            $directory = 'content';
-        }
-        
-        if ($directory) {
-            get_template_part("template-parts/{$directory}/{$slug}", $name, $args);
-        } else {
-            get_template_part("template-parts/{$slug}", $name, $args);
-        }
-    }
-}
 
 /**
  * Register footer menus and widgets
@@ -743,80 +707,14 @@ function fau_elemental_footer_setup() {
 }
 add_action( 'after_setup_theme', 'fau_elemental_footer_setup' );
 
-/**
- * Register fallback templates for block theme parts
- */
-function fau_elemental_template_part_areas($areas) {
-    $areas[] = array(
-        'area'        => 'footer',
-        'area_tag'    => 'footer',
-        'description' => __('Footer', 'fau-elemental'),
-        'icon'        => 'footer',
-        'slug'        => 'footer',
-    );
-    return $areas;
-}
-add_filter('default_wp_template_part_areas', 'fau_elemental_template_part_areas');
 
-/**
- * Handle template part fallback
- */
-function fau_elemental_template_part_fallback($template, $slug, $name) {
-    if ($slug === 'footer') {
-        ob_start();
-        get_footer();
-        $footer_content = ob_get_clean();
-        return array(
-            'content' => $footer_content,
-            'slug'    => $slug,
-            'name'    => $name,
-            'type'    => 'wp_template_part',
-        );
-    }
-    return $template;
-}
-add_filter('get_block_template', 'fau_elemental_template_part_fallback', 10, 3);
 
-/**
- * Ensure PHP templates are loaded when block templates don't exist
- */
-function fau_elemental_template_loading($template) {
-    if (is_singular() && !$template) {
-        $default_template = get_query_template('singular');
-        if ($default_template) {
-            return $default_template;
-        }
-    }
-    return $template;
-}
-add_filter('template_include', 'fau_elemental_template_loading', 99);
 
-add_filter('template_include', function($template) {
-    if (is_null($template)) {
-        // If no template is found, check if we're looking for a footer
-        if (basename($template) === 'footer.html') {
-            // Check if footer.php exists
-            $footer_php = get_template_directory() . '/footer.php';
-            if (file_exists($footer_php)) {
-                return $footer_php;
-            }
-        }
-    }
-    return $template;
-});
 
-// Alternative approach using template_part_hierarchy filter
-add_filter('template_part_hierarchy', function($templates) {
-    if (in_array('footer', $templates)) {
-        // Add footer.php to the template hierarchy
-        $templates[] = 'footer.php';
-    }
-    return $templates;
-});
-
+ // This will load the main footer.php dont remove this
 function render_footer_template() {
     ob_start();
-    get_footer();  // This will load the main footer.php
+    get_footer(); 
     return ob_get_clean();
 }
 
@@ -830,14 +728,14 @@ function fau_footer_customizer_settings($wp_customize) {
 
     // Add Footer Settings Section
     $wp_customize->add_section('footer_settings', [
-        'title' => __('Footer Settings', 'fau'),
+        'title' => __('Footer Socials', 'fau-elemental'),
         'priority' => 130,
     ]);
 
     if ($website_type === 'fau') {
         // Main FAU Website Footer Settings
         $wp_customize->add_section('fau_main_footer', [
-            'title' => __('Main FAU Footer', 'fau'),
+            'title' => __('Main FAU Footer', 'fau-elemental'),
             'priority' => 131,
         ]);
 
@@ -846,7 +744,7 @@ function fau_footer_customizer_settings($wp_customize) {
             'default' => 'FAU - Wissen in Bewegung'
         ]);
         $wp_customize->add_control('fau_claim_title', [
-            'label' => __('FAU Claim Title', 'fau'),
+            'label' => __('FAU Claim Title', 'fau-elemental'),
             'section' => 'fau_main_footer',
             'type' => 'text'
         ]);
@@ -855,63 +753,63 @@ function fau_footer_customizer_settings($wp_customize) {
             'default' => 'Die FAU ist die innovativste Universität Deutschlands...'
         ]);
         $wp_customize->add_control('fau_claim_text', [
-            'label' => __('FAU Claim Text', 'fau'),
+            'label' => __('FAU Claim Text', 'fau-elemental'),
             'section' => 'fau_main_footer',
             'type' => 'textarea'
         ]);
 
         // Target Groups
         $target_groups = [
-            'zur_fau' => __('To FAU', 'fau'),
-            'forschung' => __('Research', 'fau'),
-            'studierende' => __('Students', 'fau'),
-            'studieninteressierte' => __('Prospective Students', 'fau')
+            'zur_fau' => __('To FAU', 'fau-elemental'),
+            'forschung' => __('Research', 'fau-elemental'),
+            'studierende' => __('Students', 'fau-elemental'),
+            'studieninteressierte' => __('Prospective Students', 'fau-elemental')
         ];
 
         foreach ($target_groups as $key => $label) {
             $wp_customize->add_setting($key . '_title');
             $wp_customize->add_control($key . '_title', [
-                'label' => sprintf(__('%s Title', 'fau'), $label),
+                'label' => sprintf(__('%s Title', 'fau-elemental'), $label),
                 'section' => 'fau_main_footer'
             ]);
 
             $wp_customize->add_setting($key . '_description');
             $wp_customize->add_control($key . '_description', [
-                'label' => sprintf(__('%s Description', 'fau'), $label),
+                'label' => sprintf(__('%s Description', 'fau-elemental'), $label),
                 'section' => 'fau_main_footer',
                 'type' => 'textarea'
             ]);
 
             $wp_customize->add_setting($key . '_link');
             $wp_customize->add_control($key . '_link', [
-                'label' => sprintf(__('%s Link', 'fau'), $label),
+                'label' => sprintf(__('%s Link', 'fau-elemental'), $label),
                 'section' => 'fau_main_footer'
             ]);
         }
     } else {
         // Faculty/Instance Footer Settings
         $wp_customize->add_section('faculty_footer', [
-            'title' => __('Faculty Footer', 'fau'),
+            'title' => __('Faculty Footer', 'fau-elemental'),
             'priority' => 131,
         ]);
 
         // Instance Information
         $wp_customize->add_setting('instance_title');
         $wp_customize->add_control('instance_title', [
-            'label' => __('Faculty Title', 'fau'),
+            'label' => __('Faculty Title', 'fau-elemental'),
             'section' => 'faculty_footer'
         ]);
 
         $wp_customize->add_setting('instance_description');
         $wp_customize->add_control('instance_description', [
-            'label' => __('Faculty Description', 'fau'),
+            'label' => __('Faculty Description', 'fau-elemental'),
             'section' => 'faculty_footer',
             'type' => 'textarea'
         ]);
 
         $wp_customize->add_setting('instance_contact');
         $wp_customize->add_control('instance_contact', [
-            'label' => __('Contact Information', 'fau'),
+            'label' => __('Contact Information', 'fau-elemental'),
             'section' => 'faculty_footer',
             'type' => 'textarea'
         ]);
@@ -943,7 +841,7 @@ function fau_footer_customizer_settings($wp_customize) {
     // Image Credits
     $wp_customize->add_setting('image_credits');
     $wp_customize->add_control('image_credits', [
-        'label' => __('Image Credits', 'fau'),
+        'label' => __('Image Credits', 'fau-elemental'),
         'section' => 'footer_settings',
         'type' => 'textarea'
     ]);
@@ -953,7 +851,7 @@ add_action('customize_register', 'fau_footer_customizer_settings');
 function fau_footer_instance_customizer($wp_customize) {
     // Instance Footer Section
     $wp_customize->add_section('fau_footer_instance', array(
-        'title' => __('FAU Footer Instance', 'your-theme-text-domain'),
+        'title' => __('FAU Footer Instance', 'fau-elemental'),
         'priority' => 31,
     ));
 
@@ -975,7 +873,7 @@ function fau_footer_instance_customizer($wp_customize) {
         ));
 
         $wp_customize->add_control($setting, array(
-            'label' => __($label, 'your-theme-text-domain'),
+            'label' => __($label, 'fau-elemental'),
             'section' => 'fau_footer_instance',
             'type' => 'text',
         ));

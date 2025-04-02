@@ -34,16 +34,18 @@
                 <a href="<?php echo esc_url($group['link']); ?>" class="target-group">
                     <h3><?php echo esc_html($group['title']); ?></h3>
                     <p><?php echo esc_html($group['description']); ?></p>
-                    <span class="arrow-link"><?php _e('Mehr erfahren', 'your-theme-text-domain'); ?></span>
+                    <span class="arrow-link"><?php _e('Mehr erfahren', 'fau-elemental'); ?></span>
                 </a>
             <?php endforeach; ?>
         </div>
     </div>
+</div>
 
-    <div class="footer-bottom">
+<div class="footer-bottom">
+    <div class="footer-bottom-wrapper">
         <div class="footer-logo">
             <?php 
-            $logo_url = get_theme_mod('fau_footer_logo', get_theme_file_uri('assets/images/fau-logo-white.svg'));
+            $logo_url = get_theme_mod('fau_footer_logo', get_theme_file_uri('assets/images/logo.svg'));
             if ($logo_url) : ?>
                 <img src="<?php echo esc_url($logo_url); ?>" alt="FAU Logo">
             <?php endif; ?>
@@ -76,25 +78,26 @@
             </div>
             
             <div class="footer-social">
-                <p class="social-label"><?php echo get_theme_mod('social_label', 'Bildnachweise:'); ?></p>
-                <div class="social-icons">
+                <p class="social-label"><?php echo get_theme_mod('social_label', __('Bildnachweise:', 'fau-elemental')); ?></p>
+                <div class="social-links">
                     <?php
                     $social_platforms = array(
-                        'instagram' => array('url' => get_theme_mod('social_instagram'), 'icon' => 'instagram'),
-                        'facebook' => array('url' => get_theme_mod('social_facebook'), 'icon' => 'facebook'),
-                        'xing' => array('url' => get_theme_mod('social_xing'), 'icon' => 'xing'),
-                        'linkedin' => array('url' => get_theme_mod('social_linkedin'), 'icon' => 'linkedin'),
-                        'twitter' => array('url' => get_theme_mod('social_twitter'), 'icon' => 'twitter'),
-                        'mastodon' => array('url' => get_theme_mod('social_mastodon'), 'icon' => 'mastodon'),
-                        'blog' => array('url' => get_theme_mod('social_blog'), 'icon' => 'blog'),
-                        'youtube' => array('url' => get_theme_mod('social_youtube'), 'icon' => 'youtube'),
-                        'tiktok' => array('url' => get_theme_mod('social_tiktok'), 'icon' => 'tiktok')
+                        'instagram' => 'Instagram',
+                        'facebook' => 'Facebook',
+                        'xing' => 'Xing',
+                        'linkedin' => 'LinkedIn',
+                        'twitter' => 'X',
+                        'mastodon' => 'Mastodon',
+                        'blog' => 'Blog',
+                        'youtube' => 'YouTube',
+                        'tiktok' => 'TikTok'
                     );
 
-                    foreach ($social_platforms as $platform => $data) :
-                        if (!empty($data['url'])) : ?>
-                            <a href="<?php echo esc_url($data['url']); ?>" class="social-icon <?php echo esc_attr($data['icon']); ?>" target="_blank" rel="noopener noreferrer">
-                                <span class="screen-reader-text"><?php echo esc_html(ucfirst($platform)); ?></span>
+                    foreach ($social_platforms as $platform => $label) :
+                        $url = get_theme_mod("social_${platform}");
+                        if (!empty($url)) : ?>
+                            <a href="<?php echo esc_url($url); ?>" class="social-link <?php echo esc_attr($platform); ?>" target="_blank" rel="noopener noreferrer">
+                                <?php echo esc_html($label); ?>
                             </a>
                         <?php endif;
                     endforeach; ?>
