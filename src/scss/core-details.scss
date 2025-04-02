@@ -1,4 +1,4 @@
-.wp-block-details {
+details.wp-block-details {
     margin: 0;
     border-bottom: 1px solid var(--FAU-Col-FAU-Blau-100);
     padding-bottom: 20px;
@@ -27,9 +27,10 @@
             content: '';
             position: absolute;
             background-image: var(--icon-chevron-weiss);
+            background-repeat: no-repeat;
             transform: rotate(90deg);
             z-index: 1;
-            height: 14px;
+            height: 15px;
             width: 9px;
             right: 15px;
             top: 8px;
@@ -63,11 +64,11 @@
             "rw": var(--FAU-Col-RW-Rot-100),
             "tf": var(--FAU-Col-TF-Metallic-100)
         ) {
-            .fauorg-fakultaet.faculty-#{$faculty} &::after {
+            .faculty-#{$faculty} &::after {
                 background-color: $color;
             }
 
-            .fauorg-fakultaet.faculty-#{$faculty} &::before {
+            .faculty-#{$faculty} &::before {
                 background-image: var(--icon-chevron-fau-blau);
             }
         }
@@ -92,22 +93,24 @@
 }
 
 // Dark mode
-.is-style-dark .wp-block-details {
-    border-bottom: 1px solid var(--FAU-Col-FAU-Weiss-100);
-
-    &:first-child {
-        border-top: 1px solid var(--FAU-Col-FAU-Weiss-100);
-    }
-
-    summary {
-        color: var(--FAU-Col-FAU-Weiss-100);
-
-        &::before {
-            background-image: var(--icon-chevron-fau-blau);
+.is-style-dark {
+    details.wp-block-details {
+        border-bottom: 1px solid var(--FAU-Col-FAU-Weiss-100);
+    
+        &:first-child {
+            border-top: 1px solid var(--FAU-Col-FAU-Weiss-100);
         }
-
-        &::after {
-            background-color: var(--FAU-Col-FAU-Weiss-100);
+    
+        summary {
+            color: var(--FAU-Col-FAU-Weiss-100);
+    
+            &::before {
+                background-image: var(--icon-chevron-fau-blau);
+            }
+    
+            &::after {
+                background-color: var(--FAU-Col-FAU-Weiss-100);
+            }
         }
     }
 }
