@@ -50,7 +50,7 @@ addFilter(
 	editGalleryBlockSupports
 );
 
-const initCarousel = (container, initialSlide = 0) => {
+const initCarousel = (container, galleryClientId) => {
 	if (!container) return;
 
 	const slides = Array.from(container.querySelectorAll('.wp-block-image'));
@@ -72,11 +72,26 @@ const initCarousel = (container, initialSlide = 0) => {
 
 	updateSlides();
 
+	const selectCurrentImageBlock = () => {
+		if (galleryClientId) {
+			const { selectBlock } = wp.data.dispatch('core/block-editor');
+			const { getBlock } = wp.data.select('core/block-editor');
+			
+			// Get the gallery block
+			const galleryBlock = getBlock(galleryClientId);
+			if (galleryBlock && galleryBlock.innerBlocks && galleryBlock.innerBlocks[currentSlide]) {
+				// Select the current image block
+				selectBlock(galleryBlock.innerBlocks[currentSlide].clientId);
+			}
+		}
+	};
+
 	const prevButton = container.querySelector('.carousel-prev');
 	if (prevButton) {
 		prevButton.onclick = () => {
 			currentSlide = (currentSlide - 1 + slides.length) % slides.length;
 			updateSlides();
+			selectCurrentImageBlock();
 		};
 	}
 
@@ -85,6 +100,7 @@ const initCarousel = (container, initialSlide = 0) => {
 		nextButton.onclick = () => {
 			currentSlide = (currentSlide + 1) % slides.length;
 			updateSlides();
+			selectCurrentImageBlock();
 		};
 	}
 };
@@ -96,15 +112,14 @@ const withCarouselView = createHigherOrderComponent((BlockEdit) => {
 		}
 
 		const carouselRef = useRef(null);
+		const { clientId } = props;
 
 		useEffect(() => {
 			// Initialize carousel when block is selected or images change
 			if (carouselRef.current) {
-				// Pass the last index as initial slide
-				const slideCount = props.attributes.images?.length || 0;
-				initCarousel(carouselRef.current, slideCount - 1);
+				initCarousel(carouselRef.current, clientId);
 			}
-		}, [props.isSelected, props.attributes.images]);
+		}, [props.isSelected, props.attributes.images, clientId]);
 
 		return (
 			<Fragment>
