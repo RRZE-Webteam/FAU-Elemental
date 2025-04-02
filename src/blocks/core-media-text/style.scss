@@ -1,105 +1,31 @@
+@import "../../mixins";
+
 .wp-block-media-text {
-    position: relative;
-    margin-top: 2em;  // Add space for heading
-
-    // Heading styles
-    h2 {
-        position: absolute;
-        top: -2em;
-        left: 0;
-        font-size: var(--H-Heading-2);
-        color: var(--FAU-Col-FAU-Dunkelblau-100);
-        margin: 0;
-        padding: 0;
-    }
-
-    // Default layout (side by side)
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2em;
-    align-items: center;
-
-    .wp-block-media-text__media {
-        img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-    }
+    gap: var(--Spacing-8x);
 
     .wp-block-media-text__content {
         padding: 0;
     }
+}
 
-    // Mobile styles
-    @media (max-width: 781px) {
-        margin-top: 3em;  // More space for heading on mobile
-        grid-template-columns: 1fr;
-        gap: 1.5em;
+// Responsive
+@include respond-to("small") {
+    .wp-block-media-text {
+        gap: var(--Spacing-4x);
+    }
+}
 
-        h2 {
-            position: relative;
-            top: 0;
-            margin-bottom: 1em;
+@media screen and (max-width: 600px) {
+    // Change order of media and text
+    .wp-block-media-text.has-media-on-the-right.is-stacked-on-mobile {
+        > .wp-block-media-text__content  {
+            grid-row: 1;
         }
     }
-
-    &.text-position-top {
-        display: grid !important;
-        grid-template-columns: 100% !important;
-        grid-template-areas: 
-            "text"
-            "media" !important;
-
-        .wp-block-media-text__media,
-        .wp-block-media-text__content {
-            grid-column: 1 !important;
-        }
-
-        .wp-block-media-text__content {
-            grid-row: 1 !important;
-        }
-
-        .wp-block-media-text__media {
-            grid-row: 2 !important;
-        }
-    }
-
-    &.text-position-bottom {
-        display: grid !important;
-        grid-template-columns: 100% !important;
-        grid-template-areas: 
-            "media"
-            "text" !important;
-
-        .wp-block-media-text__media,
-        .wp-block-media-text__content {
-            grid-column: 1 !important;
-        }
-
-        .wp-block-media-text__media {
-            grid-row: 1 !important;
-        }
-
-        .wp-block-media-text__content {
-            grid-row: 2 !important;
-        }
-    }
-
-    // Preserve image size and spacing
-    &.text-position-top,
-    &.text-position-bottom {
-        gap: 2em;
-        
-        .wp-block-media-text__media {
-            img {
-                width: 100%;
-                height: auto;
-            }
-        }
-
-        .wp-block-media-text__content {
-            padding: 0;
+    
+    .wp-block-media-text.has-media-on-the-right.is-stacked-on-mobile {
+        > .wp-block-media-text__media {
+            grid-row: 2;
         }
     }
 }
