@@ -36,6 +36,7 @@ const editorScripts = [
 	path.resolve( process.cwd(), 'src/blocks/core-heading/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-image/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-list/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-media-text/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-paragraph/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-separator/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-table/index.js' ),
