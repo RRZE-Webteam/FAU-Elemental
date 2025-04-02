@@ -20,6 +20,19 @@ addFilter(
 			// Only show for unordered lists
 			const isUnordered = ! attributes.ordered;
 
+			// If the list is ordered and has the list-icons class, remove it
+			if ( ! isUnordered && attributes.className?.includes( 'list-icons' ) ) {
+				const currentClasses = attributes.className
+					.split( ' ' )
+					.filter( ( cls ) => cls !== 'list-icons' );
+				
+				setAttributes( {
+					className: currentClasses.length > 0
+						? currentClasses.join( ' ' )
+						: undefined,
+				} );
+			}
+
 			return (
 				<>
 					{ isUnordered && (
