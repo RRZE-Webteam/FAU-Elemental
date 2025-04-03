@@ -2,7 +2,7 @@
  * Core Paragraph Block Styles
  */
 
- @import "../../mixins";
+@import "../../mixins";
 
 p {
 	font-size: var(--P-Body-Text);
@@ -88,14 +88,15 @@ figcaption {
 
 // Responsive
 @include respond-to("small") {
+
 	p {
 		font-size: 1rem;
 	}
-	
+
 	.is-style-intro-text {
 		font-size: 1.15rem;
 	}
-	
+
 	.is-style-small-text {
 		font-size: 0.9rem;
 	}

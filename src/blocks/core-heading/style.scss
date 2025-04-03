@@ -2,7 +2,7 @@
  * Core Heading Block Styles
  */
 
- @import "../../mixins";
+@import "../../mixins";
 
 h2,
 h3,
@@ -52,10 +52,11 @@ h6 {
 
 // Responsive
 @include respond-to("small") {
+
 	h2 {
 		font-size: 1.5rem;
 	}
-	
+
 	h3 {
 		font-size: 1.375rem;
 	}
