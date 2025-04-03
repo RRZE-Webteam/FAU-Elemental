@@ -17,8 +17,7 @@
 		border: 0;
 
 		&::before {
-			content: '';
-			position: absolute;
+			content: "";
 			background-image: var(--icon-open-in-full);
 			position: absolute;
 			width: 20px;
@@ -31,9 +30,9 @@
 	figcaption {
 		position: relative;
 		bottom: 45px;
-		background-color: #ffffff;
+		background-color: #fff;
 		margin: 0;
-		transform: translate( -50%);
+		transform: translate(-50%);
 		left: 50%;
 		padding: var(--Spacing-6x) var(--Spacing-8x);
 		font-size: var(--P-Body-Text-Small);
@@ -90,8 +89,7 @@
 		right: 14px;
 
 		&::before {
-			content: '';
-			position: absolute;
+			content: "";
 			background-image: var(--icon-close-fullscreen);
 			position: absolute;
 			width: 20px;

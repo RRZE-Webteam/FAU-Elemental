@@ -67,7 +67,7 @@
 			}
 		}
 
-		.dark & {
+		.is-style-dark & {
 			background-color: var(--FAU-Col-FAU-Dunkelblau-100);
 			color: var(--FAU-Col-FAU-Weiss-100);
 			border-color: var(--FAU-Col-FAU-Dunkelblau-100);
@@ -82,9 +82,9 @@
 			}
 		}
 
-		.fauorg-home .dark &,
-		.fauorg-unterorg .dark &,
-		.fauorg-kooperation .dark & {
+		.fauorg-home .is-style-dark &,
+		.fauorg-unterorg .is-style-dark &,
+		.fauorg-kooperation .is-style-dark & {
 
 			&::before {
 				background-image: var(--icon-arrow-fau-blau);
@@ -133,7 +133,7 @@
 			border-left: none;
 		}
 
-		.dark & {
+		.is-style-dark & {
 			color: var(--FAU-Col-FAU-Dunkelblau-12_5);
 			border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
 
@@ -143,9 +143,9 @@
 			}
 		}
 
-		.fauorg-home .dark &,
-		.fauorg-unterorg .dark &,
-		.fauorg-kooperation .dark & {
+		.fauorg-home .is-style-dark &,
+		.fauorg-unterorg .is-style-dark &,
+		.fauorg-kooperation .is-style-dark & {
 
 			&::before {
 				background-image: var(--icon-arrow-weiss);
@@ -155,10 +155,10 @@
 		@each $faculty, $color in (
 			"phil": var(--FAU-Col-Phil-Gelb-100),
 			"nat": var(--FAU-Col-Nat-Gruen-100),
-            "med": var(--FAU-Col-Med-Blau-100),
-            "rw": var(--FAU-Col-RW-Rot-100),
-            "tf": var(--FAU-Col-TF-Metallic-100)
-        ) {
+			"med": var(--FAU-Col-Med-Blau-100),
+			"rw": var(--FAU-Col-RW-Rot-100),
+			"tf": var(--FAU-Col-TF-Metallic-100)
+		) {
 			.fauorg-fakultaet.faculty-#{$faculty} &::before {
 				color: var(--FAU-Col-FAU-Blau-100);
 			}
@@ -202,7 +202,7 @@
 			}
 		}
 
-		.dark & {
+		.is-style-dark & {
 			color: var(--FAU-Col-FAU-Weiss-100);
 
 			&::after {

@@ -1,10 +1,13 @@
-// When a heading block is selected, hide the following:
+/**
+ * Core Heading Block - Editor Wrapper Styles - Hide Editor Features
+ */
+
 .faue-is-heading-block-selected {
-	// Hide Settings-Panel for Width-Options in the Block Inspector
+
 	.block-editor-block-toolbar > .components-toolbar-group {
 		// Hide Font Controls
 		&:nth-last-child(2) {
 			display: none;
 		}
 	}
-} 
+}

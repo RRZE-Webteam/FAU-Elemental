@@ -1,6 +1,8 @@
 /**
- * Core Paragraph Styles
+ * Core Paragraph Block Styles
  */
+
+@import "../../mixins";
 
 p {
 	font-size: var(--P-Body-Text);
@@ -17,13 +19,13 @@ p {
 	}
 }
 
-.intro-text {
+.is-style-intro-text {
 	font-size: var(--P-Intro-Text);
 	font-weight: 600;
 	line-height: 1.6;
 }
 
-.small-text {
+.is-style-small-text {
 	font-size: var(--P-Body-Text-Small);
 	letter-spacing: var(--letter-spacing-small);
 }
@@ -54,14 +56,14 @@ a {
 			right: calc(-1 * var(--Spacing-6x));
 			top: 6px;
 
-			.small-text & {
+			.is-style-small-text & {
 				height: 13px;
 				width: 13px;
 				right: calc(-1 * var(--Spacing-5x));
 				top: 5px;
 			}
 
-			.dark & {
+			.is-style-dark & {
 				background-image: var(--icon-external-link-weiss);
 			}
 		}
@@ -75,11 +77,27 @@ figcaption {
 	font-weight: 400;
 }
 
-.dark {
+.is-style-dark {
 
 	p,
 	a,
 	figcaption {
 		color: var(--FAU-Col-FAU-Weiss-100);
+	}
+}
+
+// Responsive
+@include respond-to("small") {
+
+	p {
+		font-size: 1rem;
+	}
+
+	.is-style-intro-text {
+		font-size: 1.15rem;
+	}
+
+	.is-style-small-text {
+		font-size: 0.9rem;
 	}
 }

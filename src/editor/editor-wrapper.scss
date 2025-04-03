@@ -1,11 +1,19 @@
 /**
- * Editor Wrapper Styles
+ * Editor Wrapper Styles - Hide Editor Features
  */
 
 // Import all block editor wrapper styles
-@import '../blocks/core-button/editor-wrapper.scss';
-@import '../blocks/core-heading/editor-wrapper.scss';
-@import '../blocks/core-paragraph/editor-wrapper.scss';
-@import '../blocks/core-list/editor-wrapper.scss';
-@import '../blocks/core-table/editor-wrapper.scss';
-@import '../blocks/core-image/editor-wrapper.scss';
+@import "../blocks/core-button/editor-wrapper";
+@import "../blocks/core-code/editor-wrapper";
+@import "../blocks/core-details/editor-wrapper";
+@import "../blocks/core-file/editor-wrapper";
+@import "../blocks/core-group/editor-wrapper";
+@import "../blocks/core-heading/editor-wrapper";
+@import "../blocks/core-image/editor-wrapper";
+@import "../blocks/core-list/editor-wrapper";
+@import "../blocks/core-media-text/editor-wrapper";
+@import "../blocks/core-paragraph/editor-wrapper";
+@import "../blocks/core-separator/editor-wrapper";
+@import "../blocks/core-table/editor-wrapper";
+@import "../blocks/core-tag-cloud/editor-wrapper";
+@import "../blocks/core-verse/editor-wrapper";

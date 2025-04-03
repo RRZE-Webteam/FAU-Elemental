@@ -1,0 +1,16 @@
+/**
+ * Core Verse Block - Editor Wrapper Styles - Hide Editor Features
+ */
+
+// When a verse block is selected, hide the following:
+.faue-is-verse-block-selected {
+	// Hide formatting options
+	// Hide Settings-Panel for Width-Options in the Block Inspector
+	.block-editor-block-toolbar > div {
+		// Hide Font Controls and the "Align" button
+		&:nth-last-child(2),
+		&:nth-last-child(3) {
+			display: none;
+		}
+	}
+}

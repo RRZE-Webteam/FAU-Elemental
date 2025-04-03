@@ -1,6 +1,8 @@
 /**
- * Core Heading Styles
+ * Core Heading Block Styles
  */
+
+@import "../../mixins";
 
 h2,
 h3,
@@ -37,7 +39,7 @@ h6 {
 	line-height: 1.2;
 }
 
-.dark {
+.is-style-dark {
 
 	h2,
 	h3,
@@ -45,5 +47,17 @@ h6 {
 	h5,
 	h6 {
 		color: var(--FAU-Col-FAU-Weiss-100);
+	}
+}
+
+// Responsive
+@include respond-to("small") {
+
+	h2 {
+		font-size: 1.5rem;
+	}
+
+	h3 {
+		font-size: 1.375rem;
 	}
 }

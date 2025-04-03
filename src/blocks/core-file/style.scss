@@ -1,0 +1,142 @@
+/**
+ * Core File Block Styles
+ */
+
+@import "mixins";
+
+.wp-block-file {
+
+	.wp-block-file__content-wrapper {
+		display: flex;
+		align-items: center;
+		position: relative;
+		gap: var(--Spacing-8x);
+		border: 1px solid var(--FAU-Col-FAU-Blau-100);
+		padding: var(--Spacing-8x);
+
+		.is-style-dark & {
+			border: 1px solid var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		@include respond-to("x-small") {
+			gap: var(--Spacing-4x);
+			padding: var(--Spacing-4x);
+		}
+
+		.wp-block-file {
+			margin-bottom: unset;
+
+			.file-content {
+				font-size: 1rem;
+				color: var(--FAU-Col-FAU-Schwarz-100);
+				font-weight: 400;
+
+				.is-style-dark & {
+					color: 1px solid var(--FAU-Col-FAU-Weiss-100);
+				}
+
+				@include respond-to("small") {
+					word-wrap: anywhere;
+				}
+
+				.wp-block-file {
+					margin-bottom: var(--Spacing-4x);
+
+					a {
+						font-size: 1.15rem;
+						color: var(--FAU-Col-FAU-Dunkelblau-100);
+
+						.is-style-dark & {
+							color: 1px solid var(--FAU-Col-FAU-Weiss-100);
+						}
+					}
+				}
+
+				.file-info-wrapper {
+					display: flex;
+					gap: 10px;
+
+					@include respond-to("small") {
+						gap: 5px;
+						padding-right: 40px;
+						flex-direction: column;
+					}
+				}
+			}
+
+			.wp-element-button {
+				position: absolute;
+				background-color: var(--FAU-Col-FAU-Blau-100);
+				right: 0;
+				top: calc(50% - 20px);
+				width: 40px;
+				height: 40px;
+				border-radius: 0;
+				padding: unset;
+
+				&::before {
+					content: "";
+					background-image: var(--icon-download-weiss);
+					position: absolute;
+					height: 14px;
+					width: 14px;
+					top: calc(50% - 7px);
+					left: calc(50% - 7px);
+				}
+
+				.is-style-dark & {
+					background-color: var(--FAU-Col-FAU-Weiss-100);
+
+					&::before {
+						background-image: var(--icon-download-fau-blau);
+					}
+				}
+			}
+		}
+
+		.file-cover-image {
+
+			img {
+				display: block;
+				max-width: 100px;
+			}
+		}
+	}
+}
+
+// Editor view overrides
+.editor-styles-wrapper {
+
+	.wp-block-file {
+		display: block;
+		margin-bottom: 1.5rem;
+
+		.wp-block-file__content-wrapper .wp-block-file {
+			width: 100%;
+
+			.wp-block-file__content-wrapper {
+				border: none;
+				padding: 0;
+
+				.wp-element-button {
+					right: -32px;
+					top: calc(50% - 10px);
+				}
+			}
+
+			.file-info {
+				font-size: 1rem;
+				margin-right: 20px;
+			}
+
+			a {
+				color: var(--FAU-Col-FAU-Schwarz-100);
+				font-size: 1.15rem;
+			}
+		}
+	}
+
+	.wp-block-group.is-style-dark a {
+		color: var(--FAU-Col-FAU-Weiss-100) !important;
+	}
+}

@@ -1,40 +1,48 @@
-const defaultConfig = require('@wordpress/scripts/config/webpack.config');
-const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
-const path = require('path');
-const fs = require('fs');
+const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
+const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
+const path = require( 'path' );
+const fs = require( 'fs' );
 
 // Get all block folders from src/blocks directory
 const blockFolders = fs
-	.readdirSync(path.resolve(process.cwd(), 'src'))
-	.filter((folder) => folder.startsWith('fau-'));
+	.readdirSync( path.resolve( process.cwd(), 'src' ) )
+	.filter( ( folder ) => folder.startsWith( 'fau-' ) );
 
 // Create entries for each block
-const blockEntries = blockFolders.reduce((entries, folder) => {
+const blockEntries = blockFolders.reduce( ( entries, folder ) => {
 	return {
 		...entries,
-		[`${folder}/index`]: path.resolve(
+		[ `${ folder }/index` ]: path.resolve(
 			process.cwd(),
-			`src/${folder}/index.js`
+			`src/${ folder }/index.js`
 		),
-		[`${folder}/style`]: path.resolve(
+		[ `${ folder }/style` ]: path.resolve(
 			process.cwd(),
-			`src/${folder}/style.scss`
+			`src/${ folder }/style.scss`
 		),
-		[`${folder}/editor`]: path.resolve(
+		[ `${ folder }/editor` ]: path.resolve(
 			process.cwd(),
-			`src/${folder}/editor.scss`
+			`src/${ folder }/editor.scss`
 		),
 	};
-}, {});
+}, {} );
 
 const editorScripts = [
-	path.resolve(process.cwd(), 'src/editor/editor.js'),
-	path.resolve(process.cwd(), 'src/blocks/core-button/index.js'),
-	path.resolve(process.cwd(), 'src/blocks/core-heading/index.js'),
-	path.resolve(process.cwd(), 'src/blocks/core-paragraph/index.js'),
-	path.resolve(process.cwd(), 'src/blocks/core-list/index.js'),
-	path.resolve(process.cwd(), 'src/blocks/core-table/index.js'),
-	path.resolve(process.cwd(), 'src/blocks/core-image/index.js'),
+	path.resolve( process.cwd(), 'src/editor/editor.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-button/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-code/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-details/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-file/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-group/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-heading/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-image/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-list/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-media-text/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-paragraph/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-separator/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-table/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-tag-cloud/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-verse/index.js' ),
 ];
 
 module.exports = {
@@ -45,17 +53,20 @@ module.exports = {
 		// Add all block entries
 		...blockEntries,
 		// Add theme styles
-		'css/theme': path.resolve(process.cwd(), 'src/theme.scss'),
+		'css/theme': path.resolve( process.cwd(), 'src/theme.scss' ),
 		// Add block editor styles
-		'css/editor': path.resolve(process.cwd(), 'src/editor/editor.scss'),
+		'css/editor': path.resolve( process.cwd(), 'src/editor/editor.scss' ),
 		// Add block editor scripts
 		'js/editor': editorScripts,
 		// Add admin styles
-		'css/admin': path.resolve(process.cwd(), 'src/admin/admin.scss'),
+		'css/admin': path.resolve( process.cwd(), 'src/admin/admin.scss' ),
 		// Add admin scripts
-		'js/admin': path.resolve(process.cwd(), 'src/admin/admin.js'),
+		'js/admin': path.resolve( process.cwd(), 'src/admin/admin.js' ),
 		// Add the editor wrapper styles
-		'css/editor-wrapper': path.resolve(process.cwd(), 'src/editor/editor-wrapper.scss'),
+		'css/editor-wrapper': path.resolve(
+			process.cwd(),
+			'src/editor/editor-wrapper.scss'
+		),
 		// Add the image fullscreen script
 		'js/image-fullscreen': path.resolve(
 			process.cwd(),
@@ -64,8 +75,8 @@ module.exports = {
 	},
 	plugins: [
 		...defaultConfig.plugins,
-		new RemoveEmptyScriptsPlugin({
+		new RemoveEmptyScriptsPlugin( {
 			stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS,
-		}),
+		} ),
 	],
 };

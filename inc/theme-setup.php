@@ -10,6 +10,9 @@ if (!defined('ABSPATH')) {
 }
 
 function faue_setup() {
+    // Load theme text domain for translations
+    load_theme_textdomain('fau-elemental', get_template_directory() . '/languages');
+
     add_editor_style(array(
         'style.css',
         'build/css/editor.css'
