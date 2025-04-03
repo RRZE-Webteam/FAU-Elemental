@@ -13,7 +13,7 @@ registerBlockVariation( 'core/media-text', {
 		align: 'full',
 	},
 	isDefault: true,
-	scope: [ 'block', 'inserter', 'transform' ],
+	scope: [ 'block', 'inserter' ],
 	innerBlocks: [
 		[
 			'core/heading',
