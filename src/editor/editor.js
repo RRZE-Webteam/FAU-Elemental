@@ -1,7 +1,7 @@
 import { select, subscribe, dispatch } from '@wordpress/data';
-import { addFilter } from '@wordpress/hooks';
-import { createHigherOrderComponent } from '@wordpress/compose';
-import { unregisterFormatType, registerFormatType } from '@wordpress/rich-text';
+// import { addFilter } from '@wordpress/hooks';
+// import { createHigherOrderComponent } from '@wordpress/compose';
+import { unregisterFormatType } from '@wordpress/rich-text';
 
 /**
  * Block Selection Class Manager

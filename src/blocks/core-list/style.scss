@@ -2,6 +2,8 @@
  * Core List Block Styles
  */
 
+@import "../../mixins";
+
 .wp-block-list {
 	font-size: var(--P-Body-Text);
 	color: var(--FAU-Col-FAU-Schwarz-100);
@@ -91,5 +93,13 @@ ul.list-icons {
 
 	ul.list-icons li::before {
 		background-image: var(--icon-arrow-weiss);
+	}
+}
+
+// Responsive
+@include respond-to("small") {
+
+	.wp-block-list {
+		font-size: 1rem;
 	}
 }

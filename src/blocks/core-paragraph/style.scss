@@ -2,6 +2,8 @@
  * Core Paragraph Block Styles
  */
 
+@import "../../mixins";
+
 p {
 	font-size: var(--P-Body-Text);
 	color: var(--FAU-Col-FAU-Schwarz-100);
@@ -81,5 +83,21 @@ figcaption {
 	a,
 	figcaption {
 		color: var(--FAU-Col-FAU-Weiss-100);
+	}
+}
+
+// Responsive
+@include respond-to("small") {
+
+	p {
+		font-size: 1rem;
+	}
+
+	.is-style-intro-text {
+		font-size: 1.15rem;
+	}
+
+	.is-style-small-text {
+		font-size: 0.9rem;
 	}
 }
