@@ -19,12 +19,6 @@ wp.domReady(() => {
         label: __('Medium', 'fau-elemental'),
         isDefault: false,
     });
-
-    registerBlockStyle('core/image', {
-        name: 'small',
-        label: __('Small', 'fau-elemental'),
-        isDefault: false,
-    });
 });
 
 // Register a default block variation with preconfigured attributes
