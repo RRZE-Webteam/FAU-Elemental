@@ -2,19 +2,6 @@
  * Core Table Block Styles
  */
 
-.wp-block-table-wrapper {
-	margin-bottom: var(--Spacing-4x);
-
-	// Table heading styles
-	.wp-block-table__heading {
-		font-size: var(--H-Heading-3);
-		margin-bottom: var(--Spacing-6x);
-		color: var(--FAU-Col-FAU-Blau-100);
-		font-weight: 700;
-		line-height: 1.3;
-	}
-}
-
 .wp-block-table {
 	width: 100%;
 	border-collapse: separate;
