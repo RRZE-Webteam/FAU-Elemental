@@ -1,6 +1,6 @@
- div:not(:first-child).wp-block-details details.wp-block-details {
+div:not(:first-child).wp-block-details details.wp-block-details {
 
-    &:first-child {
-        border-top: none;
-    }
+	&:first-child {
+		border-top: none;
+	}
 }
