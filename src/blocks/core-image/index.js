@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import { unregisterBlockStyle, registerBlockVariation, registerBlockStyle } from '@wordpress/blocks';
 
 // Unregister the rounded style and register new styles for image blocks
@@ -63,6 +63,10 @@ function editImageBlockAttributesAndSupports(settings, name) {
             type: 'string',
             default: '',
         },
+        hasOverlay: {
+            type: 'boolean',
+            default: false,
+        },
     };
 
     return settings;
@@ -91,7 +95,7 @@ function addCopyrightInfoInspectorControls(BlockEdit) {
         }
 
         // Retrieve selected attributes from the block.
-        const { copyrightInfo } = attributes;
+        const { copyrightInfo, hasOverlay, className } = attributes;
 
         return (
             <>
@@ -107,6 +111,27 @@ function addCopyrightInfoInspectorControls(BlockEdit) {
                             label={__('Copyright Info', 'fau-elemental')}
                             value={copyrightInfo}
                             onChange={(value) => setAttributes({ copyrightInfo: value })}
+                        />
+                        <ToggleControl
+                            label={__('Add Overlay', 'fau-elemental')}
+                            checked={hasOverlay}
+                            onChange={(value) => {
+                                const classes = className ? className.split(' ') : [];
+                                if (value) {
+                                    if (!classes.includes('has-overlay')) {
+                                        classes.push('has-overlay');
+                                    }
+                                } else {
+                                    const index = classes.indexOf('has-overlay');
+                                    if (index > -1) {
+                                        classes.splice(index, 1);
+                                    }
+                                }
+                                setAttributes({ 
+                                    hasOverlay: value,
+                                    className: classes.join(' ')
+                                });
+                            }}
                         />
                     </PanelBody>
                 </InspectorControls>
