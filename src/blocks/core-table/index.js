@@ -39,9 +39,7 @@ addFilter(
 				return (
 					<div { ...blockProps }>
 						{ attributes.tableHeading && (
-							<div className="wp-block-table__heading">
-								{ attributes.tableHeading }
-							</div>
+							<h3>{ attributes.tableHeading }</h3>
 						) }
 						{ originalSaveElement }
 					</div>
