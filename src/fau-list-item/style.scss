@@ -45,18 +45,42 @@
 
                     &:nth-child(2) {
                         grid-row: 1;
+                        align-items: center;
                         .teaser-content-wrapper {
                             margin-top: 0;
                             width: 100%;
+                            bottom: auto;
+                            //top: 0;
+                            left: 60px;
+                            margin-top: 0;
+                            position: relative;
+                            z-index: 2;
+                            padding: 0;
+                            margin: auto;
                         }
                     }
 
                     &:nth-child(3) {
                         grid-row: 2;
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        align-items: center;
+                        
                         .teaser-content-wrapper {
-                            margin-top: 0;
+                            position: relative;
+                            bottom: auto;
                             width: 100%;
-                            order: -1;
+                            z-index: 2;
+                            grid-column: 1;
+                            grid-row: 1;
+                        }
+                        
+                        .teaser-image-wrapper {
+                            grid-column: 2;
+                            width: 100%;
+                            right: 60px;
+                            position: relative;
+                            z-index: 2;
                         }
                     }
                 }
@@ -67,10 +91,7 @@
         .teaser-item {
             display: flex;
             flex-direction: column;
-            background: var(--wp--preset--color--base, #fff);
-            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease;
 
             &:hover {
@@ -92,7 +113,6 @@
                     z-index: 2;
                     background: rgba(255, 255, 255, 0.9);
                     padding: 0.5rem 1rem;
-                    border-radius: 4px;
                     font-size: 0.875rem;
 
                     time {
@@ -125,12 +145,19 @@
 
         // Shared content wrapper styles
         .teaser-content-wrapper {
-            position: relative;
-            margin-top: -20%;
-            z-index: 2;
-            width: 80%;
-            margin-left: auto;
-            margin-right: auto;
+                position: relative;
+                bottom: 45px;
+                background-color: #ffffff;
+                margin: 0;
+                transform: translate( -50%);
+                left: 50%;
+                padding: var(--Spacing-6x) var(--Spacing-8x);
+                font-size: var(--P-Body-Text-Small);
+                line-height: 1.5;
+                font-weight: 400;
+                width: 90%;
+                box-sizing: border-box;
+                z-index: 2;
 
             &.dark-theme {
                 .teaser-content {
@@ -146,9 +173,9 @@
 
         // Shared content styles
         .teaser-content {
-            background-color: white;
+            //background-color: white;
             padding: 16px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            //box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             display: flex;
             gap: 16px;
 
