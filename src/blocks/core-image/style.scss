@@ -2,6 +2,44 @@
 
 .wp-block-image {
 	position: relative;
+	background-color: #eee;
+
+	img {
+		display: block;
+		margin: 0 auto;
+	}
+
+	figcaption {
+		position: relative;
+		bottom: 45px;
+		background-color: #fff;
+		margin: 0;
+		transform: translate(-50%);
+		left: 50%;
+		padding: var(--Spacing-6x) var(--Spacing-8x);
+		font-size: var(--P-Body-Text-Small);
+		line-height: 1.5;
+		font-weight: 400;
+		width: 90%;
+		box-sizing: border-box;
+	}
+
+	&.is-style-large {
+		width: calc(100% + 220px);
+		max-width: calc(100% + 220px);
+		left: -110px;
+
+		@media screen and (max-width: 1599px) {
+			width: unset;
+			max-width: unset;
+			left: unset;
+		}
+
+		@include respond-to("x-small") {
+			width: calc(100% + 32px);
+			left: -16px;
+		}
+	}
 
 	.image-fullscreen-btn {
 		position: absolute;
@@ -24,36 +62,15 @@
 			height: 20px;
 			top: 14px;
 			right: 14px;
-		}
-	}
-
-	figcaption {
-		position: relative;
-		bottom: 45px;
-		background-color: #fff;
-		margin: 0;
-		transform: translate(-50%);
-		left: 50%;
-		padding: var(--Spacing-6x) var(--Spacing-8x);
-		font-size: var(--P-Body-Text-Small);
-		line-height: 1.5;
-		font-weight: 400;
-		width: 90%;
-		box-sizing: border-box;
-	}
-
-	&:not(.is-style-medium) {
-		width: calc(100% + 220px);
-		left: -110px;
-
-		@media screen and (max-width: 1599px) {
-			width: unset;
-			left: unset;
+			transition: var(--basic-animation);
 		}
 
-		@include respond-to("x-small") {
-			width: calc(100% + 32px);
-			left: -16px;
+		&:hover,
+		&:focus-visible {
+			&::before {
+				transition: var(--basic-animation);
+				transform: scale(1.2);
+			}
 		}
 	}
 }
@@ -96,6 +113,15 @@
 			height: 20px;
 			top: 14px;
 			right: 14px;
+			transition: var(--basic-animation);
+		}
+
+		&:hover,
+		&:focus-visible {
+			&::before {
+				transition: var(--basic-animation);
+				transform: scale(1.2);
+			}
 		}
 	}
 }
