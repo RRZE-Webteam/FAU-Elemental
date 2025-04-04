@@ -397,6 +397,16 @@ addFilter(
             return element;
         }
 
+        // Filter out quotes with empty content
+        const validQuotes = attributes.quotes.filter(quote => 
+            quote.content && quote.content.trim() !== ''
+        );
+        
+        // If no valid quotes remain, return default element
+        if (validQuotes.length === 0) {
+            return element;
+        }
+
         const renderQuote = (quote) => (
             <div className="quote-content">
                 {quote.image && (
@@ -417,10 +427,10 @@ addFilter(
             </div>
         );
 
-        if (attributes.quotes.length === 1) {
+        if (validQuotes.length === 1) {
             return (
                 <div className="wp-block-quote-item">
-                    {renderQuote(attributes.quotes[0])}
+                    {renderQuote(validQuotes[0])}
                 </div>
             );
         }
@@ -428,7 +438,7 @@ addFilter(
         return (
             <div className="quote-carousel">
                 <div className="carousel-container">
-                    {attributes.quotes.map((quote) => (
+                    {validQuotes.map((quote) => (
                         <div key={quote.id} className="quote-slide">
                             <div className="wp-block-quote-item">
                                 {renderQuote(quote)}
