@@ -3,8 +3,8 @@ import domReady from '@wordpress/dom-ready';
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { MediaUpload, MediaUploadCheck, InspectorControls, RichText } from '@wordpress/block-editor';
-import { Button, PanelBody } from '@wordpress/components';
-import { useEffect, useRef } from '@wordpress/element';
+import { Button, PanelBody, PanelRow, SelectControl, BaseControl } from '@wordpress/components';
+import { useEffect, useRef, useState } from '@wordpress/element';
 
 // Add custom attribute to quote block
 addFilter(
@@ -34,7 +34,7 @@ addFilter(
 );
 
 // Simple carousel initialization
-const initCarousel = (container, initialSlide = 0) => {
+const initCarousel = (container, initialSlide = 0, onSlideChange = null) => {
     if (!container) return;
 
     const slides = container.querySelectorAll('.quote-slide');
@@ -63,6 +63,10 @@ const initCarousel = (container, initialSlide = 0) => {
             dotButtons.forEach((dot, index) => {
                 dot.classList.toggle('active', index === currentSlide);
             });
+        }
+
+        if (onSlideChange) {
+            onSlideChange(currentSlide);
         }
     };
 
@@ -110,12 +114,25 @@ const withImageControl = createHigherOrderComponent((BlockEdit) => {
         const { attributes, setAttributes } = props;
         const carouselRef = useRef(null);
         const currentSlideRef = useRef(0);
+        const [selectedQuoteIndex, setSelectedQuoteIndex] = useState(0);
+
+        const handleSlideChange = (newIndex) => {
+            setSelectedQuoteIndex(newIndex);
+            currentSlideRef.current = newIndex;
+        };
 
         useEffect(() => {
             if (carouselRef.current) {
-                initCarousel(carouselRef.current, currentSlideRef.current);
+                initCarousel(carouselRef.current, currentSlideRef.current, handleSlideChange);
             }
         }, [attributes.quotes]);
+
+        useEffect(() => {
+            if (carouselRef.current) {
+                currentSlideRef.current = selectedQuoteIndex;
+                initCarousel(carouselRef.current, selectedQuoteIndex, handleSlideChange);
+            }
+        }, [selectedQuoteIndex]);
 
         const addNewQuote = () => {
             const quotes = [...(attributes.quotes || [])];
@@ -127,6 +144,7 @@ const withImageControl = createHigherOrderComponent((BlockEdit) => {
             });
             // Set the current slide to the new quote
             currentSlideRef.current = quotes.length - 1;
+            setSelectedQuoteIndex(quotes.length - 1);
             setAttributes({ quotes });
         };
 
@@ -140,6 +158,7 @@ const withImageControl = createHigherOrderComponent((BlockEdit) => {
             const quotes = [...attributes.quotes];
             quotes.splice(index, 1);
             currentSlideRef.current = Math.min(currentSlideRef.current, Math.max(0, quotes.length - 1));
+            setSelectedQuoteIndex(Math.min(selectedQuoteIndex, Math.max(0, quotes.length - 1)));
             setAttributes({ quotes });
         };
 
@@ -148,6 +167,7 @@ const withImageControl = createHigherOrderComponent((BlockEdit) => {
             const newIndex = index + direction;
             if (newIndex >= 0 && newIndex < quotes.length) {
                 [quotes[index], quotes[newIndex]] = [quotes[newIndex], quotes[index]];
+                setSelectedQuoteIndex(newIndex);
                 setAttributes({ quotes });
             }
         };
@@ -185,32 +205,6 @@ const withImageControl = createHigherOrderComponent((BlockEdit) => {
 
         const renderQuoteContent = (quote, index) => (
             <div className="quote-wrapper">
-                <div className="quote-controls-wrapper">
-                    <Button 
-                        icon="arrow-up-alt2" 
-                        onClick={() => moveQuote(index, -1)}
-                        disabled={index === 0}
-                        className="quote-control-button"
-                    >
-                        Move Up
-                    </Button>
-                    <Button 
-                        icon="arrow-down-alt2" 
-                        onClick={() => moveQuote(index, 1)}
-                        disabled={index === attributes.quotes.length - 1}
-                        className="quote-control-button"
-                    >
-                        Move Down
-                    </Button>
-                    <Button 
-                        icon="trash" 
-                        onClick={() => removeQuote(index)}
-                        isDestructive
-                        className="quote-control-button"
-                    >
-                        Remove
-                    </Button>
-                </div>
                 <div className="quote-content">
                     {quote.image && (
                         <figure className="quote-image">
@@ -235,43 +229,156 @@ const withImageControl = createHigherOrderComponent((BlockEdit) => {
                         />
                     </div>
                 </div>
-                <div className="quote-image-controls">
-                    <MediaUploadCheck>
-                        <MediaUpload
-                            onSelect={(media) => updateQuote(index, 'image', media)}
-                            allowedTypes={['image']}
-                            value={quote.image?.id}
-                            render={({ open }) => (
-                                <Button 
-                                    onClick={open}
-                                    variant="secondary"
-                                >
-                                    {!quote.image ? 'Add Image' : 'Change Image'}
-                                </Button>
-                            )}
-                        />
-                    </MediaUploadCheck>
-                    {quote.image && (
-                        <Button 
-                            onClick={() => updateQuote(index, 'image', null)}
-                            variant="link"
-                            isDestructive
-                        >
-                            Remove Image
-                        </Button>
-                    )}
-                </div>
             </div>
         );
+
+        const renderQuoteControls = () => {
+            if (!attributes.quotes?.length) return null;
+            
+            const quote = attributes.quotes[selectedQuoteIndex];
+            
+            return (
+                <>
+                    <div className="quote-list">
+                        {attributes.quotes.map((quote, index) => (
+                            <div 
+                                key={quote.id} 
+                                className={`quote-list-item ${index === selectedQuoteIndex ? 'is-selected' : ''}`}
+                                onClick={() => {
+                                    setSelectedQuoteIndex(index);
+                                    if (carouselRef.current) {
+                                        currentSlideRef.current = index;
+                                        initCarousel(carouselRef.current, index, handleSlideChange);
+                                    }
+                                }}
+                            >
+                                <div className="quote-list-item__content">
+                                    <span className="quote-list-item__text">
+                                        {quote.content ? quote.content.replace(/<[^>]*>/g, '').substring(0, 50) + '...' : 'Empty quote'}
+                                    </span>
+                                </div>
+                                <div className="quote-list-item__actions">
+                                    <Button 
+                                        icon="arrow-up-alt2"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            moveQuote(index, -1);
+                                        }}
+                                        isSmall
+                                        disabled={index === 0}
+                                        className="quote-list-item__move"
+                                        title="Move quote up"
+                                    />
+                                    <Button 
+                                        icon="arrow-down-alt2"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            moveQuote(index, 1);
+                                        }}
+                                        isSmall
+                                        disabled={index === attributes.quotes.length - 1}
+                                        className="quote-list-item__move"
+                                        title="Move quote down"
+                                    />
+                                    <Button 
+                                        icon="trash"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            removeQuote(index);
+                                        }}
+                                        isSmall
+                                        isDestructive
+                                        disabled={attributes.quotes.length <= 1}
+                                        className="quote-list-item__remove"
+                                        title={attributes.quotes.length <= 1 ? "Cannot remove the last quote" : "Remove this quote"}
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                        <button 
+                            type="button"
+                            className="quote-list-item quote-list-item-add"
+                            onClick={addNewQuote}
+                        >
+                            <div className="quote-list-item__content">
+                                <span className="quote-list-item__add-icon">
+                                    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                        <path d="M18 11.2h-5.2V6h-1.6v5.2H6v1.6h5.2V18h1.6v-5.2H18z"></path>
+                                    </svg>
+                                </span>
+                                <span className="quote-list-item__add-label">Add New Quote</span>
+                            </div>
+                        </button>
+                    </div>
+                </>
+            );
+        };
 
         return (
             <>
                 <InspectorControls>
-                    <PanelBody title="Quote Management" initialOpen={true}>
-                        <Button variant="secondary" onClick={addNewQuote}>
-                            Add New Quote
-                        </Button>
-                    </PanelBody>
+                    {attributes.quotes?.length > 0 && (
+                        <>
+                            {renderQuoteControls()}
+                            <BaseControl
+                                label={`Quote Image`}
+                                help="Add an image to accompany this quote"
+                            >
+                                <div className="quote-image-controls">
+                                    <MediaUploadCheck>
+                                        <div className="editor-post-featured-image">
+                                            <MediaUpload
+                                                onSelect={(media) => updateQuote(selectedQuoteIndex, 'image', media)}
+                                                allowedTypes={['image']}
+                                                value={attributes.quotes[selectedQuoteIndex].image?.id}
+                                                render={({ open }) => (
+                                                    <div>
+                                                        {!attributes.quotes[selectedQuoteIndex].image && (
+                                                            <Button 
+                                                                onClick={open}
+                                                                variant="secondary"
+                                                                isSecondary
+                                                                className="editor-post-featured-image__toggle"
+                                                                style={{ width: '100%' }}
+                                                            >
+                                                                Add Image
+                                                            </Button>
+                                                        )}
+                                                        {attributes.quotes[selectedQuoteIndex].image && (
+                                                            <>
+                                                                <img 
+                                                                    src={attributes.quotes[selectedQuoteIndex].image.url}
+                                                                    alt={attributes.quotes[selectedQuoteIndex].image.alt || ''}
+                                                                    className="editor-post-featured-image__preview"
+                                                                />
+                                                                <div className="editor-post-featured-image__actions">
+                                                                    <Button
+                                                                        onClick={open}
+                                                                        variant="secondary"
+                                                                        isSecondary
+                                                                        className="editor-post-featured-image__action"
+                                                                    >
+                                                                        Replace
+                                                                    </Button>
+                                                                    <Button
+                                                                        onClick={() => updateQuote(selectedQuoteIndex, 'image', null)}
+                                                                        isDestructive
+                                                                        className="editor-post-featured-image__action"
+                                                                    >
+                                                                        Remove
+                                                                    </Button>
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            />
+                                        </div>
+                                    </MediaUploadCheck>
+                                </div>
+                            </BaseControl>
+                        </>
+                    )}
                 </InspectorControls>
                 <div className="wp-block-quotes-container">
                     {renderQuotes()}
