@@ -35,9 +35,14 @@
 
     &.has-nested-images {
         figure.wp-block-image {
+
+            > div {
+                aspect-ratio: 3 / 2;
+            }
+
             img {
-                width: fit-content;
-                margin: 0 auto;
+                height: 100%;
+                width: auto;
             }
 
             figcaption {
@@ -61,9 +66,11 @@
     }
 
     .gallery-slider-wrapper {
+        width: 100%;
+
         .gallery-nav-button {
             position: absolute;
-            top: 50%;
+            top: calc(50% - 20px);
             width: 40px;
             height: 40px;
             border: none;
@@ -121,23 +128,23 @@
 
 // Responsive
 @include respond-to("medium") {
-    .wp-block-gallery .gallery-slider-wrapper .gallery-nav-button {
-        top: unset;
-        bottom: 20px;
-
-        &.prev {
-            left: 0;
+    .wp-block-gallery {
+        .gallery-slider-wrapper .gallery-nav-button {
+            top: unset;
+            bottom: 20px;
+    
+            &.prev {
+                left: 0;
+            }
+    
+            &.next {
+                right: 0;
+            }
         }
-
-        &.next {
-            right: 0;
+    
+        .gallery-slider-wrapper .gallery-nav-button {
+            bottom: 0;
         }
-    }
-}
-
-@include respond-to("medium") {
-    .wp-block-gallery .gallery-slider-wrapper .gallery-nav-button {
-        bottom: 0;
     }
 }
 
@@ -155,5 +162,69 @@
                 right: 16px;
             }
         }
+
+        &.has-nested-images figure.wp-block-image figcaption {
+            padding: var(--Spacing-6x) var(--Spacing-6x);
+            padding-right: 60px;
+
+            & .slide-counter {
+                right: var(--Spacing-6x);
+            }
+        }
+    }
+}
+
+// Editor specific styles
+.editor-styles-wrapper .gallery-carousel-wrapper {
+    .carousel-controls button {
+        position: absolute;
+        top: calc(50% - 20px);
+        width: 40px;
+        height: 40px;
+        border: none;
+        color: transparent;
+        background-color: var(--FAU-Col-FAU-Blau-100);
+        cursor: pointer;
+
+        &.carousel-prev {
+            left: 0;
+
+            &::after {
+                right: 12px;
+                transform: rotate(180deg);
+            }
+        }
+
+        &.carousel-next {
+            right: 0;
+
+            &::after {
+                left: 13px;
+            }
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            background-image: var(--icon-arrow-weiss);
+            background-repeat: no-repeat;
+            width: 15px;
+            height: 11px;
+            top: 14px;
+            z-index: 1;
+            transition: var(--basic-animation);
+        }
+    }
+
+    .wp-block-gallery.has-nested-images figure.wp-block-image > div {
+        aspect-ratio: unset;
+    }
+
+    .carousel-counter {
+        position: absolute;
+        color: var(--FAU-Col-FAU-Blau-100);
+        font-weight: 700;
+        right: var(--Spacing-8x);
+        bottom: 50px;
     }
 }
