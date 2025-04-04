@@ -10,7 +10,38 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Gather copyright information from all image blocks in the content
+ * Recursively gather copyright information from blocks and their inner blocks
+ *
+ * @param array $blocks Array of blocks to check
+ * @return array Array of copyright information
+ */
+function fau_elemental_gather_copyright_info_recursive($blocks) {
+    $copyright_info = array();
+
+    if (empty($blocks)) {
+        return $copyright_info;
+    }
+
+    foreach ($blocks as $block) {
+        // Check for copyright info in any block type
+        if (!empty($block['attrs']['copyrightInfo'])) {
+            $copyright_info[] = $block['attrs']['copyrightInfo'];
+        }
+
+        // Recursively check inner blocks
+        if (!empty($block['innerBlocks'])) {
+            $copyright_info = array_merge(
+                $copyright_info,
+                fau_elemental_gather_copyright_info_recursive($block['innerBlocks'])
+            );
+        }
+    }
+
+    return $copyright_info;
+}
+
+/**
+ * Gather copyright information from all blocks in the content
  *
  * @return array Array of copyright information
  */
@@ -23,16 +54,11 @@ if (!function_exists('fau_elemental_gather_copyright_info')) {
             return $copyright_info;
         }
 
-        // Parse blocks to find image blocks with copyright info
+        // Parse blocks to find blocks with copyright info
         $blocks = parse_blocks($post->post_content);
         
-        if (!empty($blocks)) {
-            foreach ($blocks as $block) {
-                if ($block['blockName'] === 'core/image' && !empty($block['attrs']['copyrightInfo'])) {
-                    $copyright_info[] = $block['attrs']['copyrightInfo'];
-                }
-            }
-        }
+        // Recursively gather copyright info from all blocks
+        $copyright_info = fau_elemental_gather_copyright_info_recursive($blocks);
 
         // Allow other plugins to add their copyright information
         return apply_filters('fau_elemental_copyright_info', $copyright_info);
@@ -46,7 +72,7 @@ if (!function_exists('fau_elemental_gather_copyright_info')) {
  * @param string $content    Block content.
  * @return string Rendered block output.
  */
-if (!function_exists('render_block_copyright_info')) {
+if (!function_exists('render_block_fau_copyright_info')) {
     function render_block_fau_copyright_info($attributes, $content) {
         $copyright_info = fau_elemental_gather_copyright_info();
 

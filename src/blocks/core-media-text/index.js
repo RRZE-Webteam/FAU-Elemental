@@ -1,6 +1,8 @@
 import { addFilter } from '@wordpress/hooks';
 import { registerBlockVariation } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
+import { InspectorControls } from '@wordpress/block-editor';
+import { PanelBody, TextControl } from '@wordpress/components';
 
 registerBlockVariation('core/media-text', {
     name: 'media-text-with-heading',
@@ -10,18 +12,17 @@ registerBlockVariation('core/media-text', {
         align: 'full'
     },
     isDefault: true,
-    scope: ['block', 'inserter', 'transform' ],
+    scope: ['block', 'inserter' ],
     innerBlocks: [
         ['core/heading', { placeholder: __('Heading', 'fau-elemental'), level: 3 }],
         ['core/paragraph', { placeholder: __('Content', 'fau-elemental') }]
     ]
 });
 
-
-// Add custom attribute
+// Add custom attributes
 addFilter(
     'blocks.registerBlockType',
-    'my-plugin/media-text-vertical-attribute',
+    'fau-elemental/edit-media-text-settings',
     function(settings, name) {
         if (name !== 'core/media-text') {
             return settings;
@@ -29,12 +30,50 @@ addFilter(
 
         settings.supports = {
             ...settings.supports,
-            align: false, // Remove alignment support
+            align: false,
+        };
+
+        settings.attributes = {
+            ...settings.attributes,
+            copyrightInfo: {
+                type: 'string',
+                default: '',
+            },
         };
 
         settings.allowedBlocks = ['core/paragraph', 'core/heading', 'core/list'];
 
         return settings;
+    }
+);
+
+// Add inspector controls for copyright info
+addFilter(
+    'editor.BlockEdit',
+    'fau-elemental/add-copyright-info-inspector-controls-media-text',
+    function(BlockEdit) {
+        return (props) => {
+            const { name, attributes, setAttributes } = props;
+
+            if (name !== 'core/media-text') {
+                return <BlockEdit {...props} />;
+            }
+
+            return (
+                <>
+                    <BlockEdit {...props} />
+                    <InspectorControls>
+                        <PanelBody title={__('Additional Settings', 'fau-elemental')}>
+                            <TextControl
+                                label={__('Copyright Info', 'fau-elemental')}
+                                value={attributes.copyrightInfo || ''}
+                                onChange={(value) => setAttributes({ copyrightInfo: value })}
+                            />
+                        </PanelBody>
+                    </InspectorControls>
+                </>
+            );
+        };
     }
 );
 
