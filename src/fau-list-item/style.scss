@@ -66,62 +66,7 @@
             }
 
             @media screen and (min-width: 1024px) {
-                grid-template-columns: 1fr 1fr;
-
-                .teaser-item {
-                    &:first-child {
-                        grid-column: 1;
-                        grid-row: 1 / span 2;
-                        height: 100%;
-                    }
-
-                    &:nth-child(2) {
-                        grid-column: 2;
-                        grid-row: 1;
-                        position: relative;
-                        
-                        .teaser-image-wrapper {
-                            width: 100%;
-                            height: auto;
-                        }
-
-                        .teaser-content-wrapper {
-                            position: absolute;
-                            width: 80%;
-                            right: -40px;
-                            top: 50%;
-                            transform: translateY(-50%);
-                            background-color: #ffffff;
-                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                            padding: var(--Spacing-3x) var(--Spacing-2x);
-                            z-index: 2;
-                        }
-                    }
-
-                    &:nth-child(3) {
-                        grid-column: 2;
-                        grid-row: 2;
-                        position: relative;
-                        
-                        .teaser-image-wrapper {
-                            width: 100%;
-                            height: auto;
-                            margin-left: auto;
-                        }
-                        
-                        .teaser-content-wrapper {
-                            position: absolute;
-                            width: 80%;
-                            left: -40px;
-                            top: 50%;
-                            transform: translateY(-50%);
-                            background-color: #ffffff;
-                            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                            padding: var(--Spacing-3x) var(--Spacing-2x);
-                            z-index: 2;
-                        }
-                    }
-                }
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
