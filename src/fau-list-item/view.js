@@ -220,7 +220,6 @@ function renderPostTeaser(post, grid) {
                         <span class="date-day">${day}</span>
                         <span class="date-month-year">${monthYear}</span>
                     </time>
-                    ${category ? `<span class="category">${category}</span>` : ''}
                 </div>
             </div>
             <div class="teaser-content-wrapper ${grid.classList.contains('is-style-dark') ? 'dark-theme' : ''}">
