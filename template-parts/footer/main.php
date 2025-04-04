@@ -43,64 +43,97 @@
 
 <div class="footer-bottom">
     <div class="footer-bottom-wrapper">
-        <div class="footer-logo">
-            <?php 
-            $logo_url = get_theme_mod('fau_footer_logo', get_theme_file_uri('assets/images/logo.svg'));
-            if ($logo_url) : ?>
-                <img src="<?php echo esc_url($logo_url); ?>" alt="FAU Logo">
-            <?php endif; ?>
-        </div>
-        
-        <div class="footer-meta">
-            <div class="footer-links">
-                <?php
-                wp_nav_menu(array(
-                    'theme_location' => 'footer-meta',
-                    'menu_class' => 'footer-meta-menu',
-                    'container' => false,
-                    'fallback_cb' => function() {
-                        $default_links = array(
-                            'Kontakt' => '#',
-                            'Hilfe im Notfall' => '#',
-                            'Fehler melden' => '#',
-                            'Impressum' => '#',
-                            'Datenschutz' => '#',
-                            'Barrierefreiheit' => '#'
-                        );
-                        echo '<ul class="footer-meta-menu">';
-                        foreach ($default_links as $text => $url) {
-                            echo '<li><a href="' . esc_url($url) . '">' . esc_html($text) . '</a></li>';
-                        }
-                        echo '</ul>';
-                    }
-                ));
-                ?>
+      
+        <div class="footer-bottom-top">
+            <div class="footer-left">
+                <div class="footer-logo-container">
+
+                <div class="footer-logo-container">
+                    <div class="footer-logo">
+                        <?php 
+                        $logo_url = get_theme_mod('fau_footer_logo', get_theme_file_uri('assets/images/Logo-white.svg'));
+                        if ($logo_url) : ?>
+                            <img src="<?php echo esc_url($logo_url); ?>" alt="FAU Logo">
+                        <?php endif; ?>
+                    </div>
+                    <div class="footer-logo-tagline">
+                        <?php 
+                        $tagline = get_theme_mod('footer_logo_tagline', "Friedrich-Alexander-Universität\nErlangen-Nürnberg");
+                        echo nl2br(esc_html($tagline)); 
+                        ?>
+                    </div>
+                </div>
+                    <div class="footer-logo-tagline">
+                        <?php 
+                        $tagline = get_theme_mod('footer_logo_tagline', "Friedrich-Alexander-Universität\nErlangen-Nürnberg");
+                        echo nl2br(esc_html($tagline)); 
+                        ?>
+                    </div>
+                </div>
             </div>
             
-            <div class="footer-social">
-                <p class="social-label"><?php echo get_theme_mod('social_label', __('Bildnachweise:', 'fau-elemental')); ?></p>
-                <div class="social-links">
+            <div class="footer-right">
+                <div class="footer-links">
                     <?php
-                    $social_platforms = array(
-                        'instagram' => 'Instagram',
-                        'facebook' => 'Facebook',
-                        'xing' => 'Xing',
-                        'linkedin' => 'LinkedIn',
-                        'twitter' => 'X',
-                        'mastodon' => 'Mastodon',
-                        'blog' => 'Blog',
-                        'youtube' => 'YouTube',
-                        'tiktok' => 'TikTok'
-                    );
+                    wp_nav_menu(array(
+                        'theme_location' => 'footer-meta',
+                        'menu_class' => 'footer-meta-menu',
+                        'container' => false,
+                        'fallback_cb' => function() {
+                            $default_links = array(
+                                'Kontakt' => '#',
+                                'Hilfe im Notfall' => '#',
+                                'Fehler melden' => '#',
+                                'Impressum' => '#',
+                                'Datenschutz' => '#',
+                                'Barrierefreiheit' => '#'
+                            );
+                            echo '<ul class="footer-meta-menu">';
+                            foreach ($default_links as $text => $url) {
+                                echo '<li><a href="' . esc_url($url) . '">' . esc_html($text) . '</a></li>';
+                            }
+                            echo '</ul>';
+                        }
+                    ));
+                    ?>
+                </div>
+            </div>
+        </div>
+        
+      
+        <div class="footer-bottom-bottom">
+            <div class="footer-left">
+                <div class="photo-credits">
+                    <?php echo get_theme_mod('image_credits', __('Bildnachweise:', 'fau-elemental')); ?>
+                </div>
+            </div>
+            
+            <div class="footer-right">
+                <div class="footer-social">
+                
+                    <div class="social-links">
+                        <?php
+                        $social_platforms = array(
+                            'instagram' => 'Instagram',
+                            'facebook' => 'Facebook',
+                            'xing' => 'Xing',
+                            'linkedin' => 'LinkedIn',
+                            'twitter' => 'X',
+                            'mastodon' => 'Mastodon',
+                            'blog' => 'Blog',
+                            'youtube' => 'YouTube',
+                            'tiktok' => 'TikTok'
+                        );
 
-                    foreach ($social_platforms as $platform => $label) :
-                        $url = get_theme_mod("social_${platform}");
-                        if (!empty($url)) : ?>
-                            <a href="<?php echo esc_url($url); ?>" class="social-link <?php echo esc_attr($platform); ?>" target="_blank" rel="noopener noreferrer">
-                                <?php echo esc_html($label); ?>
-                            </a>
-                        <?php endif;
-                    endforeach; ?>
+                        foreach ($social_platforms as $platform => $label) :
+                            $url = get_theme_mod("social_${platform}");
+                            if (!empty($url)) : ?>
+                                <a href="<?php echo esc_url($url); ?>" class="social-link <?php echo esc_attr($platform); ?>" target="_blank" rel="noopener noreferrer">
+                                    <?php echo esc_html($label); ?>
+                                </a>
+                            <?php endif;
+                        endforeach; ?>
+                    </div>
                 </div>
             </div>
         </div>
