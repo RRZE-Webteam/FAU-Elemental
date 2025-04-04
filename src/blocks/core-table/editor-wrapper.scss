@@ -1,3 +1,36 @@
 /**
  * Core Table Block - Editor Wrapper Styles - Hide Editor Features
  */
+
+// When an table block is selected, hide the following:
+.faue-is-table-block-selected {
+	// Hide Align and Column Alignment buttons
+	button[aria-label="Change column alignment"],
+	button[aria-label="Align"] {
+		display: none;
+	}
+
+	// Hide font controls in the Block Toolbar
+	button[aria-label="Bold"],
+	button[aria-label="Italic"],
+	button[aria-label="Link"] {
+		display: none;
+	}
+
+	// Hide specific options from Table Cell "More" dropdown
+	.components-dropdown-menu__menu {
+
+		&[aria-label="More"] {
+
+			button:nth-child(1),
+			button:nth-child(2),
+			button:nth-child(3),
+			button:nth-child(4),
+			button:nth-child(5),
+			button:nth-child(6),
+			button:nth-child(7) {
+				display: none;
+			}
+		}
+	}
+}

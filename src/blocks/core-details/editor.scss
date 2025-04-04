@@ -1,0 +1,6 @@
+div:not(:first-child).wp-block-details details.wp-block-details {
+
+	&:first-child {
+		border-top: none;
+	}
+}

@@ -2,8 +2,6 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
 
-console.log( 'copyright-info' );
-
 registerBlockType( 'fau-elemental/fau-copyright-info', {
 	edit: function Edit() {
 		const blockProps = useBlockProps();

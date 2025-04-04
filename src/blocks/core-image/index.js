@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import {
 	unregisterBlockStyle,
 	registerBlockVariation,
@@ -13,55 +13,20 @@ import { useSelect } from '@wordpress/data';
 
 // Unregister the rounded style and register new styles for image blocks
 wp.domReady( () => {
-    unregisterBlockStyle( 'core/image', [ 'default', 'rounded' ] );
+	unregisterBlockStyle( 'core/image', [ 'default', 'rounded' ] );
+
+	registerBlockStyle( 'core/image', {
+		name: 'large',
+		label: __( 'Large', 'fau-elemental' ),
+		isDefault: true,
+	} );
+
+	registerBlockStyle( 'core/image', {
+		name: 'medium',
+		label: __( 'Medium', 'fau-elemental' ),
+		isDefault: false,
+	} );
 } );
-
-const withImageSizeControl = createHigherOrderComponent((BlockEdit) => {
-    return (props) => {
-        const isInGallery = useSelect((select) => {
-            const block = select('core/block-editor').getSelectedBlock();
-            if (!block || block.name !== 'core/image') return false;
-
-            const parentBlocks = select('core/block-editor').getBlockParents(block.clientId);
-            return parentBlocks.some(parentId => {
-                const parent = select('core/block-editor').getBlock(parentId);
-                return parent?.name === 'core/gallery';
-            });
-        });
-
-        useEffect(() => {
-            if (isInGallery) {
-                // Unregister styles when image is in gallery
-                unregisterBlockStyle('core/image', ['large', 'medium', 'small']);
-            } else {
-                // Re-register styles when image is not in gallery
-                registerBlockStyle('core/image', {
-                    name: 'large',
-                    label: __('Large', 'fau-elemental'),
-                    isDefault: true,
-                });
-                registerBlockStyle('core/image', {
-                    name: 'medium',
-                    label: __('Medium', 'fau-elemental'),
-                    isDefault: false,
-                });
-                registerBlockStyle('core/image', {
-                    name: 'small',
-                    label: __('Small', 'fau-elemental'),
-                    isDefault: false,
-                });
-            }
-        }, [isInGallery]);
-
-        return <BlockEdit {...props} />;
-    };
-}, 'withImageSizeControl');
-
-addFilter(
-    'editor.BlockEdit',
-    'core/image-size-control',
-    withImageSizeControl
-);
 
 // Register a default block variation with preconfigured attributes
 registerBlockVariation( 'core/image', {
@@ -86,20 +51,24 @@ function editImageBlockAttributesAndSupports( settings, name ) {
 		return settings;
 	}
 
-    settings.supports = {
-        ...settings.supports,
-        filter: false,
-        shadow: false,
-        align: false,
-    };
+	settings.supports = {
+		...settings.supports,
+		filter: false,
+		shadow: false,
+		align: false,
+	};
 
-    settings.attributes = {
-        ...settings.attributes,
-        copyrightInfo: {
-            type: 'string',
-            default: '',
-        },
-    };
+	settings.attributes = {
+		...settings.attributes,
+		copyrightInfo: {
+			type: 'string',
+			default: '',
+		},
+		hasOverlay: {
+			type: 'boolean',
+			default: false,
+		},
+	};
 
 	return settings;
 }
@@ -127,7 +96,7 @@ function addCopyrightInfoInspectorControls( BlockEdit ) {
 		}
 
 		// Retrieve selected attributes from the block.
-		const { copyrightInfo } = attributes;
+		const { copyrightInfo, hasOverlay, className } = attributes;
 
 		return (
 			<>
@@ -142,6 +111,30 @@ function addCopyrightInfoInspectorControls( BlockEdit ) {
 							onChange={ ( value ) =>
 								setAttributes( { copyrightInfo: value } )
 							}
+						/>
+						<ToggleControl
+							label={ __( 'Add Overlay', 'fau-elemental' ) }
+							checked={ hasOverlay }
+							onChange={ ( value ) => {
+								const classes = className
+									? className.split( ' ' )
+									: [];
+								if ( value ) {
+									if ( ! classes.includes( 'has-overlay' ) ) {
+										classes.push( 'has-overlay' );
+									}
+								} else {
+									const index =
+										classes.indexOf( 'has-overlay' );
+									if ( index > -1 ) {
+										classes.splice( index, 1 );
+									}
+								}
+								setAttributes( {
+									hasOverlay: value,
+									className: classes.join( ' ' ),
+								} );
+							} }
 						/>
 					</PanelBody>
 				</InspectorControls>

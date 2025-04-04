@@ -15,28 +15,16 @@
 					"customGradient": false,
 					"defaultGradients": false,
 					"defaultPalette": false
-				},
-				"shadow": {},
-				"typography": {
-					"customFontSize": false,
-					"defaultFontSizes": false,
-					"fontStyle": false,
-					"fontWeight": false,
-					"letterSpacing": false,
-					"textDecoration": false,
-					"textTransform": false
-				},
-				"spacing": {
-					"padding": false
 				}
 			},
-			"core/buttons": {
+			"core/tag-cloud": {
 				"color": {
+					"text": false,
 					"background": false
 				},
 				"typography": {
-					"customFontSize": false,
 					"defaultFontSizes": false,
+					"customFontSize": false,
 					"fontStyle": false,
 					"fontWeight": false,
 					"letterSpacing": false,
@@ -45,120 +33,8 @@
 				},
 				"spacing": {
 					"blockGap": false,
-					"padding": false
-				}
-			},
-			"core/heading": {
-				"color": {
-					"background": false,
-					"text": false
-				},
-				"typography": {
-					"customFontSize": false,
-					"defaultFontSizes": false,
-					"fontStyle": false,
-					"fontWeight": false,
-					"letterSpacing": false,
-					"textDecoration": false,
-					"textTransform": false
-				}
-			},
-			"core/paragraph": {
-				"color": {
-					"background": false,
-					"text": false
-				},
-				"typography": {
-					"customFontSize": false,
-					"defaultFontSizes": false,
-					"fontStyle": false,
-					"fontWeight": false,
-					"letterSpacing": false,
-					"textDecoration": false,
-					"textTransform": false,
-					"dropCap": false
-				}
-			},
-			"core/list": {
-				"color": {
-					"background": false,
-					"text": false
-				},
-				"typography": {
-					"customFontSize": false,
-					"defaultFontSizes": false,
-					"fontStyle": false,
-					"fontWeight": false,
-					"letterSpacing": false,
-					"textDecoration": false,
-					"textTransform": false
-				}
-			},
-			"core/table": {
-				"color": {
-					"background": false,
-					"text": false
-				},
-				"typography": {
-					"customFontSize": false,
-					"defaultFontSizes": false,
-					"fontStyle": false,
-					"fontWeight": false,
-					"letterSpacing": false,
-					"textDecoration": false,
-					"textTransform": false,
-					"dropCap": false
-				}
-			},
-			"core/group": {
-				"typography": {
-					"defaultFontSizes": false,
-					"customFontSize": false,
-					"fontStyle": false,
-					"fontWeight": false,
-					"letterSpacing": false,
-					"textDecoration": false,
-					"textTransform": false
-				},
-				"color": {
-					"text": false,
-					"button": false,
-					"heading": false
-				}
-			},
-			"core/verse": {
-				"color": {
-					"background": false,
-					"text": false
-				},
-				"typography": {
-					"customFontSize": false,
-					"defaultFontSizes": false,
-					"fontStyle": false,
-					"fontWeight": false,
-					"letterSpacing": false,
-					"textDecoration": false,
-					"textTransform": false
-				}
-			},
-			"core/file": {
-				"color": {
-					"background": false
-				}
-			},
-			"core/separator": {
-				"color": {
-					"background": false,
-					"custom": false,
-					"customGradient": false,
-					"defaultGradients": false,
-					"defaultPalette": false,
-					"text": false
-				},
-				"spacing": {
 					"margin": false,
-					"padding": false,
-					"blockGap": false
+					"padding": false
 				}
 			},
 			"core/gallery": {
@@ -172,89 +48,28 @@
 				}
 			}
 		},
+		"color": {
+			"background": false,
+			"button": false,
+			"heading": false,
+			"text": false
+		},
+		"shadow": {
+			"defaultPresets": false
+		},
 		"spacing": {
-			"blockGap": true,
-			"margin": true,
-			"padding": true,
-			"defaultSpacingSizes": false,
-			"customSpacingSize": false,
-			"spacingSizes": [
-				{
-					"name": "05x",
-					"slug": "spacing-05x",
-					"size": "0.125rem"
-				},
-				{
-					"name": "1x",
-					"slug": "spacing-1x",
-					"size": "0.25rem"
-				},
-				{
-					"name": "2x",
-					"slug": "spacing-2x",
-					"size": "0.5rem"
-				},
-				{
-					"name": "3x",
-					"slug": "spacing-3x",
-					"size": "0.75rem"
-				},
-				{
-					"name": "4x",
-					"slug": "spacing-4x",
-					"size": "1rem"
-				},
-				{
-					"name": "5x",
-					"slug": "spacing-5x",
-					"size": "1.25rem"
-				},
-				{
-					"name": "6x",
-					"slug": "spacing-6x",
-					"size": "1.5rem"
-				},
-				{
-					"name": "8x",
-					"slug": "spacing-8x",
-					"size": "2rem"
-				},
-				{
-					"name": "10x",
-					"slug": "spacing-10x",
-					"size": "2.5rem"
-				},
-				{
-					"name": "12x",
-					"slug": "spacing-12x",
-					"size": "3rem"
-				},
-				{
-					"name": "14x",
-					"slug": "spacing-14x",
-					"size": "3.5rem"
-				},
-				{
-					"name": "16x",
-					"slug": "spacing-16x",
-					"size": "4rem"
-				},
-				{
-					"name": "20x",
-					"slug": "spacing-20x",
-					"size": "5rem"
-				},
-				{
-					"name": "24x",
-					"slug": "spacing-24x",
-					"size": "6rem"
-				},
-				{
-					"name": "30x",
-					"slug": "spacing-30x",
-					"size": "7.5rem"
-				}
-			]
+			"blockGap": false,
+			"margin": false,
+			"padding": false
+		},
+		"typography": {
+			"customFontSize": false,
+			"defaultFontSizes": false,
+			"fontStyle": false,
+			"fontWeight": false,
+			"letterSpacing": false,
+			"textDecoration": false,
+			"textTransform": false
 		},
 		"layout": {
 			"contentSize": "1320px"
