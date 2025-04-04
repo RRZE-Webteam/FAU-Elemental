@@ -164,3 +164,12 @@
 		}
 	}
 }
+
+// Editor specific styles
+.editor-styles-wrapper {
+	.wp-block-image {
+		img {
+			width: auto;
+		}
+	}
+}
