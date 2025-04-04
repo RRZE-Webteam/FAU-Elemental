@@ -63,8 +63,8 @@ details.wp-block-details {
 			"nat": var(--FAU-Col-Nat-Gruen-100),
 			"med": var(--FAU-Col-Med-Blau-100),
 			"rw": var(--FAU-Col-RW-Rot-100),
-            "tf": var(--FAU-Col-TF-Metallic-100)
-        ) {
+			"tf": var(--FAU-Col-TF-Metallic-100)
+		) {
 			.faculty-#{$faculty} &::after {
 				background-color: $color;
 			}
