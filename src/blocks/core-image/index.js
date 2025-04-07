@@ -1,12 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import {
 	unregisterBlockStyle,
 	registerBlockVariation,
 	registerBlockStyle,
 } from '@wordpress/blocks';
+import React from 'react';
 
 // Unregister the rounded style and register new styles for image blocks
 wp.domReady( () => {
@@ -144,4 +145,67 @@ addFilter(
 	'editor.BlockEdit',
 	'fau-elemental/add-copyright-info-inspector-controls',
 	addCopyrightInfoInspectorControls
+);
+
+/**
+ * Adds the fullscreen button to the image block in the editor.
+ * 
+ * @param {*} BlockEdit
+ * @returns
+ */
+function addFullscreenButtonToEditor( BlockEdit ) {
+	return ( props ) => {
+		const { name, attributes } = props;
+
+		// Early return if the block is not the Image block.
+		if ( name !== 'core/image' ) {
+			return <BlockEdit { ...props } />;
+		}
+
+		// Get the image URL from the block attributes
+		const { url } = attributes;
+		
+		// If there's no URL, return the original block edit component
+		if ( ! url ) {
+			return <BlockEdit { ...props } />;
+		}
+
+		// Create a wrapper for the block edit component
+		const blockProps = useBlockProps();
+		
+		// Use a ref to access the DOM after render
+		const blockRef = React.useRef(null);
+		
+		// Add the button after the component mounts
+		React.useEffect(() => {
+			if (blockRef.current) {
+				// Find the figure element
+				const figure = blockRef.current.querySelector('figure');
+				if (figure) {
+					// Check if button already exists
+					if (!figure.querySelector('.image-fullscreen-btn')) {
+						// Create the button
+						const button = document.createElement('button');
+						button.className = 'image-fullscreen-btn';
+						button.innerHTML = '⛶';
+						
+						// Add the button to the figure
+						figure.appendChild(button);
+					}
+				}
+			}
+		}, [url]);
+		
+		return (
+			<div {...blockProps} ref={blockRef}>
+				<BlockEdit {...props} />
+			</div>
+		);
+	};
+}
+
+addFilter(
+	'editor.BlockEdit',
+	'fau-elemental/add-fullscreen-button-to-editor',
+	addFullscreenButtonToEditor
 );

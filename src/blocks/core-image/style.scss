@@ -1,6 +1,6 @@
 @import "../../mixins";
 
-.wp-block-image {
+figure.wp-block-image {
 	position: relative;
 
 	> div {
@@ -167,11 +167,3 @@
 	}
 }
 
-// Editor specific styles
-.editor-styles-wrapper {
-	.wp-block-image {
-		img {
-			width: auto;
-		}
-	}
-}
