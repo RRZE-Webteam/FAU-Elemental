@@ -149,7 +149,7 @@ addFilter(
 
 /**
  * Adds the fullscreen button to the image block in the editor.
- * 
+ *
  * @param {*} BlockEdit
  * @returns
  */
@@ -164,7 +164,7 @@ function addFullscreenButtonToEditor( BlockEdit ) {
 
 		// Get the image URL from the block attributes
 		const { url } = attributes;
-		
+
 		// If there's no URL, return the original block edit component
 		if ( ! url ) {
 			return <BlockEdit { ...props } />;
@@ -172,33 +172,33 @@ function addFullscreenButtonToEditor( BlockEdit ) {
 
 		// Create a wrapper for the block edit component
 		const blockProps = useBlockProps();
-		
+
 		// Use a ref to access the DOM after render
-		const blockRef = React.useRef(null);
-		
+		const blockRef = React.useRef( null );
+
 		// Add the button after the component mounts
-		React.useEffect(() => {
-			if (blockRef.current) {
+		React.useEffect( () => {
+			if ( blockRef.current ) {
 				// Find the figure element
-				const figure = blockRef.current.querySelector('figure');
-				if (figure) {
+				const figure = blockRef.current.querySelector( 'figure' );
+				if ( figure ) {
 					// Check if button already exists
-					if (!figure.querySelector('.image-fullscreen-btn')) {
+					if ( ! figure.querySelector( '.image-fullscreen-btn' ) ) {
 						// Create the button
-						const button = document.createElement('button');
+						const button = document.createElement( 'button' );
 						button.className = 'image-fullscreen-btn';
 						button.innerHTML = '⛶';
-						
+
 						// Add the button to the figure
-						figure.appendChild(button);
+						figure.appendChild( button );
 					}
 				}
 			}
-		}, [url]);
-		
+		}, [ url ] );
+
 		return (
-			<div {...blockProps} ref={blockRef}>
-				<BlockEdit {...props} />
+			<div { ...blockProps } ref={ blockRef }>
+				<BlockEdit { ...props } />
 			</div>
 		);
 	};
