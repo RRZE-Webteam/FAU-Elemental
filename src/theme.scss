@@ -191,3 +191,7 @@ h1.big-teaser {
 @import "./blocks/core-table/style";
 @import "./blocks/core-tag-cloud/style";
 @import "./blocks/core-verse/style";
+@import "./post-meta.scss";
+
+// Import post-meta styles
+@import 'post-meta';

@@ -72,6 +72,11 @@ module.exports = {
 			process.cwd(),
 			'src/blocks/core-image/image-fullscreen.js'
 		),
+		// Add post-meta script
+		'js/post-meta': path.resolve(
+			process.cwd(),
+			'src/js/post-meta.js'
+		),
 	},
 	plugins: [
 		...defaultConfig.plugins,

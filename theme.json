@@ -82,6 +82,11 @@
 			"area": "footer",
 			"name": "footer",
 			"title": "Footer"
+		},
+		{
+			"name": "post-meta",
+			"title": "Post Meta",
+			"area": "uncategorized"
 		}
 	],
 	"patterns": [],
