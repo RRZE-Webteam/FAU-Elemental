@@ -18,7 +18,7 @@
             <!-- wp:group {"backgroundColor":"theme-1000","layout":{"type":"flex","orientation":"vertical"}} -->
             <div class="wp-block-group has-theme-1000-background-color has-background">
                 <!-- wp:heading -->
-                <h2 class="wp-block-heading">Wir bewegen Wissen</h2>
+                <h2 class="wp-block-heading">Wir bewegen Wissen - FAU</h2>
                 <!-- /wp:heading -->
 
                 <!-- wp:paragraph -->
