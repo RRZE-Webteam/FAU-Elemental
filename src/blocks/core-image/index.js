@@ -1,12 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import {
 	unregisterBlockStyle,
 	registerBlockVariation,
 	registerBlockStyle,
 } from '@wordpress/blocks';
+import React from 'react';
 
 // Unregister the rounded style and register new styles for image blocks
 wp.domReady( () => {
@@ -21,12 +22,6 @@ wp.domReady( () => {
 	registerBlockStyle( 'core/image', {
 		name: 'medium',
 		label: __( 'Medium', 'fau-elemental' ),
-		isDefault: false,
-	} );
-
-	registerBlockStyle( 'core/image', {
-		name: 'small',
-		label: __( 'Small', 'fau-elemental' ),
 		isDefault: false,
 	} );
 } );
@@ -54,32 +49,29 @@ function editImageBlockAttributesAndSupports( settings, name ) {
 		return settings;
 	}
 
-	// Modify block supports
 	settings.supports = {
 		...settings.supports,
-		// Disable specific features
-		align: [ 'full', 'center' ], // Keep alignment support
 		filter: false,
 		shadow: false,
+		align: false,
 	};
 
 	settings.attributes = {
 		...settings.attributes,
-		// Set default alignment to full
-		align: {
-			type: 'string',
-			default: 'full',
-		},
-		// Add copyright info attribute
 		copyrightInfo: {
 			type: 'string',
 			default: '',
+		},
+		hasOverlay: {
+			type: 'boolean',
+			default: false,
 		},
 	};
 
 	return settings;
 }
 
+// Comment out each filter temporarily to test
 addFilter(
 	'blocks.registerBlockType',
 	'fau-elemental/add-copyright-info-attribute',
@@ -102,7 +94,7 @@ function addCopyrightInfoInspectorControls( BlockEdit ) {
 		}
 
 		// Retrieve selected attributes from the block.
-		const { copyrightInfo } = attributes;
+		const { copyrightInfo, hasOverlay, className } = attributes;
 
 		return (
 			<>
@@ -118,6 +110,30 @@ function addCopyrightInfoInspectorControls( BlockEdit ) {
 								setAttributes( { copyrightInfo: value } )
 							}
 						/>
+						<ToggleControl
+							label={ __( 'Add Overlay', 'fau-elemental' ) }
+							checked={ hasOverlay }
+							onChange={ ( value ) => {
+								const classes = className
+									? className.split( ' ' )
+									: [];
+								if ( value ) {
+									if ( ! classes.includes( 'has-overlay' ) ) {
+										classes.push( 'has-overlay' );
+									}
+								} else {
+									const index =
+										classes.indexOf( 'has-overlay' );
+									if ( index > -1 ) {
+										classes.splice( index, 1 );
+									}
+								}
+								setAttributes( {
+									hasOverlay: value,
+									className: classes.join( ' ' ),
+								} );
+							} }
+						/>
 					</PanelBody>
 				</InspectorControls>
 			</>
@@ -129,4 +145,67 @@ addFilter(
 	'editor.BlockEdit',
 	'fau-elemental/add-copyright-info-inspector-controls',
 	addCopyrightInfoInspectorControls
+);
+
+/**
+ * Adds the fullscreen button to the image block in the editor.
+ * 
+ * @param {*} BlockEdit
+ * @returns
+ */
+function addFullscreenButtonToEditor( BlockEdit ) {
+	return ( props ) => {
+		const { name, attributes } = props;
+
+		// Early return if the block is not the Image block.
+		if ( name !== 'core/image' ) {
+			return <BlockEdit { ...props } />;
+		}
+
+		// Get the image URL from the block attributes
+		const { url } = attributes;
+		
+		// If there's no URL, return the original block edit component
+		if ( ! url ) {
+			return <BlockEdit { ...props } />;
+		}
+
+		// Create a wrapper for the block edit component
+		const blockProps = useBlockProps();
+		
+		// Use a ref to access the DOM after render
+		const blockRef = React.useRef(null);
+		
+		// Add the button after the component mounts
+		React.useEffect(() => {
+			if (blockRef.current) {
+				// Find the figure element
+				const figure = blockRef.current.querySelector('figure');
+				if (figure) {
+					// Check if button already exists
+					if (!figure.querySelector('.image-fullscreen-btn')) {
+						// Create the button
+						const button = document.createElement('button');
+						button.className = 'image-fullscreen-btn';
+						button.innerHTML = '⛶';
+						
+						// Add the button to the figure
+						figure.appendChild(button);
+					}
+				}
+			}
+		}, [url]);
+		
+		return (
+			<div {...blockProps} ref={blockRef}>
+				<BlockEdit {...props} />
+			</div>
+		);
+	};
+}
+
+addFilter(
+	'editor.BlockEdit',
+	'fau-elemental/add-fullscreen-button-to-editor',
+	addFullscreenButtonToEditor
 );
