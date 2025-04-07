@@ -9,7 +9,7 @@
 		// Hide Font Controls (Bold, Italic, Link, Dropdown-Menu)
 		&:nth-last-child(2),
 		// Hide Text Align Dropdown
-		&:nth-last-child(3) > .block-editor-block-toolbar__slot > .components-dropdown:nth-child(2)  {
+		&:nth-last-child(3) > .block-editor-block-toolbar__slot > .components-dropdown:nth-child(2) {
 			display: none;
 		}
 	}
