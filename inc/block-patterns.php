@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 
 function fau_elemental_register_patterns() {
     // Get the website type from options
-    $website_type = get_option('fau_elemental_website_type', 'fau');
+    $website_type = get_option('faue_website_type', 'fau');
 
     // Map website types to their corresponding pattern files
     $pattern_map = array(
