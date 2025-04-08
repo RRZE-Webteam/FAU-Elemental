@@ -3,11 +3,15 @@
     .share-button-container {
         position: relative;
 
-        .share-toggle {
+        .share-button {
             cursor: pointer;
             
-            &:hover {
-                opacity: 0.9;
+            .share-button__link {
+                cursor: pointer;
+                
+                &:hover {
+                    opacity: 0.9;
+                }
             }
         }
 

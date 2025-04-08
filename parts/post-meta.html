@@ -4,8 +4,8 @@
     <div class="wp-block-group">
         <!-- wp:group {"style":{"spacing":{"blockGap":"5px"}},"layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
         <div class="wp-block-group">
-            <span class="date-label">Published:</span>
-            <!-- wp:post-date {"isLink":false,"style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontSize":"small"} /-->
+            <span class="date-label">Last update:</span>
+            <!-- wp:post-date {"isLink":false,"style":{"typography":{"fontStyle":"normal","fontWeight":"500"}},"fontSize":"small","format":"d.m.Y - H:i"} /-->
         </div>
         <!-- /wp:group -->
         
@@ -20,39 +20,53 @@
 
     <!-- wp:group {"className":"share-button-container","layout":{"type":"flex","justifyContent":"right"}} -->
     <div class="wp-block-group share-button-container">
-        <!-- wp:button {"className":"share-toggle","style":{"typography":{"fontSize":"16px"},"spacing":{"padding":{"top":"var:preset|spacing|10","right":"var:preset|spacing|20","bottom":"var:preset|spacing|10","left":"var:preset|spacing|20"}}},"backgroundColor":"primary","textColor":"base"} -->
-        <div class="wp-block-button">
-            <button class="wp-block-button__link has-base-color has-primary-background-color has-text-color has-background share-toggle" style="font-size:16px;padding-top:var(--wp--preset--spacing--10);padding-right:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--10);padding-left:var(--wp--preset--spacing--20)">Share Page</button>
+        <!-- wp:button {"className":"share-button share-toggle","style":{"typography":{"fontSize":"16px"},"spacing":{"padding":{"top":"var:preset|spacing|10","right":"var:preset|spacing|20","bottom":"var:preset|spacing|10","left":"var:preset|spacing|20"}}},"backgroundColor":"primary","textColor":"base"} -->
+        <div class="share-button">
+            <button class="share-button__link has-base-color has-primary-background-color has-text-color has-background share-toggle" style="font-size:16px;padding-top:var(--wp--preset--spacing--10);padding-right:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--10);padding-left:var(--wp--preset--spacing--20)">Share Page</button>
         </div>
         <!-- /wp:button -->
 
         <!-- wp:group {"className":"share-dropdown"} -->
-        <div class="wp-block-group share-dropdown">
-            <!-- wp:list {"className":"share-options"} -->
-            <ul class="share-options">
-                <!-- wp:list-item -->
-                <li><a href="#" class="share-link" data-share="bluesky">Bluesky</a></li>
-                <!-- /wp:list-item -->
-                <!-- wp:list-item -->
-                <li><a href="#" class="share-link" data-share="signal">Signal</a></li>
-                <!-- /wp:list-item -->
-                <!-- wp:list-item -->
-                <li><a href="#" class="share-link" data-share="linkedin">LinkedIn</a></li>
-                <!-- /wp:list-item -->
-                <!-- wp:list-item -->
-                <li><a href="#" class="share-link" data-share="facebook">Facebook</a></li>
-                <!-- /wp:list-item -->
-                <!-- wp:list-item -->
-                <li><a href="#" class="share-link" data-share="whatsapp">WhatsApp</a></li>
-                <!-- /wp:list-item -->
-                <!-- wp:list-item -->
-                <li><a href="#" class="share-link" data-share="email">E-Mail</a></li>
-                <!-- /wp:list-item -->
-                <!-- wp:list-item -->
-                <li><button class="print-button" onclick="window.print();">Print</button></li>
-                <!-- /wp:list-item -->
-            </ul>
-            <!-- /wp:list -->
+        <div class="wp-block-group share-dropdown" role="menu" aria-label="Share options">
+            <!-- wp:group {"className":"share-options"} -->
+            <div class="share-options" role="list">
+                <!-- wp:group {"className":"share-option share-option--bluesky"} -->
+                <div class="share-option share-option--bluesky" role="listitem">
+                    <a href="#" class="share-link" data-share="bluesky" role="menuitem">Bluesky</a>
+                </div>
+                <!-- /wp:group -->
+                <!-- wp:group {"className":"share-option share-option--signal"} -->
+                <div class="share-option share-option--signal" role="listitem">
+                    <a href="#" class="share-link" data-share="signal" role="menuitem">Signal</a>
+                </div>
+                <!-- /wp:group -->
+                <!-- wp:group {"className":"share-option share-option--linkedin"} -->
+                <div class="share-option share-option--linkedin" role="listitem">
+                    <a href="#" class="share-link" data-share="linkedin" role="menuitem">LinkedIn</a>
+                </div>
+                <!-- /wp:group -->
+                <!-- wp:group {"className":"share-option share-option--facebook"} -->
+                <div class="share-option share-option--facebook" role="listitem">
+                    <a href="#" class="share-link" data-share="facebook" role="menuitem">Facebook</a>
+                </div>
+                <!-- /wp:group -->
+                <!-- wp:group {"className":"share-option share-option--whatsapp"} -->
+                <div class="share-option share-option--whatsapp" role="listitem">
+                    <a href="#" class="share-link" data-share="whatsapp" role="menuitem">WhatsApp</a>
+                </div>
+                <!-- /wp:group -->
+                <!-- wp:group {"className":"share-option share-option--email"} -->
+                <div class="share-option share-option--email" role="listitem">
+                    <a href="#" class="share-link" data-share="email" role="menuitem">E-Mail</a>
+                </div>
+                <!-- /wp:group -->
+                <!-- wp:group {"className":"share-option share-option--print"} -->
+                <div class="share-option share-option--print" role="listitem">
+                    <button class="print-button" onclick="window.print();" role="menuitem">Print</button>
+                </div>
+                <!-- /wp:group -->
+            </div>
+            <!-- /wp:group -->
         </div>
         <!-- /wp:group -->
     </div>
