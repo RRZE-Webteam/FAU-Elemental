@@ -226,10 +226,10 @@ function renderPostTeaser(post, grid) {
                 <div class="teaser-content">
                     <div class="content-column">
                     <span className="category">${category}</span>
-                        <h3 class="clamp-3">
+                        <h4 class="clamp-3">
                             <span class="visually-hidden">${title}</span>
                             <span aria-hidden="true">${title}</span>
-                        </h3>
+                        </h4>
                         <div class="excerpt clamp-3">
                             <span class="visually-hidden">${excerpt}</span>
                             <span aria-hidden="true">${excerpt}</span>
@@ -262,10 +262,10 @@ function renderPageTeaser(page, grid) {
             <div class="teaser-content-wrapper ${grid.classList.contains('is-style-dark') ? 'dark-theme' : ''}">
                 <div class="teaser-content">
                     <div class="content-column">
-                        <h3 class="clamp-3">
+                        <h4 class="clamp-3">
                             <span class="visually-hidden">${title}</span>
                             <span aria-hidden="true">${title}</span>
-                        </h3>
+                        </h4>
                         <div class="excerpt clamp-3">
                             <span class="visually-hidden">${excerpt}</span>
                             <span aria-hidden="true">${excerpt}</span>
