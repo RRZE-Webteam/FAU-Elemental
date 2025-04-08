@@ -235,10 +235,10 @@ function renderPostTeaser(post, grid) {
                             <span aria-hidden="true">${excerpt}</span>
                         </div>
                     </div>
-                    <div class="button-column">
-                        <div class="wp-block-button is-style-icon-only">
+                    <div class="button-teaser">
+                     
                             <a href="${link}" class="wp-block-button__link"></a>
-                        </div>
+                    
                     </div>
                 </div>
             </div>
@@ -271,10 +271,10 @@ function renderPageTeaser(page, grid) {
                             <span aria-hidden="true">${excerpt}</span>
                         </div>
                     </div>
-                    <div class="button-column">
-                        <div class="wp-block-button is-style-icon-only">
+                    <div class="button-teaser">
+               
                             <a href="${link}" class="wp-block-button__link"></a>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

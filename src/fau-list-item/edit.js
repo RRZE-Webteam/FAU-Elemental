@@ -60,10 +60,10 @@ function PostTeaser({ post, grid }) {
                             <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: excerpt }} />
                         </div>
                     </div>
-                    <div className="button-column">
-                        <div className="wp-block-button is-style-icon-only">
+                    <div className="button-teaser">
+                
                             <a href={link} className="wp-block-button__link"></a>
-                        </div>
+                    
                     </div>
                 </div>
             </div>
@@ -98,10 +98,10 @@ function PageTeaser({ page, grid }) {
                             <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: excerpt }} />
                         </div>
                     </div>
-                    <div className="button-column">
-                        <div className="wp-block-button is-style-icon-only">
+                    <div className="button-teaser">
+                        
                             <a href={link} className="wp-block-button__link"></a>
-                        </div>
+                      
                     </div>
                 </div>
             </div>
