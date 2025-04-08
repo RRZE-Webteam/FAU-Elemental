@@ -53,13 +53,17 @@ add_action('wp_enqueue_scripts', 'faue_enqueue_scripts');
 function enqueue_quote_block_scripts() {
     // Frontend only
     if (!is_admin()) {
-        wp_enqueue_script(
-            'quote-carousel',
-            get_template_directory_uri() . '/src/blocks/core-quote/quote-carousel.js',
-            array(),
-            '1.0.0',
-            true
-        );
+        // Check if the current post contains the core/quote block
+        global $post;
+        if (is_singular() && has_blocks($post) && has_block('core/quote', $post)) {
+            wp_enqueue_script(
+                'quote-carousel',
+                get_template_directory_uri() . '/src/blocks/core-quote/quote-carousel.js',
+                array(),
+                '1.0.0',
+                true
+            );
+        }
     }
 }
 add_action('wp_enqueue_scripts', 'enqueue_quote_block_scripts');

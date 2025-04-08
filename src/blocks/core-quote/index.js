@@ -20,7 +20,7 @@ import { useEffect, useRef, useState } from '@wordpress/element';
 // Add custom attribute to quote block
 addFilter(
 	'blocks.registerBlockType',
-	'my-plugin/quote-image-attribute',
+	'fau-elemental/quote-image-attribute',
 	( settings, name ) => {
 		if ( name !== 'core/quote' ) {
 			return settings;
@@ -501,7 +501,7 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 // Modify the frontend save element
 addFilter(
 	'blocks.getSaveElement',
-	'my-plugin/quote-with-image',
+	'fau-elemental/quote-with-image',
 	( element, block, attributes ) => {
 		if ( block.name !== 'core/quote' || ! attributes.quotes?.length ) {
 			return element;
@@ -576,7 +576,11 @@ addFilter(
 	}
 );
 
-addFilter( 'editor.BlockEdit', 'my-plugin/quote-with-image', withImageControl );
+addFilter(
+	'editor.BlockEdit',
+	'fau-elemental/quote-with-image',
+	withImageControl
+);
 
 domReady( () => {
 	// Unregister default styles
