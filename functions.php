@@ -146,3 +146,6 @@ add_action('after_switch_theme', function() {
         fau_elemental_check_old_portal_menu_settings();
     }
 });
+
+// Breadcrumb functionality
+require_once get_template_directory() . '/src/components/breadcrumbs/breadcrumbs.php';

@@ -1,0 +1,116 @@
+/**
+ * Breadcrumb Styles
+ */
+
+.breadcrumbs {
+    margin: var(--Spacing-8x) 0;
+    padding: 0;
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        gap: var(--Spacing-4x);
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        font-size: var(--P-Body-Text-Small);
+        color: var(--FAU-Col-FAU-Schwarz-100);
+
+        &:not(:last-child)::after {
+            content: "";
+            background-image: var(--icon-chevron-fau-blau);
+            background-repeat: no-repeat;
+            width: 8px;
+            height: 15px;
+            margin-left: var(--Spacing-4x);
+        }
+
+        // Mobile styles
+        &--mobile {
+            display: none;
+        }
+
+        &--desktop {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            &--mobile {
+                display: none;
+            }
+
+            &--desktop {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 767px) {
+            &--mobile {
+                display: flex;
+            }
+
+            &--desktop {
+                display: none;
+            }
+        }
+    }
+
+    &__link {
+        color: var(--FAU-Col-FAU-Blau-100);
+        text-decoration: none;
+        font-weight: 600;
+        position: relative;
+
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+            outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+            outline-offset: 2px;
+        }
+
+        &:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+            outline-offset: 2px;
+        }
+    }
+
+    &__current {
+        color: var(--FAU-Col-FAU-Schwarz-100);
+        font-weight: 400;
+    }
+}
+
+// Dark mode
+.is-style-dark {
+    .breadcrumbs {
+        &__item {
+            color: var(--FAU-Col-FAU-Weiss-100);
+
+            &:not(:last-child)::after {
+                background-image: var(--icon-chevron-weiss);
+            }
+        }
+
+        &__link {
+            color: var(--FAU-Col-FAU-Weiss-100);
+
+            &:hover,
+            &:focus {
+                outline-color: var(--FAU-Col-FAU-Weiss-100);
+            }
+        }
+
+        &__current {
+            color: var(--FAU-Col-FAU-Weiss-100);
+        }
+    }
+} 

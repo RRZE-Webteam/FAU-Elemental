@@ -32,3 +32,9 @@
     <!-- /wp:group -->
 </div>
 <!-- /wp:group -->
+
+<!-- wp:group {"align":"wide","layout":{"type":"constrained"}} -->
+<div class="wp-block-group alignwide">
+    <?php faue_breadcrumbs(); ?>
+</div>
+<!-- /wp:group -->
