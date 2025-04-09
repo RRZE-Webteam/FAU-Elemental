@@ -157,6 +157,24 @@ function save_post_header_options_meta_box($post_id) {
 }
 add_action('save_post', 'save_post_header_options_meta_box');
 
+// Add JavaScript to handle the listen link toggle
+function post_header_options_admin_scripts() {
+    ?>
+    <script>
+    jQuery(document).ready(function($) {
+        $('#show-listen-link-toggle').on('change', function() {
+            if ($(this).is(':checked')) {
+                $('#listen-fields').show();
+            } else {
+                $('#listen-fields').hide();
+            }
+        });
+    });
+    </script>
+    <?php
+}
+add_action('admin_footer', 'post_header_options_admin_scripts');
+
 /**
  * Apply post header settings to HTML output using output buffering
  */
