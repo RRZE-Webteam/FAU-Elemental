@@ -22,6 +22,7 @@ require_once get_template_directory() . '/inc/block-patterns.php';
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
 
+
 /**
  * Calculate reading time for posts
  *
@@ -1137,3 +1138,43 @@ function fau_footer_customizer_settings($wp_customize) {
 
 add_action('customize_register', 'fau_footer_customizer_settings');
 
+/**
+ * Add SVG support to WordPress media uploader
+ */
+function fau_elemental_add_svg_support($mimes) {
+    $mimes['svg'] = 'image/svg+xml';
+    $mimes['svgz'] = 'image/svg+xml';
+    return $mimes;
+}
+add_filter('upload_mimes', 'fau_elemental_add_svg_support');
+
+/**
+ * Sanitize SVG uploads
+ */
+function fau_elemental_sanitize_svg($file) {
+    if ($file['type'] === 'image/svg+xml') {
+        $svg_content = file_get_contents($file['tmp_name']);
+        
+        // Basic SVG sanitization
+        if (strpos($svg_content, '<script') !== false || 
+            strpos($svg_content, 'javascript:') !== false || 
+            strpos($svg_content, 'onload=') !== false) {
+            $file['error'] = __('SVG files containing scripts are not allowed for security reasons.', 'fau-elemental');
+        }
+    }
+    return $file;
+}
+add_filter('wp_handle_upload_prefilter', 'fau_elemental_sanitize_svg');
+
+/**
+ * Fix SVG display in media library
+ */
+function fau_elemental_fix_svg_thumb_display() {
+    echo '<style>
+        .attachment-266x266, .thumbnail img {
+            width: 100% !important;
+            height: auto !important;
+        }
+    </style>';
+}
+add_action('admin_head', 'fau_elemental_fix_svg_thumb_display');

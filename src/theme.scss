@@ -270,6 +270,11 @@ h1.big-teaser {
 @import "./blocks/core-table/style";
 @import "./blocks/core-verse/style";
 
+// Import Components
+@import "./components/header/header.scss";
+@import "./components/navigation/fau-navigation.scss";
+@import "./components/navigation/main-navigation.scss";
+
 // Components
 @import "scss/components/post-header";
 @import "scss/components/footer";
