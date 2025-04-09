@@ -1178,3 +1178,119 @@ function fau_elemental_fix_svg_thumb_display() {
     </style>';
 }
 add_action('admin_head', 'fau_elemental_fix_svg_thumb_display');
+
+/**
+ * Add logo upload options to theme customizer
+ */
+function fau_elemental_logo_customizer_settings($wp_customize) {
+    // Move logo settings to Site Identity section
+    $wp_customize->get_section('title_tagline')->title = __('Site Identity & Logo', 'fau-elemental');
+    $wp_customize->get_section('title_tagline')->priority = 20;
+
+    // Regular Logo
+    $wp_customize->add_setting('fau_regular_logo', array(
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'fau_regular_logo', array(
+        'label' => __('Regular Logo', 'fau-elemental'),
+        'description' => __('Upload your regular logo (recommended size: 300x100px)', 'fau-elemental'),
+        'section' => 'title_tagline',
+        'settings' => 'fau_regular_logo',
+        'priority' => 8,
+    )));
+
+    // White Logo
+    $wp_customize->add_setting('fau_white_logo', array(
+        'default' => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'fau_white_logo', array(
+        'label' => __('White Logo', 'fau-elemental'),
+        'description' => __('Upload your white logo for dark backgrounds (recommended size: 300x100px)', 'fau-elemental'),
+        'section' => 'title_tagline',
+        'settings' => 'fau_white_logo',
+        'priority' => 9,
+    )));
+
+    // Logo Height
+    $wp_customize->add_setting('fau_logo_height', array(
+        'default' => '50',
+        'sanitize_callback' => 'absint',
+    ));
+
+    $wp_customize->add_control('fau_logo_height', array(
+        'label' => __('Logo Height (px)', 'fau-elemental'),
+        'description' => __('Set the height of your logo in pixels', 'fau-elemental'),
+        'section' => 'title_tagline',
+        'type' => 'number',
+        'priority' => 10,
+        'input_attrs' => array(
+            'min' => 20,
+            'max' => 200,
+            'step' => 5,
+        ),
+    ));
+
+    // University Name (Multi-line)
+    $wp_customize->add_setting('fau_university_name', array(
+        'default' => "Friedrich-Alexander-Universität\nErlangen-Nürnberg",
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+
+    $wp_customize->add_control('fau_university_name', array(
+        'label' => __('University Name', 'fau-elemental'),
+        'description' => __('Enter the full university name. Use line breaks (press Enter) for multiple lines.', 'fau-elemental'),
+        'section' => 'title_tagline',
+        'type' => 'textarea',
+        'priority' => 11,
+    ));
+}
+add_action('customize_register', 'fau_elemental_logo_customizer_settings');
+
+/**
+ * Helper function to get logo URL
+ */
+function fau_elemental_get_logo($type = 'regular') {
+    $logo_url = '';
+    
+    if ($type === 'white') {
+        $logo_url = get_theme_mod('fau_white_logo', '');
+    } else {
+        $logo_url = get_theme_mod('fau_regular_logo', '');
+    }
+    
+    return $logo_url;
+}
+
+/**
+ * Helper function to display logo
+ */
+function fau_elemental_display_logo($type = 'regular', $class = '') {
+    $logo_url = fau_elemental_get_logo($type);
+    $logo_height = get_theme_mod('fau_logo_height', 50);
+    
+    if (!empty($logo_url)) {
+        $class = !empty($class) ? 'class="' . esc_attr($class) . '"' : '';
+        echo '<img src="' . esc_url($logo_url) . '" alt="' . esc_attr(get_bloginfo('name')) . '" ' . $class . ' style="height: ' . esc_attr($logo_height) . 'px; width: auto;">';
+    }
+}
+
+/**
+ * Helper function to get university name
+ */
+function fau_elemental_get_university_name() {
+    return get_theme_mod('fau_university_name', "Friedrich-Alexander-Universität\nErlangen-Nürnberg");
+}
+
+/**
+ * Helper function to display university name
+ */
+function fau_elemental_display_university_name($class = '') {
+    $university_name = fau_elemental_get_university_name();
+    $class = !empty($class) ? 'class="' . esc_attr($class) . '"' : '';
+    
+    echo '<div ' . $class . '>' . nl2br(esc_html($university_name)) . '</div>';
+}

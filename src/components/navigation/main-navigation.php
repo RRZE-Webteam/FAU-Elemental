@@ -35,21 +35,33 @@ class Main_Navigation {
         ?>
         <nav class="main-navigation" role="navigation" aria-label="<?php esc_attr_e('Main Navigation', 'fau-elemental'); ?>">
             <div class="main-navigation__container">
-                <button class="main-navigation__toggle" aria-expanded="false" aria-controls="main-menu">
-                    <span class="screen-reader-text"><?php esc_html_e('Toggle Menu', 'fau-elemental'); ?></span>
-                    <span class="main-navigation__toggle-icon"></span>
-                </button>
+                <div class="main-navigation__brand">
+                    <div class="main-navigation__logo">
+                        <?php fau_elemental_display_logo('regular', 'main-navigation__logo-image'); ?>
+                    </div>
+                    <div class="main-navigation__university-name">
+                        <?php fau_elemental_display_university_name('main-navigation__university-name-text'); ?>
+                    </div>
+                   
+                </div>
 
-                <?php
-                wp_nav_menu(array(
-                    'theme_location' => 'primary',
-                    'menu_id'        => 'main-menu',
-                    'menu_class'     => 'main-navigation__menu',
-                    'container'      => false,
-                    'fallback_cb'    => false,
-                    'depth'          => 3,
-                ));
-                ?>
+                <div class="main-navigation__menu-container">
+                    <button class="main-navigation__toggle" aria-expanded="false" aria-controls="main-menu">
+                        <span class="screen-reader-text"><?php esc_html_e('Toggle Menu', 'fau-elemental'); ?></span>
+                        <span class="main-navigation__toggle-icon"></span>
+                    </button>
+
+                    <?php
+                    wp_nav_menu(array(
+                        'theme_location' => 'primary',
+                        'menu_id'        => 'main-menu',
+                        'menu_class'     => 'main-navigation__menu',
+                        'container'      => false,
+                        'fallback_cb'    => false,
+                        'depth'          => 3,
+                    ));
+                    ?>
+                </div>
             </div>
         </nav>
         <?php
