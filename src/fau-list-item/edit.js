@@ -13,7 +13,7 @@ import {
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import './editor.scss';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 const FALLBACK_IMAGE = './../../assets/images/logo.svg';
 
@@ -187,6 +187,27 @@ const TEASER_LAYOUTS = [
     { label: __('2 Small - Image Right (2S TLBR)', 'fau-elemental'), value: '2s-right' }
 ];
 
+function updateGridClasses(container, displayStyle, teaserLayout) {
+    const grid = container.querySelector('.fau-teaser-grid');
+    if (!grid) return;
+
+    // First, remove all existing classes
+    grid.className = '';
+    
+    // Add the base class
+    grid.classList.add('fau-teaser-grid');
+    
+    // Add the display style class
+    if (displayStyle) {
+        grid.classList.add(displayStyle);
+    }
+    
+    // Only add layout classes if we're in teaser-grid mode
+    if (displayStyle === 'teaser-grid' && teaserLayout) {
+        grid.classList.add(`layout-${teaserLayout}`);
+    }
+}
+
 export default function Edit({ attributes, setAttributes }) {
     const { 
         displayStyle,
@@ -318,6 +339,42 @@ export default function Edit({ attributes, setAttributes }) {
         className: `style-${displayStyle}`
     });
 
+    // Update display style
+    const onDisplayStyleChange = (newStyle) => {
+        setAttributes({ displayStyle: newStyle });
+        // Update classes immediately after state change
+        requestAnimationFrame(() => {
+            const container = containerRef.current;
+            if (container) {
+                const grid = container.querySelector('.fau-teaser-grid');
+                if (grid) {
+                    // Clear all existing classes
+                    grid.className = '';
+                    // Add new classes
+                    updateGridClasses(container, newStyle, attributes.teaserLayout);
+                }
+            }
+        });
+    };
+
+    // Update teaser layout
+    const onTeaserLayoutChange = (newLayout) => {
+        setAttributes({ teaserLayout: newLayout });
+        // Update classes immediately after state change
+        requestAnimationFrame(() => {
+            const container = containerRef.current;
+            if (container) {
+                const grid = container.querySelector('.fau-teaser-grid');
+                if (grid) {
+                    // Clear all existing classes
+                    grid.className = '';
+                    // Add new classes
+                    updateGridClasses(container, attributes.displayStyle, newLayout);
+                }
+            }
+        });
+    };
+
     return (
         <>
             <InspectorControls>
@@ -325,19 +382,19 @@ export default function Edit({ attributes, setAttributes }) {
                     <ButtonGroup>
                         <Button
                             isPrimary={displayStyle === 'teaser-grid'}
-                            onClick={() => setAttributes({ displayStyle: 'teaser-grid' })}
+                            onClick={() => onDisplayStyleChange('teaser-grid')}
                         >
                             {__('Teaser Grid', 'fau-elemental')}
                         </Button>
                         <Button
                             isPrimary={displayStyle === 'list-item'}
-                            onClick={() => setAttributes({ displayStyle: 'list-item' })}
+                            onClick={() => onDisplayStyleChange('list-item')}
                         >
                             {__('List Item', 'fau-elemental')}
                         </Button>
                         <Button
                             isPrimary={displayStyle === 'mini-list'}
-                            onClick={() => setAttributes({ displayStyle: 'mini-list' })}
+                            onClick={() => onDisplayStyleChange('mini-list')}
                         >
                             {__('Mini List', 'fau-elemental')}
                         </Button>
@@ -348,7 +405,7 @@ export default function Edit({ attributes, setAttributes }) {
                             label={__('Teaser Layout', 'fau-elemental')}
                             value={teaserLayout}
                             options={TEASER_LAYOUTS}
-                            onChange={(value) => setAttributes({ teaserLayout: value })}
+                            onChange={(value) => onTeaserLayoutChange(value)}
                         />
                     )}
                 </PanelBody>
@@ -468,7 +525,7 @@ export default function Edit({ attributes, setAttributes }) {
             </InspectorControls>
             
             <div {...blockProps}>
-                <div className={`fau-teaser-grid ${displayStyle} layout-${teaserLayout}`}>
+                <div className={`fau-teaser-grid ${displayStyle} ${displayStyle === 'teaser-grid' ? `layout-${teaserLayout}` : ''}`}>
                     {!isLoading ? (
                         selectionMode === 'manual' ? (
                             // Display manually selected posts

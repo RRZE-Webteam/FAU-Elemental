@@ -3,6 +3,94 @@ console.log('FAU List Item View Script Loading...');
 // Update the FALLBACK_IMAGE constant at the top of the file
 import FALLBACK_IMAGE from '../../assets/images/logo.svg';
 
+function PostTeaser({ post }) {
+    if (!post) return null;
+
+    const dateObj = post.date ? new Date(post.date) : null;
+    const day = dateObj ? dateObj.toLocaleDateString('de-DE', { day: '2-digit' }) : '';
+    const monthYear = dateObj ? dateObj.toLocaleDateString('de-DE', {
+        month: 'short',
+        year: 'numeric'
+    }).replace('.', '').toUpperCase() : '';
+    const category = post._embedded?.['wp:term']?.[0]?.[0]?.name || '';
+    const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || FALLBACK_IMAGE;
+    const title = post.title?.rendered || '';
+    const excerpt = (post.excerpt?.rendered || '').replace('[&hellip;]', '..');
+    const link = post.link || '#';
+
+    return (
+        <div className="teaser-item">
+            {image && (
+                <div className="teaser-image-wrapper">
+                    <div className="teaser-image">
+                        <img src={image} alt={title} />
+                    </div>
+                    <div className="teaser-meta">
+                        <time>
+                            <span className="date-day">{day}</span>
+                            <span className="date-month-year">{monthYear}</span>
+                        </time>
+                    </div>
+                </div>
+            )}
+            <div className="teaser-content-wrapper">
+                <div className="teaser-content">
+                    <div className="content-column">
+                        {category && <span className="category">{category}</span>}
+                        <h3 className="clamp-3">
+                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: title }} />
+                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: title }} />
+                        </h3>
+                        <div className="excerpt clamp-3">
+                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: excerpt }} />
+                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: excerpt }} />
+                        </div>
+                    </div>
+                    <div className="button-teaser">
+                        <a href={link} className="wp-block-button__link"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function PageTeaser({ page }) {
+    if (!page) return null;
+
+    const image = page._embedded?.['wp:featuredmedia']?.[0]?.source_url || FALLBACK_IMAGE;
+    const title = page.title?.rendered || '';
+    const excerpt = (page.excerpt?.rendered || '').replace('[&hellip;]', '..');
+    const link = page.link || '#';
+
+    return (
+        <div className="teaser-item">
+            {image && (
+                <div className="teaser-image">
+                    <img src={image} alt={title} />
+                </div>
+            )}
+            <div className="teaser-content-wrapper">
+                <div className="teaser-content">
+                    <div className="content-column">
+                        <h3 className="clamp-3">
+                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: title }} />
+                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: title }} />
+                        </h3>
+                        <div className="excerpt clamp-3">
+                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: excerpt }} />
+                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: excerpt }} />
+                        </div>
+                    </div>
+                    <div className="button-teaser">
+                        <a href={link} className="wp-block-button__link"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     initializeTeaserGrids();
 });
@@ -30,8 +118,21 @@ async function initializeTeaserGrid(container) {
     const selectionMode = grid.dataset.selectionMode || 'auto';
     const selectedPosts = JSON.parse(grid.dataset.selectedPosts || '[]');
 
-    // Ensure the correct classes are applied
-    grid.className = `fau-teaser-grid ${displayStyle} layout-${teaserLayout}`;
+    // Clear all existing classes
+    grid.className = '';
+    
+    // Add the base class
+    grid.classList.add('fau-teaser-grid');
+    
+    // Add the display style class
+    if (displayStyle) {
+        grid.classList.add(displayStyle);
+    }
+    
+    // Only add layout classes if we're in teaser-grid mode
+    if (displayStyle === 'teaser-grid' && teaserLayout) {
+        grid.classList.add(`layout-${teaserLayout}`);
+    }
 
     if (selectionMode === 'manual' && selectedPosts.length > 0) {
         try {
@@ -118,7 +219,7 @@ async function initializeTeaserGrid(container) {
             }
             
             // Create pagination HTML and add it after the grid
-            const paginationHtml = createPagination(currentPage, totalPages, container);
+            const paginationHtml = generatePagination(currentPage, totalPages);
             grid.insertAdjacentHTML('afterend', paginationHtml);
 
             // Add event listeners to pagination
@@ -141,7 +242,7 @@ async function initializeTeaserGrid(container) {
     }
 }
 
-function createPagination(currentPage, totalPages, container) {
+function generatePagination(currentPage, totalPages) {
     const pages = [];
     
     // Add Previous button
@@ -191,9 +292,7 @@ function createPagination(currentPage, totalPages, container) {
         </button>
     `);
     
-    const paginationHtml = `<div class="pagination">${pages.join('')}</div>`;
-    
-    return paginationHtml;
+    return `<div class="pagination">${pages.join('')}</div>`;
 }
 
 function renderPostTeaser(post, grid) {
@@ -225,7 +324,7 @@ function renderPostTeaser(post, grid) {
             <div class="teaser-content-wrapper ${grid.classList.contains('is-style-dark') ? 'dark-theme' : ''}">
                 <div class="teaser-content">
                     <div class="content-column">
-                    <span className="category">${category}</span>
+                        <span class="category">${category}</span>
                         <h4 class="clamp-3">
                             <span class="visually-hidden">${title}</span>
                             <span aria-hidden="true">${title}</span>
@@ -236,9 +335,7 @@ function renderPostTeaser(post, grid) {
                         </div>
                     </div>
                     <div class="button-teaser">
-                     
-                            <a href="${link}" class="wp-block-button__link"></a>
-                    
+                        <a href="${link}" class="wp-block-button__link"></a>
                     </div>
                 </div>
             </div>
@@ -272,12 +369,61 @@ function renderPageTeaser(page, grid) {
                         </div>
                     </div>
                     <div class="button-teaser">
-               
-                            <a href="${link}" class="wp-block-button__link"></a>
-                        
+                        <a href="${link}" class="wp-block-button__link"></a>
                     </div>
                 </div>
             </div>
         </div>
     `;
+}
+
+export default function View({ attributes }) {
+    const {
+        variant,
+        selectionMode,
+        selectedPosts,
+        items,
+        currentPage,
+        totalPages,
+        showPagination,
+        displayStyle,
+        teaserLayout
+    } = attributes;
+
+    return (
+        <div className="fau-list-item">
+            <div className={`fau-teaser-grid ${displayStyle} ${displayStyle === 'teaser-grid' ? `layout-${teaserLayout}` : ''}`}>
+                {selectionMode === 'manual' ? (
+                    // Display manually selected posts
+                    selectedPosts.length > 0 ? (
+                        selectedPosts.map((selectedPost) => {
+                            const post = items.find(item => item.id === selectedPost.id);
+                            return post ? (
+                                variant === 'post' 
+                                    ? <PostTeaser key={post.id} post={post} />
+                                    : <PageTeaser key={post.id} page={post} />
+                            ) : null;
+                        })
+                    ) : (
+                        <p>No posts selected</p>
+                    )
+                ) : (
+                    // Display automatic posts
+                    items && items.length > 0 ? (
+                        items.map((item) => (
+                            variant === 'post' 
+                                ? <PostTeaser key={item.id} post={item} />
+                                : <PageTeaser key={item.id} page={item} />
+                        ))
+                    ) : (
+                        <p>No items found</p>
+                    )
+                )}
+            </div>
+
+            {showPagination && totalPages > 1 && selectionMode === 'auto' && (
+                generatePagination(currentPage, totalPages)
+            )}
+        </div>
+    );
 }
