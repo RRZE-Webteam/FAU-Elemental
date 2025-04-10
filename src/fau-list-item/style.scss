@@ -1,3 +1,5 @@
+@import "../mixins";
+
 .wp-block-fau-elemental-fau-list-item {
     .fau-teaser-grid {
         display: grid;
@@ -396,7 +398,7 @@
 }
 
 // Responsive
-@media screen and (max-width: 1440px) {
+@include respond-to("medium") {
     .wp-block-fau-elemental-fau-list-item .fau-teaser-grid {
         &.mini-list,
         &.layout-l2s,
@@ -597,7 +599,7 @@
     }
 }
 
-@media screen and (max-width: 768px) {
+@include respond-to("small") {
     .wp-block-fau-elemental-fau-list-item {
         .fau-teaser-grid {
             overflow: hidden;
