@@ -2,7 +2,7 @@
 	margin: 0;
 
 	a.tag-cloud-link {
-		font-size: var(--P-Caption) !important;
+		font-size: var(--P-Caption) !important; // override WP inline style
 		font-weight: 600;
 		padding: var(--Spacing-2x) var(--Spacing-3x);
 		border: 1px solid var(--FAU-Col-FAU-Blau-100);
@@ -11,6 +11,27 @@
 		text-decoration: none;
 		letter-spacing: var(--letter-spacing-big);
 		margin-bottom: 8px;
+		transition: transform 0.2s ease-in-out;
+
+		&::before {
+			content: "";
+			position: absolute;
+			display: block;
+			width: calc(100% - var(--Spacing-6x));
+			height: 2px;
+			bottom: 6px;
+			left: var(--Spacing-3x);
+			background-color: var(--FAU-Col-FAU-Blau-100);
+			transform: scaleX(0);
+			transition: transform 0.2s ease-in-out;
+		}
+
+		&:hover,
+		&:focus-visible {
+			&::before {
+				transform: scaleX(1);
+			}
+		}
 	}
 }
 
