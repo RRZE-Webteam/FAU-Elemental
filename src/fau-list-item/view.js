@@ -66,8 +66,10 @@ function PageTeaser({ page }) {
     return (
         <div className="teaser-item">
             {image && (
-                <div className="teaser-image">
-                    <img src={image} alt={title} />
+                <div className="teaser-image-wrapper">
+                    <div className="teaser-image">
+                        <img src={image} alt={title} />
+                    </div>
                 </div>
             )}
             <div className="teaser-content-wrapper">
