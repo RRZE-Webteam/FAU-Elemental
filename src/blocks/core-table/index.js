@@ -17,6 +17,8 @@ addFilter(
 			return settings;
 		}
 
+		const originalGetSaveElement = settings.save;
+
 		return {
 			...settings,
 			attributes: {
@@ -26,7 +28,6 @@ addFilter(
 					default: '',
 				},
 			},
-			// Add save component to handle frontend rendering
 			save: ( props ) => {
 				const { attributes } = props;
 				const blockProps = wp.blockEditor.useBlockProps.save( {
@@ -34,7 +35,30 @@ addFilter(
 				} );
 
 				// Get the original saved content
-				const originalSaveElement = settings.save( props );
+				const originalSaveElement = originalGetSaveElement( props );
+
+				// Add footer-active class if footer exists
+				if ( attributes.foot && attributes.foot.length > 0 ) {
+					// Need to clone the original element to modify it
+					const modifiedElement = {
+						...originalSaveElement,
+						props: {
+							...originalSaveElement.props,
+							className: `${
+								originalSaveElement.props?.className || ''
+							} footer-active`.trim(),
+						},
+					};
+
+					return (
+						<div { ...blockProps }>
+							{ attributes.tableHeading && (
+								<h3>{ attributes.tableHeading }</h3>
+							) }
+							{ modifiedElement }
+						</div>
+					);
+				}
 
 				return (
 					<div { ...blockProps }>
@@ -69,7 +93,6 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 								setAttributes( { tableHeading: value } )
 							}
 							help="Add a heading that will appear above the table"
-							__nextHasNoMarginBottom
 						/>
 					</PanelBody>
 				</InspectorControls>
