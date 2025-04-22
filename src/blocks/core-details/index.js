@@ -44,7 +44,15 @@ addFilter(
 				return <BlockEdit { ...props } />;
 			}
 
-			const blockProps = useBlockProps();
+			const blockProps = useBlockProps({
+				onClick: (event) => {
+					if (event.target.tagName.toLowerCase() === 'summary') {
+						event.preventDefault();
+						const details = event.target.parentElement;
+						details.open = !details.open;
+					}
+				}
+			});
 
 			return (
 				<div { ...blockProps }>
