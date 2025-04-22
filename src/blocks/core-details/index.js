@@ -44,11 +44,11 @@ addFilter(
 				return <BlockEdit { ...props } />;
 			}
 
-			const blockProps = useBlockProps({
-				onMouseDown: (event) => {
+			const blockProps = useBlockProps( {
+				onMouseDown: ( event ) => {
 					// Get the summary element
-					const summary = event.target.closest('summary');
-					if (!summary) return;
+					const summary = event.target.closest( 'summary' );
+					if ( ! summary ) return;
 
 					// Get the click position relative to the summary
 					const rect = summary.getBoundingClientRect();
@@ -56,16 +56,16 @@ addFilter(
 					const clickY = event.clientY - rect.top;
 
 					// Check if click is in the chevron area (right side)
-					if (clickX > rect.width - 40) {
+					if ( clickX > rect.width - 40 ) {
 						event.preventDefault();
 						event.stopPropagation();
 						const details = summary.parentElement;
-						if (details.tagName.toLowerCase() === 'details') {
-							details.open = !details.open;
+						if ( details.tagName.toLowerCase() === 'details' ) {
+							details.open = ! details.open;
 						}
 					}
-				}
-			});
+				},
+			} );
 
 			return (
 				<div { ...blockProps }>

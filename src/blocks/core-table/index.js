@@ -18,7 +18,7 @@ addFilter(
 		}
 
 		const originalGetSaveElement = settings.save;
-		
+
 		return {
 			...settings,
 			attributes: {
@@ -32,20 +32,22 @@ addFilter(
 				const { attributes } = props;
 				const blockProps = wp.blockEditor.useBlockProps.save( {
 					className: 'wp-block-table-wrapper',
-				});
+				} );
 
 				// Get the original saved content
-				const originalSaveElement = originalGetSaveElement(props);
+				const originalSaveElement = originalGetSaveElement( props );
 
 				// Add footer-active class if footer exists
-				if (attributes.foot && attributes.foot.length > 0) {
+				if ( attributes.foot && attributes.foot.length > 0 ) {
 					// Need to clone the original element to modify it
 					const modifiedElement = {
 						...originalSaveElement,
 						props: {
 							...originalSaveElement.props,
-							className: `${originalSaveElement.props?.className || ''} footer-active`.trim()
-						}
+							className: `${
+								originalSaveElement.props?.className || ''
+							} footer-active`.trim(),
+						},
 					};
 
 					return (
