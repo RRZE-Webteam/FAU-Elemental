@@ -46,9 +46,17 @@ addFilter(
 
 			const blockProps = useBlockProps({
 				onMouseDown: (event) => {
-					// Only handle clicks on the summary element
+					// Get the summary element
 					const summary = event.target.closest('summary');
-					if (summary) {
+					if (!summary) return;
+
+					// Get the click position relative to the summary
+					const rect = summary.getBoundingClientRect();
+					const clickX = event.clientX - rect.left;
+					const clickY = event.clientY - rect.top;
+
+					// Check if click is in the chevron area (right side)
+					if (clickX > rect.width - 40) {
 						event.preventDefault();
 						event.stopPropagation();
 						const details = summary.parentElement;
