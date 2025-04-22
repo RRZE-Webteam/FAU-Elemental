@@ -97,6 +97,7 @@ export default function Edit( { attributes, setAttributes } ) {
 										value
 									)
 								}
+								__nextHasNoMarginBottom
 							/>
 							<Button
 								isDestructive

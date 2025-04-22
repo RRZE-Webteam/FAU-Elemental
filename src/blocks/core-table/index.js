@@ -69,6 +69,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 								setAttributes( { tableHeading: value } )
 							}
 							help="Add a heading that will appear above the table"
+							__nextHasNoMarginBottom
 						/>
 					</PanelBody>
 				</InspectorControls>
