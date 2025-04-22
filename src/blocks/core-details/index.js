@@ -45,11 +45,16 @@ addFilter(
 			}
 
 			const blockProps = useBlockProps({
-				onClick: (event) => {
-					if (event.target.tagName.toLowerCase() === 'summary') {
+				onMouseDown: (event) => {
+					// Only handle clicks on the summary element
+					const summary = event.target.closest('summary');
+					if (summary) {
 						event.preventDefault();
-						const details = event.target.parentElement;
-						details.open = !details.open;
+						event.stopPropagation();
+						const details = summary.parentElement;
+						if (details.tagName.toLowerCase() === 'details') {
+							details.open = !details.open;
+						}
 					}
 				}
 			});
