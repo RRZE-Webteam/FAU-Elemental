@@ -11,14 +11,18 @@ const blockFolders = fs
 // Create entries for each block
 const blockEntries = blockFolders.reduce( ( entries, folder ) => {
 	const folderPath = path.resolve( process.cwd(), `src/${ folder }` );
-	const hasViewScript = fs.existsSync( path.resolve( folderPath, 'view.js' ) );
-	
+	const hasViewScript = fs.existsSync(
+		path.resolve( folderPath, 'view.js' )
+	);
+
 	return {
 		...entries,
 		[ `${ folder }/index` ]: path.resolve( folderPath, 'index.js' ),
 		[ `${ folder }/style` ]: path.resolve( folderPath, 'style.scss' ),
 		[ `${ folder }/editor` ]: path.resolve( folderPath, 'editor.scss' ),
-		...( hasViewScript ? { [`${ folder }/view`]: path.resolve( folderPath, 'view.js' ) } : {} ),
+		...( hasViewScript
+			? { [ `${ folder }/view` ]: path.resolve( folderPath, 'view.js' ) }
+			: {} ),
 	};
 }, {} );
 
