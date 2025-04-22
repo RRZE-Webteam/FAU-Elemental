@@ -19,7 +19,7 @@ registerBlockVariation( 'core/media-text', {
 	innerBlocks: [
 		[
 			'core/heading',
-			{ placeholder: __( 'Heading', 'fau-elemental' ), level: 3 },
+			{ placeholder: __( 'Heading', 'fau-elemental' ), level: 2 },
 		],
 		[ 'core/paragraph', { placeholder: __( 'Content', 'fau-elemental' ) } ],
 	],
