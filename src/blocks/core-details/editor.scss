@@ -1,6 +1,6 @@
-div:not(:first-child).wp-block-details details.wp-block-details {
+div:not(:first-of-type).wp-block-details details.wp-block-details {
 
-	&:first-child {
+	&:first-of-type {
 		border-top: none;
 	}
 }
