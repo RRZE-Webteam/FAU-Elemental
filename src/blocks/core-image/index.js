@@ -109,6 +109,7 @@ function addCopyrightInfoInspectorControls( BlockEdit ) {
 							onChange={ ( value ) =>
 								setAttributes( { copyrightInfo: value } )
 							}
+							__nextHasNoMarginBottom
 						/>
 						<ToggleControl
 							label={ __( 'Add Overlay', 'fau-elemental' ) }

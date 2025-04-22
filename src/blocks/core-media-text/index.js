@@ -88,6 +88,7 @@ addFilter(
 								onChange={ ( value ) =>
 									setAttributes( { copyrightInfo: value } )
 								}
+								__nextHasNoMarginBottom
 							/>
 						</PanelBody>
 					</InspectorControls>
