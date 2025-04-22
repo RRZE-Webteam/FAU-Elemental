@@ -1,89 +1,99 @@
-
-document.addEventListener("DOMContentLoaded", () => {
-    
+( function ( $ ) {
     // Target all gallery blocks instead of just light style
-    const galleries = document.querySelectorAll(".wp-block-gallery");
-  
-    galleries.forEach((gallery) => {
-        const figures = Array.from(gallery.querySelectorAll(":scope > figure.wp-block-image"));
-  
-        if (figures.length === 0 || gallery.querySelector(".gallery-slider-wrapper")) {
+    const $galleries = $(".wp-block-gallery-container");
+
+    $galleries.each(function() {
+        const $gallery = $(this);
+        const $galleryBlock = $gallery.find(".wp-block-gallery");
+        const $imageblocks = $galleryBlock.children(".wp-block-image");
+
+        // If there's only one image, don't add the slider
+        if ($imageblocks.length <= 1) {
             return;
-        }
+        }  
   
-        // Create slider structure
-        const sliderWrapper = document.createElement("div");
-        sliderWrapper.className = "gallery-slider-wrapper";
+        // Create a container for the navigation buttons
+        const $navContainer = $("<div>").addClass("gallery-nav-container");
+
+        // Create navigation buttons
+        const $prevBtn = $("<button>").addClass("gallery-nav-button prev").html("&#10094;");
+        const $nextBtn = $("<button>").addClass("gallery-nav-button next").html("&#10095;");
+
+        // Add buttons to the container
+        $navContainer.append($prevBtn);
+        $navContainer.append($nextBtn);
         
-        const slideContainer = document.createElement("div");
-        slideContainer.className = "gallery-slider";
+        // Append the container to the slider wrapper
+        $gallery.append($navContainer);
+
+        $imageblocks.hide().first().show();
   
         let currentSlide = 0;
-  
-        figures.forEach((figure, index) => {
-            const slide = document.createElement("div");
-            slide.className = "gallery-slide";
-            slide.style.display = index === 0 ? "block" : "none";
+
+        // Function to position the navigation container based on the current image height
+        const positionNavContainer = function() {
+            const $currentImage = $imageblocks.eq(currentSlide);
+            const $img = $currentImage.find('img');
+            const $figcaption = $currentImage.find('figcaption');
+            const imageHeight = $img.outerHeight();
+            const imageWidth = $img.outerWidth();
+            const navHeight = $navContainer.outerHeight();
+            const windowWidth = $(window).width();
             
-            // Clone the figure
-            const clonedFigure = figure.cloneNode(true);
-            
-            // Add counter
-            const counter = document.createElement("div");
-            counter.className = "slide-counter";
-            counter.textContent = `${index + 1}/${figures.length}`;
-            
-            // Update caption if it exists
-            const caption = clonedFigure.querySelector('figcaption');
-            if (caption) {
-                caption.appendChild(counter);
+            // Check if window width is between sm (768px) and md (1440px) breakpoints
+            if (windowWidth >= 768 && windowWidth < 1440) {
+                // Position the nav container below the image
+                $navContainer.css('top', imageHeight + 20 + 'px'); // 20px gap between image and nav
+                
+                // Match the width of the navigation container to the image width
+                $navContainer.css('width', imageWidth + 'px');
+            } else if (windowWidth < 768) {
+                // For small screens, position below the figcaption or below the image if no figcaption
+                const figcaptionHeight = $figcaption.length ? $figcaption.outerHeight() : 0;
+                const figcaptionBottom = 45; // This is the bottom position of the figcaption in CSS
+
+                const navTop = $figcaption.length ? 
+                    imageHeight - figcaptionBottom + figcaptionHeight + 10 :
+                    imageHeight + 20;
+
+                // Position the nav container
+                $navContainer.css('top', navTop + 'px');
+                
+                // Match the width of the navigation container to the image width
+                $navContainer.css('width', imageWidth + 'px');
+            } else {
+                // Position the nav container at the vertical center of the image for large screens
+                $navContainer.css('top', (imageHeight / 2) - (navHeight / 2) + 'px');
+                
+                // Reset width and positioning for other screen sizes
+                $navContainer.css('width', '100%');
             }
-    
-            slide.appendChild(clonedFigure);
-            slideContainer.appendChild(slide);
-        });
-  
-        // Create navigation buttons
-        const prevBtn = document.createElement("button");
-        const nextBtn = document.createElement("button");
-        prevBtn.className = "gallery-nav-button prev";
-        nextBtn.className = "gallery-nav-button next";
-        prevBtn.innerHTML = "&#10094;"; // Left arrow
-        nextBtn.innerHTML = "&#10095;"; // Right arrow
-  
+        };
+
+        // Call the positioning function initially
+        positionNavContainer();
+
         // Navigation functions
-        const showSlide = (n) => {
-            const slides = slideContainer.querySelectorAll('.gallery-slide');
-            currentSlide = (n + slides.length) % slides.length;
+        const showSlide = function(n) {
+            currentSlide = (n + $imageblocks.length) % $imageblocks.length;            
+            $imageblocks.hide();
+            $imageblocks.eq(currentSlide).show();
             
-            slides.forEach(slide => slide.style.display = "none");
-            slides[currentSlide].style.display = "block";
+            // Reposition the navigation container after changing slides
+            positionNavContainer();
         };
   
-        prevBtn.addEventListener("click", () => {
+        $prevBtn.on("click", function() {
             showSlide(currentSlide - 1);
         });
   
-        nextBtn.addEventListener("click", () => {
+        $nextBtn.on("click", function() {
             showSlide(currentSlide + 1);
         });
-  
-        // Add keyboard navigation
-        document.addEventListener("keydown", (e) => {
-            if (e.key === "ArrowLeft") {
-                showSlide(currentSlide - 1);
-            } else if (e.key === "ArrowRight") {
-                showSlide(currentSlide + 1);
-            }
+
+        // Reposition on window resize to handle responsive image size changes
+        $(window).on('resize', function() {
+            positionNavContainer();
         });
-  
-        // Assemble the slider
-        sliderWrapper.appendChild(slideContainer);
-        sliderWrapper.appendChild(prevBtn);
-        sliderWrapper.appendChild(nextBtn);
-  
-        // Replace gallery content with slider
-        gallery.innerHTML = "";
-        gallery.appendChild(sliderWrapper);
     });
-});  
+} )( jQuery );

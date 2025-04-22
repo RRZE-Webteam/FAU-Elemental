@@ -11,35 +11,35 @@ import { unregisterFormatType } from '@wordpress/rich-text';
  */
 
 // Subscribe to block selection changes
-subscribe( () => {
+subscribe(() => {
 	// Clear all block selection classes first
-	document.body.classList.forEach( ( className ) => {
+	document.body.classList.forEach((className) => {
 		if (
-			className.startsWith( 'faue-is-' ) &&
-			className.endsWith( '-block-selected' )
+			className.startsWith('faue-is-') &&
+			className.endsWith('-block-selected')
 		) {
-			document.body.classList.remove( className );
+			document.body.classList.remove(className);
 		}
-	} );
+	});
 
 	// Get the currently selected block (first in selection array)
 	const selectedBlockId =
-		select( 'core/block-editor' ).getSelectedBlockClientId();
+		select('core/block-editor').getSelectedBlockClientId();
 
 	// Add class for the currently selected block
-	if ( selectedBlockId ) {
-		const block = select( 'core/block-editor' ).getBlock( selectedBlockId );
-		if ( block && block.name.startsWith( 'core/' ) ) {
-			const blockType = block.name.replace( 'core/', '' );
+	if (selectedBlockId) {
+		const block = select('core/block-editor').getBlock(selectedBlockId);
+		if (block && block.name.startsWith('core/')) {
+			const blockType = block.name.replace('core/', '');
 			document.body.classList.add(
-				`faue-is-${ blockType }-block-selected`
+				`faue-is-${blockType}-block-selected`
 			);
 		}
 	}
-} );
+});
 
 // Remove the text-color format type
-unregisterFormatType( 'core/text-color' );
+unregisterFormatType('core/text-color');
 
 /**
  * Filter Rich Text Format Types

@@ -1,9 +1,10 @@
 @import "../../mixins";
 
 .wp-block-image {
+	max-width: var(--small-max-width);
 	position: relative;
 
-	> div {
+	.image-wrapper {
 		position: relative;
 		background-color: var(--FAU-Col-FAU-Schwarz-12_5);
 	}
@@ -42,9 +43,8 @@
 	}
 
 	&.is-style-large {
-		width: calc(100% + 220px);
-		max-width: calc(100% + 220px);
-		left: -110px;
+		max-width: var(--base-max-width);
+		width: 100%;
 
 		@media screen and (max-width: 1599px) {
 			width: unset;

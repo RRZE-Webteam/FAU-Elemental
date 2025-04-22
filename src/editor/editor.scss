@@ -4,7 +4,23 @@
 
 @import "../theme";
 @import "../blocks/core-details/editor";
+@import "../blocks/core-gallery/editor";
 
 .wp-block-file__content-wrapper > .wp-block-file > .wp-block-file {
 	margin-bottom: var(--Spacing-4x);
+}
+
+/* Slide counter styling */
+.wp-block-image {
+	position: relative;
+	
+	.slide-counter {
+		background-color: rgba(0, 0, 0, 0.7);
+		color: white;
+		padding: 2px 6px;
+		font-size: 12px;
+		border-bottom-left-radius: 4px;
+		z-index: 10;
+		pointer-events: none; /* Ensures it doesn't interfere with interactions */
+	}
 }
