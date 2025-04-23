@@ -30,6 +30,7 @@ const editorScripts = [
 	path.resolve( process.cwd(), 'src/editor/editor.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-button/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-details/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-gallery/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-file/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-group/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-image/index.js' ),
@@ -68,6 +69,10 @@ module.exports = {
 		'js/image-fullscreen': path.resolve(
 			process.cwd(),
 			'src/blocks/core-image/image-fullscreen.js'
+		),
+		'js/gallery-slider': path.resolve(
+			process.cwd(),
+			'src/blocks/core-gallery/gallery-slider.js'
 		),
 	},
 	plugins: [

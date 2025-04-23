@@ -46,7 +46,7 @@ function fau_elemental_add_image_fullscreen($block_content, $block) {
         $fullscreen_button = '<button class="image-fullscreen-btn" onclick="openImageFullscreen(\'' . esc_attr($img_src) . '\')">⛶</button>';
         
         // Wrap the img tag in a div
-        $block_content = preg_replace('/(<img[^>]+>)/', '<div>$1</div>', $block_content);
+        $block_content = preg_replace('/(<img[^>]+>)/', '<div class="image-wrapper">$1</div>', $block_content);
         
         // Insert the button into the block content
         $pos = strpos($block_content, '</figure>');

@@ -36,6 +36,16 @@
 					"margin": false,
 					"padding": false
 				}
+			},
+			"core/gallery": {
+				"color": {
+					"background": false
+				},
+				"spacing": {
+					"margin": false,
+					"padding": false,
+					"blockGap": false
+				}
 			}
 		},
 		"color": {

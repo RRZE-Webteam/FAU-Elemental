@@ -7,7 +7,9 @@ import {
 	registerBlockVariation,
 	registerBlockStyle,
 } from '@wordpress/blocks';
-import React from 'react';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { useEffect } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 
 // Unregister the rounded style and register new styles for image blocks
 wp.domReady( () => {

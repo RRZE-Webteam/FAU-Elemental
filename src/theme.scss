@@ -122,6 +122,11 @@
 	--md: 1440px;
 	--lg: 1920px;
 
+	// widths
+	--wide-max-width: 1320px;
+	--base-max-width: 1094px;
+	--small-max-width: 870px;
+
 	// Spacing Sizes
 	--Spacing-05x: 0.125rem;
 	--Spacing-1x: 0.25rem;
@@ -194,3 +199,4 @@ h1.big-teaser {
 @import "./blocks/core-table/style";
 @import "./blocks/core-tag-cloud/style";
 @import "./blocks/core-verse/style";
+@import "./blocks/core-gallery/style";
