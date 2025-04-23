@@ -16,8 +16,16 @@
 		background-color: var(--FAU-Col-FAU-Weiss-100);
 	}
 
-	figcaption {
-		margin-top: var(--Spacing-2x);
+	figure.wp-block-table {
+		margin-bottom: var(--Spacing-12x);
+
+		figcaption {
+			margin-top: var(--Spacing-2x);
+		}
+
+		&.footer-active tbody {
+			border-bottom: none; // Hide bottom border when tfoot is toggled on
+		}
 	}
 
 	// Cell styles
@@ -33,6 +41,7 @@
 
 	// Header
 	thead {
+		position: relative;
 		border: 1px solid var(--FAU-Col-FAU-Blau-100);
 
 		th {
@@ -51,7 +60,6 @@
 	// Body
 	tbody {
 		border: 1px solid var(--FAU-Col-FAU-Schwarz-25);
-		border-bottom: none;
 
 		tr {
 			background-color: var(--FAU-Col-FAU-Weiss-100);
@@ -189,11 +197,6 @@
 			}
 		}
 
-		thead + tbody {
-			border-top: 0;
-			border-bottom: 0;
-		}
-
 		tfoot {
 			border: 1px solid var(--FAU-Col-FAU-Dunkelblau-62_5);
 			border-top: none;
@@ -210,7 +213,7 @@
 		}
 
 		tfoot td {
-			background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+			background-color: #11294c;
 			color: var(--FAU-Col-FAU-Schwarz-12_5);
 			border-right: 1px solid var(--FAU-Col-FAU-Dunkelblau-62_5);
 
