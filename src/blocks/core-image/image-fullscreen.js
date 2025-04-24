@@ -1,3 +1,7 @@
+/**
+ * Image fullscreen functionality
+ */
+
 ( function ( $ ) {
 	/**
 	 * Image fullscreen functionality

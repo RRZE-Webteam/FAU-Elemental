@@ -40,11 +40,13 @@ add_action('enqueue_block_editor_assets', 'faue_enqueue_editor_assets');
 
 // Enqueue Frontend Scripts
 function faue_enqueue_scripts() {
+    // Enqueue jQuery first
+    wp_enqueue_script('jquery');
     wp_enqueue_script(
-        'faue-example',
-        get_parent_theme_file_uri('assets/js/example.js'),
-        array(),
-        wp_get_theme()->get('Version'),
+        'faue-gallery-slider',
+        get_theme_file_uri('build/js/gallery-slider.js'),
+        array('jquery'),
+        filemtime(get_theme_file_path('build/js/gallery-slider.js')),
         true
     );
 }

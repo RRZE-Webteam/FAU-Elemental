@@ -36,6 +36,16 @@
 					"margin": false,
 					"padding": false
 				}
+			},
+			"core/gallery": {
+				"color": {
+					"background": false
+				},
+				"spacing": {
+					"margin": false,
+					"padding": false,
+					"blockGap": false
+				}
 			}
 		},
 		"color": {
@@ -62,7 +72,7 @@
 			"textTransform": false
 		},
 		"layout": {
-			"contentSize": "870px"
+			"contentSize": "1320px"
 		}
 	},
 	"customTemplates": [

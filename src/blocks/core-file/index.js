@@ -9,7 +9,8 @@ import {
 import { PanelBody, Button } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { getSaveElement } from '@wordpress/blocks';
-import { createElement, useEffect } from '@wordpress/element';
+import { useEffect, cloneElement } from 'react';
+import { __ } from '@wordpress/i18n';
 
 // Shared utility functions
 const formatFileSize = ( bytes ) => {
@@ -23,6 +24,9 @@ const formatFileSize = ( bytes ) => {
 const getFileType = ( fileDetails ) => {
 	if ( ! fileDetails?.mime_type ) return '';
 	const mimeType = fileDetails.mime_type;
+	const mimeParts = mimeType.split( '/' );
+	if ( mimeParts.length !== 2 ) return mimeType.toUpperCase();
+
 	const mimeMap = {
 		'application/pdf': 'PDF',
 		'image/jpeg': 'JPEG',
@@ -34,7 +38,7 @@ const getFileType = ( fileDetails ) => {
 		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
 			'XLSX',
 	};
-	return mimeMap[ mimeType ] || mimeType.split( '/' )[ 1 ].toUpperCase();
+	return mimeMap[ mimeType ] || mimeParts[ 1 ].toUpperCase();
 };
 addFilter(
 	'blocks.registerBlockType',
@@ -61,7 +65,7 @@ addFilter(
 			const { attributes, setAttributes } = props;
 
 			// Remove displayPreview if it somehow gets added
-			React.useEffect( () => {
+			useEffect( () => {
 				if ( attributes.displayPreview !== undefined ) {
 					setAttributes( { displayPreview: undefined } );
 				}
@@ -86,14 +90,14 @@ addFilter(
 		const OriginalEdit = settings.edit;
 
 		settings.edit = ( props ) => {
-			const { setAttributes } = props;
+			const { setAttributes, attributes } = props;
 
-			React.useEffect( () => {
+			useEffect( () => {
 				setAttributes( {
 					downloadButtonText: ' ', // space character
 					text: ' ', // space character
 				} );
-			}, [] );
+			}, [ attributes.downloadButtonText, attributes.text ] );
 
 			return <OriginalEdit { ...props } />;
 		};
@@ -136,66 +140,128 @@ addFilter(
 				} );
 
 				// Add file info elements for frontend display
-				const fileInfoElements = attributes.fileDetails
-					? [
-							createElement(
-								'div',
-								{ className: 'file-info-wrapper' },
-								[
-									createElement(
-										'span',
-										{ className: 'file-info' },
-										attributes.fileDetails.filename
-									),
-									createElement(
-										'span',
-										{ className: 'file-info' },
-										formatFileSize(
-											attributes.fileDetails.filesize
-										)
-									),
-									createElement(
-										'span',
-										{ className: 'file-info' },
-										getFileType( attributes.fileDetails )
-									),
-								]
-							),
-					  ]
-					: [];
+				const fileInfoElements = attributes.fileDetails ? (
+					<dl className="file-info-wrapper">
+						<dt className="file-info">
+							{ attributes.fileDetails.filename }
+						</dt>
+						<dt className="file-info">
+							{ formatFileSize(
+								attributes.fileDetails.filesize
+							) }
+						</dt>
+						<dt className="file-info">
+							{ getFileType( attributes.fileDetails ) }
+						</dt>
+					</dl>
+				) : null;
 
-				return createElement(
-					'div',
-					blockProps,
-					createElement(
-						'div',
-						{ className: 'wp-block-file__content-wrapper' },
-						[
-							attributes.coverImage &&
-								createElement(
-									'div',
-									{
-										key: 'cover-image',
-										className: 'file-cover-image',
-									},
-									createElement( 'img', {
-										src: attributes.coverImage.url,
-										alt: attributes.coverImage.alt || '',
-									} )
+				// Add accessibility attributes to the download button and file name link
+				let contentWithAccessibility = originalContent;
+				if (
+					originalContent &&
+					originalContent.props &&
+					originalContent.props.children
+				) {
+					const downloadButton = originalContent.props.children.find(
+						( child ) =>
+							child &&
+							child.props &&
+							child.props.className?.includes(
+								'wp-block-file__button'
+							)
+					);
+					const fileNameLink = originalContent.props.children.find(
+						( child ) =>
+							child &&
+							child.props &&
+							child.props.id?.startsWith(
+								'wp-block-file--media-'
+							)
+					);
+					if ( downloadButton || fileNameLink ) {
+						contentWithAccessibility = cloneElement(
+							originalContent,
+							{
+								children: originalContent.props.children.map(
+									( child ) => {
+										if ( child && child.props ) {
+											if (
+												child.props.className?.includes(
+													'wp-block-file__button'
+												)
+											) {
+												return cloneElement( child, {
+													'aria-label': `${
+														attributes.fileDetails
+															?.filename || ''
+													} ${ __(
+														'Download',
+														'fau-elemental'
+													) }`,
+													role: 'button',
+													'aria-describedby':
+														child.props[
+															'aria-describedby'
+														],
+												} );
+											}
+											if (
+												child.props.id?.startsWith(
+													'wp-block-file--media-'
+												)
+											) {
+												const fileName =
+													typeof child.props
+														.children === 'string'
+														? child.props.children
+														: attributes.fileDetails
+																?.filename ||
+														  '';
+												return cloneElement( child, {
+													'aria-label': `${ fileName } ${ __(
+														'Download',
+														'fau-elemental'
+													) }`,
+													'aria-describedby':
+														child.props.id,
+												} );
+											}
+										}
+										return child;
+									}
 								),
-							createElement(
-								'div',
-								{ className: 'wp-block-file' },
-								[
-									createElement(
-										'div',
-										{ className: 'file-content' },
-										[ originalContent, ...fileInfoElements ]
-									),
-								]
-							),
-						].filter( Boolean )
-					)
+							}
+						);
+					}
+				}
+
+				return (
+					<article { ...blockProps }>
+						<main className="wp-block-file__content-wrapper">
+							<figure
+								className="file-cover-image"
+								key="cover-image"
+								aria-label={ __(
+									'Cover image for file',
+									'fau-elemental'
+								) }
+							>
+								{ attributes.coverImage && (
+									<img
+										src={ attributes.coverImage.url }
+										alt={ attributes.coverImage.alt || '' }
+									/>
+								) }
+							</figure>
+							<section className="wp-block-file">
+								<div className="file-content">
+									{ contentWithAccessibility }
+									{ fileInfoElements }
+								</div>
+							</section>
+						</main>
+					</article>
 				);
 			},
 		};
@@ -221,7 +287,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 		);
 
 		// Save file details to attributes when they change
-		React.useEffect( () => {
+		useEffect( () => {
 			if ( fileDetails ) {
 				setAttributes( {
 					fileDetails: {
@@ -250,7 +316,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 		const blockProps = useBlockProps();
 
 		return (
-			<>
+			<div { ...blockProps }>
 				<InspectorControls>
 					<PanelBody title="Block Settings">
 						<div className="editor-file-cover-image">
@@ -260,9 +326,10 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 									allowedTypes={ [ 'image' ] }
 									value={ attributes.coverImage?.id }
 									render={ ( { open } ) => (
-										<div>
+										<div key="media-upload-container">
 											{ ! attributes.coverImage && (
 												<Button
+													key="add-cover-button"
 													onClick={ open }
 													variant="secondary"
 												>
@@ -270,23 +337,26 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 												</Button>
 											) }
 											{ attributes.coverImage && (
-												<div>
+												<div key="cover-image-preview">
 													<img
+														key="cover-image"
 														src={
 															attributes
 																.coverImage.url
 														}
 														alt={
 															attributes
-																.coverImage.alt
+																.coverImage
+																.alt || ''
 														}
 														style={ {
 															maxWidth: '100%',
 															marginBottom: '8px',
 														} }
 													/>
-													<div>
+													<div key="cover-image-buttons">
 														<Button
+															key="replace-button"
 															onClick={ open }
 															variant="secondary"
 															style={ {
@@ -297,6 +367,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 															Replace
 														</Button>
 														<Button
+															key="remove-button"
 															onClick={ () =>
 																setAttributes( {
 																	coverImage:
@@ -318,41 +389,46 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 						</div>
 					</PanelBody>
 				</InspectorControls>
-				<div { ...blockProps }>
-					<div className="wp-block-file__content-wrapper">
-						{ attributes.coverImage && (
-							<div className="file-cover-image">
-								<img
-									src={ attributes.coverImage.url }
-									alt={ attributes.coverImage.alt || '' }
-								/>
-							</div>
+				<main className="wp-block-file__content-wrapper">
+					<figure
+						className="file-cover-image"
+						key="cover-image"
+						aria-label={ __(
+							'Cover image for file',
+							'fau-elemental'
 						) }
-						<div className="wp-block-file">
-							<BlockEdit { ...props } />
-							{ fileDetails && (
-								<>
-									<span className="file-info">
-										{ fileDetails.title?.rendered ||
-											fileDetails.filename ||
-											fileDetails.source_url
-												?.split( '/' )
-												.pop() }
-									</span>
-									<span className="file-info">
-										{ formatFileSize(
-											fileDetails.media_details?.filesize
-										) }
-									</span>
-									<span className="file-info">
-										{ getFileType( fileDetails ) }
-									</span>
-								</>
-							) }
-						</div>
-					</div>
-				</div>
-			</>
+					>
+						{ attributes.coverImage && (
+							<img
+								src={ attributes.coverImage.url }
+								alt={ attributes.coverImage.alt || '' }
+							/>
+						) }
+					</figure>
+					<section className="wp-block-file">
+						<BlockEdit { ...props } />
+						{ fileDetails && (
+							<>
+								<span className="file-info" key="edit-filename">
+									{ fileDetails.title?.rendered ||
+										fileDetails.filename ||
+										fileDetails.source_url
+											?.split( '/' )
+											.pop() }
+								</span>
+								<span className="file-info" key="edit-filesize">
+									{ formatFileSize(
+										fileDetails.media_details?.filesize
+									) }
+								</span>
+								<span className="file-info" key="edit-filetype">
+									{ getFileType( fileDetails ) }
+								</span>
+							</>
+						) }
+					</section>
+				</main>
+			</div>
 		);
 	};
 }, 'withInspectorControls' );

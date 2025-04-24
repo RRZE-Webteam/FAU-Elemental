@@ -18,3 +18,4 @@ require_once get_template_directory() . '/inc/blocks/registration.php';
 // Load block modifications
 require_once get_template_directory() . '/inc/blocks/heading.php';
 require_once get_template_directory() . '/inc/blocks/image.php';
+require_once get_template_directory() . '/inc/blocks/gallery.php';
