@@ -223,3 +223,7 @@
 		}
 	}
 }
+
+.footer-active .wp-block-table tbody{
+	border-bottom: none; // Hide bottom border when tfoot is toggled on for editor
+ }

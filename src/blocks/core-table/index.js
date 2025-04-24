@@ -96,7 +96,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 						/>
 					</PanelBody>
 				</InspectorControls>
-				<div className="wp-block-table-wrapper">
+				<div className={`wp-block-table-wrapper${attributes.foot && attributes.foot.length > 0 ? ' footer-active' : ''}`}>
 					{ attributes.tableHeading && (
 						<div className="wp-block-table__heading">
 							{ attributes.tableHeading }
