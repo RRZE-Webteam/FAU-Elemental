@@ -5,6 +5,7 @@
 @import "../../mixins";
 
 .wp-block-file {
+	max-width: var(--small-max-width);
 
 	.wp-block-file__content-wrapper {
 		display: flex;
