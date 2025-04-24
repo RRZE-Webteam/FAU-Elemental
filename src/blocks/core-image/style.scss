@@ -9,7 +9,7 @@
 		background-color: var(--FAU-Col-FAU-Schwarz-12_5);
 	}
 
-	&.has-overlay div {
+	&.has-overlay div.image-wrapper {
 		background-color: unset;
 
 		&::before {

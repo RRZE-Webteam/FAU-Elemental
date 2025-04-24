@@ -1,7 +1,6 @@
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { Fragment, useRef, useEffect, useState } from '@wordpress/element';
-import { createElement } from '@wordpress/element';
+import { useRef, useEffect, useState } from '@wordpress/element';
 
 addFilter(
 	'blocks.registerBlockType',
@@ -39,16 +38,9 @@ addFilter(
 );
 
 // React component for the carousel
-const GalleryCarousel = ( { clientId, children } ) => {
-	const [ currentSlide, setCurrentSlide ] = useState( 0 );
+const GalleryCarousel = ( { children } ) => {
 	const [ slides, setSlides ] = useState( [] );
 	const carouselRef = useRef( null );
-	const navContainerRef = useRef( null );
-
-	// Function to select the current image block in the editor
-	const selectCurrentImageBlock = () => {
-		// select the image block based on
-	};
 
 	useEffect( () => {
 		if ( carouselRef.current ) {
@@ -70,14 +62,12 @@ const GalleryCarousel = ( { clientId, children } ) => {
 		if ( currentSlideIndex === -1 ) {
 			currentSlideIndex = 0;
 		}
-		console.log( currentSlideIndex );
 
 		// figure out the next slide - handle both positive and negative offsets correctly
 		let nextSlideIndex =
 			( ( ( currentSlideIndex + offset ) % slides.length ) +
 				slides.length ) %
 			slides.length;
-		console.log( nextSlideIndex );
 
 		// select the next slide
 		const selectBlock = wp.data.dispatch( 'core/block-editor' ).selectBlock;
@@ -98,10 +88,7 @@ const GalleryCarousel = ( { clientId, children } ) => {
 			{ children }
 			{ slides.length > 1 && (
 				<>
-					<div
-						className="gallery-nav-container"
-						ref={ navContainerRef }
-					>
+					<div className="gallery-nav-container">
 						<button
 							className="gallery-nav-button prev"
 							aria-label="Previous slide"
@@ -128,14 +115,10 @@ addFilter(
 				return <BlockEdit { ...props } />;
 			}
 
-			const { clientId } = props;
-
 			return (
-				<Fragment>
-					<GalleryCarousel clientId={ clientId }>
-						<BlockEdit { ...props } />
-					</GalleryCarousel>
-				</Fragment>
+				<GalleryCarousel>
+					<BlockEdit { ...props } />
+				</GalleryCarousel>
 			);
 		},
 		'withCarouselView'
@@ -150,10 +133,6 @@ addFilter(
 			return element;
 		}
 
-		return createElement(
-			'div',
-			{ className: 'wp-block-gallery-container' },
-			element
-		);
+		return <div className="wp-block-gallery-container">{ element }</div>;
 	}
 );

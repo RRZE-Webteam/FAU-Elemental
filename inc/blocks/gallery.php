@@ -65,7 +65,7 @@ function fau_elemental_add_gallery_slide_counters($block_content, $block) {
                 
                 // Add the counter to the figcaption
                 return '<figcaption' . $match[1] . '>' . $match[2] . 
-                       '<span class="slide-counter">' . $current_position . ' / ' . $total_slides . '</span></figcaption>';
+                       '<span class="slide-counter" aria-hidden="true">' . $current_position . ' / ' . $total_slides . '</span></figcaption>';
             },
             $block_content
         );

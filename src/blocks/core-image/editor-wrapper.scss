@@ -4,8 +4,12 @@
 
 .faue-is-image-block-selected {
 
+	// TODO: german labels
 	button[aria-label="Add text over image"],
-	button[aria-label="Link"] {
+	button[aria-label="Text über dem Bild hinzufügen"],
+	button[aria-label="Link"],
+	button[aria-label="Crop"],
+	button[aria-label="Zuschneiden"] {
 		display: none;
 	}
 }

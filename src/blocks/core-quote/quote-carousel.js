@@ -1,6 +1,5 @@
 // Simple carousel functionality
 document.addEventListener( 'DOMContentLoaded', function () {
-	console.log( 'quote-carousel' );
 	function initCarousel( container ) {
 		const slides = container.querySelectorAll( '.quote-slide' );
 		const prevButton = container.querySelector( '.carousel-prev' );
