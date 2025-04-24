@@ -17,7 +17,6 @@
 	}
 
 	figure.wp-block-table {
-		margin-bottom: var(--Spacing-12x);
 
 		figcaption {
 			margin-top: var(--Spacing-2x);
@@ -222,4 +221,8 @@
 			}
 		}
 	}
+}
+
+.footer-active .wp-block-table tbody {
+	border-bottom: none; // Hide bottom border when tfoot is toggled on for editor
 }
