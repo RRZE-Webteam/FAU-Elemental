@@ -70,9 +70,6 @@
 			"letterSpacing": false,
 			"textDecoration": false,
 			"textTransform": false
-		},
-		"layout": {
-			"contentSize": "1320px"
 		}
 	},
 	"customTemplates": [
