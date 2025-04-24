@@ -55,7 +55,7 @@ wp.domReady( () => {
  */
 addFilter(
 	'blocks.registerBlockType',
-	'fau-elemental/add-copyright-info-attribute',
+	'fau-elemental/edit-image-block-settings',
 	( settings, name ) => {
 		// Only modify Image blocks
 		if ( name !== 'core/image' ) {

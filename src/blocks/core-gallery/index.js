@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from '@wordpress/element';
 
 addFilter(
 	'blocks.registerBlockType',
-	'core/gallery-remove-align',
+	'fau-elemental/edit-gallery-block-settings',
 	( settings, name ) => {
 		// Only modify Gallery blocks
 		if ( name !== 'core/gallery' ) {
@@ -108,7 +108,7 @@ const GalleryCarousel = ( { children } ) => {
 
 addFilter(
 	'editor.BlockEdit',
-	'core/gallery-carousel-view',
+	'fau-elemental/edit-gallery-block-view',
 	createHigherOrderComponent(
 		( BlockEdit ) => ( props ) => {
 			if ( props.name !== 'core/gallery' ) {
@@ -127,7 +127,7 @@ addFilter(
 
 addFilter(
 	'blocks.getSaveElement',
-	'core/gallery-add-navigation',
+	'fau-elemental/edit-gallery-block-save',
 	( element, blockType, attributes ) => {
 		if ( blockType.name !== 'core/gallery' ) {
 			return element;

@@ -42,7 +42,7 @@ const getFileType = ( fileDetails ) => {
 };
 addFilter(
 	'blocks.registerBlockType',
-	'core/file-remove-pdf-settings',
+	'fau-elemental/edit-file-block-settings',
 	( settings, name ) => {
 		if ( name !== 'core/file' ) {
 			return settings;
@@ -81,7 +81,7 @@ addFilter(
 //Remove text placeholder
 addFilter(
 	'blocks.registerBlockType',
-	'core/file-remove-placeholder',
+	'fau-elemental/edit-file-block-settings',
 	( settings, name ) => {
 		if ( name !== 'core/file' ) {
 			return settings;
@@ -109,7 +109,7 @@ addFilter(
 // Add block attributes
 addFilter(
 	'blocks.registerBlockType',
-	'core/file-extended',
+	'fau-elemental/edit-file-block-settings',
 	( settings, name ) => {
 		if ( name !== 'core/file' ) {
 			return settings;

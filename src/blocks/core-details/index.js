@@ -5,7 +5,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 // Add block attributes and restrictions
 addFilter(
 	'blocks.registerBlockType',
-	'core/details-extended',
+	'fau-elemental/edit-details-block-settings',
 	( settings, name ) => {
 		if ( name !== 'core/details' ) {
 			return settings;
