@@ -141,19 +141,22 @@ addFilter(
 
 				// Add file info elements for frontend display
 				const fileInfoElements = attributes.fileDetails ? (
-					<dl className="file-info-wrapper">
-						<dt className="file-info">
-							{ attributes.fileDetails.filename }
-						</dt>
-						<dt className="file-info">
-							{ formatFileSize(
-								attributes.fileDetails.filesize
-							) }
-						</dt>
-						<dt className="file-info">
-							{ getFileType( attributes.fileDetails ) }
-						</dt>
-					</dl>
+					<div className="file-info-wrapper">
+						<dl className="file-info-list">
+							<div className="file-info-item">
+								<dt className="file-info-term">File Name</dt>
+								<dd className="file-info-definition">{ attributes.fileDetails.filename }</dd>
+							</div>
+							<div className="file-info-item">
+								<dt className="file-info-term">File Size</dt>
+								<dd className="file-info-definition">{ formatFileSize( attributes.fileDetails.filesize ) }</dd>
+							</div>
+							<div className="file-info-item">
+								<dt className="file-info-term">File Type</dt>
+								<dd className="file-info-definition">{ getFileType( attributes.fileDetails ) }</dd>
+							</div>
+						</dl>
+					</div>
 				) : null;
 
 				// Add accessibility attributes to the download button and file name link
@@ -408,23 +411,30 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 					<section className="wp-block-file">
 						<BlockEdit { ...props } />
 						{ fileDetails && (
-							<>
-								<span className="file-info" key="edit-filename">
-									{ fileDetails.title?.rendered ||
-										fileDetails.filename ||
-										fileDetails.source_url
-											?.split( '/' )
-											.pop() }
-								</span>
-								<span className="file-info" key="edit-filesize">
-									{ formatFileSize(
-										fileDetails.media_details?.filesize
-									) }
-								</span>
-								<span className="file-info" key="edit-filetype">
-									{ getFileType( fileDetails ) }
-								</span>
-							</>
+							<div className="file-info-wrapper">
+								<dl className="file-info-list">
+									<div className="file-info-item">
+										<dt className="file-info-term">File Name</dt>
+										<dd className="file-info-definition">
+											{ fileDetails.title?.rendered ||
+												fileDetails.filename ||
+												fileDetails.source_url?.split( '/' ).pop() }
+										</dd>
+									</div>
+									<div className="file-info-item">
+										<dt className="file-info-term">File Size</dt>
+										<dd className="file-info-definition">
+											{ formatFileSize( fileDetails.media_details?.filesize ) }
+										</dd>
+									</div>
+									<div className="file-info-item">
+										<dt className="file-info-term">File Type</dt>
+										<dd className="file-info-definition">
+											{ getFileType( fileDetails ) }
+										</dd>
+									</div>
+								</dl>
+							</div>
 						) }
 					</section>
 				</main>

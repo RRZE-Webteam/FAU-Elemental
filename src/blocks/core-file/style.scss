@@ -54,13 +54,35 @@
 				}
 
 				.file-info-wrapper {
-					display: flex;
-					gap: 10px;
+					.file-info-list {
+						display: flex;
+						flex-direction: row;
+						gap: 10px;
+						margin: 0;
+						padding: 0;
+						list-style: none;
 
-					@include respond-to("small") {
-						gap: 5px;
-						padding-right: 40px;
-						flex-direction: column;
+						.file-info-item {
+							display: flex;
+							flex-direction: row;
+							gap: 5px;
+							align-items: center;
+
+							.file-info-term {
+								display: none;
+							}
+
+							.file-info-definition {
+								margin: 0;
+								font-size: 1rem;
+							}
+						}
+
+						@include respond-to("small") {
+							flex-direction: column;
+							gap: 5px;
+							padding-right: 40px;
+						}
 					}
 				}
 			}
@@ -125,9 +147,37 @@
 				}
 			}
 
-			.file-info {
-				font-size: 1rem;
-				margin-right: 20px;
+			.file-info-wrapper {
+				.file-info-list {
+					display: flex;
+					flex-direction: row;
+					gap: 10px;
+					margin: 0;
+					padding: 0;
+					list-style: none;
+
+					.file-info-item {
+						display: flex;
+						flex-direction: row;
+						gap: 5px;
+						align-items: center;
+
+						.file-info-term {
+							display: none;
+						}
+
+						.file-info-definition {
+							margin: 0;
+							font-size: 1rem;
+						}
+					}
+
+					@include respond-to("small") {
+						flex-direction: column;
+						gap: 5px;
+						padding-right: 40px;
+					}
+				}
 			}
 
 			a {
