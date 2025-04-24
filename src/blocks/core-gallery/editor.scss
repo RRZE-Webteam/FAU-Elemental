@@ -34,7 +34,7 @@
 
 	&:not(.has-child-selected) {
 
-		.wp-block-image {
+		.wp-block-image-wrapper {
 
 			&:not(:first-child) {
 				display: none !important;

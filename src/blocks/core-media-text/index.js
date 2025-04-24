@@ -28,7 +28,7 @@ registerBlockVariation( 'core/media-text', {
 // Add custom attributes
 addFilter(
 	'blocks.registerBlockType',
-	'fau-elemental/edit-media-text-settings',
+	'fau-elemental/edit-media-text-block-settings',
 	function ( settings, name ) {
 		if ( name !== 'core/media-text' ) {
 			return settings;
