@@ -5,6 +5,7 @@
 @import "../../mixins";
 
 .wp-block-list {
+	max-width: var(--small-max-width);
 	font-size: var(--P-Body-Text);
 	color: var(--FAU-Col-FAU-Schwarz-100);
 	font-weight: 400;

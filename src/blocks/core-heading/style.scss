@@ -4,6 +4,10 @@
 
 @import "../../mixins";
 
+.wp-block-heading {
+	max-width: var(--small-max-width);
+}
+
 h2,
 h3,
 h4,
