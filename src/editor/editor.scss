@@ -7,6 +7,8 @@
 @import "../blocks/core-gallery/editor";
 @import "../blocks/core-image/editor";
 @import "../blocks/core-file/editor";
+@import "../blocks/core-media-text/editor";
+@import "../blocks/core-quote/editor";
 
 .wp-block-file__content-wrapper > .wp-block-file > .wp-block-file {
 	margin-bottom: var(--Spacing-4x);
