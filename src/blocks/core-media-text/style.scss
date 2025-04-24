@@ -1,6 +1,7 @@
 @import "../../mixins";
 
 .wp-block-media-text {
+	max-width: var(--base-max-width);
 	gap: var(--Spacing-8x);
 
 	.wp-block-media-text__content {

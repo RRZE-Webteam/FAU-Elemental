@@ -4,3 +4,7 @@ div:not(:first-of-type).wp-block-details details.wp-block-details {
 		border-top: none;
 	}
 }
+
+div.wp-block-details {
+	max-width: var(--small-max-width);
+}
