@@ -36,27 +36,27 @@
         }
 
         &--desktop {
-            display: none;
-        }
-
-        @media (min-width: 768px) {
-            &--mobile {
-                display: none;
-            }
-
-            &--desktop {
-                display: flex;
-            }
+            display: flex;
         }
 
         @media (max-width: 767px) {
             &--mobile {
                 display: flex;
+                align-items: center;
+
+                &::after {
+                    display: none;
+                }
             }
 
-            &--desktop {
+            &--desktop,
+            &--current {
                 display: none;
             }
+        }
+
+        &--current {
+            display: block;
         }
     }
 
@@ -86,6 +86,17 @@
     &__current {
         color: var(--FAU-Col-FAU-Schwarz-100);
         font-weight: 400;
+    }
+
+    &__chevron {
+        content: "";
+        display: inline-block;
+        background-image: var(--icon-chevron-fau-blau);
+        background-repeat: no-repeat;
+        width: 8px;
+        height: 15px;
+        margin-right: var(--Spacing-4x);
+        transform: rotate(180deg);
     }
 }
 

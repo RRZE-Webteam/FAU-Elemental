@@ -32,8 +32,8 @@ function faue_breadcrumbs() {
     echo '<nav class="breadcrumbs" aria-label="' . esc_attr__('Breadcrumb navigation', 'fau-elemental') . '">';
     echo '<ol class="breadcrumbs__list" itemscope itemtype="https://schema.org/BreadcrumbList">';
 
-    // Home link
-    echo '<li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+    // Home link (desktop only)
+    echo '<li class="breadcrumbs__item breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
     echo '<a href="' . esc_url(home_url('/')) . '" class="breadcrumbs__link" itemprop="item">';
     echo '<span itemprop="name">' . esc_html__('Home', 'fau-elemental') . '</span>';
     echo '</a>';
@@ -43,12 +43,26 @@ function faue_breadcrumbs() {
     $position = 2;
     $total_items = count($ancestors) + 1; // +1 for current page
 
-    // Mobile: Show only parent link
-    if (is_page() && !empty($ancestors)) {
-        $parent = get_post(end($ancestors));
+    // Mobile: Show only parent
+    if (!empty($ancestors)) {
+        $parent = end($ancestors);
+        if (is_page()) {
+            $parent_post = get_post($parent);
+            $parent_title = $parent_post->post_title;
+            $parent_url = get_permalink($parent_post->ID);
+        } else {
+            $parent_category = get_category($parent);
+            $parent_title = $parent_category->name;
+            $parent_url = get_category_link($parent_category->term_id);
+        }
+
+        // Truncate parent title
+        $truncated_parent = strlen($parent_title) > 50 ? substr($parent_title, 0, 47) . '...' : $parent_title;
+
         echo '<li class="breadcrumbs__item breadcrumbs__item--mobile" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
-        echo '<a href="' . esc_url(get_permalink($parent->ID)) . '" class="breadcrumbs__link" itemprop="item">';
-        echo '<span itemprop="name">' . esc_html($parent->post_title) . '</span>';
+        echo '<span class="breadcrumbs__chevron"></span>';
+        echo '<a href="' . esc_url($parent_url) . '" class="breadcrumbs__link" itemprop="item" title="' . esc_attr($parent_title) . '">';
+        echo '<span itemprop="name">' . esc_html($truncated_parent) . '</span>';
         echo '</a>';
         echo '<meta itemprop="position" content="' . ($total_items - 1) . '" />';
         echo '</li>';
@@ -77,7 +91,7 @@ function faue_breadcrumbs() {
         $position++;
     }
 
-    // Current page
+    // Current page (desktop only)
     $current_title = '';
     if (is_category()) {
         $current_title = single_cat_title('', false);
@@ -94,7 +108,7 @@ function faue_breadcrumbs() {
     // Truncate current page title if needed
     $truncated_current = strlen($current_title) > 50 ? substr($current_title, 0, 47) . '...' : $current_title;
 
-    echo '<li class="breadcrumbs__item breadcrumbs__item--current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+    echo '<li class="breadcrumbs__item breadcrumbs__item--current breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
     echo '<span class="breadcrumbs__current" itemprop="item" title="' . esc_attr($current_title) . '">';
     echo '<span itemprop="name">' . esc_html($truncated_current) . '</span>';
     echo '</span>';
