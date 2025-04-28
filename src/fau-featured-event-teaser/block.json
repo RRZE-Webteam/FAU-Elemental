@@ -1,0 +1,71 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "fau-elemental/featured-event-teaser",
+    "version": "1.0.0",
+    "title": "Featured Event Teaser",
+    "category": "widgets",
+    "icon": "calendar-alt",
+    "description": "A block to display a featured event with details.",
+    "attributes": {
+        "subtitle": {
+            "type": "string",
+            "source": "html",
+            "selector": ".event-subtitle"
+        },
+        "showSubtitle": {
+            "type": "boolean",
+            "default": false
+        },
+        "eventTitle": {
+            "type": "string",
+            "source": "html",
+            "selector": ".event-title"
+        },
+        "eventDescription": {
+            "type": "string",
+            "source": "html",
+            "selector": ".event-description"
+        },
+        "eventDate": {
+            "type": "string",
+            "default": ""
+        },
+        "buttonText": {
+            "type": "string",
+            "default": "Mehr erfahren"
+        },
+        "buttonUrl": {
+            "type": "string",
+            "default": "#"
+        },
+        "showImage": {
+            "type": "boolean",
+            "default": false
+        },
+        "imageUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "imageAlt": {
+            "type": "string",
+            "default": ""
+        },
+        "showHeader": {
+            "type": "boolean",
+            "default": true
+        },
+        "headerText": {
+            "type": "string",
+            "default": "Featured Event"
+        }
+    },
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "textdomain": "fau-elemental",
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./index.css",
+    "style": "file:./style-index.css"
+} 

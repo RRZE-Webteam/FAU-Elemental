@@ -1,0 +1,108 @@
+.wp-block-fau-elemental-featured-event-teaser {
+    position: relative;
+    display: flex;
+    min-height: 607px;
+    background-color: #fff;
+
+    .featured-event-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        width: 100%;
+
+        .content-left {
+            flex: 0 0 45%;
+            padding: 3rem 3rem 3rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fff;
+
+            .event-subtitle {
+                display: flex;
+                align-items: center;
+                color: #666;
+                font-size: 0.875rem;
+                margin-bottom: 1rem;
+                text-transform: uppercase;
+
+                &::before {
+                    content: "";
+                    display: block;
+                    width: 3rem;
+                    height: 1px;
+                    background-color: #666;
+                    margin-right: 1rem;
+                }
+            }
+
+            .event-title {
+                font-size: 2.5rem;
+                font-weight: 700;
+                line-height: 1.2;
+                margin: 0 0 1.5rem;
+                color: #0f1b4c;
+            }
+
+            .event-description {
+                font-size: 1rem;
+                line-height: 1.6;
+                margin: 0 0 2rem;
+                color: #333;
+            }
+        }
+
+        .content-right {
+            flex: 0 0 55%;
+            position: relative;
+
+            .event-date {
+                position: absolute;
+                top: 2rem;
+                right: 2rem;
+                text-align: center;
+                z-index: 2;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .date-day {
+                    background-color: #0f1b4c;
+                    color: #fff;
+                    font-size: 2rem;
+                    font-weight: 700;
+                    line-height: 1;
+                    padding: 0.5rem 1rem;
+                    margin-bottom: 0.25rem;
+                }
+
+                .date-month-year {
+                    color: #0f1b4c;
+                    font-size: 1rem;
+                    font-weight: 500;
+                }
+            }
+
+            .featured-event-image {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+    }
+
+    // Editor-specific styles
+    &.is-selected {
+        outline: 2px solid #007cba;
+    }
+} 
