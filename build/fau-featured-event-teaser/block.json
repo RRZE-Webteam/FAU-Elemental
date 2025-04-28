@@ -50,14 +50,6 @@
     "imageAlt": {
       "type": "string",
       "default": ""
-    },
-    "showHeader": {
-      "type": "boolean",
-      "default": true
-    },
-    "headerText": {
-      "type": "string",
-      "default": "Featured Event"
     }
   },
   "supports": {
@@ -70,5 +62,6 @@
   "textdomain": "fau-elemental",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
 }

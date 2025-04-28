@@ -10,5 +10,5 @@ import './style.scss';
 registerBlockType(metadata.name, {
     ...metadata,
     edit: Edit,
-    save,
+    save
 }); 
