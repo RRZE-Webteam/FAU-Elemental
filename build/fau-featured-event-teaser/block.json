@@ -9,23 +9,17 @@
   "description": "A block to display a featured event with details.",
   "attributes": {
     "subtitle": {
-      "type": "string",
-      "source": "html",
-      "selector": ".event-subtitle"
+      "type": "string"
     },
     "showSubtitle": {
       "type": "boolean",
       "default": false
     },
     "eventTitle": {
-      "type": "string",
-      "source": "html",
-      "selector": ".event-title"
+      "type": "string"
     },
     "eventDescription": {
-      "type": "string",
-      "source": "html",
-      "selector": ".event-description"
+      "type": "string"
     },
     "eventDate": {
       "type": "string",

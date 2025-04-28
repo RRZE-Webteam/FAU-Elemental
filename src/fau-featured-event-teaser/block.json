@@ -8,57 +8,54 @@
     "icon": "calendar-alt",
     "description": "A block to display a featured event with details.",
     "attributes": {
-        "subtitle": {
-            "type": "string",
-            "source": "html",
-            "selector": ".event-subtitle"
-        },
-        "showSubtitle": {
-            "type": "boolean",
-            "default": false
-        },
-        "eventTitle": {
-            "type": "string",
-            "source": "html",
-            "selector": ".event-title"
-        },
-        "eventDescription": {
-            "type": "string",
-            "source": "html",
-            "selector": ".event-description"
-        },
-        "eventDate": {
-            "type": "string",
-            "default": ""
-        },
-        "buttonText": {
-            "type": "string",
-            "default": "Mehr erfahren"
-        },
-        "buttonUrl": {
-            "type": "string",
-            "default": "#"
-        },
-        "showImage": {
-            "type": "boolean",
-            "default": false
-        },
-        "imageUrl": {
-            "type": "string",
-            "default": ""
-        },
-        "imageAlt": {
-            "type": "string",
-            "default": ""
-        }
+      "subtitle": {
+        "type": "string"
+      },
+      "showSubtitle": {
+        "type": "boolean",
+        "default": false
+      },
+      "eventTitle": {
+        "type": "string"
+      },
+      "eventDescription": {
+        "type": "string"
+      },
+      "eventDate": {
+        "type": "string",
+        "default": ""
+      },
+      "buttonText": {
+        "type": "string",
+        "default": "Mehr erfahren"
+      },
+      "buttonUrl": {
+        "type": "string",
+        "default": "#"
+      },
+      "showImage": {
+        "type": "boolean",
+        "default": false
+      },
+      "imageUrl": {
+        "type": "string",
+        "default": ""
+      },
+      "imageAlt": {
+        "type": "string",
+        "default": ""
+      }
     },
     "supports": {
-        "html": false,
-        "align": ["wide", "full"]
+      "html": false,
+      "align": [
+        "wide",
+        "full"
+      ]
     },
     "textdomain": "fau-elemental",
     "editorScript": "file:./index.js",
     "editorStyle": "file:./index.css",
     "style": "file:./style-index.css",
     "render": "file:./render.php"
-} 
+  }
