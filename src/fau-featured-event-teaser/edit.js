@@ -45,6 +45,11 @@ export default function Edit({ attributes, setAttributes }) {
                         help={__('Enter date in format: DD MMM YYYY (e.g. 01 Okt 2024)', 'fau-elemental')}
                     />
                     <TextControl
+                        label={__('Button Text', 'fau-elemental')}
+                        value={buttonText}
+                        onChange={(value) => setAttributes({ buttonText: value })}
+                    />
+                    <TextControl
                         label={__('Button URL', 'fau-elemental')}
                         value={buttonUrl}
                         onChange={(value) => setAttributes({ buttonUrl: value })}
@@ -100,9 +105,14 @@ export default function Edit({ attributes, setAttributes }) {
                             placeholder={__('Enter event description...', 'fau-elemental')}
                         />
                         <div className="wp-block-button">
-                            <a className="wp-block-button__link" href={buttonUrl}>
-                                {buttonText}
-                            </a>
+                            <RichText
+                                tagName="a"
+                                className="wp-block-button__link"
+                                value={buttonText}
+                                onChange={(value) => setAttributes({ buttonText: value })}
+                                placeholder={__('Button text...', 'fau-elemental')}
+                                allowedFormats={[]}
+                            />
                         </div>
                     </div>
                     <div className="content-right">

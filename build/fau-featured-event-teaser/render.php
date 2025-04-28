@@ -15,6 +15,9 @@
  * @return string Returns the markup for the featured event teaser.
  */
 function render_block_fau_featured_event_teaser($attributes, $content, $block) {
+    // Debug log
+    error_log('render_block_fau_featured_event_teaser called with attributes: ' . print_r($attributes, true));
+    
     // Extract attributes
     $subtitle = isset($attributes['subtitle']) ? $attributes['subtitle'] : '';
     $showSubtitle = isset($attributes['showSubtitle']) ? $attributes['showSubtitle'] : false;
@@ -32,6 +35,11 @@ function render_block_fau_featured_event_teaser($attributes, $content, $block) {
     $day = $dateParts[0];
     $monthYear = implode(' ', array_slice($dateParts, 1));
 
+    // Helper function to escape HTML
+    function escape_html($text) {
+        return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    }
+    
     // Start output buffering
     ob_start();
     ?>
@@ -39,30 +47,32 @@ function render_block_fau_featured_event_teaser($attributes, $content, $block) {
         <div class="featured-event-content">
             <div class="content-left">
                 <?php if ($showSubtitle && $subtitle) : ?>
-                    <p class="event-subtitle"><?php echo wp_kses_post($subtitle); ?></p>
+                    <p class="event-subtitle"><?php echo $subtitle; ?></p>
                 <?php endif; ?>
-                <h2 class="event-title"><?php echo wp_kses_post($eventTitle); ?></h2>
-                <p class="event-description"><?php echo wp_kses_post($eventDescription); ?></p>
+                <h2 class="event-title"><?php echo $eventTitle; ?></h2>
+                <p class="event-description"><?php echo $eventDescription; ?></p>
                 <div class="wp-block-button">
-                    <a class="wp-block-button__link" href="<?php echo esc_url($buttonUrl); ?>">
-                        <?php echo esc_html($buttonText); ?>
+                    <a class="wp-block-button__link" href="<?php echo escape_html($buttonUrl); ?>">
+                        <?php echo escape_html($buttonText); ?>
                         <span class="button-arrow">→</span>
                     </a>
                 </div>
             </div>
             <div class="content-right">
                 <div class="event-date">
-                    <div class="date-day"><?php echo esc_html($day); ?></div>
-                    <div class="date-month-year"><?php echo esc_html($monthYear); ?></div>
+                    <div class="date-day"><?php echo escape_html($day); ?></div>
+                    <div class="date-month-year"><?php echo escape_html($monthYear); ?></div>
                 </div>
                 <?php if ($showImage && $imageUrl) : ?>
                     <div class="featured-event-image">
-                        <img src="<?php echo esc_url($imageUrl); ?>" alt="<?php echo esc_attr($imageAlt); ?>" />
+                        <img src="<?php echo escape_html($imageUrl); ?>" alt="<?php echo escape_html($imageAlt); ?>" />
                     </div>
                 <?php endif; ?>
             </div>
         </div>
     </div>
     <?php
-    return ob_get_clean();
+    $output = ob_get_clean();
+    error_log('render_block_fau_featured_event_teaser output: ' . substr($output, 0, 100) . '...');
+    return $output;
 }

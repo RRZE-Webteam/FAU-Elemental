@@ -10,6 +10,7 @@ if (!defined('ABSPATH')) {
 }
 
 require_once get_theme_file_path('src/fau-copyright-info/render.php');
+require_once get_theme_file_path('src/fau-featured-event-teaser/render.php');
 
 /**
  * Register all custom blocks from the build directory
@@ -26,8 +27,22 @@ function fau_elemental_register_blocks() {
             // If render.php exists, explicitly set the render callback
             if (file_exists($block_folder . '/render.php')) {
                 $block_name = substr($block_json['name'], strrpos($block_json['name'], '/') + 1);
-                $render_function = 'render_block_' . str_replace('-', '_', $block_name);
+                
+                // Special case for featured-event-teaser to use the correct function name
+                if ($block_name === 'featured-event-teaser') {
+                    $render_function = 'render_block_fau_featured_event_teaser';
+                } else {
+                    $render_function = 'render_block_' . str_replace('-', '_', $block_name);
+                }
+                
                 $block_json['render_callback'] = $render_function;
+                
+                // Debug for featured-event-teaser block
+                if ($block_name === 'featured-event-teaser') {
+                    error_log('Registering featured-event-teaser block');
+                    error_log('Render function: ' . $render_function);
+                    error_log('Function exists: ' . (function_exists($render_function) ? 'yes' : 'no'));
+                }
             }
             
             register_block_type($block_folder, $block_json);
