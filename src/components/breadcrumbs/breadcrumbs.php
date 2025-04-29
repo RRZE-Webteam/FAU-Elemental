@@ -35,7 +35,7 @@ function faue_breadcrumbs() {
     // Home link (desktop only)
     echo '<li class="breadcrumbs__item breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
     echo '<a href="' . esc_url(home_url('/')) . '" class="breadcrumbs__link" itemprop="item">';
-    echo '<span itemprop="name">' . esc_html__('Home', 'fau-elemental') . '</span>';
+    echo '<span itemprop="name">' . esc_html__('Start', 'fau-elemental') . '</span>';
     echo '</a>';
     echo '<meta itemprop="position" content="1" />';
     echo '</li>';

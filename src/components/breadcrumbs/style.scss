@@ -2,9 +2,10 @@
  * Breadcrumb Styles
  */
 
+ @import "../../mixins";
+
 .breadcrumbs {
-    margin: var(--Spacing-8x) 0;
-    padding: 0;
+    max-width: 870px;
 
     &__list {
         display: flex;
@@ -30,34 +31,14 @@
             margin-left: var(--Spacing-4x);
         }
 
-        // Mobile styles
-        &--mobile {
-            display: none;
-        }
+		// Mobile styles
+		&--mobile {
+			display: none;
+		}
 
-        &--desktop {
-            display: flex;
-        }
-
-        @media (max-width: 767px) {
-            &--mobile {
-                display: flex;
-                align-items: center;
-
-                &::after {
-                    display: none;
-                }
-            }
-
-            &--desktop,
-            &--current {
-                display: none;
-            }
-        }
-
-        &--current {
-            display: block;
-        }
+		&--desktop {
+			display: flex;
+		}
     }
 
     &__link {
@@ -97,6 +78,25 @@
         height: 15px;
         margin-right: var(--Spacing-4x);
         transform: rotate(180deg);
+    }
+}
+
+// Responsive
+@include respond-to("small") {
+    .breadcrumbs {
+        &__item {
+            &--mobile {
+                display: flex;
+            }
+        
+            &--desktop {
+                display: none;
+            }
+        
+            &:not(:last-child)::after {
+                display: none;
+            }
+        }
     }
 }
 
