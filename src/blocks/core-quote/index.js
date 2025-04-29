@@ -7,24 +7,29 @@ import {
 	MediaUploadCheck,
 	InspectorControls,
 	RichText,
+	useBlockProps,
+	BlockControls,
 } from '@wordpress/block-editor';
-import {
-	Button,
-	PanelBody,
-	PanelRow,
-	SelectControl,
-	BaseControl,
-} from '@wordpress/components';
+import { Button, BaseControl, ToolbarGroup } from '@wordpress/components';
 import { useEffect, useRef, useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
+import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelect } from '@wordpress/data';
+
+domReady( () => {
+	unregisterBlockStyle( 'core/quote', [ 'default', 'plain' ] );
+} );
 
 // Add custom attribute to quote block
 addFilter(
 	'blocks.registerBlockType',
-	'fau-elemental/quote-image-attribute',
+	'fau-elemental/edit-quote-block-settings',
 	( settings, name ) => {
 		if ( name !== 'core/quote' ) {
 			return settings;
 		}
+
+		const initialUuid = uuidv4();
 
 		return {
 			...settings,
@@ -34,7 +39,7 @@ addFilter(
 					type: 'array',
 					default: [
 						{
-							id: Date.now(),
+							id: initialUuid,
 							content: '',
 							citation: '',
 							image: null,
@@ -88,7 +93,10 @@ const initCarousel = ( container, initialSlide = 0, onSlideChange = null ) => {
 		dots.innerHTML = '';
 		slides.forEach( ( _, index ) => {
 			const dot = document.createElement( 'button' );
-			dot.setAttribute( 'aria-label', `Go to slide ${ index + 1 }` );
+			dot.setAttribute(
+				'aria-label',
+				__( `Go to slide ${ index + 1 }`, 'fau-elemental' )
+			);
 			dot.addEventListener( 'click', () => {
 				currentSlide = index;
 				updateSlides();
@@ -124,10 +132,55 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 			return <BlockEdit { ...props } />;
 		}
 
-		const { attributes, setAttributes } = props;
+		const { attributes, setAttributes, clientId } = props;
+		const { selectBlock } = useDispatch( 'core/block-editor' );
+		const { getSelectedBlockClientId } = useSelect(
+			( select ) => ( {
+				getSelectedBlockClientId:
+					select( 'core/block-editor' ).getSelectedBlockClientId,
+			} ),
+			[]
+		);
+
 		const carouselRef = useRef( null );
 		const currentSlideRef = useRef( 0 );
 		const [ selectedQuoteIndex, setSelectedQuoteIndex ] = useState( 0 );
+		const blockProps = useBlockProps();
+
+		// Track if we're in the middle of an undo operation
+		const isUndoRef = useRef( false );
+
+		// Listen for changes in the selected block
+		useEffect( () => {
+			const selectedBlockId = getSelectedBlockClientId();
+
+			// If we were previously selected and now we're not, and we're in an undo operation
+			if ( selectedBlockId !== clientId && isUndoRef.current ) {
+				// Re-select our block
+				selectBlock( clientId );
+			}
+
+			// Reset the undo flag
+			isUndoRef.current = false;
+		}, [ getSelectedBlockClientId(), clientId, selectBlock ] );
+
+		// Listen for undo/redo operations
+		useEffect( () => {
+			const handleKeyDown = ( event ) => {
+				// Check for Ctrl+Z (undo) or Ctrl+Y (redo)
+				if (
+					( event.ctrlKey || event.metaKey ) &&
+					( event.key === 'z' || event.key === 'y' )
+				) {
+					isUndoRef.current = true;
+				}
+			};
+
+			document.addEventListener( 'keydown', handleKeyDown );
+			return () => {
+				document.removeEventListener( 'keydown', handleKeyDown );
+			};
+		}, [] );
 
 		const handleSlideChange = ( newIndex ) => {
 			setSelectedQuoteIndex( newIndex );
@@ -157,8 +210,10 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 
 		const addNewQuote = () => {
 			const quotes = [ ...( attributes.quotes || [] ) ];
+			const newUuid = uuidv4();
+
 			quotes.push( {
-				id: Date.now(),
+				id: newUuid,
 				content: '',
 				citation: '',
 				image: null,
@@ -226,14 +281,20 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 					<div className="carousel-controls">
 						<button
 							className="carousel-prev"
-							aria-label="Previous slide"
+							aria-label={ __(
+								'Previous slide',
+								'fau-elemental'
+							) }
 						>
 							❮
 						</button>
 						<div className="carousel-dots"></div>
 						<button
 							className="carousel-next"
-							aria-label="Next slide"
+							Move
+							quote
+							down
+							aria-label={ __( 'Next slide', 'fau-elemental' ) }
 						>
 							❯
 						</button>
@@ -260,7 +321,11 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 							onChange={ ( content ) =>
 								updateQuote( index, 'content', content )
 							}
-							placeholder="Enter quote text..."
+							placeholder={ __(
+								'Enter quote text...',
+								'fau-elemental'
+							) }
+							allowedFormats={ [] }
 						/>
 						<RichText
 							tagName="cite"
@@ -268,7 +333,11 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 							onChange={ ( citation ) =>
 								updateQuote( index, 'citation', citation )
 							}
-							placeholder="Enter citation..."
+							placeholder={ __(
+								'Enter citation...',
+								'fau-elemental'
+							) }
+							allowedFormats={ [] }
 						/>
 					</div>
 				</div>
@@ -277,8 +346,6 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 
 		const renderQuoteControls = () => {
 			if ( ! attributes.quotes?.length ) return null;
-
-			const quote = attributes.quotes[ selectedQuoteIndex ];
 
 			return (
 				<>
@@ -309,7 +376,10 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 											? quote.content
 													.replace( /<[^>]*>/g, '' )
 													.substring( 0, 50 ) + '...'
-											: 'Empty quote' }
+											: __(
+													'Empty quote',
+													'fau-elemental'
+											  ) }
 									</span>
 								</div>
 								<div className="quote-list-item__actions">
@@ -319,10 +389,12 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 											e.stopPropagation();
 											moveQuote( index, -1 );
 										} }
-										isSmall
 										disabled={ index === 0 }
 										className="quote-list-item__move"
-										title="Move quote up"
+										title={ __(
+											'Move quote up',
+											'fau-elemental'
+										) }
 									/>
 									<Button
 										icon="arrow-down-alt2"
@@ -330,13 +402,15 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 											e.stopPropagation();
 											moveQuote( index, 1 );
 										} }
-										isSmall
 										disabled={
 											index ===
 											attributes.quotes.length - 1
 										}
 										className="quote-list-item__move"
-										title="Move quote down"
+										title={ __(
+											'Move quote down',
+											'fau-elemental'
+										) }
 									/>
 									<Button
 										icon="trash"
@@ -344,7 +418,6 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 											e.stopPropagation();
 											removeQuote( index );
 										} }
-										isSmall
 										isDestructive
 										disabled={
 											attributes.quotes.length <= 1
@@ -352,8 +425,14 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 										className="quote-list-item__remove"
 										title={
 											attributes.quotes.length <= 1
-												? 'Cannot remove the last quote'
-												: 'Remove this quote'
+												? __(
+														'Cannot remove the last quote',
+														'fau-elemental'
+												  )
+												: __(
+														'Remove this quote',
+														'fau-elemental'
+												  )
 										}
 									/>
 								</div>
@@ -378,7 +457,7 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 									</svg>
 								</span>
 								<span className="quote-list-item__add-label">
-									Add New Quote
+									{ __( 'Add New Quote', 'fau-elemental' ) }
 								</span>
 							</div>
 						</button>
@@ -389,13 +468,25 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 
 		return (
 			<>
+				<BlockControls>
+					<ToolbarGroup>
+						<Button
+							icon="plus"
+							label={ __( 'Add New Quote', 'fau-elemental' ) }
+							onClick={ addNewQuote }
+						/>
+					</ToolbarGroup>
+				</BlockControls>
 				<InspectorControls>
 					{ attributes.quotes?.length > 0 && (
 						<>
 							{ renderQuoteControls() }
 							<BaseControl
-								label={ `Quote Image` }
-								help="Add an image to accompany this quote"
+								label={ __( 'Quote Image', 'fau-elemental' ) }
+								help={ __(
+									'Add an image to accompany this quote',
+									'fau-elemental'
+								) }
 							>
 								<div className="quote-image-controls">
 									<MediaUploadCheck>
@@ -422,13 +513,12 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 															<Button
 																onClick={ open }
 																variant="secondary"
-																isSecondary
 																className="editor-post-featured-image__toggle"
-																style={ {
-																	width: '100%',
-																} }
 															>
-																Add Image
+																{ __(
+																	'Add Image',
+																	'fau-elemental'
+																) }
 															</Button>
 														) }
 														{ attributes.quotes[
@@ -459,10 +549,12 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 																			open
 																		}
 																		variant="secondary"
-																		isSecondary
 																		className="editor-post-featured-image__action"
 																	>
-																		Replace
+																		{ __(
+																			'Replace',
+																			'fau-elemental'
+																		) }
 																	</Button>
 																	<Button
 																		onClick={ () =>
@@ -475,7 +567,10 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 																		isDestructive
 																		className="editor-post-featured-image__action"
 																	>
-																		Remove
+																		{ __(
+																			'Remove',
+																			'fau-elemental'
+																		) }
 																	</Button>
 																</div>
 															</>
@@ -490,13 +585,17 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 						</>
 					) }
 				</InspectorControls>
-				<div className="wp-block-quotes-container">
-					{ renderQuotes() }
-				</div>
+				<div { ...blockProps }>{ renderQuotes() }</div>
 			</>
 		);
 	};
 }, 'withImageControl' );
+
+addFilter(
+	'editor.BlockEdit',
+	'fau-elemental/quote-with-image',
+	withImageControl
+);
 
 // Modify the frontend save element
 addFilter(
@@ -562,12 +661,15 @@ addFilter(
 				<div className="carousel-controls">
 					<button
 						className="carousel-prev"
-						aria-label="Previous slide"
+						aria-label={ __( 'Previous slide', 'fau-elemental' ) }
 					>
 						❮
 					</button>
 					<div className="carousel-dots"></div>
-					<button className="carousel-next" aria-label="Next slide">
+					<button
+						className="carousel-next"
+						aria-label={ __( 'Next slide', 'fau-elemental' ) }
+					>
 						❯
 					</button>
 				</div>
@@ -576,13 +678,37 @@ addFilter(
 	}
 );
 
+// Add support for grouping to the quote block
 addFilter(
-	'editor.BlockEdit',
-	'fau-elemental/quote-with-image',
-	withImageControl
+	'blocks.registerBlockType',
+	'fau-elemental/quote-group-support',
+	( settings, name ) => {
+		if ( name !== 'core/quote' ) {
+			return settings;
+		}
+
+		return {
+			...settings,
+			supports: {
+				...settings.supports,
+				__experimentalGroup: true,
+			},
+		};
+	}
 );
 
-domReady( () => {
-	// Unregister default styles
-	unregisterBlockStyle( 'core/quote', [ 'default', 'plain' ] );
-} );
+// Prevent quote block from being transformed into a paragraph when grouped
+addFilter(
+	'blocks.switchToBlockType.transformedBlock',
+	'fau-elemental/prevent-quote-transformation',
+	( transformedBlock, sourceBlock, sourceAttributes ) => {
+		// Check if the source block is a quote block
+		if ( sourceBlock.name === 'core/quote' ) {
+			// If the transformed block is a paragraph, return the original quote block
+			if ( transformedBlock.name === 'core/paragraph' ) {
+				return sourceBlock;
+			}
+		}
+		return transformedBlock;
+	}
+);

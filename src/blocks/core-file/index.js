@@ -145,15 +145,23 @@ addFilter(
 						<dl className="file-info-list">
 							<div className="file-info-item">
 								<dt className="file-info-term">File Name</dt>
-								<dd className="file-info-definition">{ attributes.fileDetails.filename }</dd>
+								<dd className="file-info-definition">
+									{ attributes.fileDetails.filename }
+								</dd>
 							</div>
 							<div className="file-info-item">
 								<dt className="file-info-term">File Size</dt>
-								<dd className="file-info-definition">{ formatFileSize( attributes.fileDetails.filesize ) }</dd>
+								<dd className="file-info-definition">
+									{ formatFileSize(
+										attributes.fileDetails.filesize
+									) }
+								</dd>
 							</div>
 							<div className="file-info-item">
 								<dt className="file-info-term">File Type</dt>
-								<dd className="file-info-definition">{ getFileType( attributes.fileDetails ) }</dd>
+								<dd className="file-info-definition">
+									{ getFileType( attributes.fileDetails ) }
+								</dd>
 							</div>
 						</dl>
 					</div>
@@ -414,21 +422,32 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 							<div className="file-info-wrapper">
 								<dl className="file-info-list">
 									<div className="file-info-item">
-										<dt className="file-info-term">File Name</dt>
+										<dt className="file-info-term">
+											File Name
+										</dt>
 										<dd className="file-info-definition">
 											{ fileDetails.title?.rendered ||
 												fileDetails.filename ||
-												fileDetails.source_url?.split( '/' ).pop() }
+												fileDetails.source_url
+													?.split( '/' )
+													.pop() }
 										</dd>
 									</div>
 									<div className="file-info-item">
-										<dt className="file-info-term">File Size</dt>
+										<dt className="file-info-term">
+											File Size
+										</dt>
 										<dd className="file-info-definition">
-											{ formatFileSize( fileDetails.media_details?.filesize ) }
+											{ formatFileSize(
+												fileDetails.media_details
+													?.filesize
+											) }
 										</dd>
 									</div>
 									<div className="file-info-item">
-										<dt className="file-info-term">File Type</dt>
+										<dt className="file-info-term">
+											File Type
+										</dt>
 										<dd className="file-info-definition">
 											{ getFileType( fileDetails ) }
 										</dd>
