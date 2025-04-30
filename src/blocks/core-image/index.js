@@ -135,10 +135,8 @@ addFilter(
 			}, [ url ] );
 
 			return (
-				<>
-					<div className="wp-block-image-wrapper" ref={ blockRef }>
-						<BlockEdit { ...props } />
-					</div>
+				<div className="wp-block-image-wrapper" ref={ blockRef }>
+					<BlockEdit { ...props } />
 					<InspectorControls>
 						<PanelBody
 							title={ __(
@@ -185,7 +183,7 @@ addFilter(
 							/>
 						</PanelBody>
 					</InspectorControls>
-				</>
+				</div>
 			);
 		};
 	}
