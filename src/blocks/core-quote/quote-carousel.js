@@ -1,4 +1,4 @@
-// Simple carousel functionality
+// Frontend jQuery carousel functionality
 ( function ( $ ) {
 	$( document ).ready( function () {
 		function initCarousel( $container ) {
@@ -18,7 +18,9 @@
 
 			function updateSlides() {
 				$slides.each( function ( index ) {
-					$( this ).toggle( index === currentSlide );
+					const isVisible = index === currentSlide;
+					$( this ).toggle( isVisible );
+					$( this ).attr( 'aria-hidden', ! isVisible );
 				} );
 
 				$dots.find( 'button' ).each( function ( index ) {
