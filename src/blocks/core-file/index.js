@@ -248,8 +248,8 @@ addFilter(
 				}
 
 				return (
-					<article { ...blockProps }>
-						<main className="wp-block-file__content-wrapper">
+					<div { ...blockProps }>
+						<div className="wp-block-file__content-wrapper">
 							<figure
 								className="file-cover-image"
 								key="cover-image"
@@ -271,8 +271,8 @@ addFilter(
 									{ fileInfoElements }
 								</div>
 							</section>
-						</main>
-					</article>
+						</div>
+					</div>
 				);
 			},
 		};
@@ -400,7 +400,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 						</div>
 					</PanelBody>
 				</InspectorControls>
-				<main className="wp-block-file__content-wrapper">
+				<div className="wp-block-file__content-wrapper">
 					<figure
 						className="file-cover-image"
 						key="cover-image"
@@ -456,7 +456,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 							</div>
 						) }
 					</section>
-				</main>
+				</div>
 			</div>
 		);
 	};

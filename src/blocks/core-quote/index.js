@@ -14,7 +14,6 @@ import { Button, BaseControl, ToolbarGroup } from '@wordpress/components';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { v4 as uuidv4 } from 'uuid';
-import { useDispatch, useSelect } from '@wordpress/data';
 
 domReady( () => {
 	unregisterBlockStyle( 'core/quote', [ 'default', 'plain' ] );
@@ -51,162 +50,16 @@ addFilter(
 	}
 );
 
-// Simple carousel initialization
-const initCarousel = ( container, initialSlide = 0, onSlideChange = null ) => {
-	if ( ! container ) return;
-
-	const slides = container.querySelectorAll( '.quote-slide' );
-	const prevButton = container.querySelector( '.carousel-prev' );
-	const dots = container.querySelector( '.carousel-dots' );
-	const nextButton = container.querySelector( '.carousel-next' );
-
-	if ( ! slides.length || slides.length <= 1 ) {
-		if ( prevButton ) prevButton.style.display = 'none';
-		if ( nextButton ) nextButton.style.display = 'none';
-		if ( dots ) dots.style.display = 'none';
-		return;
-	}
-
-	let currentSlide = Math.min( initialSlide, slides.length - 1 );
-
-	const updateSlides = () => {
-		slides.forEach( ( slide, index ) => {
-			if ( slide ) {
-				slide.style.display = index === currentSlide ? 'block' : 'none';
-			}
-		} );
-
-		if ( dots ) {
-			const dotButtons = dots.querySelectorAll( 'button' );
-			dotButtons.forEach( ( dot, index ) => {
-				dot.classList.toggle( 'active', index === currentSlide );
-			} );
-		}
-
-		if ( onSlideChange ) {
-			onSlideChange( currentSlide );
-		}
-	};
-
-	// Clear and create new dots
-	if ( dots ) {
-		dots.innerHTML = '';
-		slides.forEach( ( _, index ) => {
-			const dot = document.createElement( 'button' );
-			dot.setAttribute(
-				'aria-label',
-				__( `Go to slide ${ index + 1 }`, 'fau-elemental' )
-			);
-			dot.addEventListener( 'click', () => {
-				currentSlide = index;
-				updateSlides();
-			} );
-			dots.appendChild( dot );
-		} );
-		dots.style.display = 'flex';
-	}
-
-	// Add click handlers directly without cloning
-	if ( prevButton ) {
-		prevButton.style.display = 'block';
-		prevButton.onclick = () => {
-			currentSlide = ( currentSlide - 1 + slides.length ) % slides.length;
-			updateSlides();
-		};
-	}
-
-	if ( nextButton ) {
-		nextButton.style.display = 'block';
-		nextButton.onclick = () => {
-			currentSlide = ( currentSlide + 1 ) % slides.length;
-			updateSlides();
-		};
-	}
-
-	updateSlides();
-};
-
 const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
 		if ( props.name !== 'core/quote' ) {
 			return <BlockEdit { ...props } />;
 		}
 
-		const { attributes, setAttributes, clientId } = props;
-		const { selectBlock } = useDispatch( 'core/block-editor' );
-		const { getSelectedBlockClientId } = useSelect(
-			( select ) => ( {
-				getSelectedBlockClientId:
-					select( 'core/block-editor' ).getSelectedBlockClientId,
-			} ),
-			[]
-		);
+		const { attributes, setAttributes } = props;
 
-		const carouselRef = useRef( null );
-		const currentSlideRef = useRef( 0 );
 		const [ selectedQuoteIndex, setSelectedQuoteIndex ] = useState( 0 );
 		const blockProps = useBlockProps();
-
-		// Track if we're in the middle of an undo operation
-		const isUndoRef = useRef( false );
-
-		// Listen for changes in the selected block
-		useEffect( () => {
-			const selectedBlockId = getSelectedBlockClientId();
-
-			// If we were previously selected and now we're not, and we're in an undo operation
-			if ( selectedBlockId !== clientId && isUndoRef.current ) {
-				// Re-select our block
-				selectBlock( clientId );
-			}
-
-			// Reset the undo flag
-			isUndoRef.current = false;
-		}, [ getSelectedBlockClientId(), clientId, selectBlock ] );
-
-		// Listen for undo/redo operations
-		useEffect( () => {
-			const handleKeyDown = ( event ) => {
-				// Check for Ctrl+Z (undo) or Ctrl+Y (redo)
-				if (
-					( event.ctrlKey || event.metaKey ) &&
-					( event.key === 'z' || event.key === 'y' )
-				) {
-					isUndoRef.current = true;
-				}
-			};
-
-			document.addEventListener( 'keydown', handleKeyDown );
-			return () => {
-				document.removeEventListener( 'keydown', handleKeyDown );
-			};
-		}, [] );
-
-		const handleSlideChange = ( newIndex ) => {
-			setSelectedQuoteIndex( newIndex );
-			currentSlideRef.current = newIndex;
-		};
-
-		useEffect( () => {
-			if ( carouselRef.current ) {
-				initCarousel(
-					carouselRef.current,
-					currentSlideRef.current,
-					handleSlideChange
-				);
-			}
-		}, [ attributes.quotes ] );
-
-		useEffect( () => {
-			if ( carouselRef.current ) {
-				currentSlideRef.current = selectedQuoteIndex;
-				initCarousel(
-					carouselRef.current,
-					selectedQuoteIndex,
-					handleSlideChange
-				);
-			}
-		}, [ selectedQuoteIndex ] );
 
 		const addNewQuote = () => {
 			const quotes = [ ...( attributes.quotes || [] ) ];
@@ -218,10 +71,13 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 				citation: '',
 				image: null,
 			} );
-			// Set the current slide to the new quote
-			currentSlideRef.current = quotes.length - 1;
-			setSelectedQuoteIndex( quotes.length - 1 );
+
+			// First update the attributes to ensure the new quote is added
 			setAttributes( { quotes } );
+
+			// Then update the selected quote index to point to the newly added quote
+			// This ensures the InspectorControls panel will highlight the correct quote
+			setSelectedQuoteIndex( quotes.length - 1 );
 		};
 
 		const updateQuote = ( index, field, value ) => {
@@ -233,10 +89,6 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 		const removeQuote = ( index ) => {
 			const quotes = [ ...attributes.quotes ];
 			quotes.splice( index, 1 );
-			currentSlideRef.current = Math.min(
-				currentSlideRef.current,
-				Math.max( 0, quotes.length - 1 )
-			);
 			setSelectedQuoteIndex(
 				Math.min( selectedQuoteIndex, Math.max( 0, quotes.length - 1 ) )
 			);
@@ -268,7 +120,10 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 			}
 
 			return (
-				<div className="quote-carousel" ref={ carouselRef }>
+				<QuoteCarousel
+					selectedIndex={ selectedQuoteIndex }
+					onSlideChange={ setSelectedQuoteIndex }
+				>
 					<div className="carousel-container">
 						{ attributes.quotes.map( ( quote, index ) => (
 							<div key={ quote.id } className="quote-slide">
@@ -278,28 +133,7 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 							</div>
 						) ) }
 					</div>
-					<div className="carousel-controls">
-						<button
-							className="carousel-prev"
-							aria-label={ __(
-								'Previous slide',
-								'fau-elemental'
-							) }
-						>
-							❮
-						</button>
-						<div className="carousel-dots"></div>
-						<button
-							className="carousel-next"
-							Move
-							quote
-							down
-							aria-label={ __( 'Next slide', 'fau-elemental' ) }
-						>
-							❯
-						</button>
-					</div>
-				</div>
+				</QuoteCarousel>
 			);
 		};
 
@@ -360,14 +194,6 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 								}` }
 								onClick={ () => {
 									setSelectedQuoteIndex( index );
-									if ( carouselRef.current ) {
-										currentSlideRef.current = index;
-										initCarousel(
-											carouselRef.current,
-											index,
-											handleSlideChange
-										);
-									}
 								} }
 							>
 								<div className="quote-list-item__content">
@@ -678,37 +504,99 @@ addFilter(
 	}
 );
 
-// Add support for grouping to the quote block
-addFilter(
-	'blocks.registerBlockType',
-	'fau-elemental/quote-group-support',
-	( settings, name ) => {
-		if ( name !== 'core/quote' ) {
-			return settings;
+// React component for the quote carousel (used in editor)
+const QuoteCarousel = ( { children, selectedIndex = 0, onSlideChange } ) => {
+	const [ currentSlide, setCurrentSlide ] = useState( selectedIndex );
+	const [ slides, setSlides ] = useState( [] );
+	const carouselRef = useRef( null );
+
+	useEffect( () => {
+		if ( carouselRef.current ) {
+			const slideElements = Array.from(
+				carouselRef.current.querySelectorAll( '.quote-slide' )
+			);
+			setSlides( slideElements );
 		}
+	}, [ children ] );
 
-		return {
-			...settings,
-			supports: {
-				...settings.supports,
-				__experimentalGroup: true,
-			},
-		};
-	}
-);
+	// Update currentSlide when selectedIndex changes from parent
+	useEffect( () => {
+		setCurrentSlide( selectedIndex );
+	}, [ selectedIndex ] );
 
-// Prevent quote block from being transformed into a paragraph when grouped
-addFilter(
-	'blocks.switchToBlockType.transformedBlock',
-	'fau-elemental/prevent-quote-transformation',
-	( transformedBlock, sourceBlock, sourceAttributes ) => {
-		// Check if the source block is a quote block
-		if ( sourceBlock.name === 'core/quote' ) {
-			// If the transformed block is a paragraph, return the original quote block
-			if ( transformedBlock.name === 'core/paragraph' ) {
-				return sourceBlock;
+	const handlePrevClick = () => {
+		const newIndex = ( currentSlide - 1 + slides.length ) % slides.length;
+		setCurrentSlide( newIndex );
+		if ( onSlideChange ) {
+			onSlideChange( newIndex );
+		}
+	};
+
+	const handleNextClick = () => {
+		const newIndex = ( currentSlide + 1 ) % slides.length;
+		setCurrentSlide( newIndex );
+		if ( onSlideChange ) {
+			onSlideChange( newIndex );
+		}
+	};
+
+	const handleDotClick = ( index ) => {
+		setCurrentSlide( index );
+		if ( onSlideChange ) {
+			onSlideChange( index );
+		}
+	};
+
+	// Update slide visibility
+	useEffect( () => {
+		slides.forEach( ( slide, index ) => {
+			if ( slide ) {
+				const isVisible = index === currentSlide;
+				slide.style.display = isVisible ? 'block' : 'none';
+				slide.setAttribute( 'aria-hidden', ! isVisible );
 			}
-		}
-		return transformedBlock;
-	}
-);
+		} );
+	}, [ currentSlide, slides ] );
+
+	// Hide navigation if only one slide
+	const showNavigation = slides.length > 1;
+
+	return (
+		<div className="quote-carousel" ref={ carouselRef }>
+			{ children }
+			{ showNavigation && (
+				<div className="carousel-controls">
+					<button
+						className="carousel-prev"
+						aria-label={ __( 'Previous slide', 'fau-elemental' ) }
+						onClick={ handlePrevClick }
+					>
+						❮
+					</button>
+					<div className="carousel-dots">
+						{ slides.map( ( _, index ) => (
+							<button
+								key={ index }
+								className={
+									index === currentSlide ? 'active' : ''
+								}
+								aria-label={ __(
+									`Go to slide ${ index + 1 }`,
+									'fau-elemental'
+								) }
+								onClick={ () => handleDotClick( index ) }
+							/>
+						) ) }
+					</div>
+					<button
+						className="carousel-next"
+						aria-label={ __( 'Next slide', 'fau-elemental' ) }
+						onClick={ handleNextClick }
+					>
+						❯
+					</button>
+				</div>
+			) }
+		</div>
+	);
+};
