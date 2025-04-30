@@ -179,6 +179,9 @@ h1 {
 	font-size: var(--H-Heading-1);
 	line-height: 1.2;
 	font-weight: 700;
+	hyphens: auto;
+	overflow-wrap: break-word;
+	word-break: break-word;
 }
 
 h1.big-teaser {
