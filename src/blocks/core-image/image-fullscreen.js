@@ -16,16 +16,36 @@
 			"<button class='image-fullscreen-close'>×</button>"
 		);
 
-		closeBtn.click( function () {
+		// Function to close the fullscreen container
+		function closeFullscreen() {
 			fullscreenContainer.remove();
+			$( document ).off( 'keydown.fullscreen' );
+		}
+
+		closeBtn.click( closeFullscreen );
+
+		// Handle ESC key press
+		$( document ).on( 'keydown.fullscreen', function ( e ) {
+			if ( e.key === 'Escape' ) {
+				closeFullscreen();
+			}
 		} );
 
 		fullscreenContainer.append( img ).append( closeBtn ).appendTo( 'body' );
 
+		// Close when clicking outside the image
 		fullscreenContainer.click( function ( e ) {
-			if ( e.target === this ) {
-				$( this ).remove();
+			if (
+				e.target === this ||
+				$( e.target ).hasClass( 'image-fullscreen-container' )
+			) {
+				closeFullscreen();
 			}
+		} );
+
+		// Prevent clicks on the image from closing the container
+		img.click( function ( e ) {
+			e.stopPropagation();
 		} );
 	}
 
