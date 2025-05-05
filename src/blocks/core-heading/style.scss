@@ -16,6 +16,9 @@ h6 {
 	color: var(--FAU-Col-FAU-Blau-100);
 	letter-spacing: var(--letter-spacing-big);
 	font-weight: 700;
+	hyphens: auto;
+	overflow-wrap: break-word;
+	word-break: break-word;
 }
 
 h2 {

@@ -1,6 +1,11 @@
 @import "../../mixins";
 
 // WP CSS reset
+
+.wp-block-gallery {
+	margin: 0;
+}
+
 .wp-block-gallery.has-nested-images
 figure.wp-block-image:has(figcaption)::before {
 	content: none;
@@ -21,6 +26,11 @@ figure.wp-block-image:has(figcaption)::before {
 .wp-block-gallery.has-nested-images figure.wp-block-image img {
 	width: unset;
 }
+
+.wp-block-gallery.has-nested-images.is-cropped figure.wp-block-image:not(#individual-image) img {
+	width: auto;
+}
+
 // // End WP CSS reset
 
 .wp-block-gallery-container {
@@ -31,18 +41,18 @@ figure.wp-block-image:has(figcaption)::before {
 
 	figure.wp-block-gallery {
 		width: 100%;
+		height: fit-content;
 		display: flex;
 		justify-content: center;
 
-		&.has-nested-images figure.wp-block-image {
+		&.has-nested-images figure.wp-block-image:not(#individual-image) {
 
 			> div {
 				aspect-ratio: 3 / 2;
 			}
 
 			img {
-				height: 100%;
-				width: auto;
+				object-fit: contain;
 			}
 
 			figcaption {
