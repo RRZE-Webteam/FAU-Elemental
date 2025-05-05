@@ -38,11 +38,27 @@ addFilter(
 );
 
 // React component for the carousel
-const GalleryCarousel = ( { children } ) => {
+const GalleryCarousel = ( props ) => {
 	const [ slides, setSlides ] = useState( [] );
 	const carouselRef = useRef( null );
+	const { useSelect } = wp.data;
 
-	useEffect( () => {
+	// Get the current block's inner blocks and content
+	const { innerBlocks, content } = useSelect(
+		( select ) => {
+			const block = select( 'core/block-editor' ).getBlock(
+				props.clientId
+			);
+			return {
+				innerBlocks: block?.innerBlocks || [],
+				content: block?.attributes?.content || '',
+			};
+		},
+		[ props.clientId ]
+	);
+
+	// Function to update slides
+	const updateSlides = () => {
 		if ( carouselRef.current ) {
 			const slideElements = Array.from(
 				carouselRef.current.querySelectorAll( '.wp-block-image' )
@@ -52,7 +68,27 @@ const GalleryCarousel = ( { children } ) => {
 				setSlides( slideElements );
 			}
 		}
-	}, [ children ] );
+	};
+
+	// Watch for changes in inner blocks and content
+	useEffect( () => {
+		updateSlides();
+	}, [ innerBlocks, content, props.clientId ] );
+
+	// Also watch for block editor events
+	useEffect( () => {
+		const unsubscribe = wp.data.subscribe( () => {
+			// Check if the block's content has changed
+			const currentBlock = wp.data
+				.select( 'core/block-editor' )
+				.getBlock( props.clientId );
+			if ( currentBlock ) {
+				updateSlides();
+			}
+		} );
+
+		return () => unsubscribe();
+	}, [ props.clientId ] );
 
 	const selectSlide = ( offset ) => {
 		// get the currently selected image index by checking the isselected class
@@ -85,7 +121,7 @@ const GalleryCarousel = ( { children } ) => {
 
 	return (
 		<div className="wp-block-gallery-container" ref={ carouselRef }>
-			{ children }
+			{ props.children }
 			{ slides.length > 1 && (
 				<>
 					<div className="gallery-nav-container">
@@ -116,7 +152,7 @@ addFilter(
 			}
 
 			return (
-				<GalleryCarousel>
+				<GalleryCarousel { ...props }>
 					<BlockEdit { ...props } />
 				</GalleryCarousel>
 			);
@@ -128,7 +164,7 @@ addFilter(
 addFilter(
 	'blocks.getSaveElement',
 	'fau-elemental/edit-gallery-block-save',
-	( element, blockType, attributes ) => {
+	( element, blockType ) => {
 		if ( blockType.name !== 'core/gallery' ) {
 			return element;
 		}
