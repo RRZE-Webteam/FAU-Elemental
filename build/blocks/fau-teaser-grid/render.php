@@ -1,6 +1,6 @@
 <?php
 /**
- * Server-side rendering of the `fau-elemental/fau-list-item` block.
+ * Server-side rendering of the `fau-elemental/fau-teaser-grid` block.
  *
  * @package FAU_Elemental
  */
@@ -10,16 +10,16 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( ! function_exists( 'render_block_fau_list_item' ) ) {
+if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
     /**
-     * Renders the `fau-elemental/fau-list-item` block on the server.
+     * Renders the `fau-elemental/fau-teaser-grid` block on the server.
      *
      * @param array    $attributes Block attributes.
      * @param string   $content    Block default content.
      * @param WP_Block $block      Block instance.
      * @return string Returns the post content with the teaser grid.
      */
-    function render_block_fau_list_item( $attributes, $content, $block ) {
+    function render_block_fau_teaser_grid( $attributes, $content, $block ) {
         $variant = $attributes['variant'] ?? 'post';
         $selection_mode = $attributes['selectionMode'] ?? 'auto';
         $selected_posts = $attributes['selectedPosts'] ?? [];

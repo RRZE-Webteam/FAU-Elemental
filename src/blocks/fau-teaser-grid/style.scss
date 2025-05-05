@@ -1,6 +1,6 @@
 @import "../../mixins.scss";
 
-.wp-block-fau-elemental-fau-list-item {
+.wp-block-fau-elemental-fau-teaser-grid {
     .fau-teaser-grid {
         display: grid;
         gap: var(--Spacing-8x);
@@ -399,7 +399,7 @@
 
 // Responsive
 @include respond-to("medium") {
-    .wp-block-fau-elemental-fau-list-item .fau-teaser-grid {
+    .wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid {
         &.mini-list,
         &.layout-l2s,
         &.layout-2s-left,
@@ -410,7 +410,7 @@
 }
 
 @media screen and (max-width: 999px) {
-    .wp-block-fau-elemental-fau-list-item {
+    .wp-block-fau-elemental-fau-teaser-grid {
         .fau-teaser-grid {
             gap: var(--Spacing-4x);
 
@@ -600,7 +600,7 @@
 }
 
 @include respond-to("small") {
-    .wp-block-fau-elemental-fau-list-item {
+    .wp-block-fau-elemental-fau-teaser-grid {
         .fau-teaser-grid {
             overflow: hidden;
 
@@ -726,7 +726,7 @@
 
 // Dark mode
 .is-style-dark {
-    .wp-block-fau-elemental-fau-list-item .fau-teaser-grid .teaser-item .teaser-content-wrapper .teaser-content {
+    .wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid .teaser-item .teaser-content-wrapper .teaser-content {
         background-color: var(--FAU-Col-FAU-Blau-100);
 
         .content-column {
