@@ -2,6 +2,10 @@
  * Core Table Styles
  */
 
+.wp-block-table-wrapper {
+	max-width: var(--small-max-width);
+}
+
 .wp-block-table {
 	width: 100%;
 	border-collapse: separate;

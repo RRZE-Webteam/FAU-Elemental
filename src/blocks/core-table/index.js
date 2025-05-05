@@ -1,11 +1,10 @@
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { unregisterBlockStyle } from '@wordpress/blocks';
 
 // Unregister default styles
 wp.domReady( () => {
-	wp.blocks.unregisterBlockStyle( 'core/table', [ 'regular', 'stripes' ] );
+	unregisterBlockStyle( 'core/table', [ 'regular', 'stripes' ] );
 } );
 
 // Add heading attribute
@@ -23,9 +22,9 @@ addFilter(
 			...settings,
 			attributes: {
 				...settings.attributes,
-				tableHeading: {
-					type: 'string',
-					default: '',
+				hasFixedLayout: {
+					type: 'boolean',
+					default: false,
 				},
 			},
 			save: ( props ) => {
@@ -50,24 +49,10 @@ addFilter(
 						},
 					};
 
-					return (
-						<div { ...blockProps }>
-							{ attributes.tableHeading && (
-								<h3>{ attributes.tableHeading }</h3>
-							) }
-							{ modifiedElement }
-						</div>
-					);
+					return <div { ...blockProps }>{ modifiedElement }</div>;
 				}
 
-				return (
-					<div { ...blockProps }>
-						{ attributes.tableHeading && (
-							<h3>{ attributes.tableHeading }</h3>
-						) }
-						{ originalSaveElement }
-					</div>
-				);
+				return <div { ...blockProps }>{ originalSaveElement }</div>;
 			},
 		};
 	}
@@ -76,7 +61,7 @@ addFilter(
 // Add inspector controls
 const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
-		const { attributes, setAttributes, name } = props;
+		const { attributes, name } = props;
 
 		if ( name !== 'core/table' ) {
 			return <BlockEdit { ...props } />;
@@ -84,18 +69,6 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 		return (
 			<>
-				<InspectorControls>
-					<PanelBody title="Table Settings">
-						<TextControl
-							label="Table Heading"
-							value={ attributes.tableHeading || '' }
-							onChange={ ( value ) =>
-								setAttributes( { tableHeading: value } )
-							}
-							help="Add a heading that will appear above the table"
-						/>
-					</PanelBody>
-				</InspectorControls>
 				<div
 					className={ `wp-block-table-wrapper${
 						attributes.foot && attributes.foot.length > 0
@@ -103,11 +76,6 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 							: ''
 					}` }
 				>
-					{ attributes.tableHeading && (
-						<div className="wp-block-table__heading">
-							{ attributes.tableHeading }
-						</div>
-					) }
 					<BlockEdit { ...props } />
 				</div>
 			</>
