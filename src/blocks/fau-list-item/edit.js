@@ -15,7 +15,7 @@ import { useSelect } from '@wordpress/data';
 import './editor.scss';
 import { useState, useRef } from 'react';
 
-const FALLBACK_IMAGE = './../../assets/images/logo.svg';
+const FALLBACK_IMAGE = '../../../assets/images/logo.svg';
 
 function PostTeaser({ post, grid }) {
     if (!post) return null;

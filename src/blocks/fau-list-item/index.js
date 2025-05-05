@@ -1,5 +1,4 @@
 // Make sure view.js is included in the build
-import './view.js';
 import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 import './editor.scss';
