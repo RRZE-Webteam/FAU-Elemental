@@ -16,13 +16,13 @@
   <div class="wp-block-group alignwide post-header">
     <!-- wp:group {"className":"post-meta-top","layout":{"type":"flex","flexWrap":"nowrap"}} -->
     <div class="wp-block-group post-meta-top">
-      <!-- wp:post-date {"fontSize":"small"} /-->
+      <!-- wp:post-date /-->
       
-      <!-- wp:paragraph {"fontSize":"small","className":"post-categories-separator"} -->
-      <p class="has-small-font-size post-categories-separator">–</p>
+      <!-- wp:paragraph {"className":"post-categories-separator"} -->
+      <p class="post-categories-separator">–</p>
       <!-- /wp:paragraph -->
       
-      <!-- wp:post-terms {"term":"category","fontSize":"small","className":"post-categories"} /-->
+      <!-- wp:post-terms {"term":"category","className":"post-categories"} /-->
     </div>
     <!-- /wp:group -->
     
@@ -33,15 +33,16 @@
       <!-- wp:paragraph {"className":"reading-time post-reading-time"} -->
       <p class="reading-time post-reading-time">Lesedauer: <!-- READING_TIME --> min</p>
       <!-- /wp:paragraph -->
-      
-      <!-- wp:paragraph {"className":"listen-link post-listen-link"} -->
+
+
+      <!--      TODO          wp:paragraph {"className":"listen-link post-listen-link"} -->
       <p class="listen-link post-listen-link"><a href="#">Beitrag anhören: <!-- LISTEN_DURATION --> min. abspielen</a></p>
       <!-- /wp:paragraph -->
     </div>
     <!-- /wp:group -->
     
-    <!-- wp:image {"align":"wide","className":"wp-block-image","sizeSlug":"large"} -->
-    <figure class="wp-block-image alignwide size-large">
+    <!-- wp:image {"className":"wp-block-image is-style-large"} -->
+    <figure class="wp-block-image is-style-large">
       <!-- wp:post-featured-image {"sizeSlug":"large","className":"wp-post-image"} /-->
    
     </figure>
