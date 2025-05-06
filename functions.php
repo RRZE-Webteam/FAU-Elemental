@@ -737,3 +737,54 @@ function fau_elemental_load_template_part($slug, $name = null, $args = array()) 
         }
     }
 }
+
+// Additional theme functionality
+
+/**
+ * Add caption to post featured image blocks
+ * 
+ * This adds the caption from the media library to the featured image
+ * when rendered with the post-featured-image block
+ *
+ * @param string $block_content The block content.
+ * @param array  $block         The full block, including name and attributes.
+ * @return string Modified block content.
+ */
+function fau_add_caption_to_featured_image($block_content, $block) {
+    // Only modify core/post-featured-image blocks
+    if (isset($block['blockName']) && 'core/post-featured-image' === $block['blockName']) {
+        // Don't modify if the content is null or empty
+        if (empty($block_content)) {
+            return $block_content;
+        }
+        
+        // Get the post ID and the attachment ID
+        $post_id = get_the_ID();
+        $thumbnail_id = get_post_thumbnail_id($post_id);
+        
+        if (!$thumbnail_id) {
+            return $block_content;
+        }
+        
+        // Get the attachment post to retrieve the caption
+        $attachment = get_post($thumbnail_id);
+        if (!$attachment) {
+            return $block_content;
+        }
+        
+        // Get the caption from the attachment's excerpt
+        $caption = $attachment->post_excerpt;
+        
+        // Only add caption if it exists
+        if (!empty($caption)) {
+            // Check if the block content ends with </figure>
+            if (substr(trim($block_content), -9) === '</figure>') {
+                // Insert the figcaption before the closing figure tag
+                $block_content = str_replace('</figure>', '<figcaption class="wp-element-caption">' . wp_kses_post($caption) . '</figcaption></figure>', $block_content);
+            }
+        }
+    }
+    
+    return $block_content;
+}
+add_filter('render_block', 'fau_add_caption_to_featured_image', 10, 2);
