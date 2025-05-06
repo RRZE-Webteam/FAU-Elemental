@@ -47,9 +47,40 @@ $show_featured_image = get_post_meta($post_id, 'show_featured_image', true) || h
         <?php endif; ?>
     </div>
     
-    <?php if (has_post_thumbnail()) : ?>
-    <figure class="post-featured-image alignwide">
-        <?php the_post_thumbnail('large'); ?>
-    </figure>
+    <?php if (has_post_thumbnail()) : 
+        // Get featured image ID
+        $thumbnail_id = get_post_thumbnail_id();
+        
+        // Get image data
+        $image_src = wp_get_attachment_image_src($thumbnail_id, 'large');
+        $image_alt = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
+        
+        // Get image caption from attachment
+        $attachment = get_post($thumbnail_id);
+        $caption = $attachment->post_excerpt;
+        
+        // Create image block attributes
+        $image_attributes = array(
+            'id' => $thumbnail_id,
+            'url' => $image_src[0],
+            'alt' => $image_alt,
+            'caption' => $caption,
+            'sizeSlug' => 'large',
+            'className' => 'wp-block-image',
+            'align' => 'wide'
+        );
+        
+        // Serialize the attributes for the render function
+        $serialized_attributes = json_encode($image_attributes);
+        
+        // Render the image block
+        echo render_block(array(
+            'blockName' => 'core/image',
+            'attrs' => $image_attributes,
+            'innerBlocks' => array(),
+            'innerHTML' => '',
+            'innerContent' => array()
+        ));
+    ?>
     <?php endif; ?>
 </div> 
