@@ -10,6 +10,11 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Maximum length for breadcrumb titles before truncation
+ */
+define('FAUE_BREADCRUMB_TITLE_MAX_LENGTH', 50);
+
+/**
  * Display breadcrumb navigation
  */
 function faue_breadcrumbs() {
@@ -21,6 +26,8 @@ function faue_breadcrumbs() {
     $ancestors = array();
     if (is_page()) {
         $ancestors = get_post_ancestors(get_the_ID());
+        // Reverse the array to get ancestors in correct order (furthest parent first)
+        $ancestors = array_reverse($ancestors);
     } elseif (is_single()) {
         $categories = get_the_category();
         if ($categories) {
@@ -28,8 +35,21 @@ function faue_breadcrumbs() {
         }
     }
 
+    // Get breadcrumb mode
+    $mode = 'light';
+    if (is_page()) {
+        $mode = get_post_meta(get_the_ID(), '_faue_breadcrumb_mode', true);
+        if (empty($mode)) {
+            $mode = 'light';
+        }
+    }
+
     // Start breadcrumb navigation
-    echo '<nav class="breadcrumbs" aria-label="' . esc_attr__('Breadcrumb navigation', 'fau-elemental') . '">';
+    $classes = array('breadcrumbs');
+    if ($mode === 'dark') {
+        $classes[] = 'is-style-dark';
+    }
+    echo '<nav class="' . esc_attr(implode(' ', $classes)) . '" aria-label="' . esc_attr__('Breadcrumb navigation', 'fau-elemental') . '">';
     echo '<ol class="breadcrumbs__list" itemscope itemtype="https://schema.org/BreadcrumbList">';
 
     // Home link (desktop only)
@@ -45,7 +65,7 @@ function faue_breadcrumbs() {
 
     // Mobile: Show only parent
     if (!empty($ancestors)) {
-        $parent = end($ancestors);
+        $parent = $ancestors[count($ancestors) - 1]; // Get the last ancestor (closest parent)
         if (is_page()) {
             $parent_post = get_post($parent);
             $parent_title = $parent_post->post_title;
@@ -57,7 +77,7 @@ function faue_breadcrumbs() {
         }
 
         // Truncate parent title
-        $truncated_parent = strlen($parent_title) > 50 ? substr($parent_title, 0, 47) . '...' : $parent_title;
+        $truncated_parent = strlen($parent_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? substr($parent_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH - 3) . '...' : $parent_title;
 
         echo '<li class="breadcrumbs__item breadcrumbs__item--mobile" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
         echo '<span class="breadcrumbs__chevron"></span>';
@@ -80,7 +100,7 @@ function faue_breadcrumbs() {
         }
 
         // Truncate long titles
-        $truncated_title = strlen($title) > 50 ? substr($title, 0, 47) . '...' : $title;
+        $truncated_title = strlen($title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? substr($title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH - 3) . '...' : $title;
 
         echo '<li class="breadcrumbs__item breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
         echo '<a href="' . esc_url($url) . '" class="breadcrumbs__link" itemprop="item" title="' . esc_attr($title) . '">';
@@ -106,7 +126,7 @@ function faue_breadcrumbs() {
     }
 
     // Truncate current page title if needed
-    $truncated_current = strlen($current_title) > 50 ? substr($current_title, 0, 47) . '...' : $current_title;
+    $truncated_current = strlen($current_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? substr($current_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH - 3) . '...' : $current_title;
 
     echo '<li class="breadcrumbs__item breadcrumbs__item--current breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
     echo '<span class="breadcrumbs__current" itemprop="item" title="' . esc_attr($current_title) . '">';
@@ -117,4 +137,4 @@ function faue_breadcrumbs() {
 
     echo '</ol>';
     echo '</nav>';
-} 
+}

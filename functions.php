@@ -147,5 +147,8 @@ add_action('after_switch_theme', function() {
     }
 });
 
+// Page settings
+require_once get_template_directory() . '/inc/page-settings.php';
+
 // Breadcrumb functionality
 require_once get_template_directory() . '/src/components/breadcrumbs/breadcrumbs.php';
