@@ -744,3 +744,51 @@
         }
     }
 }
+
+// Pagination styles
+.wp-block-fau-elemental-fau-teaser-grid {
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: var(--Spacing-2x);
+        margin-top: var(--Spacing-8x);
+
+        a.page-numbers,
+        span.page-numbers {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            padding: 0 var(--Spacing-2x);
+            background-color: var(--FAU-Col-FAU-Weiss-100);
+            border: 1px solid var(--FAU-Col-FAU-Blau-100);
+            color: var(--FAU-Col-FAU-Blau-100);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+
+            &:hover:not(.current) {
+                background-color: var(--FAU-Col-FAU-Blau-100);
+                color: var(--FAU-Col-FAU-Weiss-100);
+            }
+
+            &.current {
+                background-color: var(--FAU-Col-FAU-Blau-100);
+                color: var(--FAU-Col-FAU-Weiss-100);
+            }
+
+            &.prev,
+            &.next {
+                padding: 0 var(--Spacing-4x);
+            }
+
+            &.dots {
+                border: none;
+                background: none;
+                color: var(--FAU-Col-FAU-Schwarz-90);
+            }
+        }
+    }
+}

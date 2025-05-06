@@ -12,171 +12,13 @@ import {
     ComboboxControl
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
+import { store as coreStore } from '@wordpress/core-data';
 import './editor.scss';
-import { useState, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-const FALLBACK_IMAGE = '../../../assets/images/logo.svg';
-
-function PostTeaser({ post, grid }) {
-    if (!post) return null;
-
-    const dateObj = post.date ? new Date(post.date) : null;
-    const day = dateObj ? dateObj.toLocaleDateString('de-DE', { day: '2-digit' }) : '';
-    const monthYear = dateObj ? dateObj.toLocaleDateString('de-DE', {
-        month: 'short',
-        year: 'numeric'
-    }).replace('.', '').toUpperCase() : '';
-    const category = post._embedded?.['wp:term']?.[0]?.[0]?.name || '';
-    const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || FALLBACK_IMAGE;
-    const title = post.title?.rendered || '';
-    const excerpt = (post.excerpt?.rendered || '').replace('[&hellip;]', '..');
-    const link = post.link || '#';
-
-    return (
-        <div className="teaser-item">
-            {image && (
-                <div className="teaser-image-wrapper">
-                    <div className="teaser-image">
-                        <img src={image} alt={title} />
-                    </div>
-                    <div className="teaser-meta">
-                        <time>
-                            <span className="date-day">{day}</span>
-                            <span className="date-month-year">{monthYear}</span>
-                        </time>
-                    </div>
-                </div>
-            )}
-            <div className="teaser-content-wrapper">
-                <div className="teaser-content">
-                    <div className="content-column">
-                        {category && <span className="category">{category}</span>}
-                        <h3 className="clamp-3">
-                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: title }} />
-                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: title }} />
-                        </h3>
-                        <div className="excerpt clamp-3">
-                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: excerpt }} />
-                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: excerpt }} />
-                        </div>
-                    </div>
-                    <div className="button-teaser">
-                
-                            <a href={link} className="wp-block-button__link"></a>
-                    
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function PageTeaser({ page, grid }) {
-    if (!page) return null;
-
-    const image = page._embedded?.['wp:featuredmedia']?.[0]?.source_url || FALLBACK_IMAGE;
-    const title = page.title?.rendered || '';
-    const excerpt = (page.excerpt?.rendered || '').replace('[&hellip;]', '..');
-    const link = page.link || '#';
-
-    return (
-        <div className="teaser-item">
-            {image && (
-                <div className="teaser-image-wrapper">
-                    <div className="teaser-image">
-                        <img src={image} alt={title} />
-                    </div>
-                </div>
-            )}
-            <div className="teaser-content-wrapper">
-                <div className="teaser-content">
-                    <div className="content-column">
-                        <h3 className="clamp-3">
-                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: title }} />
-                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: title }} />
-                        </h3>
-                        <div className="excerpt clamp-3">
-                            <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: excerpt }} />
-                            <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: excerpt }} />
-                        </div>
-                    </div>
-                    <div className="button-teaser">
-                        
-                            <a href={link} className="wp-block-button__link"></a>
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function createPagination(currentPage, totalPages, onPageChange) {
-    const pages = [];
-    
-    // Add Previous button
-    pages.push(
-        <button 
-            key="prev"
-            className={`page-number prev ${currentPage === 1 ? 'disabled' : ''}`}
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-        >
-            Prev
-        </button>
-    );
-
-    // Add page numbers
-    for (let i = 1; i <= totalPages; i++) {
-        // Show first page, last page, current page, and pages around current
-        if (
-            i === 1 || 
-            i === totalPages || 
-            (i >= currentPage - 1 && i <= currentPage + 1)
-        ) {
-            pages.push(
-                <button 
-                    key={i}
-                    className={`page-number ${currentPage === i ? 'active' : ''}`}
-                    onClick={() => onPageChange(i)}
-                >
-                    {i}
-                </button>
-            );
-        } else if (
-            i === currentPage - 2 ||
-            i === currentPage + 2
-        ) {
-            // Add ellipsis
-            pages.push(
-                <span key={`ellipsis-${i}`} className="page-ellipsis">
-                    ...
-                </span>
-            );
-        }
-    }
-
-    // Add Next button
-    pages.push(
-        <button 
-            key="next"
-            className={`page-number next ${currentPage === totalPages ? 'disabled' : ''}`}
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-        >
-            Next
-        </button>
-    );
-    
-    return <div className="pagination">{pages}</div>;
-}
-
-function renderItems(items, variant, grid) {
-    // Use the same rendering for both list and teaser grid styles
-    return items.map(item => 
-        variant === 'post' ? renderPostTeaser(item, grid) : renderPageTeaser(item, grid)
-    ).join('');
-}
+import PostTeaser from './components/PostTeaser';
+import PageTeaser from './components/PageTeaser';
+import { createPagination, updateGridClasses } from './utils/helpers';
 
 // Define teaser layout options
 const TEASER_LAYOUTS = [
@@ -188,27 +30,6 @@ const TEASER_LAYOUTS = [
     { label: __('2 Small - Image Left (2S BLTR)', 'fau-elemental'), value: '2s-left' },
     { label: __('2 Small - Image Right (2S TLBR)', 'fau-elemental'), value: '2s-right' }
 ];
-
-function updateGridClasses(container, displayStyle, teaserLayout) {
-    const grid = container.querySelector('.fau-teaser-grid');
-    if (!grid) return;
-
-    // First, remove all existing classes
-    grid.className = '';
-    
-    // Add the base class
-    grid.classList.add('fau-teaser-grid');
-    
-    // Add the display style class
-    if (displayStyle) {
-        grid.classList.add(displayStyle);
-    }
-    
-    // Only add layout classes if we're in teaser-grid mode
-    if (displayStyle === 'teaser-grid' && teaserLayout) {
-        grid.classList.add(`layout-${teaserLayout}`);
-    }
-}
 
 export default function Edit({ attributes, setAttributes }) {
     const { 
@@ -226,12 +47,24 @@ export default function Edit({ attributes, setAttributes }) {
         selectionMode
     } = attributes;
 
+    const gridRef = useRef(null);
+
+    // Effect to update grid classes when display style or layout changes
+    useEffect(() => {
+        if (gridRef.current) {
+            const grid = gridRef.current;
+            // Clear all existing classes
+            grid.className = '';
+            // Add new classes
+            updateGridClasses(grid, displayStyle, teaserLayout);
+        }
+    }, [displayStyle, teaserLayout]);
+
     // Add this new state for search
     const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
 
     // Get post types and categories
-    const { postTypes, categories, items, totalPages, isLoading } = useSelect((select) => {
+    const { postTypes, categories, items, isLoading } = useSelect((select) => {
         const coreSelect = select('core');
         const allPostTypes = coreSelect.getPostTypes();
         
@@ -249,7 +82,9 @@ export default function Edit({ attributes, setAttributes }) {
         let query = {
             _embed: true,
             per_page: postsPerPage,
-            page: currentPage
+            page: currentPage,
+            orderby: orderBy,
+            order: order.toLowerCase()
         };
 
         // Add category to query if selected
@@ -259,20 +94,36 @@ export default function Edit({ attributes, setAttributes }) {
 
         // Get posts
         const posts = coreSelect.getEntityRecords('postType', variant, query);
-        
-        // Calculate total pages
-        const totalItems = coreSelect.getEntityRecords('postType', variant, { ...query, per_page: -1 })?.length || 0;
-        const calculatedTotalPosts = totalPosts > 0 ? Math.min(totalPosts, totalItems) : totalItems;
-        const calculatedTotalPages = Math.ceil(calculatedTotalPosts / postsPerPage);
 
         return {
             postTypes: availablePostTypes,
             categories: allCategories,
             items: Array.isArray(posts) ? posts : [],
-            totalPages: calculatedTotalPages,
             isLoading: coreSelect.isResolving('getEntityRecords', ['postType', variant, query])
         };
-    }, [variant, postsPerPage, currentPage, totalPosts, selectedCategory]);
+    }, [variant, postsPerPage, currentPage, selectedCategory, orderBy, order]);
+
+    // Use useEntityRecords to get total count efficiently
+    const { totalItems } = useSelect((select) => {
+        const { getEntityRecords } = select(coreStore);
+        const countQuery = {
+            per_page: 1,
+            _fields: ['id'],
+            ...(selectedCategory ? { categories: selectedCategory } : {})
+        };
+        const records = getEntityRecords('postType', variant, countQuery);
+        const total = select('core').getEntityRecords('postType', variant, {
+            ...countQuery,
+            per_page: -1
+        })?.length || 0;
+        return {
+            totalItems: total
+        };
+    }, [variant, selectedCategory]);
+
+    // Calculate total pages based on totalItems
+    const calculatedTotalPosts = totalPosts > 0 ? Math.min(totalPosts, totalItems) : totalItems;
+    const calculatedTotalPages = Math.ceil(calculatedTotalPosts / postsPerPage);
 
     // Convert post types to options
     const postTypeOptions = postTypes.map(type => ({
@@ -344,41 +195,15 @@ export default function Edit({ attributes, setAttributes }) {
     // Update display style
     const onDisplayStyleChange = (newStyle) => {
         setAttributes({ displayStyle: newStyle });
-        // Update classes immediately after state change
-        requestAnimationFrame(() => {
-            const container = containerRef.current;
-            if (container) {
-                const grid = container.querySelector('.fau-teaser-grid');
-                if (grid) {
-                    // Clear all existing classes
-                    grid.className = '';
-                    // Add new classes
-                    updateGridClasses(container, newStyle, attributes.teaserLayout);
-                }
-            }
-        });
     };
 
     // Update teaser layout
     const onTeaserLayoutChange = (newLayout) => {
         setAttributes({ teaserLayout: newLayout });
-        // Update classes immediately after state change
-        requestAnimationFrame(() => {
-            const container = containerRef.current;
-            if (container) {
-                const grid = container.querySelector('.fau-teaser-grid');
-                if (grid) {
-                    // Clear all existing classes
-                    grid.className = '';
-                    // Add new classes
-                    updateGridClasses(container, attributes.displayStyle, newLayout);
-                }
-            }
-        });
     };
 
     return (
-        <>
+        <div {...blockProps}>
             <InspectorControls>
                 <PanelBody title={__('Display Settings', 'fau-elemental')}>
                     <ButtonGroup>
@@ -526,49 +351,47 @@ export default function Edit({ attributes, setAttributes }) {
                 )}
             </InspectorControls>
             
-            <div {...blockProps}>
-                <div className={`fau-teaser-grid ${displayStyle} ${displayStyle === 'teaser-grid' ? `layout-${teaserLayout}` : ''}`}>
-                    {!isLoading ? (
-                        selectionMode === 'manual' ? (
-                            // Display manually selected posts
-                            selectedPosts.length > 0 ? (
-                                selectedPosts.map((selectedPost) => {
-                                    const post = items.find(item => item.id === selectedPost.id);
-                                    return post ? (
-                                        variant === 'post' 
-                                            ? <PostTeaser key={post.id} post={post} grid={blockProps} />
-                                            : <PageTeaser key={post.id} page={post} grid={blockProps} />
-                                    ) : null;
-                                })
-                            ) : (
-                                <p>{__('No posts selected', 'fau-elemental')}</p>
-                            )
-                        ) : (
-                            // Display automatic posts
-                            items && items.length > 0 ? (
-                                items.map((item) => (
+            <div ref={gridRef} className={`fau-teaser-grid ${displayStyle} ${displayStyle === 'teaser-grid' ? `layout-${teaserLayout}` : ''}`}>
+                {!isLoading ? (
+                    selectionMode === 'manual' ? (
+                        // Display manually selected posts
+                        selectedPosts.length > 0 ? (
+                            selectedPosts.map((selectedPost) => {
+                                const post = items.find(item => item.id === selectedPost.id);
+                                return post ? (
                                     variant === 'post' 
-                                        ? <PostTeaser key={item.id} post={item} grid={blockProps} />
-                                        : <PageTeaser key={item.id} page={item} grid={blockProps} />
-                                ))
-                            ) : (
-                                <p>{__('No items found', 'fau-elemental')}</p>
-                            )
+                                        ? <PostTeaser key={post.id} post={post} grid={blockProps} />
+                                        : <PageTeaser key={post.id} page={post} grid={blockProps} />
+                                ) : null;
+                            })
+                        ) : (
+                            <p>{__('No posts selected', 'fau-elemental')}</p>
                         )
                     ) : (
-                        <Placeholder>
-                            <Spinner />
-                            <p>{__('Loading...', 'fau-elemental')}</p>
-                        </Placeholder>
-                    )}
-                </div>
-
-                {showPagination && totalPages > 1 && selectionMode === 'auto' && (
-                    createPagination(currentPage, totalPages, (newPage) => 
-                        setAttributes({ currentPage: newPage })
+                        // Display automatic posts
+                        items && items.length > 0 ? (
+                            items.map((item) => (
+                                variant === 'post' 
+                                    ? <PostTeaser key={item.id} post={item} grid={blockProps} />
+                                    : <PageTeaser key={item.id} page={item} grid={blockProps} />
+                            ))
+                        ) : (
+                            <p>{__('No items found', 'fau-elemental')}</p>
+                        )
                     )
+                ) : (
+                    <Placeholder>
+                        <Spinner />
+                        <p>{__('Loading...', 'fau-elemental')}</p>
+                    </Placeholder>
                 )}
             </div>
-        </>
+
+            {showPagination && calculatedTotalPages > 1 && selectionMode === 'auto' && (
+                createPagination(currentPage, calculatedTotalPages, (newPage) => 
+                    setAttributes({ currentPage: newPage })
+                )
+            )}
+        </div>
     );
 }

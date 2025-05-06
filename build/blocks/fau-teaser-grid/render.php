@@ -26,8 +26,7 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $display_style = $attributes['displayStyle'] ?? 'teaser-grid';
         $teaser_layout = $attributes['teaserLayout'] ?? '3m';
         $show_pagination = $attributes['showPagination'] ?? true;
-        $current_page = $attributes['currentPage'] ?? 1;
-        $total_pages = $attributes['totalPages'] ?? 1;
+        $current_page = get_query_var('paged') ? get_query_var('paged') : 1;
         $posts_per_page = $attributes['postsPerPage'] ?? 15;
         $selected_category = $attributes['category'] ?? 0;
         $order_by = $attributes['orderBy'] ?? 'date';
@@ -84,8 +83,21 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $output .= '</div>'; // Close teaser grid
 
         // Add pagination if enabled and there are multiple pages
-        if ($show_pagination && $total_pages > 1 && $selection_mode === 'auto') {
-            $output .= fau_elemental_generate_pagination($current_page, $total_pages);
+        if ($show_pagination && isset($query) && $query->found_posts > $posts_per_page && $selection_mode === 'auto') {
+            $total_pages = ceil($query->found_posts / $posts_per_page);
+            $output .= '<div class="pagination">';
+            $output .= paginate_links(array(
+                'base' => add_query_arg('paged', '%#%'),
+                'format' => '',
+                'current' => $current_page,
+                'total' => $total_pages,
+                'prev_text' => __('Prev', 'fau-elemental'),
+                'next_text' => __('Next', 'fau-elemental'),
+                'type' => 'plain',
+                'end_size' => 3,
+                'mid_size' => 3
+            ));
+            $output .= '</div>';
         }
 
         $output .= '</div>'; // Close fau-list-item
@@ -192,10 +204,11 @@ if ( ! function_exists( 'fau_elemental_generate_pagination' ) ) {
 
         // Previous button
         $prev_disabled = $current_page === 1 ? ' disabled' : '';
+        $prev_url = $current_page > 1 ? add_query_arg('page', $current_page - 1) : '#';
         $output .= sprintf(
-            '<button class="page-number prev%s" data-page="%d"%s>Prev</button>',
+            '<a href="%s" class="page-number prev%s"%s>Prev</a>',
+            esc_url($prev_url),
             $prev_disabled,
-            $current_page - 1,
             $prev_disabled ? ' disabled' : ''
         );
 
@@ -203,10 +216,11 @@ if ( ! function_exists( 'fau_elemental_generate_pagination' ) ) {
         for ($i = 1; $i <= $total_pages; $i++) {
             if ($i === 1 || $i === $total_pages || ($i >= $current_page - 1 && $i <= $current_page + 1)) {
                 $active = $current_page === $i ? ' active' : '';
+                $page_url = add_query_arg('page', $i);
                 $output .= sprintf(
-                    '<button class="page-number%s" data-page="%d">%d</button>',
+                    '<a href="%s" class="page-number%s">%d</a>',
+                    esc_url($page_url),
                     $active,
-                    $i,
                     $i
                 );
             } elseif ($i === $current_page - 2 || $i === $current_page + 2) {
@@ -216,10 +230,11 @@ if ( ! function_exists( 'fau_elemental_generate_pagination' ) ) {
 
         // Next button
         $next_disabled = $current_page === $total_pages ? ' disabled' : '';
+        $next_url = $current_page < $total_pages ? add_query_arg('page', $current_page + 1) : '#';
         $output .= sprintf(
-            '<button class="page-number next%s" data-page="%d"%s>Next</button>',
+            '<a href="%s" class="page-number next%s"%s>Next</a>',
+            esc_url($next_url),
             $next_disabled,
-            $current_page + 1,
             $next_disabled ? ' disabled' : ''
         );
 
