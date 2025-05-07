@@ -1,15 +1,23 @@
 import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 import {
 	unregisterBlockStyle,
 	registerBlockVariation,
 	registerBlockStyle,
 } from '@wordpress/blocks';
-import React from 'react';
+import { useRef, useEffect } from '@wordpress/element';
 
-// Unregister the rounded style and register new styles for image blocks
+/**
+ * Customizes the core/image block by:
+ * 1. Removing default and rounded styles
+ * 2. Adding custom 'large' and 'medium' styles
+ * 3. Creating a default variation with full alignment and overlay
+ *
+ * This code runs when the DOM is ready and modifies the core image block
+ * to match the FAU Elemental theme's design requirements.
+ */
 wp.domReady( () => {
 	unregisterBlockStyle( 'core/image', [ 'default', 'rounded' ] );
 
@@ -24,188 +32,159 @@ wp.domReady( () => {
 		label: __( 'Medium', 'fau-elemental' ),
 		isDefault: false,
 	} );
-} );
 
-// Register a default block variation with preconfigured attributes
-registerBlockVariation( 'core/image', {
-	name: 'fau-default-image',
-	isDefault: true,
-	attributes: {
-		align: 'full',
-		className: 'is-style-large',
-	},
+	registerBlockVariation( 'core/image', {
+		name: 'fau-default-image',
+		isDefault: true,
+		attributes: {
+			align: 'full',
+			className: 'is-style-large has-overlay',
+		},
+	} );
 } );
 
 /**
- * Adds a custom 'copyrightInfo' attribute to all Image blocks and modifies block supports.
+ * This filter extends the core/image block by:
+ * 1. Adding a 'copyrightInfo' string attribute to store image copyright information
+ * 2. Adding a 'hasOverlay' boolean attribute to control overlay display
+ * 3. Disabling certain block supports (filter, align) to customize the block's behavior
  *
  * @param {Object} settings The block settings for the registered block type.
  * @param {string} name     The block type name, including namespace.
  * @return {Object}         The modified block settings.
  */
-function editImageBlockAttributesAndSupports( settings, name ) {
-	// Only modify Image blocks
-	if ( name !== 'core/image' ) {
-		return settings;
-	}
-
-	settings.supports = {
-		...settings.supports,
-		filter: false,
-		shadow: false,
-		align: false,
-	};
-
-	settings.attributes = {
-		...settings.attributes,
-		copyrightInfo: {
-			type: 'string',
-			default: '',
-		},
-		hasOverlay: {
-			type: 'boolean',
-			default: false,
-		},
-	};
-
-	return settings;
-}
-
-// Comment out each filter temporarily to test
 addFilter(
 	'blocks.registerBlockType',
-	'fau-elemental/add-copyright-info-attribute',
-	editImageBlockAttributesAndSupports
+	'fau-elemental/edit-image-block-settings',
+	( settings, name ) => {
+		// Only modify Image blocks
+		if ( name !== 'core/image' ) {
+			return settings;
+		}
+
+		settings.supports = {
+			...settings.supports,
+			filter: false,
+			align: false,
+		};
+
+		settings.attributes = {
+			...settings.attributes,
+			copyrightInfo: {
+				type: 'string',
+				default: '',
+			},
+			hasOverlay: {
+				type: 'boolean',
+				default: true,
+			},
+		};
+
+		return settings;
+	}
 );
 
 /**
- * Adds a custom 'copyrightInfo' attribute text input field to all Image blocks in the editor.
+ * Enhances the Image block with custom functionality in the editor.
+ * This filter adds a fullscreen button to image blocks and provides additional
+ * controls in the sidebar inspector for copyright information and overlay options.
+ * It also adds an 'image-wrapper' class to the parent div of images for styling purposes.
  *
  * @param {*} BlockEdit
- * @returns
+ * @returns {JSX} The enhanced Image block component.
  */
-function addCopyrightInfoInspectorControls( BlockEdit ) {
-	return ( props ) => {
-		const { name, attributes, setAttributes } = props;
-
-		// Early return if the block is not the Image block.
-		if ( name !== 'core/image' ) {
-			return <BlockEdit { ...props } />;
-		}
-
-		// Retrieve selected attributes from the block.
-		const { copyrightInfo, hasOverlay, className } = attributes;
-
-		return (
-			<>
-				<BlockEdit { ...props } />
-				<InspectorControls>
-					<PanelBody
-						title={ __( 'Additional Settings', 'fau-elemental' ) }
-					>
-						<TextControl
-							label={ __( 'Copyright Info', 'fau-elemental' ) }
-							value={ copyrightInfo }
-							onChange={ ( value ) =>
-								setAttributes( { copyrightInfo: value } )
-							}
-						/>
-						<ToggleControl
-							label={ __( 'Add Overlay', 'fau-elemental' ) }
-							checked={ hasOverlay }
-							onChange={ ( value ) => {
-								const classes = className
-									? className.split( ' ' )
-									: [];
-								if ( value ) {
-									if ( ! classes.includes( 'has-overlay' ) ) {
-										classes.push( 'has-overlay' );
-									}
-								} else {
-									const index =
-										classes.indexOf( 'has-overlay' );
-									if ( index > -1 ) {
-										classes.splice( index, 1 );
-									}
-								}
-								setAttributes( {
-									hasOverlay: value,
-									className: classes.join( ' ' ),
-								} );
-							} }
-						/>
-					</PanelBody>
-				</InspectorControls>
-			</>
-		);
-	};
-}
-
 addFilter(
 	'editor.BlockEdit',
-	'fau-elemental/add-copyright-info-inspector-controls',
-	addCopyrightInfoInspectorControls
-);
+	'fau-elemental/enhance-image-block',
+	( BlockEdit ) => {
+		return ( props ) => {
+			const { name, attributes, setAttributes } = props;
 
-/**
- * Adds the fullscreen button to the image block in the editor.
- *
- * @param {*} BlockEdit
- * @returns
- */
-function addFullscreenButtonToEditor( BlockEdit ) {
-	return ( props ) => {
-		const { name, attributes } = props;
-
-		// Early return if the block is not the Image block.
-		if ( name !== 'core/image' ) {
-			return <BlockEdit { ...props } />;
-		}
-
-		// Get the image URL from the block attributes
-		const { url } = attributes;
-
-		// If there's no URL, return the original block edit component
-		if ( ! url ) {
-			return <BlockEdit { ...props } />;
-		}
-
-		// Create a wrapper for the block edit component
-		const blockProps = useBlockProps();
-
-		// Use a ref to access the DOM after render
-		const blockRef = React.useRef( null );
-
-		// Add the button after the component mounts
-		React.useEffect( () => {
-			if ( blockRef.current ) {
-				// Find the figure element
-				const figure = blockRef.current.querySelector( 'figure' );
-				if ( figure ) {
-					// Check if button already exists
-					if ( ! figure.querySelector( '.image-fullscreen-btn' ) ) {
-						// Create the button
-						const button = document.createElement( 'button' );
-						button.className = 'image-fullscreen-btn';
-						button.innerHTML = '⛶';
-
-						// Add the button to the figure
-						figure.appendChild( button );
-					}
-				}
+			// Early return if the block is not the Image block.
+			if ( name !== 'core/image' ) {
+				return <BlockEdit { ...props } />;
 			}
-		}, [ url ] );
 
-		return (
-			<div { ...blockProps } ref={ blockRef }>
-				<BlockEdit { ...props } />
-			</div>
-		);
-	};
-}
+			// Retrieve selected attributes from the block.
+			const { copyrightInfo, hasOverlay, className, url } = attributes;
 
-addFilter(
-	'editor.BlockEdit',
-	'fau-elemental/add-fullscreen-button-to-editor',
-	addFullscreenButtonToEditor
+			// Use a ref to access the DOM after render
+			const blockRef = useRef( null );
+
+			// Add the button after the component mounts
+			useEffect( () => {
+				if ( ! url ) return;
+
+				const figure = blockRef.current?.querySelector( 'figure' );
+				if ( ! figure ) return;
+
+				// Add image-wrapper class to the parent div of the img
+				const img = figure.querySelector( 'img' );
+				const parentDiv = img?.parentNode;
+				if ( parentDiv?.tagName === 'DIV' ) {
+					parentDiv.classList.add( 'image-wrapper' );
+				}
+
+				// Add fullscreen button if it doesn't exist
+				if ( ! figure.querySelector( '.image-fullscreen-btn' ) ) {
+					const button = document.createElement( 'button' );
+					button.className = 'image-fullscreen-btn';
+					button.innerHTML = '⛶';
+					figure.appendChild( button );
+				}
+			}, [ url ] );
+
+			return (
+				<div className="wp-block-image-wrapper" ref={ blockRef }>
+					<BlockEdit { ...props } />
+					<InspectorControls>
+						<PanelBody
+							title={ __(
+								'Additional Settings',
+								'fau-elemental'
+							) }
+						>
+							<TextControl
+								label={ __(
+									'Copyright Info',
+									'fau-elemental'
+								) }
+								value={ copyrightInfo }
+								onChange={ ( value ) =>
+									setAttributes( { copyrightInfo: value } )
+								}
+								__nextHasNoMarginBottom
+							/>
+							<ToggleControl
+								label={ __( 'Add Overlay', 'fau-elemental' ) }
+								checked={ hasOverlay }
+								onChange={ ( value ) => {
+									const classes = className
+										? className.split( ' ' )
+										: [];
+									if ( value ) {
+										if (
+											! classes.includes( 'has-overlay' )
+										) {
+											classes.push( 'has-overlay' );
+										}
+									} else {
+										const index =
+											classes.indexOf( 'has-overlay' );
+										if ( index > -1 ) {
+											classes.splice( index, 1 );
+										}
+									}
+									setAttributes( {
+										hasOverlay: value,
+										className: classes.join( ' ' ),
+									} );
+								} }
+							/>
+						</PanelBody>
+					</InspectorControls>
+				</div>
+			);
+		};
+	}
 );

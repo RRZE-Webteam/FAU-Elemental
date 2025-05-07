@@ -1,6 +1,11 @@
 @import "../../mixins";
 
+.quote-carousel {
+	max-width: var(--base-max-width);
+}
+
 .wp-block-quote-item {
+	max-width: var(--base-max-width);
 
 	blockquote {
 		font-size: 1.75rem;

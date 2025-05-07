@@ -1,0 +1,9 @@
+// Import the main styles to ensure consistency
+@import "./style";
+
+.editor-styles-wrapper .fau-teaser-grid {
+
+	.wp-block-button__link {
+		border-radius: 0; // make arrow buttons square
+	}
+}
