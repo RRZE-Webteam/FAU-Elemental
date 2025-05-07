@@ -1,0 +1,174 @@
+import { addFilter } from '@wordpress/hooks';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { useRef, useEffect, useState } from '@wordpress/element';
+
+addFilter(
+	'blocks.registerBlockType',
+	'fau-elemental/edit-gallery-block-settings',
+	( settings, name ) => {
+		// Only modify Gallery blocks
+		if ( name !== 'core/gallery' ) {
+			return settings;
+		}
+
+		// Modify block supports
+		settings.supports = {
+			...settings.supports,
+			// Disable alignment support
+			align: false,
+		};
+
+		// Set default image size to full, disable crop, and set columns to 1
+		if ( settings.attributes ) {
+			settings.attributes = {
+				...settings.attributes,
+				sizeSlug: {
+					type: 'string',
+					default: 'full',
+				},
+				columns: {
+					type: 'number',
+					default: 1,
+				},
+			};
+		}
+
+		return settings;
+	}
+);
+
+// React component for the carousel
+const GalleryCarousel = ( props ) => {
+	const [ slides, setSlides ] = useState( [] );
+	const carouselRef = useRef( null );
+	const { useSelect } = wp.data;
+
+	// Get the current block's inner blocks and content
+	const { innerBlocks, content } = useSelect(
+		( select ) => {
+			const block = select( 'core/block-editor' ).getBlock(
+				props.clientId
+			);
+			return {
+				innerBlocks: block?.innerBlocks || [],
+				content: block?.attributes?.content || '',
+			};
+		},
+		[ props.clientId ]
+	);
+
+	// Function to update slides
+	const updateSlides = () => {
+		if ( carouselRef.current ) {
+			const slideElements = Array.from(
+				carouselRef.current.querySelectorAll( '.wp-block-image' )
+			);
+
+			if ( slideElements.length !== slides.length ) {
+				setSlides( slideElements );
+			}
+		}
+	};
+
+	// Watch for changes in inner blocks and content
+	useEffect( () => {
+		updateSlides();
+	}, [ innerBlocks, content, props.clientId ] );
+
+	// Also watch for block editor events
+	useEffect( () => {
+		const unsubscribe = wp.data.subscribe( () => {
+			// Check if the block's content has changed
+			const currentBlock = wp.data
+				.select( 'core/block-editor' )
+				.getBlock( props.clientId );
+			if ( currentBlock ) {
+				updateSlides();
+			}
+		} );
+
+		return () => unsubscribe();
+	}, [ props.clientId ] );
+
+	const selectSlide = ( offset ) => {
+		// get the currently selected image index by checking the isselected class
+		let currentSlideIndex = slides.findIndex( ( image ) =>
+			image.classList.contains( 'is-selected' )
+		);
+		if ( currentSlideIndex === -1 ) {
+			currentSlideIndex = 0;
+		}
+
+		// figure out the next slide - handle both positive and negative offsets correctly
+		let nextSlideIndex =
+			( ( ( currentSlideIndex + offset ) % slides.length ) +
+				slides.length ) %
+			slides.length;
+
+		// select the next slide
+		const selectBlock = wp.data.dispatch( 'core/block-editor' ).selectBlock;
+		selectBlock( slides[ nextSlideIndex ].getAttribute( 'data-block' ) );
+	};
+
+	// Event handlers using React's event system
+	const handlePrevClick = () => {
+		selectSlide( -1 );
+	};
+
+	const handleNextClick = () => {
+		selectSlide( 1 );
+	};
+
+	return (
+		<div className="wp-block-gallery-container" ref={ carouselRef }>
+			{ props.children }
+			{ slides.length > 1 && (
+				<>
+					<div className="gallery-nav-container">
+						<button
+							className="gallery-nav-button prev"
+							aria-label="Previous slide"
+							onClick={ handlePrevClick }
+						/>
+						<button
+							className="gallery-nav-button next"
+							aria-label="Next slide"
+							onClick={ handleNextClick }
+						/>
+					</div>
+				</>
+			) }
+		</div>
+	);
+};
+
+addFilter(
+	'editor.BlockEdit',
+	'fau-elemental/edit-gallery-block-view',
+	createHigherOrderComponent(
+		( BlockEdit ) => ( props ) => {
+			if ( props.name !== 'core/gallery' ) {
+				return <BlockEdit { ...props } />;
+			}
+
+			return (
+				<GalleryCarousel { ...props }>
+					<BlockEdit { ...props } />
+				</GalleryCarousel>
+			);
+		},
+		'withCarouselView'
+	)
+);
+
+addFilter(
+	'blocks.getSaveElement',
+	'fau-elemental/edit-gallery-block-save',
+	( element, blockType ) => {
+		if ( blockType.name !== 'core/gallery' ) {
+			return element;
+		}
+
+		return <div className="wp-block-gallery-container">{ element }</div>;
+	}
+);

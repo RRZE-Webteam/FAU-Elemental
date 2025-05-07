@@ -2,26 +2,22 @@
  * Core Button Block - Editor Wrapper Styles - Hide Editor Features
  */
 
-// When a button block is selected, hide the following:
 .faue-is-button-block-selected {
+
 	// In the Block Toolbar, hide the following:
 	.block-editor-block-toolbar > .components-toolbar-group {
-		// Hide Alignment- and Font-Controls
-		&:nth-child(3),
-		&:nth-child(5) {
+
+		// Hide Font Controls (Bold, Italic, Dropdown-Menu)
+		&:nth-last-child(2),
+		// Hide Text Align Dropdown
+		&:nth-last-child(3) .components-dropdown-menu,
+		// Hide Alignment Options
+		&:nth-last-child(4) {
 			display: none;
-		}
-
-		// Hide Text Align Dropdown Menu
-		&:nth-child(4) {
-
-			.components-dropdown-menu {
-				display: none;
-			}
 		}
 	}
 
-	// Hide Settings-Panel for Width-Options in the Block Inspector
+	// In the Inspector Controls, hide the Settings-Panel for Width-Options
 	.block-editor-block-inspector > div:nth-child(3) {
 		display: none;
 	}

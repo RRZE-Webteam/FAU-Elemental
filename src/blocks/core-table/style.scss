@@ -1,18 +1,9 @@
 /**
- * Core Table Block Styles
+ * Core Table Styles
  */
 
 .wp-block-table-wrapper {
-	margin-bottom: var(--Spacing-4x);
-
-	// Table heading styles
-	.wp-block-table__heading {
-		font-size: var(--H-Heading-3);
-		margin-bottom: var(--Spacing-6x);
-		color: var(--FAU-Col-FAU-Blau-100);
-		font-weight: 700;
-		line-height: 1.3;
-	}
+	max-width: var(--small-max-width);
 }
 
 .wp-block-table {
@@ -22,15 +13,22 @@
 	font-size: var(--P-Caption);
 	color: var(--FAU-Col-FAU-Schwarz-90);
 	background-color: var(--FAU-Col-FAU-Weiss-100);
+	margin: 0;
 
 	table {
 		width: 100%;
-		border: 1px solid var(--FAU-Col-FAU-Schwarz-25);
 		background-color: var(--FAU-Col-FAU-Weiss-100);
 	}
 
-	figcaption {
-		margin-top: var(--Spacing-2x);
+	figure.wp-block-table {
+
+		figcaption {
+			margin-top: var(--Spacing-2x);
+		}
+
+		&.footer-active tbody {
+			border-bottom: none; // Hide bottom border when tfoot is toggled on
+		}
 	}
 
 	// Cell styles
@@ -44,9 +42,10 @@
 		font-weight: 400;
 	}
 
-	// Header row styles
+	// Header
 	thead {
-		border: 0;
+		position: relative;
+		border: 1px solid var(--FAU-Col-FAU-Blau-100);
 
 		th {
 			background-color: var(--FAU-Col-FAU-Blau-100);
@@ -54,7 +53,6 @@
 			font-weight: 400;
 			text-align: left;
 			padding: var(--Spacing-3x) var(--Spacing-2x);
-			border-right: 1px solid var(--FAU-Col-FAU-Schwarz-62_5);
 
 			&:last-child {
 				border-right: none;
@@ -62,8 +60,9 @@
 		}
 	}
 
-	// Row styles
+	// Body
 	tbody {
+		border: 1px solid var(--FAU-Col-FAU-Schwarz-25);
 
 		tr {
 			background-color: var(--FAU-Col-FAU-Weiss-100);
@@ -101,14 +100,31 @@
 		}
 	}
 
-	// smaller min width when there will be multiple columns
 	thead + tbody {
 
 		tr {
 
 			td {
-				min-width: 120px;
+				min-width: 120px; // smaller min width when there will be multiple columns
 			}
+		}
+	}
+
+	// Footer
+	tfoot {
+		border: 1px solid var(--FAU-Col-FAU-Schwarz-25);
+		border-top: none;
+		background-color: var(--FAU-Col-FAU-Schwarz-5);
+
+		td {
+			padding: var(--Spacing-2x);
+			color: var(--FAU-Col-FAU-Schwarz-62_5);
+			border-right: 1px solid var(--FAU-Col-FAU-Schwarz-25);
+		}
+
+		tr {
+			background: none;
+			border: none;
 		}
 	}
 
@@ -134,25 +150,83 @@
 		vertical-align: sub;
 	}
 
-	// Footer text
-	tfoot {
-		border-top: none;
-		background-color: var(--FAU-Col-FAU-Schwarz-5);
-
-		td {
-			padding: var(--Spacing-2x);
-			color: var(--FAU-Col-FAU-Schwarz-62_5);
-			border: none;
-		}
-
-		tr {
-			background: none;
-			border: none;
-		}
-	}
-
 	// Special case for numerical values in parentheses
 	.parenthetical {
 		color: var(--FAU-Col-FAU-Dunkelblau-50);
 	}
+}
+
+// Dark mode
+.is-style-dark {
+
+	.wp-block-table {
+		background-color: var(--FAU-Col-FAU-Blau-100);
+		color: var(--FAU-Col-FAU-Weiss-100);
+
+		.wp-block-table__heading {
+			background-color: var(--FAU-Col-FAU-Blau-100);
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		figcaption {
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		thead {
+			border: 1px solid var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		tbody {
+			border: 1px solid var(--FAU-Col-FAU-Dunkelblau-62_5);
+
+			tr {
+				background-color: var(--FAU-Col-FAU-Blau-100);
+
+				td {
+					border-right: 1px solid var(--FAU-Col-FAU-Dunkelblau-62_5);
+
+					&:first-child {
+						color: var(--FAU-Col-FAU-Blau-12_5);
+					}
+				}
+
+				&:nth-child(even) {
+					background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+
+					td {
+						border-right-color: var(--FAU-Col-FAU-Dunkelblau-62_5);
+					}
+				}
+			}
+		}
+
+		tfoot {
+			border: 1px solid var(--FAU-Col-FAU-Dunkelblau-62_5);
+			border-top: none;
+		}
+
+		thead th {
+			background-color: var(--FAU-Col-FAU-Weiss-100);
+			color: var(--FAU-Col-FAU-Blau-100);
+			border-right: 1px solid var(--FAU-Col-FAU-Dunkelblau-37_5);
+
+			&:last-child {
+				border-right: none;
+			}
+		}
+
+		tfoot td {
+			background-color: #11294c;
+			color: var(--FAU-Col-FAU-Schwarz-12_5);
+			border-right: 1px solid var(--FAU-Col-FAU-Dunkelblau-62_5);
+
+			&:last-child {
+				border-right: none;
+			}
+		}
+	}
+}
+
+.footer-active .wp-block-table tbody {
+	border-bottom: none; // Hide bottom border when tfoot is toggled on for editor
 }
