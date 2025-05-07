@@ -22,36 +22,43 @@ require_once get_template_directory() . '/inc/block-patterns.php';
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
 
-/**
- * Add custom logo support
- */
-function fau_elemental_custom_logo_setup() {
-    add_theme_support('custom-logo', array(
-        'height'      => 100,
-        'width'       => 400,
-        'flex-height' => true,
-        'flex-width'  => true,
-        'header-text' => array('site-title', 'site-description'),
-    ));
-}
-add_action('after_setup_theme', 'fau_elemental_custom_logo_setup');
+// Logo display functionality
+require_once get_template_directory() . '/inc/logo-display.php';
 
 /**
  * Add logo settings to customizer
  */
 function fau_elemental_customize_register($wp_customize) {
-
-    // Add logo setting
-    $wp_customize->add_setting('fau_elemental_logo', array(
-        'default'           => '',
-        'sanitize_callback' => 'esc_url_raw',
+    // Add logo section
+    $wp_customize->add_section('fau_elemental_logo_section', array(
+        'title'    => __('Logo & Title Settings', 'fau-elemental'),
+        'priority' => 30,
     ));
 
-    // Add logo control
-    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'fau_elemental_logo', array(
-        'label'    => __('Upload Logo', 'fau-elemental'),
+    // Add website logotitle setting
+    $wp_customize->add_setting('website_logotitle', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    // Add website logotitle control
+    $wp_customize->add_control('website_logotitle', array(
+        'label'    => __('Website Title', 'fau-elemental'),
         'section'  => 'fau_elemental_logo_section',
-        'settings' => 'fau_elemental_logo',
-    )));
+        'type'     => 'text',
+    ));
+
+    // Add website shorttitle setting
+    $wp_customize->add_setting('website_shorttitle', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    // Add website shorttitle control
+    $wp_customize->add_control('website_shorttitle', array(
+        'label'    => __('Website Short Title', 'fau-elemental'),
+        'section'  => 'fau_elemental_logo_section',
+        'type'     => 'text',
+    ));
 }
 add_action('customize_register', 'fau_elemental_customize_register');
