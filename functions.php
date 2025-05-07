@@ -46,8 +46,8 @@ function get_reading_time($post_id = null) {
         $reading_time = 1;
     }
     
-    // Change the format from "X min read" to "Lesedauer: X min"
-    return 'Lesedauer: ' . $reading_time . ' min';
+    // Return reading time with strong tags
+    return $reading_time . ' min';
 }
 
 /**
@@ -99,16 +99,25 @@ function render_post_header_options_meta_box($post) {
     $show_reading_time = get_post_meta($post->ID, 'show_reading_time', true);
     $show_listen_link = get_post_meta($post->ID, 'show_listen_link', true);
     $listen_url = get_post_meta($post->ID, 'listen_url', true);
+    $show_categories = get_post_meta($post->ID, 'show_categories', true);
     
     // Set defaults
     if ($show_reading_time === '') {
         $show_reading_time = '1';
+    }
+    if ($show_categories === '') {
+        $show_categories = '1';
     }
     ?>
     <div class="post-header-options">
         <label>
             <input type="checkbox" name="show_reading_time" value="1" <?php checked($show_reading_time, '1'); ?> />
             <strong>Show reading time</strong>
+        </label>
+        
+        <label>
+            <input type="checkbox" name="show_categories" value="1" <?php checked($show_categories, '1'); ?> />
+            <strong>Show categories</strong>
         </label>
         
         <label>
@@ -147,6 +156,9 @@ function save_post_header_options_meta_box($post_id) {
     // Save the options
     $show_reading_time = isset($_POST['show_reading_time']) ? '1' : '0';
     update_post_meta($post_id, 'show_reading_time', $show_reading_time);
+    
+    $show_categories = isset($_POST['show_categories']) ? '1' : '0';
+    update_post_meta($post_id, 'show_categories', $show_categories);
     
     $show_listen_link = isset($_POST['show_listen_link']) ? '1' : '0';
     update_post_meta($post_id, 'show_listen_link', $show_listen_link);
@@ -213,7 +225,7 @@ function buffer_end() {
         // Insert reading time
         $html = preg_replace(
             '/<p class=["\'](?:[^"\']*\s)?reading-time(?:\s[^"\']*)?["\'][^>]*>.*?<\/p>/',
-            '<p class="reading-time">' . esc_html($reading_time) . '</p>',
+            '<p class="reading-time"><strong>' . esc_html($reading_time) . '</strong></p>',
             $html
         );
         
@@ -269,7 +281,7 @@ function render_post_header_block($attributes) {
             
             <?php if (has_category()): ?>
             <div class="post-categories">
-                <?php the_category(', '); ?>
+                <?php wp_strip_all_tags(the_category(', ')); ?>
             </div>
             <?php endif; ?>
         </div>
@@ -278,7 +290,7 @@ function render_post_header_block($attributes) {
         
         <div class="post-meta wp-block-group">
             <?php if ($show_reading_time === '1'): ?>
-            <p class="reading-time"><?php echo esc_html($reading_time); ?></p>
+            <p class="reading-time"><b><?php echo esc_html($reading_time); ?></b></p>
             <?php endif; ?>
             
             <?php if ($show_listen_link === '1' && !empty($listen_url)): ?>
@@ -311,6 +323,7 @@ function filter_post_header_content($content) {
         // Get visibility settings
         $show_reading_time = get_post_meta($post_id, 'show_reading_time', true) !== '0';
         $show_listen_link = get_post_meta($post_id, 'show_listen_link', true) === '1';
+        $show_categories = get_post_meta($post_id, 'show_categories', true) !== '0';
         $listen_url = get_post_meta($post_id, 'listen_url', true);
         
         // Apply CSS to hide elements if needed
@@ -318,6 +331,10 @@ function filter_post_header_content($content) {
         
         if (!$show_reading_time) {
             $inline_style .= '.post-reading-time, .reading-time { display: none !important; }';
+        }
+        
+        if (!$show_categories) {
+            $inline_style .= '.post-categories, .post-categories-separator { display: none !important; }';
         }
         
         if (!$show_listen_link || empty($listen_url)) {
@@ -329,11 +346,6 @@ function filter_post_header_content($content) {
                 '<a href="' . esc_url($listen_url) . '">Beitrag anhören:$1</a>',
                 $content
             );
-        }
-        
-        // Hide categories separator if no categories
-        if (!has_category()) {
-            $inline_style .= '.post-categories-separator { display: none !important; }';
         }
         
         $inline_style .= '</style>';
@@ -788,3 +800,40 @@ function fau_add_caption_to_featured_image($block_content, $block) {
     return $block_content;
 }
 add_filter('render_block', 'fau_add_caption_to_featured_image', 10, 2);
+
+/**
+ * Modify post-terms block output to display categories without links
+ */
+function fau_elemental_modify_post_terms_block($block_content, $block) {
+    if (!is_string($block_content)) {
+        return $block_content;
+    }
+
+    // Only modify category terms
+    if (isset($block['attrs']['term']) && $block['attrs']['term'] === 'category') {
+        $post_id = get_the_ID();
+        if (!$post_id) {
+            return '';
+        }
+
+        $categories = get_the_category($post_id);
+        if (empty($categories)) {
+            return '';
+        }
+
+        $category_names = array();
+        foreach ($categories as $category) {
+            $category_names[] = $category->name;
+        }
+
+        $separator = isset($block['attrs']['separator']) ? $block['attrs']['separator'] : ', ';
+        $className = isset($block['attrs']['className']) ? $block['attrs']['className'] : 'post-categories';
+
+        return '<div class="' . esc_attr($className) . '">' . 
+               esc_html(implode($separator, $category_names)) . 
+               '</div>';
+    }
+
+    return $block_content;
+}
+add_filter('render_block', 'fau_elemental_modify_post_terms_block', 10, 2);

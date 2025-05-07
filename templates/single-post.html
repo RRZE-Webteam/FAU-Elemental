@@ -14,32 +14,38 @@
 >
   <!-- wp:group {"className":"post-header","align":"wide","layout":{"type":"constrained"}} -->
   <div class="wp-block-group alignwide post-header">
-    <!-- wp:group {"className":"post-meta-top","layout":{"type":"flex","flexWrap":"nowrap"}} -->
-    <div class="wp-block-group post-meta-top">
-      <!-- wp:post-date /-->
+    <div class="post-header-content">
+      <!-- wp:group {"className":"post-meta-top","layout":{"type":"flex","flexWrap":"nowrap"}} -->
+      <div class="wp-block-group post-meta-top">
+        <!-- wp:post-date /-->
+        
+        <!-- wp:paragraph {"className":"post-categories-separator"} -->
+        <p class="post-categories-separator">–</p>
+        <!-- /wp:paragraph -->
+        
+        <!-- wp:post-terms {"term":"category","className":"post-categories","separator":", "} /-->
+      </div>
+      <!-- /wp:group -->
       
-      <!-- wp:paragraph {"className":"post-categories-separator"} -->
-      <p class="post-categories-separator">–</p>
-      <!-- /wp:paragraph -->
+      <!-- wp:post-title {"level":1,"align":"wide"} /-->
       
-      <!-- wp:post-terms {"term":"category","className":"post-categories"} /-->
-    </div>
-    <!-- /wp:group -->
-    
-    <!-- wp:post-title {"level":1,"align":"wide"} /-->
-    
-    <!-- wp:group {"className":"post-meta","layout":{"type":"flex","flexWrap":"nowrap"}} -->
-    <div class="wp-block-group post-meta">
-      <!-- wp:paragraph {"className":"reading-time post-reading-time"} -->
-      <p class="reading-time post-reading-time">Lesedauer: <!-- READING_TIME --> min</p>
-      <!-- /wp:paragraph -->
+      <!-- wp:group {"className":"post-meta","layout":{"type":"flex","flexWrap":"nowrap"}} -->
+      <div class="wp-block-group post-meta">
+        <!-- wp:paragraph {"className":"reading-time post-reading-time"} -->
+        <p>
+          Lesedauer: 
+        </p>
+        <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"reading-time post-reading-time"} -->
+        <p class="reading-time post-reading-time "><!-- READING_TIME --></p>
+        <!-- /wp:paragraph -->
 
-
-      <!--      TODO          wp:paragraph {"className":"listen-link post-listen-link"} -->
-      <p class="listen-link post-listen-link"><a href="#">Beitrag anhören: <!-- LISTEN_DURATION --> min. abspielen</a></p>
-      <!-- /wp:paragraph -->
+        <!-- wp:paragraph {"className":"listen-link post-listen-link"} -->
+        <p class="listen-link post-listen-link"><a href="#">Beitrag anhören: <!-- LISTEN_DURATION --> min. abspielen</a></p>
+        <!-- /wp:paragraph -->
+      </div>
+      <!-- /wp:group -->
     </div>
-    <!-- /wp:group -->
     
     <!-- wp:image {"className":"wp-block-image is-style-large"} -->
     <figure class="wp-block-image is-style-large">
