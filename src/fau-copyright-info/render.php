@@ -26,6 +26,22 @@ function fau_elemental_gather_copyright_info_recursive($blocks) {
         // Check for copyright info in any block type
         if (!empty($block['attrs']['copyrightInfo'])) {
             $copyright_info[] = $block['attrs']['copyrightInfo'];
+        }  
+        // Check for image blocks and extract copyright info from metadata if available
+        elseif ($block['blockName'] === 'core/image' && !empty($block['attrs']['id'])) {
+            $image_id = $block['attrs']['id'];
+            $image_metadata = wp_get_attachment_metadata($image_id);
+            
+            // Check for copyright info in image metadata
+            if (!empty($image_metadata['image_meta']['copyright'])) {
+                $copyright_info[] = $image_metadata['image_meta']['copyright'];
+            }
+            
+            // Check for copyright info in image description
+            $image_description = get_post_meta($image_id, '_wp_attachment_image_alt', true);
+            if (!empty($image_description) && strpos(strtolower($image_description), 'copyright') !== false) {
+                $copyright_info[] = $image_description;
+            }
         }
 
         // Recursively check inner blocks

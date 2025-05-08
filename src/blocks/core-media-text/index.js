@@ -19,7 +19,7 @@ registerBlockVariation( 'core/media-text', {
 	innerBlocks: [
 		[
 			'core/heading',
-			{ placeholder: __( 'Heading', 'fau-elemental' ), level: 3 },
+			{ placeholder: __( 'Heading', 'fau-elemental' ), level: 2 },
 		],
 		[ 'core/paragraph', { placeholder: __( 'Content', 'fau-elemental' ) } ],
 	],
@@ -28,7 +28,7 @@ registerBlockVariation( 'core/media-text', {
 // Add custom attributes
 addFilter(
 	'blocks.registerBlockType',
-	'fau-elemental/edit-media-text-settings',
+	'fau-elemental/edit-media-text-block-settings',
 	function ( settings, name ) {
 		if ( name !== 'core/media-text' ) {
 			return settings;
@@ -88,6 +88,7 @@ addFilter(
 								onChange={ ( value ) =>
 									setAttributes( { copyrightInfo: value } )
 								}
+								__nextHasNoMarginBottom
 							/>
 						</PanelBody>
 					</InspectorControls>

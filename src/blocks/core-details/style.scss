@@ -1,10 +1,11 @@
 details.wp-block-details {
+	max-width: var(--small-max-width);
 	margin: 0;
 	border-bottom: 1px solid var(--FAU-Col-FAU-Blau-100);
 	padding-bottom: 20px;
 	padding-top: 20px;
 
-	&:first-child {
+	&:first-of-type {
 		border-top: 1px solid var(--FAU-Col-FAU-Blau-100);
 	}
 
@@ -101,7 +102,7 @@ details.wp-block-details {
 	details.wp-block-details {
 		border-bottom: 1px solid var(--FAU-Col-FAU-Weiss-100);
 
-		&:first-child {
+		&:first-of-type {
 			border-top: 1px solid var(--FAU-Col-FAU-Weiss-100);
 		}
 

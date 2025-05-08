@@ -40,12 +40,13 @@ add_action('enqueue_block_editor_assets', 'faue_enqueue_editor_assets');
 
 // Enqueue Frontend Scripts
 function faue_enqueue_scripts() {
-    // Example script (you can remove this if not needed)
+    // Enqueue jQuery first
+    wp_enqueue_script('jquery');
     wp_enqueue_script(
-        'faue-example',
-        get_parent_theme_file_uri('assets/js/example.js'),
-        array(),
-        wp_get_theme()->get('Version'),
+        'faue-gallery-slider',
+        get_theme_file_uri('build/js/gallery-slider.js'),
+        array('jquery'),
+        filemtime(get_theme_file_path('build/js/gallery-slider.js')),
         true
     );
 
@@ -63,6 +64,24 @@ function faue_enqueue_scripts() {
     }
 }
 add_action('wp_enqueue_scripts', 'faue_enqueue_scripts');
+
+function enqueue_quote_block_scripts() {
+    // Frontend only
+    if (!is_admin()) {
+        // Check if the current post contains the core/quote block
+        global $post;
+        if (is_singular() && has_blocks($post) && has_block('core/quote', $post)) {
+            wp_enqueue_script(
+                'quote-carousel',
+                get_template_directory_uri() . '/src/blocks/core-quote/quote-carousel.js',
+                array(),
+                '1.0.0',
+                true
+            );
+        }
+    }
+}
+add_action('wp_enqueue_scripts', 'enqueue_quote_block_scripts');
 
 // Enqueue Editor Scripts
 function faue_enqueue_block_editor_script() {
@@ -103,4 +122,33 @@ function faue_enqueue_admin_scripts($hook) {
         $style_asset['version']
     );
 }
-add_action('admin_enqueue_scripts', 'faue_enqueue_admin_scripts'); 
+add_action('admin_enqueue_scripts', 'faue_enqueue_admin_scripts');
+
+// Add this function to handle block view scripts
+function faue_enqueue_block_view_scripts() {
+    // Get all block folders
+    $block_folders = glob(get_theme_file_path('build/fau-*'), GLOB_ONLYDIR);
+
+    foreach ($block_folders as $block_folder) {
+        $block_json_file = $block_folder . '/block.json';
+        
+        if (file_exists($block_json_file)) {
+            $block_json = json_decode(file_get_contents($block_json_file), true);
+            
+            // Check if block has a view script
+            if (isset($block_json['viewScript'])) {
+                $view_script_path = str_replace('file:', '', $block_json['viewScript']);
+                $view_script_url = get_theme_file_uri('build/' . basename($block_folder) . '/' . $view_script_path);
+                
+                wp_enqueue_script(
+                    'faue-' . basename($block_folder) . '-view',
+                    $view_script_url,
+                    array(),
+                    wp_get_theme()->get('Version'),
+                    true
+                );
+            }
+        }
+    }
+}
+add_action('wp_enqueue_scripts', 'faue_enqueue_block_view_scripts'); 

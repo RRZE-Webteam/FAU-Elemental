@@ -2,11 +2,13 @@
  * Core Image Block - Editor Wrapper Styles - Hide Editor Features
  */
 
-// When an image block is selected, hide the following:
 .faue-is-image-block-selected {
 
 	button[aria-label="Add text over image"],
-	button[aria-label="Link"] {
+	button[aria-label="Text über dem Bild hinzufügen"],
+	button[aria-label="Link"],
+	button[aria-label="Crop"],
+	button[aria-label="Zuschneiden"] {
 		display: none;
 	}
 }

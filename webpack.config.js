@@ -10,39 +10,37 @@ const blockFolders = fs
 
 // Create entries for each block
 const blockEntries = blockFolders.reduce( ( entries, folder ) => {
+	const folderPath = path.resolve( process.cwd(), `src/${ folder }` );
+	const hasViewScript = fs.existsSync(
+		path.resolve( folderPath, 'view.js' )
+	);
+
 	return {
 		...entries,
-		[ `${ folder }/index` ]: path.resolve(
-			process.cwd(),
-			`src/${ folder }/index.js`
-		),
-		[ `${ folder }/style` ]: path.resolve(
-			process.cwd(),
-			`src/${ folder }/style.scss`
-		),
-		[ `${ folder }/editor` ]: path.resolve(
-			process.cwd(),
-			`src/${ folder }/editor.scss`
-		),
+		[ `${ folder }/index` ]: path.resolve( folderPath, 'index.js' ),
+		[ `${ folder }/style` ]: path.resolve( folderPath, 'style.scss' ),
+		[ `${ folder }/editor` ]: path.resolve( folderPath, 'editor.scss' ),
+		...( hasViewScript
+			? { [ `${ folder }/view` ]: path.resolve( folderPath, 'view.js' ) }
+			: {} ),
 	};
 }, {} );
 
 const editorScripts = [
 	path.resolve( process.cwd(), 'src/editor/editor.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-button/index.js' ),
-	path.resolve( process.cwd(), 'src/blocks/core-code/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-details/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-gallery/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-file/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-group/index.js' ),
-	path.resolve( process.cwd(), 'src/blocks/core-heading/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-image/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-list/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-media-text/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-paragraph/index.js' ),
+	path.resolve( process.cwd(), 'src/blocks/core-quote/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-separator/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-table/index.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-tag-cloud/index.js' ),
-	path.resolve( process.cwd(), 'src/blocks/core-verse/index.js' ),
 ];
 
 module.exports = {
@@ -71,6 +69,10 @@ module.exports = {
 		'js/image-fullscreen': path.resolve(
 			process.cwd(),
 			'src/blocks/core-image/image-fullscreen.js'
+		),
+		'js/gallery-slider': path.resolve(
+			process.cwd(),
+			'src/blocks/core-gallery/gallery-slider.js'
 		),
 		// Add post-meta script
 		'js/post-meta': path.resolve(
