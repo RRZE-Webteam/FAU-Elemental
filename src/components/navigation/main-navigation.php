@@ -42,26 +42,38 @@ class Main_Navigation {
                     <div class="main-navigation__university-name">
                         <?php fau_elemental_display_university_name('main-navigation__university-name-text'); ?>
                     </div>
-                   
                 </div>
 
-                <div class="main-navigation__menu-container">
-                    <button class="main-navigation__toggle" aria-expanded="false" aria-controls="main-menu">
-                        <span class="screen-reader-text"><?php esc_html_e('Toggle Menu', 'fau-elemental'); ?></span>
-                        <span class="main-navigation__toggle-icon"></span>
-                    </button>
-
+                <div class="main-navigation__direct-links">
                     <?php
                     wp_nav_menu(array(
-                        'theme_location' => 'primary',
-                        'menu_id'        => 'main-menu',
-                        'menu_class'     => 'main-navigation__menu',
+                        'theme_location' => 'primary_direct',
+                        'menu_id'        => 'main-direct-links',
+                        'menu_class'     => 'main-navigation__direct-menu',
                         'container'      => false,
                         'fallback_cb'    => false,
-                        'depth'          => 3,
+                        'depth'          => 1,
                     ));
                     ?>
                 </div>
+
+                <div class="main-navigation__menu-container">
+    <button class="main-navigation__toggle" aria-expanded="false" aria-controls="main-menu">
+        <span class="main-navigation__toggle-text">Menü</span>
+        <span class="main-navigation__toggle-icon"></span>
+    </button>
+    <div class="main-navigation__dropdown" id="main-menu">
+        <?php
+        wp_nav_menu(array(
+            'theme_location' => 'primary',
+            'menu_class'     => 'main-navigation__menu',
+            'container'      => false,
+            'fallback_cb'    => false,
+            'depth'          => 3,
+        ));
+        ?>
+    </div>
+</div>
             </div>
         </nav>
         <?php

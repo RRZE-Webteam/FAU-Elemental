@@ -34,12 +34,11 @@
     }
 
     &__menu-container {
-        display: flex;
-        align-items: center;
+        position: relative;
     }
 
     &__toggle {
-        display: none;
+        display: block;
         background: none;
         border: none;
         padding: 0.5rem;
@@ -76,36 +75,40 @@
         }
     }
 
+    &__dropdown {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        min-width: 220px;
+        background: #fff;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        border-radius: 6px;
+        z-index: 100;
+        padding: 1rem 0;
+    }
+
+    &__dropdown.active {
+        display: block;
+    }
+
     &__menu {
-        display: flex;
+        flex-direction: column;
         list-style: none;
         margin: 0;
         padding: 0;
+    }
 
-        li {
-            position: relative;
-            margin: 0 0.5rem;
+    &__menu li a {
+        display: block;
+        padding: 0.75rem 1.5rem;
+        color: #222;
+        text-decoration: none;
+        transition: background 0.2s;
+    }
 
-            &::before {
-                display: none !important;
-            }
-
-            @media (max-width: 768px) {
-                margin: 0.5rem 0;
-            }
-
-            a {
-                display: block;
-                padding: 0.5rem 1rem;
-                color: var(--color-text);
-                text-decoration: none;
-                transition: color 0.2s ease;
-
-                &:hover {
-                    color: var(--color-primary);
-                }
-            }
-        }
+    &__menu li a:hover {
+        background: #f0f4fa;
     }
 
     .menu-item {
@@ -173,4 +176,34 @@
             display: block;
         }
     }
+}
+
+.main-navigation__direct-links {
+    display: flex;
+    align-items: center;
+    margin-left: 2rem;
+}
+
+.main-navigation__direct-menu {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-navigation__direct-menu li {
+    margin: 0;
+}
+
+.main-navigation__direct-menu a {
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: color 0.2s;
+}
+
+.main-navigation__direct-menu a:hover {
+    color: var(--color-primary, #005fa3);
 } 

@@ -39,6 +39,7 @@ function faue_setup() {
     // Register navigation menus
     register_nav_menus(array(
         'primary' => esc_html__('Primary Menu', 'fau-elemental'),
+        'primary_direct' => esc_html__('Direct Links Menu', 'fau-elemental'),
         'footer' => esc_html__('Footer Menu', 'fau-elemental'),
         'fau_top_navigation' => esc_html__('FAU Top Navigation', 'fau-elemental'),
     ));
