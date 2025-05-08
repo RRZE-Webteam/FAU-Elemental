@@ -191,15 +191,20 @@ h1.big-teaser {
 // Import Core Block Styles
 @import "./blocks/core-button/style";
 @import "./blocks/core-code/style";
+@import "./blocks/core-details/style";
 @import "./blocks/core-file/style";
 @import "./blocks/core-group/style";
 @import "./blocks/core-heading/style";
 @import "./blocks/core-image/style";
 @import "./blocks/core-list/style";
+@import "./blocks/core-media-text/style";
 @import "./blocks/core-paragraph/style";
+@import "./blocks/core-quote/style";
 @import "./blocks/core-separator/style";
 @import "./blocks/core-table/style";
+@import "./blocks/core-tag-cloud/style";
 @import "./blocks/core-verse/style";
+@import "./blocks/core-gallery/style";
 
 // Components
 @import "scss/components/post-header";

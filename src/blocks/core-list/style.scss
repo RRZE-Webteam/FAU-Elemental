@@ -2,8 +2,10 @@
  * Core List Block Styles
  */
 
-ul,
-ol {
+@import "../../mixins";
+
+.wp-block-list {
+	max-width: var(--small-max-width);
 	font-size: var(--P-Body-Text);
 	color: var(--FAU-Col-FAU-Schwarz-100);
 	font-weight: 400;
@@ -18,7 +20,7 @@ ol {
 	}
 }
 
-ul {
+ul.wp-block-list {
 	list-style-type: none;
 	padding-left: var(--Spacing-14x);
 
@@ -43,7 +45,7 @@ ul {
 	}
 }
 
-ol {
+ol.wp-block-list {
 	padding-left: var(--Spacing-6x);
 
 	li {
@@ -57,7 +59,7 @@ ol {
 	}
 }
 
-.list-icons {
+ul.list-icons {
 	list-style-type: none;
 	padding-left: var(--Spacing-8x);
 
@@ -80,17 +82,25 @@ ol {
 
 .is-style-dark {
 
-	ul,
-	ol,
-	ol li::marker {
+	ul.wp-block-list,
+	ol.wp-block-list,
+	ol.wp-block-list li::marker {
 		color: var(--FAU-Col-FAU-Weiss-100);
 	}
 
-	ul:not(.list-icons) li::before {
+	ul.wp-block-list:not(.list-icons) li::before {
 		background-color: var(--FAU-Col-FAU-Weiss-100);
 	}
 
-	.list-icons li::before {
+	ul.list-icons li::before {
 		background-image: var(--icon-arrow-weiss);
+	}
+}
+
+// Responsive
+@include respond-to("small") {
+
+	.wp-block-list {
+		font-size: 1rem;
 	}
 }

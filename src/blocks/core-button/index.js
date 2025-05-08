@@ -1,22 +1,23 @@
 import { unregisterBlockStyle, registerBlockStyle } from '@wordpress/blocks';
+import { addFilter } from '@wordpress/hooks';
+import { __ } from '@wordpress/i18n';
 
-// Core button block customizations
 wp.domReady( () => {
 	unregisterBlockStyle( 'core/button', [ 'fill', 'outline' ] );
 
 	registerBlockStyle( 'core/button', {
 		name: 'primary',
-		label: 'Primary',
+		label: __( 'Primary', 'fau-elemental' ),
 		isDefault: true,
 	} );
 	registerBlockStyle( 'core/button', {
 		name: 'secondary',
-		label: 'Secondary',
+		label: __( 'Secondary', 'fau-elemental' ),
 		isDefault: false,
 	} );
 	registerBlockStyle( 'core/button', {
 		name: 'tertiary',
-		label: 'Tertiary',
+		label: __( 'Tertiary', 'fau-elemental' ),
 		isDefault: false,
 	} );
 } );
