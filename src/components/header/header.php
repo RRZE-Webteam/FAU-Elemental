@@ -31,6 +31,14 @@ class Header_Block {
         <div class="site-header__breadcrumbs">
             <?php get_template_part('parts/breadcrumbs'); ?>
         </div>
+
+        <?php
+        require_once get_template_directory() . '/src/components/navigation/menu-website.php';
+        if (class_exists('Menu_Website_Modal')) {
+            $menu_website_modal = new Menu_Website_Modal();
+            $menu_website_modal->render();
+        }
+        ?>
         <?php
     }
 } 

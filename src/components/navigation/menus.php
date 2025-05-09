@@ -14,9 +14,11 @@ if (!defined('ABSPATH')) {
  */
 function fau_elemental_register_menus() {
     register_nav_menus(array(
-        'fau'     => esc_html__('FAU Navigation', 'fau-elemental'),
-        'primary' => esc_html__('Main Navigation', 'fau-elemental'),
-        'footer'  => esc_html__('Footer Menu', 'fau-elemental'),
+        'fau'              => esc_html__('FAU Navigation', 'fau-elemental'),
+        'primary'          => esc_html__('Main Navigation', 'fau-elemental'),
+        'primary_direct'   => esc_html__('Direct Links', 'fau-elemental'),
+        'secondary_links'  => esc_html__('Secondary Links', 'fau-elemental'),
+        'footer'           => esc_html__('Footer Menu', 'fau-elemental'),
     ));
 }
 add_action('init', 'fau_elemental_register_menus');
@@ -28,7 +30,11 @@ function fau_elemental_menu_classes($classes, $item, $args) {
     if ($args->theme_location === 'fau') {
         $classes[] = 'fau-navigation__item';
     } elseif ($args->theme_location === 'primary') {
-        $classes[] = 'main-navigation__item';
+        $classes[] = 'menu-website-modal__item';
+    } elseif ($args->theme_location === 'primary_direct') {
+        $classes[] = 'main-navigation__direct-item';
+    } elseif ($args->theme_location === 'secondary_links') {
+        $classes[] = 'menu-website-modal__secondary-item';
     } elseif ($args->theme_location === 'footer') {
         $classes[] = 'footer-navigation__item';
     }
@@ -43,7 +49,11 @@ function fau_elemental_menu_link_classes($atts, $item, $args) {
     if ($args->theme_location === 'fau') {
         $atts['class'] = 'fau-navigation__link';
     } elseif ($args->theme_location === 'primary') {
-        $atts['class'] = 'main-navigation__link';
+        $atts['class'] = 'menu-website-modal__link';
+    } elseif ($args->theme_location === 'primary_direct') {
+        $atts['class'] = 'main-navigation__direct-link';
+    } elseif ($args->theme_location === 'secondary_links') {
+        $atts['class'] = 'menu-website-modal__secondary-link';
     } elseif ($args->theme_location === 'footer') {
         $atts['class'] = 'footer-navigation__link';
     }

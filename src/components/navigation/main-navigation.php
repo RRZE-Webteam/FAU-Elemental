@@ -24,7 +24,7 @@ class Main_Navigation {
      * Enqueue necessary scripts and styles
      */
     public function enqueue_scripts() {
-        wp_enqueue_style('main-navigation', get_template_directory_uri() . '/src/components/navigation/main-navigation.css');
+        wp_enqueue_style('main-navigation', get_template_directory_uri() . '/src/components/navigation/main-navigation.scss');
         wp_enqueue_script('main-navigation', get_template_directory_uri() . '/src/components/navigation/main-navigation.js', array('jquery'), '1.0.0', true);
     }
 
@@ -58,22 +58,11 @@ class Main_Navigation {
                 </div>
 
                 <div class="main-navigation__menu-container">
-    <button class="main-navigation__toggle" aria-expanded="false" aria-controls="main-menu">
-        <span class="main-navigation__toggle-text">Menü</span>
-        <span class="main-navigation__toggle-icon"></span>
-    </button>
-    <div class="main-navigation__dropdown" id="main-menu">
-        <?php
-        wp_nav_menu(array(
-            'theme_location' => 'primary',
-            'menu_class'     => 'main-navigation__menu',
-            'container'      => false,
-            'fallback_cb'    => false,
-            'depth'          => 3,
-        ));
-        ?>
-    </div>
-</div>
+                    <button class="main-navigation__toggle" aria-expanded="false" aria-controls="menu-website-modal">
+                        <span class="main-navigation__toggle-text">Menü</span>
+                        <span class="main-navigation__toggle-icon"></span>
+                    </button>
+                </div>
             </div>
         </nav>
         <?php
