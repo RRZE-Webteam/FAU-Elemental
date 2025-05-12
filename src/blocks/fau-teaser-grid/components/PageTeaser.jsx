@@ -20,9 +20,15 @@ export default function PageTeaser({ page, grid }) {
         <div className="teaser-item">
             {image && (
                 <div className="teaser-image-wrapper">
-                    <div className="teaser-image">
-                        <img src={image} alt={title} />
-                    </div>
+                    <a 
+                        href={link} 
+                        className="teaser-image-link"
+                        aria-label={__('Read more about', 'fau-elemental') + ' ' + title}
+                    >
+                        <div className="teaser-image">
+                            <img src={image} alt={title} loading="lazy" />
+                        </div>
+                    </a>
                 </div>
             )}
             <div className="teaser-content-wrapper">

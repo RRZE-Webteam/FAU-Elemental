@@ -142,6 +142,11 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         
         // Image wrapper
         $output .= '<div class="teaser-image-wrapper">';
+        $output .= sprintf(
+            '<a href="%s" class="teaser-image-link" aria-label="%s">',
+            esc_url($link),
+            esc_attr(sprintf(__('Read more about %s', 'fau-elemental'), $title))
+        );
         $output .= '<div class="teaser-image">';
         $output .= sprintf(
             '<img src="%s" alt="%s" loading="lazy" />',
@@ -149,6 +154,7 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
             esc_attr($title)
         );
         $output .= '</div>';
+        $output .= '</a>';
 
         // Add date meta for posts
         if ($variant === 'post') {
@@ -183,8 +189,10 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         if ($variant === 'post') {
             $categories = get_the_category($post->ID);
             if (!empty($categories)) {
+                $category_link = get_category_link($categories[0]->term_id);
                 $output .= sprintf(
-                    '<span class="category" aria-label="%s">%s</span>',
+                    '<a href="%s" class="category" aria-label="%s">%s</a>',
+                    esc_url($category_link),
                     esc_attr__('Category:', 'fau-elemental'),
                     esc_html($categories[0]->name)
                 );
