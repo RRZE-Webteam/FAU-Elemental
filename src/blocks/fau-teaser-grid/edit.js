@@ -203,25 +203,28 @@ export default function Edit({ attributes, setAttributes }) {
     };
 
     return (
-        <div {...blockProps}>
+        <div {...blockProps} role="region" aria-label={__('Teaser Grid Block', 'fau-elemental')}>
             <InspectorControls>
                 <PanelBody title={__('Display Settings', 'fau-elemental')}>
-                    <ButtonGroup>
+                    <ButtonGroup aria-label={__('Display style options', 'fau-elemental')}>
                         <Button
                             isPrimary={displayStyle === 'teaser-grid'}
                             onClick={() => onDisplayStyleChange('teaser-grid')}
+                            aria-pressed={displayStyle === 'teaser-grid'}
                         >
                             {__('Teaser Grid', 'fau-elemental')}
                         </Button>
                         <Button
                             isPrimary={displayStyle === 'list-item'}
                             onClick={() => onDisplayStyleChange('list-item')}
+                            aria-pressed={displayStyle === 'list-item'}
                         >
                             {__('List Item', 'fau-elemental')}
                         </Button>
                         <Button
                             isPrimary={displayStyle === 'mini-list'}
                             onClick={() => onDisplayStyleChange('mini-list')}
+                            aria-pressed={displayStyle === 'mini-list'}
                         >
                             {__('Mini List', 'fau-elemental')}
                         </Button>
@@ -233,26 +236,29 @@ export default function Edit({ attributes, setAttributes }) {
                             value={teaserLayout}
                             options={TEASER_LAYOUTS}
                             onChange={(value) => onTeaserLayoutChange(value)}
+                            aria-describedby="teaser-layout-description"
                         />
                     )}
                 </PanelBody>
 
                 <PanelBody title={__('Selection Mode', 'fau-elemental')}>
-                    <ButtonGroup>
+                    <ButtonGroup aria-label={__('Selection mode options', 'fau-elemental')}>
                         <Button
                             isPrimary={selectionMode === 'auto'}
                             onClick={() => {
                                 setAttributes({ 
                                     selectionMode: 'auto',
-                                    selectedPosts: [] // Clear selected posts when switching to auto
+                                    selectedPosts: []
                                 });
                             }}
+                            aria-pressed={selectionMode === 'auto'}
                         >
                             {__('Automatic', 'fau-elemental')}
                         </Button>
                         <Button
                             isPrimary={selectionMode === 'manual'}
                             onClick={() => setAttributes({ selectionMode: 'manual' })}
+                            aria-pressed={selectionMode === 'manual'}
                         >
                             {__('Manual Selection', 'fau-elemental')}
                         </Button>
@@ -273,16 +279,30 @@ export default function Edit({ attributes, setAttributes }) {
                                         : []
                                 }
                                 onFilterValueChange={setSearchTerm}
+                                aria-label={__('Search and select posts', 'fau-elemental')}
+                                aria-describedby="post-search-description"
                             />
+                            <p id="post-search-description" className="screen-reader-text">
+                                {__('Type to search for posts. Use arrow keys to navigate and enter to select.', 'fau-elemental')}
+                            </p>
 
-                            <div className="selected-posts-list">
+                            <div 
+                                className="selected-posts-list" 
+                                role="list" 
+                                aria-label={__('Selected posts', 'fau-elemental')}
+                            >
                                 {selectedPosts.map(post => (
-                                    <div key={post.id} className="selected-post-item">
+                                    <div 
+                                        key={post.id} 
+                                        className="selected-post-item" 
+                                        role="listitem"
+                                    >
                                         <span dangerouslySetInnerHTML={{ __html: post.title }} />
                                         <Button
                                             isSmall
                                             isDestructive
                                             onClick={() => removeSelectedPost(post.id)}
+                                            aria-label={__('Remove post', 'fau-elemental') + ': ' + post.title}
                                         >
                                             {__('Remove', 'fau-elemental')}
                                         </Button>
@@ -351,10 +371,14 @@ export default function Edit({ attributes, setAttributes }) {
                 )}
             </InspectorControls>
             
-            <div ref={gridRef} className={`fau-teaser-grid ${displayStyle} ${displayStyle === 'teaser-grid' ? `layout-${teaserLayout}` : ''}`}>
+            <div 
+                ref={gridRef} 
+                className={`fau-teaser-grid ${displayStyle} ${displayStyle === 'teaser-grid' ? `layout-${teaserLayout}` : ''}`}
+                role="list"
+                aria-label={__('Content grid', 'fau-elemental')}
+            >
                 {!isLoading ? (
                     selectionMode === 'manual' ? (
-                        // Display manually selected posts
                         selectedPosts.length > 0 ? (
                             selectedPosts.map((selectedPost) => {
                                 const post = items.find(item => item.id === selectedPost.id);
@@ -365,10 +389,9 @@ export default function Edit({ attributes, setAttributes }) {
                                 ) : null;
                             })
                         ) : (
-                            <p>{__('No posts selected', 'fau-elemental')}</p>
+                            <p role="status">{__('No posts selected', 'fau-elemental')}</p>
                         )
                     ) : (
-                        // Display automatic posts
                         items && items.length > 0 ? (
                             items.map((item) => (
                                 variant === 'post' 
@@ -376,21 +399,26 @@ export default function Edit({ attributes, setAttributes }) {
                                     : <PageTeaser key={item.id} page={item} grid={blockProps} />
                             ))
                         ) : (
-                            <p>{__('No items found', 'fau-elemental')}</p>
+                            <p role="status">{__('No items found', 'fau-elemental')}</p>
                         )
                     )
                 ) : (
                     <Placeholder>
                         <Spinner />
-                        <p>{__('Loading...', 'fau-elemental')}</p>
+                        <p role="status">{__('Loading...', 'fau-elemental')}</p>
                     </Placeholder>
                 )}
             </div>
 
             {showPagination && calculatedTotalPages > 1 && selectionMode === 'auto' && (
-                createPagination(currentPage, calculatedTotalPages, (newPage) => 
-                    setAttributes({ currentPage: newPage })
-                )
+                <nav 
+                    role="navigation" 
+                    aria-label={__('Pagination', 'fau-elemental')}
+                >
+                    {createPagination(currentPage, calculatedTotalPages, (newPage) => 
+                        setAttributes({ currentPage: newPage })
+                    )}
+                </nav>
             )}
         </div>
     );

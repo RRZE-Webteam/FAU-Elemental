@@ -34,7 +34,9 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
 
         // Start building the output
         $wrapper_attributes = get_block_wrapper_attributes([
-            'class' => 'fau-list-item'
+            'class' => 'fau-list-item',
+            'role' => 'region',
+            'aria-label' => __('Content grid', 'fau-elemental')
         ]);
 
         $grid_classes = ['fau-teaser-grid', $display_style];
@@ -43,7 +45,11 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         }
 
         $output = sprintf('<div %s>', $wrapper_attributes);
-        $output .= sprintf('<div class="%s">', esc_attr(implode(' ', $grid_classes)));
+        $output .= sprintf(
+            '<div class="%s" role="list" aria-label="%s">', 
+            esc_attr(implode(' ', $grid_classes)),
+            esc_attr__('Content items', 'fau-elemental')
+        );
 
         if ($selection_mode === 'manual' && !empty($selected_posts)) {
             // Handle manually selected posts
@@ -76,7 +82,10 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
                 }
                 wp_reset_postdata();
             } else {
-                $output .= '<p>No items found</p>';
+                $output .= sprintf(
+                    '<p role="status" class="no-items-found">%s</p>',
+                    esc_html__('No items found', 'fau-elemental')
+                );
             }
         }
 
@@ -85,19 +94,22 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         // Add pagination if enabled and there are multiple pages
         if ($show_pagination && isset($query) && $query->found_posts > $posts_per_page && $selection_mode === 'auto') {
             $total_pages = ceil($query->found_posts / $posts_per_page);
-            $output .= '<div class="pagination">';
+            $output .= sprintf(
+                '<nav class="pagination" role="navigation" aria-label="%s">',
+                esc_attr__('Pagination', 'fau-elemental')
+            );
             $output .= paginate_links(array(
                 'base' => add_query_arg('paged', '%#%'),
                 'format' => '',
                 'current' => $current_page,
                 'total' => $total_pages,
-                'prev_text' => __('Prev', 'fau-elemental'),
-                'next_text' => __('Next', 'fau-elemental'),
+                'prev_text' => __('Previous page', 'fau-elemental'),
+                'next_text' => __('Next page', 'fau-elemental'),
                 'type' => 'plain',
                 'end_size' => 3,
                 'mid_size' => 3
             ));
-            $output .= '</div>';
+            $output .= '</nav>';
         }
 
         $output .= '</div>'; // Close fau-list-item
@@ -122,12 +134,20 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         $link = get_permalink($post);
         $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
-        $output = '<div class="teaser-item ' . esc_attr($variant) . '-teaser">';
+        $output = sprintf(
+            '<div class="teaser-item %s-teaser" role="article" aria-labelledby="teaser-title-%d">',
+            esc_attr($variant),
+            $post->ID
+        );
         
         // Image wrapper
         $output .= '<div class="teaser-image-wrapper">';
         $output .= '<div class="teaser-image">';
-        $output .= sprintf('<img src="%s" alt="%s" />', esc_url($image), esc_attr($title));
+        $output .= sprintf(
+            '<img src="%s" alt="%s" loading="lazy" />',
+            esc_url($image),
+            esc_attr($title)
+        );
         $output .= '</div>';
 
         // Add date meta for posts
@@ -137,7 +157,10 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
             $month_year = strtoupper($date_obj->format('M Y'));
             
             $output .= '<div class="teaser-meta">';
-            $output .= '<time>';
+            $output .= sprintf(
+                '<time datetime="%s">',
+                esc_attr($post->post_date)
+            );
             $output .= sprintf('<span class="date-day">%s</span>', esc_html($day));
             $output .= sprintf('<span class="date-month-year">%s</span>', esc_html($month_year));
             $output .= '</time>';
@@ -160,27 +183,41 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         if ($variant === 'post') {
             $categories = get_the_category($post->ID);
             if (!empty($categories)) {
-                $output .= sprintf('<span class="category">%s</span>', esc_html($categories[0]->name));
+                $output .= sprintf(
+                    '<span class="category" aria-label="%s">%s</span>',
+                    esc_attr__('Category:', 'fau-elemental'),
+                    esc_html($categories[0]->name)
+                );
             }
         }
 
         // Title
-        $output .= '<h4 class="clamp-3">';
-        $output .= sprintf('<span class="visually-hidden">%s</span>', esc_html($title));
-        $output .= sprintf('<span aria-hidden="true">%s</span>', esc_html($title));
+        $output .= sprintf(
+            '<h4 class="clamp-3" id="teaser-title-%d">',
+            $post->ID
+        );
+        $output .= sprintf(
+            '<a href="%s" class="teaser-link">%s</a>',
+            esc_url($link),
+            esc_html($title)
+        );
         $output .= '</h4>';
 
         // Excerpt
         $output .= '<div class="excerpt clamp-3">';
-        $output .= sprintf('<span class="visually-hidden">%s</span>', wp_kses_post($excerpt));
-        $output .= sprintf('<span aria-hidden="true">%s</span>', wp_kses_post($excerpt));
+        $output .= wp_kses_post($excerpt);
         $output .= '</div>';
 
         $output .= '</div>'; // Close content-column
 
         // Button
         $output .= '<div class="button-teaser">';
-        $output .= sprintf('<a href="%s" class="wp-block-button__link"></a>', esc_url($link));
+        $output .= sprintf(
+            '<a href="%s" class="wp-block-button__link" aria-label="%s">%s</a>',
+            esc_url($link),
+            esc_attr(sprintf(__('Read more about %s', 'fau-elemental'), $title)),
+            esc_html__('Read more', 'fau-elemental')
+        );
         $output .= '</div>';
 
         $output .= '</div>'; // Close teaser-content
