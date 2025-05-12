@@ -30,7 +30,7 @@ function fau_elemental_gather_copyright_info_recursive($blocks) {
         // Check for image and media-text blocks and extract copyright info from metadata if available
         elseif (($block['blockName'] === 'core/image' && !empty($block['attrs']['id'])) || 
                 ($block['blockName'] === 'core/media-text' && !empty($block['attrs']['mediaId']))) {
-            $image_id = $block['attrs']['id'] ?: $block['attrs']['mediaId'];
+            $image_id = $block['attrs']['id'] ?? $block['attrs']['mediaId'];
             $image_metadata = wp_get_attachment_metadata($image_id);
             
             // Check for copyright info in image metadata
