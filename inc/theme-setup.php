@@ -43,6 +43,8 @@ function faue_setup() {
         'secondary_links'  => esc_html__('Secondary Links', 'fau-elemental'),
         'footer' => esc_html__('Footer Menu', 'fau-elemental'),
         'fau_top_navigation' => esc_html__('FAU Top Navigation', 'fau-elemental'),
+        'meta_navigation_services' => esc_html__('Meta Navigation Services', 'fau-elemental'),
+        'meta_navigation_structure' => esc_html__('Meta Navigation Structure', 'fau-elemental'),
     ));
 
     add_editor_style(array(

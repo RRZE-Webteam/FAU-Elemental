@@ -40,5 +40,12 @@ class Header_Block {
         }
         ?>
         <?php
+         require_once get_template_directory() . '/src/components/navigation/menu-meta-nav.php';
+         if (class_exists('Menu_Meta_Nav_Modal')) {
+             $menu_website_modal = new Menu_Meta_Nav_Modal();
+             $menu_website_modal->render();
+         }
+         ?>
+         <?php
     }
 } 

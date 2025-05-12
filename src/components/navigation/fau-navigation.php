@@ -26,6 +26,10 @@ class FAU_Navigation {
     public function enqueue_scripts() {
         wp_enqueue_style('fau-navigation', get_template_directory_uri() . '/src/components/navigation/fau-navigation.css');
         wp_enqueue_script('fau-navigation', get_template_directory_uri() . '/src/components/navigation/fau-navigation.js', array(), '1.0.0', true);
+        
+        // Enqueue meta navigation scripts and styles
+        wp_enqueue_style('menu-meta-nav', get_template_directory_uri() . '/src/components/navigation/menu-meta-nav.scss');
+        wp_enqueue_script('menu-meta-nav', get_template_directory_uri() . '/src/components/navigation/menu-meta-nav.js', array('jquery'), '1.0.0', true);
     }
 
     /**
@@ -62,7 +66,7 @@ class FAU_Navigation {
                         ?>
                         <ul class="fau-navigation__menu">
                             <li class="menu-item">
-                                <button class="fau-navigation__button" aria-label="Services" aria-expanded="false">
+                                <button class="fau-navigation__button menu-meta-nav__open-btn" data-meta-modal="services" aria-label="Services" aria-expanded="false">
                                     <span class="fau-navigation__icon">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
@@ -72,7 +76,7 @@ class FAU_Navigation {
                                 </button>
                             </li>
                             <li class="menu-item">
-                                <button class="fau-navigation__button" aria-label="Structure" aria-expanded="false">
+                                <button class="fau-navigation__button menu-meta-nav__open-btn" data-meta-modal="structure" aria-label="Structure" aria-expanded="false">
                                     <span class="fau-navigation__icon">
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M4 11H9V5H4V11ZM4 18H9V12H4V18ZM10 18H15V12H10V18ZM16 18H21V12H16V18ZM10 11H15V5H10V11ZM16 5V11H21V5H16Z" fill="currentColor"/>
@@ -160,4 +164,6 @@ class FAU_Navigation_Walker extends Walker_Nav_Menu {
 }
 
 // Initialize the component
-$fau_navigation = new FAU_Navigation(); 
+$fau_navigation = new FAU_Navigation();
+
+get_template_part('src/components/navigation/menu-meta-nav'); 

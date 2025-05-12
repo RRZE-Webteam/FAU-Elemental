@@ -1,0 +1,175 @@
+.menu-meta-nav {
+    &__modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 20000;
+        background-color: rgba(0, 0, 0, 0.5);
+
+        &.is-open {
+            display: block;
+        }
+
+        &-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background-color: var(--wp--preset--color--white, #ffffff);
+            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+
+            @media (max-width: 768px) {
+                max-width: 100%;
+            }
+        }
+    }
+
+    &__close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+        color: var(--wp--preset--color--text, #333333);
+        font-size: 1.5rem;
+        line-height: 1;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: var(--wp--preset--color--primary, #0057A8);
+        }
+    }
+
+    &__back-btn {
+        position: absolute;
+        top: 1rem;
+        right: 3.5rem;
+        display: flex;
+        align-items: center;
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        color: var(--wp--preset--color--text, #333333);
+        font-size: 1rem;
+        cursor: pointer;
+        transition: color 0.2s ease;
+
+        svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.5rem;
+        }
+
+        &:hover {
+            color: var(--wp--preset--color--primary, #0057A8);
+        }
+    }
+
+    &__menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        margin-top: 3rem;
+
+        &--services,
+        &--structure {
+            .menu-item {
+                margin: 0;
+                padding: 0;
+                position: relative;
+
+                a {
+                    display: block;
+                    padding: 0.75rem 2.5rem 0.75rem 0;
+                    color: var(--wp--preset--color--text, #333333);
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                    font-size: 1.125rem;
+
+                    &:hover {
+                        color: var(--wp--preset--color--primary, #0057A8);
+                    }
+                }
+
+                &.menu-item-has-children {
+                    > a {
+                        padding-right: 2.5rem;
+                    }
+                }
+            }
+        }
+    }
+
+    &__submenu-toggle {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--wp--preset--color--text, #333333);
+        transition: all 0.3s ease;
+        width: 2rem;
+        height: 2rem;
+        z-index: 1;
+
+        svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        &[aria-expanded="true"] {
+            svg {
+                transform: rotate(90deg);
+            }
+        }
+
+        &:hover {
+            color: var(--wp--preset--color--primary, #0057A8);
+        }
+    }
+
+    &__back-item {
+        border-bottom: 1px solid var(--wp--preset--color--border, #e5e5e5);
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .sub-menu {
+        display: none;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background-color: var(--wp--preset--color--white, #ffffff);
+
+        .menu-item {
+            a {
+                padding-left: 0;
+                font-size: 1rem;
+            }
+
+            .sub-menu {
+                .menu-item a {
+                    padding-left: 0;
+                    font-size: 0.9375rem;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,96 @@
+<?php
+/**
+ * Menu Meta Nav Modal Component
+ *
+ * @package FAU-Elemental
+ */
+
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+class Menu_Meta_Nav_Modal {
+    public function __construct() {
+        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+    }
+
+    public function enqueue_scripts() {
+        wp_enqueue_style('menu-meta-nav', get_template_directory_uri() . '/src/components/navigation/menu-meta-nav.scss');
+        wp_enqueue_script('menu-meta-nav', get_template_directory_uri() . '/src/components/navigation/menu-meta-nav.js', array('jquery'), '1.0.0', true);
+    }
+
+    public function render() {
+        ?>
+        <div class="menu-meta-nav">
+            <!-- Services Modal -->
+            <div id="services-modal" class="menu-meta-nav__modal" style="display: none;" tabindex="-1" aria-modal="true" role="dialog" aria-hidden="true">
+                <div class="menu-meta-nav__modal-content">
+                    <button class="menu-meta-nav__close-btn" data-meta-modal-close="services" aria-label="Close Services Menu">&times;</button>
+                    <?php
+                    wp_nav_menu(array(
+                        'theme_location' => 'meta_navigation_services',
+                        'menu_class'     => 'menu-meta-nav__menu menu-meta-nav__menu--services',
+                        'container'      => false,
+                        'fallback_cb'    => false,
+                        'depth'          => 3,
+                        'walker'         => new Menu_Meta_Nav_Walker(),
+                    ));
+                    ?>
+                </div>
+            </div>
+
+            <!-- Structure Modal -->
+            <div id="structure-modal" class="menu-meta-nav__modal" style="display: none;" tabindex="-1" aria-modal="true" role="dialog" aria-hidden="true">
+                <div class="menu-meta-nav__modal-content">
+                    <button class="menu-meta-nav__close-btn" data-meta-modal-close="structure" aria-label="Close Structure Menu">&times;</button>
+                    <?php
+                    wp_nav_menu(array(
+                        'theme_location' => 'meta_navigation_structure',
+                        'menu_class'     => 'menu-meta-nav__menu menu-meta-nav__menu--structure',
+                        'container'      => false,
+                        'fallback_cb'    => false,
+                        'depth'          => 3,
+                        'walker'         => new Menu_Meta_Nav_Walker(),
+                    ));
+                    ?>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+}
+
+class Menu_Meta_Nav_Walker extends Walker_Nav_Menu {
+    public function start_lvl(&$output, $depth = 0, $args = null) {
+        $output .= '<ul class="sub-menu" style="display: none;">';
+    }
+
+    public function end_lvl(&$output, $depth = 0, $args = null) {
+        $output .= '</ul>';
+    }
+
+    public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
+        $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
+
+        $output .= '<li' . $class_names . '>';
+        
+        // Add the link
+        $output .= $args->before . '<a href="' . esc_attr($item->url) . '">' . apply_filters('the_title', $item->title, $item->ID) . '</a>' . $args->after;
+
+        // Add toggle button for items with children
+        if (in_array('menu-item-has-children', $classes)) {
+            $output .= '<button class="menu-meta-nav__submenu-toggle" aria-expanded="false" aria-label="' . esc_attr($item->title) . ' submenu">';
+            $output .= '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 5L12 10L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+            $output .= '</button>';
+        }
+    }
+
+    public function end_el(&$output, $item, $depth = 0, $args = null) {
+        $output .= '</li>';
+    }
+}
+
+// Initialize the component
+$menu_meta_nav_modal = new Menu_Meta_Nav_Modal();
