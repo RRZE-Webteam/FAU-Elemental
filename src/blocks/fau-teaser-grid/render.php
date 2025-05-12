@@ -213,7 +213,7 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         // Button
         $output .= '<div class="button-teaser">';
         $output .= sprintf(
-            '<a href="%s" class="wp-block-button__link" aria-label="%s">%s</a>',
+            '<a href="%s" class="wp-block-button__link" aria-label="%s"><span class="screen-reader-text">%s</span></a>',
             esc_url($link),
             esc_attr(sprintf(__('Read more about %s', 'fau-elemental'), $title)),
             esc_html__('Read more', 'fau-elemental')
