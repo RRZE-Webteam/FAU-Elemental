@@ -10,9 +10,6 @@ p {
 	color: var(--FAU-Col-FAU-Schwarz-100);
 	font-weight: 400;
 	line-height: 1.5;
-	hyphens: auto;
-	overflow-wrap: break-word;
-	word-break: break-word;
 
 	strong {
 		font-weight: 700;
@@ -81,6 +78,15 @@ figcaption {
 	font-weight: 400;
 }
 
+p,
+figcaption, 
+address {
+	hyphens: auto;
+	overflow-wrap: break-word;
+	word-break: break-word;
+}
+
+// Dark mode
 .is-style-dark {
 
 	p,
