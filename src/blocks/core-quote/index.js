@@ -10,7 +10,7 @@ import {
 	useBlockProps,
 	BlockControls,
 } from '@wordpress/block-editor';
-import { Button, BaseControl, ToolbarGroup } from '@wordpress/components';
+import { Button, BaseControl, ToolbarGroup, ToolbarButton, ToolbarDropdownMenu, MenuGroup, MenuItem } from '@wordpress/components';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { v4 as uuidv4 } from 'uuid';
@@ -296,11 +296,74 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 			<>
 				<BlockControls>
 					<ToolbarGroup>
-						<Button
+						<ToolbarButton
 							icon="plus"
 							label={ __( 'Add New Quote', 'fau-elemental' ) }
 							onClick={ addNewQuote }
 						/>
+						<ToolbarButton
+							icon="arrow-left-alt"
+							label={ __( 'Move quote up', 'fau-elemental' ) }
+							onClick={() => moveQuote( selectedQuoteIndex, -1 ) }
+							disabled={ selectedQuoteIndex === 0 }
+						/>
+						<ToolbarButton
+							icon="arrow-right-alt"
+							label={ __( 'Move quote down', 'fau-elemental' ) }
+							onClick={() => moveQuote( selectedQuoteIndex, 1 ) }
+							disabled={ selectedQuoteIndex === attributes.quotes.length - 1 }
+						/>
+						<ToolbarDropdownMenu
+							icon="arrow-down-alt2"
+							label={ __( 'More', 'fau-elemental' ) }
+						>
+							{ () => (
+								<>
+									<MenuGroup>
+										<MenuItem 
+											icon="format-image"
+											iconPosition='left'
+											onClick={() => { console.error("TODO"); }}
+										>
+											{
+												attributes.quotes[selectedQuoteIndex].image === null 
+												? __( 'Add Image', 'fau-elemental' )
+												: __( 'Replace Image', 'fau-elemental' )
+											}
+										</MenuItem>
+										<MenuItem 
+											icon="editor-removeformatting"
+											iconPosition='left'
+											disabled={ attributes.quotes[selectedQuoteIndex].image === null }
+											onClick={ () => updateQuote(selectedQuoteIndex, 'image', null) }
+										>
+											{ __( 'Remove image', 'fau-elemental' ) }
+										</MenuItem>
+									</MenuGroup>
+									<MenuGroup>
+										<MenuItem 
+											icon="trash"
+											iconPosition='left'
+											isDestructive
+											disabled={ attributes.quotes.length <= 1 }
+											onClick={ () => removeQuote( selectedQuoteIndex ) }
+										>
+											{
+												attributes.quotes.length <= 1
+												? __(
+														'Cannot remove the last quote',
+														'fau-elemental'
+													)
+												: __(
+														'Remove this quote',
+														'fau-elemental'
+													)
+											}
+										</MenuItem>
+									</MenuGroup>
+								</>
+							) }
+						</ToolbarDropdownMenu>
 					</ToolbarGroup>
 				</BlockControls>
 				<InspectorControls>
