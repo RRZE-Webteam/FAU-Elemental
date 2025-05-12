@@ -29,36 +29,30 @@ require_once get_template_directory() . '/inc/logo-display.php';
  * Add logo settings to customizer
  */
 function fau_elemental_customize_register($wp_customize) {
-    // Add logo section
-    $wp_customize->add_section('fau_elemental_logo_section', array(
-        'title'    => __('Logo & Title Settings', 'fau-elemental'),
-        'priority' => 30,
-    ));
-
-    // Add website logotitle setting
-    $wp_customize->add_setting('website_logotitle', array(
-        'default'           => '',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-
-    // Add website logotitle control
-    $wp_customize->add_control('website_logotitle', array(
-        'label'    => __('Website Title', 'fau-elemental'),
-        'section'  => 'fau_elemental_logo_section',
-        'type'     => 'text',
-    ));
-
     // Add website shorttitle setting
     $wp_customize->add_setting('website_shorttitle', array(
         'default'           => '',
         'sanitize_callback' => 'sanitize_text_field',
     ));
 
-    // Add website shorttitle control
+    // Add website shorttitle control to Site Identity section
     $wp_customize->add_control('website_shorttitle', array(
         'label'    => __('Website Short Title', 'fau-elemental'),
-        'section'  => 'fau_elemental_logo_section',
+        'section'  => 'title_tagline',
         'type'     => 'text',
     ));
+
+    // Add custom logo setting
+    $wp_customize->add_setting('fau_elemental_custom_logo', array(
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    // Add custom logo control
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'fau_elemental_custom_logo', array(
+        'label'    => __('Custom Logo', 'fau-elemental'),
+        'section'  => 'title_tagline',
+        'settings' => 'fau_elemental_custom_logo',
+    )));
 }
 add_action('customize_register', 'fau_elemental_customize_register');

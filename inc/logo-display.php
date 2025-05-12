@@ -69,9 +69,12 @@ function fau_elemental_display_logo_title() {
     global $default_fau_orga_faculty;
 
     $faculty = '';
-    $website_usefaculty = $defaultoptions['website_usefaculty'];
-    if ((isset($website_usefaculty)) && (in_array($website_usefaculty, $default_fau_orga_faculty))) {
-        $faculty = $website_usefaculty;
+    // Check if $defaultoptions is set and has the required key
+    if (isset($defaultoptions) && is_array($defaultoptions) && isset($defaultoptions['website_usefaculty'])) {
+        $website_usefaculty = $defaultoptions['website_usefaculty'];
+        if (in_array($website_usefaculty, $default_fau_orga_faculty)) {
+            $faculty = $website_usefaculty;
+        }
     }
 
     $website_type = get_option('faue_website_type', 'fau');
@@ -114,7 +117,13 @@ function fau_elemental_display_logo_title() {
 
     echo '<span class="textlogo">';
     
-    if ($faulogo) {
+    // Check if custom logo is set
+    $custom_logo = get_theme_mod('fau_elemental_custom_logo');
+    if (!empty($custom_logo)) {
+        echo '<span class="baselogo">';
+        echo '<img src="' . esc_url($custom_logo) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="custom-logo">';
+        echo '</span>';
+    } elseif ($faulogo) {
         echo '<span class="baselogo">';
         echo fau_use_svg("fau-logo-2021", 153, 58, 'faubaselogo', false);
         echo '</span>';
