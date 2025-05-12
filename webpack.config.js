@@ -70,6 +70,11 @@ module.exports = {
 			process.cwd(),
 			'src/blocks/core-image/image-fullscreen.js'
 		),
+		// Add the image aspect ratio script
+		'js/image-aspect-ratio': path.resolve(
+			process.cwd(),
+			'src/blocks/core-image/image-aspect-ratio.js'
+		),
 		'js/gallery-slider': path.resolve(
 			process.cwd(),
 			'src/blocks/core-gallery/gallery-slider.js'
