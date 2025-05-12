@@ -32,6 +32,7 @@ class Main_Navigation {
      * Render the main navigation
      */
     public function render() {
+        $has_website_menu = has_nav_menu('primary');
         ?>
         <nav class="main-navigation" role="navigation" aria-label="<?php esc_attr_e('Main Navigation', 'fau-elemental'); ?>">
             <div class="main-navigation__container">
@@ -58,10 +59,12 @@ class Main_Navigation {
                 </div>
 
                 <div class="main-navigation__menu-container">
-                    <button class="main-navigation__toggle" aria-expanded="false" aria-controls="menu-website-modal">
-                        <span class="main-navigation__toggle-text">Menü</span>
-                        <span class="main-navigation__toggle-icon"></span>
-                    </button>
+                    <?php if ($has_website_menu): ?>
+                        <button class="main-navigation__toggle" aria-expanded="false" aria-controls="menu-website-modal">
+                            <span class="main-navigation__toggle-text">Menü</span>
+                            <span class="main-navigation__toggle-icon"></span>
+                        </button>
+                    <?php endif; ?>
                 </div>
             </div>
         </nav>

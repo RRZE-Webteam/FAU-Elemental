@@ -36,6 +36,13 @@ class FAU_Navigation {
      * Render the FAU navigation
      */
     public function render() {
+        // For Services
+        $services_menu_items = function_exists('get_main_site_id') ? (new Menu_Meta_Nav_Modal())->get_main_site_menu('meta_navigation_services') : [];
+        $has_services = !empty($services_menu_items) || has_nav_menu('meta_navigation_services');
+
+        // For Structure
+        $structure_menu_items = function_exists('get_main_site_id') ? (new Menu_Meta_Nav_Modal())->get_main_site_menu('meta_navigation_structure') : [];
+        $has_structure = !empty($structure_menu_items) || has_nav_menu('meta_navigation_structure');
         ?>
         <nav class="fau-navigation" role="navigation" aria-label="<?php esc_attr_e('FAU Navigation', 'fau-elemental'); ?>">
             <div class="fau-navigation__container">
@@ -65,26 +72,38 @@ class FAU_Navigation {
                         // Fallback menu items if no menu is set
                         ?>
                         <ul class="fau-navigation__menu">
-                            <li class="menu-item">
-                                <button class="fau-navigation__button menu-meta-nav__open-btn" data-meta-modal="services" aria-label="Services" aria-expanded="false">
-                                    <span class="fau-navigation__icon">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
-                                        </svg>
-                                    </span>
-                                    Services
-                                </button>
-                            </li>
-                            <li class="menu-item">
-                                <button class="fau-navigation__button menu-meta-nav__open-btn" data-meta-modal="structure" aria-label="Structure" aria-expanded="false">
-                                    <span class="fau-navigation__icon">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M4 11H9V5H4V11ZM4 18H9V12H4V18ZM10 18H15V12H10V18ZM16 18H21V12H16V18ZM10 11H15V5H10V11ZM16 5V11H21V5H16Z" fill="currentColor"/>
-                                        </svg>
-                                    </span>
-                                    Structure
-                                </button>
-                            </li>
+                            <?php
+                            // Only show the button if the menu exists
+                            if ($has_services): ?>
+                                <li class="menu-item">
+                                    <button class="fau-navigation__button menu-meta-nav__open-btn"
+                                        data-meta-modal="services"
+                                        aria-label="Services"
+                                        aria-expanded="false">
+                                        <span class="fau-navigation__icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
+                                            </svg>
+                                        </span>
+                                        Services
+                                    </button>
+                                </li>
+                            <?php endif; ?>
+                            <?php if ($has_structure): ?>
+                                <li class="menu-item">
+                                    <button class="fau-navigation__button menu-meta-nav__open-btn"
+                                        data-meta-modal="structure"
+                                        aria-label="Structure"
+                                        aria-expanded="false">
+                                        <span class="fau-navigation__icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4 11H9V5H4V11ZM4 18H9V12H4V18ZM10 18H15V12H10V18ZM16 18H21V12H16V18ZM10 11H15V5H10V11ZM16 5V11H21V5H16Z" fill="currentColor"/>
+                                            </svg>
+                                        </span>
+                                        Structure
+                                    </button>
+                                </li>
+                            <?php endif; ?>
                             <li class="menu-item">
                                 <button class="fau-navigation__button" aria-label="Search" aria-expanded="false">
                                     <span class="fau-navigation__icon">
