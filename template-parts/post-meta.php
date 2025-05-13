@@ -15,14 +15,20 @@ if (function_exists('faue_show_post_meta') && !faue_show_post_meta()) {
     return; // Don't render anything
 }
 
-// Get dark theme setting
-$is_dark_theme = get_theme_mod('faue_post_meta_dark_theme', false);
-$theme_class = $is_dark_theme ? 'is-style-dark' : '';
+// Get post meta style
+$style = get_post_meta(get_the_ID(), '_faue_post_meta_style', true);
+$theme_class = $style ? $style : '';
+
+// Get custom last updated date if set
+$use_custom_date = get_post_meta(get_the_ID(), '_faue_use_custom_last_updated', true);
+$last_updated_date = $use_custom_date === '1' 
+    ? get_post_meta(get_the_ID(), '_faue_custom_last_updated', true)
+    : get_the_modified_date('d.m.Y - H:i');
 ?>
 <div class="post-meta <?php echo esc_attr($theme_class); ?>">
     <div class="post-last-update">
         <span class="date-label"><?php esc_html_e('Last update:', 'fau-elemental'); ?></span>
-        <span class="post-date"><?php echo esc_html(get_the_modified_date('d.m.Y - H:i')); ?></span>
+        <span class="post-date"><?php echo esc_html($last_updated_date); ?></span>
         <span class="post-reading-time">
             <?php 
             // Get estimated reading time

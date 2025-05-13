@@ -24,6 +24,9 @@ require_once get_template_directory() . '/inc/theme-settings.php';
 
 require_once get_template_directory() . '/inc/customizer.php';
 
+// Include post meta functionality
+require_once get_template_directory() . '/inc/post-meta.php';
+
 /**
  * Replace block template parts with PHP template parts if they exist
  */
