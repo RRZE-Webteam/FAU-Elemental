@@ -292,6 +292,12 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 			);
 		};
 
+		// Having a MediaUpload component inside the ToolbarDropdownMenu caused some problems like
+		// exceptions or the dropdown beeing in front of the MediaUpload Popover.
+		// As a workaround we save a reference to the mediaUpload Button inside the InspectorControls
+		// and virtually "click" this button inside the toolbar.
+		const mediaUploaderButton = useRef(null);
+
 		return (
 			<>
 				<BlockControls>
@@ -317,13 +323,14 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 							icon="arrow-down-alt2"
 							label={ __( 'More', 'fau-elemental' ) }
 						>
-							{ () => (
+							{ ({ onClose }) => (
 								<>
 									<MenuGroup>
 										<MenuItem 
 											icon="format-image"
 											iconPosition='left'
-											onClick={() => { console.error("TODO"); }}
+											disabled={ mediaUploaderButton.current === null }
+											onClick={ () => { onClose(); mediaUploaderButton.current?.click(); } }
 										>
 											{
 												attributes.quotes[selectedQuoteIndex].image === null 
@@ -400,6 +407,7 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 															selectedQuoteIndex
 														].image && (
 															<Button
+																ref={mediaUploaderButton}
 																onClick={ open }
 																variant="secondary"
 																className="editor-post-featured-image__toggle"
@@ -434,6 +442,7 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 																/>
 																<div className="editor-post-featured-image__actions">
 																	<Button
+																		ref={mediaUploaderButton}
 																		onClick={
 																			open
 																		}
