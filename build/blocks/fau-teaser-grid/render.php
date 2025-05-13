@@ -46,9 +46,10 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
 
         $output = sprintf('<div %s>', $wrapper_attributes);
         $output .= sprintf(
-            '<div class="%s" role="list" aria-label="%s">', 
+            '<div class="%s" role="list" aria-label="%s" data-variant="%s">', 
             esc_attr(implode(' ', $grid_classes)),
-            esc_attr__('Content items', 'fau-elemental')
+            esc_attr__('Content items', 'fau-elemental'),
+            esc_attr($variant)
         );
 
         if ($selection_mode === 'manual' && !empty($selected_posts)) {
