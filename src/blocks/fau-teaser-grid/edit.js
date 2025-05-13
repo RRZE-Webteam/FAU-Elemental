@@ -221,13 +221,6 @@ export default function Edit({ attributes, setAttributes }) {
                         >
                             {__('List Item', 'fau-elemental')}
                         </Button>
-                        <Button
-                            isPrimary={displayStyle === 'mini-list'}
-                            onClick={() => onDisplayStyleChange('mini-list')}
-                            aria-pressed={displayStyle === 'mini-list'}
-                        >
-                            {__('Mini List', 'fau-elemental')}
-                        </Button>
                     </ButtonGroup>
                     
                     {displayStyle === 'teaser-grid' && (
