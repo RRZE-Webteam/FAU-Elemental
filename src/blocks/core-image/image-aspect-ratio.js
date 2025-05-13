@@ -1,72 +1,72 @@
 ( function ( $ ) {
-    console.log('image-aspect-ratio.js loaded');
+	console.log( 'image-aspect-ratio.js loaded' );
 
-    // Function to enforce 3:2 aspect ratio maximum
-    function enforceAspectRatio() {
-        // Select images that are in wp-block-image but not in wp-block-gallery
-        $('.wp-block-image:not(.wp-block-gallery .wp-block-image) img').each(function() {
-            const $img = $(this);
-            const naturalWidth = this.naturalWidth;
-            const naturalHeight = this.naturalHeight;
+	// Function to enforce 3:2 aspect ratio maximum
+	function enforceAspectRatio() {
+		// Select images that are in wp-block-image but not in wp-block-gallery
+		$( '.wp-block-image:not(.wp-block-gallery .wp-block-image) img' ).each(
+			function () {
+				const $img = $( this );
+				const naturalWidth = this.naturalWidth;
+				const naturalHeight = this.naturalHeight;
+				const containerWidth = $img.parent().width();
 
-            console.log('naturalWidth', naturalWidth);
-            console.log('naturalHeight', naturalHeight);
-            
-            // Calculate current aspect ratio
-            const currentRatio = naturalWidth / naturalHeight;
+				console.log( 'naturalWidth', naturalWidth );
+				console.log( 'naturalHeight', naturalHeight );
+				console.log( 'containerWidth', containerWidth );
 
-            console.log('currentRatio', currentRatio);
-            
-            // If aspect ratio is taller than 3:2 (1.5), adjust the height
-            if (currentRatio < 1.5) {
-                const newHeight = naturalWidth / 1.5;
-                console.log('newHeight', newHeight);
-                $img.css({
-                    'height': newHeight + 'px',
-                    'object-fit': 'cover',
-                    'object-position': 'center'
-                });
-            } else {
-                // Reset height if aspect ratio is already correct
-                $img.css({
-                    'height': 'auto',
-                    'object-fit': 'none',
-                    'object-position': 'initial'
-                });
-            }
+				// Calculate the actual width the image will be displayed at
+				const displayWidth = Math.min( naturalWidth, containerWidth );
 
-            // log the height and width and aspect ratio after the css is applied
-            console.log('aspect ratio', $img.width() / $img.height());
-        });
-    }
+				// Calculate what the height would be at natural aspect ratio
+				const naturalHeightAtWidth =
+					( displayWidth / naturalWidth ) * naturalHeight;
 
-    // Run on page load
-    enforceAspectRatio();
+				// Calculate what the height would be at 3:2 ratio
+				const targetHeight = displayWidth / 1.5;
 
-    // Run when images are loaded
-    $(window).on('load', enforceAspectRatio);
+				console.log( 'displayWidth', displayWidth );
+				console.log( 'naturalHeightAtWidth', naturalHeightAtWidth );
+				console.log( 'targetHeight', targetHeight );
 
-    // Run when window is resized
-    let resizeTimer;
-    $(window).on('resize', function() {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function() {
-            enforceAspectRatio();
-        }, 250); // Debounce resize events
-    });
+				// If the natural height at this width would be taller than 3:2, use the target height
+				if ( naturalHeightAtWidth > targetHeight ) {
+					$img.css( {
+						width: displayWidth + 'px',
+						height: targetHeight + 'px',
+						'object-fit': 'cover',
+						'object-position': 'center',
+					} );
+				} else {
+					// Reset to natural dimensions
+					$img.css( {
+						width: displayWidth + 'px',
+						height: 'auto',
+						'object-fit': 'none',
+						'object-position': 'initial',
+					} );
+				}
 
-    // Run when images are dynamically added
-    // const observer = new MutationObserver(function(mutations) {
-    //     mutations.forEach(function(mutation) {
-    //         if (mutation.addedNodes.length) {
-    //             enforceAspectRatio();
-    //         }
-    //     });
-    // });
+				// log the final dimensions and aspect ratio
+				console.log( 'final width', $img.width() );
+				console.log( 'final height', $img.height() );
+				console.log(
+					'final aspect ratio',
+					$img.width() / $img.height()
+				);
+			}
+		);
+	}
 
-    // Start observing the document body for changes
-    // observer.observe(document.body, {
-    //     childList: true,
-    //     subtree: true
-    // });
+	// Run when images are loaded
+	$( window ).on( 'load', enforceAspectRatio );
+
+	// Run when window is resized
+	let resizeTimer;
+	$( window ).on( 'resize', function () {
+		clearTimeout( resizeTimer );
+		resizeTimer = setTimeout( function () {
+			enforceAspectRatio();
+		}, 250 ); // Debounce resize events
+	} );
 } )( jQuery );
