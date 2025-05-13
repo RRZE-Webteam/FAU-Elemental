@@ -28,7 +28,10 @@
             this.openButtons.on('click', this.openModal.bind(this));
 
             // Close modal
-            this.closeButtons.on('click', this.closeModal.bind(this));
+            $('.menu-meta-nav__close-btn').on('click', this.closeModal.bind(this));
+
+            // Close on overlay click
+            $('.menu-meta-nav__overlay').on('click', this.closeModal.bind(this));
 
             // Close on escape key
             $(document).on('keydown', this.handleKeydown.bind(this));
@@ -64,13 +67,15 @@
         }
 
         closeModal(e) {
-            const button = $(e.currentTarget);
-            const modalType = button.data('meta-modal-close');
-            const modal = modalType === 'services' ? this.servicesModal : this.structureModal;
-
+            // If called from a click event, find the closest modal
+            let modal;
+            if (e && e.currentTarget) {
+                modal = $(e.currentTarget).closest('.menu-meta-nav__modal');
+            } else {
+                // fallback: close all modals
+                modal = $('.menu-meta-nav__modal.is-open');
+            }
             modal.removeClass('is-open').hide();
-            $(`.menu-meta-nav__open-btn[data-meta-modal="${modalType}"]`).attr('aria-expanded', 'false');
-            
             // Reset menu state
             this.resetMenu(modal);
         }
@@ -84,8 +89,8 @@
             modal.find('.menu-item').show();
             // Show all links and toggles
             modal.find('.menu-item > a, .menu-item > .menu-meta-nav__submenu-toggle').show();
-            // Remove back button
-            modal.find('.menu-meta-nav__back-btn').remove();
+            // Hide back button instead of removing it
+            modal.find('.menu-meta-nav__back-btn').css('display', 'none');
             // Reset state
             this.menuStack = [];
             this.currentMenu = modal.find('.menu-meta-nav__menu');
@@ -110,17 +115,8 @@
             const submenu = menuItem.find('> .sub-menu');
             const modal = menuItem.closest('.menu-meta-nav__modal');
             
-            // Add back button to modal header if it doesn't exist
-            if (!modal.find('.menu-meta-nav__back-btn').length) {
-                modal.find('.menu-meta-nav__modal-content').prepend(`
-                    <button class="menu-meta-nav__back-btn" aria-label="Back">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 4L6 10L12 16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Back
-                    </button>
-                `);
-            }
+            // Show back button (use flex for correct layout)
+            modal.find('.menu-meta-nav__back-btn').css('display', 'flex');
             
             // Hide all siblings except the current li
             menuItem.siblings().hide();
@@ -153,9 +149,9 @@
                 
                 this.currentMenu = parentMenu;
                 
-                // Remove back button if we're back at the root
+                // Hide back button if we're back at the root
                 if (this.menuStack.length === 0) {
-                    this.currentMenu.closest('.menu-meta-nav__modal').find('.menu-meta-nav__back-btn').remove();
+                    this.currentMenu.closest('.menu-meta-nav__modal').find('.menu-meta-nav__back-btn').css('display', 'none');
                 }
             }
         }

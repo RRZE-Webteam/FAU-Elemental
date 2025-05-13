@@ -173,3 +173,46 @@
         }
     }
 }
+.menu-meta-nav__modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: none;
+    background: none;
+}
+
+.menu-meta-nav__modal.is-open {
+    display: block;
+}
+
+.menu-meta-nav__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.menu-meta-nav__modal-content {
+    position: absolute;
+    top: 20%;
+    left: 70%;
+    width: 100%;
+    height: 100%;
+    background-color: var(--wp--preset--color--white, #ffffff);
+    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+}
+
+@media (max-width: 768px) {
+    .menu-meta-nav__modal-content {
+        max-width: 100%;
+    }
+}

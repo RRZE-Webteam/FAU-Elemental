@@ -79,8 +79,20 @@ class Menu_Meta_Nav_Modal {
         });
 
         foreach ($parent_items as $parent) {
-            // Start parent item
-            $walker->start_el($output, $parent, 0, (object)['before' => '', 'after' => '']);
+            // Check if parent has children
+            $has_children = false;
+            foreach ($menu_items as $item) {
+                if ($item->menu_item_parent == $parent->ID) {
+                    $has_children = true;
+                    break;
+                }
+            }
+            // Start parent item with has_children property
+            $walker->start_el($output, $parent, 0, (object)[
+                'before' => '',
+                'after' => '',
+                'has_children' => $has_children
+            ]);
             
             // Get child items
             $child_items = array_filter($menu_items, function($item) use ($parent) {
@@ -92,7 +104,19 @@ class Menu_Meta_Nav_Modal {
                 $walker->start_lvl($output, 0);
                 
                 foreach ($child_items as $child) {
-                    $walker->start_el($output, $child, 1, (object)['before' => '', 'after' => '']);
+                    // Check if child has children (for deeper levels)
+                    $child_has_children = false;
+                    foreach ($menu_items as $item) {
+                        if ($item->menu_item_parent == $child->ID) {
+                            $child_has_children = true;
+                            break;
+                        }
+                    }
+                    $walker->start_el($output, $child, 1, (object)[
+                        'before' => '',
+                        'after' => '',
+                        'has_children' => $child_has_children
+                    ]);
                     $walker->end_el($output, $child, 1);
                 }
                 
@@ -114,7 +138,20 @@ class Menu_Meta_Nav_Modal {
             <!-- Services Modal -->
             <div id="services-modal" class="menu-meta-nav__modal" style="display: none;" tabindex="-1" aria-modal="true" role="dialog" aria-hidden="true">
                 <div class="menu-meta-nav__modal-content">
-                    <button class="menu-meta-nav__close-btn" data-meta-modal-close="services" aria-label="Close Services Menu">&times;</button>
+                    <div class="menu-meta-nav__header">
+                        <button class="menu-meta-nav__back-btn" aria-label="Back to main menu" style="display: none;">
+                            <svg class="menu-meta-nav__back-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="menu-meta-nav__back-text">Back</span>
+                        </button>
+                        <button class="menu-meta-nav__close-btn" aria-label="Close menu">
+                            <svg class="menu-meta-nav__close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
                     <?php
                     // Get menu items from main site
                     $services_menu_items = $this->get_main_site_menu('meta_navigation_services');
@@ -128,7 +165,7 @@ class Menu_Meta_Nav_Modal {
                             'menu_class'     => 'menu-meta-nav__menu menu-meta-nav__menu--services',
                             'container'      => false,
                             'fallback_cb'    => false,
-                            'depth'          => 3,
+                            'depth'          => 0,
                             'walker'         => new Menu_Meta_Nav_Walker(),
                         ));
                     }
@@ -139,7 +176,20 @@ class Menu_Meta_Nav_Modal {
             <!-- Structure Modal -->
             <div id="structure-modal" class="menu-meta-nav__modal" style="display: none;" tabindex="-1" aria-modal="true" role="dialog" aria-hidden="true">
                 <div class="menu-meta-nav__modal-content">
-                    <button class="menu-meta-nav__close-btn" data-meta-modal-close="structure" aria-label="Close Structure Menu">&times;</button>
+                    <div class="menu-meta-nav__header">
+                        <button class="menu-meta-nav__back-btn" aria-label="Back to main menu" style="display: none;">
+                            <svg class="menu-meta-nav__back-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="menu-meta-nav__back-text">Back</span>
+                        </button>
+                        <button class="menu-meta-nav__close-btn" aria-label="Close menu">
+                            <svg class="menu-meta-nav__close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
                     <?php
                     // Get menu items from main site
                     $structure_menu_items = $this->get_main_site_menu('meta_navigation_structure');
@@ -153,7 +203,7 @@ class Menu_Meta_Nav_Modal {
                             'menu_class'     => 'menu-meta-nav__menu menu-meta-nav__menu--structure',
                             'container'      => false,
                             'fallback_cb'    => false,
-                            'depth'          => 3,
+                            'depth'          => 0,
                             'walker'         => new Menu_Meta_Nav_Walker(),
                         ));
                     }
@@ -176,6 +226,9 @@ class Menu_Meta_Nav_Walker extends Walker_Nav_Menu {
 
     public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
         $classes = empty($item->classes) ? array() : (array) $item->classes;
+        if (!in_array('menu-item', $classes)) {
+            $classes[] = 'menu-item';
+        }
         $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
         $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
 
@@ -184,8 +237,9 @@ class Menu_Meta_Nav_Walker extends Walker_Nav_Menu {
         // Add the link
         $output .= $args->before . '<a href="' . esc_attr($item->url) . '">' . apply_filters('the_title', $item->title, $item->ID) . '</a>' . $args->after;
 
-        // Add toggle button for items with children
-        if (in_array('menu-item-has-children', $classes)) {
+        // Add toggle button for items with children (robust: check if item has children in the menu structure)
+        $has_children = !empty($args) && property_exists($args, 'has_children') && $args->has_children;
+        if ($has_children) {
             $output .= '<button class="menu-meta-nav__submenu-toggle" aria-expanded="false" aria-label="' . esc_attr($item->title) . ' submenu">';
             $output .= '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 5L12 10L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
             $output .= '</button>';
