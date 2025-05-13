@@ -135,6 +135,10 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
         $output = sprintf(
+            '<a href="%s">',
+            esc_url($link)
+        );
+        $output .= sprintf(
             '<div class="teaser-item %s-teaser" role="article" aria-labelledby="teaser-title-%d">',
             esc_attr($variant),
             $post->ID
@@ -142,11 +146,6 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         
         // Image wrapper
         $output .= '<div class="teaser-image-wrapper">';
-        $output .= sprintf(
-            '<a href="%s" class="teaser-image-link" aria-label="%s">',
-            esc_url($link),
-            esc_attr(sprintf(__('Read more about %s', 'fau-elemental'), $title))
-        );
         $output .= '<div class="teaser-image">';
         $output .= sprintf(
             '<img src="%s" alt="%s" loading="lazy" />',
@@ -154,7 +153,6 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
             esc_attr($title)
         );
         $output .= '</div>';
-        $output .= '</a>';
 
         // Add date meta for posts
         if ($variant === 'post') {
@@ -172,7 +170,7 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
             $output .= '</time>';
             $output .= '</div>';
         }
-        
+
         $output .= '</div>'; // Close image wrapper
 
         // Content wrapper
@@ -189,11 +187,8 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         if ($variant === 'post') {
             $categories = get_the_category($post->ID);
             if (!empty($categories)) {
-                $category_link = get_category_link($categories[0]->term_id);
                 $output .= sprintf(
-                    '<a href="%s" class="category" aria-label="%s">%s</a>',
-                    esc_url($category_link),
-                    esc_attr__('Category:', 'fau-elemental'),
+                    '<span class="category">%s</span>',
                     esc_html($categories[0]->name)
                 );
             }
@@ -204,11 +199,7 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
             '<h4 class="clamp-3" id="teaser-title-%d">',
             $post->ID
         );
-        $output .= sprintf(
-            '<a href="%s" class="teaser-link">%s</a>',
-            esc_url($link),
-            esc_html($title)
-        );
+        $output .= esc_html($title);
         $output .= '</h4>';
 
         // Excerpt
@@ -221,9 +212,7 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         // Button
         $output .= '<div class="button-teaser">';
         $output .= sprintf(
-            '<a href="%s" class="wp-block-button__link" aria-label="%s"><span class="screen-reader-text">%s</span></a>',
-            esc_url($link),
-            esc_attr(sprintf(__('Read more about %s', 'fau-elemental'), $title)),
+            '<span class="wp-block-button__link" aria-disabled="true" tabindex="-1"><span class="screen-reader-text">%s</span></span>',
             esc_html__('Read more', 'fau-elemental')
         );
         $output .= '</div>';
@@ -231,6 +220,7 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         $output .= '</div>'; // Close teaser-content
         $output .= '</div>'; // Close teaser-content-wrapper
         $output .= '</div>'; // Close teaser-item
+        $output .= '</a>'; // Close outer link
 
         return $output;
     }

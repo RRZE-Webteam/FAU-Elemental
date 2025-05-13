@@ -66,7 +66,9 @@ export default function PostTeaser({ post, grid }) {
                         </div>
                     </div>
                     <div className="button-teaser">
-                        <a href={link} className="wp-block-button__link"></a>
+                        <span className="wp-block-button__link" aria-disabled="true" tabindex="-1">
+                            <span className="screen-reader-text">{__('Read more', 'fau-elemental')}</span>
+                        </span>
                     </div>
                 </div>
             </div>
