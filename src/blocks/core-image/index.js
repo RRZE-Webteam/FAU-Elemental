@@ -111,7 +111,71 @@ addFilter(
 			// Use a ref to access the DOM after render
 			const blockRef = useRef( null );
 
-			// Add the button after the component mounts
+			// Function to enforce 3:2 aspect ratio maximum
+			const enforceAspectRatio = () => {
+				if (!blockRef.current) return;
+				
+				const img = blockRef.current.querySelector('img');
+				if (!img) return;
+
+				const naturalWidth = img.naturalWidth;
+				const naturalHeight = img.naturalHeight;
+				const containerWidth = img.parentElement.offsetWidth;
+
+				// Calculate the actual width the image will be displayed at
+				const displayWidth = Math.min(naturalWidth, containerWidth);
+
+				// Calculate what the height would be at natural aspect ratio
+				const naturalHeightAtWidth = (displayWidth / naturalWidth) * naturalHeight;
+
+				// Calculate what the height would be at 3:2 ratio
+				const targetHeight = displayWidth / 1.5;
+
+				// Log the original aspect ratio
+				console.log('Image Aspect Ratio Debug:', {
+					naturalWidth,
+					naturalHeight,
+					containerWidth,
+					displayWidth,
+					naturalHeightAtWidth,
+					targetHeight,
+					originalRatio: naturalWidth / naturalHeight,
+					displayRatio: displayWidth / naturalHeightAtWidth,
+					targetRatio: displayWidth / targetHeight
+				});
+
+				// If the natural height at this width would be taller than 3:2, use the target height
+				if (naturalHeightAtWidth > targetHeight) {
+					img.style.width = `${displayWidth}px`;
+					img.style.height = `${targetHeight}px`;
+					img.style.objectFit = 'cover';
+					img.style.objectPosition = 'center';
+
+					// Log the adjusted aspect ratio
+					console.log('Adjusted Image:', {
+						finalWidth: displayWidth,
+						finalHeight: targetHeight,
+						finalRatio: displayWidth / targetHeight,
+						adjustment: 'Applied 3:2 ratio'
+					});
+				} else {
+					// Reset to natural dimensions
+					img.style.width = `${displayWidth}px`;
+					img.style.height = 'auto';
+					img.style.objectFit = 'none';
+					img.style.objectPosition = 'initial';
+
+					// Log the natural aspect ratio
+					console.log('Natural Image:', {
+						finalWidth: displayWidth,
+						finalHeight: naturalHeightAtWidth,
+						finalRatio: displayWidth / naturalHeightAtWidth,
+						adjustment: 'Kept natural ratio'
+					});
+				}
+			};
+
+			// Add the button and enforce aspect ratio after the component mounts
 			useEffect( () => {
 				if ( ! url ) return;
 
@@ -132,6 +196,31 @@ addFilter(
 					button.innerHTML = '⛶';
 					figure.appendChild( button );
 				}
+
+				// Enforce aspect ratio when image loads
+				if (img) {
+					if (img.complete) {
+						enforceAspectRatio();
+					} else {
+						img.addEventListener('load', enforceAspectRatio);
+					}
+				}
+
+				// Add resize observer to handle container width changes
+				const resizeObserver = new ResizeObserver(() => {
+					enforceAspectRatio();
+				});
+				
+				if (parentDiv) {
+					resizeObserver.observe(parentDiv);
+				}
+
+				return () => {
+					if (img) {
+						img.removeEventListener('load', enforceAspectRatio);
+					}
+					resizeObserver.disconnect();
+				};
 			}, [ url ] );
 
 			return (
