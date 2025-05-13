@@ -24,20 +24,6 @@ function fau_elemental_add_image_fullscreen($block_content, $block) {
             return $block_content;
         }
         
-        // Enqueue the fullscreen script only once per page
-        static $script_enqueued = false;
-        if (!$script_enqueued) {
-            $asset_file = include get_theme_file_path('build/js/image-fullscreen.asset.php');
-            wp_enqueue_script(
-                'image-fullscreen',
-                get_theme_file_uri('build/js/image-fullscreen.js'),
-                array_merge($asset_file['dependencies'], ['jquery']),
-                $asset_file['version'],
-                true
-            );
-            $script_enqueued = true;
-        }
-        
         // Extract the image source from the block content
         preg_match('/src="([^"]+)"/', $block_content, $matches);
         $img_src = isset($matches[1]) ? $matches[1] : '';
@@ -62,4 +48,43 @@ function fau_elemental_add_image_fullscreen($block_content, $block) {
     
     return $block_content;
 }
-add_filter('render_block', 'fau_elemental_add_image_fullscreen', 10, 2); 
+add_filter('render_block', 'fau_elemental_add_image_fullscreen', 10, 2);
+
+/**
+ * Register the image scripts
+ */
+function faue_register_image_scripts() {
+    // Register fullscreen script
+    $asset_file = include get_theme_file_path('build/js/image-fullscreen.asset.php');
+    wp_register_script(
+        'image-fullscreen',
+        get_theme_file_uri('build/js/image-fullscreen.js'),
+        array_merge($asset_file['dependencies'], ['jquery']),
+        $asset_file['version'],
+        true
+    );
+
+    // Register aspect ratio script
+    wp_register_script(
+        'image-aspect-ratio',
+        get_theme_file_uri('build/js/image-aspect-ratio.js'),
+        ['jquery'],
+        filemtime(get_theme_file_path('build/js/image-aspect-ratio.js')),
+        true
+    );
+}
+add_action('init', 'faue_register_image_scripts', 5);
+
+/**
+ * Extend core image block metadata to include our view scripts
+ */
+function faue_extend_core_image($metadata) {
+    if (!empty($metadata['name']) && 'core/image' === $metadata['name']) {
+        $metadata['viewScript'] = array_merge(
+            (array) ($metadata['viewScript'] ?? []),
+            array('image-fullscreen', 'image-aspect-ratio')
+        );
+    }
+    return $metadata;
+}
+add_filter('block_type_metadata', 'faue_extend_core_image'); 

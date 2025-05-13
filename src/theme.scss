@@ -179,13 +179,28 @@ h1 {
 	font-size: var(--H-Heading-1);
 	line-height: 1.2;
 	font-weight: 700;
-	hyphens: auto;
-	overflow-wrap: break-word;
-	word-break: break-word;
 }
 
 h1.big-teaser {
 	font-size: var(--H-Heading-Big-Teaser);
+}
+
+// Global word break and hyphenation
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+p,
+span,
+ul,
+ol,
+figcaption,
+address {
+	hyphens: auto;
+	overflow-wrap: break-word;
+	word-break: break-word;
 }
 
 // Import Core Block Styles

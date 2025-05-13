@@ -74,3 +74,31 @@ function fau_elemental_add_gallery_slide_counters($block_content, $block) {
     return $block_content;
 }
 add_filter('render_block', 'fau_elemental_add_gallery_slide_counters', 10, 2); 
+
+/**
+ * Register the gallery slider script
+ */
+function faue_register_gallery_view_script() {
+    wp_register_script(
+        'faue-gallery-slider',
+        get_theme_file_uri('build/js/gallery-slider.js'),
+        array('jquery'),
+        filemtime(get_theme_file_path('build/js/gallery-slider.js')),
+        true
+    );
+}
+add_action('init', 'faue_register_gallery_view_script', 5);
+
+/**
+ * Extend core gallery block metadata to include our view script
+ */
+function faue_extend_core_gallery($metadata) {
+    if (!empty($metadata['name']) && 'core/gallery' === $metadata['name']) {
+        $metadata['viewScript'] = array_merge(
+            (array) ($metadata['viewScript'] ?? []),
+            array('faue-gallery-slider')
+        );
+    }
+    return $metadata;
+}
+add_filter('block_type_metadata', 'faue_extend_core_gallery'); 

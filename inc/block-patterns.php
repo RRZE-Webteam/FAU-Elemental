@@ -9,6 +9,22 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Remove default patterns and block patterns
+ */
+function fau_elemental_remove_default_patterns() {
+    // Remove core block patterns
+    remove_theme_support('core-block-patterns');
+    
+    // Remove block pattern directory
+    remove_theme_support('block-pattern-directory');
+    
+    // Remove block pattern categories
+    remove_theme_support('block-pattern-categories');
+}
+add_action('after_setup_theme', 'fau_elemental_remove_default_patterns');
+
+
 function fau_elemental_register_patterns() {
     // Get the website type from options
     $website_type = get_option('faue_website_type', 'fau');
