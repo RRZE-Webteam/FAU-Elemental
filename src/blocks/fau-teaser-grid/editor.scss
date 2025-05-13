@@ -6,3 +6,8 @@
         border-radius: 0; // make arrow buttons square
     }
 }
+
+.teaser-item.disabled {
+    pointer-events: none;
+    cursor: default;
+}

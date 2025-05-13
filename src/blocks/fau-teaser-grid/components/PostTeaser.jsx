@@ -24,7 +24,7 @@ export default function PostTeaser({ post, grid }) {
     const link = post.link || '#';
 
     return (
-        <a href={link} className="teaser-item">
+        <a className="teaser-item disabled">
             {image && (
                 <div className="teaser-image-wrapper">
                     <div className="teaser-image">
