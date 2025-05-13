@@ -135,10 +135,11 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
         $output = sprintf(
-            '<a href="%s" class="teaser-item %s-teaser" role="article" aria-labelledby="teaser-title-%d">',
+            '<a href="%s" class="teaser-item %s-teaser" role="article" aria-labelledby="teaser-title-%d" data-variant="%s">',
             esc_url($link),
             esc_attr($variant),
-            $post->ID
+            $post->ID,
+            esc_attr($variant)
         );
         
         // Image wrapper
