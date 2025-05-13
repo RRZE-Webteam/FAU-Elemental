@@ -24,18 +24,12 @@ export default function PostTeaser({ post, grid }) {
     const link = post.link || '#';
 
     return (
-        <div className="teaser-item">
+        <a href={link} className="teaser-item">
             {image && (
                 <div className="teaser-image-wrapper">
-                    <a 
-                        href={link} 
-                        className="teaser-image-link"
-                        aria-label={__('Read more about', 'fau-elemental') + ' ' + title}
-                    >
-                        <div className="teaser-image">
-                            <img src={image} alt={title} loading="lazy" />
-                        </div>
-                    </a>
+                    <div className="teaser-image">
+                        <img src={image} alt={title} loading="lazy" />
+                    </div>
                     <div className="teaser-meta">
                         <time>
                             <span className="date-day">{day}</span>
@@ -48,13 +42,9 @@ export default function PostTeaser({ post, grid }) {
                 <div className="teaser-content">
                     <div className="content-column">
                         {category && (
-                            <a 
-                                href={category.link} 
-                                className="category"
-                                aria-label={__('Category:', 'fau-elemental')}
-                            >
+                            <span className="category">
                                 {category.name}
-                            </a>
+                            </span>
                         )}
                         <h3 className="clamp-3">
                             <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: title }} />
@@ -66,12 +56,12 @@ export default function PostTeaser({ post, grid }) {
                         </div>
                     </div>
                     <div className="button-teaser">
-                        <span className="wp-block-button__link" aria-disabled="true" tabindex="-1">
+                        <span className="wp-block-button__link" aria-hidden="true">
                             <span className="screen-reader-text">{__('Read more', 'fau-elemental')}</span>
                         </span>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     );
 } 

@@ -135,11 +135,8 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
         $output = sprintf(
-            '<a href="%s">',
-            esc_url($link)
-        );
-        $output .= sprintf(
-            '<div class="teaser-item %s-teaser" role="article" aria-labelledby="teaser-title-%d">',
+            '<a href="%s" class="teaser-item %s-teaser" role="article" aria-labelledby="teaser-title-%d">',
+            esc_url($link),
             esc_attr($variant),
             $post->ID
         );
@@ -212,15 +209,14 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         // Button
         $output .= '<div class="button-teaser">';
         $output .= sprintf(
-            '<span class="wp-block-button__link" aria-disabled="true" tabindex="-1"><span class="screen-reader-text">%s</span></span>',
+            '<span class="wp-block-button__link" aria-hidden="true"><span class="screen-reader-text">%s</span></span>',
             esc_html__('Read more', 'fau-elemental')
         );
         $output .= '</div>';
 
         $output .= '</div>'; // Close teaser-content
         $output .= '</div>'; // Close teaser-content-wrapper
-        $output .= '</div>'; // Close teaser-item
-        $output .= '</a>'; // Close outer link
+        $output .= '</a>'; // Close teaser-item
 
         return $output;
     }

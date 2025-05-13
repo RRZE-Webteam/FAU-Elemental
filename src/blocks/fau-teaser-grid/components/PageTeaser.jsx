@@ -17,18 +17,12 @@ export default function PageTeaser({ page, grid }) {
     const link = page.link || '#';
 
     return (
-        <div className="teaser-item">
+        <a href={link} className="teaser-item">
             {image && (
                 <div className="teaser-image-wrapper">
-                    <a 
-                        href={link} 
-                        className="teaser-image-link"
-                        aria-label={__('Read more about', 'fau-elemental') + ' ' + title}
-                    >
-                        <div className="teaser-image">
-                            <img src={image} alt={title} loading="lazy" />
-                        </div>
-                    </a>
+                    <div className="teaser-image">
+                        <img src={image} alt={title} loading="lazy" />
+                    </div>
                 </div>
             )}
             <div className="teaser-content-wrapper">
@@ -44,12 +38,12 @@ export default function PageTeaser({ page, grid }) {
                         </div>
                     </div>
                     <div className="button-teaser">
-                        <span className="wp-block-button__link" aria-disabled="true" tabindex="-1">
+                        <span className="wp-block-button__link" aria-hidden="true">
                             <span className="screen-reader-text">{__('Read more', 'fau-elemental')}</span>
                         </span>
                     </div>
                 </div>
             </div>
-        </div>
+        </a>
     );
 } 
