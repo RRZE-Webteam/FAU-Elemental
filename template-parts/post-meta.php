@@ -14,8 +14,12 @@ if (!defined('ABSPATH')) {
 if (function_exists('faue_show_post_meta') && !faue_show_post_meta()) {
     return; // Don't render anything
 }
+
+// Get dark theme setting
+$is_dark_theme = get_theme_mod('faue_post_meta_dark_theme', false);
+$theme_class = $is_dark_theme ? 'is-style-dark' : '';
 ?>
-<div class="post-meta">
+<div class="post-meta <?php echo esc_attr($theme_class); ?>">
     <div class="post-last-update">
         <span class="date-label"><?php esc_html_e('Last update:', 'fau-elemental'); ?></span>
         <span class="post-date"><?php echo esc_html(get_the_modified_date('d.m.Y - H:i')); ?></span>
@@ -30,11 +34,13 @@ if (function_exists('faue_show_post_meta') && !faue_show_post_meta()) {
     </div>
     
     <div class="share-button-container">
-        <div class="share-button">
-            <button class="share-button__link share-toggle"><?php esc_html_e('Share Page', 'fau-elemental'); ?></button>
+        <div class="wp-block-buttons <?php echo esc_attr($theme_class); ?>">
+            <div class="wp-block-button">
+                <button class="wp-block-button__link share-toggle"><?php esc_html_e('Share Page', 'fau-elemental'); ?></button>
+            </div>
         </div>
         
-        <div class="share-dropdown" role="menu" aria-label="<?php esc_attr_e('Share options', 'fau-elemental'); ?>">
+        <div class="share-dropdown <?php echo esc_attr($theme_class); ?>" role="menu" aria-label="<?php esc_attr_e('Share options', 'fau-elemental'); ?>">
             <div class="share-options" role="list">
                 <div class="share-option share-option--bluesky" role="listitem">
                     <a href="#" class="share-link" data-share="bluesky" role="menuitem"><?php esc_html_e('Bluesky', 'fau-elemental'); ?></a>
@@ -55,30 +61,12 @@ if (function_exists('faue_show_post_meta') && !faue_show_post_meta()) {
                     <a href="#" class="share-link" data-share="email" role="menuitem"><?php esc_html_e('E-Mail', 'fau-elemental'); ?></a>
                 </div>
                 <div class="share-option share-option--print" role="listitem">
-                    <button class="print-button" onclick="window.print();" role="menuitem"><?php esc_html_e('Print', 'fau-elemental'); ?></button>
+                    <div class="wp-block-button">
+                        <button class="wp-block-button__link" onclick="window.print();" role="menuitem"><?php esc_html_e('Print', 'fau-elemental'); ?></button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-/* Basic two-column layout styles */
-.post-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 0;
-}
-
-.post-last-update {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.post-reading-time {
-    margin-left: 15px;
-}
-</style>
 
