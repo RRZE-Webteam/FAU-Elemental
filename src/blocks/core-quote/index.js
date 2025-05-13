@@ -10,7 +10,15 @@ import {
 	useBlockProps,
 	BlockControls,
 } from '@wordpress/block-editor';
-import { Button, BaseControl, ToolbarGroup, ToolbarButton, ToolbarDropdownMenu, MenuGroup, MenuItem } from '@wordpress/components';
+import {
+	Button,
+	BaseControl,
+	ToolbarGroup,
+	ToolbarButton,
+	ToolbarDropdownMenu,
+	MenuGroup,
+	MenuItem,
+} from '@wordpress/components';
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { v4 as uuidv4 } from 'uuid';
@@ -296,7 +304,7 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 		// exceptions or the dropdown beeing in front of the MediaUpload Popover.
 		// As a workaround we save a reference to the mediaUpload Button inside the InspectorControls
 		// and virtually "click" this button inside the toolbar.
-		const mediaUploaderButton = useRef(null);
+		const mediaUploaderButton = useRef( null );
 
 		return (
 			<>
@@ -310,62 +318,96 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 						<ToolbarButton
 							icon="arrow-left-alt"
 							label={ __( 'Move quote up', 'fau-elemental' ) }
-							onClick={() => moveQuote( selectedQuoteIndex, -1 ) }
+							onClick={ () =>
+								moveQuote( selectedQuoteIndex, -1 )
+							}
 							disabled={ selectedQuoteIndex === 0 }
 						/>
 						<ToolbarButton
 							icon="arrow-right-alt"
 							label={ __( 'Move quote down', 'fau-elemental' ) }
-							onClick={() => moveQuote( selectedQuoteIndex, 1 ) }
-							disabled={ selectedQuoteIndex === attributes.quotes.length - 1 }
+							onClick={ () => moveQuote( selectedQuoteIndex, 1 ) }
+							disabled={
+								selectedQuoteIndex ===
+								attributes.quotes.length - 1
+							}
 						/>
 						<ToolbarDropdownMenu
 							icon="arrow-down-alt2"
 							label={ __( 'More', 'fau-elemental' ) }
 						>
-							{ ({ onClose }) => (
+							{ ( { onClose } ) => (
 								<>
 									<MenuGroup>
-										<MenuItem 
+										<MenuItem
 											icon="format-image"
-											iconPosition='left'
-											disabled={ mediaUploaderButton.current === null }
-											onClick={ () => { onClose(); mediaUploaderButton.current?.click(); } }
-										>
-											{
-												attributes.quotes[selectedQuoteIndex].image === null 
-												? __( 'Add Image', 'fau-elemental' )
-												: __( 'Replace Image', 'fau-elemental' )
+											iconPosition="left"
+											disabled={
+												mediaUploaderButton.current ===
+												null
 											}
-										</MenuItem>
-										<MenuItem 
-											icon="editor-removeformatting"
-											iconPosition='left'
-											disabled={ attributes.quotes[selectedQuoteIndex].image === null }
-											onClick={ () => updateQuote(selectedQuoteIndex, 'image', null) }
+											onClick={ () => {
+												onClose();
+												mediaUploaderButton.current?.click();
+											} }
 										>
-											{ __( 'Remove image', 'fau-elemental' ) }
+											{ attributes.quotes[
+												selectedQuoteIndex
+											].image === null
+												? __(
+														'Add Image',
+														'fau-elemental'
+												  )
+												: __(
+														'Replace Image',
+														'fau-elemental'
+												  ) }
+										</MenuItem>
+										<MenuItem
+											icon="editor-removeformatting"
+											iconPosition="left"
+											disabled={
+												attributes.quotes[
+													selectedQuoteIndex
+												].image === null
+											}
+											onClick={ () =>
+												updateQuote(
+													selectedQuoteIndex,
+													'image',
+													null
+												)
+											}
+										>
+											{ __(
+												'Remove image',
+												'fau-elemental'
+											) }
 										</MenuItem>
 									</MenuGroup>
 									<MenuGroup>
-										<MenuItem 
+										<MenuItem
 											icon="trash"
-											iconPosition='left'
+											iconPosition="left"
 											isDestructive
-											disabled={ attributes.quotes.length <= 1 }
-											onClick={ () => removeQuote( selectedQuoteIndex ) }
-										>
-											{
+											disabled={
 												attributes.quotes.length <= 1
+											}
+											onClick={ () =>
+												removeQuote(
+													selectedQuoteIndex
+												)
+											}
+										>
+											{ attributes.quotes.length <= 1
 												? __(
 														'Cannot remove the last quote',
 														'fau-elemental'
-													)
+												  )
 												: __(
 														'Remove this quote',
 														'fau-elemental'
-													)
-											}
+												  ) }
 										</MenuItem>
 									</MenuGroup>
 								</>
@@ -407,7 +449,9 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 															selectedQuoteIndex
 														].image && (
 															<Button
-																ref={mediaUploaderButton}
+																ref={
+																	mediaUploaderButton
+																}
 																onClick={ open }
 																variant="secondary"
 																className="editor-post-featured-image__toggle"
@@ -442,7 +486,9 @@ const withImageControl = createHigherOrderComponent( ( BlockEdit ) => {
 																/>
 																<div className="editor-post-featured-image__actions">
 																	<Button
-																		ref={mediaUploaderButton}
+																		ref={
+																			mediaUploaderButton
+																		}
 																		onClick={
 																			open
 																		}
