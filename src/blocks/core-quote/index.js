@@ -528,6 +528,17 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 			);
 		};
 
+		// Do not render anything if the selectedQuoteIndex is out of bounds, instead
+		// reset it to 0.
+		// This may happen if the user undos or redos changes.
+		if (
+			attributes.quotes &&
+			selectedQuoteIndex >= attributes.quotes.length
+		) {
+			setSelectedQuoteIndex( 0 );
+			return <></>;
+		}
+
 		// Build the full withFauImageQuote
 		return (
 			<>
