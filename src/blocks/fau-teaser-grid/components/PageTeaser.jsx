@@ -17,7 +17,7 @@ export default function PageTeaser({ page, grid }) {
     const link = page.link || '#';
 
     return (
-        <a className="teaser-item disabled">
+        <a className="teaser-item disabled" data-variant="page">
             {image && (
                 <div className="teaser-image-wrapper">
                     <div className="teaser-image">
