@@ -22,9 +22,12 @@ export default function PostTeaser({ post, grid }) {
     const title = post.title?.rendered || '';
     const excerpt = (post.excerpt?.rendered || '').replace('[&hellip;]', '..');
     const link = post.link || '#';
+    
+    // Define variant for consistency with PHP implementation
+    const variant = 'post';
 
     return (
-        <a className="teaser-item disabled" data-variant="post">
+        <a className="teaser-item disabled" data-variant={variant}>
             {image && (
                 <div className="teaser-image-wrapper">
                     <div className="teaser-image">

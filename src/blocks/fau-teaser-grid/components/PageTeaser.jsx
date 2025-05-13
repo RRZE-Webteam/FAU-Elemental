@@ -15,9 +15,12 @@ export default function PageTeaser({ page, grid }) {
     const title = page.title?.rendered || '';
     const excerpt = (page.excerpt?.rendered || '').replace('[&hellip;]', '..');
     const link = page.link || '#';
+    
+    // Define variant for consistency with PHP implementation
+    const variant = 'page';
 
     return (
-        <a className="teaser-item disabled" data-variant="page">
+        <a className="teaser-item disabled" data-variant={variant}>
             {image && (
                 <div className="teaser-image-wrapper">
                     <div className="teaser-image">
