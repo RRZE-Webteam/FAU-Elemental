@@ -45,14 +45,18 @@ function fau_elemental_customize_register($wp_customize) {
     // Add custom logo setting
     $wp_customize->add_setting('fau_elemental_custom_logo', array(
         'default'           => '',
-        'sanitize_callback' => 'esc_url_raw',
+        'sanitize_callback' => 'absint',
     ));
 
-    // Add custom logo control
-    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'fau_elemental_custom_logo', array(
+    // Add custom logo control with cropping
+    $wp_customize->add_control(new WP_Customize_Cropped_Image_Control($wp_customize, 'fau_elemental_custom_logo', array(
         'label'    => __('Custom Logo', 'fau-elemental'),
         'section'  => 'title_tagline',
         'settings' => 'fau_elemental_custom_logo',
+        'width'    => 400,
+        'height'   => 112,
+        'flex_width'  => true,
+        'flex_height' => true,
     )));
 }
 add_action('customize_register', 'fau_elemental_customize_register');

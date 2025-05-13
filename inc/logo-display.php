@@ -117,11 +117,14 @@ function fau_elemental_display_logo_title() {
     echo '<span class="textlogo">';
     
     // Check if custom logo is set
-    $custom_logo = get_theme_mod('fau_elemental_custom_logo');
-    if (!empty($custom_logo)) {
-        echo '<span class="baselogo">';
-        echo '<img src="' . esc_url($custom_logo) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="custom-logo">';
-        echo '</span>';
+    $custom_logo_id = get_theme_mod('fau_elemental_custom_logo');
+    if (!empty($custom_logo_id)) {
+        $custom_logo = wp_get_attachment_image_src($custom_logo_id, 'full');
+        if ($custom_logo) {
+            echo '<span class="baselogo">';
+            echo '<img src="' . esc_url($custom_logo[0]) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="custom-logo" style="max-height: 60px;">';
+            echo '</span>';
+        }
     } elseif ($faulogo) {
         echo '<span class="baselogo">';
         echo fau_use_svg("fau-logo-2021", 153, 58, 'faubaselogo', false);
@@ -141,8 +144,10 @@ function fau_elemental_display_logo_title() {
         echo '<span id="website-title" class="visible-title' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '" itemprop="name">' . esc_html($visible_title) . '</span>';
         
         if ($visible_shortcut) {
-            echo ' <span class="website-shortcut' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '">' . esc_html($visible_shortcut) . '</span>';
+            echo ' <span class="separator">|</span> <span class="website-shortcut' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '">' . esc_html($visible_shortcut) . '</span>';
         }
+    } elseif ($visible_shortcut) {
+        echo '<span id="website-title" class="visible-title' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '" itemprop="name">' . esc_html($visible_shortcut) . '</span>';
     }
     
     echo '</span>';
