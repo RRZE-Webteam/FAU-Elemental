@@ -89,8 +89,9 @@
             // Hide all siblings except the current li
             const parentLi = toggle.closest('li');
             parentLi.siblings().hide();
-            // Hide the link and toggle in the current li, show only the submenu
-            parentLi.children('a, .menu-website-modal__submenu-toggle').hide();
+            // Hide only the submenu toggle, keep <a> visible and styled as label
+            parentLi.children('.menu-website-modal__submenu-toggle').hide();
+            parentLi.children('a').css({'display': '', 'font-weight': 'bold', 'pointer-events': 'none', 'color': '#333'});
             submenu.css('display', 'block');
             toggle.attr('aria-expanded', 'true');
 
@@ -110,6 +111,9 @@
 
                 // Pop the parent info
                 const { parentUl, parentLi } = this.menuStack.pop();
+
+                // Restore <a> styles
+                parentLi.children('a').css({'font-weight': '', 'pointer-events': '', 'color': ''});
 
                 // Show all siblings in the parent menu
                 parentUl.children('li').show();

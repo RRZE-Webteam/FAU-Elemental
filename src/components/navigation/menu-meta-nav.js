@@ -118,12 +118,19 @@
             // Show back button (use flex for correct layout)
             modal.find('.menu-meta-nav__back-btn').css('display', 'flex');
             
+            // Keep the <a> visible and style as label, hide only the submenu toggle
+            menuItem.find('> .menu-meta-nav__submenu-toggle').hide();
+            menuItem.find('> a').css({'display': '', 'font-weight': 'bold', 'pointer-events': 'none', 'color': '#333'});
+            
             // Hide all siblings except the current li
             menuItem.siblings().hide();
-            // Hide the link and toggle in the current li
-            menuItem.find('> a, > .menu-meta-nav__submenu-toggle').hide();
-            // Show submenu
-            submenu.show();
+            
+            // Show submenu and ensure it's properly positioned
+            submenu.show().css({
+                'margin-top': '10px',
+                'padding-top': '10px',
+                'border-top': '1px solid #eee'
+            });
             
             // Push the parent menu and item to the stack
             this.menuStack.push({
@@ -141,6 +148,11 @@
                 
                 // Pop the parent info from stack
                 const { parentMenu, parentItem } = this.menuStack.pop();
+                
+                // Remove parent styling
+                parentItem.removeClass('menu-item--parent');
+                // Restore <a> styles
+                parentItem.find('> a').css({'font-weight': '', 'pointer-events': '', 'color': ''});
                 
                 // Show all siblings in the parent menu
                 parentMenu.children('li').show();

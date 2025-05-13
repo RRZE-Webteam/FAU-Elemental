@@ -1,0 +1,14 @@
+.menu-meta-nav {
+    &__menu {
+        .menu-item {
+            &--parent {
+                font-weight: bold;
+                color: #333;
+                padding: 10px 0;
+                margin-bottom: 5px;
+                background-color: #f5f5f5;
+                border-radius: 4px;
+            }
+        }
+    }
+} 
