@@ -87,11 +87,7 @@ function fau_elemental_display_logo_title() {
     $visible_toptitle = 'Friedrich-Alexander-Universität';
     $visible_toptitle_secondline = 'Erlangen-Nürnberg';
     $visible_shortcut = get_theme_mod('website_shorttitle');
-    $visible_title = get_theme_mod('website_logotitle');
-    
-    if (empty($visible_title)) {
-        $visible_title = get_bloginfo('title', 'display');
-    }
+    $visible_title = get_bloginfo('title', 'display');
 
     // Handle different website types
     switch ($website_type) {
