@@ -69,10 +69,9 @@ function fau_elemental_display_logo_title() {
     global $default_fau_orga_faculty;
 
     $faculty = '';
-    // Check if $defaultoptions is set and has the required key
     if (isset($defaultoptions) && is_array($defaultoptions) && isset($defaultoptions['website_usefaculty'])) {
         $website_usefaculty = $defaultoptions['website_usefaculty'];
-        if (in_array($website_usefaculty, $default_fau_orga_faculty)) {
+        if (isset($default_fau_orga_faculty) && in_array($website_usefaculty, $default_fau_orga_faculty)) {
             $faculty = $website_usefaculty;
         }
     }
