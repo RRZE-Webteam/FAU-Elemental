@@ -8,6 +8,31 @@
 if (!defined('ABSPATH')) {
     exit;
 }
+/**
+ * Remove default patterns and block patterns
+ */
+function fau_elemental_remove_default_patterns() {
+    // Remove core block patterns
+    remove_theme_support('core-block-patterns');
+    
+    // Remove block pattern directory
+    remove_theme_support('block-pattern-directory');
+    
+    // Remove block pattern categories
+    remove_theme_support('block-pattern-categories');
+}
+add_action('after_setup_theme', 'fau_elemental_remove_default_patterns');
+
+/**
+ * Register block pattern category
+ */
+function fau_elemental_register_pattern_category() {
+    register_block_pattern_category(
+        'fau-elemental',
+        array('label' => __('FAU Elemental', 'fau-elemental'))
+    );
+}
+add_action('init', 'fau_elemental_register_pattern_category');
 
 function fau_elemental_register_patterns() {
     // Get the website type from options
@@ -37,6 +62,21 @@ function fau_elemental_register_patterns() {
                 include get_theme_file_path("/conditional-patterns/{$pattern_name}.php");
                 return ob_get_clean();
             })()
+        )
+    );
+
+    // Register post starter pattern
+    register_block_pattern(
+        'fau-elemental/post-starter',
+        array(
+            'title' => __('Post Starter', 'fau-elemental'),
+            'description' => __('A starter pattern for creating new posts with meta information, featured image, and content area.', 'fau-elemental'),
+            'categories' => array('fau-elemental', 'posts'),
+            'source' => 'theme',
+            'blockTypes' => array('core/post-content'),
+            'postTypes' => array('post'),
+            'viewportWidth' => 1376,
+            'content' => file_get_contents(get_theme_file_path('patterns/post-starter.php'))
         )
     );
 }
