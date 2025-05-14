@@ -22,8 +22,6 @@ addFilter(
 			},
 			allowedBlocks: [ 'core/paragraph', 'core/image' ], // Only allow paragraphs and images
 			save: ( props ) => {
-				const { attributes } = props;
-
 				// Get the original save output
 				const originalSave = settings.save;
 				return originalSave( props );
@@ -53,7 +51,6 @@ addFilter(
 					// Get the click position relative to the summary
 					const rect = summary.getBoundingClientRect();
 					const clickX = event.clientX - rect.left;
-					const clickY = event.clientY - rect.top;
 
 					// Check if click is in the chevron area (right side)
 					if ( clickX > rect.width - 40 ) {
