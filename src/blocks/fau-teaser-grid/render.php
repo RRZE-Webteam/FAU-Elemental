@@ -46,7 +46,7 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
 
         $output = sprintf('<div %s>', $wrapper_attributes);
         $output .= sprintf(
-            '<div class="%s" role="list" aria-label="%s" data-variant="%s">', 
+            '<div class="%s" aria-label="%s" data-variant="%s">', 
             esc_attr(implode(' ', $grid_classes)),
             esc_attr__('Content items', 'fau-elemental'),
             esc_attr($variant)
@@ -136,7 +136,7 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
         $output = sprintf(
-            '<a href="%s" class="teaser-item %s-teaser" role="article" aria-labelledby="teaser-title-%d" data-variant="%s">',
+            '<a href="%s" class="teaser-item %s-teaser" aria-labelledby="teaser-title-%d" data-variant="%s">',
             esc_url($link),
             esc_attr($variant),
             $post->ID,

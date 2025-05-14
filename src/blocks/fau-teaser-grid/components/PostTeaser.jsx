@@ -27,7 +27,7 @@ export default function PostTeaser({ post, grid }) {
     const variant = 'post';
 
     return (
-        <a className="teaser-item disabled" data-variant={variant}>
+        <a className="teaser-item disabled" data-variant={variant} aria-labelledby={`teaser-title-${post.id}`}>
             {image && (
                 <div className="teaser-image-wrapper">
                     <div className="teaser-image">
@@ -49,7 +49,7 @@ export default function PostTeaser({ post, grid }) {
                                 {category.name}
                             </span>
                         )}
-                        <h3 className="clamp-3">
+                        <h3 className="clamp-3" id={`teaser-title-${post.id}`}>
                             <span className="visually-hidden" dangerouslySetInnerHTML={{ __html: title }} />
                             <span aria-hidden="true" dangerouslySetInnerHTML={{ __html: title }} />
                         </h3>
