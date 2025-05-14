@@ -19,8 +19,7 @@ require_once get_template_directory() . '/inc/enqueue-assets.php';
 require_once get_template_directory() . '/inc/blocks/loader.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
 
-// Block theme compatibility
-require_once get_template_directory() . '/inc/block-template-functions.php';
+
 
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
