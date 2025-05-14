@@ -1,0 +1,38 @@
+// Editor-specific styles for the FAU Logo Grid block
+.wp-block-fau-logo-grid {
+    // Style for the "Add Logo" button
+    .components-button.is-primary {
+        margin-top: 1rem;
+    }
+
+    // Style for selected logo item in editor
+    .fau-logo-grid__item--selected {
+        outline: 2px solid #007cba;
+        outline-offset: -2px;
+    }
+
+    // Style for the image upload button when no image is selected
+    .fau-logo-grid__item .button {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f0f0f0;
+        border: 1px dashed #999;
+        cursor: pointer;
+
+        &:hover {
+            background: #e0e0e0;
+        }
+    }
+
+    // Style for the image button container
+    .fau-logo-grid__image-button {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        border: none;
+        background: none;
+    }
+} 

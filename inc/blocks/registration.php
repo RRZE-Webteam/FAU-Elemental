@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 
 require_once get_theme_file_path('src/fau-copyright-info/render.php');
 require_once get_theme_file_path('src/blocks/fau-teaser-grid/render.php');
+require_once get_theme_file_path('src/blocks/fau-logo-grid/render.php');
 
 /**
  * Register all custom blocks from the build directory
@@ -34,6 +35,8 @@ function fau_elemental_register_blocks() {
                 // Special case for featured-event-teaser to use the correct function name
                 if ($block_name === 'fau-teaser_grid') {
                     $render_function = 'render_block_fau_list_item';
+                } else if ($block_name === 'logo-grid') {
+                    $render_function = 'render_block_fau_logo_grid';
                 } else {
                     $render_function = 'render_block_' . str_replace('-', '_', $block_name);
                 }
@@ -45,4 +48,4 @@ function fau_elemental_register_blocks() {
         }
     }
 }
-add_action('init', 'fau_elemental_register_blocks'); 
+add_action('init', 'fau_elemental_register_blocks');

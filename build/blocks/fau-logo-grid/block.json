@@ -1,0 +1,52 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "fau/logo-grid",
+  "version": "0.1.0",
+  "title": "FAU Logo Grid",
+  "category": "fau-blocks",
+  "icon": "grid-view",
+  "description": "Display a grid of logos with optional links and roof line",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ],
+    "multiple": true
+  },
+  "attributes": {
+    "roofLine": {
+      "type": "string",
+      "default": ""
+    },
+    "logos": {
+      "type": "array",
+      "default": [],
+      "items": {
+        "type": "object",
+        "properties": {
+          "imageId": {
+            "type": "number"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "link": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "showRoofLine": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "textdomain": "fau-elemental",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
+}

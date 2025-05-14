@@ -1,0 +1,53 @@
+// Variables
+$editor-padding: 2rem;
+$border-radius: 4px;
+$background-color: #f8f9fa;
+$item-margin: 1rem;
+
+.wp-block-fau-logo-grid {
+    padding: $editor-padding;
+    background: $background-color;
+    border-radius: $border-radius;
+
+    .fau-logo-grid {
+        &__image-button {
+            padding: 0 !important;
+            height: auto !important;
+            border: none !important;
+            background: none !important;
+        }
+
+        &__item {
+            padding: $item-margin;
+            background: white;
+            border-radius: $border-radius;
+            margin-bottom: $item-margin;
+        }
+
+        &__roof-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #222a35;
+            font-weight: 500;
+            
+            &::before {
+                content: "";
+                display: block;
+                width: 120px;
+                height: 2px;
+                background: #222a35;
+                margin-right: 1.5rem;
+            }
+        }
+    }
+
+    .components-button {
+        &.is-destructive {
+            margin-top: 0.5rem;
+        }
+    }
+} 
