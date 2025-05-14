@@ -1,6 +1,7 @@
 @import "../../mixins";
 
 .wp-block-fau-elemental-fau-teaser-grid {
+	max-width: var(--wide-max-width);
 
 	.fau-teaser-grid {
 		display: grid;
