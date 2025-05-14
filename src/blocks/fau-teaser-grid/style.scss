@@ -106,6 +106,10 @@
                                 font-size: 1rem;
                                 margin: 0;
                             }
+
+                            .excerpt span {
+                                font-weight: 400; // Prevent excerpt from inheriting font weight of a-tag
+                            }
                         }
 
                         .button-teaser {
