@@ -57,6 +57,22 @@ function faue_customize_register($wp_customize) {
         ),
         'active_callback' => 'faue_is_faculty_website',
     ));
+
+    // Copyright Info Priority
+    $wp_customize->add_setting('faue_copyright_info_priority', array(
+        'default'           => 'field',
+        'sanitize_callback' => 'faue_sanitize_copyright_info_priority',
+    ));
+
+    $wp_customize->add_control('faue_copyright_info_priority', array(
+        'label'    => __('Copyright Info Priority', 'fau-elemental'),
+        'section'  => 'faue_theme_settings',
+        'type'     => 'select',
+        'choices'  => array(
+            'field' => __('Copyright Field', 'fau-elemental'),
+            'iptc'  => __('IPTC Image Metadata', 'fau-elemental'),
+        ),
+    ));
 }
 add_action('customize_register', 'faue_customize_register');
 
@@ -95,4 +111,17 @@ function faue_sanitize_faculty($input) {
     }
 
     return $input;
-} 
+}
+
+/**
+ * Sanitize copyright info priority input
+ */
+function faue_sanitize_copyright_info_priority($input) {
+    $valid_prios = array('field', 'iptc');
+
+    if (!in_array($input, $valid_prios)) {
+        return 'field';
+    }
+
+    return $input;
+}
