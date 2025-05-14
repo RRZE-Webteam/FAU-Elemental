@@ -32,9 +32,15 @@
       "type": "object",
       "default": null
     },
-    "ctaButton": {
-      "type": "object",
-      "default": null
+    "ctaButtonUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "ctaButtonText": {
+      "type": "string",
+      "default": "",
+      "source": "text",
+      "selector": "a.fau-info-box-cta"
     }
   }
 }

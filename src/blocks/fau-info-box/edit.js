@@ -5,12 +5,15 @@ import {
 	useBlockProps,
 	MediaUpload,
 	MediaUploadCheck,
+	URLInput,
+	URLPopover,
 } from '@wordpress/block-editor';
-import { PanelBody, Button } from '@wordpress/components';
+import { PanelBody, Button, TextControl } from '@wordpress/components';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { headline, content, image, ctaButton } = attributes;
+	const { headline, content, image, ctaButtonUrl, ctaButtonText } =
+		attributes;
 
 	const blockProps = useBlockProps();
 
@@ -23,6 +26,10 @@ export default function Edit( { attributes, setAttributes } ) {
 			<InfoBoxInspector
 				image={ image }
 				onSelectImage={ ( image ) => setAttributes( { image } ) }
+				ctaUrl={ ctaButtonUrl }
+				onCtaUrlChange={ ( ctaButtonUrl ) =>
+					setAttributes( { ctaButtonUrl } )
+				}
 			/>
 			<RichText
 				tagName="h3"
@@ -54,11 +61,33 @@ export default function Edit( { attributes, setAttributes } ) {
 					<img src={ image.url } alt={ image.alt || '' } />
 				</figure>
 			) }
+			{ /* TODO: This Button is a problem: without using nested blocks, we can't safely use core/button because the styles may be missing if no other button is used on a page */ }
+			{ ctaButtonUrl && (
+				<div class="wp-block-buttons">
+					<div class="wp-block-button is-style-primary">
+						<RichText
+							tagName="a"
+							value={ ctaButtonText }
+							allowedFormats={ [] }
+							onChange={ ( ctaButtonText ) =>
+								setAttributes( { ctaButtonText } )
+							}
+							placeholder={ __( 'CTA Text...', 'fau-elemental' ) }
+							className="wp-block-button__link wp-element-button fau-info-box-cta"
+						/>
+					</div>
+				</div>
+			) }
 		</div>
 	);
 }
 
-const InfoBoxInspector = ( { image, onSelectImage } ) => {
+const InfoBoxInspector = ( {
+	image,
+	onSelectImage,
+	ctaUrl,
+	onCtaUrlChange,
+} ) => {
 	return (
 		<InspectorControls>
 			<MediaUploadCheck>
@@ -99,7 +128,13 @@ const InfoBoxInspector = ( { image, onSelectImage } ) => {
 			<PanelBody
 				title={ __( 'CTA Button', 'fau-elemental' ) }
 				initialOpen={ true }
-			></PanelBody>
+			>
+				<TextControl
+					label={ __( 'Button Link', 'fau-elemental' ) }
+					value={ ctaUrl }
+					onChange={ ( url ) => onCtaUrlChange( url ) }
+				/>
+			</PanelBody>
 		</InspectorControls>
 	);
 };

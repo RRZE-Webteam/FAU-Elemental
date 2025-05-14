@@ -1,7 +1,8 @@
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 
 export default function Save( { attributes } ) {
-	const { headline, content, image, ctaButton } = attributes;
+	const { headline, content, image, ctaButtonUrl, ctaButtonText } =
+		attributes;
 
 	const blockProps = useBlockProps.save();
 
@@ -21,6 +22,18 @@ export default function Save( { attributes } ) {
 				<figure className="fau-info-box-image">
 					<img src={ image.url } alt={ image.alt || '' } />
 				</figure>
+			) }
+			{ ctaButtonUrl && (
+				<div class="wp-block-buttons">
+					<div class="wp-block-button is-style-primary">
+						<a
+							class="wp-block-button__link wp-element-button fau-info-box-cta"
+							href={ ctaButtonUrl }
+						>
+							{ ctaButtonText }
+						</a>
+					</div>
+				</div>
 			) }
 		</div>
 	);
