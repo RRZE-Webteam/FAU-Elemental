@@ -3,25 +3,51 @@ const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
 const path = require( 'path' );
 const fs = require( 'fs' );
 
-// Get all block folders from src/blocks directory
-const blockFolders = fs
-	.readdirSync( path.resolve( process.cwd(), 'src' ) )
-	.filter( ( folder ) => folder.startsWith( 'fau-' ) );
+// Get all block folders from src/ and src/blocks directory
+const blockFolders = [
+	...fs
+		.readdirSync( path.resolve( process.cwd(), 'src' ) )
+		.filter( ( folder ) => folder.startsWith( 'fau-' ) ),
+	...fs
+		.readdirSync( path.resolve( process.cwd(), 'src/blocks' ) )
+		.filter( ( folder ) => folder.startsWith( 'fau-' ) ),
+];
 
 // Create entries for each block
 const blockEntries = blockFolders.reduce( ( entries, folder ) => {
-	const folderPath = path.resolve( process.cwd(), `src/${ folder }` );
+	// Determine the correct folder path
+	const folderPath = fs.existsSync(
+		path.resolve( process.cwd(), `src/blocks/${ folder }` )
+	)
+		? path.resolve( process.cwd(), `src/blocks/${ folder }` )
+		: path.resolve( process.cwd(), `src/${ folder }` );
+
+	// Determine the output path prefix based on source location
+	const outputPrefix = fs.existsSync(
+		path.resolve( process.cwd(), `src/blocks/${ folder }` )
+	)
+		? `blocks/${ folder }`
+		: folder;
+
 	const hasViewScript = fs.existsSync(
 		path.resolve( folderPath, 'view.js' )
 	);
 
 	return {
 		...entries,
-		[ `${ folder }/index` ]: path.resolve( folderPath, 'index.js' ),
-		[ `${ folder }/style` ]: path.resolve( folderPath, 'style.scss' ),
-		[ `${ folder }/editor` ]: path.resolve( folderPath, 'editor.scss' ),
+		[ `${ outputPrefix }/index` ]: path.resolve( folderPath, 'index.js' ),
+		[ `${ outputPrefix }/style` ]: path.resolve( folderPath, 'style.scss' ),
+		[ `${ outputPrefix }/editor` ]: path.resolve(
+			folderPath,
+			'editor.scss'
+		),
 		...( hasViewScript
-			? { [ `${ folder }/view` ]: path.resolve( folderPath, 'view.js' ) }
+			? {
+					[ `${ outputPrefix }/view` ]: path.resolve(
+						folderPath,
+						'view.js'
+					),
+			  }
 			: {} ),
 	};
 }, {} );
@@ -79,6 +105,10 @@ module.exports = {
 			process.cwd(),
 			'src/blocks/core-gallery/gallery-slider.js'
 		),
+	},
+	output: {
+		...defaultConfig.output,
+		path: path.resolve( process.cwd(), 'build' ),
 	},
 	plugins: [
 		...defaultConfig.plugins,

@@ -65,6 +65,15 @@ function faue_enqueue_block_editor_script() {
         wp_get_theme()->get('Version'),
         true
     );
+
+    // Add theme URL localization
+    wp_localize_script(
+        'faue-block-editor-script',
+        'fauElemental',
+        array(
+            'themeUrl' => get_template_directory_uri()
+        )
+    );
 }
 add_action('enqueue_block_editor_assets', 'faue_enqueue_block_editor_script');
 
