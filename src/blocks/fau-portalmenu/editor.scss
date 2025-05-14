@@ -1,0 +1,19 @@
+/**
+ * Editor styles for the FAU Portal Menu block
+ */
+
+.wp-block-fau-elemental-portalmenu {
+  &-placeholder {
+    padding: 2em;
+    text-align: center;
+    background-color: #f0f0f0;
+    border: 1px dashed #999;
+  }
+  
+  &-error {
+    padding: 1em;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+  }
+} 

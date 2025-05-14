@@ -9,6 +9,7 @@
 @import "../blocks/core-file/editor";
 @import "../blocks/core-media-text/editor";
 @import "../blocks/core-quote/editor";
+@import "../scss/blocks/portal-menu";
 
 .wp-block-file__content-wrapper > .wp-block-file > .wp-block-file {
 	margin-bottom: var(--Spacing-4x);
