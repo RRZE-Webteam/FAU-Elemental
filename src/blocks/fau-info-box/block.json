@@ -28,6 +28,14 @@
 			"default": "",
 			"source": "html",
 			"selector": "p.fau-info-box-content"
+		},
+		"image": {
+			"type": "object",
+			"default": null
+		},
+		"ctaButton": {
+			"type": "object",
+			"default": null
 		}
 	}
 }
