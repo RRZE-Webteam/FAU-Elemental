@@ -203,7 +203,8 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
 
         // Excerpt
         $output .= '<div class="excerpt clamp-3">';
-        $output .= wp_kses_post($excerpt);
+        $output .= sprintf('<span class="visually-hidden">%s</span>', wp_kses_post($excerpt));
+        $output .= sprintf('<span aria-hidden="true">%s</span>', wp_kses_post($excerpt));
         $output .= '</div>';
 
         $output .= '</div>'; // Close content-column
