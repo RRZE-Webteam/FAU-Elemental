@@ -11,7 +11,6 @@ if (!defined('ABSPATH')) {
 
 require_once get_theme_file_path('src/fau-copyright-info/render.php');
 require_once get_theme_file_path('src/blocks/fau-teaser-grid/render.php');
-require_once get_theme_file_path('src/blocks/fau-info-box/render.php');
 
 /**
  * Register all custom blocks from the build directory

@@ -1,9 +1,9 @@
 import { __ } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const {} = attributes;
+	const { headline, content } = attributes;
 
 	const blockProps = useBlockProps();
 
@@ -11,14 +11,23 @@ export default function Edit( { attributes, setAttributes } ) {
 		<div
 			{ ...blockProps }
 			role="region"
-			aria-label={ __( 'Teaser Grid Block', 'fau-elemental' ) }
+			aria-label={ __( 'Info Box', 'fau-elemental' ) }
 		>
-			<InspectorControls>
-				<p>TODO</p>
-			</InspectorControls>
+			<RichText
+				tagName="h3"
+				value={ headline }
+				allowedFormats={ [] }
+				onChange={ (headline) => setAttributes( { headline })}
+				placeholder={ __( 'Optional Headline', 'fau-elemental' ) }
+			/>
 
-			<h3>This is the optional headline</h3>
-			<p>This is the required text.</p>
+			<RichText
+				tagName="p"
+				value={ content }
+				allowedFormats={ ['core/bold','core/code','core/italic','core/keyboard','core/link','core/strikethrough','core/subscript','core/superscript'] }
+				onChange={ (content) => setAttributes( { content })}
+				placeholder={ __( 'Info Box Text...', 'fau-elemental' ) }
+			/>
 
 			TODO Optional Image
 			TODO Optional CTA
