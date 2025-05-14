@@ -1,5 +1,4 @@
 import { unregisterBlockStyle, registerBlockStyle } from '@wordpress/blocks';
-import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 
 wp.domReady( () => {
