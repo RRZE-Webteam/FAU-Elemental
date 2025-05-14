@@ -1,5 +1,4 @@
 ( function ( $ ) {
-
 	// Function to enforce 3:2 aspect ratio maximum
 	function enforceAspectRatio() {
 		// Select images that are in wp-block-image but not in wp-block-gallery
