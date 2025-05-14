@@ -1,0 +1,20 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "fau-elemental/fau-info-box",
+  "version": "0.1.0",
+  "title": "FAU Info Box",
+  "category": "fau-elemental/FAU",
+  "icon": "info-outline",
+  "description": "Editorial component for highlighting and emphasizing information",
+  "supports": {
+    "html": false,
+    "className": true
+  },
+  "textdomain": "fau-elemental",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "attributes": {}
+}

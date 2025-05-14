@@ -1,0 +1,12 @@
+@import "../../mixins";
+
+.wp-block-fau-elemental-fau-info-box {
+	background-color: var(--FAU-Col-FAU-Blau-37_5); // TODO This is only a placeholder color
+}
+
+// Dark mode
+.is-style-dark {
+	.wp-block-fau-elemental-fau-info-box {
+		background-color: var(--FAU-Col-FAU-Weiss-100); // TODO This is only a placeholder color
+	}
+}
