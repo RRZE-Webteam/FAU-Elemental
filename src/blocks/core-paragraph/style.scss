@@ -2,8 +2,6 @@
  * Core Paragraph Block Styles
  */
 
-@import "../../mixins";
-
 p {
 	max-width: var(--small-max-width);
 	font-size: var(--P-Body-Text);
