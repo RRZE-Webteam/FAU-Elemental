@@ -1,9 +1,14 @@
 .wp-block-media-text {
 	max-width: var(--base-max-width);
+	margin: 0 auto;
 	gap: var(--Spacing-8x);
 
 	.wp-block-media-text__content {
 		padding: 0;
+
+		> * {
+			margin: var(--Spacing-6x) 0;
+		}
 	}
 }
 
