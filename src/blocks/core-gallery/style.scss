@@ -52,6 +52,7 @@ figure.wp-block-image:has(figcaption)::before {
 			}
 
 			img {
+				aspect-ratio: 3 / 2;
 				object-fit: contain;
 			}
 
@@ -65,21 +66,11 @@ figure.wp-block-image:has(figcaption)::before {
 				padding-right: 80px;
 				overflow-wrap: break-word;
 				white-space: pre-wrap;
-
-				.slide-counter {
-					position: absolute;
-					color: var(--FAU-Col-FAU-Blau-100);
-					font-weight: 700;
-					right: var(--Spacing-8x);
-					top: var(--Spacing-6x);
-				}
 			}
 		}
 
 		figure.wp-block-image {
 			max-width: var(--base-max-width);
-
-
 		}
 	}
 }

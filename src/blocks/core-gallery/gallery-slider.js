@@ -134,6 +134,34 @@
 			showSlide( currentSlide + 1 );
 		} );
 
+		// Add touch swipe functionality
+		let touchStartX = 0;
+		let touchEndX = 0;
+
+		$galleryBlock.on( 'touchstart', function ( e ) {
+			touchStartX = e.originalEvent.touches[ 0 ].clientX;
+		} );
+
+		$galleryBlock.on( 'touchend', function ( e ) {
+			touchEndX = e.originalEvent.changedTouches[ 0 ].clientX;
+			handleSwipe();
+		} );
+
+		function handleSwipe() {
+			const swipeThreshold = 50; // Minimum distance for a swipe
+			const swipeDistance = touchEndX - touchStartX;
+
+		http://de.fau-elemental.local/wp-content/uploads/sites/2/2025/03/cropped-Rectangle-315.png	if ( Math.abs( swipeDistance ) > swipeThreshold ) {
+				if ( swipeDistance > 0 ) {
+					// Swipe right - show previous slide
+					showSlide( currentSlide - 1 );
+				} else {
+					// Swipe left - show next slide
+					showSlide( currentSlide + 1 );
+				}
+			}
+		}
+
 		// Reposition on window resize to handle responsive image size changes
 		$( window ).on( 'resize', function () {
 			positionNavContainer();

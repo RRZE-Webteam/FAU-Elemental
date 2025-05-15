@@ -78,6 +78,10 @@ addFilter(
 				type: 'boolean',
 				default: true,
 			},
+			galleryIndexText: {
+				type: 'string',
+				default: '',
+			},
 		};
 
 		return settings;
@@ -106,13 +110,20 @@ addFilter(
 			}
 
 			// Retrieve selected attributes from the block.
-			const { copyrightInfo, hasOverlay, className, url } = attributes;
+			const {
+				copyrightInfo,
+				hasOverlay,
+				className,
+				url,
+				galleryIndexText,
+			} = attributes;
 
 			// Use a ref to access the DOM after render
 			const blockRef = useRef( null );
 
 			// Function to enforce 3:2 aspect ratio maximum
 			const enforceAspectRatio = () => {
+				console.log( 'Enforcing aspect ratio' );
 				if ( ! blockRef.current ) return;
 
 				const img = blockRef.current.querySelector( 'img' );
@@ -131,19 +142,6 @@ addFilter(
 
 				// Calculate what the height would be at 3:2 ratio
 				const targetHeight = displayWidth / 1.5;
-
-				// Log the original aspect ratio
-				console.log( 'Image Aspect Ratio Debug:', {
-					naturalWidth,
-					naturalHeight,
-					containerWidth,
-					displayWidth,
-					naturalHeightAtWidth,
-					targetHeight,
-					originalRatio: naturalWidth / naturalHeight,
-					displayRatio: displayWidth / naturalHeightAtWidth,
-					targetRatio: displayWidth / targetHeight,
-				} );
 
 				// If the natural height at this width would be taller than 3:2, use the target height
 				if ( naturalHeightAtWidth > targetHeight ) {
@@ -165,14 +163,6 @@ addFilter(
 					img.style.height = 'auto';
 					img.style.objectFit = 'none';
 					img.style.objectPosition = 'initial';
-
-					// Log the natural aspect ratio
-					console.log( 'Natural Image:', {
-						finalWidth: displayWidth,
-						finalHeight: naturalHeightAtWidth,
-						finalRatio: displayWidth / naturalHeightAtWidth,
-						adjustment: 'Kept natural ratio',
-					} );
 				}
 			};
 
@@ -181,17 +171,20 @@ addFilter(
 				if ( ! url ) return;
 
 				const figure = blockRef.current?.querySelector( 'figure' );
-				if ( ! figure ) return;
+				const img = blockRef.current?.querySelector( 'img' );
+				if ( ! img ) return;
 
 				// Add image-wrapper class to the parent div of the img
-				const img = figure.querySelector( 'img' );
 				const parentDiv = img?.parentNode;
 				if ( parentDiv?.tagName === 'DIV' ) {
 					parentDiv.classList.add( 'image-wrapper' );
 				}
 
 				// Add fullscreen button if it doesn't exist
-				if ( ! figure.querySelector( '.image-fullscreen-btn' ) ) {
+				if (
+					figure &&
+					! figure.querySelector( '.image-fullscreen-btn' )
+				) {
 					const button = document.createElement( 'button' );
 					button.className = 'image-fullscreen-btn';
 					button.innerHTML = '⛶';
@@ -199,12 +192,10 @@ addFilter(
 				}
 
 				// Enforce aspect ratio when image loads
-				if ( img ) {
-					if ( img.complete ) {
-						enforceAspectRatio();
-					} else {
-						img.addEventListener( 'load', enforceAspectRatio );
-					}
+				if ( img.complete ) {
+					enforceAspectRatio();
+				} else {
+					img.addEventListener( 'load', enforceAspectRatio );
 				}
 
 				// Add resize observer to handle container width changes
@@ -222,7 +213,7 @@ addFilter(
 					}
 					resizeObserver.disconnect();
 				};
-			}, [ url ] );
+			}, [ url, galleryIndexText ] );
 
 			return (
 				<div className="wp-block-image-wrapper" ref={ blockRef }>
