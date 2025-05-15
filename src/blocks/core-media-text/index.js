@@ -34,11 +34,6 @@ addFilter(
 			return settings;
 		}
 
-		settings.supports = {
-			...settings.supports,
-			align: false,
-		};
-
 		settings.attributes = {
 			...settings.attributes,
 			copyrightInfo: {
@@ -51,6 +46,7 @@ addFilter(
 			'core/paragraph',
 			'core/heading',
 			'core/list',
+			'core/buttons',
 		];
 
 		return settings;
