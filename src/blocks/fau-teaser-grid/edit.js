@@ -111,7 +111,6 @@ export default function Edit({ attributes, setAttributes }) {
             _fields: ['id'],
             ...(selectedCategory ? { categories: selectedCategory } : {})
         };
-        const records = getEntityRecords('postType', variant, countQuery);
         const total = select('core').getEntityRecords('postType', variant, {
             ...countQuery,
             per_page: -1
@@ -230,6 +229,7 @@ export default function Edit({ attributes, setAttributes }) {
                             options={TEASER_LAYOUTS}
                             onChange={(value) => onTeaserLayoutChange(value)}
                             aria-describedby="teaser-layout-description"
+                            __nextHasNoMarginBottom={true}
                         />
                     )}
                 </PanelBody>
@@ -312,56 +312,98 @@ export default function Edit({ attributes, setAttributes }) {
                             label={__('Content Type', 'fau-elemental')}
                             value={variant}
                             options={postTypeOptions}
-                            onChange={(value) => setAttributes({ variant: value })}
+                            onChange={(value) => setAttributes({ variant: value, selectedCategory: 0, currentPage: 1 })}
+                            help={__('Select the type of content to display.', 'fau-elemental')}
+                            __nextHasNoMarginBottom={true}
                         />
 
-                        {variant === 'post' && (
+                        {variant === 'post' && categories.length > 0 && (
                             <SelectControl
                                 label={__('Category', 'fau-elemental')}
                                 value={selectedCategory}
                                 options={categoryOptions}
-                                onChange={(value) => setAttributes({ selectedCategory: parseInt(value) })}
+                                onChange={(value) => setAttributes({ selectedCategory: parseInt(value), currentPage: 1 })}
+                                help={__('Select a category to filter posts.', 'fau-elemental')}
+                                __nextHasNoMarginBottom={true}
                             />
                         )}
 
                         <RangeControl
-                            label={__('Posts per Page', 'fau-elemental')}
+                            label={__('Posts Per Page', 'fau-elemental')}
                             value={postsPerPage}
-                            onChange={(value) => setAttributes({ postsPerPage: value })}
+                            onChange={(value) => setAttributes({ postsPerPage: value, currentPage: 1 })}
                             min={1}
-                            max={20}
-                        />
-
-                        <RangeControl
-                            label={__('Total Posts', 'fau-elemental')}
-                            value={totalPosts}
-                            onChange={(value) => setAttributes({ totalPosts: value })}
-                            min={-1}
-                            max={100}
-                            help={__('-1 for all posts', 'fau-elemental')}
-                        />
-
-                        <SelectControl
-                            label={__('Sort By', 'fau-elemental')}
-                            value={orderBy}
-                            options={sortingOptions}
-                            onChange={(value) => setAttributes({ orderBy: value })}
-                        />
-
-                        <SelectControl
-                            label={__('Sort Order', 'fau-elemental')}
-                            value={order}
-                            options={orderOptions}
-                            onChange={(value) => setAttributes({ order: value })}
+                            max={12}
+                            help={__('Set the maximum number of posts to display per page.', 'fau-elemental')}
+                            __nextHasNoMarginBottom={true}
                         />
 
                         <ToggleControl
                             label={__('Show Pagination', 'fau-elemental')}
                             checked={showPagination}
-                            onChange={() => setAttributes({ showPagination: !showPagination })}
+                            onChange={(value) => setAttributes({ showPagination: value })}
+                            help={__('Toggle to show or hide pagination.', 'fau-elemental')}
+                            __nextHasNoMarginBottom={true}
+                        />
+
+                        <SelectControl
+                            label={__('Order By', 'fau-elemental')}
+                            value={orderBy}
+                            options={sortingOptions}
+                            onChange={(value) => setAttributes({ orderBy: value })}
+                            __nextHasNoMarginBottom={true}
+                        />
+
+                        <SelectControl
+                            label={__('Order', 'fau-elemental')}
+                            value={order.toUpperCase()} 
+                            options={orderOptions}
+                            onChange={(value) => setAttributes({ order: value })}
+                            __nextHasNoMarginBottom={true}
                         />
                     </PanelBody>
                 )}
+
+                {selectionMode === 'manual' && (
+                    <PanelBody title={__('Manual Post Selection', 'fau-elemental')}>
+                        <ComboboxControl
+                            label={__('Search and Select Posts', 'fau-elemental')}
+                            value={searchTerm}
+                            onChange={setSearchTerm} // Update search term on input change
+                            onFilterValueChange={setSearchTerm} // Also update on filter change for consistency
+                            options={availablePosts?.map(post => ({ label: post.title.rendered, value: post.id })) || []}
+                            onSelect={handlePostSelection} // Use onSelect to handle the selection
+                            help={__('Type to search for posts and select them to add to the grid.', 'fau-elemental')}
+                        />
+                        {selectedPosts.length > 0 && (
+                            <ul className="selected-posts-list">
+                                {selectedPosts.map(post => (
+                                    <li key={post.id}>
+                                        {post.title}
+                                        <Button 
+                                            isSmall 
+                                            isDestructive 
+                                            onClick={() => removeSelectedPost(post.id)}
+                                            style={{ marginLeft: '8px' }}
+                                        >
+                                            {__('Remove', 'fau-elemental')}
+                                        </Button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </PanelBody>
+                )}
+
+                <PanelBody title={__('Accessibility', 'fau-elemental')}>
+                    <p>
+                        {__(
+                            'To ensure good accessibility and SEO, please make sure that there is only one H1 heading on the page. If you already have an H1 heading, use a different heading level for the teasers in this block.',
+                            'fau-elemental'
+                        )}
+                    </p>
+                </PanelBody>
+
             </InspectorControls>
             
             <div 

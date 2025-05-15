@@ -77,5 +77,24 @@
       "type": "string",
       "default": "auto"
     }
+  },
+  "example": {
+    "attributes": {
+      "variant": "post",
+      "postsPerPage": 3,
+      "showFilters": false,
+      "selectedCategory": 0,
+      "selectedTaxonomy": "",
+      "currentPage": 1,
+      "displayStyle": "teaser-grid",
+      "showPagination": true,
+      "totalPosts": 3,
+      "orderBy": "date",
+      "order": "DESC",
+      "teaserLayout": "3m",
+      "teaserSizes": [],
+      "selectedPosts": [],
+      "selectionMode": "auto"
+    }
   }
 }

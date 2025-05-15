@@ -4,7 +4,7 @@ import { useSelect } from '@wordpress/data';
 // Get the theme URL from WordPress data
 const FALLBACK_IMAGE = '/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
-export default function PageTeaser({ page, grid }) {
+export default function PageTeaser({ page }) {
     if (!page) return null;
 
     const themeUrl = useSelect((select) => {
@@ -14,7 +14,6 @@ export default function PageTeaser({ page, grid }) {
     const image = page._embedded?.['wp:featuredmedia']?.[0]?.source_url || `${themeUrl}${FALLBACK_IMAGE}`;
     const title = page.title?.rendered || '';
     const excerpt = (page.excerpt?.rendered || '').replace('[&hellip;]', '..');
-    const link = page.link || '#';
     
     // Define variant for consistency with PHP implementation
     const variant = 'page';

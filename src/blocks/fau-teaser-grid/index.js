@@ -3,7 +3,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import './style.scss';
 import './editor.scss';
 import Edit from './edit';
-import Save from './save';
+// import Save from './save';
 import metadata from './block.json';
 
 // Add theme URL to window object
@@ -15,5 +15,5 @@ window.fauElemental = {
 registerBlockType(metadata.name, {
     ...metadata,
     edit: Edit,
-    save: Save,
+    save: () => null,
 });
