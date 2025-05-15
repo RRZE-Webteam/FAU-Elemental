@@ -1,6 +1,7 @@
 import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { useRef, useEffect, useState } from '@wordpress/element';
+import { useSelect, useDispatch } from '@wordpress/data';
 
 addFilter(
 	'blocks.registerBlockType',
@@ -35,6 +36,52 @@ addFilter(
 
 		return settings;
 	}
+);
+
+// Add filter to update image indices when gallery content changes
+addFilter(
+	'editor.BlockEdit',
+	'fau-elemental/update-gallery-image-indices',
+	createHigherOrderComponent(
+		( BlockEdit ) => ( props ) => {
+			const { name, clientId } = props;
+
+			// Only modify Gallery blocks
+			if ( name !== 'core/gallery' ) {
+				return <BlockEdit { ...props } />;
+			}
+
+			const { updateBlockAttributes } =
+				useDispatch( 'core/block-editor' );
+			const innerBlocks = useSelect(
+				( select ) => {
+					const block =
+						select( 'core/block-editor' ).getBlock( clientId );
+					return block?.innerBlocks || [];
+				},
+				[ clientId ]
+			);
+
+			// Update image indices whenever inner blocks change
+			useEffect( () => {
+				// Count total number of image blocks
+				const totalImages = innerBlocks.filter(
+					( block ) => block.name === 'core/image'
+				).length;
+
+				innerBlocks.forEach( ( block, index ) => {
+					if ( block.name === 'core/image' ) {
+						updateBlockAttributes( block.clientId, {
+							galleryIndexText: `${ index + 1 }/${ totalImages }`,
+						} );
+					}
+				} );
+			}, [ innerBlocks ] );
+
+			return <BlockEdit { ...props } />;
+		},
+		'withGalleryImageIndices'
+	)
 );
 
 // React component for the carousel

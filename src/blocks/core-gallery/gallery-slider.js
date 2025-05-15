@@ -37,6 +37,7 @@
 		// Function to position the navigation container based on the current image height
 		const positionNavContainer = function () {
 			const windowWidth = $( window ).width();
+			const xSmallWidth = 393;
 			const mobileWidth = 768;
 			const desktopWidth = 1440;
 
@@ -53,11 +54,10 @@
 			const figcaptionBottom = $figcaption.length ? 45 : 0;
 
 			const navHeight = $navContainer.outerHeight();
-			const navSpace = 20;
 
 			// Check if window width is between sm (768px) and md (1440px) breakpoints
 			if ( mobileWidth <= windowWidth && windowWidth < desktopWidth ) {
-				const navSpace = 10;
+				const navSpace = 40;
 				// Position the nav container below the image
 				$navContainer.css( 'top', imgHeight + navSpace + 'px' );
 
@@ -72,8 +72,33 @@
 					'height',
 					Math.max( heightWithNav, heightWithFigcaption ) + 'px'
 				);
+			} else if ( windowWidth <= xSmallWidth ) {
+				const navSpace = $figcaption.length ? 10 : 40;
+				// For small screens, position below the figcaption or below the image if no figcaption
+				const navTop = $figcaption.length
+					? imgHeight - figcaptionBottom + figcaptionHeight + navSpace
+					: imgHeight + navSpace;
+
+				// Position the nav container
+				$navContainer.css( 'top', navTop + 'px' );
+
+				// Match the width of the navigation container to the image width
+				$navContainer.css( 'width', imgWidth * 0.9 + 'px' );
+
+				// Set the height of the gallery to the height of the nav container or the imageBlock height
+				const heightWithNav = imgHeight + navSpace + navHeight;
+				const heightWithFigcaption =
+					imgHeight +
+					figcaptionHeight -
+					figcaptionBottom +
+					navSpace +
+					navHeight;
+				$gallery.css(
+					'height',
+					Math.max( heightWithNav, heightWithFigcaption ) + 'px'
+				);
 			} else if ( windowWidth < mobileWidth ) {
-				const navSpace = 10;
+				const navSpace = $figcaption.length ? 10 : 40;
 				// For small screens, position below the figcaption or below the image if no figcaption
 				const navTop = $figcaption.length
 					? imgHeight - figcaptionBottom + figcaptionHeight + navSpace
@@ -133,6 +158,34 @@
 		$nextBtn.on( 'click', function () {
 			showSlide( currentSlide + 1 );
 		} );
+
+		// Add touch swipe functionality
+		let touchStartX = 0;
+		let touchEndX = 0;
+
+		$galleryBlock.on( 'touchstart', function ( e ) {
+			touchStartX = e.originalEvent.touches[ 0 ].clientX;
+		} );
+
+		$galleryBlock.on( 'touchend', function ( e ) {
+			touchEndX = e.originalEvent.changedTouches[ 0 ].clientX;
+			handleSwipe();
+		} );
+
+		function handleSwipe() {
+			const swipeThreshold = 50; // Minimum distance for a swipe
+			const swipeDistance = touchEndX - touchStartX;
+
+			if ( Math.abs( swipeDistance ) > swipeThreshold ) {
+				if ( swipeDistance > 0 ) {
+					// Swipe right - show previous slide
+					showSlide( currentSlide - 1 );
+				} else {
+					// Swipe left - show next slide
+					showSlide( currentSlide + 1 );
+				}
+			}
+		}
 
 		// Reposition on window resize to handle responsive image size changes
 		$( window ).on( 'resize', function () {

@@ -1,5 +1,3 @@
-@import "../../mixins";
-
 .wp-block-image {
 	max-width: var(--small-max-width);
 	position: relative;
@@ -167,5 +165,24 @@
 			padding-right: 20px;
 			padding: var(--Spacing-6x) var(--Spacing-6x);
 		}
+	}
+}
+
+// Gallery index display styles
+.gallery-index-display {
+	position: absolute;
+	background-color: white;
+	color: var(--FAU-Col-FAU-Blau-100);
+	right: var(--Spacing-8x);
+	font-weight: 700;
+
+	figcaption & {
+		top: var(--Spacing-6x);
+	}
+
+	// When inside image wrapper (no caption), position at bottom right of image
+	.image-wrapper & {
+		padding: var(--Spacing-3x);
+		bottom: var(--Spacing-8x);
 	}
 }
