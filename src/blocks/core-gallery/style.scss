@@ -1,7 +1,4 @@
-@import "../../mixins";
-
 // WP CSS reset
-
 .wp-block-gallery {
 	margin: 0;
 }
@@ -31,10 +28,10 @@ figure.wp-block-image:has(figcaption)::before {
 	width: auto;
 }
 
-// // End WP CSS reset
-
+// End WP CSS reset
 .wp-block-gallery-container {
 	max-width: var(--wide-max-width);
+	padding: 0 var(--Spacing-10x);
 	position: relative;
 	display: flex;
 	justify-content: center;
@@ -145,4 +142,11 @@ figure.wp-block-image:has(figcaption)::before {
 
 .wp-block-gallery .gallery-slider figure.wp-block-image {
 	max-width: var(--base-max-width);
+}
+
+@include respond-to("x-small") {
+
+	.wp-block-gallery-container {
+		padding: 0;
+	}
 }

@@ -184,8 +184,7 @@
 
 	// When inside image wrapper (no caption), position at bottom right of image
 	.image-wrapper & {
-		padding: 4px 8px;
-		border-radius: 4px;
+		padding: var(--Spacing-3x);
 		bottom: var(--Spacing-8x);
 	}
 }

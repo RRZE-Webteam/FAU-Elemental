@@ -204,6 +204,7 @@ address {
 }
 
 // Import Core Block Styles
+@import "./mixins";
 @import "./blocks/core-button/style";
 @import "./blocks/core-code/style";
 @import "./blocks/core-details/style";
