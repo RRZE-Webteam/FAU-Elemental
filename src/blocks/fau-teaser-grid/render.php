@@ -31,7 +31,14 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $selected_category = $attributes['category'] ?? 0;
         $order_by = $attributes['orderBy'] ?? 'date';
         $order = $attributes['order'] ?? 'DESC';
-
+        $heading_level = $attributes['headingLevel'] ?? 'h4';
+        
+        // Ensure it's a valid heading tag
+        $allowed_headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+        if (!in_array($heading_level, $allowed_headings)) {
+            $heading_level = 'h4'; // Default to h4 if not valid
+        }
+        
         // Start building the output
         $wrapper_attributes = get_block_wrapper_attributes([
             'class' => 'fau-list-item',
@@ -44,7 +51,7 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             $grid_classes[] = "layout-{$teaser_layout}";
         }
 
-        $output = sprintf('<div %s>', $wrapper_attributes);
+        $output = sprintf('<section %s>', $wrapper_attributes);
         $output .= sprintf(
             '<div class="%s" aria-label="%s" data-variant="%s">', 
             esc_attr(implode(' ', $grid_classes)),
@@ -57,7 +64,7 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             foreach ($selected_posts as $selected_post) {
                 $post = get_post($selected_post['id']);
                 if ($post) {
-                    $output .= fau_elemental_render_teaser_item($post, $variant, $grid_classes);
+                    $output .= fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level);
                 }
             }
         } else {
@@ -79,7 +86,7 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             if ($query->have_posts()) {
                 while ($query->have_posts()) {
                     $query->the_post();
-                    $output .= fau_elemental_render_teaser_item(get_post(), $variant, $grid_classes);
+                    $output .= fau_elemental_render_teaser_item(get_post(), $variant, $grid_classes, $heading_level);
                 }
                 wp_reset_postdata();
             } else {
@@ -113,7 +120,7 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             $output .= '</nav>';
         }
 
-        $output .= '</div>'; // Close fau-list-item
+        $output .= '</section>'; // Close fau-list-item section
 
         return $output;
     }
@@ -126,9 +133,10 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
      * @param WP_Post $post The post object.
      * @param string  $variant The variant type (post or page).
      * @param array   $grid_classes The grid classes.
+     * @param string  $heading_level The heading level to use (h1-h6).
      * @return string The rendered teaser item HTML.
      */
-    function fau_elemental_render_teaser_item($post, $variant, $grid_classes) {
+    function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level = 'h4') {
         $image = get_the_post_thumbnail_url($post->ID, 'full') ?: get_template_directory_uri() . '/assets/images/logo.svg';
         $title = get_the_title($post);
         $excerpt = get_the_excerpt($post);
@@ -136,10 +144,8 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
         $output = sprintf(
-            '<a href="%s" class="teaser-item %s-teaser" aria-labelledby="teaser-title-%d" data-variant="%s">',
-            esc_url($link),
+            '<article class="teaser-item %s-teaser" data-variant="%s">',
             esc_attr($variant),
-            $post->ID,
             esc_attr($variant)
         );
         
@@ -193,13 +199,14 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
             }
         }
 
-        // Title
+        // Title with specified heading level
         $output .= sprintf(
-            '<h4 class="clamp-3" id="teaser-title-%d">',
+            '<%s class="clamp-3" id="teaser-title-%d">',
+            esc_attr($heading_level),
             $post->ID
         );
-        $output .= esc_html($title);
-        $output .= '</h4>';
+        $output .= sprintf('<a href="%s">%s</a>', esc_url($link), esc_html($title));
+        $output .= sprintf('</%s>', esc_attr($heading_level));
 
         // Excerpt
         $output .= '<div class="excerpt clamp-3">';
@@ -212,14 +219,16 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         // Button
         $output .= '<div class="button-teaser">';
         $output .= sprintf(
-            '<span class="wp-block-button__link" aria-hidden="true"><span class="screen-reader-text">%s</span></span>',
-            esc_html__('Read more', 'fau-elemental')
+            '<a href="%s" class="wp-block-button__link"><span class="screen-reader-text">%s %s</span></a>',
+            esc_url($link),
+            __('Read more about', 'fau-elemental'),
+            esc_html($title)
         );
         $output .= '</div>';
 
         $output .= '</div>'; // Close teaser-content
         $output .= '</div>'; // Close teaser-content-wrapper
-        $output .= '</a>'; // Close teaser-item
+        $output .= '</article>'; // Close teaser-item
 
         return $output;
     }

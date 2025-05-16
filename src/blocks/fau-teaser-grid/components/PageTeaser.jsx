@@ -1,29 +1,24 @@
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
+import React from 'react';
 
 // Get the theme URL from WordPress data
 const FALLBACK_IMAGE =
 	'/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
-export default function PageTeaser( { page, grid } ) {
-	if ( ! page ) return null;
+export default function PageTeaser({ page, headingLevel = 'h4' }) {
+    if (!page) return null;
 
 	const themeUrl = useSelect( ( select ) => {
 		return select( 'core' ).getEntityRecord( 'root', 'site' )?.url || '';
 	}, [] );
 
-	const image =
-		page._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url ||
-		`${ themeUrl }${ FALLBACK_IMAGE }`;
-	const title = page.title?.rendered || '';
-	const excerpt = ( page.excerpt?.rendered || '' ).replace(
-		'[&hellip;]',
-		'..'
-	);
-	const link = page.link || '#';
-
-	// Define variant for consistency with PHP implementation
-	const variant = 'page';
+    const image = page._embedded?.['wp:featuredmedia']?.[0]?.source_url || `${themeUrl}${FALLBACK_IMAGE}`;
+    const title = page.title?.rendered || '';
+    const excerpt = (page.excerpt?.rendered || '').replace('[&hellip;]', '..');
+    
+    // Define variant for consistency with PHP implementation
+    const variant = 'page';
 
 	return (
 		<a
@@ -41,19 +36,25 @@ export default function PageTeaser( { page, grid } ) {
 			<div className="teaser-content-wrapper">
 				<div className="teaser-content">
 					<div className="content-column">
-						<h3
-							className="clamp-3"
-							id={ `teaser-title-${ page.id }` }
-						>
-							<span
-								className="visually-hidden"
-								dangerouslySetInnerHTML={ { __html: title } }
-							/>
-							<span
-								aria-hidden="true"
-								dangerouslySetInnerHTML={ { __html: title } }
-							/>
-						</h3>
+						{React.createElement(
+                            headingLevel,
+                            {
+                                className: "clamp-3",
+                                id: `teaser-title-${page.id}`
+                            },
+                            [
+                                <span
+                                    key="visually-hidden"
+                                    className="visually-hidden"
+                                    dangerouslySetInnerHTML={{ __html: title }}
+                                />,
+                                <span
+                                    key="aria-hidden"
+                                    aria-hidden="true"
+                                    dangerouslySetInnerHTML={{ __html: title }}
+                                />
+                            ]
+                        )}
 						<div className="excerpt clamp-3">
 							<span
 								className="visually-hidden"

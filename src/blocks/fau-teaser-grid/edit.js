@@ -40,21 +40,22 @@ const TEASER_LAYOUTS = [
 	},
 ];
 
-export default function Edit( { attributes, setAttributes } ) {
-	const {
-		displayStyle,
-		variant,
-		teaserLayout,
-		postsPerPage,
-		selectedCategory,
-		currentPage,
-		showPagination,
-		totalPosts,
-		orderBy,
-		order,
-		selectedPosts,
-		selectionMode,
-	} = attributes;
+export default function Edit({ attributes, setAttributes }) {
+    const { 
+        displayStyle,
+        variant,
+        teaserLayout,
+        postsPerPage,
+        selectedCategory,
+        currentPage,
+        showPagination,
+        totalPosts,
+        orderBy,
+        order,
+        selectedPosts,
+        selectionMode,
+        headingLevel
+    } = attributes;
 
 	const gridRef = useRef( null );
 
@@ -128,27 +129,22 @@ export default function Edit( { attributes, setAttributes } ) {
 		[ variant, postsPerPage, currentPage, selectedCategory, orderBy, order ]
 	);
 
-	// Use useEntityRecords to get total count efficiently
-	const { totalItems } = useSelect(
-		( select ) => {
-			const { getEntityRecords } = select( coreStore );
-			const countQuery = {
-				per_page: 1,
-				_fields: [ 'id' ],
-				...( selectedCategory ? { categories: selectedCategory } : {} ),
-			};
-			const records = getEntityRecords( 'postType', variant, countQuery );
-			const total =
-				select( 'core' ).getEntityRecords( 'postType', variant, {
-					...countQuery,
-					per_page: -1,
-				} )?.length || 0;
-			return {
-				totalItems: total,
-			};
-		},
-		[ variant, selectedCategory ]
-	);
+    // Use useEntityRecords to get total count efficiently
+    const { totalItems } = useSelect((select) => {
+        const { getEntityRecords } = select(coreStore);
+        const countQuery = {
+            per_page: 1,
+            _fields: ['id'],
+            ...(selectedCategory ? { categories: selectedCategory } : {})
+        };
+        const total = select('core').getEntityRecords('postType', variant, {
+            ...countQuery,
+            per_page: -1
+        })?.length || 0;
+        return {
+            totalItems: total
+        };
+    }, [variant, selectedCategory]);
 
 	// Calculate total pages based on totalItems
 	const calculatedTotalPosts =
@@ -243,52 +239,52 @@ export default function Edit( { attributes, setAttributes } ) {
 		setAttributes( { teaserLayout: newLayout } );
 	};
 
-	return (
-		<div
-			{ ...blockProps }
-			role="region"
-			aria-label={ __( 'Teaser Grid Block', 'fau-elemental' ) }
-		>
-			<InspectorControls>
-				<PanelBody title={ __( 'Display Settings', 'fau-elemental' ) }>
-					<ButtonGroup
-						aria-label={ __(
-							'Display style options',
-							'fau-elemental'
-						) }
-					>
-						<Button
-							isPrimary={ displayStyle === 'teaser-grid' }
-							onClick={ () =>
-								onDisplayStyleChange( 'teaser-grid' )
-							}
-							aria-pressed={ displayStyle === 'teaser-grid' }
-						>
-							{ __( 'Teaser Grid', 'fau-elemental' ) }
-						</Button>
-						<Button
-							isPrimary={ displayStyle === 'list-item' }
-							onClick={ () =>
-								onDisplayStyleChange( 'list-item' )
-							}
-							aria-pressed={ displayStyle === 'list-item' }
-						>
-							{ __( 'List Item', 'fau-elemental' ) }
-						</Button>
-					</ButtonGroup>
+    return (
+        <div {...blockProps} role="region" aria-label={__('Teaser Grid Block', 'fau-elemental')}>
+            <InspectorControls>
+                <PanelBody title={__('Display Settings', 'fau-elemental')}>
+                    <ButtonGroup aria-label={__('Display style options', 'fau-elemental')}>
+                        <Button
+                            isPrimary={displayStyle === 'teaser-grid'}
+                            onClick={() => onDisplayStyleChange('teaser-grid')}
+                            aria-pressed={displayStyle === 'teaser-grid'}
+                        >
+                            {__('Teaser Grid', 'fau-elemental')}
+                        </Button>
+                        <Button
+                            isPrimary={displayStyle === 'list-item'}
+                            onClick={() => onDisplayStyleChange('list-item')}
+                            aria-pressed={displayStyle === 'list-item'}
+                        >
+                            {__('List Item', 'fau-elemental')}
+                        </Button>
+                    </ButtonGroup>
+                    
+                    {displayStyle === 'teaser-grid' && (
+                        <SelectControl
+                            label={__('Teaser Layout', 'fau-elemental')}
+                            value={teaserLayout}
+                            options={TEASER_LAYOUTS}
+                            onChange={(value) => onTeaserLayoutChange(value)}
+                            aria-describedby="teaser-layout-description"
+                            __nextHasNoMarginBottom={true}
+                        />
+                    )}
 
-					{ displayStyle === 'teaser-grid' && (
-						<SelectControl
-							label={ __( 'Teaser Layout', 'fau-elemental' ) }
-							value={ teaserLayout }
-							options={ TEASER_LAYOUTS }
-							onChange={ ( value ) =>
-								onTeaserLayoutChange( value )
-							}
-							aria-describedby="teaser-layout-description"
-						/>
-					) }
-				</PanelBody>
+                    <SelectControl
+                        label={__('Heading Level', 'fau-elemental')}
+                        value={headingLevel || 'h4'}
+                        options={[
+                            { label: 'H1', value: 'h1' },
+                            { label: 'H2', value: 'h2' },
+                            { label: 'H3', value: 'h3' },
+                            { label: 'H4', value: 'h4' },
+                            { label: 'H5', value: 'h5' },
+                            { label: 'H6', value: 'h6' },
+                        ]}
+                        onChange={(newHeadingLevel) => setAttributes({ headingLevel: newHeadingLevel })}
+                    />
+                </PanelBody>
 
 				<PanelBody title={ __( 'Selection Mode', 'fau-elemental' ) }>
 					<ButtonGroup
@@ -397,152 +393,144 @@ export default function Edit( { attributes, setAttributes } ) {
 					) }
 				</PanelBody>
 
-				{ selectionMode === 'auto' && (
-					<PanelBody
-						title={ __( 'Content Settings', 'fau-elemental' ) }
-					>
-						<SelectControl
-							label={ __( 'Content Type', 'fau-elemental' ) }
-							value={ variant }
-							options={ postTypeOptions }
-							onChange={ ( value ) =>
-								setAttributes( { variant: value } )
-							}
-						/>
+                {selectionMode === 'auto' && (
+                    <PanelBody title={__('Content Settings', 'fau-elemental')}>
+                        <SelectControl
+                            label={__('Content Type', 'fau-elemental')}
+                            value={variant}
+                            options={postTypeOptions}
+                            onChange={(value) => setAttributes({ variant: value, selectedCategory: 0, currentPage: 1 })}
+                            help={__('Select the type of content to display.', 'fau-elemental')}
+                            __nextHasNoMarginBottom={true}
+                        />
 
-						{ variant === 'post' && (
-							<SelectControl
-								label={ __( 'Category', 'fau-elemental' ) }
-								value={ selectedCategory }
-								options={ categoryOptions }
-								onChange={ ( value ) =>
-									setAttributes( {
-										selectedCategory: parseInt( value ),
-									} )
-								}
-							/>
-						) }
+                        {variant === 'post' && categories.length > 0 && (
+                            <SelectControl
+                                label={__('Category', 'fau-elemental')}
+                                value={selectedCategory}
+                                options={categoryOptions}
+                                onChange={(value) => setAttributes({ selectedCategory: parseInt(value), currentPage: 1 })}
+                                help={__('Select a category to filter posts.', 'fau-elemental')}
+                                __nextHasNoMarginBottom={true}
+                            />
+                        )}
 
-						<RangeControl
-							label={ __( 'Posts per Page', 'fau-elemental' ) }
-							value={ postsPerPage }
-							onChange={ ( value ) =>
-								setAttributes( { postsPerPage: value } )
-							}
-							min={ 1 }
-							max={ 20 }
-						/>
+                        <RangeControl
+                            label={__('Posts Per Page', 'fau-elemental')}
+                            value={postsPerPage}
+                            onChange={(value) => setAttributes({ postsPerPage: value, currentPage: 1 })}
+                            min={1}
+                            max={12}
+                            help={__('Set the maximum number of posts to display per page.', 'fau-elemental')}
+                            __nextHasNoMarginBottom={true}
+                        />
 
-						<RangeControl
-							label={ __( 'Total Posts', 'fau-elemental' ) }
-							value={ totalPosts }
-							onChange={ ( value ) =>
-								setAttributes( { totalPosts: value } )
-							}
-							min={ -1 }
-							max={ 100 }
-							help={ __( '-1 for all posts', 'fau-elemental' ) }
-						/>
+                        <ToggleControl
+                            label={__('Show Pagination', 'fau-elemental')}
+                            checked={showPagination}
+                            onChange={(value) => setAttributes({ showPagination: value })}
+                            help={__('Toggle to show or hide pagination.', 'fau-elemental')}
+                            __nextHasNoMarginBottom={true}
+                        />
 
-						<SelectControl
-							label={ __( 'Sort By', 'fau-elemental' ) }
-							value={ orderBy }
-							options={ sortingOptions }
-							onChange={ ( value ) =>
-								setAttributes( { orderBy: value } )
-							}
-						/>
+                        <SelectControl
+                            label={__('Order By', 'fau-elemental')}
+                            value={orderBy}
+                            options={sortingOptions}
+                            onChange={(value) => setAttributes({ orderBy: value })}
+                            __nextHasNoMarginBottom={true}
+                        />
 
-						<SelectControl
-							label={ __( 'Sort Order', 'fau-elemental' ) }
-							value={ order }
-							options={ orderOptions }
-							onChange={ ( value ) =>
-								setAttributes( { order: value } )
-							}
-						/>
+                        <SelectControl
+                            label={__('Order', 'fau-elemental')}
+                            value={order.toUpperCase()} 
+                            options={orderOptions}
+                            onChange={(value) => setAttributes({ order: value })}
+                            __nextHasNoMarginBottom={true}
+                        />
+                    </PanelBody>
+                )}
 
-						<ToggleControl
-							label={ __( 'Show Pagination', 'fau-elemental' ) }
-							checked={ showPagination }
-							onChange={ () =>
-								setAttributes( {
-									showPagination: ! showPagination,
-								} )
-							}
-						/>
-					</PanelBody>
-				) }
-			</InspectorControls>
+                {selectionMode === 'manual' && (
+                    <PanelBody title={__('Manual Post Selection', 'fau-elemental')}>
+                        <ComboboxControl
+                            label={__('Search and Select Posts', 'fau-elemental')}
+                            value={searchTerm}
+                            onChange={setSearchTerm} // Update search term on input change
+                            onFilterValueChange={setSearchTerm} // Also update on filter change for consistency
+                            options={availablePosts?.map(post => ({ label: post.title.rendered, value: post.id })) || []}
+                            onSelect={handlePostSelection} // Use onSelect to handle the selection
+                            help={__('Type to search for posts and select them to add to the grid.', 'fau-elemental')}
+                        />
+                        {selectedPosts.length > 0 && (
+                            <ul className="selected-posts-list">
+                                {selectedPosts.map(post => (
+                                    <li key={post.id}>
+                                        {post.title}
+                                        <Button 
+                                            isSmall 
+                                            isDestructive 
+                                            onClick={() => removeSelectedPost(post.id)}
+                                            style={{ marginLeft: '8px' }}
+                                        >
+                                            {__('Remove', 'fau-elemental')}
+                                        </Button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </PanelBody>
+                )}
 
-			<div
-				ref={ gridRef }
-				className={ `fau-teaser-grid ${ displayStyle } ${
-					displayStyle === 'teaser-grid'
-						? `layout-${ teaserLayout }`
-						: ''
-				}` }
-				role="list"
-				aria-label={ __( 'Content grid', 'fau-elemental' ) }
-			>
-				{ ! isLoading ? (
-					selectionMode === 'manual' ? (
-						selectedPosts.length > 0 ? (
-							selectedPosts.map( ( selectedPost ) => {
-								const post = items.find(
-									( item ) => item.id === selectedPost.id
-								);
-								return post ? (
-									variant === 'post' ? (
-										<PostTeaser
-											key={ post.id }
-											post={ post }
-											grid={ blockProps }
-										/>
-									) : (
-										<PageTeaser
-											key={ post.id }
-											page={ post }
-											grid={ blockProps }
-										/>
-									)
-								) : null;
-							} )
-						) : (
-							<p role="status">
-								{ __( 'No posts selected', 'fau-elemental' ) }
-							</p>
-						)
-					) : items && items.length > 0 ? (
-						items.map( ( item ) =>
-							variant === 'post' ? (
-								<PostTeaser
-									key={ item.id }
-									post={ item }
-									grid={ blockProps }
-								/>
-							) : (
-								<PageTeaser
-									key={ item.id }
-									page={ item }
-									grid={ blockProps }
-								/>
-							)
-						)
-					) : (
-						<p role="status">
-							{ __( 'No items found', 'fau-elemental' ) }
-						</p>
-					)
-				) : (
-					<Placeholder>
-						<Spinner />
-						<p role="status">
-							{ __( 'Loading...', 'fau-elemental' ) }
-						</p>
-					</Placeholder>
-				) }
-			</div>
+                <PanelBody title={__('Accessibility', 'fau-elemental')}>
+                    <p>
+                        {__(
+                            'To ensure good accessibility and SEO, please make sure that there is only one H1 heading on the page. If you already have an H1 heading, use a different heading level for the teasers in this block.',
+                            'fau-elemental'
+                        )}
+                    </p>
+                </PanelBody>
+
+            </InspectorControls>
+            
+            <div 
+                ref={gridRef} 
+                className={`fau-teaser-grid ${displayStyle} ${displayStyle === 'teaser-grid' ? `layout-${teaserLayout}` : ''}`}
+                role="list"
+                aria-label={__('Content grid', 'fau-elemental')}
+            >
+                {!isLoading ? (
+                    selectionMode === 'manual' ? (
+                        selectedPosts.length > 0 ? (
+                            selectedPosts.map((selectedPost) => {
+                                const post = items.find(item => item.id === selectedPost.id);
+                                return post ? (
+                                    variant === 'post' 
+                                        ? <PostTeaser key={post.id} post={post} grid={blockProps} headingLevel={headingLevel} />
+                                        : <PageTeaser key={post.id} page={post} grid={blockProps} headingLevel={headingLevel} />
+                                ) : null;
+                            })
+                        ) : (
+                            <p role="status">{__('No posts selected', 'fau-elemental')}</p>
+                        )
+                    ) : (
+                        items && items.length > 0 ? (
+                            items.map((item) => (
+                                variant === 'post' 
+                                    ? <PostTeaser key={item.id} post={item} grid={blockProps} headingLevel={headingLevel} />
+                                    : <PageTeaser key={item.id} page={item} grid={blockProps} headingLevel={headingLevel} />
+                            ))
+                        ) : (
+                            <p role="status">{__('No items found', 'fau-elemental')}</p>
+                        )
+                    )
+                ) : (
+                    <Placeholder>
+                        <Spinner />
+                        <p role="status">{__('Loading...', 'fau-elemental')}</p>
+                    </Placeholder>
+                )}
+            </div>
 
 			{ showPagination &&
 				calculatedTotalPages > 1 &&

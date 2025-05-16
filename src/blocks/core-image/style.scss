@@ -38,21 +38,26 @@
 		width: 90%;
 		box-sizing: border-box;
 		padding-right: 80px;
+
+		.is-style-dark & {
+			background-color: var(--FAU-Col-FAU-Blau-100);
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
 	}
 
 	&.is-style-large {
 		max-width: var(--base-max-width);
 		width: 100%;
 
-		@media screen and (max-width: 1599px) {
-			width: unset;
-			left: unset;
-		}
+		// @media screen and (max-width: 1599px) {
+		// 	width: unset;
+		// 	left: unset;
+		// }
 
-		@include respond-to("x-small") {
-			width: calc(100% + 32px);
-			left: -16px;
-		}
+		// @include respond-to("x-small") {
+		// 	width: calc(100% + 32px);
+		// 	left: -16px;
+		// }
 	}
 
 	.image-fullscreen-btn {

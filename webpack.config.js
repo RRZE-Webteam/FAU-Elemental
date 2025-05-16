@@ -105,6 +105,10 @@ module.exports = {
 			process.cwd(),
 			'src/blocks/core-gallery/gallery-slider.js'
 		),
+		'js/quote-carousel': path.resolve(
+			process.cwd(),
+			'src/blocks/core-quote/quote-carousel.js'
+		),
 	},
 	output: {
 		...defaultConfig.output,
