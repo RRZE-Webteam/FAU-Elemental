@@ -4,9 +4,10 @@
 
 .wp-block-quote-item {
 	max-width: var(--base-max-width);
+	padding: 0 var(--Spacing-10x);
 
 	blockquote {
-		font-size: 1.75rem;
+		font-size: 1.5rem;
 		color: var(--FAU-Col-FAU-Blau-100);
 		line-height: 1.5;
 		font-weight: 700;
@@ -30,11 +31,11 @@
 			display: flex;
 			flex-direction: column;
 			gap: var(--Spacing-4x);
+			box-sizing: border-box;
 		}
 
 		figure {
 			margin: 0;
-			height: 400px;
 
 			img {
 				display: block;
@@ -42,6 +43,7 @@
 				height: 100%;
 				aspect-ratio: 1;
 				object-fit: cover;
+				width: 350px;
 			}
 		}
 
@@ -57,8 +59,8 @@
 		}
 	}
 
+	// Responsive
 	@include respond-to("medium") {
-
 		blockquote {
 			font-size: 1.25rem;
 		}
@@ -70,35 +72,27 @@
 
 
 	@include respond-to("small") {
-
 		.quote-content {
 			flex-direction: column;
 
 			figure + .quote-text {
 				margin-left: unset;
 				margin-top: -120px;
-				width: 50vw;
+				width: 90%;
 			}
 
 			figure img {
-				width: calc(100% + 32px);
-				margin-left: -16px;
+				width: 100%;
 			}
-		}
-	}
-
-	@media screen and (max-width: 599px) {
-
-		.quote-content figure + .quote-text {
-			width: 65vw;
 		}
 	}
 
 	@include respond-to("x-small") {
+		padding: 0;
 
-		.quote-content figure + .quote-text {
-			width: auto;
-		}
+		.quote-content .quote-text {
+			padding: 0 var(--Spacing-5x);
+		  }
 	}
 }
 
