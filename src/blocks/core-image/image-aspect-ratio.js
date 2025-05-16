@@ -9,28 +9,29 @@
 				const naturalHeight = this.naturalHeight;
 				const containerWidth = $img.parent().width();
 
-				// Calculate the actual width the image will be displayed at
-				const displayWidth = Math.min( naturalWidth, containerWidth );
+				// Calculate maximum allowed height for 3:2 ratio based on container width
+				const maxAllowedHeight = containerWidth / 1.5;
 
 				// Calculate what the height would be at natural aspect ratio
 				const naturalHeightAtWidth =
-					( displayWidth / naturalWidth ) * naturalHeight;
+					( containerWidth / naturalWidth ) * naturalHeight;
 
-				// Calculate what the height would be at 3:2 ratio
-				const targetHeight = displayWidth / 1.5;
-
-				// If the natural height at this width would be taller than 3:2, use the target height
-				if ( naturalHeightAtWidth > targetHeight ) {
+				// If the natural height at container width would be taller than max allowed height
+				if ( naturalHeightAtWidth > maxAllowedHeight ) {
+					// Calculate the scale factor needed to fit within max allowed height
+					const scaleFactor = maxAllowedHeight / naturalHeightAtWidth;
+					const scaledWidth = containerWidth * scaleFactor;
+					
 					$img.css( {
-						width: displayWidth + 'px',
-						height: targetHeight + 'px',
-						'object-fit': 'cover',
+						width: scaledWidth + 'px',
+						height: 'auto',
+						'object-fit': 'contain',
 						'object-position': 'center',
 					} );
 				} else {
 					// Reset to natural dimensions
 					$img.css( {
-						width: displayWidth + 'px',
+						width: containerWidth + 'px',
 						height: 'auto',
 						'object-fit': 'none',
 						'object-position': 'initial',

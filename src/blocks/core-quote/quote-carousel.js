@@ -1,5 +1,6 @@
 // Frontend jQuery carousel functionality
 ( function ( $ ) {
+	console.log( 'quote-carousel' );
 	$( document ).ready( function () {
 		function initCarousel( $container ) {
 			const $slides = $container.find( '.quote-slide' );

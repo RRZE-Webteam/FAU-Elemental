@@ -133,33 +133,34 @@ addFilter(
 				const naturalHeight = img.naturalHeight;
 				const containerWidth = img.parentElement.offsetWidth;
 
-				// Calculate the actual width the image will be displayed at
-				const displayWidth = Math.min( naturalWidth, containerWidth );
+				// Calculate maximum allowed height for 3:2 ratio based on container width
+				const maxAllowedHeight = containerWidth / 1.5;
 
 				// Calculate what the height would be at natural aspect ratio
 				const naturalHeightAtWidth =
-					( displayWidth / naturalWidth ) * naturalHeight;
+					( containerWidth / naturalWidth ) * naturalHeight;
 
-				// Calculate what the height would be at 3:2 ratio
-				const targetHeight = displayWidth / 1.5;
-
-				// If the natural height at this width would be taller than 3:2, use the target height
-				if ( naturalHeightAtWidth > targetHeight ) {
-					img.style.width = `${ displayWidth }px`;
-					img.style.height = `${ targetHeight }px`;
-					img.style.objectFit = 'cover';
+				// If the natural height at container width would be taller than max allowed height
+				if ( naturalHeightAtWidth > maxAllowedHeight ) {
+					// Calculate the scale factor needed to fit within max allowed height
+					const scaleFactor = maxAllowedHeight / naturalHeightAtWidth;
+					const scaledWidth = containerWidth * scaleFactor;
+					
+					img.style.width = `${ scaledWidth }px`;
+					img.style.height = 'auto';
+					img.style.objectFit = 'contain';
 					img.style.objectPosition = 'center';
 
 					// Log the adjusted aspect ratio
 					console.log( 'Adjusted Image:', {
-						finalWidth: displayWidth,
-						finalHeight: targetHeight,
-						finalRatio: displayWidth / targetHeight,
-						adjustment: 'Applied 3:2 ratio',
+						finalWidth: scaledWidth,
+						finalHeight: naturalHeightAtWidth * scaleFactor,
+						finalRatio: scaledWidth / ( naturalHeightAtWidth * scaleFactor ),
+						adjustment: 'Scaled to fit 3:2 container',
 					} );
 				} else {
 					// Reset to natural dimensions
-					img.style.width = `${ displayWidth }px`;
+					img.style.width = `${ containerWidth }px`;
 					img.style.height = 'auto';
 					img.style.objectFit = 'none';
 					img.style.objectPosition = 'initial';
