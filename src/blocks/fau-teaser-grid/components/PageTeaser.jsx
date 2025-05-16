@@ -5,25 +5,19 @@ import { useSelect } from '@wordpress/data';
 const FALLBACK_IMAGE =
 	'/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
-export default function PageTeaser( { page, grid } ) {
-	if ( ! page ) return null;
+export default function PageTeaser({ page }) {
+    if (!page) return null;
 
 	const themeUrl = useSelect( ( select ) => {
 		return select( 'core' ).getEntityRecord( 'root', 'site' )?.url || '';
 	}, [] );
 
-	const image =
-		page._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url ||
-		`${ themeUrl }${ FALLBACK_IMAGE }`;
-	const title = page.title?.rendered || '';
-	const excerpt = ( page.excerpt?.rendered || '' ).replace(
-		'[&hellip;]',
-		'..'
-	);
-	const link = page.link || '#';
-
-	// Define variant for consistency with PHP implementation
-	const variant = 'page';
+    const image = page._embedded?.['wp:featuredmedia']?.[0]?.source_url || `${themeUrl}${FALLBACK_IMAGE}`;
+    const title = page.title?.rendered || '';
+    const excerpt = (page.excerpt?.rendered || '').replace('[&hellip;]', '..');
+    
+    // Define variant for consistency with PHP implementation
+    const variant = 'page';
 
 	return (
 		<a

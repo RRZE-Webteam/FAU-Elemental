@@ -17,66 +17,85 @@
 	"style": "file:./style-index.css",
 	"render": "file:./render.php",
 
-	"attributes": {
-		"variant": {
-			"type": "string",
-			"default": "post"
-		},
-		"postsPerPage": {
-			"type": "number",
-			"default": 3
-		},
-		"showFilters": {
-			"type": "boolean",
-			"default": false
-		},
-		"selectedCategory": {
-			"type": "number",
-			"default": 0
-		},
-		"selectedTaxonomy": {
-			"type": "string",
-			"default": ""
-		},
-		"currentPage": {
-			"type": "number",
-			"default": 1
-		},
-		"displayStyle": {
-			"type": "string",
-			"default": "teaser-grid"
-		},
-		"showPagination": {
-			"type": "boolean",
-			"default": true
-		},
-		"totalPosts": {
-			"type": "number",
-			"default": 3
-		},
-		"orderBy": {
-			"type": "string",
-			"default": "date"
-		},
-		"order": {
-			"type": "string",
-			"default": "DESC"
-		},
-		"teaserLayout": {
-			"type": "string",
-			"default": "3m"
-		},
-		"teaserSizes": {
-			"type": "array",
-			"default": []
-		},
-		"selectedPosts": {
-			"type": "array",
-			"default": []
-		},
-		"selectionMode": {
-			"type": "string",
-			"default": "auto"
-		}
-	}
+    "attributes": {
+        "variant": {
+            "type": "string",
+            "default": "post"
+        },
+        "postsPerPage": {
+            "type": "number",
+            "default": 3
+        },
+        "showFilters": {
+            "type": "boolean",
+            "default": false
+        },
+        "selectedCategory": {
+            "type": "number",
+            "default": 0
+        },
+        "selectedTaxonomy": {
+            "type": "string",
+            "default": ""
+        },
+        "currentPage": {
+            "type": "number",
+            "default": 1
+        },
+        "displayStyle": {
+            "type": "string",
+            "default": "teaser-grid"
+        },
+        "showPagination": {
+            "type": "boolean",
+            "default": true
+        },
+        "totalPosts": {
+            "type": "number",
+            "default": 3
+        },
+        "orderBy": {
+            "type": "string",
+            "default": "date"
+        },
+        "order": {
+            "type": "string",
+            "default": "DESC"
+        },
+        "teaserLayout": {
+            "type": "string",
+            "default": "3m"
+        },
+        "teaserSizes": {
+            "type": "array",
+            "default": []
+        },
+        "selectedPosts": {
+            "type": "array",
+            "default": []
+        },
+        "selectionMode": {
+            "type": "string",
+            "default": "auto"
+        }
+    },
+    "example": {
+        "attributes": {
+            "variant": "post",
+            "postsPerPage": 3,
+            "showFilters": false,
+            "selectedCategory": 0,
+            "selectedTaxonomy": "",
+            "currentPage": 1,
+            "displayStyle": "teaser-grid",
+            "showPagination": true,
+            "totalPosts": 3,
+            "orderBy": "date",
+            "order": "DESC",
+            "teaserLayout": "3m",
+            "teaserSizes": [],
+            "selectedPosts": [],
+            "selectionMode": "auto"
+        }
+    }
 }

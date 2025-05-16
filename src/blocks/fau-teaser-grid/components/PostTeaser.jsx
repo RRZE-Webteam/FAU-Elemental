@@ -2,42 +2,28 @@ import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
 // Get the theme URL from WordPress data
-const FALLBACK_IMAGE =
-	'/wp-content/themes/fau-elemental//assets/images/logo.svg';
+const FALLBACK_IMAGE = '/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
-export default function PostTeaser( { post, grid } ) {
-	if ( ! post ) return null;
+export default function PostTeaser({ post }) {
+    if (!post) return null;
 
 	const themeUrl = useSelect( ( select ) => {
 		return select( 'core' ).getEntityRecord( 'root', 'site' )?.url || '';
 	}, [] );
 
-	const dateObj = post.date ? new Date( post.date ) : null;
-	const day = dateObj
-		? dateObj.toLocaleDateString( 'de-DE', { day: '2-digit' } )
-		: '';
-	const monthYear = dateObj
-		? dateObj
-				.toLocaleDateString( 'de-DE', {
-					month: 'short',
-					year: 'numeric',
-				} )
-				.replace( '.', '' )
-				.toUpperCase()
-		: '';
-	const category = post._embedded?.[ 'wp:term' ]?.[ 0 ]?.[ 0 ] || null;
-	const image =
-		post._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url ||
-		`${ themeUrl }${ FALLBACK_IMAGE }`;
-	const title = post.title?.rendered || '';
-	const excerpt = ( post.excerpt?.rendered || '' ).replace(
-		'[&hellip;]',
-		'..'
-	);
-	const link = post.link || '#';
-
-	// Define variant for consistency with PHP implementation
-	const variant = 'post';
+    const dateObj = post.date ? new Date(post.date) : null;
+    const day = dateObj ? dateObj.toLocaleDateString('de-DE', { day: '2-digit' }) : '';
+    const monthYear = dateObj ? dateObj.toLocaleDateString('de-DE', {
+        month: 'short',
+        year: 'numeric'
+    }).replace('.', '').toUpperCase() : '';
+    const category = post._embedded?.['wp:term']?.[0]?.[0] || null;
+    const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || `${themeUrl}${FALLBACK_IMAGE}`;
+    const title = post.title?.rendered || '';
+    const excerpt = (post.excerpt?.rendered || '').replace('[&hellip;]', '..');
+    
+    // Define variant for consistency with PHP implementation
+    const variant = 'post';
 
 	return (
 		<a
