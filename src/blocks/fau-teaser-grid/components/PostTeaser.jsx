@@ -5,15 +5,15 @@ import React, { useMemo } from 'react';
 // Get the theme URL from WordPress data
 const FALLBACK_IMAGE = '/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
-// Create a stable selector for the site URL
-const getSiteUrl = createSelector(
-    (select) => select('core').getEntityRecord('root', 'site')?.url || ''
+// Create a stable selector for the REST API base URL
+const getRestBaseUrl = createSelector(
+    (select) => window.location.origin
 );
 
 export default function PostTeaser({ post, headingLevel = 'h4' }) {
     if (!post) return null;
 
-	const themeUrl = useSelect(select => getSiteUrl(select), []);
+    const baseUrl = useSelect(select => getRestBaseUrl(select), []);
 
     // Memoize derived values
     const memoizedData = useMemo(() => {
@@ -23,13 +23,17 @@ export default function PostTeaser({ post, headingLevel = 'h4' }) {
                 day: '',
                 monthYear: '',
                 category: null,
-                image: `${themeUrl}${FALLBACK_IMAGE}`,
+                image: `${baseUrl}${FALLBACK_IMAGE}`,
                 title: '',
                 excerpt: ''
             };
         }
 
         const dateObj = post.date ? new Date(post.date) : null;
+        
+        // Check if there's a valid featured image
+        const hasFeaturedImage = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+        const imageUrl = hasFeaturedImage ? post._embedded['wp:featuredmedia'][0].source_url : `${baseUrl}${FALLBACK_IMAGE}`;
         
         return {
             day: dateObj ? dateObj.toLocaleDateString('de-DE', { day: '2-digit' }) : '',
@@ -38,7 +42,7 @@ export default function PostTeaser({ post, headingLevel = 'h4' }) {
                 year: 'numeric'
             }).replace('.', '').toUpperCase() : '',
             category: post._embedded?.['wp:term']?.[0]?.[0] || null,
-            image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url || `${themeUrl}${FALLBACK_IMAGE}`,
+            image: imageUrl,
             title: post.title?.rendered || '',
             excerpt: (post.excerpt?.rendered || '').replace('[&hellip;]', '..')
         };
@@ -49,7 +53,7 @@ export default function PostTeaser({ post, headingLevel = 'h4' }) {
         post?.excerpt?.rendered,
         post?._embedded?.['wp:term']?.[0]?.[0]?.id,
         post?._embedded?.['wp:featuredmedia']?.[0]?.source_url,
-        themeUrl
+        baseUrl
     ]);
     
     // Define variant for consistency with PHP implementation

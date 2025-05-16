@@ -87,7 +87,7 @@ export default function Edit({ attributes, setAttributes }) {
         page: currentPage,
         orderby: orderBy,
         order: order.toLowerCase(),
-        ...(selectedCategory ? { categories: selectedCategory } : {})
+        ...(selectedCategory ? { categories: selectedCategory } : {}),
     }), [postsPerPage, currentPage, orderBy, order, selectedCategory]);
 
     // Create a stable selector for posts
@@ -99,19 +99,19 @@ export default function Edit({ attributes, setAttributes }) {
             const rawPosts = select('core').getEntityRecords('postType', variant, query);
             if (!Array.isArray(rawPosts)) return [];
             
-            return rawPosts.map(post => ({
-                id: post.id,
-                title: post.title, 
-                excerpt: post.excerpt, 
-                date: post.date,
-                _embedded: post._embedded ? {
-                    'wp:featuredmedia': post._embedded['wp:featuredmedia'] || [],
-                    'wp:term': post._embedded['wp:term'] || []
-                } : {
-                    'wp:featuredmedia': [],
-                    'wp:term': []
-                }
-            }));
+            return rawPosts.map(post => {
+                
+                return {
+                    id: post.id,
+                    title: post.title, 
+                    excerpt: post.excerpt, 
+                    date: post.date,
+                    _embedded: post._embedded || {
+                        'wp:featuredmedia': [],
+                        'wp:term': []
+                    }
+                };
+            });
         },
         // Dependencies function:
         // Derives stable dependencies (like a string of IDs) from the raw data.

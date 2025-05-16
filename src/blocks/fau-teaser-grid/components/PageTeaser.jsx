@@ -3,32 +3,35 @@ import { useSelect, createSelector } from '@wordpress/data';
 import React, { useMemo } from 'react';
 
 // Get the theme URL from WordPress data
-const FALLBACK_IMAGE =
-	'/wp-content/themes/fau-elemental/assets/images/logo.svg';
+const FALLBACK_IMAGE = '/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
-// Create a stable selector for the site URL
-const getSiteUrl = createSelector(
-    (select) => select('core').getEntityRecord('root', 'site')?.url || ''
+// Create a stable selector for the REST API base URL
+const getRestBaseUrl = createSelector(
+    (select) => window.location.origin
 );
 
 export default function PageTeaser({ page, headingLevel = 'h4' }) {
     if (!page) return null;
 
-	const themeUrl = useSelect(select => getSiteUrl(select), []);
+    const baseUrl = useSelect(select => getRestBaseUrl(select), []);
 
     // Memoize derived values
     const memoizedData = useMemo(() => {
         // Return early with empty object if page isn't properly defined
         if (!page || !page.title || !page.excerpt) {
             return {
-                image: `${themeUrl}${FALLBACK_IMAGE}`,
+                image: `${baseUrl}${FALLBACK_IMAGE}`,
                 title: '',
                 excerpt: ''
             };
         }
 
+        // Check if there's a valid featured image
+        const hasFeaturedImage = page._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+        const imageUrl = hasFeaturedImage ? page._embedded['wp:featuredmedia'][0].source_url : `${baseUrl}${FALLBACK_IMAGE}`;
+
         return {
-            image: page._embedded?.['wp:featuredmedia']?.[0]?.source_url || `${themeUrl}${FALLBACK_IMAGE}`,
+            image: imageUrl,
             title: page.title?.rendered || '',
             excerpt: (page.excerpt?.rendered || '').replace('[&hellip;]', '..')
         };
@@ -37,7 +40,7 @@ export default function PageTeaser({ page, headingLevel = 'h4' }) {
         page?.title?.rendered,
         page?.excerpt?.rendered,
         page?._embedded?.['wp:featuredmedia']?.[0]?.source_url,
-        themeUrl
+        baseUrl
     ]);
     
     // Define variant for consistency with PHP implementation
