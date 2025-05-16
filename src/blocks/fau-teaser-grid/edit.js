@@ -7,9 +7,10 @@ import {
 	SelectControl,
 	Placeholder,
 	Spinner,
-	ButtonGroup,
 	Button,
 	ComboboxControl,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
 import { useSelect, createSelector } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
@@ -279,22 +280,23 @@ export default function Edit({ attributes, setAttributes }) {
         <div {...blockProps} role="region" aria-label={__('Teaser Grid Block', 'fau-elemental')}>
             <InspectorControls>
                 <PanelBody title={__('Display Settings', 'fau-elemental')}>
-                    <ButtonGroup aria-label={__('Display style options', 'fau-elemental')}>
-                        <Button
-                            isPrimary={displayStyle === 'teaser-grid'}
-                            onClick={() => onDisplayStyleChange('teaser-grid')}
-                            aria-pressed={displayStyle === 'teaser-grid'}
-                        >
-                            {__('Teaser Grid', 'fau-elemental')}
-                        </Button>
-                        <Button
-                            isPrimary={displayStyle === 'list-item'}
-                            onClick={() => onDisplayStyleChange('list-item')}
-                            aria-pressed={displayStyle === 'list-item'}
-                        >
-                            {__('List Item', 'fau-elemental')}
-                        </Button>
-                    </ButtonGroup>
+                    <ToggleGroupControl
+                        label={__('Display style options', 'fau-elemental')}
+                        value={displayStyle}
+                        onChange={onDisplayStyleChange}
+                        isBlock
+                        __next40pxDefaultSize={true}
+                        __nextHasNoMarginBottom={true}
+                    >
+                        <ToggleGroupControlOption 
+                            value="teaser-grid" 
+                            label={__('Teaser Grid', 'fau-elemental')} 
+                        />
+                        <ToggleGroupControlOption 
+                            value="list-item" 
+                            label={__('List Item', 'fau-elemental')} 
+                        />
+                    </ToggleGroupControl>
                     
                     {displayStyle === 'teaser-grid' && (
                         <SelectControl
@@ -304,6 +306,7 @@ export default function Edit({ attributes, setAttributes }) {
                             onChange={(value) => onTeaserLayoutChange(value)}
                             aria-describedby="teaser-layout-description"
                             __nextHasNoMarginBottom={true}
+                            __next40pxDefaultSize={true}
                         />
                     )}
 
@@ -319,38 +322,34 @@ export default function Edit({ attributes, setAttributes }) {
                             { label: 'H6', value: 'h6' },
                         ]}
                         onChange={(newHeadingLevel) => setAttributes({ headingLevel: newHeadingLevel })}
+                        __nextHasNoMarginBottom={true}
+                        __next40pxDefaultSize={true}
                     />
                 </PanelBody>
 
 				<PanelBody title={ __( 'Selection Mode', 'fau-elemental' ) }>
-					<ButtonGroup
-						aria-label={ __(
-							'Selection mode options',
-							'fau-elemental'
-						) }
+					<ToggleGroupControl
+						label={ __('Selection mode options', 'fau-elemental') }
+						value={selectionMode}
+                        onChange={(value) => {
+                            setAttributes({ 
+                                selectionMode: value,
+                                ...(value === 'auto' ? { selectedPosts: [] } : {})
+                            });
+                        }}
+                        isBlock
+                        __next40pxDefaultSize={true}
+                        __nextHasNoMarginBottom={true}
 					>
-						<Button
-							isPrimary={ selectionMode === 'auto' }
-							onClick={ () => {
-								setAttributes( {
-									selectionMode: 'auto',
-									selectedPosts: [],
-								} );
-							} }
-							aria-pressed={ selectionMode === 'auto' }
-						>
-							{ __( 'Automatic', 'fau-elemental' ) }
-						</Button>
-						<Button
-							isPrimary={ selectionMode === 'manual' }
-							onClick={ () =>
-								setAttributes( { selectionMode: 'manual' } )
-							}
-							aria-pressed={ selectionMode === 'manual' }
-						>
-							{ __( 'Manual Selection', 'fau-elemental' ) }
-						</Button>
-					</ButtonGroup>
+						<ToggleGroupControlOption
+							value="auto"
+							label={ __( 'Automatic', 'fau-elemental' ) }
+						/>
+						<ToggleGroupControlOption
+							value="manual"
+							label={ __( 'Manual Selection', 'fau-elemental' ) }
+						/>
+					</ToggleGroupControl>
 
 					{ selectionMode === 'manual' && (
 						<>
@@ -375,6 +374,7 @@ export default function Edit({ attributes, setAttributes }) {
 									'fau-elemental'
 								) }
 								aria-describedby="post-search-description"
+                                __next40pxDefaultSize={true}
 							/>
 							<p
 								id="post-search-description"
@@ -438,6 +438,7 @@ export default function Edit({ attributes, setAttributes }) {
                             onChange={(value) => setAttributes({ variant: value, selectedCategory: 0, currentPage: 1 })}
                             help={__('Select the type of content to display.', 'fau-elemental')}
                             __nextHasNoMarginBottom={true}
+                            __next40pxDefaultSize={true}
                         />
 
                         {variant === 'post' && memoizedCategories.length > 0 && (
@@ -448,6 +449,7 @@ export default function Edit({ attributes, setAttributes }) {
                                 onChange={(value) => setAttributes({ selectedCategory: parseInt(value), currentPage: 1 })}
                                 help={__('Select a category to filter posts.', 'fau-elemental')}
                                 __nextHasNoMarginBottom={true}
+                                __next40pxDefaultSize={true}
                             />
                         )}
 
@@ -459,6 +461,7 @@ export default function Edit({ attributes, setAttributes }) {
                             max={12}
                             help={__('Set the maximum number of posts to display per page.', 'fau-elemental')}
                             __nextHasNoMarginBottom={true}
+                            __next40pxDefaultSize={true}
                         />
 
                         <ToggleControl
@@ -475,6 +478,7 @@ export default function Edit({ attributes, setAttributes }) {
                             options={sortingOptions}
                             onChange={(value) => setAttributes({ orderBy: value })}
                             __nextHasNoMarginBottom={true}
+                            __next40pxDefaultSize={true}
                         />
 
                         <SelectControl
@@ -483,6 +487,7 @@ export default function Edit({ attributes, setAttributes }) {
                             options={orderOptions}
                             onChange={(value) => setAttributes({ order: value })}
                             __nextHasNoMarginBottom={true}
+                            __next40pxDefaultSize={true}
                         />
                     </PanelBody>
                 )}
@@ -497,6 +502,7 @@ export default function Edit({ attributes, setAttributes }) {
                             options={memoizedAvailablePosts?.map(post => ({ label: post.title.rendered, value: post.id })) || []}
                             onSelect={handlePostSelection} // Use onSelect to handle the selection
                             help={__('Type to search for posts and select them to add to the grid.', 'fau-elemental')}
+                            __next40pxDefaultSize={true}
                         />
                         {selectedPosts.length > 0 && (
                             <ul className="selected-posts-list">
