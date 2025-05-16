@@ -98,6 +98,8 @@ function fau_elemental_display_logo_title() {
         case 'cooperation': // External cooperation
             $visible_toptitle_secondline = '';
             $visible_toptitle = '';
+            $visible_shortcut = '';
+            $visible_title = '';
             $faulogo = false;
             break;
         default: // faculty, chair, other
@@ -112,9 +114,9 @@ function fau_elemental_display_logo_title() {
 
     echo '<span class="textlogo">';
     
-    // Check if custom logo is set
+    // Check if custom logo is set and website type is cooperation
     $custom_logo_id = get_theme_mod('fau_elemental_custom_logo');
-    if (!empty($custom_logo_id)) {
+    if (!empty($custom_logo_id) && $website_type === 'cooperation') {
         $custom_logo = wp_get_attachment_image_src($custom_logo_id, 'full');
         if ($custom_logo) {
             echo '<span class="baselogo">';
@@ -127,26 +129,30 @@ function fau_elemental_display_logo_title() {
         echo '</span>';
     }
 
-    echo '<span class="text">';
-    if ($visible_toptitle) {
-        echo '<span class="fau-title"' . ($visible_title ? ' aria-hidden="true"' : ' id="website-title"') . '>' . esc_html($visible_toptitle) . '</span> ';
-        
-        if ($visible_toptitle_secondline) {
-            echo '<span class="fau-title-place"' . ($visible_title ? ' aria-hidden="true"' : '') . '>' . esc_html($visible_toptitle_secondline) . '</span> ';
+    // Only show text elements if not a cooperation website
+    if ($website_type !== 'cooperation') {
+        echo '<span class="text">';
+        if ($visible_toptitle) {
+            echo '<span class="fau-title"' . ($visible_title ? ' aria-hidden="true"' : ' id="website-title"') . '>' . esc_html($visible_toptitle) . '</span> ';
+            
+            if ($visible_toptitle_secondline) {
+                echo '<span class="fau-title-place"' . ($visible_title ? ' aria-hidden="true"' : '') . '>' . esc_html($visible_toptitle_secondline) . '</span> ';
+            }
         }
-    }
 
-    if ($visible_title) {
-        echo '<span id="website-title" class="visible-title' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '" itemprop="name">' . esc_html($visible_title) . '</span>';
-        
-        if ($visible_shortcut) {
-            echo ' <span class="separator">|</span> <span class="website-shortcut' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '">' . esc_html($visible_shortcut) . '</span>';
+        if ($visible_title) {
+            echo '<span id="website-title" class="visible-title' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '" itemprop="name">' . esc_html($visible_title) . '</span>';
+            
+            if ($visible_shortcut) {
+                echo ' <span class="separator">|</span> <span class="website-shortcut' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '">' . esc_html($visible_shortcut) . '</span>';
+            }
+        } elseif ($visible_shortcut) {
+            echo '<span id="website-title" class="visible-title' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '" itemprop="name">' . esc_html($visible_shortcut) . '</span>';
         }
-    } elseif ($visible_shortcut) {
-        echo '<span id="website-title" class="visible-title' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '" itemprop="name">' . esc_html($visible_shortcut) . '</span>';
+        
+        echo '</span>';
     }
     
-    echo '</span>';
     echo '</span>';
 
     if (!is_front_page()) {
