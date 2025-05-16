@@ -214,8 +214,8 @@ export default function Edit({ attributes, setAttributes }) {
                             label={__('Teaser Grid', 'fau-elemental')} 
                         />
                         <ToggleGroupControlOption 
-                            value="list-item" 
-                            label={__('List Item', 'fau-elemental')} 
+                            value="mini-list" 
+                            label={__('Mini List', 'fau-elemental')} 
                         />
                     </ToggleGroupControl>
                     
@@ -397,7 +397,7 @@ export default function Edit({ attributes, setAttributes }) {
             
             <div 
                 ref={gridRef} 
-                className={`fau-teaser-grid ${displayStyle} ${displayStyle === 'teaser-grid' ? `layout-${teaserLayout}` : displayStyle === 'list-item' ? 'style-list-item' : ''}`}
+                className={`fau-teaser-grid ${displayStyle} ${displayStyle === 'teaser-grid' ? `layout-${teaserLayout}` : displayStyle === 'mini-list' ? 'style-mini-list' : ''}`}
                 role="list"
                 aria-label={__('Content grid', 'fau-elemental')}
             >

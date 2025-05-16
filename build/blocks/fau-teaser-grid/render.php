@@ -55,8 +55,8 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             } else {
                 $grid_classes[] = "layout-{$teaser_layout}";
             }
-        } elseif ($display_style === 'list-item') {
-            $grid_classes[] = 'style-list-item';
+        } elseif ($display_style === 'mini-list') {
+            $grid_classes[] = 'style-mini-list';
         }
 
         $output = sprintf('<section %s>', $wrapper_attributes);
