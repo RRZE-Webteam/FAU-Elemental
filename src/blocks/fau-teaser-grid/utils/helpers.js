@@ -1,5 +1,43 @@
 import { __ } from '@wordpress/i18n';
 
+/**
+ * Performs a shallow comparison between two objects or arrays
+ * Used for memoization purposes to prevent unnecessary re-renders
+ * 
+ * @param {Object|Array} obj1 First object to compare
+ * @param {Object|Array} obj2 Second object to compare
+ * @return {boolean} Whether the objects are shallowly equal
+ */
+export function shallowEqual(obj1, obj2) {
+	if (obj1 === obj2) {
+		return true;
+	}
+	
+	if (
+		typeof obj1 !== 'object' || 
+		typeof obj2 !== 'object' || 
+		obj1 === null || 
+		obj2 === null
+	) {
+		return false;
+	}
+	
+	const keys1 = Object.keys(obj1);
+	const keys2 = Object.keys(obj2);
+	
+	if (keys1.length !== keys2.length) {
+		return false;
+	}
+	
+	for (const key of keys1) {
+		if (!obj2.hasOwnProperty(key) || obj1[key] !== obj2[key]) {
+			return false;
+		}
+	}
+	
+	return true;
+}
+
 export function createPagination( currentPage, totalPages, onPageChange ) {
 	if ( totalPages <= 1 ) return null;
 
@@ -98,6 +136,12 @@ export function updateGridClasses( grid, displayStyle, teaserLayout ) {
 
 	// Only add layout classes if we're in teaser-grid mode
 	if ( displayStyle === 'teaser-grid' && teaserLayout ) {
-		grid.classList.add( `layout-${ teaserLayout }` );
+		// Handle special cases for 2s-left and 2s-right layouts
+		if (teaserLayout === '2s-left' || teaserLayout === '2s-right') {
+			grid.classList.add('layout-2s');
+			grid.classList.add(`layout-${teaserLayout}`);
+		} else {
+			grid.classList.add(`layout-${teaserLayout}`);
+		}
 	}
 }

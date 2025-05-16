@@ -48,7 +48,15 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
 
         $grid_classes = ['fau-teaser-grid', $display_style];
         if ($display_style === 'teaser-grid') {
-            $grid_classes[] = "layout-{$teaser_layout}";
+            // Handle special cases for 2s-left and 2s-right layouts
+            if ($teaser_layout === '2s-left' || $teaser_layout === '2s-right') {
+                $grid_classes[] = 'layout-2s';
+                $grid_classes[] = "layout-{$teaser_layout}";
+            } else {
+                $grid_classes[] = "layout-{$teaser_layout}";
+            }
+        } elseif ($display_style === 'mini-list') {
+            $grid_classes[] = 'style-mini-list';
         }
 
         $output = sprintf('<section %s>', $wrapper_attributes);
@@ -144,9 +152,11 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
         $output = sprintf(
-            '<article class="teaser-item %s-teaser" data-variant="%s">',
+            '<article class="teaser-item %s-teaser" data-variant="%s" data-href="%s" tabindex="0" role="button" aria-labelledby="teaser-title-%d">',
             esc_attr($variant),
-            esc_attr($variant)
+            esc_attr($variant),
+            esc_url($link),
+            $post->ID
         );
         
         // Image wrapper
