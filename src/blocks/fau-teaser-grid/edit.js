@@ -12,8 +12,7 @@ import {
     __experimentalToggleGroupControl as ToggleGroupControl,
     __experimentalToggleGroupControlOption as ToggleGroupControlOption
 } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
-import { store as coreStore } from '@wordpress/core-data';
+import { useSelect, createSelector } from '@wordpress/data';
 import './editor.scss';
 import { useState, useEffect, useRef, useMemo } from 'react';
 
@@ -65,53 +64,101 @@ export default function Edit({ attributes, setAttributes }) {
     // Add this new state for search
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Get post types and categories with proper memoization
-    const { postTypes, categories, items, isLoading, availablePosts } = useSelect((select) => {
+    // Get post types with proper memoization
+    const postTypes = useSelect((select) => {
         const coreSelect = select('core');
         const allPostTypes = coreSelect.getPostTypes();
-        
-        // Get all categories
-        const allCategories = coreSelect.getEntityRecords('taxonomy', 'category', { per_page: -1 }) || [];
-        
-        // Get all post types that are viewable (public)
-        const availablePostTypes = allPostTypes?.filter(type => 
+        return allPostTypes?.filter(type => 
             type.viewable && 
             type.slug !== 'attachment' &&
             type.slug !== 'wp_block'
         ) || [];
+    }, []);
 
-        // Build query for current post type
-        const query = {
-            _embed: true,
-            per_page: postsPerPage,
-            page: currentPage,
-            orderby: orderBy,
-            order: order.toLowerCase(),
-            ...(selectedCategory ? { categories: selectedCategory } : {})
-        };
+    // Get categories with proper memoization
+    const categories = useSelect((select) => {
+        return select('core').getEntityRecords('taxonomy', 'category', { per_page: -1 }) || [];
+    }, []);
 
-        // Get posts
-        const posts = coreSelect.getEntityRecords('postType', variant, query);
+    // Memoize query parameters for fetching posts to ensure stable reference
+    const queryParams = useMemo(() => ({
+        _embed: true,
+        per_page: postsPerPage,
+        page: currentPage,
+        orderby: orderBy,
+        order: order.toLowerCase(),
+        ...(selectedCategory ? { categories: selectedCategory } : {})
+    }), [postsPerPage, currentPage, orderBy, order, selectedCategory]);
 
-        // Get available posts for search
-        const searchPosts = searchTerm && variant ? 
-            coreSelect.getEntityRecords('postType', variant, {
-                search: searchTerm,
-                per_page: 20,
-                _fields: ['id', 'title'],
-                _embed: true
-            }) || [] : [];
+    // Create a stable selector for posts
+    const getPosts = createSelector(
+        // Computation function:
+        // Fetches raw posts and maps them to a consistent structure.
+        // This function is only re-run if the dependencies (from the second function) change.
+        (select, variant, query) => {
+            const rawPosts = select('core').getEntityRecords('postType', variant, query);
+            if (!Array.isArray(rawPosts)) return [];
+            
+            return rawPosts.map(post => ({
+                id: post.id,
+                title: post.title, 
+                excerpt: post.excerpt, 
+                date: post.date,
+                _embedded: post._embedded ? {
+                    'wp:featuredmedia': post._embedded['wp:featuredmedia'] || [],
+                    'wp:term': post._embedded['wp:term'] || []
+                } : {
+                    'wp:featuredmedia': [],
+                    'wp:term': []
+                }
+            }));
+        },
+        // Dependencies function:
+        // Derives stable dependencies (like a string of IDs) from the raw data.
+        // If these stable dependencies don't change, the computation function above isn't re-run.
+        (select, variant, query) => {
+            const rawPosts = select('core').getEntityRecords('postType', variant, query);
+            // Use a string of IDs as a more stable dependency than the rawPosts array reference
+            const postIdsString = Array.isArray(rawPosts) ? rawPosts.map(p => p.id).join(',') : '';
+            const isResolving = select('core').isResolving('getEntityRecords', ['postType', variant, query]);
+            // query is the stable queryParams object from useMemo
+            return [postIdsString, isResolving, variant, query]; 
+        }
+    );
+
+    // Get posts with proper memoization
+    const { items, isLoading } = useSelect((select) => {
+        // Use the memoized queryParams
+        const posts = getPosts(select, variant, queryParams);
+        // Pass the same stable queryParams to isResolving
+        const isResolving = select('core').isResolving('getEntityRecords', ['postType', variant, queryParams]);
 
         return {
-            postTypes: availablePostTypes,
-            categories: allCategories,
-            items: Array.isArray(posts) ? posts : [],
-            isLoading: coreSelect.isResolving('getEntityRecords', ['postType', variant, query]),
-            availablePosts: searchPosts
+            items: posts,
+            isLoading: isResolving
         };
-    }, [variant, postsPerPage, currentPage, selectedCategory, orderBy, order, searchTerm]);
+    }, [variant, queryParams, getPosts]); // Dependencies for useSelect
 
-    // Memoize the total items count
+    // Get available posts for search with proper memoization
+    const availablePosts = useSelect((select) => {
+        if (!searchTerm || !variant) return [];
+        const posts = select('core').getEntityRecords('postType', variant, {
+            search: searchTerm,
+            per_page: 20,
+            _fields: ['id', 'title'],
+            _embed: true
+        }) || [];
+        
+        // Create stable references for each post
+        return posts.map(post => ({
+            id: post.id,
+            title: {
+                rendered: post.title.rendered
+            }
+        }));
+    }, [searchTerm, variant]);
+
+    // Memoize the total items count with stable reference
     const { totalItems } = useSelect((select) => {
         if (!variant) return { totalItems: 0 };
         
@@ -121,12 +168,15 @@ export default function Edit({ attributes, setAttributes }) {
             ...(selectedCategory ? { categories: selectedCategory } : {})
         };
         
-        const total = select('core').getEntityRecords('postType', variant, {
+        const posts = select('core').getEntityRecords('postType', variant, {
             ...countQuery,
             per_page: -1
-        })?.length || 0;
+        });
         
-        return { totalItems: total };
+        // Create a stable reference for the total count
+        return { 
+            totalItems: Array.isArray(posts) ? posts.length : 0 
+        };
     }, [variant, selectedCategory]);
 
     // Memoize the post type options
@@ -289,6 +339,8 @@ export default function Edit({ attributes, setAttributes }) {
                                 onFilterValueChange={setSearchTerm}
                                 aria-label={__('Search and select posts', 'fau-elemental')}
                                 aria-describedby="post-search-description"
+                                __next40pxDefaultSize={true}
+                                __nextHasNoMarginBottom={true}
                             />
                             <p id="post-search-description" className="screen-reader-text">
                                 {__('Type to search for posts. Use arrow keys to navigate and enter to select.', 'fau-elemental')}
@@ -405,12 +457,27 @@ export default function Edit({ attributes, setAttributes }) {
                     selectionMode === 'manual' ? (
                         selectedPosts.length > 0 ? (
                             selectedPosts.map((selectedPost) => {
-                                const post = items.find(item => item.id === selectedPost.id);
-                                return post ? (
-                                    variant === 'post' 
-                                        ? <PostTeaser key={post.id} post={post} grid={blockProps} />
-                                        : <PageTeaser key={post.id} page={post} grid={blockProps} />
-                                ) : null;
+                                // Find the full post data if available
+                                const fullPost = items.find(item => item.id === selectedPost.id);
+                                
+                                // If we have full data, use it, otherwise create a minimal version
+                                const postData = fullPost || {
+                                    id: selectedPost.id,
+                                    title: {
+                                        rendered: selectedPost.title
+                                    },
+                                    excerpt: {
+                                        rendered: ''
+                                    },
+                                    _embedded: {
+                                        'wp:featuredmedia': [],
+                                        'wp:term': []
+                                    }
+                                };
+                                
+                                return variant === 'post' 
+                                    ? <PostTeaser key={postData.id} post={postData} headingLevel={headingLevel} />
+                                    : <PageTeaser key={postData.id} page={postData} headingLevel={headingLevel} />
                             })
                         ) : (
                             <p role="status">{__('No posts selected', 'fau-elemental')}</p>
@@ -419,8 +486,8 @@ export default function Edit({ attributes, setAttributes }) {
                         items && items.length > 0 ? (
                             items.map((item) => (
                                 variant === 'post' 
-                                    ? <PostTeaser key={item.id} post={item} grid={blockProps} />
-                                    : <PageTeaser key={item.id} page={item} grid={blockProps} />
+                                    ? <PostTeaser key={item.id} post={item} headingLevel={headingLevel} />
+                                    : <PageTeaser key={item.id} page={item} headingLevel={headingLevel} />
                             ))
                         ) : (
                             <p role="status">{__('No items found', 'fau-elemental')}</p>

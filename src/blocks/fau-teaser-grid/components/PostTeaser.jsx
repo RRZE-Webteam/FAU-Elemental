@@ -17,6 +17,18 @@ export default function PostTeaser({ post, headingLevel = 'h4' }) {
 
     // Memoize derived values
     const memoizedData = useMemo(() => {
+        // Return early with empty object if post isn't properly defined
+        if (!post || !post.title || !post.excerpt) {
+            return {
+                day: '',
+                monthYear: '',
+                category: null,
+                image: `${themeUrl}${FALLBACK_IMAGE}`,
+                title: '',
+                excerpt: ''
+            };
+        }
+
         const dateObj = post.date ? new Date(post.date) : null;
         
         return {
@@ -30,7 +42,15 @@ export default function PostTeaser({ post, headingLevel = 'h4' }) {
             title: post.title?.rendered || '',
             excerpt: (post.excerpt?.rendered || '').replace('[&hellip;]', '..')
         };
-    }, [post, themeUrl]);
+    }, [
+        post?.id, 
+        post?.date, 
+        post?.title?.rendered,
+        post?.excerpt?.rendered,
+        post?._embedded?.['wp:term']?.[0]?.[0]?.id,
+        post?._embedded?.['wp:featuredmedia']?.[0]?.source_url,
+        themeUrl
+    ]);
     
     // Define variant for consistency with PHP implementation
     const variant = 'post';

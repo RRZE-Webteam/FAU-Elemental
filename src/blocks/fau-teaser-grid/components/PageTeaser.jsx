@@ -18,12 +18,27 @@ export default function PageTeaser({ page, headingLevel = 'h4' }) {
 
     // Memoize derived values
     const memoizedData = useMemo(() => {
+        // Return early with empty object if page isn't properly defined
+        if (!page || !page.title || !page.excerpt) {
+            return {
+                image: `${themeUrl}${FALLBACK_IMAGE}`,
+                title: '',
+                excerpt: ''
+            };
+        }
+
         return {
             image: page._embedded?.['wp:featuredmedia']?.[0]?.source_url || `${themeUrl}${FALLBACK_IMAGE}`,
             title: page.title?.rendered || '',
             excerpt: (page.excerpt?.rendered || '').replace('[&hellip;]', '..')
         };
-    }, [page, themeUrl]);
+    }, [
+        page?.id,
+        page?.title?.rendered,
+        page?.excerpt?.rendered,
+        page?._embedded?.['wp:featuredmedia']?.[0]?.source_url,
+        themeUrl
+    ]);
     
     // Define variant for consistency with PHP implementation
     const variant = 'page';
