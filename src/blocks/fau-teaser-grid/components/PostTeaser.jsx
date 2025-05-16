@@ -1,27 +1,36 @@
 import { __ } from '@wordpress/i18n';
-import { useSelect } from '@wordpress/data';
-import React from 'react';
+import { useSelect, createSelector } from '@wordpress/data';
+import React, { useMemo } from 'react';
 
 // Get the theme URL from WordPress data
 const FALLBACK_IMAGE = '/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
+// Create a stable selector for the site URL
+const getSiteUrl = createSelector(
+    (select) => select('core').getEntityRecord('root', 'site')?.url || ''
+);
+
 export default function PostTeaser({ post, headingLevel = 'h4' }) {
     if (!post) return null;
 
-	const themeUrl = useSelect( ( select ) => {
-		return select( 'core' ).getEntityRecord( 'root', 'site' )?.url || '';
-	}, [] );
+	const themeUrl = useSelect(select => getSiteUrl(select), []);
 
-    const dateObj = post.date ? new Date(post.date) : null;
-    const day = dateObj ? dateObj.toLocaleDateString('de-DE', { day: '2-digit' }) : '';
-    const monthYear = dateObj ? dateObj.toLocaleDateString('de-DE', {
-        month: 'short',
-        year: 'numeric'
-    }).replace('.', '').toUpperCase() : '';
-    const category = post._embedded?.['wp:term']?.[0]?.[0] || null;
-    const image = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || `${themeUrl}${FALLBACK_IMAGE}`;
-    const title = post.title?.rendered || '';
-    const excerpt = (post.excerpt?.rendered || '').replace('[&hellip;]', '..');
+    // Memoize derived values
+    const memoizedData = useMemo(() => {
+        const dateObj = post.date ? new Date(post.date) : null;
+        
+        return {
+            day: dateObj ? dateObj.toLocaleDateString('de-DE', { day: '2-digit' }) : '',
+            monthYear: dateObj ? dateObj.toLocaleDateString('de-DE', {
+                month: 'short',
+                year: 'numeric'
+            }).replace('.', '').toUpperCase() : '',
+            category: post._embedded?.['wp:term']?.[0]?.[0] || null,
+            image: post._embedded?.['wp:featuredmedia']?.[0]?.source_url || `${themeUrl}${FALLBACK_IMAGE}`,
+            title: post.title?.rendered || '',
+            excerpt: (post.excerpt?.rendered || '').replace('[&hellip;]', '..')
+        };
+    }, [post, themeUrl]);
     
     // Define variant for consistency with PHP implementation
     const variant = 'post';
@@ -32,16 +41,16 @@ export default function PostTeaser({ post, headingLevel = 'h4' }) {
 			data-variant={ variant }
 			aria-labelledby={ `teaser-title-${ post.id }` }
 		>
-			{ image && (
+			{ memoizedData.image && (
 				<div className="teaser-image-wrapper">
 					<div className="teaser-image">
-						<img src={ image } alt={ title } loading="lazy" />
+						<img src={ memoizedData.image } alt={ memoizedData.title } loading="lazy" />
 					</div>
 					<div className="teaser-meta">
 						<time>
-							<span className="date-day">{ day }</span>
+							<span className="date-day">{ memoizedData.day }</span>
 							<span className="date-month-year">
-								{ monthYear }
+								{ memoizedData.monthYear }
 							</span>
 						</time>
 					</div>
@@ -50,8 +59,8 @@ export default function PostTeaser({ post, headingLevel = 'h4' }) {
 			<div className="teaser-content-wrapper">
 				<div className="teaser-content">
 					<div className="content-column">
-						{ category && (
-							<span className="category">{ category.name }</span>
+						{ memoizedData.category && (
+							<span className="category">{ memoizedData.category.name }</span>
 						) }
 						{React.createElement(
                             headingLevel,
@@ -63,23 +72,23 @@ export default function PostTeaser({ post, headingLevel = 'h4' }) {
                                 <span
                                     key="visually-hidden"
                                     className="visually-hidden"
-                                    dangerouslySetInnerHTML={{ __html: title }}
+                                    dangerouslySetInnerHTML={{ __html: memoizedData.title }}
                                 />,
                                 <span
                                     key="aria-hidden"
                                     aria-hidden="true"
-                                    dangerouslySetInnerHTML={{ __html: title }}
+                                    dangerouslySetInnerHTML={{ __html: memoizedData.title }}
                                 />
                             ]
                         )}
 						<div className="excerpt clamp-3">
 							<span
 								className="visually-hidden"
-								dangerouslySetInnerHTML={ { __html: excerpt } }
+								dangerouslySetInnerHTML={ { __html: memoizedData.excerpt } }
 							/>
 							<span
 								aria-hidden="true"
-								dangerouslySetInnerHTML={ { __html: excerpt } }
+								dangerouslySetInnerHTML={ { __html: memoizedData.excerpt } }
 							/>
 						</div>
 					</div>
