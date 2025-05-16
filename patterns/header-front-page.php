@@ -20,7 +20,12 @@
         padding-top: var(--wp--preset--spacing--30);
         padding-bottom: var(--wp--preset--spacing--30);
       ">
-            <!-- wp:site-logo {"width":306,"shouldSyncIcon":true} /-->
+            <!-- wp:group {"className":"site-logo-container"} -->
+            <div class="wp-block-group site-logo-container">
+                <?php fau_elemental_display_logo_title(); ?>
+            </div>
+            <!-- /wp:group -->
+
             <!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"right"}} -->
             <div class="wp-block-group">
                 <!-- wp:navigation {"overlayBackgroundColor":"base","overlayTextColor":"contrast","layout":{"type":"flex","justifyContent":"right","flexWrap":"wrap"}} /-->

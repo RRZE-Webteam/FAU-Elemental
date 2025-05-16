@@ -22,9 +22,79 @@
     }
 
     &__logo {
-        &-image {
-            height: var(--logo-height, 40px);
-            width: auto;
+        display: flex;
+        align-items: center;
+
+        .textlogo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .baselogo {
+            display: flex;
+            align-items: center;
+
+            img, svg {
+                height: var(--logo-height, 40px);
+                width: auto;
+                display: block;
+            }
+        }
+
+        .text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .fau-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .fau-title-place {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+        }
+
+        .visible-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .website-shortcut {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+
+        .separator {
+            color: var(--color-text-secondary);
+            margin: 0 0.5rem;
+        }
+    }
+
+    &__site-title {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--color-text);
+        line-height: 1.2;
+    }
+
+    &__short-title {
+        font-size: 0.875rem;
+        color: var(--color-text-secondary);
+        display: none;
+        margin: 0;
+        line-height: 1.2;
+
+        @media (min-width: 768px) {
+            display: block;
         }
     }
 
@@ -197,13 +267,13 @@
 }
 
 .main-navigation__direct-menu a {
-    color: #222;
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 500;
     padding: 0.5rem 1rem;
     transition: color 0.2s;
-}
 
-.main-navigation__direct-menu a:hover {
-    color: var(--color-primary, #005fa3);
+    &:hover {
+        color: var(--color-primary, #005fa3);
+    }
 } 

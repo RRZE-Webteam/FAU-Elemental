@@ -22,6 +22,8 @@ require_once get_template_directory() . '/inc/block-patterns.php';
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
 
+// Logo display functionality
+require_once get_template_directory() . '/inc/logo-display.php';
 
 /**
  * Calculate reading time for posts
@@ -1180,8 +1182,54 @@ function fau_elemental_fix_svg_thumb_display() {
 add_action('admin_head', 'fau_elemental_fix_svg_thumb_display');
 
 /**
- * Add logo upload options to theme customizer
+ * Add logo settings to customizer
  */
+function fau_elemental_customize_register($wp_customize) {
+    // Add website shorttitle setting
+    $wp_customize->add_setting('website_shorttitle', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    // Add website shorttitle control to Site Identity section
+    $wp_customize->add_control('website_shorttitle', array(
+        'label'    => __('Website Short Title', 'fau-elemental'),
+        'section'  => 'title_tagline',
+        'type'     => 'text',
+    ));
+
+    // Get current website type
+    $website_type = get_option('faue_website_type', 'fau');
+
+    // Only add custom logo control if website type is not cooperation
+    // (Removed custom logo for cooperation, will use WordPress custom logo instead)
+    // if ($website_type === 'cooperation') {
+    //     // Add custom logo setting
+    //     $wp_customize->add_setting('fau_elemental_custom_logo', array(
+    //         'default'           => '',
+    //         'sanitize_callback' => 'absint',
+    //     ));
+
+    //     // Add custom logo control with cropping
+    //     $wp_customize->add_control(new WP_Customize_Cropped_Image_Control($wp_customize, 'fau_elemental_custom_logo', array(
+    //         'label'    => __('Custom Logo', 'fau-elemental'),
+    //         'section'  => 'title_tagline',
+    //         'settings' => 'fau_elemental_custom_logo',
+    //         'width'    => 400,
+    //         'height'   => 112,
+    //         'flex_width'  => true,
+    //         'flex_height' => true,
+    //     )));
+    // }
+
+    if ($website_type !== 'cooperation') {
+        // Remove the default custom logo control from Site Identity
+        $wp_customize->remove_control('custom_logo');
+    }
+}
+add_action('customize_register', 'fau_elemental_customize_register');
+
+/* Commenting out old logo settings but keeping them for reference
 function fau_elemental_logo_customizer_settings($wp_customize) {
     // Move logo settings to Site Identity section
     $wp_customize->get_section('title_tagline')->title = __('Site Identity & Logo', 'fau-elemental');
@@ -1248,11 +1296,10 @@ function fau_elemental_logo_customizer_settings($wp_customize) {
         'priority' => 11,
     ));
 }
+
 add_action('customize_register', 'fau_elemental_logo_customizer_settings');
 
-/**
- * Helper function to get logo URL
- */
+// Commenting out old logo helper functions but keeping them for reference
 function fau_elemental_get_logo($type = 'regular') {
     $logo_url = '';
     
@@ -1265,9 +1312,6 @@ function fau_elemental_get_logo($type = 'regular') {
     return $logo_url;
 }
 
-/**
- * Helper function to display logo
- */
 function fau_elemental_display_logo($type = 'regular', $class = '') {
     $logo_url = fau_elemental_get_logo($type);
     $logo_height = get_theme_mod('fau_logo_height', 50);
@@ -1278,19 +1322,15 @@ function fau_elemental_display_logo($type = 'regular', $class = '') {
     }
 }
 
-/**
- * Helper function to get university name
- */
 function fau_elemental_get_university_name() {
     return get_theme_mod('fau_university_name', "Friedrich-Alexander-Universität\nErlangen-Nürnberg");
 }
 
-/**
- * Helper function to display university name
- */
 function fau_elemental_display_university_name($class = '') {
     $university_name = fau_elemental_get_university_name();
     $class = !empty($class) ? 'class="' . esc_attr($class) . '"' : '';
     
     echo '<div ' . $class . '>' . nl2br(esc_html($university_name)) . '</div>';
 }
+
+*/

@@ -32,16 +32,18 @@ class Main_Navigation {
      * Render the main navigation
      */
     public function render() {
+        // Ensure the logo display function exists
+        if (!function_exists('fau_elemental_display_logo_title')) {
+            require_once get_template_directory() . '/inc/logo-display.php';
+        }
+
         $has_website_menu = has_nav_menu('primary');
         ?>
         <nav class="main-navigation" role="navigation" aria-label="<?php esc_attr_e('Main Navigation', 'fau-elemental'); ?>">
             <div class="main-navigation__container">
                 <div class="main-navigation__brand">
                     <div class="main-navigation__logo">
-                        <?php fau_elemental_display_logo('regular', 'main-navigation__logo-image'); ?>
-                    </div>
-                    <div class="main-navigation__university-name">
-                        <?php fau_elemental_display_university_name('main-navigation__university-name-text'); ?>
+                        <?php fau_elemental_display_logo_title(); ?>
                     </div>
                 </div>
 
