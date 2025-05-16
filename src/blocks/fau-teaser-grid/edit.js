@@ -1,119 +1,36 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import {
-	PanelBody,
-	RangeControl,
-	ToggleControl,
-	SelectControl,
-	Placeholder,
-	Spinner,
-	Button,
-	ComboboxControl,
-	__experimentalToggleGroupControl as ToggleGroupControl,
-	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+import { 
+    PanelBody, 
+    RangeControl, 
+    ToggleControl,
+    SelectControl,
+    Placeholder,
+    Spinner,
+    Button,
+    ComboboxControl,
+    __experimentalToggleGroupControl as ToggleGroupControl,
+    __experimentalToggleGroupControlOption as ToggleGroupControlOption
 } from '@wordpress/components';
-import { useSelect, createSelector } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 import './editor.scss';
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 
 import PostTeaser from './components/PostTeaser';
 import PageTeaser from './components/PageTeaser';
-import { createPagination, updateGridClasses, shallowEqual } from './utils/helpers';
+import { createPagination, updateGridClasses } from './utils/helpers';
 
 // Define teaser layout options
 const TEASER_LAYOUTS = [
-	{
-		label: __( '1 Extra Large Teaser (1×XL)', 'fau-elemental' ),
-		value: '1xl',
-	},
-	{ label: __( '2 Large Teasers (2×L)', 'fau-elemental' ), value: '2l' },
-	{ label: __( '1 Large + 2 Small (L+2S)', 'fau-elemental' ), value: 'l2s' },
-	{ label: __( '2 Small + 1 Large (2S+L)', 'fau-elemental' ), value: '2sl' },
-	{ label: __( '3 Medium Teasers (3×M)', 'fau-elemental' ), value: '3m' },
-	{
-		label: __( '2 Small - Image Left (2S BLTR)', 'fau-elemental' ),
-		value: '2s-left',
-	},
-	{
-		label: __( '2 Small - Image Right (2S TLBR)', 'fau-elemental' ),
-		value: '2s-right',
-	},
+    { label: __('1 Extra Large Teaser (1×XL)', 'fau-elemental'), value: '1xl' },
+    { label: __('2 Large Teasers (2×L)', 'fau-elemental'), value: '2l' },
+    { label: __('1 Large + 2 Small (L+2S)', 'fau-elemental'), value: 'l2s' },
+    { label: __('2 Small + 1 Large (2S+L)', 'fau-elemental'), value: '2sl' },
+    { label: __('3 Medium Teasers (3×M)', 'fau-elemental'), value: '3m' },
+    { label: __('2 Small - Image Left (2S BLTR)', 'fau-elemental'), value: '2s-left' },
+    { label: __('2 Small - Image Right (2S TLBR)', 'fau-elemental'), value: '2s-right' }
 ];
-
-// Create cached selectors to prevent re-creation of selector functions
-const getPostTypes = createSelector(
-    (select) => {
-        const coreSelect = select('core');
-        const allPostTypes = coreSelect.getPostTypes();
-        return allPostTypes?.filter(
-            (type) => type.viewable && type.slug !== 'attachment' && type.slug !== 'wp_block'
-        ) || [];
-    }
-);
-
-const getCategories = createSelector(
-    (select) => {
-        const coreSelect = select('core');
-        return coreSelect.getEntityRecords('taxonomy', 'category', {
-            per_page: -1
-        }) || [];
-    }
-);
-
-// Modified selector with simpler implementation
-const getPosts = createSelector(
-    (select, postType, queryParams) => {
-        if (!postType) return [];
-        const coreSelect = select('core');
-        const posts = coreSelect.getEntityRecords('postType', postType, queryParams);
-        // Return empty array instead of undefined to avoid rendering issues
-        return posts || [];
-    },
-    (select, postType, queryParams) => [postType, JSON.stringify(queryParams)]
-);
-
-const getIsLoadingPosts = createSelector(
-    (select, postType, queryParams) => {
-        if (!postType) return false;
-        const coreSelect = select('core');
-        return coreSelect.isResolving('getEntityRecords', [
-            'postType',
-            postType,
-            queryParams
-        ]);
-    },
-    (select, postType, queryParams) => [postType, JSON.stringify(queryParams)]
-);
-
-const getTotalItems = createSelector(
-    (select, postType, countQuery) => {
-        return select('core').getEntityRecords('postType', postType, {
-            ...countQuery,
-            per_page: -1
-        })?.length || 0;
-    },
-    (select, postType, countQuery) => [postType, JSON.stringify(countQuery)]
-);
-
-const getAvailablePosts = createSelector(
-    (select, postType, searchParams) => {
-        if (!searchParams.search) return [];
-        return select('core').getEntityRecords('postType', postType, searchParams) || [];
-    },
-    (select, postType, searchParams) => [postType, JSON.stringify(searchParams)]
-);
-
-// Custom hook for memoized array comparison
-function useMemoizedArray(array) {
-    const ref = useRef(array);
-    
-    if (!shallowEqual(array, ref.current)) {
-        ref.current = array;
-    }
-    
-    return ref.current;
-}
 
 export default function Edit({ attributes, setAttributes }) {
     const { 
@@ -132,149 +49,153 @@ export default function Edit({ attributes, setAttributes }) {
         headingLevel
     } = attributes;
 
-	const gridRef = useRef(null);
+    const gridRef = useRef(null);
 
-	// Effect to update grid classes when display style or layout changes
-	useEffect(() => {
-		if (gridRef.current) {
-			const grid = gridRef.current;
-			// Clear all existing classes
-			grid.className = '';
-			// Add new classes
-			updateGridClasses(grid, displayStyle, teaserLayout);
-		}
-	}, [displayStyle, teaserLayout]);
+    // Effect to update grid classes when display style or layout changes
+    useEffect(() => {
+        if (gridRef.current) {
+            const grid = gridRef.current;
+            // Clear all existing classes
+            grid.className = '';
+            // Add new classes
+            updateGridClasses(grid, displayStyle, teaserLayout);
+        }
+    }, [displayStyle, teaserLayout]);
 
-	// Add this new state for search
-	const [searchTerm, setSearchTerm] = useState('');
+    // Add this new state for search
+    const [searchTerm, setSearchTerm] = useState('');
 
-	// Memoize the query parameters to prevent unnecessary re-renders
-    const queryParams = useMemo(() => ({
-        _embed: true,
-        per_page: postsPerPage,
-        page: currentPage,
-        orderby: orderBy,
-        order: order.toLowerCase(),
-        ...(selectedCategory ? { categories: selectedCategory } : {})
-    }), [postsPerPage, currentPage, orderBy, order, selectedCategory]);
+    // Get post types and categories with proper memoization
+    const { postTypes, categories, items, isLoading, availablePosts } = useSelect((select) => {
+        const coreSelect = select('core');
+        const allPostTypes = coreSelect.getPostTypes();
+        
+        // Get all categories
+        const allCategories = coreSelect.getEntityRecords('taxonomy', 'category', { per_page: -1 }) || [];
+        
+        // Get all post types that are viewable (public)
+        const availablePostTypes = allPostTypes?.filter(type => 
+            type.viewable && 
+            type.slug !== 'attachment' &&
+            type.slug !== 'wp_block'
+        ) || [];
 
-    // Memoize the search parameters
-    const searchParams = useMemo(() => ({
-        search: searchTerm,
-        per_page: 20,
-        _fields: ['id', 'title']
-    }), [searchTerm]);
+        // Build query for current post type
+        const query = {
+            _embed: true,
+            per_page: postsPerPage,
+            page: currentPage,
+            orderby: orderBy,
+            order: order.toLowerCase(),
+            ...(selectedCategory ? { categories: selectedCategory } : {})
+        };
 
-    // Memoize count query params
-    const countQueryParams = useMemo(() => ({
-        per_page: 1,
-        _fields: ['id'],
-        ...(selectedCategory ? { categories: selectedCategory } : {})
-    }), [selectedCategory]);
+        // Get posts
+        const posts = coreSelect.getEntityRecords('postType', variant, query);
 
-	// Use stabilized selectors
-    const postTypes = useSelect(select => getPostTypes(select), []);
-    const categories = useSelect(select => getCategories(select), []);
-    
-    // Add explicit debugging for query parameters
-    console.log('Query params:', variant, queryParams);
-    
-    // More direct approach to get posts to help debug
-    const items = useSelect(select => {
-        if (!variant) return [];
-        return select('core').getEntityRecords('postType', variant, queryParams) || [];
-    }, [variant, queryParams]);
-    
-    const isLoading = useSelect(select => {
-        if (!variant) return false;
-        return select('core').isResolving('getEntityRecords', ['postType', variant, queryParams]);
-    }, [variant, queryParams]);
-    
-    console.log('Items found:', items?.length, items);
-    
-    const totalItems = useSelect(select => getTotalItems(select, variant, countQueryParams), [variant, countQueryParams]);
-    const availablePosts = useSelect(select => getAvailablePosts(select, variant, searchParams), [variant, searchParams]);
+        // Get available posts for search
+        const searchPosts = searchTerm && variant ? 
+            coreSelect.getEntityRecords('postType', variant, {
+                search: searchTerm,
+                per_page: 20,
+                _fields: ['id', 'title'],
+                _embed: true
+            }) || [] : [];
 
-    // Memoize these derived values with stable references
-    const memoizedPostTypes = useMemoizedArray(postTypes);
-    const memoizedCategories = useMemoizedArray(categories);
-    const memoizedAvailablePosts = useMemoizedArray(availablePosts);
+        return {
+            postTypes: availablePostTypes,
+            categories: allCategories,
+            items: Array.isArray(posts) ? posts : [],
+            isLoading: coreSelect.isResolving('getEntityRecords', ['postType', variant, query]),
+            availablePosts: searchPosts
+        };
+    }, [variant, postsPerPage, currentPage, selectedCategory, orderBy, order, searchTerm]);
 
-	// Calculate total pages based on totalItems
-	const calculatedTotalPosts = useMemo(() => 
-        totalPosts > 0 ? Math.min(totalPosts, totalItems) : totalItems,
-    [totalPosts, totalItems]);
-    
-	const calculatedTotalPages = useMemo(() => 
-        Math.ceil(calculatedTotalPosts / postsPerPage),
-    [calculatedTotalPosts, postsPerPage]);
+    // Memoize the total items count
+    const { totalItems } = useSelect((select) => {
+        if (!variant) return { totalItems: 0 };
+        
+        const countQuery = {
+            per_page: 1,
+            _fields: ['id'],
+            ...(selectedCategory ? { categories: selectedCategory } : {})
+        };
+        
+        const total = select('core').getEntityRecords('postType', variant, {
+            ...countQuery,
+            per_page: -1
+        })?.length || 0;
+        
+        return { totalItems: total };
+    }, [variant, selectedCategory]);
 
-	// Convert post types to options
-	const postTypeOptions = useMemo(() => 
-        memoizedPostTypes.map((type) => ({
+    // Memoize the post type options
+    const postTypeOptions = useMemo(() => 
+        postTypes.map(type => ({
             label: type.labels?.singular_name || type.name,
-            value: type.slug,
-        })),
-    [memoizedPostTypes]);
+            value: type.slug
+        })), [postTypes]);
 
-	// Convert categories to options
-	const categoryOptions = useMemo(() => [
-		{ label: __('All Categories', 'fau-elemental'), value: 0 },
-		...memoizedCategories.map((category) => ({
-			label: category.name,
-			value: category.id,
-		}))
-	], [memoizedCategories]);
+    // Memoize the category options
+    const categoryOptions = useMemo(() => [
+        { label: __('All Categories', 'fau-elemental'), value: 0 },
+        ...categories.map(category => ({
+            label: category.name,
+            value: category.id
+        }))
+    ], [categories]);
 
-	// Sorting options
-	const sortingOptions = useMemo(() => [
-		{ label: __('Date', 'fau-elemental'), value: 'date' },
-		{ label: __('Title', 'fau-elemental'), value: 'title' },
-	], []);
+    // Sorting options
+    const sortingOptions = [
+        { label: __('Date', 'fau-elemental'), value: 'date' },
+        { label: __('Title', 'fau-elemental'), value: 'title' }
+    ];
 
-	const orderOptions = useMemo(() => [
-		{ label: __('Ascending', 'fau-elemental'), value: 'ASC' },
-		{ label: __('Descending', 'fau-elemental'), value: 'DESC' },
-	], []);
+    const orderOptions = [
+        { label: __('Ascending', 'fau-elemental'), value: 'ASC' },
+        { label: __('Descending', 'fau-elemental'), value: 'DESC' }
+    ];
 
-	// Add this function to handle post selection
-	const handlePostSelection = useCallback((postId) => {
-		if (!postId) return;
+    // Calculate total pages based on totalItems
+    const calculatedTotalPosts = totalPosts > 0 ? Math.min(totalPosts, totalItems) : totalItems;
+    const calculatedTotalPages = Math.ceil(calculatedTotalPosts / postsPerPage);
 
-		const post = memoizedAvailablePosts.find((p) => p.id === postId);
-		if (!post) return;
+    // Add this function to handle post selection
+    const handlePostSelection = (postId) => {
+        if (!postId) return;
+        
+        const post = availablePosts.find(p => p.id === postId);
+        if (!post) return;
 
-		const newSelectedPosts = [...selectedPosts];
-		if (!newSelectedPosts.some((p) => p.id === post.id)) {
-			newSelectedPosts.push({
-				id: post.id,
-				title: post.title.rendered,
-			});
-			setAttributes({ selectedPosts: newSelectedPosts });
-		}
-	}, [memoizedAvailablePosts, selectedPosts, setAttributes]);
+        const newSelectedPosts = [...selectedPosts];
+        if (!newSelectedPosts.some(p => p.id === post.id)) {
+            newSelectedPosts.push({
+                id: post.id,
+                title: post.title.rendered
+            });
+            setAttributes({ selectedPosts: newSelectedPosts });
+        }
+    };
 
-	// Add this function to remove selected posts
-	const removeSelectedPost = useCallback((postId) => {
-		const newSelectedPosts = selectedPosts.filter(
-			(p) => p.id !== postId
-		);
-		setAttributes({ selectedPosts: newSelectedPosts });
-	}, [selectedPosts, setAttributes]);
+    // Add this function to remove selected posts
+    const removeSelectedPost = (postId) => {
+        const newSelectedPosts = selectedPosts.filter(p => p.id !== postId);
+        setAttributes({ selectedPosts: newSelectedPosts });
+    };
 
-	const blockProps = useBlockProps({
-		className: `style-${displayStyle}`,
-	});
+    const blockProps = useBlockProps({
+        className: `style-${displayStyle}`
+    });
 
-	// Update display style
-	const onDisplayStyleChange = useCallback((newStyle) => {
-		setAttributes({ displayStyle: newStyle });
-	}, [setAttributes]);
+    // Update display style
+    const onDisplayStyleChange = (newStyle) => {
+        setAttributes({ displayStyle: newStyle });
+    };
 
-	// Update teaser layout
-	const onTeaserLayoutChange = useCallback((newLayout) => {
-		setAttributes({ teaserLayout: newLayout });
-	}, [setAttributes]);
+    // Update teaser layout
+    const onTeaserLayoutChange = (newLayout) => {
+        setAttributes({ teaserLayout: newLayout });
+    };
 
     return (
         <div {...blockProps} role="region" aria-label={__('Teaser Grid Block', 'fau-elemental')}>
@@ -321,16 +242,16 @@ export default function Edit({ attributes, setAttributes }) {
                             { label: 'H5', value: 'h5' },
                             { label: 'H6', value: 'h6' },
                         ]}
-                        onChange={(newHeadingLevel) => setAttributes({ headingLevel: newHeadingLevel })}
+                        onChange={(headingLevel) => setAttributes({ headingLevel })}
                         __nextHasNoMarginBottom={true}
                         __next40pxDefaultSize={true}
                     />
                 </PanelBody>
 
-				<PanelBody title={ __( 'Selection Mode', 'fau-elemental' ) }>
-					<ToggleGroupControl
-						label={ __('Selection mode options', 'fau-elemental') }
-						value={selectionMode}
+                <PanelBody title={__('Selection Mode', 'fau-elemental')}>
+                    <ToggleGroupControl
+                        label={__('Selection mode options', 'fau-elemental')}
+                        value={selectionMode}
                         onChange={(value) => {
                             setAttributes({ 
                                 selectionMode: value,
@@ -340,94 +261,65 @@ export default function Edit({ attributes, setAttributes }) {
                         isBlock
                         __next40pxDefaultSize={true}
                         __nextHasNoMarginBottom={true}
-					>
-						<ToggleGroupControlOption
-							value="auto"
-							label={ __( 'Automatic', 'fau-elemental' ) }
-						/>
-						<ToggleGroupControlOption
-							value="manual"
-							label={ __( 'Manual Selection', 'fau-elemental' ) }
-						/>
-					</ToggleGroupControl>
+                    >
+                        <ToggleGroupControlOption
+                            value="auto"
+                            label={__('Automatic', 'fau-elemental')}
+                        />
+                        <ToggleGroupControlOption
+                            value="manual"
+                            label={__('Manual Selection', 'fau-elemental')}
+                        />
+                    </ToggleGroupControl>
 
-					{ selectionMode === 'manual' && (
-						<>
-							<ComboboxControl
-								label={ __(
-									'Search and select posts',
-									'fau-elemental'
-								) }
-								value=""
-								onChange={ handlePostSelection }
-								options={
-									memoizedAvailablePosts
-										? memoizedAvailablePosts.map( ( post ) => ( {
-												value: post.id,
-												label: post.title.rendered,
-										  } ) )
-										: []
-								}
-								onFilterValueChange={ setSearchTerm }
-								aria-label={ __(
-									'Search and select posts',
-									'fau-elemental'
-								) }
-								aria-describedby="post-search-description"
-                                __next40pxDefaultSize={true}
-							/>
-							<p
-								id="post-search-description"
-								className="screen-reader-text"
-							>
-								{ __(
-									'Type to search for posts. Use arrow keys to navigate and enter to select.',
-									'fau-elemental'
-								) }
-							</p>
+                    {selectionMode === 'manual' && (
+                        <>
+                            <ComboboxControl
+                                label={__('Search and select posts', 'fau-elemental')}
+                                value=""
+                                onChange={handlePostSelection}
+                                options={
+                                    availablePosts
+                                        ? availablePosts.map(post => ({
+                                            value: post.id,
+                                            label: post.title.rendered
+                                        }))
+                                        : []
+                                }
+                                onFilterValueChange={setSearchTerm}
+                                aria-label={__('Search and select posts', 'fau-elemental')}
+                                aria-describedby="post-search-description"
+                            />
+                            <p id="post-search-description" className="screen-reader-text">
+                                {__('Type to search for posts. Use arrow keys to navigate and enter to select.', 'fau-elemental')}
+                            </p>
 
-							<div
-								className="selected-posts-list"
-								role="list"
-								aria-label={ __(
-									'Selected posts',
-									'fau-elemental'
-								) }
-							>
-								{ selectedPosts.map( ( post ) => (
-									<div
-										key={ post.id }
-										className="selected-post-item"
-										role="listitem"
-									>
-										<span
-											dangerouslySetInnerHTML={ {
-												__html: post.title,
-											} }
-										/>
-										<Button
-											isSmall
-											isDestructive
-											onClick={ () =>
-												removeSelectedPost( post.id )
-											}
-											aria-label={
-												__(
-													'Remove post',
-													'fau-elemental'
-												) +
-												': ' +
-												post.title
-											}
-										>
-											{ __( 'Remove', 'fau-elemental' ) }
-										</Button>
-									</div>
-								) ) }
-							</div>
-						</>
-					) }
-				</PanelBody>
+                            <div 
+                                className="selected-posts-list" 
+                                role="list" 
+                                aria-label={__('Selected posts', 'fau-elemental')}
+                            >
+                                {selectedPosts.map(post => (
+                                    <div 
+                                        key={post.id} 
+                                        className="selected-post-item" 
+                                        role="listitem"
+                                    >
+                                        <span dangerouslySetInnerHTML={{ __html: post.title }} />
+                                        <Button
+                                            isSmall
+                                            isDestructive
+                                            onClick={() => removeSelectedPost(post.id)}
+                                            aria-label={__('Remove post', 'fau-elemental') + ': ' + post.title}
+                                        >
+                                            {__('Remove', 'fau-elemental')}
+                                        </Button>
+                                    </div>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </PanelBody>
 
                 {selectionMode === 'auto' && (
                     <PanelBody title={__('Content Settings', 'fau-elemental')}>
@@ -441,7 +333,7 @@ export default function Edit({ attributes, setAttributes }) {
                             __next40pxDefaultSize={true}
                         />
 
-                        {variant === 'post' && memoizedCategories.length > 0 && (
+                        {variant === 'post' && categories.length > 0 && (
                             <SelectControl
                                 label={__('Category', 'fau-elemental')}
                                 value={selectedCategory}
@@ -492,38 +384,6 @@ export default function Edit({ attributes, setAttributes }) {
                     </PanelBody>
                 )}
 
-                {selectionMode === 'manual' && (
-                    <PanelBody title={__('Manual Post Selection', 'fau-elemental')}>
-                        <ComboboxControl
-                            label={__('Search and Select Posts', 'fau-elemental')}
-                            value={searchTerm}
-                            onChange={setSearchTerm} // Update search term on input change
-                            onFilterValueChange={setSearchTerm} // Also update on filter change for consistency
-                            options={memoizedAvailablePosts?.map(post => ({ label: post.title.rendered, value: post.id })) || []}
-                            onSelect={handlePostSelection} // Use onSelect to handle the selection
-                            help={__('Type to search for posts and select them to add to the grid.', 'fau-elemental')}
-                            __next40pxDefaultSize={true}
-                        />
-                        {selectedPosts.length > 0 && (
-                            <ul className="selected-posts-list">
-                                {selectedPosts.map(post => (
-                                    <li key={post.id}>
-                                        {post.title}
-                                        <Button 
-                                            isSmall 
-                                            isDestructive 
-                                            onClick={() => removeSelectedPost(post.id)}
-                                            style={{ marginLeft: '8px' }}
-                                        >
-                                            {__('Remove', 'fau-elemental')}
-                                        </Button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </PanelBody>
-                )}
-
                 <PanelBody title={__('Accessibility', 'fau-elemental')}>
                     <p>
                         {__(
@@ -541,52 +401,49 @@ export default function Edit({ attributes, setAttributes }) {
                 role="list"
                 aria-label={__('Content grid', 'fau-elemental')}
             >
-                {isLoading ? (
+                {!isLoading ? (
+                    selectionMode === 'manual' ? (
+                        selectedPosts.length > 0 ? (
+                            selectedPosts.map((selectedPost) => {
+                                const post = items.find(item => item.id === selectedPost.id);
+                                return post ? (
+                                    variant === 'post' 
+                                        ? <PostTeaser key={post.id} post={post} grid={blockProps} />
+                                        : <PageTeaser key={post.id} page={post} grid={blockProps} />
+                                ) : null;
+                            })
+                        ) : (
+                            <p role="status">{__('No posts selected', 'fau-elemental')}</p>
+                        )
+                    ) : (
+                        items && items.length > 0 ? (
+                            items.map((item) => (
+                                variant === 'post' 
+                                    ? <PostTeaser key={item.id} post={item} grid={blockProps} />
+                                    : <PageTeaser key={item.id} page={item} grid={blockProps} />
+                            ))
+                        ) : (
+                            <p role="status">{__('No items found', 'fau-elemental')}</p>
+                        )
+                    )
+                ) : (
                     <Placeholder>
                         <Spinner />
-                        <p role="status">{__('Loading posts...', 'fau-elemental')}</p>
+                        <p role="status">{__('Loading...', 'fau-elemental')}</p>
                     </Placeholder>
-                ) : selectionMode === 'manual' ? (
-                    selectedPosts.length > 0 ? (
-                        selectedPosts.map((selectedPost) => {
-                            const post = items.find(item => item.id === selectedPost.id);
-                            return post ? (
-                                variant === 'post' 
-                                    ? <PostTeaser key={post.id} post={post} grid={blockProps} headingLevel={headingLevel} />
-                                    : <PageTeaser key={post.id} page={post} grid={blockProps} headingLevel={headingLevel} />
-                            ) : (
-                                <p key={selectedPost.id}>Post {selectedPost.id} not loaded</p>
-                            );
-                        })
-                    ) : (
-                        <p role="status">{__('No posts selected', 'fau-elemental')}</p>
-                    )
-                ) : items && items.length > 0 ? (
-                    items.map((item) => (
-                        variant === 'post' 
-                            ? <PostTeaser key={item.id} post={item} grid={blockProps} headingLevel={headingLevel} />
-                            : <PageTeaser key={item.id} page={item} grid={blockProps} headingLevel={headingLevel} />
-                    ))
-                ) : (
-                    <p role="status">{__('No items found', 'fau-elemental')} ({variant})</p>
                 )}
             </div>
 
-			{ showPagination &&
-				calculatedTotalPages > 1 &&
-				selectionMode === 'auto' && (
-					<nav
-						role="navigation"
-						aria-label={ __( 'Pagination', 'fau-elemental' ) }
-					>
-						{ createPagination(
-							currentPage,
-							calculatedTotalPages,
-							( newPage ) =>
-								setAttributes( { currentPage: newPage } )
-						) }
-					</nav>
-				) }
-		</div>
-	);
+            {showPagination && calculatedTotalPages > 1 && selectionMode === 'auto' && (
+                <nav 
+                    role="navigation" 
+                    aria-label={__('Pagination', 'fau-elemental')}
+                >
+                    {createPagination(currentPage, calculatedTotalPages, (newPage) => 
+                        setAttributes({ currentPage: newPage })
+                    )}
+                </nav>
+            )}
+        </div>
+    );
 }
