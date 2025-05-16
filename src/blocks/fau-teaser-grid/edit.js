@@ -397,7 +397,7 @@ export default function Edit({ attributes, setAttributes }) {
             
             <div 
                 ref={gridRef} 
-                className={`fau-teaser-grid ${displayStyle} ${displayStyle === 'teaser-grid' ? `layout-${teaserLayout}` : ''}`}
+                className={`fau-teaser-grid ${displayStyle} ${displayStyle === 'teaser-grid' ? `layout-${teaserLayout}` : displayStyle === 'list-item' ? 'style-list-item' : ''}`}
                 role="list"
                 aria-label={__('Content grid', 'fau-elemental')}
             >

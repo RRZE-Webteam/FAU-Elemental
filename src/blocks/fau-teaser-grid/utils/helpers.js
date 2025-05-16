@@ -136,6 +136,12 @@ export function updateGridClasses( grid, displayStyle, teaserLayout ) {
 
 	// Only add layout classes if we're in teaser-grid mode
 	if ( displayStyle === 'teaser-grid' && teaserLayout ) {
-		grid.classList.add( `layout-${ teaserLayout }` );
+		// Handle special cases for 2s-left and 2s-right layouts
+		if (teaserLayout === '2s-left' || teaserLayout === '2s-right') {
+			grid.classList.add('layout-2s');
+			grid.classList.add(`layout-${teaserLayout}`);
+		} else {
+			grid.classList.add(`layout-${teaserLayout}`);
+		}
 	}
 }

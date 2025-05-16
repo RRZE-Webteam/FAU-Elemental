@@ -48,7 +48,15 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
 
         $grid_classes = ['fau-teaser-grid', $display_style];
         if ($display_style === 'teaser-grid') {
-            $grid_classes[] = "layout-{$teaser_layout}";
+            // Handle special cases for 2s-left and 2s-right layouts
+            if ($teaser_layout === '2s-left' || $teaser_layout === '2s-right') {
+                $grid_classes[] = 'layout-2s';
+                $grid_classes[] = "layout-{$teaser_layout}";
+            } else {
+                $grid_classes[] = "layout-{$teaser_layout}";
+            }
+        } elseif ($display_style === 'list-item') {
+            $grid_classes[] = 'style-list-item';
         }
 
         $output = sprintf('<section %s>', $wrapper_attributes);
