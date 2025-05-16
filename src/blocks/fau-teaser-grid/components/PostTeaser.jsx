@@ -1,10 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
+import React from 'react';
 
 // Get the theme URL from WordPress data
 const FALLBACK_IMAGE = '/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
-export default function PostTeaser({ post }) {
+export default function PostTeaser({ post, headingLevel = 'h4' }) {
     if (!post) return null;
 
 	const themeUrl = useSelect( ( select ) => {
@@ -52,19 +53,25 @@ export default function PostTeaser({ post }) {
 						{ category && (
 							<span className="category">{ category.name }</span>
 						) }
-						<h3
-							className="clamp-3"
-							id={ `teaser-title-${ post.id }` }
-						>
-							<span
-								className="visually-hidden"
-								dangerouslySetInnerHTML={ { __html: title } }
-							/>
-							<span
-								aria-hidden="true"
-								dangerouslySetInnerHTML={ { __html: title } }
-							/>
-						</h3>
+						{React.createElement(
+                            headingLevel,
+                            {
+                                className: "clamp-3",
+                                id: `teaser-title-${post.id}`
+                            },
+                            [
+                                <span
+                                    key="visually-hidden"
+                                    className="visually-hidden"
+                                    dangerouslySetInnerHTML={{ __html: title }}
+                                />,
+                                <span
+                                    key="aria-hidden"
+                                    aria-hidden="true"
+                                    dangerouslySetInnerHTML={{ __html: title }}
+                                />
+                            ]
+                        )}
 						<div className="excerpt clamp-3">
 							<span
 								className="visually-hidden"

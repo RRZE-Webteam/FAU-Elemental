@@ -76,6 +76,10 @@
     "selectionMode": {
       "type": "string",
       "default": "auto"
+    },
+    "headingLevel": {
+      "type": "string",
+      "default": "h4"
     }
   },
   "example": {
@@ -94,7 +98,8 @@
       "teaserLayout": "3m",
       "teaserSizes": [],
       "selectedPosts": [],
-      "selectionMode": "auto"
+      "selectionMode": "auto",
+      "headingLevel": "h4"
     }
   }
 }

@@ -282,7 +282,7 @@ export default function Edit({ attributes, setAttributes }) {
                             { label: 'H5', value: 'h5' },
                             { label: 'H6', value: 'h6' },
                         ]}
-                        onChange={(headingLevel) => setAttributes({ headingLevel })}
+                        onChange={(newHeadingLevel) => setAttributes({ headingLevel: newHeadingLevel })}
                     />
                 </PanelBody>
 
@@ -506,8 +506,8 @@ export default function Edit({ attributes, setAttributes }) {
                                 const post = items.find(item => item.id === selectedPost.id);
                                 return post ? (
                                     variant === 'post' 
-                                        ? <PostTeaser key={post.id} post={post} grid={blockProps} />
-                                        : <PageTeaser key={post.id} page={post} grid={blockProps} />
+                                        ? <PostTeaser key={post.id} post={post} grid={blockProps} headingLevel={headingLevel} />
+                                        : <PageTeaser key={post.id} page={post} grid={blockProps} headingLevel={headingLevel} />
                                 ) : null;
                             })
                         ) : (
@@ -517,8 +517,8 @@ export default function Edit({ attributes, setAttributes }) {
                         items && items.length > 0 ? (
                             items.map((item) => (
                                 variant === 'post' 
-                                    ? <PostTeaser key={item.id} post={item} grid={blockProps} />
-                                    : <PageTeaser key={item.id} page={item} grid={blockProps} />
+                                    ? <PostTeaser key={item.id} post={item} grid={blockProps} headingLevel={headingLevel} />
+                                    : <PageTeaser key={item.id} page={item} grid={blockProps} headingLevel={headingLevel} />
                             ))
                         ) : (
                             <p role="status">{__('No items found', 'fau-elemental')}</p>

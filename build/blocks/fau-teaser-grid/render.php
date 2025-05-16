@@ -32,7 +32,13 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $order_by = $attributes['orderBy'] ?? 'date';
         $order = $attributes['order'] ?? 'DESC';
         $heading_level = $attributes['headingLevel'] ?? 'h4';
-
+        
+        // Ensure it's a valid heading tag
+        $allowed_headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+        if (!in_array($heading_level, $allowed_headings)) {
+            $heading_level = 'h4'; // Default to h4 if not valid
+        }
+        
         // Start building the output
         $wrapper_attributes = get_block_wrapper_attributes([
             'class' => 'fau-list-item',
