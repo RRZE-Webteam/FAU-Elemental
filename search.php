@@ -1,9 +1,6 @@
 <?php
 /**
- * The main template file
- *
- * This is the most generic template file in a WordPress theme
- * and one of the required files for a theme.
+ * The template for displaying search results
  *
  * @package Fau-Elemental
  */
@@ -23,7 +20,7 @@ get_header();
         <?php if (have_posts()) : ?>
             <header class="page-header">
                 <h1 class="wp-block-post-title alignwide">
-                    <?php single_post_title(); ?>
+                    <?php printf(__('Search Results for: %s', 'fau-elemental'), '<span>' . get_search_query() . '</span>'); ?>
                 </h1>
             </header>
 
@@ -38,11 +35,17 @@ get_header();
                         
                         <div class="entry-meta">
                             <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo get_the_date(); ?></time>
+                            <?php if (get_post_type() === 'post') : ?>
+                                <span class="post-type"> | <?php _e('Post', 'fau-elemental'); ?></span>
+                            <?php else : ?>
+                                <span class="post-type"> | <?php echo get_post_type_object(get_post_type())->labels->singular_name; ?></span>
+                            <?php endif; ?>
                         </div>
                     </header>
 
                     <div class="entry-content">
                         <?php the_excerpt(); ?>
+                        <a href="<?php the_permalink(); ?>" class="read-more"><?php _e('Read More', 'fau-elemental'); ?> →</a>
                     </div>
                 </article>
             <?php endwhile;
@@ -55,7 +58,12 @@ get_header();
 
         else :
             ?>
-            <p><?php _e('No posts found.', 'fau-elemental'); ?></p>
+            <p><?php _e('No results found for your search.', 'fau-elemental'); ?></p>
+            
+            <div class="search-again">
+                <p><?php _e('Please try another search:', 'fau-elemental'); ?></p>
+                <?php get_search_form(); ?>
+            </div>
         <?php endif; ?>
     </div>
 </main>

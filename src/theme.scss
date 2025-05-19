@@ -221,3 +221,7 @@ address {
 @import "./blocks/core-tag-cloud/style";
 @import "./blocks/core-verse/style";
 @import "./blocks/core-gallery/style";
+
+// Components
+@import "scss/components/post-header";
+@import "scss/components/editor-wrapper";

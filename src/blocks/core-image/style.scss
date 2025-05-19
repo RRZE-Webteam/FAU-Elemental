@@ -1,5 +1,6 @@
 .wp-block-image {
 	max-width: var(--small-max-width);
+	margin: 0 auto;
 	position: relative;
 
 	.image-wrapper {
@@ -8,7 +9,7 @@
 	}
 
 	&.has-overlay div.image-wrapper {
-		background-color: unset;
+		background-color: var(--FAU-Col-FAU-Weiss-100);
 
 		&::before {
 			content: "";
@@ -25,19 +26,18 @@
 	}
 
 	figcaption {
+		box-sizing: border-box;
 		position: relative;
-		bottom: 45px;
-		background-color: #fff;
-		margin: 0;
-		transform: translate(-50%);
+		bottom: 47px;
 		left: 50%;
+		background-color: #fff;
 		padding: var(--Spacing-6x) var(--Spacing-8x);
+		margin: 0;
 		font-size: var(--P-Body-Text-Small);
 		line-height: 1.5;
 		font-weight: 400;
 		width: 90%;
-		box-sizing: border-box;
-		padding-right: 80px;
+		transform: translate(-50%);
 
 		.is-style-dark & {
 			background-color: var(--FAU-Col-FAU-Blau-100);
@@ -47,7 +47,7 @@
 
 	&.is-style-large {
 		max-width: var(--base-max-width);
-		width: 100%;
+		// width: 100%;
 
 		// @media screen and (max-width: 1599px) {
 		// 	width: unset;

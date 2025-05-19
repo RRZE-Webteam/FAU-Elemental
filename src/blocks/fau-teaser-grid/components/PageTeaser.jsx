@@ -3,48 +3,53 @@ import { useSelect, createSelector } from '@wordpress/data';
 import React, { useMemo } from 'react';
 
 // Get the theme URL from WordPress data
-const FALLBACK_IMAGE = '/wp-content/themes/fau-elemental/assets/images/logo.svg';
+const FALLBACK_IMAGE =
+	'/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
 // Create a stable selector for the REST API base URL
-const getRestBaseUrl = createSelector(
-    (select) => window.location.origin
-);
+const getRestBaseUrl = createSelector( ( select ) => window.location.origin );
 
-export default function PageTeaser({ page, headingLevel = 'h4' }) {
-    if (!page) return null;
+export default function PageTeaser( { page, headingLevel = 'h4' } ) {
+	if ( ! page ) return null;
 
-    const baseUrl = useSelect(select => getRestBaseUrl(select), []);
+	const baseUrl = useSelect( ( select ) => getRestBaseUrl( select ), [] );
 
-    // Memoize derived values
-    const memoizedData = useMemo(() => {
-        // Return early with empty object if page isn't properly defined
-        if (!page || !page.title || !page.excerpt) {
-            return {
-                image: `${baseUrl}${FALLBACK_IMAGE}`,
-                title: '',
-                excerpt: ''
-            };
-        }
+	// Memoize derived values
+	const memoizedData = useMemo( () => {
+		// Return early with empty object if page isn't properly defined
+		if ( ! page || ! page.title || ! page.excerpt ) {
+			return {
+				image: `${ baseUrl }${ FALLBACK_IMAGE }`,
+				title: '',
+				excerpt: '',
+			};
+		}
 
-        // Check if there's a valid featured image
-        const hasFeaturedImage = page._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-        const imageUrl = hasFeaturedImage ? page._embedded['wp:featuredmedia'][0].source_url : `${baseUrl}${FALLBACK_IMAGE}`;
+		// Check if there's a valid featured image
+		const hasFeaturedImage =
+			page._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url;
+		const imageUrl = hasFeaturedImage
+			? page._embedded[ 'wp:featuredmedia' ][ 0 ].source_url
+			: `${ baseUrl }${ FALLBACK_IMAGE }`;
 
-        return {
-            image: imageUrl,
-            title: page.title?.rendered || '',
-            excerpt: (page.excerpt?.rendered || '').replace('[&hellip;]', '..')
-        };
-    }, [
-        page?.id,
-        page?.title?.rendered,
-        page?.excerpt?.rendered,
-        page?._embedded?.['wp:featuredmedia']?.[0]?.source_url,
-        baseUrl
-    ]);
-    
-    // Define variant for consistency with PHP implementation
-    const variant = 'page';
+		return {
+			image: imageUrl,
+			title: page.title?.rendered || '',
+			excerpt: ( page.excerpt?.rendered || '' ).replace(
+				'[&hellip;]',
+				'..'
+			),
+		};
+	}, [
+		page?.id,
+		page?.title?.rendered,
+		page?.excerpt?.rendered,
+		page?._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url,
+		baseUrl,
+	] );
+
+	// Define variant for consistency with PHP implementation
+	const variant = 'page';
 
 	return (
 		<a
@@ -55,40 +60,52 @@ export default function PageTeaser({ page, headingLevel = 'h4' }) {
 			{ memoizedData.image && (
 				<div className="teaser-image-wrapper">
 					<div className="teaser-image">
-						<img src={ memoizedData.image } alt={ memoizedData.title } loading="lazy" />
+						<img
+							src={ memoizedData.image }
+							alt={ memoizedData.title }
+							loading="lazy"
+						/>
 					</div>
 				</div>
 			) }
 			<div className="teaser-content-wrapper">
 				<div className="teaser-content">
 					<div className="content-column">
-						{React.createElement(
-                            headingLevel,
-                            {
-                                className: "clamp-3",
-                                id: `teaser-title-${page.id}`
-                            },
-                            [
-                                <span
-                                    key="visually-hidden"
-                                    className="visually-hidden"
-                                    dangerouslySetInnerHTML={{ __html: memoizedData.title }}
-                                />,
-                                <span
-                                    key="aria-hidden"
-                                    aria-hidden="true"
-                                    dangerouslySetInnerHTML={{ __html: memoizedData.title }}
-                                />
-                            ]
-                        )}
+						{ React.createElement(
+							headingLevel,
+							{
+								className: 'clamp-3',
+								id: `teaser-title-${ page.id }`,
+							},
+							[
+								<span
+									key="visually-hidden"
+									className="visually-hidden"
+									dangerouslySetInnerHTML={ {
+										__html: memoizedData.title,
+									} }
+								/>,
+								<span
+									key="aria-hidden"
+									aria-hidden="true"
+									dangerouslySetInnerHTML={ {
+										__html: memoizedData.title,
+									} }
+								/>,
+							]
+						) }
 						<div className="excerpt clamp-3">
 							<span
 								className="visually-hidden"
-								dangerouslySetInnerHTML={ { __html: memoizedData.excerpt } }
+								dangerouslySetInnerHTML={ {
+									__html: memoizedData.excerpt,
+								} }
 							/>
 							<span
 								aria-hidden="true"
-								dangerouslySetInnerHTML={ { __html: memoizedData.excerpt } }
+								dangerouslySetInnerHTML={ {
+									__html: memoizedData.excerpt,
+								} }
 							/>
 						</div>
 					</div>

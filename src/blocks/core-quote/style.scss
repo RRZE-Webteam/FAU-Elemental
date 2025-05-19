@@ -35,7 +35,6 @@
 
 			img {
 				display: block;
-				width: auto;
 				height: 100%;
 				aspect-ratio: 1;
 				object-fit: cover;
@@ -88,6 +87,7 @@
 		}
 
 		.carousel-prev {
+
 			&::before {
 				content: "";
 				background-image: var(--icon-chevron-fau-blau);
@@ -110,6 +110,7 @@
 		}
 
 		.carousel-next {
+
 			&::before {
 				content: "";
 				background-image: var(--icon-chevron-fau-blau);
@@ -122,6 +123,7 @@
 
 			&:hover,
 			&:focus-visible {
+
 				&::before {
 					transition: all 0.2s ease-in-out;
 					right: 10px;
@@ -197,11 +199,13 @@
 
 // Responsive
 @include respond-to("medium") {
+
 	.wp-block-quote-item {
+
 		blockquote {
 			font-size: 1.25rem;
 		}
-	
+
 		.quote-content figure + .quote-text {
 			margin-left: -110px;
 		}
@@ -209,17 +213,19 @@
 }
 
 @include respond-to("small") {
+
 	.wp-block-quote-item {
+
 		.quote-content {
 			flex-direction: column;
-	
+
 			figure + .quote-text {
 				margin-left: unset;
 				margin-top: -120px;
 				width: 90%;
 				padding-bottom: 0;
 			}
-	
+
 			figure img {
 				width: 100%;
 			}
@@ -232,6 +238,7 @@
 }
 
 @include respond-to("x-small") {
+
 	.wp-block-quote-item,
 	.quote-carousel {
 		padding: 0;

@@ -1,9 +1,6 @@
 <?php
 /**
- * The main template file
- *
- * This is the most generic template file in a WordPress theme
- * and one of the required files for a theme.
+ * The template for displaying archive pages
  *
  * @package Fau-Elemental
  */
@@ -22,9 +19,10 @@ get_header();
     <div class="wp-block-group alignwide">
         <?php if (have_posts()) : ?>
             <header class="page-header">
-                <h1 class="wp-block-post-title alignwide">
-                    <?php single_post_title(); ?>
-                </h1>
+                <?php
+                the_archive_title('<h1 class="wp-block-post-title alignwide">', '</h1>');
+                the_archive_description('<div class="archive-description">', '</div>');
+                ?>
             </header>
 
             <?php
@@ -38,11 +36,23 @@ get_header();
                         
                         <div class="entry-meta">
                             <time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo get_the_date(); ?></time>
+                            <?php if (has_category()) : ?>
+                                <span class="cat-links"> | <?php the_category(', '); ?></span>
+                            <?php endif; ?>
                         </div>
                     </header>
 
+                    <?php if (has_post_thumbnail()) : ?>
+                        <figure class="featured-image">
+                            <a href="<?php the_permalink(); ?>">
+                                <?php the_post_thumbnail('medium'); ?>
+                            </a>
+                        </figure>
+                    <?php endif; ?>
+
                     <div class="entry-content">
                         <?php the_excerpt(); ?>
+                        <a href="<?php the_permalink(); ?>" class="read-more"><?php _e('Read More', 'fau-elemental'); ?> →</a>
                     </div>
                 </article>
             <?php endwhile;
