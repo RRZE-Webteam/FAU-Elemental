@@ -128,6 +128,12 @@ addFilter(
 
 				if ( ! blockRef.current ) return;
 
+				// We do NOT want this aspect ratio enforcement inside the gallery because it will break in the editor.
+				const isInGallery = blockRef.current.matches(
+					'.wp-block-gallery-container .wp-block-image-wrapper'
+				);
+				if ( isInGallery ) return;
+
 				const img = blockRef.current.querySelector( 'img' );
 				if ( ! img ) return;
 
