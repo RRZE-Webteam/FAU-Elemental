@@ -5,9 +5,9 @@
 		$( '.wp-block-image:not(.wp-block-gallery .wp-block-image)' ).each(
 			function () {
 				const $block = $( this );
-				const $img = $block.find('img');
-				const naturalWidth = $img[0].naturalWidth;
-				const naturalHeight = $img[0].naturalHeight;
+				const $img = $block.find( 'img' );
+				const naturalWidth = $img[ 0 ].naturalWidth;
+				const naturalHeight = $img[ 0 ].naturalHeight;
 				const containerWidth = $img.parent().width();
 
 				// Calculate maximum allowed height for 3:2 ratio based on container width
@@ -22,7 +22,7 @@
 					// Calculate the scale factor needed to fit within max allowed height
 					const scaleFactor = maxAllowedHeight / naturalHeightAtWidth;
 					const scaledWidth = containerWidth * scaleFactor;
-					
+
 					$img.css( {
 						width: scaledWidth + 'px',
 						height: 'auto',
@@ -40,13 +40,18 @@
 				}
 
 				// Calculate total block height including wrapper and figcaption
-				const wrapperHeight = $block.find('.image-wrapper').outerHeight() || 0;
-				const figcaptionHeight = $block.find('figcaption').outerHeight() || 0;
-				const figcaptionOffset = $block.find('figcaption').length ? 47 : 0;
-				const totalHeight = wrapperHeight + figcaptionHeight - figcaptionOffset;
-				
+				const wrapperHeight =
+					$block.find( '.image-wrapper' ).outerHeight() || 0;
+				const figcaptionHeight =
+					$block.find( 'figcaption' ).outerHeight() || 0;
+				const figcaptionOffset = $block.find( 'figcaption' ).length
+					? 47
+					: 0;
+				const totalHeight =
+					wrapperHeight + figcaptionHeight - figcaptionOffset;
+
 				// Set the calculated height on the block
-				$block.css('height', totalHeight + 'px');
+				$block.css( 'height', totalHeight + 'px' );
 			}
 		);
 	}

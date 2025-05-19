@@ -13,8 +13,8 @@ window.fauElemental = {
 	themeUrl: window.fauElemental?.themeUrl || '',
 };
 
-registerBlockType(metadata.name, {
-    ...metadata,
-    edit: Edit,
-    save: () => null,
-});
+registerBlockType( metadata.name, {
+	...metadata,
+	edit: Edit,
+	save: () => null,
+} );

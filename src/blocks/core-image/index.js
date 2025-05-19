@@ -116,7 +116,7 @@ addFilter(
 				className,
 				url,
 				galleryIndexText,
-				caption
+				caption,
 			} = attributes;
 
 			// Use a ref to access the DOM after render
@@ -145,7 +145,7 @@ addFilter(
 					// Calculate the scale factor needed to fit within max allowed height
 					const scaleFactor = maxAllowedHeight / naturalHeightAtWidth;
 					const scaledWidth = containerWidth * scaleFactor;
-					
+
 					img.style.width = `${ scaledWidth }px`;
 					img.style.height = 'auto';
 					img.style.objectFit = 'contain';
@@ -159,15 +159,20 @@ addFilter(
 				}
 
 				// Calculate total block height including wrapper and figcaption
-				const wrapper = blockRef.current.querySelector('.image-wrapper');
-				const figcaption = blockRef.current.querySelector('figcaption');
+				const wrapper =
+					blockRef.current.querySelector( '.image-wrapper' );
+				const figcaption =
+					blockRef.current.querySelector( 'figcaption' );
 				const wrapperHeight = wrapper ? wrapper.offsetHeight : 0;
-				const figcaptionHeight = figcaption ? figcaption.offsetHeight : 0;
+				const figcaptionHeight = figcaption
+					? figcaption.offsetHeight
+					: 0;
 				const figcaptionOffset = figcaption ? 47 : 0;
-				const totalHeight = wrapperHeight + figcaptionHeight - figcaptionOffset;
-				
+				const totalHeight =
+					wrapperHeight + figcaptionHeight - figcaptionOffset;
+
 				// Set the calculated height on the block
-				blockRef.current.style.height = `${totalHeight}px`;
+				blockRef.current.style.height = `${ totalHeight }px`;
 			};
 
 			// Add the button and enforce aspect ratio after the component mounts
@@ -220,11 +225,11 @@ addFilter(
 			}, [ url, galleryIndexText ] );
 
 			// Recalculate height when caption changes
-			useEffect(() => {
-				if (blockRef.current) {
+			useEffect( () => {
+				if ( blockRef.current ) {
 					enforceAspectRatio();
 				}
-			}, [caption]);
+			}, [ caption ] );
 
 			return (
 				<div className="wp-block-image-wrapper" ref={ blockRef }>

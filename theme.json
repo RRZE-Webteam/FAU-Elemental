@@ -83,7 +83,7 @@
 		{
 			"name": "single",
 			"title": "Single Post",
-			"postTypes": ["post"],
+			"postTypes": [ "post" ],
 			"templateLock": "all",
 			"isLocked": true
 		}
