@@ -231,6 +231,24 @@ addFilter(
 				}
 			}, [ caption ] );
 
+			// Recalculate height when DOM changes, for example when the caption gets added or removed
+			useEffect( () => {
+				const figure = blockRef.current?.querySelector( 'figure' );
+				if (!figure) {
+					return;
+				}
+
+				// Add mutation observer to handle DOM changes
+				const domObserver = new MutationObserver( () => {
+					enforceAspectRatio();
+				} );
+				domObserver.observe( figure, { childList: true } );
+
+				return () => {
+					domObserver.disconnect();
+				};
+			}, [ url ] );
+
 			return (
 				<div className="wp-block-image-wrapper" ref={ blockRef }>
 					<BlockEdit { ...props } />
