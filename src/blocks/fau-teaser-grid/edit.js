@@ -1,5 +1,9 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls, BlockControls } from '@wordpress/block-editor';
+import {
+	useBlockProps,
+	InspectorControls,
+	BlockControls,
+} from '@wordpress/block-editor';
 import {
 	PanelBody,
 	RangeControl,
@@ -567,14 +571,18 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			<BlockControls group="block">
 				<HeadingLevelSelector
-					selectedLevel={ headingLevel ? parseInt(headingLevel.replace('h', ''), 10) : 4 }
+					selectedLevel={
+						headingLevel
+							? parseInt( headingLevel.replace( 'h', '' ), 10 )
+							: 4
+					}
 					onChange={ ( newLevel ) => {
 						// Only allow levels 2-6
-						if (newLevel >= 2 && newLevel <= 6) {
-							setAttributes({ headingLevel: `h${newLevel}` });
+						if ( newLevel >= 2 && newLevel <= 6 ) {
+							setAttributes( { headingLevel: `h${ newLevel }` } );
 						}
-					}}
-					options={[2, 3, 4, 5, 6]} // Exclude H1 (level 1)
+					} }
+					options={ [ 2, 3, 4, 5, 6 ] } // Exclude H1 (level 1)
 				/>
 			</BlockControls>
 

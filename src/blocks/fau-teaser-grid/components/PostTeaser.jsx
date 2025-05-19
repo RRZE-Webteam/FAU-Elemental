@@ -70,7 +70,7 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 
 	// Define variant for consistency with PHP implementation
 	const variant = 'post';
-	
+
 	// Dynamically create the heading element
 	const HeadingTag = headingLevel;
 
