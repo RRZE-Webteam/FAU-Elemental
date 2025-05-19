@@ -4,6 +4,7 @@
 		// Select images that are in wp-block-image but not in wp-block-gallery
 		$( '.wp-block-image:not(.wp-block-gallery .wp-block-image)' ).each(
 			function () {
+				const xSmallWidth = 393;
 				const $block = $( this );
 				const $img = $block.find( 'img' );
 				const naturalWidth = $img[ 0 ].naturalWidth;
@@ -18,7 +19,10 @@
 					( containerWidth / naturalWidth ) * naturalHeight;
 
 				// If the natural height at container width would be taller than max allowed height
-				if ( naturalHeightAtWidth > maxAllowedHeight ) {
+				if (
+					naturalHeightAtWidth > maxAllowedHeight &&
+					window.innerWidth > xSmallWidth
+				) {
 					// Calculate the scale factor needed to fit within max allowed height
 					const scaleFactor = maxAllowedHeight / naturalHeightAtWidth;
 					const scaledWidth = containerWidth * scaleFactor;
@@ -34,7 +38,7 @@
 					$img.css( {
 						width: containerWidth + 'px',
 						height: 'auto',
-						'object-fit': 'none',
+						'object-fit': 'fill',
 						'object-position': 'initial',
 					} );
 				}

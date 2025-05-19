@@ -154,6 +154,18 @@
 
 	.wp-block-image {
 
+		&.is-style-medium {
+			padding-left: 20px;
+			padding-right: 20px;
+			padding-top: 16px;
+			padding-bottom: 16px;
+
+			.image-fullscreen-btn {
+				margin-top: 16px;
+				margin-right: 20px;
+			}
+		}
+
 		.image-fullscreen-btn {
 			width: 40px;
 			height: 40px;

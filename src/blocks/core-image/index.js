@@ -124,6 +124,8 @@ addFilter(
 
 			// Function to enforce 3:2 aspect ratio maximum
 			const enforceAspectRatio = () => {
+				const xSmallWidth = 393;
+
 				if ( ! blockRef.current ) return;
 
 				const img = blockRef.current.querySelector( 'img' );
@@ -141,7 +143,10 @@ addFilter(
 					( containerWidth / naturalWidth ) * naturalHeight;
 
 				// If the natural height at container width would be taller than max allowed height
-				if ( naturalHeightAtWidth > maxAllowedHeight ) {
+				if (
+					naturalHeightAtWidth > maxAllowedHeight &&
+					window.innerWidth > xSmallWidth
+				) {
 					// Calculate the scale factor needed to fit within max allowed height
 					const scaleFactor = maxAllowedHeight / naturalHeightAtWidth;
 					const scaledWidth = containerWidth * scaleFactor;
@@ -154,7 +159,7 @@ addFilter(
 					// Reset to natural dimensions
 					img.style.width = `${ containerWidth }px`;
 					img.style.height = 'auto';
-					img.style.objectFit = 'none';
+					img.style.objectFit = 'fill';
 					img.style.objectPosition = 'initial';
 				}
 
