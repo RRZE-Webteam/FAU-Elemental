@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls, BlockControls } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	RangeControl,
@@ -11,6 +11,7 @@ import {
 	ComboboxControl,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+	__experimentalHeadingLevelSelector as HeadingLevelSelector,
 } from '@wordpress/components';
 import { useSelect, createSelector } from '@wordpress/data';
 import './editor.scss';
@@ -345,22 +346,6 @@ export default function Edit( { attributes, setAttributes } ) {
 							__next40pxDefaultSize={ true }
 						/>
 					) }
-
-					<SelectControl
-						label={ __( 'Heading Level', 'fau-elemental' ) }
-						value={ headingLevel || 'h4' }
-						options={ [
-							{ label: 'H2', value: 'h2' },
-							{ label: 'H3', value: 'h3' },
-							{ label: 'H4', value: 'h4' },
-							{ label: 'H5', value: 'h5' },
-							{ label: 'H6', value: 'h6' },
-						] }
-						onChange={ ( value ) => setAttributes( { headingLevel: value } ) }
-						help={ __( 'Choose the heading level for teasers (H1 is excluded for accessibility)', 'fau-elemental' ) }
-						__nextHasNoMarginBottom={ true }
-						__next40pxDefaultSize={ true }
-					/>
 				</PanelBody>
 
 				<PanelBody title={ __( 'Selection Mode', 'fau-elemental' ) }>
@@ -579,6 +564,19 @@ export default function Edit( { attributes, setAttributes } ) {
 					</p>
 				</PanelBody>
 			</InspectorControls>
+
+			<BlockControls group="block">
+				<HeadingLevelSelector
+					selectedLevel={ headingLevel ? parseInt(headingLevel.replace('h', ''), 10) : 4 }
+					onChange={ ( newLevel ) => {
+						// Only allow levels 2-6
+						if (newLevel >= 2 && newLevel <= 6) {
+							setAttributes({ headingLevel: `h${newLevel}` });
+						}
+					}}
+					options={[2, 3, 4, 5, 6]} // Exclude H1 (level 1)
+				/>
+			</BlockControls>
 
 			<div
 				ref={ gridRef }
