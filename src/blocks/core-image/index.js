@@ -116,6 +116,7 @@ addFilter(
 				className,
 				url,
 				galleryIndexText,
+				caption
 			} = attributes;
 
 			// Use a ref to access the DOM after render
@@ -123,7 +124,6 @@ addFilter(
 
 			// Function to enforce 3:2 aspect ratio maximum
 			const enforceAspectRatio = () => {
-				console.log( 'Enforcing aspect ratio' );
 				if ( ! blockRef.current ) return;
 
 				const img = blockRef.current.querySelector( 'img' );
@@ -224,7 +224,7 @@ addFilter(
 				if (blockRef.current) {
 					enforceAspectRatio();
 				}
-			}, [attributes.caption]);
+			}, [caption]);
 
 			return (
 				<div className="wp-block-image-wrapper" ref={ blockRef }>
