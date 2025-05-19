@@ -13,14 +13,14 @@ if (!defined('ABSPATH')) {
  * Add meta boxes for portal page settings
  */
 function fau_elemental_add_portal_page_meta_boxes() {
-    // Add meta box to all pages - we'll use JS to hide it when not needed
+    // Add meta box to all pages - ALWAYS show it regardless of template
     add_meta_box(
         'fau_elemental_portal_menu_settings',
         __('Portal Menu Settings', 'fau-elemental'),
         'fau_elemental_portal_menu_meta_box_callback',
         'page',
         'side',
-        'high' // Changed from 'default' to 'high' for more visibility
+        'high' // High priority for more visibility
     );
 }
 add_action('add_meta_boxes', 'fau_elemental_add_portal_page_meta_boxes');
@@ -65,7 +65,7 @@ function fau_elemental_admin_head() {
 add_action('admin_head', 'fau_elemental_admin_head');
 
 /**
- * Show the meta box when template is selected via JavaScript
+ * Show the meta box with improved template selection visibility
  */
 function fau_elemental_admin_footer() {
     global $post;
@@ -78,31 +78,51 @@ function fau_elemental_admin_footer() {
     jQuery(document).ready(function($) {
         console.log('FAU Portal Menu: Script loaded');
         
-        // Function to check the template and toggle the meta box
+        // Function to check the template and update the meta box UI
         function checkTemplate() {
             var template = $('#page_template').val();
             console.log('FAU Portal Menu: Detected template: ' + template);
             
             if (template === 'templates/portal-page.php' || template === 'portal-page.php') {
-                console.log('FAU Portal Menu: Showing settings');
-                $('#fau_elemental_portal_menu_settings').show().css({
+                console.log('FAU Portal Menu: Using portal template');
+                $('#fau_elemental_portal_menu_settings').addClass('fau-portal-active').css({
                     'border': '2px solid #2271b1',
                     'box-shadow': '0 0 5px rgba(34, 113, 177, 0.2)'
                 });
                 
-                // Add a notification about the template and settings
+                // Update notification about using portal template
                 if (!$('#portal-template-notice').length) {
                     $('#fau_elemental_portal_menu_settings').after(
-                        '<div id="portal-template-notice" class="notice notice-info inline fau-portal-template-notice">' +
-                        '<p><strong>Portal Page Template Selected</strong></p>' +
+                        '<div id="portal-template-notice" class="notice notice-success inline fau-portal-template-notice">' +
+                        '<p><strong>Portal Page Template Active</strong></p>' +
                         '<p>Configure your portal menu using the settings above.</p>' +
                         '</div>'
                     );
+                } else {
+                    $('#portal-template-notice').attr('class', 'notice notice-success inline fau-portal-template-notice')
+                        .html('<p><strong>Portal Page Template Active</strong></p>' +
+                              '<p>Configure your portal menu using the settings above.</p>');
                 }
             } else {
-                console.log('FAU Portal Menu: Hiding settings');
-                //$('#fau_elemental_portal_menu_settings').hide();
-                $('#portal-template-notice').remove();
+                console.log('FAU Portal Menu: Not using portal template');
+                $('#fau_elemental_portal_menu_settings').removeClass('fau-portal-active').css({
+                    'border': '1px solid #ccd0d4',
+                    'box-shadow': 'none'
+                });
+                
+                // Update notification about not using portal template
+                if (!$('#portal-template-notice').length) {
+                    $('#fau_elemental_portal_menu_settings').after(
+                        '<div id="portal-template-notice" class="notice notice-info inline fau-portal-template-notice">' +
+                        '<p><strong>Portal Menu Settings Available</strong></p>' +
+                        '<p>To use these settings, select the <a href="#" onclick="jQuery(\'#page_template\').val(\'portal-page.php\').trigger(\'change\'); return false;">Portal Page Template</a>.</p>' +
+                        '</div>'
+                    );
+                } else {
+                    $('#portal-template-notice').attr('class', 'notice notice-info inline fau-portal-template-notice')
+                        .html('<p><strong>Portal Menu Settings Available</strong></p>' +
+                              '<p>To use these settings, select the <a href="#" onclick="jQuery(\'#page_template\').val(\'portal-page.php\').trigger(\'change\'); return false;">Portal Page Template</a>.</p>');
+                }
             }
         }
         
@@ -120,10 +140,17 @@ function fau_elemental_admin_footer() {
                 
                 if (template === 'templates/portal-page.php' || template === 'portal-page.php') {
                     console.log('FAU Portal Menu: Using portal template');
+                    $('#fau_elemental_portal_menu_settings .inside').prepend(
+                        '<div class="notice notice-success" style="margin: 0 0 10px 0; padding: 8px;">' +
+                        '<p><strong>Portal Page Template Active</strong></p>' +
+                        '<p>Configure your portal menu using the settings below.</p>' +
+                        '</div>'
+                    );
                 } else {
                     // Add a note inside the metabox
                     $('#fau_elemental_portal_menu_settings .inside').prepend(
-                        '<div class="notice notice-warning" style="margin: 0 0 10px 0; padding: 8px;">' +
+                        '<div class="notice notice-info" style="margin: 0 0 10px 0; padding: 8px;">' +
+                        '<p><strong>Portal Menu Settings Available</strong></p>' +
                         '<p>To use these settings, select the <strong>Portal Page</strong> template in the Document Settings panel.</p>' +
                         '</div>'
                     );
@@ -165,21 +192,11 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
     // Get all menus
     $menus = wp_get_nav_menus();
     
-    // Check if we're using the Portal Page template
+    // Template check is just for reference - we'll always show the metabox now
     $template = get_post_meta($post->ID, '_wp_page_template', true);
     $using_portal_template = ($template === 'templates/portal-page.php' || $template === 'portal-page.php');
     
     echo '<div class="fau-portal-menu-settings">';
-    if (!$using_portal_template) {
-        echo '<div class="notice notice-info" style="margin: 0 0 10px 0; padding: 8px;">';
-        echo '<p>' . esc_html__('To activate these settings, select the "Portal Page" template.', 'fau-elemental') . '</p>';
-        echo '<p><a href="#" onclick="jQuery(\'#page_template\').val(\'portal-page.php\').trigger(\'change\'); return false;" class="button button-primary">' . esc_html__('Switch to Portal Page Template', 'fau-elemental') . '</a></p>';
-        echo '</div>';
-    } else {
-        echo '<div class="notice notice-success" style="margin: 0 0 10px 0; padding: 8px;">';
-        echo '<p><strong>' . esc_html__('Portal Page Template Active', 'fau-elemental') . '</strong></p>';
-        echo '</div>';
-    }
     ?>
     <p>
         <label for="portal_menu_id"><strong><?php esc_html_e('Menu', 'fau-elemental'); ?>:</strong></label>
@@ -203,66 +220,54 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
     </p>
     
     <p>
-        <label for="portal_menu_columns"><strong><?php esc_html_e('Number of Columns', 'fau-elemental'); ?>:</strong></label>
+        <label for="portal_menu_columns"><strong><?php esc_html_e('Columns', 'fau-elemental'); ?>:</strong></label>
         <select name="portal_menu_columns" id="portal_menu_columns" class="widefat">
-            <option value="1" <?php selected($columns, 1); ?>><?php esc_html_e('1 Column', 'fau-elemental'); ?></option>
-            <option value="2" <?php selected($columns, 2); ?>><?php esc_html_e('2 Columns', 'fau-elemental'); ?></option>
-            <option value="3" <?php selected($columns, 3); ?>><?php esc_html_e('3 Columns', 'fau-elemental'); ?></option>
-            <option value="4" <?php selected($columns, 4); ?>><?php esc_html_e('4 Columns', 'fau-elemental'); ?></option>
+            <option value="1" <?php selected($columns, 1); ?>>1</option>
+            <option value="2" <?php selected($columns, 2); ?>>2</option>
+            <option value="3" <?php selected($columns, 3); ?>>3</option>
+            <option value="4" <?php selected($columns, 4); ?>>4</option>
         </select>
     </p>
     
-    <div style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px;">
-        <p><strong><?php esc_html_e('Display Options', 'fau-elemental'); ?>:</strong></p>
-        
-        <p>
-            <label for="portal_menu_list_view">
-                <input type="checkbox" name="portal_menu_list_view" id="portal_menu_list_view" value="1" <?php checked($list_view, true); ?>>
-                <?php esc_html_e('List View', 'fau-elemental'); ?>
-            </label>
-        </p>
-        
-        <p>
-            <label for="portal_menu_hide_subs">
-                <input type="checkbox" name="portal_menu_hide_subs" id="portal_menu_hide_subs" value="1" <?php checked($hide_subs, true); ?>>
-                <?php esc_html_e('Hide Submenus', 'fau-elemental'); ?>
-            </label>
-        </p>
-        
-        <p>
-            <label for="portal_menu_hide_thumbs">
-                <input type="checkbox" name="portal_menu_hide_thumbs" id="portal_menu_hide_thumbs" value="1" <?php checked($hide_thumbs, true); ?>>
-                <?php esc_html_e('Hide Thumbnails', 'fau-elemental'); ?>
-            </label>
-        </p>
-        
-        <p>
-            <label for="portal_menu_no_fallback">
-                <input type="checkbox" name="portal_menu_no_fallback" id="portal_menu_no_fallback" value="1" <?php checked($no_fallback, true); ?>>
-                <?php esc_html_e('No Fallback Images', 'fau-elemental'); ?>
-            </label>
-        </p>
-    </div>
+    <p>
+        <label><input type="checkbox" name="portal_menu_hide_subs" id="portal_menu_hide_subs" value="1" <?php checked($hide_subs, true); ?> />
+        <?php esc_html_e('Hide Submenus', 'fau-elemental'); ?></label>
+    </p>
     
-    <div style="margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px;">
-        <p><strong><?php esc_html_e('Hover Effects', 'fau-elemental'); ?>:</strong></p>
-        
-        <p>
-            <label for="portal_menu_hover_zoom">
-                <input type="checkbox" name="portal_menu_hover_zoom" id="portal_menu_hover_zoom" value="1" <?php checked($hover_zoom, true); ?>>
-                <?php esc_html_e('Hover Zoom Effect', 'fau-elemental'); ?>
-            </label>
-        </p>
-        
-        <p>
-            <label for="portal_menu_hover_blur">
-                <input type="checkbox" name="portal_menu_hover_blur" id="portal_menu_hover_blur" value="1" <?php checked($hover_blur, true); ?>>
-                <?php esc_html_e('Hover Blur Effect', 'fau-elemental'); ?>
-            </label>
-        </p>
-    </div>
-    </div>
+    <p>
+        <label><input type="checkbox" name="portal_menu_list_view" id="portal_menu_list_view" value="1" <?php checked($list_view, true); ?> />
+        <?php esc_html_e('List View', 'fau-elemental'); ?></label>
+    </p>
+    
+    <p>
+        <label><input type="checkbox" name="portal_menu_hide_thumbs" id="portal_menu_hide_thumbs" value="1" <?php checked($hide_thumbs, true); ?> />
+        <?php esc_html_e('Hide Thumbnails', 'fau-elemental'); ?></label>
+    </p>
+    
+    <p>
+        <label><input type="checkbox" name="portal_menu_no_fallback" id="portal_menu_no_fallback" value="1" <?php checked($no_fallback, true); ?> />
+        <?php esc_html_e('No Fallback Image', 'fau-elemental'); ?></label>
+    </p>
+    
+    <h4><?php esc_html_e('Hover Effects', 'fau-elemental'); ?></h4>
+    <p>
+        <label><input type="checkbox" name="portal_menu_hover_zoom" id="portal_menu_hover_zoom" value="1" <?php checked($hover_zoom, true); ?> />
+        <?php esc_html_e('Zoom', 'fau-elemental'); ?></label>
+    </p>
+    
+    <p>
+        <label><input type="checkbox" name="portal_menu_hover_blur" id="portal_menu_hover_blur" value="1" <?php checked($hover_blur, true); ?> />
+        <?php esc_html_e('Blur', 'fau-elemental'); ?></label>
+    </p>
+    
     <?php
+    // Always display the shortcode usage example
+    echo '<div class="portal-menu-shortcode-example" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">';
+    echo '<h4>' . esc_html__('Shortcode Usage', 'fau-elemental') . '</h4>';
+    echo '<code>[portalmenu menu="' . ($menu_id ? esc_attr($menu_id) : 'menu-id-or-name') . '" type="' . esc_attr($display_type) . '" columns="' . esc_attr($columns) . '"]</code>';
+    echo '</div>';
+    
+    echo '</div>'; // .fau-portal-menu-settings
 }
 
 /**

@@ -37,6 +37,16 @@ function fau_elemental_check_old_portal_menu_settings() {
             
             // Get the menu ID from the name
             $menu_obj = get_term_by('name', $menu_name, 'nav_menu');
+            if (!$menu_obj) {
+                // Try by slug if name doesn't work
+                $menu_obj = get_term_by('slug', $menu_name, 'nav_menu');
+            }
+            
+            // Try by ID if it's already a number
+            if (!$menu_obj && is_numeric($menu_name)) {
+                $menu_obj = get_term_by('id', $menu_name, 'nav_menu');
+            }
+            
             if ($menu_obj) {
                 update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
                 
@@ -82,6 +92,11 @@ function fau_elemental_check_old_portal_menu_settings() {
                     if ($hoverblur) {
                         update_post_meta($post_id, 'portal_menu_hover_blur', true);
                     }
+                    
+                    // Set default columns if not set
+                    if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
+                        update_post_meta($post_id, 'portal_menu_columns', 3); // Default to 3 columns
+                    }
                 } else {
                     // Top menu settings
                     $nosub = get_post_meta($post_id, 'fauval_portalmenu_nosub_oben', true);
@@ -118,6 +133,11 @@ function fau_elemental_check_old_portal_menu_settings() {
                     if ($hoverblur) {
                         update_post_meta($post_id, 'portal_menu_hover_blur', true);
                     }
+                    
+                    // Set default columns if not set
+                    if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
+                        update_post_meta($post_id, 'portal_menu_columns', 3); // Default to 3 columns
+                    }
                 }
                 
                 // Ensure the page uses the portal page template
@@ -125,6 +145,8 @@ function fau_elemental_check_old_portal_menu_settings() {
                 
                 // Log the migration for debugging
                 error_log("Migrated portal menu settings for post $post_id with menu {$menu_obj->name}");
+            } else {
+                error_log("Could not find menu for post $post_id with menu name/slug '$menu_name'");
             }
         }
         
@@ -146,6 +168,8 @@ function fau_elemental_check_content_for_old_shortcodes($post_id) {
     
     // Check if content contains old portal menu shortcode
     if (has_shortcode($content, 'portalmenu')) {
+        error_log("Found portalmenu shortcode in content for post $post_id");
+        
         // Extract shortcode attributes
         $pattern = get_shortcode_regex(array('portalmenu'));
         preg_match_all('/' . $pattern . '/', $content, $matches, PREG_SET_ORDER);
@@ -157,12 +181,26 @@ function fau_elemental_check_content_for_old_shortcodes($post_id) {
                 // Check if menu attribute exists
                 if (isset($atts['menu'])) {
                     $menu_obj = get_term_by('name', $atts['menu'], 'nav_menu');
+                    if (!$menu_obj) {
+                        $menu_obj = get_term_by('slug', $atts['menu'], 'nav_menu');
+                    }
+                    
+                    if (!$menu_obj && is_numeric($atts['menu'])) {
+                        $menu_obj = get_term_by('id', $atts['menu'], 'nav_menu');
+                    }
+                    
                     if ($menu_obj) {
+                        // Always set portal menu ID regardless of template
                         update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
+                        error_log("Set portal_menu_id to {$menu_obj->term_id} for post $post_id from shortcode");
                         
                         // Handle other attributes
                         if (isset($atts['type'])) {
                             update_post_meta($post_id, 'portal_menu_type', intval($atts['type']));
+                        }
+                        
+                        if (isset($atts['columns'])) {
+                            update_post_meta($post_id, 'portal_menu_columns', intval($atts['columns']));
                         }
                         
                         if (isset($atts['showsubs']) && ($atts['showsubs'] === 'false' || $atts['showsubs'] === false)) {
@@ -189,8 +227,10 @@ function fau_elemental_check_content_for_old_shortcodes($post_id) {
                             update_post_meta($post_id, 'portal_menu_hover_blur', true);
                         }
                         
-                        // Ensure the page uses the portal page template
-                        update_post_meta($post_id, '_wp_page_template', 'templates/portal-page.php');
+                        // Set default columns if not already set
+                        if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
+                            update_post_meta($post_id, 'portal_menu_columns', 3);
+                        }
                     }
                 }
             }
@@ -208,21 +248,44 @@ function fau_elemental_handle_portal_page_save($post_id) {
         return;
     }
     
-    // Check if this is a portal page template
-    $template = get_post_meta($post_id, '_wp_page_template', true);
-    if ($template === 'templates/portal-page.php') {
-        // Make sure the menu is set
-        $menu_id = get_post_meta($post_id, 'portal_menu_id', true);
-        if (empty($menu_id)) {
-            // Check if there's an old menu slug
-            $menu_slug = get_post_meta($post_id, 'portalmenu-slug', true);
-            if (!empty($menu_slug)) {
-                $menu_obj = get_term_by('name', $menu_slug, 'nav_menu');
-                if ($menu_obj) {
-                    update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
-                }
+    // Check if there's a portal menu ID set
+    $menu_id = get_post_meta($post_id, 'portal_menu_id', true);
+    
+    // If no menu is set, check if there's an old menu slug
+    if (empty($menu_id)) {
+        $menu_slug = get_post_meta($post_id, 'portalmenu-slug', true);
+        if (!empty($menu_slug)) {
+            $menu_obj = get_term_by('name', $menu_slug, 'nav_menu');
+            if (!$menu_obj) {
+                $menu_obj = get_term_by('slug', $menu_slug, 'nav_menu');
+            }
+            
+            if (!$menu_obj && is_numeric($menu_slug)) {
+                $menu_obj = get_term_by('id', $menu_slug, 'nav_menu');
+            }
+            
+            if ($menu_obj) {
+                update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
+                error_log("Portal menu save handler: Set portal_menu_id to {$menu_obj->term_id} for post $post_id from old slug");
             }
         }
+    }
+    
+    // Check if this is a portal page template
+    $template = get_post_meta($post_id, '_wp_page_template', true);
+    if ($template === 'templates/portal-page.php' || $template === 'portal-page.php') {
+        error_log("Post $post_id is using portal page template: $template");
+        
+        // Ensure default settings are set if not already
+        if (!get_post_meta($post_id, 'portal_menu_type', true)) {
+            update_post_meta($post_id, 'portal_menu_type', 1); // Default to Type 1
+        }
+        if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
+            update_post_meta($post_id, 'portal_menu_columns', 3); // Default to 3 columns
+        }
+    } else if (!empty($menu_id)) {
+        // This page has portal menu settings but is not using the portal template
+        error_log("Post $post_id has portal menu ID $menu_id but is not using portal template");
     }
 }
 add_action('save_post', 'fau_elemental_handle_portal_page_save', 20); // Run after the other save functions
@@ -248,40 +311,292 @@ function fau_elemental_portal_page_debug_info() {
     if (is_page() && get_page_template_slug() === 'templates/portal-page.php') {
         $post_id = get_the_ID();
         $menu_id = get_post_meta($post_id, 'portal_menu_id', true);
-        $menu_name = '';
-        if ($menu_id) {
-            $menu_obj = wp_get_nav_menu_object($menu_id);
-            if ($menu_obj) {
-                $menu_name = $menu_obj->name;
-            }
-        }
+        $old_menu = get_post_meta($post_id, 'portalmenu-slug', true);
         
-        echo '<div style="background: #f1f1f1; padding: 10px; margin: 20px 0; border: 1px solid #ddd;">';
-        echo '<h3>Portal Menu Debug Info (Only visible to admins)</h3>';
-        echo '<p>Post ID: ' . $post_id . '</p>';
-        echo '<p>Menu ID: ' . $menu_id . '</p>';
-        echo '<p>Menu Name: ' . $menu_name . '</p>';
-        echo '<p>Template: ' . get_page_template_slug() . '</p>';
-        echo '<p>Display Type: ' . get_post_meta($post_id, 'portal_menu_type', true) . '</p>';
-        echo '<p>Hide Subs: ' . (get_post_meta($post_id, 'portal_menu_hide_subs', true) ? 'Yes' : 'No') . '</p>';
-        echo '<p>List View: ' . (get_post_meta($post_id, 'portal_menu_list_view', true) ? 'Yes' : 'No') . '</p>';
-        echo '<p>Hide Thumbs: ' . (get_post_meta($post_id, 'portal_menu_hide_thumbs', true) ? 'Yes' : 'No') . '</p>';
-        echo '<p>No Fallback: ' . (get_post_meta($post_id, 'portal_menu_no_fallback', true) ? 'Yes' : 'No') . '</p>';
-        echo '<p>Hover Zoom: ' . (get_post_meta($post_id, 'portal_menu_hover_zoom', true) ? 'Yes' : 'No') . '</p>';
-        echo '<p>Hover Blur: ' . (get_post_meta($post_id, 'portal_menu_hover_blur', true) ? 'Yes' : 'No') . '</p>';
-        echo '<p><a href="#" onclick="jQuery.post(ajaxurl, {action: \'fau_elemental_remigrate_portal_menus\'}); alert(\'Migration triggered\'); return false;">Re-run migration</a></p>';
+        echo '<div class="portal-debug-info" style="background: #f8f9fa; border: 1px solid #ddd; padding: 15px; margin: 20px 0; font-family: monospace;">';
+        echo '<h4>Portal Menu Debug Info</h4>';
+        echo '<ul>';
+        echo '<li>Post ID: ' . $post_id . '</li>';
+        echo '<li>New menu ID: ' . $menu_id . '</li>';
+        echo '<li>Old menu slug: ' . $old_menu . '</li>';
+        echo '<li>Display type: ' . get_post_meta($post_id, 'portal_menu_type', true) . '</li>';
+        echo '<li>Columns: ' . get_post_meta($post_id, 'portal_menu_columns', true) . '</li>';
+        echo '<li>Hide subs: ' . (get_post_meta($post_id, 'portal_menu_hide_subs', true) ? 'Yes' : 'No') . '</li>';
+        echo '<li>List view: ' . (get_post_meta($post_id, 'portal_menu_list_view', true) ? 'Yes' : 'No') . '</li>';
+        echo '<li>Hide thumbs: ' . (get_post_meta($post_id, 'portal_menu_hide_thumbs', true) ? 'Yes' : 'No') . '</li>';
+        echo '<li>No fallback: ' . (get_post_meta($post_id, 'portal_menu_no_fallback', true) ? 'Yes' : 'No') . '</li>';
+        echo '<li>Hover zoom: ' . (get_post_meta($post_id, 'portal_menu_hover_zoom', true) ? 'Yes' : 'No') . '</li>';
+        echo '<li>Hover blur: ' . (get_post_meta($post_id, 'portal_menu_hover_blur', true) ? 'Yes' : 'No') . '</li>';
+        echo '</ul>';
+        
+        echo '<p><button id="remigrate-portal-menu" class="button">Re-migrate Portal Menu Settings</button></p>';
+        echo '<script>
+            jQuery(document).ready(function($) {
+                $("#remigrate-portal-menu").on("click", function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: ajaxurl,
+                        method: "POST",
+                        data: {
+                            action: "fau_elemental_remigrate_portal_menus",
+                            post_id: ' . $post_id . ',
+                            nonce: "' . wp_create_nonce('fau_elemental_remigrate_nonce') . '"
+                        },
+                        success: function(response) {
+                            alert("Migration complete. Refreshing page...");
+                            location.reload();
+                        }
+                    });
+                });
+            });
+        </script>';
         echo '</div>';
     }
 }
 add_action('wp_footer', 'fau_elemental_portal_page_debug_info');
 
 /**
- * Add AJAX handler for remigration
+ * AJAX handler for remigration button
  */
 function fau_elemental_ajax_remigrate_portal_menus() {
-    if (current_user_can('manage_options')) {
-        fau_elemental_remigrate_portal_menus();
+    // Check nonce
+    if (!isset($_POST['nonce']) || !wp_verify_nonce($_POST['nonce'], 'fau_elemental_remigrate_nonce')) {
+        wp_send_json_error('Invalid nonce');
     }
-    wp_die();
+    
+    // Check permissions
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error('Permission denied');
+    }
+    
+    // Trigger remigration
+    fau_elemental_remigrate_portal_menus();
+    
+    // Specific post migration if post_id is provided
+    if (isset($_POST['post_id'])) {
+        $post_id = intval($_POST['post_id']);
+        fau_elemental_migrate_portal_menu_settings($post_id);
+    }
+    
+    wp_send_json_success('Migration complete');
 }
-add_action('wp_ajax_fau_elemental_remigrate_portal_menus', 'fau_elemental_ajax_remigrate_portal_menus'); 
+add_action('wp_ajax_fau_elemental_remigrate_portal_menus', 'fau_elemental_ajax_remigrate_portal_menus');
+
+/**
+ * Improved shortcode compatibility for [portalmenu]
+ */
+function fau_elemental_portalmenu_shortcode($atts) {
+    // Extract and sanitize attributes
+    $atts = shortcode_atts([
+        'menu' => '',
+        'id' => '',
+        'type' => 1,
+        'columns' => 3,
+        'nothumbs' => false,
+        'nothumbnails' => false,
+        'nofallback' => false,
+        'nofallbackthumb' => false,
+        'nosub' => false,
+        'hidesubs' => false, 
+        'listview' => false,
+        'hoverzoom' => false,
+        'hoverZoom' => false,
+        'hoverblur' => false,
+        'hoverBlur' => false,
+    ], $atts, 'portalmenu');
+    
+    // Find menu ID - priority: id param, menu param, page setting
+    $menu_id = 0;
+    
+    // If id is provided directly
+    if (!empty($atts['id'])) {
+        $menu_id = $atts['id'];
+        
+        // If not numeric, try to resolve to an ID
+        if (!is_numeric($menu_id)) {
+            $menu_obj = get_term_by('name', $menu_id, 'nav_menu');
+            if (!$menu_obj) {
+                $menu_obj = get_term_by('slug', $menu_id, 'nav_menu');
+            }
+            
+            if ($menu_obj) {
+                $menu_id = $menu_obj->term_id;
+            }
+        }
+    }
+    // If menu name/slug is provided
+    elseif (!empty($atts['menu'])) {
+        $menu_obj = get_term_by('name', $atts['menu'], 'nav_menu');
+        if (!$menu_obj) {
+            $menu_obj = get_term_by('slug', $atts['menu'], 'nav_menu');
+        }
+        
+        if ($menu_obj) {
+            $menu_id = $menu_obj->term_id;
+        }
+    }
+    // Fallback to page setting
+    else {
+        $post_id = get_the_ID();
+        if ($post_id) {
+            $menu_id = get_post_meta($post_id, 'portal_menu_id', true);
+            if (!$menu_id) {
+                // Try the old meta field
+                $old_menu = get_post_meta($post_id, 'portalmenu-slug', true);
+                if ($old_menu) {
+                    $menu_obj = get_term_by('name', $old_menu, 'nav_menu');
+                    if (!$menu_obj) {
+                        $menu_obj = get_term_by('slug', $old_menu, 'nav_menu');
+                    }
+                    
+                    if ($menu_obj) {
+                        $menu_id = $menu_obj->term_id;
+                    }
+                }
+            }
+        }
+    }
+    
+    // If no menu was found, return empty
+    if (!$menu_id) {
+        return '';
+    }
+    
+    // Handle boolean attributes that might have different formats
+    $hide_thumbs = filter_var($atts['nothumbs'] ?: $atts['nothumbnails'], FILTER_VALIDATE_BOOLEAN);
+    $no_fallback = filter_var($atts['nofallback'] ?: $atts['nofallbackthumb'], FILTER_VALIDATE_BOOLEAN);
+    $hide_subs = filter_var($atts['nosub'] ?: $atts['hidesubs'], FILTER_VALIDATE_BOOLEAN);
+    $list_view = filter_var($atts['listview'], FILTER_VALIDATE_BOOLEAN);
+    $hover_zoom = filter_var($atts['hoverzoom'] ?: $atts['hoverZoom'], FILTER_VALIDATE_BOOLEAN);
+    $hover_blur = filter_var($atts['hoverblur'] ?: $atts['hoverBlur'], FILTER_VALIDATE_BOOLEAN);
+    
+    // Setup CSS classes
+    $menu_classes = 'contentmenu';
+    
+    // Add size class based on type
+    $type = intval($atts['type']);
+    if ($type == 1) {
+        $menu_classes .= ' size_2-1';
+    } elseif ($type == 2) {
+        $menu_classes .= ' size_3-2';
+    } elseif ($type == 3) {
+        $menu_classes .= ' size_3-4';
+    }
+    
+    // Add optional classes
+    if ($list_view) {
+        $menu_classes .= ' listview';
+    }
+    if ($hide_thumbs) {
+        $menu_classes .= ' no-thumb';
+    }
+    if ($hover_zoom) {
+        $menu_classes .= ' hover-zoom';
+    }
+    if ($hover_blur) {
+        $menu_classes .= ' hover-blur';
+    }
+    
+    // Load our menu walker class
+    if (!class_exists('FAU_Elemental\\Walker_Content_Menu')) {
+        require_once get_template_directory() . '/inc/class-walker-content-menu.php';
+    }
+    
+    // Buffer the output and return it
+    ob_start();
+    
+    echo '<div class="' . esc_attr($menu_classes) . '">';
+    
+    wp_nav_menu([
+        'menu' => $menu_id,
+        'container' => false,
+        'menu_class' => 'subpages-menu',
+        'walker' => new FAU_Elemental\Walker_Content_Menu([
+            'columns' => intval($atts['columns']),
+            'hide_subs' => $hide_subs,
+            'hide_thumbs' => $hide_thumbs,
+            'no_fallback' => $no_fallback,
+        ]),
+    ]);
+    
+    echo '</div>';
+    
+    return ob_get_clean();
+}
+add_shortcode('portalmenu', 'fau_elemental_portalmenu_shortcode');
+
+/**
+ * Manual migration function that can be called from other parts of the code
+ *
+ * @param int $post_id The post ID to migrate
+ * @return bool True if migration was performed, false if not needed
+ */
+function fau_elemental_migrate_portal_menu_settings($post_id) {
+    // Skip if post type is not page
+    if (get_post_type($post_id) !== 'page') {
+        return false;
+    }
+    
+    // Check if we need to migrate
+    $old_menu = get_post_meta($post_id, 'portalmenu-slug', true);
+    $old_menu_top = get_post_meta($post_id, 'portalmenu-slug_oben', true);
+    
+    if (empty($old_menu) && empty($old_menu_top)) {
+        return false; // Nothing to migrate
+    }
+    
+    // Start with the bottom menu (if any)
+    if (!empty($old_menu)) {
+        $menu_obj = get_term_by('name', $old_menu, 'nav_menu');
+        if (!$menu_obj) {
+            $menu_obj = get_term_by('slug', $old_menu, 'nav_menu');
+        }
+        
+        if (!$menu_obj && is_numeric($old_menu)) {
+            $menu_obj = get_term_by('id', $old_menu, 'nav_menu');
+        }
+        
+        if ($menu_obj) {
+            // Always set the menu ID regardless of template
+            update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
+            
+            // Migrate other settings
+            $settings_map = [
+                'fauval_portalmenu_type' => 'portal_menu_type',
+                'fauval_portalmenu_thumbnailson' => 'portal_menu_hide_thumbs',
+                'fauval_portalmenu_nofallbackthumb' => 'portal_menu_no_fallback',
+                'fauval_portalmenu_nosub' => 'portal_menu_hide_subs',
+                'fauval_portalmenu_listview' => 'portal_menu_list_view',
+                'fauval_portalmenu_hoverZoom' => 'portal_menu_hover_zoom',
+                'fauval_portalmenu_hoverBlur' => 'portal_menu_hover_blur'
+            ];
+            
+            foreach ($settings_map as $old_key => $new_key) {
+                $value = get_post_meta($post_id, $old_key, true);
+                if ($value) {
+                    update_post_meta($post_id, $new_key, $value);
+                }
+            }
+            
+            // Set default columns
+            if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
+                update_post_meta($post_id, 'portal_menu_columns', 3);
+            }
+            
+            // Check if the page is using a custom template
+            $template = get_post_meta($post_id, '_wp_page_template', true);
+            
+            // Only set template if not already set to something other than default
+            if (empty($template) || $template === 'default') {
+                update_post_meta($post_id, '_wp_page_template', 'templates/portal-page.php');
+                error_log("Portal menu migration: Set template for post $post_id to templates/portal-page.php");
+            } else {
+                error_log("Portal menu migration: Post $post_id already using template: $template - not changing");
+            }
+            
+            return true;
+        }
+    }
+    
+    return false; // Migration didn't happen
+} 

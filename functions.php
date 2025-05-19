@@ -137,3 +137,12 @@ function fau_elemental_post_updated_messages($messages) {
     return $messages;
 }
 add_filter('post_updated_messages', 'fau_elemental_post_updated_messages');
+
+/**
+ * Hook to migrate settings right after theme activation
+ */
+add_action('after_switch_theme', function() {
+    if (function_exists('fau_elemental_check_old_portal_menu_settings')) {
+        fau_elemental_check_old_portal_menu_settings();
+    }
+});
