@@ -150,14 +150,6 @@ addFilter(
 					img.style.height = 'auto';
 					img.style.objectFit = 'contain';
 					img.style.objectPosition = 'center';
-
-					// Log the adjusted aspect ratio
-					console.log( 'Adjusted Image:', {
-						finalWidth: scaledWidth,
-						finalHeight: naturalHeightAtWidth * scaleFactor,
-						finalRatio: scaledWidth / ( naturalHeightAtWidth * scaleFactor ),
-						adjustment: 'Scaled to fit 3:2 container',
-					} );
 				} else {
 					// Reset to natural dimensions
 					img.style.width = `${ containerWidth }px`;
@@ -165,6 +157,17 @@ addFilter(
 					img.style.objectFit = 'none';
 					img.style.objectPosition = 'initial';
 				}
+
+				// Calculate total block height including wrapper and figcaption
+				const wrapper = blockRef.current.querySelector('.image-wrapper');
+				const figcaption = blockRef.current.querySelector('figcaption');
+				const wrapperHeight = wrapper ? wrapper.offsetHeight : 0;
+				const figcaptionHeight = figcaption ? figcaption.offsetHeight : 0;
+				const figcaptionOffset = figcaption ? 47 : 0;
+				const totalHeight = wrapperHeight + figcaptionHeight - figcaptionOffset;
+				
+				// Set the calculated height on the block
+				blockRef.current.style.height = `${totalHeight}px`;
 			};
 
 			// Add the button and enforce aspect ratio after the component mounts
@@ -215,6 +218,13 @@ addFilter(
 					resizeObserver.disconnect();
 				};
 			}, [ url, galleryIndexText ] );
+
+			// Recalculate height when caption changes
+			useEffect(() => {
+				if (blockRef.current) {
+					enforceAspectRatio();
+				}
+			}, [attributes.caption]);
 
 			return (
 				<div className="wp-block-image-wrapper" ref={ blockRef }>

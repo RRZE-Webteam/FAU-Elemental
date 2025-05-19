@@ -57,10 +57,9 @@ figure.wp-block-image:has(figcaption)::before {
 				position: relative;
 				font-size: var(--P-Body-Text-Small);
 				background-color: #fff;
-				bottom: 45px;
+				bottom: 47px;
 				left: 50%;
-				padding: var(--Spacing-6x) var(--Spacing-8x);
-				padding-right: 80px;
+				padding: var(--Spacing-6x) 75px var(--Spacing-6x) var(--Spacing-8x);
 				overflow-wrap: break-word;
 				white-space: pre-wrap;
 			}

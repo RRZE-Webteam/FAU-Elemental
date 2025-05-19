@@ -2,11 +2,12 @@
 	// Function to enforce 3:2 aspect ratio maximum
 	function enforceAspectRatio() {
 		// Select images that are in wp-block-image but not in wp-block-gallery
-		$( '.wp-block-image:not(.wp-block-gallery .wp-block-image) img' ).each(
+		$( '.wp-block-image:not(.wp-block-gallery .wp-block-image)' ).each(
 			function () {
-				const $img = $( this );
-				const naturalWidth = this.naturalWidth;
-				const naturalHeight = this.naturalHeight;
+				const $block = $( this );
+				const $img = $block.find('img');
+				const naturalWidth = $img[0].naturalWidth;
+				const naturalHeight = $img[0].naturalHeight;
 				const containerWidth = $img.parent().width();
 
 				// Calculate maximum allowed height for 3:2 ratio based on container width
@@ -37,6 +38,15 @@
 						'object-position': 'initial',
 					} );
 				}
+
+				// Calculate total block height including wrapper and figcaption
+				const wrapperHeight = $block.find('.image-wrapper').outerHeight() || 0;
+				const figcaptionHeight = $block.find('figcaption').outerHeight() || 0;
+				const figcaptionOffset = $block.find('figcaption').length ? 47 : 0;
+				const totalHeight = wrapperHeight + figcaptionHeight - figcaptionOffset;
+				
+				// Set the calculated height on the block
+				$block.css('height', totalHeight + 'px');
 			}
 		);
 	}
