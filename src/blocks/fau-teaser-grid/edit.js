@@ -350,16 +350,14 @@ export default function Edit( { attributes, setAttributes } ) {
 						label={ __( 'Heading Level', 'fau-elemental' ) }
 						value={ headingLevel || 'h4' }
 						options={ [
-							{ label: 'H1', value: 'h1' },
 							{ label: 'H2', value: 'h2' },
 							{ label: 'H3', value: 'h3' },
 							{ label: 'H4', value: 'h4' },
 							{ label: 'H5', value: 'h5' },
 							{ label: 'H6', value: 'h6' },
 						] }
-						onChange={ ( headingLevel ) =>
-							setAttributes( { headingLevel } )
-						}
+						onChange={ ( value ) => setAttributes( { headingLevel: value } ) }
+						help={ __( 'Choose the heading level for teasers (H1 is excluded for accessibility)', 'fau-elemental' ) }
 						__nextHasNoMarginBottom={ true }
 						__next40pxDefaultSize={ true }
 					/>

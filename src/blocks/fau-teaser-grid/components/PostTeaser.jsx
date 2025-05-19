@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useSelect, createSelector } from '@wordpress/data';
-import React, { useMemo } from 'react';
+import { useMemo } from '@wordpress/element';
 
 // Get the theme URL from WordPress data
 const FALLBACK_IMAGE =
@@ -70,6 +70,9 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 
 	// Define variant for consistency with PHP implementation
 	const variant = 'post';
+	
+	// Dynamically create the heading element
+	const HeadingTag = headingLevel;
 
 	return (
 		<a
@@ -106,29 +109,25 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 								{ memoizedData.category.name }
 							</span>
 						) }
-						{ React.createElement(
-							headingLevel,
-							{
-								className: 'clamp-3',
-								id: `teaser-title-${ post.id }`,
-							},
-							[
-								<span
-									key="visually-hidden"
-									className="visually-hidden"
-									dangerouslySetInnerHTML={ {
-										__html: memoizedData.title,
-									} }
-								/>,
-								<span
-									key="aria-hidden"
-									aria-hidden="true"
-									dangerouslySetInnerHTML={ {
-										__html: memoizedData.title,
-									} }
-								/>,
-							]
-						) }
+						<HeadingTag
+							className="clamp-3"
+							id={ `teaser-title-${ post.id }` }
+						>
+							<span
+								key="visually-hidden"
+								className="visually-hidden"
+								dangerouslySetInnerHTML={ {
+									__html: memoizedData.title,
+								} }
+							/>
+							<span
+								key="aria-hidden"
+								aria-hidden="true"
+								dangerouslySetInnerHTML={ {
+									__html: memoizedData.title,
+								} }
+							/>
+						</HeadingTag>
 						<div className="excerpt clamp-3">
 							<span
 								className="visually-hidden"
