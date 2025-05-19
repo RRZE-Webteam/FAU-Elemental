@@ -1,0 +1,27 @@
+/**
+ * Post Header Component - Editor Wrapper Styles - Hide Editor Features
+ */
+
+ .edit-post-meta-boxes-area {
+    label {
+        display: block;
+        margin-bottom: .5rem;
+    }
+    strong {
+        font-weight: 400;
+    }
+    #post_header_options .postbox-header h2.hndle.ui-sortable-handle {
+        border: none;
+        box-shadow: none;
+        color: #1e1e1e;
+        font-weight: 500;
+        height: auto;
+        outline: none;
+        padding: 16px 48px 16px 16px;
+        position: relative;
+        text-align: left;
+        width: 100%;
+        align-items: center;
+        font-size: 13px;
+    }
+}

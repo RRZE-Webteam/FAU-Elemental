@@ -1,0 +1,68 @@
+@import "../../mixins";
+
+.post-header {
+    margin-top: var(--Spacing-8x) !important; // mit Marten besprechen > "constrained"
+
+    .post-meta-top {
+        max-width: var(--small-max-width);
+        gap: var(--Spacing-4x);
+        color: var(--FAU-Col-FAU-Schwarz-90);
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.2;
+
+        .post-categories-separator {
+            font-size: 1.5rem;
+            color: var(--FAU-Col-FAU-Blau-100);
+        }
+    }
+    
+    .wp-block-post-title {
+        max-width: var(--small-max-width);
+        margin-top: var(--Spacing-3x);
+    }
+    
+    .post-meta {
+        max-width: var(--small-max-width);
+        margin-top: var(--Spacing-3x);
+        gap: var(--Spacing-4x);
+
+        p {
+            font-size: 0.875rem;
+            line-height: 1.2;
+            color: var(--FAU-Col-FAU-Schwarz-90);
+        }
+    }
+
+    .wp-block-image {
+        margin-top: var(--Spacing-10x);
+    }
+}
+
+// Responsive
+@include respond-to("small") {
+    .post-header {
+        .wp-block-post-title {
+            font-size: 2.5rem;
+        }
+
+        .wp-block-post-title {
+            margin-top: var(--Spacing-2x);
+        }
+
+        .wp-block-image {
+            margin-top: var(--Spacing-8x);
+        }
+    }
+}
+
+@include respond-to("x-small") {
+    .post-header {
+        .wp-block-post-title {
+            font-size: 1.75rem;
+        }
+        .post-meta-top {
+            font-size: 0.875rem;
+        }
+    }
+}
