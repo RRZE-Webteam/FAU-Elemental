@@ -19,6 +19,22 @@ function faue_customize_register($wp_customize) {
         'priority' => 30,
     ));
 
+    // Breadcrumb Mode Setting
+    $wp_customize->add_setting('faue_breadcrumb_mode', array(
+        'default'           => 'light',
+        'sanitize_callback' => 'faue_sanitize_breadcrumb_mode',
+    ));
+
+    $wp_customize->add_control('faue_breadcrumb_mode', array(
+        'label'    => __('Breadcrumb Mode', 'fau-elemental'),
+        'section'  => 'faue_theme_settings',
+        'type'     => 'select',
+        'choices'  => array(
+            'light' => __('Light', 'fau-elemental'),
+            'dark'  => __('Dark', 'fau-elemental'),
+        ),
+    ));
+
     // Website Type Setting
     $wp_customize->add_setting('faue_website_type', array(
         'default'           => 'fau',
@@ -121,6 +137,19 @@ function faue_sanitize_copyright_info_priority($input) {
 
     if (!in_array($input, $valid_prios)) {
         return 'field';
+    }
+
+    return $input;
+}
+
+/**
+ * Sanitize breadcrumb mode input
+ */
+function faue_sanitize_breadcrumb_mode($input) {
+    $valid_modes = array('light', 'dark');
+
+    if (!in_array($input, $valid_modes)) {
+        return 'light';
     }
 
     return $input;
