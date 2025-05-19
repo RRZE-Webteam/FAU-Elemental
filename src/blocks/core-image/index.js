@@ -234,7 +234,7 @@ addFilter(
 			// Recalculate height when DOM changes, for example when the caption gets added or removed
 			useEffect( () => {
 				const figure = blockRef.current?.querySelector( 'figure' );
-				if (!figure) {
+				if ( ! figure ) {
 					return;
 				}
 
