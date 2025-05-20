@@ -36,20 +36,7 @@ export const DisplaySettings = ( {
 } ) => {
 	return (
 		<PanelBody title={ __( 'Display Settings', 'fau-elemental' ) }>
-			<ToggleGroupControl
-				label={ __( 'Display style options', 'fau-elemental' ) }
-				value={ displayStyle }
-				onChange={ onDisplayStyleChange }
-				isBlock
-				__next40pxDefaultSize={ true }
-				__nextHasNoMarginBottom={ true }
-			>
-				<ToggleGroupControlOption
-					value="teaser-grid"
-					label={ __( 'Teaser Grid', 'fau-elemental' ) }
-				/>
 			
-			</ToggleGroupControl>
 
 			{ displayStyle === 'teaser-grid' && (
 				<SelectControl
