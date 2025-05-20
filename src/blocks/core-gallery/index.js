@@ -12,6 +12,31 @@ addFilter(
 			return settings;
 		}
 
+		// Ensure this is only done once.
+		if ( settings.fauModded ) {
+			return settings;
+		}
+		settings.fauModded = true;
+
+		// Deprecation for old Core-Markup
+		const oldSaveFn = settings.save;
+		const coreGalleryDeprecation = {
+			supports: { ...settings.supports }, // They stay the same (besides some defaults)
+			attributes: { ...settings.attributes }, // They stay the same (besides some defaults)
+			save: oldSaveFn,
+			migrate( attributes ) {
+				return {
+					...attributes,
+					sizeSlug: 'full',
+					columns: 1,
+				};
+			},
+		};
+		settings.deprecated = [
+			coreGalleryDeprecation,
+			...( settings.deprecated || [] ),
+		];
+
 		// Modify block supports
 		settings.supports = {
 			...settings.supports,
@@ -20,22 +45,30 @@ addFilter(
 		};
 
 		// Set default image size to full, disable crop, and set columns to 1
-		if ( settings.attributes ) {
-			settings.attributes = {
-				...settings.attributes,
-				sizeSlug: {
-					type: 'string',
-					default: 'full',
-				},
-				columns: {
-					type: 'number',
-					default: 1,
-				},
-			};
-		}
+		settings.attributes = {
+			...( settings.attributes || {} ),
+			sizeSlug: {
+				type: 'string',
+				default: 'full',
+			},
+			columns: {
+				type: 'number',
+				default: 1,
+			},
+		};
+
+		// Overwrite save method to add wrapper
+		settings.save = ( attributes ) => {
+			return (
+				<div className="wp-block-gallery-container">
+					{ oldSaveFn( attributes ) }
+				</div>
+			);
+		};
 
 		return settings;
-	}
+	},
+	20 // Prio
 );
 
 // Add filter to update image indices when gallery content changes
@@ -206,16 +239,4 @@ addFilter(
 		},
 		'withCarouselView'
 	)
-);
-
-addFilter(
-	'blocks.getSaveElement',
-	'fau-elemental/edit-gallery-block-save',
-	( element, blockType ) => {
-		if ( blockType.name !== 'core/gallery' ) {
-			return element;
-		}
-
-		return <div className="wp-block-gallery-container">{ element }</div>;
-	}
 );
