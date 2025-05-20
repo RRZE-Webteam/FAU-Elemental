@@ -1,0 +1,324 @@
+/**
+ * Front-end styles for FAU Global Search Block
+ */
+
+.wp-block-fau-elemental-fau-global-search {
+    margin-bottom: 2rem;
+
+    &__title {
+        margin-bottom: 1rem;
+    }
+
+    &__form {
+        position: relative;
+        margin-bottom: 1rem;
+    }
+
+    &__field {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+
+        &:focus {
+            outline: none;
+            border-color: #00618f;
+            box-shadow: 0 0 0 2px rgba(0, 97, 143, 0.2);
+        }
+    }
+
+    &__submit {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+        padding: 0 1rem;
+        background: #00618f;
+        color: white;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background: #004b6b;
+        }
+    }
+
+    &__scope-toggle {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+
+        fieldset {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        legend {
+            margin-bottom: 0.5rem;
+        }
+
+        label {
+            display: inline-block;
+            margin-right: 1rem;
+            cursor: pointer;
+
+            input[type="radio"] {
+                margin-right: 0.25rem;
+            }
+        }
+    }
+
+    &__suggestions-area {
+        margin-top: 1rem;
+        padding: 1rem;
+        background: #f5f5f5;
+        border-radius: 4px;
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                margin-bottom: 0.5rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                a {
+                    color: #00618f;
+                    text-decoration: none;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Search results styles
+.search-result-item {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    .entry-title {
+        margin: 0 0 0.5rem;
+        font-size: 1.5rem;
+
+        a {
+            color: #00618f;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .entry-meta {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 1rem;
+
+        span {
+            margin-right: 1rem;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        .site-name {
+            font-weight: bold;
+            color: #00618f;
+        }
+    }
+
+    .entry-summary {
+        margin-bottom: 1rem;
+    }
+
+    .entry-footer {
+        .read-more {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #00618f;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background: #004b6b;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+    .wp-block-fau-elemental-fau-global-search {
+        &__scope-toggle {
+            label {
+                display: block;
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+
+    .search-result-item {
+        .entry-meta {
+            span {
+                display: block;
+                margin-bottom: 0.25rem;
+            }
+        }
+    }
+}
+
+// Search Results Styles
+.fau-search-results {
+    margin: 2rem 0;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &__header {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e0e0e0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__title {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #003366;
+    }
+
+    &__scope-badge {
+        background: #003366;
+        color: #fff;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.875rem;
+    }
+
+    &__list {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    &__item {
+        padding: 1rem;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        transition: box-shadow 0.2s ease;
+
+        &:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+
+    &__item-title {
+        margin: 0 0 0.5rem;
+        font-size: 1.25rem;
+
+        a {
+            color: #003366;
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__item-excerpt {
+        color: #666;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+
+    &__item-meta {
+        display: flex;
+        gap: 1rem;
+        font-size: 0.875rem;
+        color: #666;
+    }
+
+    &__item-type {
+        background: #f0f0f0;
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+    }
+
+    &__no-results {
+        text-align: center;
+        padding: 2rem;
+        background: #f8f8f8;
+        border-radius: 4px;
+
+        h3 {
+            color: #003366;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: #666;
+        }
+    }
+
+    &__pagination {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #e0e0e0;
+        text-align: center;
+
+        .page-numbers {
+            display: inline-flex;
+            gap: 0.5rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                margin: 0;
+            }
+
+            a, span {
+                display: inline-block;
+                padding: 0.5rem 1rem;
+                border: 1px solid #e0e0e0;
+                border-radius: 3px;
+                text-decoration: none;
+                color: #003366;
+
+                &:hover {
+                    background: #f0f0f0;
+                }
+
+                &.current {
+                    background: #003366;
+                    color: #fff;
+                    border-color: #003366;
+                }
+            }
+        }
+    }
+} 

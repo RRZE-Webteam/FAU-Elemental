@@ -1,0 +1,54 @@
+/**
+ * Editor-specific styles for FAU Global Search Block
+ */
+
+.wp-block-fau-elemental-fau-global-search {
+    // Editor wrapper class added in edit.js
+
+    // Mimic front-end title style if desired, or add editor specific
+    // .wp-block-fau-elemental-fau-global-search__title { ... }
+
+    .search-form-placeholder {
+        border: 1px dashed #ccc;
+        padding: 15px;
+        margin-top: 10px;
+        background: #f9f9f9;
+
+        input[type="search"] {
+            margin-right: 5px;
+        }
+        // Apply specific classes if needed for more granular styling
+        // .wp-block-fau-elemental-fau-global-search__field { ... }
+        // .wp-block-fau-elemental-fau-global-search__submit { ... }
+    }
+
+    .search-scope-toggle-placeholder {
+        margin-top: 10px;
+        font-size: 0.9em;
+        color: #555;
+
+        label {
+            margin-right: 10px;
+            cursor: default; // Non-interactive in editor preview
+        }
+    }
+
+    .search-suggestions-placeholder {
+        margin-top: 10px;
+        padding: 10px;
+        background: #f0f0f0;
+        border: 1px dashed #ddd;
+        font-size: 0.9em;
+
+        ul {
+            list-style: disc;
+            padding-left: 20px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        strong {
+            display: block;
+            margin-bottom: 3px;
+        }
+    }
+} 
