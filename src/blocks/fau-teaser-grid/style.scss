@@ -2,6 +2,7 @@
 
 .wp-block-fau-elemental-fau-teaser-grid {
 	max-width: var(--wide-max-width);
+	padding: 0 var(--Spacing-10x);
 
 	.fau-teaser-grid {
 		display: grid;
@@ -23,7 +24,6 @@
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				text-decoration: none;
 
 				.teaser-image-wrapper {
 					position: relative;
@@ -105,9 +105,21 @@
 								letter-spacing: 0.05rem;
 							}
 
-							h4 {
+							h2,
+							h3,
+							h4,
+							h5,
+							h6 {
 								margin: var(--Spacing-3x) 0;
+								font-size: 1.25rem;
+								font-weight: 700;
+								line-height: 1.3;
 								letter-spacing: var(--letter-spacing-big);
+							}
+
+							a {
+								text-decoration: none;
+								font-weight: inherit;
 							}
 
 							p {
@@ -163,7 +175,11 @@
 			}
 
 			// Remove top-margin for page headlines
-			&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column h4 {
+			&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column h2,
+			&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column h3,
+			&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column h4,
+			&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column h5,
+			&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column h6 {
 				margin-top: 0;
 			}
 		}
@@ -205,7 +221,11 @@
 
 					}
 
-					.teaser-content-wrapper .teaser-content .content-column h4 {
+					.teaser-content-wrapper .teaser-content .content-column h2,
+					.teaser-content-wrapper .teaser-content .content-column h3,
+					.teaser-content-wrapper .teaser-content .content-column h4,
+					.teaser-content-wrapper .teaser-content .content-column h5,
+					.teaser-content-wrapper .teaser-content .content-column h6 {
 						font-size: 1.5rem;
 					}
 				}
@@ -234,7 +254,11 @@
 
 							.content-column {
 
-								h4 {
+								h2,
+								h3,
+								h4,
+								h5,
+								h6 {
 									margin-bottom: 0;
 								}
 
@@ -274,7 +298,11 @@
 
 							.content-column {
 
-								h4 {
+								h2,
+								h3,
+								h4,
+								h5,
+								h6 {
 									margin-bottom: 0;
 								}
 
@@ -340,7 +368,11 @@
 
 						.content-column {
 
-							h4 {
+							h2,
+							h3,
+							h4,
+							h5,
+							h6 {
 								font-size: 2rem;
 							}
 						}
@@ -384,7 +416,11 @@
 
 			&[data-variant="post"] .teaser-item .teaser-content-wrapper .teaser-content .content-column {
 
-				h4 {
+				h2,
+				h3,
+				h4,
+				h5,
+				h6 {
 					margin-bottom: 0;
 				}
 
@@ -436,7 +472,11 @@
 		border: 0;
 	}
 
+	h2.clamp-3 [aria-hidden="true"],
+	h3.clamp-3 [aria-hidden="true"],
 	h4.clamp-3 [aria-hidden="true"],
+	h5.clamp-3 [aria-hidden="true"],
+	h6.clamp-3 [aria-hidden="true"],
 	.excerpt.clamp-3 [aria-hidden="true"] {
 		margin: 0;
 	}
@@ -658,7 +698,11 @@
 									-webkit-line-clamp: 2;
 								}
 
-								h4 {
+								h2,
+								h3,
+								h4,
+								h5,
+								h6 {
 									font-size: 1.5rem;
 								}
 							}
@@ -800,7 +844,11 @@
 
 							.content-column {
 
-								h4 {
+								h2,
+								h3,
+								h4,
+								h5,
+								h6 {
 									font-size: 1rem;
 									margin-bottom: 0;
 								}
@@ -809,7 +857,11 @@
 					}
 
 					// Display pages
-					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h4 {
+					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h2, 
+					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h3,
+					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h4, 
+					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h5,
+					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h6 {
 						font-size: 1.15rem;
 					}
 				}
@@ -863,7 +915,11 @@
 			&.layout-2s-left,
 			&.layout-2s-right {
 
-				.teaser-item .teaser-content-wrapper .teaser-content .content-column h4 {
+				.teaser-item .teaser-content-wrapper .teaser-content .content-column h2,
+				.teaser-item .teaser-content-wrapper .teaser-content .content-column h3,
+				.teaser-item .teaser-content-wrapper .teaser-content .content-column h4,
+				.teaser-item .teaser-content-wrapper .teaser-content .content-column h5,
+				.teaser-item .teaser-content-wrapper .teaser-content .content-column h6 {
 					font-size: 1rem;
 				}
 			}
@@ -875,5 +931,11 @@
 					"s";
 			}
 		}
+	}
+}
+
+@include respond-to("x-small") {
+	.wp-block-fau-elemental-fau-teaser-grid {
+		padding: 0 var(--Spacing-5x);
 	}
 }
