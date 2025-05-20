@@ -38,19 +38,19 @@ import {
 } from './components/editor/useTeaserData';
 
 // Add this helper function at the top level
-const wrapTeaserItems = (items, layout) => {
+const wrapTeaserItems = ( items, layout ) => {
 	// Only wrap for l2s and 2sl layouts
-	if (!['l2s', '2sl'].includes(layout)) {
+	if ( ! [ 'l2s', '2sl' ].includes( layout ) ) {
 		return items;
 	}
 
 	const wrappedItems = [];
-	for (let i = 0; i < items.length; i += 3) {
-		const groupItems = items.slice(i, i + 3);
-		if (groupItems.length > 0) {
+	for ( let i = 0; i < items.length; i += 3 ) {
+		const groupItems = items.slice( i, i + 3 );
+		if ( groupItems.length > 0 ) {
 			wrappedItems.push(
-				<div key={`teaser-group-${i}`} className="teaser-group">
-					{groupItems}
+				<div key={ `teaser-group-${ i }` } className="teaser-group">
+					{ groupItems }
 				</div>
 			);
 		}
@@ -275,9 +275,9 @@ export default function Edit( { attributes, setAttributes } ) {
 					selectionMode === 'manual' ? (
 						selectedPosts.length > 0 ? (
 							wrapTeaserItems(
-								selectedPosts.map((selectedPost) => {
+								selectedPosts.map( ( selectedPost ) => {
 									const fullPost = items.find(
-										(item) => item.id === selectedPost.id
+										( item ) => item.id === selectedPost.id
 									);
 
 									const postData = fullPost || {
@@ -296,39 +296,39 @@ export default function Edit( { attributes, setAttributes } ) {
 
 									return variant === 'post' ? (
 										<PostTeaser
-											key={postData.id}
-											post={postData}
-											headingLevel={headingLevel}
+											key={ postData.id }
+											post={ postData }
+											headingLevel={ headingLevel }
 										/>
 									) : (
 										<PageTeaser
-											key={postData.id}
-											page={postData}
-											headingLevel={headingLevel}
+											key={ postData.id }
+											page={ postData }
+											headingLevel={ headingLevel }
 										/>
 									);
-								}),
+								} ),
 								teaserLayout
 							)
 						) : (
 							<p role="status">
-								{__('No posts selected', 'fau-elemental')}
+								{ __( 'No posts selected', 'fau-elemental' ) }
 							</p>
 						)
 					) : items && items.length > 0 ? (
 						wrapTeaserItems(
-							items.map((item) =>
+							items.map( ( item ) =>
 								variant === 'post' ? (
 									<PostTeaser
-										key={item.id}
-										post={item}
-										headingLevel={headingLevel}
+										key={ item.id }
+										post={ item }
+										headingLevel={ headingLevel }
 									/>
 								) : (
 									<PageTeaser
-										key={item.id}
-										page={item}
-										headingLevel={headingLevel}
+										key={ item.id }
+										page={ item }
+										headingLevel={ headingLevel }
 									/>
 								)
 							),
@@ -336,14 +336,14 @@ export default function Edit( { attributes, setAttributes } ) {
 						)
 					) : (
 						<p role="status">
-							{__('No items found', 'fau-elemental')}
+							{ __( 'No items found', 'fau-elemental' ) }
 						</p>
 					)
 				) : (
 					<Placeholder>
 						<Spinner />
 						<p role="status">
-							{__('Loading...', 'fau-elemental')}
+							{ __( 'Loading...', 'fau-elemental' ) }
 						</p>
 					</Placeholder>
 				) }
