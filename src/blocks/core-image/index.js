@@ -148,10 +148,17 @@ addFilter(
 				const naturalHeightAtWidth =
 					( containerWidth / naturalWidth ) * naturalHeight;
 
-				// If the natural height at container width would be taller than max allowed height
+				// Get the window width. Gutenberg uses an iFrame if all Blocks are API >= 3, so we need to
+				// check the view of our image instead of directly using window.innerWidth.
+				// We only use it as a fallback.
+				const windowWidth =
+					img.ownerDocument?.defaultView?.innerWidth ||
+					window.innerWidth;
+
+				// If the natural height at container width would be taller than max allowed height and we are not on mobile
 				if (
 					naturalHeightAtWidth > maxAllowedHeight &&
-					window.innerWidth > xSmallWidth
+					windowWidth > xSmallWidth
 				) {
 					// Calculate the scale factor needed to fit within max allowed height
 					const scaleFactor = maxAllowedHeight / naturalHeightAtWidth;
