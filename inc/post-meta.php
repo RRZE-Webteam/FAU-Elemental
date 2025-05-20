@@ -129,10 +129,15 @@ function faue_save_post_meta($post_id) {
         $custom_date = sanitize_text_field($_POST['faue_custom_last_updated']);
         // Convert HTML datetime-local format to MySQL format
         $custom_date = str_replace('T', ' ', $custom_date) . ':00';
-
+        
+        // Validate the date format
+        $timestamp = strtotime($custom_date);
+        if ($timestamp === false) {
+            error_log('Invalid date format for custom last updated date');
+            return;
+        }
         
         update_post_meta($post_id, '_faue_custom_last_updated', $custom_date);
-       
     }
 }
 add_action('save_post', 'faue_save_post_meta');
@@ -147,7 +152,8 @@ function faue_filter_modified_date($date, $format, $post) {
     if ($use_custom_date === '1') {
         $custom_date = get_post_meta($post_id, '_faue_custom_last_updated', true);
         if (!empty($custom_date)) {
-            $date = mysql2date($format, $custom_date);
+            // Convert to the desired format dd.mm.yyyy - hh:mm
+            $date = date('d.m.Y - H:i', strtotime($custom_date));
         }
     }
     
@@ -165,7 +171,8 @@ function faue_filter_modified_time($time, $format, $post) {
     if ($use_custom_date === '1') {
         $custom_date = get_post_meta($post_id, '_faue_custom_last_updated', true);
         if (!empty($custom_date)) {
-            $time = mysql2date($format, $custom_date);
+            // Convert to the desired format hh:mm
+            $time = date('H:i', strtotime($custom_date));
         }
     }
     

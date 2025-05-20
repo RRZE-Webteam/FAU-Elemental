@@ -24,6 +24,11 @@ $use_custom_date = get_post_meta(get_the_ID(), '_faue_use_custom_last_updated', 
 $last_updated_date = $use_custom_date === '1' 
     ? get_post_meta(get_the_ID(), '_faue_custom_last_updated', true)
     : get_the_modified_date('d.m.Y - H:i');
+
+// Format the date if it's a custom date
+if ($use_custom_date === '1' && !empty($last_updated_date)) {
+    $last_updated_date = date('d.m.Y - H:i', strtotime($last_updated_date));
+}
 ?>
 <div class="post-meta <?php echo esc_attr($theme_class); ?>">
     <div class="post-meta-wrapper">
@@ -41,41 +46,7 @@ $last_updated_date = $use_custom_date === '1'
                 </span>
             </div>
             
-            <div class="share-button-container">
-                <div class="wp-block-buttons <?php echo esc_attr($theme_class); ?>">
-                    <div class="wp-block-button">
-                        <button class="wp-block-button__link share-toggle"><?php esc_html_e('Teilen', 'fau-elemental'); ?></button>
-                    </div>
-                </div>
-                
-                <div class="share-dropdown <?php echo esc_attr($theme_class); ?>" role="menu" aria-label="<?php esc_attr_e('Share options', 'fau-elemental'); ?>">
-                    <div class="share-options" role="list">
-                        <div class="share-option share-option--bluesky" role="listitem">
-                            <a href="#" class="share-link" data-share="bluesky" role="menuitem"><?php esc_html_e('Bluesky', 'fau-elemental'); ?></a>
-                        </div>
-                        <div class="share-option share-option--signal" role="listitem">
-                            <a href="#" class="share-link" data-share="signal" role="menuitem"><?php esc_html_e('Signal', 'fau-elemental'); ?></a>
-                        </div>
-                        <div class="share-option share-option--linkedin" role="listitem">
-                            <a href="#" class="share-link" data-share="linkedin" role="menuitem"><?php esc_html_e('LinkedIn', 'fau-elemental'); ?></a>
-                        </div>
-                        <div class="share-option share-option--facebook" role="listitem">
-                            <a href="#" class="share-link" data-share="facebook" role="menuitem"><?php esc_html_e('Facebook', 'fau-elemental'); ?></a>
-                        </div>
-                        <div class="share-option share-option--whatsapp" role="listitem">
-                            <a href="#" class="share-link" data-share="whatsapp" role="menuitem"><?php esc_html_e('WhatsApp', 'fau-elemental'); ?></a>
-                        </div>
-                        <div class="share-option share-option--email" role="listitem">
-                            <a href="#" class="share-link" data-share="email" role="menuitem"><?php esc_html_e('E-Mail', 'fau-elemental'); ?></a>
-                        </div>
-                        <div class="share-option share-option--print" role="listitem">
-                            <div class="wp-block-button">
-                                <button class="wp-block-button__link" onclick="window.print();" role="menuitem"><?php esc_html_e('Print', 'fau-elemental'); ?></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
 </div>
