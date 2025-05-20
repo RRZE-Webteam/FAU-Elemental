@@ -36,7 +36,20 @@ function faue_post_customize_register($wp_customize) {
         'priority' => 10,
     ));
 
+    // Add setting for post meta dark theme
+    $wp_customize->add_setting('faue_post_meta_dark_theme', array(
+        'default'           => false,
+        'sanitize_callback' => 'faue_sanitize_checkbox',
+        'transport'         => 'refresh',
+    ));
 
+    // Add control for post meta dark theme
+    $wp_customize->add_control('faue_post_meta_dark_theme', array(
+        'label'    => esc_html__('Use dark theme for post meta', 'fau-elemental'),
+        'section'  => 'faue_post_options',
+        'type'     => 'checkbox',
+        'priority' => 20,
+    ));
 }
 add_action('customize_register', 'faue_post_customize_register');
 
@@ -57,4 +70,13 @@ function faue_sanitize_checkbox($checked) {
  */
 function faue_show_post_meta() {
     return get_theme_mod('faue_show_post_meta', true);
+}
+
+/**
+ * Check if post meta should use dark theme.
+ *
+ * @return bool
+ */
+function faue_post_meta_dark_theme() {
+    return get_theme_mod('faue_post_meta_dark_theme', false);
 } 

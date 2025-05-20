@@ -15,9 +15,9 @@ if (function_exists('faue_show_post_meta') && !faue_show_post_meta()) {
     return; // Don't render anything
 }
 
-// Get post meta style
-$style = get_post_meta(get_the_ID(), '_faue_post_meta_style', true);
-$theme_class = $style ? $style : '';
+// Check if dark theme should be used (from customizer setting)
+$use_dark_theme = function_exists('faue_post_meta_dark_theme') && faue_post_meta_dark_theme();
+$theme_class = $use_dark_theme ? 'is-style-dark' : '';
 
 // Get custom last updated date if set
 $use_custom_date = get_post_meta(get_the_ID(), '_faue_use_custom_last_updated', true);
