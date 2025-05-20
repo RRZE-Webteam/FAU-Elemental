@@ -48,10 +48,7 @@ export const DisplaySettings = ( {
 					value="teaser-grid"
 					label={ __( 'Teaser Grid', 'fau-elemental' ) }
 				/>
-				<ToggleGroupControlOption
-					value="mini-list"
-					label={ __( 'Mini List', 'fau-elemental' ) }
-				/>
+			
 			</ToggleGroupControl>
 
 			{ displayStyle === 'teaser-grid' && (
