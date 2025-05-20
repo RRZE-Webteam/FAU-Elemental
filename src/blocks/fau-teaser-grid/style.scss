@@ -857,9 +857,9 @@
 					}
 
 					// Display pages
-					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h2, 
+					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h2,
 					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h3,
-					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h4, 
+					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h4,
 					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h5,
 					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h6 {
 						font-size: 1.15rem;
@@ -935,6 +935,7 @@
 }
 
 @include respond-to("x-small") {
+
 	.wp-block-fau-elemental-fau-teaser-grid {
 		padding: 0 var(--Spacing-5x);
 	}
