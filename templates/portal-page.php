@@ -74,13 +74,7 @@ $hover_blur = get_post_meta(get_the_ID(), 'portal_menu_hover_blur', true) ?: fal
             $shortcode .= ' hoverblur="' . ($hover_blur ? 'true' : 'false') . '"';
             $shortcode .= ']';
             
-            // Debug output for admins
-            if (current_user_can('manage_options') && WP_DEBUG) {
-                echo '<div style="background: #f8f8f8; padding: 10px; margin-bottom: 20px; border: 1px solid #ddd; font-family: monospace;">';
-                echo '<p><strong>Debug Info (only visible to admins):</strong></p>';
-                echo '<p>Shortcode: ' . esc_html($shortcode) . '</p>';
-                echo '</div>';
-            }
+         
             
             // Output the shortcode
             echo do_shortcode($shortcode);
