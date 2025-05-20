@@ -36,8 +36,6 @@ export const DisplaySettings = ( {
 } ) => {
 	return (
 		<PanelBody title={ __( 'Display Settings', 'fau-elemental' ) }>
-			
-
 			{ displayStyle === 'teaser-grid' && (
 				<SelectControl
 					label={ __( 'Teaser Layout', 'fau-elemental' ) }

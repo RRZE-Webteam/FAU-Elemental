@@ -29,7 +29,7 @@
 	--FAU-Col-FAU-Schwarz-100: #000;
 	--FAU-Col-FAU-Schwarz-90: #1a1a1a;
 	--FAU-Col-FAU-Schwarz-62_5: #5e5e5e;
-	--FAU-Col-FAU-Schwarz-37_5: #9E9E9E;
+	--FAU-Col-FAU-Schwarz-37_5: #9e9e9e;
 	--FAU-Col-FAU-Schwarz-25: #bfbfbf;
 	--FAU-Col-FAU-Schwarz-12_5: #e0e0e0;
 	--FAU-Col-FAU-Schwarz-5: #f2f2f2;
@@ -201,6 +201,11 @@ address {
 	hyphens: auto;
 	overflow-wrap: break-word;
 	word-break: break-word;
+}
+
+.wp-block-post-title {
+	max-width: var(--small-max-width);
+	margin: 0 auto;
 }
 
 // Import Core Block Styles
