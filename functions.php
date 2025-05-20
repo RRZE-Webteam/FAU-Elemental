@@ -36,11 +36,18 @@ add_filter('render_block_core/template-part', function($block_content, $block) {
         
         // Check if we have a PHP template for this part
         $template_path = get_template_directory() . '/template-parts/' . $slug . '.php';
+        $html_path = get_template_directory() . '/parts/' . $slug . '.html';
         
+        // First try PHP template
         if (file_exists($template_path)) {
             ob_start();
             include $template_path;
             return ob_get_clean();
+        }
+        
+        // Then try HTML template
+        if (file_exists($html_path)) {
+            return file_get_contents($html_path);
         }
         
         // Special handling for post-meta

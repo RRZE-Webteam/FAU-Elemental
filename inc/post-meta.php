@@ -55,10 +55,17 @@ function faue_last_updated_callback($post) {
     if (empty($custom_date)) {
         $custom_date = get_the_modified_date('Y-m-d H:i:s', $post->ID);
     }
+
     ?>
     <p>
-        <input type="checkbox" id="faue_use_custom_date" name="faue_use_custom_last_updated" value="1" <?php checked($use_custom_date, '1'); ?>>
-        <?php esc_html_e('Use custom last updated date', 'fau-elemental'); ?>
+        <input type="checkbox" 
+               id="faue_use_custom_date" 
+               name="faue_use_custom_last_updated" 
+               value="1" 
+               <?php checked($use_custom_date, '1'); ?>>
+        <label for="faue_use_custom_date">
+            <?php esc_html_e('Use custom last updated date', 'fau-elemental'); ?>
+        </label>
     </p>
     <p class="custom-date-field" style="<?php echo $use_custom_date ? '' : 'display: none;'; ?>">
         <label for="faue_custom_last_updated">
@@ -84,35 +91,48 @@ function faue_last_updated_callback($post) {
  * Save meta box data
  */
 function faue_save_post_meta($post_id) {
+
+   
+    
     // Check if nonce is set
     if (!isset($_POST['faue_last_updated_nonce'])) {
+       
         return;
     }
 
     // Verify nonce
     if (!wp_verify_nonce($_POST['faue_last_updated_nonce'], 'faue_last_updated_nonce')) {
+     
         return;
     }
 
     // If this is an autosave, don't do anything
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+       
         return;
     }
 
     // Check user permissions
     if (!current_user_can('edit_post', $post_id)) {
+        error_log('User does not have permission to edit post');
         return;
     }
 
     // Save custom last updated date
     $use_custom_date = isset($_POST['faue_use_custom_last_updated']) ? '1' : '0';
+
+    
     update_post_meta($post_id, '_faue_use_custom_last_updated', $use_custom_date);
+  
 
     if ($use_custom_date === '1' && isset($_POST['faue_custom_last_updated'])) {
         $custom_date = sanitize_text_field($_POST['faue_custom_last_updated']);
         // Convert HTML datetime-local format to MySQL format
         $custom_date = str_replace('T', ' ', $custom_date) . ':00';
+
+        
         update_post_meta($post_id, '_faue_custom_last_updated', $custom_date);
+       
     }
 }
 add_action('save_post', 'faue_save_post_meta');
