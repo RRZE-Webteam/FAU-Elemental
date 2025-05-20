@@ -124,7 +124,15 @@ addFilter(
 
 			// Function to enforce 3:2 aspect ratio maximum
 			const enforceAspectRatio = () => {
+				const xSmallWidth = 393;
+
 				if ( ! blockRef.current ) return;
+
+				// We do NOT want this aspect ratio enforcement inside the gallery because it will break in the editor.
+				const isInGallery = blockRef.current.matches(
+					'.wp-block-gallery-container .wp-block-image-wrapper'
+				);
+				if ( isInGallery ) return;
 
 				const img = blockRef.current.querySelector( 'img' );
 				if ( ! img ) return;
@@ -141,7 +149,10 @@ addFilter(
 					( containerWidth / naturalWidth ) * naturalHeight;
 
 				// If the natural height at container width would be taller than max allowed height
-				if ( naturalHeightAtWidth > maxAllowedHeight ) {
+				if (
+					naturalHeightAtWidth > maxAllowedHeight &&
+					window.innerWidth > xSmallWidth
+				) {
 					// Calculate the scale factor needed to fit within max allowed height
 					const scaleFactor = maxAllowedHeight / naturalHeightAtWidth;
 					const scaledWidth = containerWidth * scaleFactor;
@@ -154,7 +165,7 @@ addFilter(
 					// Reset to natural dimensions
 					img.style.width = `${ containerWidth }px`;
 					img.style.height = 'auto';
-					img.style.objectFit = 'none';
+					img.style.objectFit = 'fill';
 					img.style.objectPosition = 'initial';
 				}
 
@@ -230,6 +241,24 @@ addFilter(
 					enforceAspectRatio();
 				}
 			}, [ caption ] );
+
+			// Recalculate height when DOM changes, for example when the caption gets added or removed
+			useEffect( () => {
+				const figure = blockRef.current?.querySelector( 'figure' );
+				if ( ! figure ) {
+					return;
+				}
+
+				// Add mutation observer to handle DOM changes
+				const domObserver = new MutationObserver( () => {
+					enforceAspectRatio();
+				} );
+				domObserver.observe( figure, { childList: true } );
+
+				return () => {
+					domObserver.disconnect();
+				};
+			}, [ url ] );
 
 			return (
 				<div className="wp-block-image-wrapper" ref={ blockRef }>

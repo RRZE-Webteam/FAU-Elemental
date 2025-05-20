@@ -1,0 +1,21 @@
+@import "../../mixins";
+
+// TODO This file is only a placeholder so the info box does look usable during development.
+
+.wp-block-fau-elemental-fau-info-box {
+	background-color: var(--FAU-Col-FAU-Blau-37_5); // TODO This is only a placeholder color
+	padding: 10px;
+
+	.fau-info-box-image,
+	.fau-info-box-image img {
+		max-width: 40%; // TODO
+	}
+}
+
+// Dark mode
+.is-style-dark {
+
+	.wp-block-fau-elemental-fau-info-box {
+		background-color: var(--FAU-Col-FAU-Weiss-100); // TODO This is only a placeholder color
+	}
+}

@@ -1,7 +1,8 @@
 .wp-block-image {
+	position: relative;
 	max-width: var(--small-max-width);
 	margin: 0 auto;
-	position: relative;
+	padding: 0 var(--Spacing-10x);
 
 	.image-wrapper {
 		position: relative;
@@ -30,7 +31,7 @@
 		position: relative;
 		bottom: 47px;
 		left: 50%;
-		background-color: #fff;
+		background-color: var(--FAU-Col-FAU-Weiss-100);
 		padding: var(--Spacing-6x) var(--Spacing-8x);
 		margin: 0;
 		font-size: var(--P-Body-Text-Small);
@@ -47,23 +48,12 @@
 
 	&.is-style-large {
 		max-width: var(--base-max-width);
-		// width: 100%;
-
-		// @media screen and (max-width: 1599px) {
-		// 	width: unset;
-		// 	left: unset;
-		// }
-
-		// @include respond-to("x-small") {
-		// 	width: calc(100% + 32px);
-		// 	left: -16px;
-		// }
 	}
 
 	.image-fullscreen-btn {
 		position: absolute;
 		top: 0;
-		right: 0;
+		right: var(--Spacing-10x);
 		background: rgba(0, 0, 0, 0.5);
 		color: transparent;
 		cursor: pointer;
@@ -149,34 +139,10 @@
 	}
 }
 
-// Responsive
-@include respond-to("x-small") {
-
-	.wp-block-image {
-
-		.image-fullscreen-btn {
-			width: 40px;
-			height: 40px;
-
-			&::before {
-				width: 16px;
-				height: 16px;
-				top: 12px;
-				right: 12px;
-			}
-		}
-
-		figcaption {
-			padding-right: 20px;
-			padding: var(--Spacing-6x) var(--Spacing-6x);
-		}
-	}
-}
-
 // Gallery index display styles
 .gallery-index-display {
 	position: absolute;
-	background-color: white;
+	background-color: var(--FAU-Col-FAU-Weiss-100);
 	color: var(--FAU-Col-FAU-Blau-100);
 	right: var(--Spacing-8x);
 	font-weight: 700;
@@ -189,5 +155,39 @@
 	.image-wrapper & {
 		padding: var(--Spacing-3x);
 		bottom: var(--Spacing-8x);
+	}
+}
+
+// Responsive
+@include respond-to("x-small") {
+
+	.wp-block-image {
+		padding: 0 var(--Spacing-5x);
+
+		.image-fullscreen-btn {
+			width: 40px;
+			height: 40px;
+			right: var(--Spacing-5x);
+
+			&::before {
+				width: 16px;
+				height: 16px;
+				top: 12px;
+				right: 12px;
+			}
+		}
+
+		&.is-style-large {
+			padding: 0;
+
+			.image-fullscreen-btn {
+				right: 0;
+			}
+		}
+
+		figcaption {
+			padding-right: 20px;
+			padding: var(--Spacing-6x) var(--Spacing-6x);
+		}
 	}
 }

@@ -1,12 +1,23 @@
 // Import the main styles to ensure consistency
 @import "./style";
 
-.editor-styles-wrapper .fau-teaser-grid {
+.wp-block-fau-elemental-fau-teaser-grid {
+	max-width: var(--wide-max-width);
+	margin: 0 auto;
+}
+
+.fau-teaser-grid {
+
 
 	.wp-block-button__link {
 		border-radius: 0; // make arrow buttons square
 	}
+
+	a {
+		text-decoration: none;
+	}
 }
+
 
 .teaser-item.disabled {
 	pointer-events: none;
