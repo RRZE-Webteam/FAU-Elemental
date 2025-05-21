@@ -203,28 +203,28 @@
 					.teaser-content-wrapper .teaser-content {
 						padding: var(--Spacing-6x) 0 var(--Spacing-6x) var(--Spacing-6x);
 					}
-	
+
 					&:nth-child(1) {
 						grid-area: s;
-	
+
 						.teaser-image-wrapper .teaser-meta {
 							height: 113px;
 							width: 113px;
-	
+
 							time {
-	
+
 								.date-day {
 									font-size: 3rem;
 								}
-	
+
 								.date-month-year {
 									font-size: 1.15rem;
 									font-weight: 400;
 								}
 							}
-	
+
 						}
-	
+
 						.teaser-content-wrapper .teaser-content .content-column h2,
 						.teaser-content-wrapper .teaser-content .content-column h3,
 						.teaser-content-wrapper .teaser-content .content-column h4,
@@ -233,31 +233,31 @@
 							font-size: 1.5rem;
 						}
 					}
-	
+
 					&:nth-child(2) {
 						grid-area: a;
 						flex-direction: row;
 						align-self: flex-start;
-	
+
 						.teaser-image-wrapper {
 							width: calc(100% + 80px);
-	
+
 							.teaser-image img {
 								min-height: 250px;
 							}
 						}
-	
+
 						.teaser-content-wrapper {
 							width: 100%;
 							bottom: unset;
 							left: -40px;
-	
+
 							.teaser-content {
 								width: calc(100% + 40px);
 								box-sizing: border-box;
-	
+
 								.content-column {
-	
+
 									h2,
 									h3,
 									h4,
@@ -265,7 +265,7 @@
 									h6 {
 										margin-bottom: 0;
 									}
-	
+
 									.excerpt {
 										display: none;
 									}
@@ -273,35 +273,35 @@
 							}
 						}
 					}
-	
+
 					&:nth-child(3) {
 						grid-area: b;
 						flex-direction: row-reverse;
 						align-self: flex-start;
-	
+
 						.teaser-image-wrapper {
 							width: calc(100% + 80px);
-	
+
 							.teaser-image img {
 								min-height: 250px;
 							}
-	
+
 							.teaser-meta {
 								left: unset;
 								right: 0;
 							}
 						}
-	
+
 						.teaser-content-wrapper {
 							width: 100%;
 							bottom: unset;
-	
+
 							.teaser-content {
 								width: calc(100% + 2rem);
 								padding: var(--Spacing-4x) 0 var(--Spacing-4x) var(--Spacing-4x);
-	
+
 								.content-column {
-	
+
 									h2,
 									h3,
 									h4,
@@ -309,7 +309,7 @@
 									h6 {
 										margin-bottom: 0;
 									}
-	
+
 									.excerpt {
 										display: none;
 									}
@@ -592,30 +592,30 @@
 					.teaser-item {
 
 						&:nth-child(2) {
-	
+
 							.teaser-image-wrapper .teaser-image img {
 								min-height: 180px;
 							}
 						}
-	
+
 						&:nth-child(3) {
 							flex-direction: row;
-	
+
 							.teaser-image-wrapper {
-	
+
 								.teaser-image img {
 									min-height: 180px;
 								}
-	
+
 								.teaser-meta {
 									left: 0;
 									right: unset;
 								}
 							}
-	
+
 							.teaser-content-wrapper {
 								left: -40px;
-	
+
 								.teaser-content {
 									width: calc(100% + 40px);
 									padding-right: 0;
@@ -623,19 +623,19 @@
 								}
 							}
 						}
-	
+
 						&:nth-child(1) {
-	
+
 							.teaser-image-wrapper .teaser-meta {
 								height: 80px;
 								width: 80px;
-	
+
 								time {
-	
+
 									.date-day {
 										font-size: 1.5rem;
 									}
-	
+
 									.date-month-year {
 										font-size: 1rem;
 										font-weight: 400;
@@ -643,20 +643,20 @@
 								}
 							}
 						}
-	
+
 						&:nth-child(2),
 						&:nth-child(3) {
-	
+
 							.teaser-image-wrapper .teaser-meta {
 								height: 68px;
 								width: 68px;
-	
+
 								time {
-	
+
 									.date-day {
 										font-size: 1.5rem;
 									}
-	
+
 									.date-month-year {
 										font-size: 0.875rem;
 										font-weight: 400;
@@ -664,7 +664,7 @@
 								}
 							}
 						}
-	
+
 						.teaser-content-wrapper .teaser-content {
 							padding: var(--Spacing-4x) 0 var(--Spacing-4x) var(--Spacing-4x);
 						}
@@ -884,6 +884,7 @@
 
 			&.layout-l2s,
 			&.layout-2sl {
+
 				.teaser-group {
 					grid-template-rows: 1fr;
 					grid-template-columns: 1fr;
@@ -936,11 +937,12 @@
 			}
 
 			&.layout-2sl {
+
 				.teaser-group {
 					grid-template-areas:
-					"a"
-					"b"
-					"s";
+						"a"
+						"b"
+						"s";
 				}
 			}
 		}
