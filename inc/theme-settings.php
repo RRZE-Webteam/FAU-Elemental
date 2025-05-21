@@ -125,3 +125,47 @@ function faue_sanitize_copyright_info_priority($input) {
 
     return $input;
 }
+
+/**
+ * Restrict specific blocks to certain post types
+ * 
+ * This function restricts the FAU Teaser Grid block to pages only
+ */
+function restrict_blocks_by_post_type($allowed_blocks, $editor_context) {
+    if (empty($editor_context->post)) {
+        return $allowed_blocks;
+    }
+
+    $post_type = $editor_context->post->post_type;
+    $block_to_remove = 'fau-elemental/fau-teaser-grid';
+
+    if ($post_type === 'post') {
+        if ($allowed_blocks === true || is_null($allowed_blocks)) {
+            $allowed_blocks = array_keys(WP_Block_Type_Registry::get_instance()->get_all_registered());
+        }
+
+        if (is_array($allowed_blocks)) {
+            $allowed_blocks = array_diff($allowed_blocks, [$block_to_remove]);
+        }
+    }
+
+    return $allowed_blocks;
+}
+add_filter('allowed_block_types_all', 'restrict_blocks_by_post_type', 10, 2);
+
+function hide_teaser_grid_block_for_posts() {
+    global $post;
+
+    if (!is_admin() || get_post_type($post) !== 'post') {
+        return;
+    }
+
+    ?>
+    <script type="text/javascript">
+        wp.domReady(() => {
+            wp.blocks.unregisterBlockType('fau-elemental/fau-teaser-grid');
+        });
+    </script>
+    <?php
+}
+add_action('admin_footer', 'hide_teaser_grid_block_for_posts');
