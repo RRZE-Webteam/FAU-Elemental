@@ -245,27 +245,6 @@ if (!function_exists('render_block_fau_global_search')) {
                 ?>
             <?php else : ?>
                 <div class="wp-block-fau-elemental-fau-global-search__suggestions-area search-suggestions-area">
-                    <?php
-                    $default_suggestions = $attributes['defaultSuggestions'] ?? [];
-                    if (!empty($default_suggestions)) :
-                    ?>
-                        <ul class="wp-block-fau-elemental-fau-global-search__default-suggestions default-suggestions">
-                            <?php foreach ($default_suggestions as $suggestion_text) : ?>
-                                <li><a href="<?php echo esc_url(add_query_arg('s', $suggestion_text, home_url('/'))); ?>"><?php echo esc_html($suggestion_text); ?></a></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endif; ?>
-                    
-                    <?php 
-                    $faq_suggestions = $attributes['faqSuggestions'] ?? [];
-                    if (!empty($faq_suggestions)) : 
-                    ?>
-                        <ul class="wp-block-fau-elemental-fau-global-search__faq-suggestions faq-suggestions" style="display:none;">
-                            <?php foreach ($faq_suggestions as $suggestion_text) : ?>
-                                 <li><a href="<?php echo esc_url(add_query_arg('s', $suggestion_text, home_url('/'))); ?>"><?php echo esc_html($suggestion_text); ?></a></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>

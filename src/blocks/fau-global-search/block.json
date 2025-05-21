@@ -26,14 +26,6 @@
         "searchScope": {
             "type": "string",
             "default": "current"
-        },
-        "defaultSuggestions": {
-            "type": "array",
-            "default": []
-        },
-        "faqSuggestions": {
-            "type": "array",
-            "default": []
         }
     },
     "editorScript": "file:./index.js",
