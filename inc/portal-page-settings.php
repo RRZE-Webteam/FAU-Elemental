@@ -89,40 +89,12 @@ function fau_elemental_admin_footer() {
                     'border': '2px solid #2271b1',
                     'box-shadow': '0 0 5px rgba(34, 113, 177, 0.2)'
                 });
-                
-                // Update notification about using portal template
-                if (!$('#portal-template-notice').length) {
-                    $('#fau_elemental_portal_menu_settings').after(
-                        '<div id="portal-template-notice" class="notice notice-success inline fau-portal-template-notice">' +
-                        '<p><strong>Portal Page Template Active</strong></p>' +
-                        '<p>Configure your portal menu using the settings above.</p>' +
-                        '</div>'
-                    );
-                } else {
-                    $('#portal-template-notice').attr('class', 'notice notice-success inline fau-portal-template-notice')
-                        .html('<p><strong>Portal Page Template Active</strong></p>' +
-                              '<p>Configure your portal menu using the settings above.</p>');
-                }
             } else {
                 console.log('FAU Portal Menu: Not using portal template');
                 $('#fau_elemental_portal_menu_settings').removeClass('fau-portal-active').css({
                     'border': '1px solid #ccd0d4',
                     'box-shadow': 'none'
                 });
-                
-                // Update notification about not using portal template
-                if (!$('#portal-template-notice').length) {
-                    $('#fau_elemental_portal_menu_settings').after(
-                        '<div id="portal-template-notice" class="notice notice-info inline fau-portal-template-notice">' +
-                        '<p><strong>Portal Menu Settings Available</strong></p>' +
-                        '<p>To use these settings, select the <a href="#" onclick="jQuery(\'#page_template\').val(\'portal-page.php\').trigger(\'change\'); return false;">Portal Page Template</a>.</p>' +
-                        '</div>'
-                    );
-                } else {
-                    $('#portal-template-notice').attr('class', 'notice notice-info inline fau-portal-template-notice')
-                        .html('<p><strong>Portal Menu Settings Available</strong></p>' +
-                              '<p>To use these settings, select the <a href="#" onclick="jQuery(\'#page_template\').val(\'portal-page.php\').trigger(\'change\'); return false;">Portal Page Template</a>.</p>');
-                }
             }
         }
         
@@ -140,20 +112,6 @@ function fau_elemental_admin_footer() {
                 
                 if (template === 'templates/portal-page.php' || template === 'portal-page.php') {
                     console.log('FAU Portal Menu: Using portal template');
-                    $('#fau_elemental_portal_menu_settings .inside').prepend(
-                        '<div class="notice notice-success" style="margin: 0 0 10px 0; padding: 8px;">' +
-                        '<p><strong>Portal Page Template Active</strong></p>' +
-                        '<p>Configure your portal menu using the settings below.</p>' +
-                        '</div>'
-                    );
-                } else {
-                    // Add a note inside the metabox
-                    $('#fau_elemental_portal_menu_settings .inside').prepend(
-                        '<div class="notice notice-info" style="margin: 0 0 10px 0; padding: 8px;">' +
-                        '<p><strong>Portal Menu Settings Available</strong></p>' +
-                        '<p>To use these settings, select the <strong>Portal Page</strong> template in the Document Settings panel.</p>' +
-                        '</div>'
-                    );
                 }
             }, 1000);
         } else {
