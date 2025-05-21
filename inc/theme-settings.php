@@ -126,11 +126,6 @@ function faue_sanitize_copyright_info_priority($input) {
     return $input;
 }
 
-
-
-
-
-
 /**
  * Restrict specific blocks to certain post types
  * 
@@ -157,7 +152,6 @@ function restrict_blocks_by_post_type($allowed_blocks, $editor_context) {
     return $allowed_blocks;
 }
 add_filter('allowed_block_types_all', 'restrict_blocks_by_post_type', 10, 2);
-
 
 function hide_teaser_grid_block_for_posts() {
     global $post;
