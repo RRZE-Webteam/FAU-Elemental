@@ -28,9 +28,7 @@
                 <p class="reading-time post-reading-time"><!-- READING_TIME --></p>
                 <!-- /wp:paragraph -->
 
-                <!-- wp:paragraph {"className":"listen-link post-listen-link"} -->
-                <p class="listen-link post-listen-link"><a href="#">Beitrag anhören: <!-- LISTEN_DURATION --> min. abspielen</a></p>
-                <!-- /wp:paragraph -->
+
             </div>
             <!-- /wp:group -->
         </div>
