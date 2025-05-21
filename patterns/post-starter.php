@@ -1,3 +1,9 @@
+<?php
+if (!defined('ABSPATH')) {
+    exit;
+}
+?>
+
 <!-- wp:group {"tagName":"main","className":"post-main","style":{"spacing":{"margin":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50"},"padding":{"top":"0","bottom":"0","left":"var:preset|spacing|40","right":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
 <main class="wp-block-group post-main" style="margin-top:var(--wp--preset--spacing--50);margin-bottom:var(--wp--preset--spacing--50);padding-top:0;padding-bottom:0;padding-left:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40)">
     <!-- wp:group {"className":"post-header","align":"wide","layout":{"type":"constrained"}} -->
@@ -20,16 +26,8 @@
             
             <!-- wp:group {"className":"post-meta","layout":{"type":"flex","flexWrap":"nowrap"}} -->
             <div class="wp-block-group post-meta">
-                <!-- wp:paragraph {"className":"reading-time post-reading-time"} -->
-                <p>Lesedauer: </p>
-                <!-- /wp:paragraph -->
-                
-                <!-- wp:paragraph {"className":"reading-time post-reading-time"} -->
-                <p class="reading-time post-reading-time"><!-- READING_TIME --></p>
-                <!-- /wp:paragraph -->
-
-                <!-- wp:paragraph {"className":"listen-link post-listen-link"} -->
-                <p class="listen-link post-listen-link"><a href="#">Beitrag anhören: <!-- LISTEN_DURATION --> min. abspielen</a></p>
+                <!-- wp:paragraph {"className":"reading-time"} -->
+                <p class="reading-time"><!-- READING_TIME --> min</p>
                 <!-- /wp:paragraph -->
             </div>
             <!-- /wp:group -->

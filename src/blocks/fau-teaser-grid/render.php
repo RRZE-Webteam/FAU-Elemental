@@ -69,12 +69,14 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
 
         if ($selection_mode === 'manual' && !empty($selected_posts)) {
             // Handle manually selected posts
+            $teaser_items = [];
             foreach ($selected_posts as $selected_post) {
                 $post = get_post($selected_post['id']);
                 if ($post) {
-                    $output .= fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level);
+                    $teaser_items[] = fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level);
                 }
             }
+            $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
         } else {
             // Handle automatic posts
             $args = [
@@ -92,11 +94,13 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             $query = new WP_Query($args);
 
             if ($query->have_posts()) {
+                $teaser_items = [];
                 while ($query->have_posts()) {
                     $query->the_post();
-                    $output .= fau_elemental_render_teaser_item(get_post(), $variant, $grid_classes, $heading_level);
+                    $teaser_items[] = fau_elemental_render_teaser_item(get_post(), $variant, $grid_classes, $heading_level);
                 }
                 wp_reset_postdata();
+                $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
             } else {
                 $output .= sprintf(
                     '<p role="status" class="no-items-found">%s</p>',
@@ -292,6 +296,36 @@ if ( ! function_exists( 'fau_elemental_generate_pagination' ) ) {
         );
 
         $output .= '</div>';
+        return $output;
+    }
+}
+
+if (!function_exists('fau_elemental_wrap_teaser_items')) {
+    /**
+     * Wraps teaser items in groups of 3 for specific layouts
+     *
+     * @param array $items Array of teaser item HTML strings
+     * @param string $layout The current layout
+     * @return string The wrapped teaser items HTML
+     */
+    function fau_elemental_wrap_teaser_items($items, $layout) {
+        // Only wrap for l2s and 2sl layouts
+        if (!in_array($layout, ['l2s', '2sl'])) {
+            return implode('', $items);
+        }
+
+        $output = '';
+        $item_count = count($items);
+        
+        for ($i = 0; $i < $item_count; $i += 3) {
+            $group_items = array_slice($items, $i, 3);
+            if (!empty($group_items)) {
+                $output .= '<div class="teaser-group">';
+                $output .= implode('', $group_items);
+                $output .= '</div>';
+            }
+        }
+        
         return $output;
     }
 } 
