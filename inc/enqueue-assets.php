@@ -115,4 +115,40 @@ function faue_enqueue_block_view_scripts() {
         }
     }
 }
-add_action('wp_enqueue_scripts', 'faue_enqueue_block_view_scripts'); 
+add_action('wp_enqueue_scripts', 'faue_enqueue_block_view_scripts');
+
+/**
+ * Enqueue theme assets
+ */
+function fau_enqueue_assets() {
+    // Theme styles
+    wp_enqueue_style(
+        'fau-elemental-style',
+        get_template_directory_uri() . '/build/css/theme.css',
+        array(),
+        wp_get_theme()->get('Version')
+    );
+
+    // Global Search block scripts
+    if (has_block('fau-elemental/fau-global-search')) {
+        wp_enqueue_script(
+            'fau-global-search',
+            get_template_directory_uri() . '/src/blocks/fau-global-search/search-suggestions.js',
+            array(),
+            wp_get_theme()->get('Version'),
+            true
+        );
+
+        // Add translations and configuration
+        wp_localize_script('fau-global-search', 'fauGlobalSearch', array(
+            'strings' => array(
+                'faqsTitle' => __('Frequently Asked Questions', 'fau-elemental'),
+                'suggestionsTitle' => __('Search Suggestions', 'fau-elemental'),
+                'noResults' => __('No results found', 'fau-elemental'),
+            ),
+            'restUrl' => rest_url(),
+            'restNonce' => wp_create_nonce('wp_rest'),
+        ));
+    }
+}
+add_action('wp_enqueue_scripts', 'fau_enqueue_assets'); 

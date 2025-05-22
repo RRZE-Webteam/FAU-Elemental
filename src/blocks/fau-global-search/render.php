@@ -15,17 +15,13 @@ if (!function_exists('render_block_fau_global_search')) {
      * @return string The block HTML.
      */
     function render_block_fau_global_search($attributes, $content, $block) {
-        // Block attributes
         $title = $attributes['title'] ?? __('Search', 'fau-elemental');
-        $search_scope = $attributes['searchScope'] ?? 'current'; // 'current' or 'fau-wide'
+        $search_scope = $attributes['searchScope'] ?? 'current';
 
-        // Get the search scope from the form submission if available
         if (isset($_GET['fau_search_scope'])) {
             $search_scope = sanitize_text_field($_GET['fau_search_scope']);
         }
 
-        // The block_wrapper_attributes call will automatically add the alignment class if defined in supports
-        // Add the block instance ID to the wrapper for unique JS targeting if needed
         $block_instance_id = 'fau-global-search';
         if (isset($block->context['postId'])) {
             $block_instance_id .= '-' . $block->context['postId'];
@@ -42,12 +38,10 @@ if (!function_exists('render_block_fau_global_search')) {
         }
         $wrapper_attributes = get_block_wrapper_attributes($wrapper_attributes_array);
 
-        // Always use home_url for the search form action so all params are preserved
         $search_action_url = home_url('/');
         $current_search_query = get_search_query();
         $has_search_results = is_search() && !empty($current_search_query);
 
-        // Handle radio button logic with JS to update the hidden field
         ob_start();
         ?>
         <div <?php echo $wrapper_attributes; ?> id="<?php echo esc_attr($block_instance_id); ?>-wrapper">
@@ -104,9 +98,7 @@ if (!function_exists('render_block_fau_global_search')) {
 
             <?php if ($has_search_results) : ?>
                 <?php
-                // If we're on a search results page, handle the search
                 if (is_search()) {
-                    // For FAU-wide search, we need to handle the search differently
                     if (
                         isset($_GET['fau_search_scope']) &&
                         $_GET['fau_search_scope'] === 'fau-wide' &&
@@ -114,18 +106,19 @@ if (!function_exists('render_block_fau_global_search')) {
                     ) {
                         $search_query = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
                         if (!empty($search_query)) {
-                            $sites = get_sites(array(
+                            $sites = get_sites([
                                 'network_id' => get_current_network_id(),
                                 'public' => 1,
                                 'archived' => 0,
                                 'mature' => 0,
                                 'spam' => 0,
                                 'deleted' => 0
-                            ));
+                            ]);
+                            
                             $results = [];
                             $current_blog_id = get_current_blog_id();
                             
-                            // Store the current blog's search results first
+                            // Search current site
                             $current_site_args = [
                                 'post_type' => ['post', 'page'],
                                 'post_status' => 'publish',
@@ -151,15 +144,11 @@ if (!function_exists('render_block_fau_global_search')) {
                             }
                             wp_reset_postdata();
 
-                            // Then search other sites
+                            // Search other sites
                             foreach ($sites as $site) {
-                                if ($site->blog_id === $current_blog_id) {
-                                    continue; // Skip current site as we already processed it
-                                }
+                                if ($site->blog_id === $current_blog_id) continue;
                                 
-                                if (!switch_to_blog($site->blog_id)) {
-                                    continue;
-                                }
+                                if (!switch_to_blog($site->blog_id)) continue;
                                 
                                 $args = [
                                     'post_type' => ['post', 'page'],
@@ -188,15 +177,12 @@ if (!function_exists('render_block_fau_global_search')) {
                                 restore_current_blog();
                             }
                             
-                            // Sort results by date, most recent first
                             usort($results, function($a, $b) {
                                 return strtotime($b['date']) - strtotime($a['date']);
                             });
                             
-                            // Store results in transient for template access
                             set_transient('fau_network_search_results_' . get_current_blog_id(), $results, HOUR_IN_SECONDS);
 
-                            // Display the search results
                             if (!empty($results)) {
                                 echo '<div class="search-results">';
                                 foreach ($results as $result) {
@@ -216,28 +202,6 @@ if (!function_exists('render_block_fau_global_search')) {
                             } else {
                                 echo '<p class="no-results">' . __('No results found.', 'fau-elemental') . '</p>';
                             }
-                            
-                            // Add a filter to modify the main query for network search results
-                            add_filter('posts_where', function($where) use ($search_query) {
-                                global $wpdb;
-                                if (is_search() && isset($_GET['fau_search_scope']) && $_GET['fau_search_scope'] === 'fau-wide') {
-                                    $where .= $wpdb->prepare(" AND (($wpdb->posts.post_title LIKE %s) OR ($wpdb->posts.post_content LIKE %s))", 
-                                        '%' . $wpdb->esc_like($search_query) . '%',
-                                        '%' . $wpdb->esc_like($search_query) . '%'
-                                    );
-                                }
-                                return $where;
-                            });
-                            
-                            if (current_user_can('administrator')) {
-                                echo '<!-- FAU Global Search Debug Info:
-                                Search Query: ' . esc_html($search_query) . '
-                                Number of Sites: ' . count($sites) . '
-                                Total Results: ' . count($results) . '
-                                Current Site ID: ' . $current_blog_id . '
-                                Search Scope: fau-wide
-                                -->';
-                            }
                         }
                     }
                     get_template_part('templates/search');
@@ -245,6 +209,21 @@ if (!function_exists('render_block_fau_global_search')) {
                 ?>
             <?php else : ?>
                 <div class="wp-block-fau-elemental-fau-global-search__suggestions-area search-suggestions-area">
+                    <?php if (has_nav_menu('search_options_menu')) : ?>
+                        <div class="search-options-menu">
+                            <h3 class="search-options-title"><?php _e('Further Search Options', 'fau-elemental'); ?></h3>
+                            <?php
+                            wp_nav_menu([
+                                'theme_location' => 'search_options_menu',
+                                'container' => 'nav',
+                                'container_class' => 'search-options-nav',
+                                'menu_class' => 'search-options-list',
+                                'fallback_cb' => false,
+                                'depth' => 1,
+                            ]);
+                            ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
             <?php endif; ?>
         </div>
@@ -269,18 +248,16 @@ function debug_to_file($message) {
 // Add filter to modify the main query for network search results
 add_filter('pre_get_posts', function($query) {
     if (!is_admin() && $query->is_main_query() && is_search() && isset($_GET['fau_search_scope']) && $_GET['fau_search_scope'] === 'fau-wide') {
-        // Get the network search results from transient
         $network_results = get_transient('fau_network_search_results_' . get_current_blog_id());
         if (!empty($network_results)) {
-            // Create fake post objects for the network results
             $fake_posts = array_map(function($result) {
                 $post = new stdClass();
-                $post->ID = absint($result['blog_id']) . '_' . uniqid(); // Unique ID
+                $post->ID = absint($result['blog_id']) . '_' . uniqid();
                 $post->post_title = $result['title'];
                 $post->post_content = $result['excerpt'];
                 $post->post_excerpt = $result['excerpt'];
                 $post->post_date = $result['date'];
-                $post->post_type = 'post'; // Use 'post' for compatibility
+                $post->post_type = 'post';
                 $post->guid = $result['link'];
                 $post->post_status = 'publish';
                 $post->blog_id = $result['blog_id'];
@@ -290,13 +267,10 @@ add_filter('pre_get_posts', function($query) {
                 return $post;
             }, $network_results);
 
-            // Set the posts property of the query
             $query->posts = $fake_posts;
             $query->post_count = count($fake_posts);
             $query->found_posts = count($fake_posts);
             $query->max_num_pages = ceil(count($fake_posts) / get_option('posts_per_page'));
-            
-            // Prevent the query from running
             $query->set('post__in', array(0));
         }
     }
@@ -305,25 +279,16 @@ add_filter('pre_get_posts', function($query) {
 
 // Add filter to modify post links for network search results
 add_filter('post_link', function($permalink, $post) {
-    if (isset($post->permalink)) {
-        return $post->permalink;
-    }
-    return $permalink;
+    return isset($post->permalink) ? $post->permalink : $permalink;
 }, 10, 2);
 
 // Add filter to modify post titles for network search results
 add_filter('the_title', function($title, $post_id) {
     global $post;
-    if (isset($post->blog_name)) {
-        return $title . ' <span class="search-result-site-name">(' . esc_html($post->blog_name) . ')</span>';
-    }
-    return $title;
+    return isset($post->blog_name) ? $title . ' <span class="search-result-site-name">(' . esc_html($post->blog_name) . ')</span>' : $title;
 }, 10, 2);
 
 // Add filter to modify post excerpts for network search results
 add_filter('get_the_excerpt', function($excerpt, $post) {
-    if (isset($post->post_excerpt)) {
-        return $post->post_excerpt;
-    }
-    return $excerpt;
+    return isset($post->post_excerpt) ? $post->post_excerpt : $excerpt;
 }, 10, 2);
