@@ -16,10 +16,32 @@ addFilter(
 			return settings;
 		}
 
+		// Ensure this is only done once.
+		if ( settings.fauModded ) {
+			return settings;
+		}
+		settings.fauModded = true;
+
 		const originalGetSaveElement = settings.save;
+
+		const coreTableDeprecation = {
+			supports: { ...settings.supports }, // They stay the same (besides some defaults)
+			attributes: { ...settings.attributes }, // They stay the same (besides some defaults)
+			save: originalGetSaveElement,
+			migrate( attributes ) {
+				return {
+					...attributes,
+					hasFixedLayout: false,
+				};
+			},
+		};
 
 		return {
 			...settings,
+			deprecated: [
+				coreTableDeprecation,
+				...( settings.deprecated || [] ),
+			],
 			attributes: {
 				...settings.attributes,
 				hasFixedLayout: {

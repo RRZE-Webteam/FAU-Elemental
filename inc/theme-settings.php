@@ -140,10 +140,19 @@ function restrict_blocks_by_post_type($allowed_blocks, $editor_context) {
     $block_to_remove = 'fau-elemental/fau-teaser-grid';
 
     if ($post_type === 'post') {
+        // If $allowed_blocks is true or null, we need to get all registered blocks
         if ($allowed_blocks === true || is_null($allowed_blocks)) {
-            $allowed_blocks = array_keys(WP_Block_Type_Registry::get_instance()->get_all_registered());
+            // Make sure WP_Block_Type_Registry class exists
+            if (class_exists('WP_Block_Type_Registry')) {
+                $registry = WP_Block_Type_Registry::get_instance();
+                $allowed_blocks = array_keys($registry->get_all_registered());
+            } else {
+                // If the registry class doesn't exist, we can't reliably filter blocks
+                return $allowed_blocks;
+            }
         }
 
+        // Now that we've ensured $allowed_blocks is an array, we can safely filter it
         if (is_array($allowed_blocks)) {
             $allowed_blocks = array_diff($allowed_blocks, [$block_to_remove]);
         }

@@ -40,6 +40,8 @@ const getFileType = ( fileDetails ) => {
 	};
 	return mimeMap[ mimeType ] || mimeParts[ 1 ].toUpperCase();
 };
+
+// Change block behaviour
 addFilter(
 	'blocks.registerBlockType',
 	'fau-elemental/edit-file-block-settings',
@@ -48,19 +50,39 @@ addFilter(
 			return settings;
 		}
 
-		// Remove PDF preview support entirely
-		if ( settings.supports ) {
-			settings.supports = {
-				...settings.supports,
-				align: false,
-				displayPreview: false,
-			};
+		// Ensure this is only done once.
+		if ( settings.fauModded ) {
+			return settings;
 		}
+		settings.fauModded = true;
 
 		// Store the original edit component
 		const OriginalEdit = settings.edit;
 
-		// Wrap the edit component to ensure PDF settings stay disabled
+		// Clone the settings before we modify it
+		const originalSettings = { ...settings };
+
+		// Add custom attributes
+		settings.attributes = {
+			...( settings.attributes || {} ),
+			coverImage: {
+				type: 'object',
+				default: null,
+			},
+			fileDetails: {
+				type: 'object',
+				default: null,
+			},
+		};
+
+		// Remove PDF preview support entirely
+		settings.supports = {
+			...( settings.supports || {} ),
+			align: false,
+			displayPreview: false,
+		};
+
+		// Wrap the edit component to ensure no unwanted changes can be made
 		settings.edit = ( props ) => {
 			const { attributes, setAttributes } = props;
 
@@ -71,27 +93,7 @@ addFilter(
 				}
 			}, [ attributes.displayPreview ] );
 
-			return <OriginalEdit { ...props } />;
-		};
-
-		return settings;
-	}
-);
-
-//Remove text placeholder
-addFilter(
-	'blocks.registerBlockType',
-	'fau-elemental/edit-file-block-settings',
-	( settings, name ) => {
-		if ( name !== 'core/file' ) {
-			return settings;
-		}
-
-		const OriginalEdit = settings.edit;
-
-		settings.edit = ( props ) => {
-			const { setAttributes, attributes } = props;
-
+			// Enforce an empty text placeholder
 			useEffect( () => {
 				setAttributes( {
 					downloadButtonText: ' ', // space character
@@ -102,180 +104,148 @@ addFilter(
 			return <OriginalEdit { ...props } />;
 		};
 
-		return settings;
-	}
-);
+		settings.save = ( props ) => {
+			const { attributes } = props;
+			const blockProps = useBlockProps.save();
 
-// Add block attributes
-addFilter(
-	'blocks.registerBlockType',
-	'fau-elemental/edit-file-block-settings',
-	( settings, name ) => {
-		if ( name !== 'core/file' ) {
-			return settings;
-		}
+			// Get the original content with empty text
+			const originalContent = getSaveElement( originalSettings, {
+				...attributes,
+				downloadButtonText: '',
+				text: '',
+			} );
 
-		return {
-			...settings,
-			attributes: {
-				...settings.attributes,
-				coverImage: {
-					type: 'object',
-					default: null,
-				},
-				fileDetails: {
-					type: 'object',
-					default: null,
-				},
-			},
-			save: ( props ) => {
-				const { attributes } = props;
-				const blockProps = useBlockProps.save();
-
-				// Get the original content with empty text
-				const originalContent = getSaveElement( settings, {
-					...attributes,
-					downloadButtonText: '',
-					text: '',
-				} );
-
-				// Add file info elements for frontend display
-				const fileInfoElements = attributes.fileDetails ? (
-					<div className="file-info-wrapper">
-						<dl className="file-info-list">
-							<div className="file-info-item">
-								<dt className="file-info-term">File Name</dt>
-								<dd className="file-info-definition">
-									{ attributes.fileDetails.filename }
-								</dd>
-							</div>
-							<div className="file-info-item">
-								<dt className="file-info-term">File Size</dt>
-								<dd className="file-info-definition">
-									{ formatFileSize(
-										attributes.fileDetails.filesize
-									) }
-								</dd>
-							</div>
-							<div className="file-info-item">
-								<dt className="file-info-term">File Type</dt>
-								<dd className="file-info-definition">
-									{ getFileType( attributes.fileDetails ) }
-								</dd>
-							</div>
-						</dl>
-					</div>
-				) : null;
-
-				// Add accessibility attributes to the download button and file name link
-				let contentWithAccessibility = originalContent;
-				if (
-					originalContent &&
-					originalContent.props &&
-					originalContent.props.children
-				) {
-					const downloadButton = originalContent.props.children.find(
-						( child ) =>
-							child &&
-							child.props &&
-							child.props.className?.includes(
-								'wp-block-file__button'
-							)
-					);
-					const fileNameLink = originalContent.props.children.find(
-						( child ) =>
-							child &&
-							child.props &&
-							child.props.id?.startsWith(
-								'wp-block-file--media-'
-							)
-					);
-					if ( downloadButton || fileNameLink ) {
-						contentWithAccessibility = cloneElement(
-							originalContent,
-							{
-								children: originalContent.props.children.map(
-									( child ) => {
-										if ( child && child.props ) {
-											if (
-												child.props.className?.includes(
-													'wp-block-file__button'
-												)
-											) {
-												return cloneElement( child, {
-													'aria-label': `${
-														attributes.fileDetails
-															?.filename || ''
-													} ${ __(
-														'Download',
-														'fau-elemental'
-													) }`,
-													role: 'button',
-													'aria-describedby':
-														child.props[
-															'aria-describedby'
-														],
-												} );
-											}
-											if (
-												child.props.id?.startsWith(
-													'wp-block-file--media-'
-												)
-											) {
-												const fileName =
-													typeof child.props
-														.children === 'string'
-														? child.props.children
-														: attributes.fileDetails
-																?.filename ||
-														  '';
-												return cloneElement( child, {
-													'aria-label': `${ fileName } ${ __(
-														'Download',
-														'fau-elemental'
-													) }`,
-													'aria-describedby':
-														child.props.id,
-												} );
-											}
-										}
-										return child;
-									}
-								),
-							}
-						);
-					}
-				}
-
-				return (
-					<div { ...blockProps }>
-						<div className="wp-block-file__content-wrapper">
-							<figure
-								className="file-cover-image"
-								key="cover-image"
-								aria-label={ __(
-									'Cover image for file',
-									'fau-elemental'
-								) }
-							>
-								{ attributes.coverImage && (
-									<img
-										src={ attributes.coverImage.url }
-										alt={ attributes.coverImage.alt || '' }
-									/>
-								) }
-							</figure>
-							<section className="wp-block-file">
-								<div className="file-content">
-									{ contentWithAccessibility }
-									{ fileInfoElements }
-								</div>
-							</section>
+			// Add file info elements for frontend display
+			const fileInfoElements = attributes.fileDetails ? (
+				<div className="file-info-wrapper">
+					<dl className="file-info-list">
+						<div className="file-info-item">
+							<dt className="file-info-term">File Name</dt>
+							<dd className="file-info-definition">
+								{ attributes.fileDetails.filename }
+							</dd>
 						</div>
-					</div>
+						<div className="file-info-item">
+							<dt className="file-info-term">File Size</dt>
+							<dd className="file-info-definition">
+								{ formatFileSize(
+									attributes.fileDetails.filesize
+								) }
+							</dd>
+						</div>
+						<div className="file-info-item">
+							<dt className="file-info-term">File Type</dt>
+							<dd className="file-info-definition">
+								{ getFileType( attributes.fileDetails ) }
+							</dd>
+						</div>
+					</dl>
+				</div>
+			) : null;
+
+			// Add accessibility attributes to the download button and file name link
+			let contentWithAccessibility = originalContent;
+			if (
+				originalContent &&
+				originalContent.props &&
+				originalContent.props.children
+			) {
+				const downloadButton = originalContent.props.children.find(
+					( child ) =>
+						child &&
+						child.props &&
+						child.props.className?.includes(
+							'wp-block-file__button'
+						)
 				);
-			},
+				const fileNameLink = originalContent.props.children.find(
+					( child ) =>
+						child &&
+						child.props &&
+						child.props.id?.startsWith( 'wp-block-file--media-' )
+				);
+				if ( downloadButton || fileNameLink ) {
+					contentWithAccessibility = cloneElement( originalContent, {
+						children: originalContent.props.children.map(
+							( child ) => {
+								if ( child && child.props ) {
+									if (
+										child.props.className?.includes(
+											'wp-block-file__button'
+										)
+									) {
+										return cloneElement( child, {
+											'aria-label': `${
+												attributes.fileDetails
+													?.filename || ''
+											} ${ __(
+												'Download',
+												'fau-elemental'
+											) }`,
+											role: 'button',
+											'aria-describedby':
+												child.props[
+													'aria-describedby'
+												],
+										} );
+									}
+									if (
+										child.props.id?.startsWith(
+											'wp-block-file--media-'
+										)
+									) {
+										const fileName =
+											typeof child.props.children ===
+											'string'
+												? child.props.children
+												: attributes.fileDetails
+														?.filename || '';
+										return cloneElement( child, {
+											'aria-label': `${ fileName } ${ __(
+												'Download',
+												'fau-elemental'
+											) }`,
+											'aria-describedby': child.props.id,
+										} );
+									}
+								}
+								return child;
+							}
+						),
+					} );
+				}
+			}
+
+			return (
+				<div { ...blockProps }>
+					<div className="wp-block-file__content-wrapper">
+						<figure
+							className="file-cover-image"
+							key="cover-image"
+							aria-label={ __(
+								'Cover image for file',
+								'fau-elemental'
+							) }
+						>
+							{ attributes.coverImage && (
+								<img
+									src={ attributes.coverImage.url }
+									alt={ attributes.coverImage.alt || '' }
+								/>
+							) }
+						</figure>
+						<section className="wp-block-file">
+							<div className="file-content">
+								{ contentWithAccessibility }
+								{ fileInfoElements }
+							</div>
+						</section>
+					</div>
+				</div>
+			);
 		};
+
+		return settings;
 	}
 );
 
