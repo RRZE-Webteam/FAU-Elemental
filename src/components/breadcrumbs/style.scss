@@ -5,8 +5,8 @@
  @import "../../mixins";
 
 .breadcrumbs {
-    max-width: 1320px;
-    padding: 0 var(--Spacing-5x);
+    max-width: var(--wide-max-width);
+    padding: var(--Spacing-4x) var(--Spacing-10x);
 
     &__list {
         display: flex;
@@ -80,6 +80,7 @@
 
 // Responsive
 @include respond-to("small") {
+
     .breadcrumbs {
         &__list {
             padding-left: unset;
@@ -101,13 +102,24 @@
     }
 }
 
+@include respond-to("x-small") {
+    
+    .breadcrumbs {
+        padding: var(--Spacing-3x) var(--Spacing-5x);
+    }
+}
+
 // Dark mode and rw faculty
 .is-style-dark,
 .fauorg-fakultaet.faculty-rw {
+
     .breadcrumbs {
         &__item,
         &__item:not(:last-child)::after,
-        &__link,
+        &__link {
+            color: var(--FAU-Col-FAU-Schwarz-12_5);
+        }
+
         &__current {
             color: var(--FAU-Col-FAU-Weiss-100);
         }
