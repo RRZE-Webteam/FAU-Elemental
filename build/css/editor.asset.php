@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <?php return array('dependencies' => array(), 'version' => 'ab66adcc801ff6dbd7cc');
 =======
 <?php return array('dependencies' => array(), 'version' => 'd3a2d3a895db9d0625a1');
@@ -11,3 +12,6 @@
 =======
 <?php return array('dependencies' => array(), 'version' => '71784dc607251bf5a636');
 >>>>>>> 48162c9 (#23 CSS)
+=======
+<?php return array('dependencies' => array(), 'version' => 'f90364ebf7c5ed08c77f');
+>>>>>>> 361c079 (#23 faculty colors)
