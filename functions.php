@@ -19,356 +19,130 @@ require_once get_template_directory() . '/inc/enqueue-assets.php';
 require_once get_template_directory() . '/inc/blocks/loader.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
 
+
+
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
 
-// Post settings
-require_once get_template_directory() . '/inc/posts-settings.php';
+// Shortcodes functionality
+require_once get_template_directory() . '/inc/shortcodes-loader.php';
+
+// Portal page settings
+require_once get_template_directory() . '/inc/portal-page-settings.php';
+
+// Portal menu compatibility with old theme
+require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
 
 /**
- * Completely lock all theme templates from FSE editing
+ * Register custom page templates
+ * 
+ * IMPORTANT: Portal Page template MUST be registered in the root of the theme,
+ * not in templates/ directory for it to work with WordPress template selector
  */
-function lock_theme_templates_from_fse() {
-    // 1. Get list of theme templates to protect
-    $theme_templates = array();
+function fau_elemental_register_page_templates($templates) {
+    // Root template is the most important one - always register it first
+    // This is the one that will be used in the dropdown
+    $templates['portal-page.php'] = 'Portal Page';
     
-    // Get all template files from the theme
-    $template_files = glob(get_template_directory() . '/templates/*.html');
-    foreach ($template_files as $template_file) {
-        $template_slug = basename($template_file, '.html');
-        $theme_templates[] = $template_slug;
+    // Secondary location as fallback (might not appear in dropdown)
+    if (file_exists(get_template_directory() . '/templates/portal-page.php')) {
+        $templates['templates/portal-page.php'] = 'Portal Page (Templates)';
     }
     
-    // Get all template part files
-    $template_part_files = glob(get_template_directory() . '/parts/*.html');
-    foreach ($template_part_files as $template_file) {
-        $template_slug = basename($template_file, '.html');
-        $theme_templates[] = $template_slug;
-    }
-    
-    // Always protect these core templates
-    $core_templates = array(
-        'single', 'single-post', 'page', 'home', 'front-page', 
-        'archive', 'category', 'tag', 'index', '404', 'search'
-    );
-    
-    $protected_templates = array_merge($theme_templates, $core_templates);
-    $protected_templates = array_unique($protected_templates);
-    
-    // 2. Filter templates out of the FSE editor
-    add_filter('get_block_templates', function($templates, $query, $template_type) use ($protected_templates) {
-        // Only filter in admin context
-        if (!is_admin()) {
-            return $templates;
-        }
-        
-        return array_filter($templates, function($template) use ($protected_templates) {
-            // Keep templates not in our protected list
-            return !in_array($template->slug, $protected_templates);
-        });
-    }, 20, 3);
-    
-    // 3. Block REST API access for protected templates
-    add_filter('rest_request_before_callbacks', function($response, $handler, $request) use ($protected_templates) {
-        $route = $request->get_route();
-        $method = $request->get_method();
-        
-        // Only block write operations
-        if (!in_array($method, ['POST', 'PUT', 'PATCH', 'DELETE'])) {
-            return $response;
-        }
-        
-        // Check if this is a template or template part endpoint
-        if (strpos($route, '/wp/v2/templates') === 0 || 
-            strpos($route, '/wp/v2/template-parts') === 0) {
-            
-            // For template creation/update
-            if ($method === 'POST' || $method === 'PUT' || $method === 'PATCH') {
-                $slug = $request->get_param('slug');
-                
-                if ($slug && in_array($slug, $protected_templates)) {
-                    return new WP_Error(
-                        'template_locked',
-                        'This template is locked and cannot be modified.',
-                        ['status' => 403]
-                    );
-                }
-            }
-            
-            // For template deletion
-            if ($method === 'DELETE') {
-                $path_parts = explode('/', trim($route, '/'));
-                $template_id = end($path_parts);
-                
-                foreach ($protected_templates as $protected) {
-                    if ($template_id === $protected || strpos($template_id, "wp_template//$protected") === 0 || 
-                        strpos($template_id, "wp_template_part//$protected") === 0) {
-                        return new WP_Error(
-                            'template_locked',
-                            'This template is locked and cannot be deleted.',
-                            ['status' => 403]
-                        );
-                    }
-                }
-            }
-        }
-        
-        return $response;
-    }, 10, 3);
-    
-    // 4. Prevent direct access to template editing screens
-    add_action('admin_init', function() use ($protected_templates) {
-        global $pagenow;
-        
-        if ($pagenow === 'site-editor.php' || 
-            (isset($_GET['page']) && $_GET['page'] === 'gutenberg-edit-site')) {
-            
-            if (isset($_GET['postId'])) {
-                $template_id = $_GET['postId'];
-                
-                foreach ($protected_templates as $protected) {
-                    if (strpos($template_id, $protected) !== false) {
-                        // Redirect to site editor home
-                        wp_safe_redirect(admin_url('site-editor.php'));
-                        exit;
-                    }
-                }
-            }
-        }
-    });
-    
-    // 5. Hide protected templates from the Site Editor UI
-    add_action('admin_head', function() use ($protected_templates) {
-        $selectors = array();
-        
-        foreach ($protected_templates as $template) {
-            $selectors[] = ".edit-site-template-card[data-slug=\"{$template}\"]";
-            $selectors[] = ".edit-site-template-card[data-title*=\"{$template}\"]";
-        }
-        
-        if (!empty($selectors)) {
-            echo '<style>' . implode(', ', $selectors) . ' { display: none !important; }</style>';
-        }
-        
-        // Also hide template editing options
-        echo '<style>
-            /* Hide template switching in post editor */
-            .edit-post-header__settings .components-dropdown-menu__toggle[aria-label*="Template"],
-            .edit-post-header-toolbar__document-overview-toggle[aria-label*="Template"],
-            
-            /* Hide template editing panels */
-            .edit-post-template-panel,
-            .edit-post-template__actions
-            {
-                display: none !important;
-            }
-        </style>';
-    });
-    
-    // 6. Override user capabilities to edit templates
-    add_filter('map_meta_cap', function($caps, $cap, $user_id, $args) use ($protected_templates) {
-        // Check if this is a template capability check
-        if (in_array($cap, array('edit_theme', 'edit_themes', 'edit_theme_options'))) {
-            
-            // If checking for a specific template
-            if (isset($args[0]) && is_string($args[0])) {
-                foreach ($protected_templates as $protected) {
-                    if (strpos($args[0], $protected) !== false) {
-                        return array('do_not_allow');
-                    }
-                }
-            }
-        }
-        
-        return $caps;
-    }, 10, 4);
-    
-    // 7. Disable template editing mode in the post editor
-    add_filter('block_editor_settings_all', function($settings) {
-        if (get_post_type() === 'post' || get_post_type() === 'page') {
-            $settings['supportsTemplateMode'] = false;
-            
-            // Disable editing existing templates
-            if (isset($settings['defaultTemplateTypes'])) {
-                foreach ($settings['defaultTemplateTypes'] as $key => &$template) {
-                    $template['isLocked'] = true;
-                }
-            }
-        }
-        
-        return $settings;
-    }, 999);
-    
-    // 8. Add admin notice about templates being locked
-    add_action('admin_notices', function() {
-        $screen = get_current_screen();
-        
-        if ($screen && $screen->id === 'appearance_page_gutenberg-edit-site') {
-            echo '<div class="notice notice-info is-dismissible">';
-            echo '<p><strong>Note:</strong> Some templates are locked and cannot be edited in the Site Editor. These templates are defined in the theme files.</p>';
-            echo '</div>';
-        }
-    });
-}
-
-// Initialize template protection
-add_action('init', 'lock_theme_templates_from_fse', 999);
-add_action('admin_init', 'lock_theme_templates_from_fse', 999);
-add_action('rest_api_init', 'lock_theme_templates_from_fse', 999);
-
-/**
- * Main theme setup function for FAU-Elemental
- */
-function fau_elemental_theme_setup() {
-    // Add theme support for block templates and FSE
-    add_theme_support('block-templates');
-    
-    // Ensure PHP templates are available as fallbacks
-    add_theme_support('template-hierarchy');
-    
-    // Basic theme features support
-    add_theme_support('post-thumbnails');
-    add_theme_support('custom-logo');
-    add_theme_support('automatic-feed-links');
-    add_theme_support('html5', array(
-        'comment-list', 
-        'comment-form', 
-        'search-form', 
-        'gallery', 
-        'caption',
-        'style',
-        'script'
-    ));
-    add_theme_support('title-tag');
-    
-    // Register core menu locations used by classic templates
-    register_nav_menus(array(
-        'primary' => __('Primary Menu', 'fau-elemental'),
-        'footer' => __('Footer Menu', 'fau-elemental'),
-    ));
-    
-    // Add custom image sizes if needed
-    // add_image_size('featured-large', 1600, 900, true);
-}
-add_action('after_setup_theme', 'fau_elemental_theme_setup');
-
-/**
- * Ensure plugin hooks are available in the block theme
- */
-function fau_elemental_add_plugin_compatibility_hooks() {
-    // Common hooks that plugins often use
-    add_action('wp_head', function() {
-        do_action('fau_elemental_header');
-    });
-    
-    add_action('wp_footer', function() {
-        do_action('fau_elemental_footer');
-    });
-    
-    // Hook before and after content
-    add_filter('the_content', function($content) {
-        $before = apply_filters('fau_elemental_before_content', '');
-        $after = apply_filters('fau_elemental_after_content', '');
-        return $before . $content . $after;
-    });
-}
-add_action('init', 'fau_elemental_add_plugin_compatibility_hooks');
-
-/**
- * Enqueue styles for PHP templates
- */
-function fau_elemental_enqueue_php_template_styles() {
-    // Ensure block styles are loaded even in PHP templates
-    wp_enqueue_style('wp-block-library');
-    wp_enqueue_style('global-styles');
-}
-add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_php_template_styles');
-
-/**
- * Add custom classes to body for PHP templates
- */
-function fau_elemental_body_classes($classes) {
-    // Add these classes to ensure PHP templates look like block templates
-    $classes[] = 'wp-theme';
-    $classes[] = 'is-layout-flow';
-    
-    return $classes;
-}
-add_filter('body_class', 'fau_elemental_body_classes');
-
-/**
- * Register template parts for block templates
- */
-function fau_elemental_register_template_parts() {
-    // Get all template parts from the parts directory
-    $block_parts = glob(get_template_directory() . '/parts/*.html');
-    
-    foreach ($block_parts as $part_file) {
-        $slug = basename($part_file, '.html');
-        
-        // Only register if file exists and has content
-        if (file_exists($part_file) && filesize($part_file) > 0) {
-            // Determine category based on slug prefix
-            $category = 'uncategorized';
-            if (strpos($slug, 'header-') === 0) {
-                $category = 'header';
-            } elseif (strpos($slug, 'footer-') === 0) {
-                $category = 'footer';
-            } elseif (strpos($slug, 'sidebar-') === 0) {
-                $category = 'sidebar';
-            }
-            
-            // Create title from slug
-            $title = str_replace('-', ' ', $slug);
-            $title = ucwords($title);
-            
-            register_block_pattern(
-                'fau-elemental/' . $slug,
-                array(
-                    'title'       => $title,
-                    'description' => sprintf(__('%s template part', 'fau-elemental'), $title),
-                    'content'     => file_get_contents($part_file),
-                    'categories'  => array($category),
-                )
-            );
+    // Force flush the template cache if we're in admin
+    if (is_admin()) {
+        $cache_key = 'page_templates-' . md5(get_theme_root() . '/' . get_stylesheet());
+        $old_templates = wp_cache_get($cache_key, 'themes');
+        if (is_array($old_templates)) {
+            wp_cache_delete($cache_key, 'themes');
         }
     }
+    
+    return $templates;
 }
-add_action('init', 'fau_elemental_register_template_parts');
+add_filter('theme_page_templates', 'fau_elemental_register_page_templates', 11, 1);
+
+
 
 /**
- * Function to load template parts for both block and PHP templates
- *
- * @param string $slug Template slug
- * @param string $name Template name (optional)
- * @param array $args Additional arguments to pass to the template (optional)
+ * Fix portal template includes for different template locations
  */
-function fau_elemental_load_template_part($slug, $name = null, $args = array()) {
-    // First check if block template part exists
-    $part_name = $name ? "{$slug}-{$name}" : $slug;
-    $block_part_file = get_theme_file_path("/parts/{$part_name}.html");
-    
-    if (file_exists($block_part_file) && filesize($block_part_file) > 0) {
-        // Block template exists, use it
-        echo do_blocks(file_get_contents($block_part_file));
-    } else {
-        // Fall back to PHP template part
-        // Use WordPress's standard structure for template-parts
-        $directory = '';
+function fau_elemental_template_include($template) {
+    if (is_page()) {
+        $template_slug = get_page_template_slug();
         
-        // Organize by type if slug has a recognizable prefix
-        if (strpos($slug, 'header') === 0) {
-            $directory = 'header';
-        } elseif (strpos($slug, 'footer') === 0) {
-            $directory = 'footer';
-        } elseif (strpos($slug, 'content') === 0) {
-            $directory = 'content';
+        // Debug output
+        if (defined('FAU_ELEMENTAL_DEBUG') && FAU_ELEMENTAL_DEBUG) {
+            error_log('FAU Elemental Debug: Template include requested for: ' . $template_slug);
         }
         
-        if ($directory) {
-            get_template_part("template-parts/{$directory}/{$slug}", $name, $args);
-        } else {
-            get_template_part("template-parts/{$slug}", $name, $args);
+        // Priority 1: Use the root template if explicitly selected
+        if ($template_slug === 'portal-page.php') {
+            $root_template = locate_template(['portal-page.php']);
+            if (!empty($root_template)) {
+                return $root_template;
+            }
+        }
+        
+        // Priority 2: Use the template in templates/ directory if selected
+        if ($template_slug === 'templates/portal-page.php') {
+            $nested_template = locate_template(['templates/portal-page.php']);
+            if (!empty($nested_template)) {
+                return $nested_template;
+            }
+            
+            // If the template in templates/ is selected but doesn't exist,
+            // try to use the root template as fallback
+            $root_template = locate_template(['portal-page.php']);
+            if (!empty($root_template)) {
+                error_log('FAU Elemental: Using root portal-page.php as fallback');
+                update_post_meta(get_the_ID(), '_wp_page_template', 'portal-page.php');
+                return $root_template;
+            }
+        }
+        
+        // If the requested template isn't found but the page has a portal menu ID
+        // Try to use any available portal template
+        if (get_post_meta(get_the_ID(), 'portal_menu_id', true)) {
+            $possible_templates = ['portal-page.php', 'templates/portal-page.php'];
+            foreach ($possible_templates as $possible) {
+                $try_template = locate_template([$possible]);
+                if (!empty($try_template)) {
+                    error_log('FAU Elemental: Portal menu ID found, using template: ' . $possible);
+                    update_post_meta(get_the_ID(), '_wp_page_template', $possible);
+                    return $try_template;
+                }
+            }
         }
     }
+    return $template;
 }
+add_filter('template_include', 'fau_elemental_template_include', 99);
+
+/**
+ * Add a filter to post updated messages to help with portal page template
+ */
+function fau_elemental_post_updated_messages($messages) {
+    global $post;
+    
+    if ($post && get_post_type($post) === 'page') {
+        $template = get_post_meta($post->ID, '_wp_page_template', true);
+        
+        if ($template === 'portal-page.php' || $template === 'templates/portal-page.php') {
+            // Add message for portal page template
+            $messages['post'][1] .= ' <span style="color:#2271b1;">This page is using the Portal Page template. Make sure to select a menu in the Portal Menu Settings box.</span>';
+        }
+    }
+    
+    return $messages;
+}
+add_filter('post_updated_messages', 'fau_elemental_post_updated_messages');
+
+/**
+ * Hook to migrate settings right after theme activation
+ */
+add_action('after_switch_theme', function() {
+    if (function_exists('fau_elemental_check_old_portal_menu_settings')) {
+        fau_elemental_check_old_portal_menu_settings();
+    }
+});

@@ -105,6 +105,11 @@ module.exports = {
 			process.cwd(),
 			'src/blocks/core-gallery/gallery-slider.js'
 		),
+		// Add the portal menu block script
+		'js/portal-menu-block': path.resolve(
+			process.cwd(),
+			'src/js/portal-menu-block.js'
+		),
 		'js/quote-carousel': path.resolve(
 			process.cwd(),
 			'src/blocks/core-quote/quote-carousel.js'

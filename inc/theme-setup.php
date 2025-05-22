@@ -13,6 +13,25 @@ function faue_setup() {
     // Load theme text domain for translations
     load_theme_textdomain('fau-elemental', get_template_directory() . '/languages');
 
+    // Add default posts and comments RSS feed links to head
+    add_theme_support('automatic-feed-links');
+
+    // Let WordPress manage the document title
+    add_theme_support('title-tag');
+
+    // Enable support for Post Thumbnails on posts and pages
+    add_theme_support('post-thumbnails');
+
+    // Register navigation menus
+    register_nav_menus(
+        array(
+            'primary' => esc_html__('Primary Menu', 'fau-elemental'),
+            'footer' => esc_html__('Footer Menu', 'fau-elemental'),
+            'social' => esc_html__('Social Menu', 'fau-elemental'),
+            'portal' => esc_html__('Portal Menu', 'fau-elemental'),
+        )
+    );
+
     add_editor_style(array(
         'style.css',
         'build/css/editor.css'
