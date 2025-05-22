@@ -178,3 +178,13 @@ function hide_teaser_grid_block_for_posts() {
     <?php
 }
 add_action('admin_footer', 'hide_teaser_grid_block_for_posts');
+
+
+/**
+ * Prevent non-super admins from accessing the site editor directly
+ */
+add_action('load-site-editor.php', function() {
+    if (!is_super_admin()) {
+        wp_die(__('You do not have sufficient permissions to access this page.', 'fau-elemental'), 403);
+    }
+});
