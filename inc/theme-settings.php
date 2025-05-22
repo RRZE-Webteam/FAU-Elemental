@@ -117,19 +117,6 @@ function faue_sanitize_website_type($input) {
 }
 
 /**
- * Sanitize faculty input
- */
-function faue_sanitize_faculty($input) {
-    $valid_faculties = array('phil', 'nat', 'med', 'rw', 'tf', '');
-
-    if (!in_array($input, $valid_faculties)) {
-        return '';
-    }
-
-    return $input;
-}
-
-/**
  * Sanitize copyright info priority input
  */
 function faue_sanitize_copyright_info_priority($input) {
@@ -217,3 +204,16 @@ add_action('load-site-editor.php', function() {
         wp_die(__('You do not have sufficient permissions to access this page.', 'fau-elemental'), 403);
     }
 });
+
+/**
+ * Sanitize faculty input
+ */
+function faue_sanitize_faculty($input) {
+    $valid_faculties = array('phil', 'nat', 'med', 'rw', 'tf');
+
+    if (!in_array($input, $valid_faculties)) {
+        return 'phil';
+    }
+
+    return $input;
+}

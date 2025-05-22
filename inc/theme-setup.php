@@ -63,7 +63,7 @@ function faue_get_org_classes() {
     }
 
     // Add faculty-specific class if set
-    $faculty = get_option('faue_faculty', '');
+    $faculty = get_theme_mod('faue_faculty', 'phil');
     if ($faculty) {
         $classes[] = 'faculty-' . sanitize_html_class($faculty);
     }
