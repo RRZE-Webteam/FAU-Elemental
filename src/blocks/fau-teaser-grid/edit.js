@@ -20,7 +20,7 @@ import {
 } from '@wordpress/components';
 import { useSelect, createSelector } from '@wordpress/data';
 import './editor.scss';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
 import './editor.scss';
 
 import PostTeaser from './components/PostTeaser';
