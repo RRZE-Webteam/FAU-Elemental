@@ -105,14 +105,16 @@ module.exports = {
 			process.cwd(),
 			'src/blocks/core-gallery/gallery-slider.js'
 		),
-		'js/quote-carousel': path.resolve(
+		// Add navigation component styles
+		'css/menu-meta-nav': path.resolve(
 			process.cwd(),
-			'src/blocks/core-quote/quote-carousel.js'
+			'src/components/navigation/menu-meta-nav.scss'
 		),
-	},
-	output: {
-		...defaultConfig.output,
-		path: path.resolve( process.cwd(), 'build' ),
+		// Add navigation component scripts
+		'js/menu-meta-nav': path.resolve(
+			process.cwd(),
+			'src/components/navigation/menu-meta-nav.js'
+		),
 	},
 	plugins: [
 		...defaultConfig.plugins,

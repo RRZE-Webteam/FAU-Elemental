@@ -15,6 +15,26 @@ if (!function_exists('render_block_fau_global_search')) {
      * @return string The block HTML.
      */
     function render_block_fau_global_search($attributes, $content, $block) {
+        // Enqueue search suggestions script
+        wp_enqueue_script(
+            'fau-global-search',
+            get_template_directory_uri() . '/src/blocks/fau-global-search/search-suggestions.js',
+            array('jquery'),
+            wp_get_theme()->get('Version'),
+            true
+        );
+
+        // Add translations and configuration
+        wp_localize_script('fau-global-search', 'fauGlobalSearch', array(
+            'strings' => array(
+                'faqsTitle' => __('Frequently Asked Questions', 'fau-elemental'),
+                'suggestionsTitle' => __('Search Suggestions', 'fau-elemental'),
+                'noResults' => __('No results found', 'fau-elemental'),
+            ),
+            'restUrl' => rest_url(),
+            'restNonce' => wp_create_nonce('wp_rest'),
+        ));
+
         $title = $attributes['title'] ?? __('Search', 'fau-elemental');
         $search_scope = $attributes['searchScope'] ?? 'current';
 
@@ -95,6 +115,24 @@ if (!function_exists('render_block_fau_global_search')) {
                     </fieldset>
                 </div>
             </form>
+
+            <div class="wp-block-fau-elemental-fau-global-search__suggestions-area search-suggestions-area">
+                <?php if (has_nav_menu('search_options_menu')) : ?>
+                    <div class="search-options-menu">
+                        <h3 class="search-options-title"><?php _e('Further Search Options', 'fau-elemental'); ?></h3>
+                        <?php
+                        wp_nav_menu([
+                            'theme_location' => 'search_options_menu',
+                            'container' => 'nav',
+                            'container_class' => 'search-options-nav',
+                            'menu_class' => 'search-options-list',
+                            'fallback_cb' => false,
+                            'depth' => 1,
+                        ]);
+                        ?>
+                    </div>
+                <?php endif; ?>
+            </div>
 
             <?php if ($has_search_results) : ?>
                 <?php
@@ -203,28 +241,30 @@ if (!function_exists('render_block_fau_global_search')) {
                                 echo '<p class="no-results">' . __('No results found.', 'fau-elemental') . '</p>';
                             }
                         }
+                    } else {
+                        // Regular search results
+                        if (have_posts()) {
+                            echo '<div class="search-results">';
+                            while (have_posts()) {
+                                the_post();
+                                echo '<article class="search-result">';
+                                echo '<h3><a href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a></h3>';
+                                echo '<div class="search-result-meta">';
+                                echo '<span class="search-result-date">' . esc_html(get_the_date()) . '</span>';
+                                echo '<span class="search-result-type">' . esc_html(get_post_type_object(get_post_type())->labels->singular_name) . '</span>';
+                                echo '</div>';
+                                if (has_excerpt()) {
+                                    echo '<div class="search-result-excerpt">' . wp_kses_post(get_the_excerpt()) . '</div>';
+                                }
+                                echo '</article>';
+                            }
+                            echo '</div>';
+                        } else {
+                            echo '<p class="no-results">' . __('No results found.', 'fau-elemental') . '</p>';
+                        }
                     }
-                    get_template_part('templates/search');
                 }
                 ?>
-            <?php else : ?>
-                <div class="wp-block-fau-elemental-fau-global-search__suggestions-area search-suggestions-area">
-                    <?php if (has_nav_menu('search_options_menu')) : ?>
-                        <div class="search-options-menu">
-                            <h3 class="search-options-title"><?php _e('Further Search Options', 'fau-elemental'); ?></h3>
-                            <?php
-                            wp_nav_menu([
-                                'theme_location' => 'search_options_menu',
-                                'container' => 'nav',
-                                'container_class' => 'search-options-nav',
-                                'menu_class' => 'search-options-list',
-                                'fallback_cb' => false,
-                                'depth' => 1,
-                            ]);
-                            ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
             <?php endif; ?>
         </div>
         <?php
