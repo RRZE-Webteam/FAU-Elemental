@@ -43,8 +43,8 @@ add_action('after_setup_theme', 'faue_setup');
 function faue_get_org_classes() {
     $classes = array('fau-theme', 'fau-elemental');
 
-    // Get website type from options
-    $website_type = get_option('faue_website_type', 'fau');
+    // Get website type from customizer
+    $website_type = get_theme_mod('faue_website_type', 'fau');
 
     // Add website type specific classes
     switch ($website_type) {
@@ -53,6 +53,11 @@ function faue_get_org_classes() {
             break;
         case 'faculty':
             $classes[] = 'fauorg-fakultaet';
+            // Add faculty-specific class only if website type is faculty
+            $faculty = get_theme_mod('faue_faculty', 'phil');
+            if ($faculty) {
+                $classes[] = 'faculty-' . sanitize_html_class($faculty);
+            }
             break;
         case 'chair':
             $classes[] = 'fauorg-unterorg';
@@ -60,12 +65,6 @@ function faue_get_org_classes() {
         case 'cooperation':
             $classes[] = 'fauorg-kooperation';
             break;
-    }
-
-    // Add faculty-specific class if set
-    $faculty = get_theme_mod('faue_faculty', 'phil');
-    if ($faculty) {
-        $classes[] = 'faculty-' . sanitize_html_class($faculty);
     }
 
     return $classes;
