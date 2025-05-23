@@ -19,6 +19,12 @@ function faue_customize_register($wp_customize) {
         'priority' => 30,
     ));
 
+    // Add Header Settings section
+    $wp_customize->add_section('faue_header_settings', array(
+        'title'    => __('Header-Einstellungen', 'fau-elemental'),
+        'priority' => 25,
+    ));
+
     // Breadcrumb Mode Setting
     $wp_customize->add_setting('faue_breadcrumb_mode', array(
         'default'           => 'light',
@@ -27,7 +33,7 @@ function faue_customize_register($wp_customize) {
 
     $wp_customize->add_control('faue_breadcrumb_mode', array(
         'label'    => __('Breadcrumb Mode', 'fau-elemental'),
-        'section'  => 'faue_theme_settings',
+        'section'  => 'faue_header_settings',
         'type'     => 'select',
         'choices'  => array(
             'light' => __('Light', 'fau-elemental'),
