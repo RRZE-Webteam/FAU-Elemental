@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls, RichText } from '@wordpress/block-editor';
-import { PanelBody, TextControl, ToggleControl, TextareaControl } from '@wordpress/components';
+import { PanelBody, TextControl, TextareaControl } from '@wordpress/components';
 
 // This is the main Edit component for the block editor interface.
 export default function Edit({ attributes, setAttributes, clientId }) { // Added clientId for unique keys if needed
@@ -11,10 +11,6 @@ export default function Edit({ attributes, setAttributes, clientId }) { // Added
 
     const onTitleChange = (newTitle) => {
         setAttributes({ title: newTitle });
-    };
-
-    const onScopeChange = (scope) => {
-        setAttributes({ searchScope: scope ? 'fau-wide' : 'current' });
     };
     
     const stringToArray = (str) => {
@@ -38,12 +34,6 @@ export default function Edit({ attributes, setAttributes, clientId }) { // Added
                         value={title}
                         onChange={onTitleChange}
                         help={__('The title displayed above the search form.', 'fau-elemental')}
-                    />
-                    <ToggleControl
-                        label={__('Default to FAU-wide Search', 'fau-elemental')}
-                        checked={searchScope === 'fau-wide'}
-                        onChange={onScopeChange}
-                        help={__('If checked, "FAU-wide" will be the default selected scope.', 'fau-elemental')}
                     />
                 </PanelBody>
             </InspectorControls>
