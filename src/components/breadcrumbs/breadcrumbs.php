@@ -94,6 +94,15 @@ function faue_breadcrumbs() {
         echo '</a>';
         echo '<meta itemprop="position" content="' . ($total_items - 1) . '" />';
         echo '</li>';
+    } else {
+        // No ancestors: show Start link in mobile with chevron
+        echo '<li class="breadcrumbs__item breadcrumbs__item--mobile" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+        echo '<span class="breadcrumbs__chevron"></span>';
+        echo '<a href="' . esc_url(home_url('/')) . '" class="breadcrumbs__link" itemprop="item">';
+        echo '<span itemprop="name">' . esc_html__('Start', 'fau-elemental') . '</span>';
+        echo '</a>';
+        echo '<meta itemprop="position" content="1" />';
+        echo '</li>';
     }
 
     // Desktop: Show full hierarchy
