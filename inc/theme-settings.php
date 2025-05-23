@@ -25,21 +25,20 @@ function faue_customize_register($wp_customize) {
         'priority' => 25,
     ));
 
-    // Breadcrumb Mode Setting
-    $wp_customize->add_setting('faue_breadcrumb_mode', array(
-        'default'           => 'light',
+    // Breadcrumb Mode Setting (stores boolean, convert to 'dark'/'light' when using)
+    $wp_customize->add_setting('faue_breadcrumb_mode', [
+        'default' => false,
+        'transport' => 'refresh',
         'sanitize_callback' => 'faue_sanitize_breadcrumb_mode',
-    ));
-
-    $wp_customize->add_control('faue_breadcrumb_mode', array(
-        'label'    => __('Breadcrumb Mode', 'fau-elemental'),
-        'section'  => 'faue_header_settings',
-        'type'     => 'select',
-        'choices'  => array(
-            'light' => __('Light', 'fau-elemental'),
-            'dark'  => __('Dark', 'fau-elemental'),
-        ),
-    ));
+    ]);
+    
+    $wp_customize->add_control('faue_breadcrumb_mode', [
+        'label' => __('Breadcrumb Dark Mode', 'fau-elemental'),
+        'description' => __('Apply dark styling to the breadcrumbs', 'fau-elemental'),
+        'section' => 'faue_header_settings',
+        'type' => 'checkbox',
+        'priority' => 15,
+    ]);
 
     // Website Type Setting
     $wp_customize->add_setting('faue_website_type', array(
@@ -121,7 +120,6 @@ function faue_sanitize_website_type($input) {
 
     return $input;
 }
-
 /**
  * Sanitize copyright info priority input
  */
@@ -135,18 +133,7 @@ function faue_sanitize_copyright_info_priority($input) {
     return $input;
 }
 
-/**
- * Sanitize breadcrumb mode input
- */
-function faue_sanitize_breadcrumb_mode($input) {
-    $valid_modes = array('light', 'dark');
 
-    if (!in_array($input, $valid_modes)) {
-        return 'light';
-    }
-
-    return $input;
-}
 
 /**
  * Restrict specific blocks to certain post types
@@ -222,4 +209,11 @@ function faue_sanitize_faculty($input) {
     }
 
     return $input;
+}
+
+/**
+ * Sanitize breadcrumb mode input
+ */
+function faue_sanitize_breadcrumb_mode($input) {
+    return (bool) $input;
 }
