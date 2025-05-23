@@ -30,10 +30,18 @@ function fau_elemental_check_old_portal_menu_settings() {
     );
     
     if (!empty($old_menu_pages)) {
+        // Create an associative array to track which posts already have a menu
+        $processed_posts = array();
+        
         foreach ($old_menu_pages as $meta) {
             $post_id = $meta['post_id'];
             $meta_key = $meta['meta_key'];
             $menu_name = $meta['meta_value'];
+            
+            // Skip if we've already processed this post (prioritize the first found, which is typically the bottom menu)
+            if (isset($processed_posts[$post_id])) {
+                continue;
+            }
             
             // Get the menu ID from the name
             $menu_obj = get_term_by('name', $menu_name, 'nav_menu');
@@ -49,6 +57,8 @@ function fau_elemental_check_old_portal_menu_settings() {
             
             if ($menu_obj) {
                 update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
+                // Mark this post as processed
+                $processed_posts[$post_id] = true;
                 
                 // Get additional settings
                 if ($meta_key === 'portalmenu-slug') {
@@ -161,6 +171,11 @@ add_action('after_switch_theme', 'fau_elemental_check_old_portal_menu_settings')
 function fau_elemental_check_content_for_old_shortcodes($post_id) {
     // Only check page content
     if (get_post_type($post_id) !== 'page') {
+        return;
+    }
+    
+    // Skip if a portal menu is already set for this post
+    if (get_post_meta($post_id, 'portal_menu_id', true)) {
         return;
     }
     
@@ -545,57 +560,93 @@ function fau_elemental_migrate_portal_menu_settings($post_id) {
         return false; // Nothing to migrate
     }
     
-    // Start with the bottom menu (if any)
-    if (!empty($old_menu)) {
-        $menu_obj = get_term_by('name', $old_menu, 'nav_menu');
-        if (!$menu_obj) {
-            $menu_obj = get_term_by('slug', $old_menu, 'nav_menu');
+    // Skip if a portal menu is already set
+    if (get_post_meta($post_id, 'portal_menu_id', true)) {
+        return false;
+    }
+    
+    // Prioritize bottom menu if both exist
+    $menu_to_use = !empty($old_menu) ? $old_menu : $old_menu_top;
+    $is_top_menu = empty($old_menu) && !empty($old_menu_top);
+    
+    // Find menu object
+    $menu_obj = get_term_by('name', $menu_to_use, 'nav_menu');
+    if (!$menu_obj) {
+        $menu_obj = get_term_by('slug', $menu_to_use, 'nav_menu');
+    }
+    
+    if (!$menu_obj && is_numeric($menu_to_use)) {
+        $menu_obj = get_term_by('id', $menu_to_use, 'nav_menu');
+    }
+    
+    if ($menu_obj) {
+        // Always set the menu ID regardless of template
+        update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
+        
+        // Migrate other settings based on which menu we're using
+        $settings_map = array(
+            'type' => $is_top_menu ? 'fauval_portalmenu_type_oben' : 'fauval_portalmenu_type',
+            'thumbnails' => $is_top_menu ? 'fauval_portalmenu_thumbnailson_oben' : 'fauval_portalmenu_thumbnailson',
+            'nofallback' => $is_top_menu ? 'fauval_portalmenu_nofallbackthumb_oben' : 'fauval_portalmenu_nofallbackthumb',
+            'nosub' => $is_top_menu ? 'fauval_portalmenu_nosub_oben' : 'fauval_portalmenu_nosub',
+            'listview' => $is_top_menu ? 'fauval_portalmenu_listview_oben' : 'fauval_portalmenu_listview',
+            'hoverzoom' => $is_top_menu ? 'fauval_portalmenu_hoverZoom_oben' : 'fauval_portalmenu_hoverZoom',
+            'hoverblur' => $is_top_menu ? 'fauval_portalmenu_hoverBlur_oben' : 'fauval_portalmenu_hoverBlur'
+        );
+        
+        // Process each setting
+        $type = get_post_meta($post_id, $settings_map['type'], true);
+        if ($type) {
+            update_post_meta($post_id, 'portal_menu_type', intval($type));
         }
         
-        if (!$menu_obj && is_numeric($old_menu)) {
-            $menu_obj = get_term_by('id', $old_menu, 'nav_menu');
+        $thumbnails = get_post_meta($post_id, $settings_map['thumbnails'], true);
+        if ($thumbnails) {
+            update_post_meta($post_id, 'portal_menu_hide_thumbs', true);
         }
         
-        if ($menu_obj) {
-            // Always set the menu ID regardless of template
-            update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
-            
-            // Migrate other settings
-            $settings_map = [
-                'fauval_portalmenu_type' => 'portal_menu_type',
-                'fauval_portalmenu_thumbnailson' => 'portal_menu_hide_thumbs',
-                'fauval_portalmenu_nofallbackthumb' => 'portal_menu_no_fallback',
-                'fauval_portalmenu_nosub' => 'portal_menu_hide_subs',
-                'fauval_portalmenu_listview' => 'portal_menu_list_view',
-                'fauval_portalmenu_hoverZoom' => 'portal_menu_hover_zoom',
-                'fauval_portalmenu_hoverBlur' => 'portal_menu_hover_blur'
-            ];
-            
-            foreach ($settings_map as $old_key => $new_key) {
-                $value = get_post_meta($post_id, $old_key, true);
-                if ($value) {
-                    update_post_meta($post_id, $new_key, $value);
-                }
-            }
-            
-            // Set default columns
-            if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
-                update_post_meta($post_id, 'portal_menu_columns', 3);
-            }
-            
-            // Check if the page is using a custom template
-            $template = get_post_meta($post_id, '_wp_page_template', true);
-            
-            // Only set template if not already set to something other than default
-            if (empty($template) || $template === 'default') {
-                update_post_meta($post_id, '_wp_page_template', 'templates/portal-page.php');
-                error_log("Portal menu migration: Set template for post $post_id to templates/portal-page.php");
-            } else {
-                error_log("Portal menu migration: Post $post_id already using template: $template - not changing");
-            }
-            
-            return true;
+        $nofallback = get_post_meta($post_id, $settings_map['nofallback'], true);
+        if ($nofallback) {
+            update_post_meta($post_id, 'portal_menu_no_fallback', true);
         }
+        
+        $nosub = get_post_meta($post_id, $settings_map['nosub'], true);
+        if ($nosub) {
+            update_post_meta($post_id, 'portal_menu_hide_subs', true);
+        }
+        
+        $listview = get_post_meta($post_id, $settings_map['listview'], true);
+        if ($listview) {
+            update_post_meta($post_id, 'portal_menu_list_view', true);
+        }
+        
+        $hoverzoom = get_post_meta($post_id, $settings_map['hoverzoom'], true);
+        if ($hoverzoom) {
+            update_post_meta($post_id, 'portal_menu_hover_zoom', true);
+        }
+        
+        $hoverblur = get_post_meta($post_id, $settings_map['hoverblur'], true);
+        if ($hoverblur) {
+            update_post_meta($post_id, 'portal_menu_hover_blur', true);
+        }
+        
+        // Set default columns if not set
+        if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
+            update_post_meta($post_id, 'portal_menu_columns', 3);
+        }
+        
+        // Check if the page is using a custom template
+        $template = get_post_meta($post_id, '_wp_page_template', true);
+        
+        // Only set template if not already set to something other than default
+        if (empty($template) || $template === 'default') {
+            update_post_meta($post_id, '_wp_page_template', 'templates/portal-page.php');
+            error_log("Portal menu migration: Set template for post $post_id to templates/portal-page.php");
+        } else {
+            error_log("Portal menu migration: Post $post_id already using template: $template - not changing");
+        }
+        
+        return true;
     }
     
     return false; // Migration didn't happen
