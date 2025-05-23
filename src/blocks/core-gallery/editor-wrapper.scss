@@ -26,3 +26,11 @@
 	}
 }
 
+.faue-is-gallery-parent-block-selected {
+
+	// Hide Block Styles Panel for Images inside Gallery
+	.block-editor-block-inspector > div:nth-child(2) {
+		display: none;
+	}
+}
+

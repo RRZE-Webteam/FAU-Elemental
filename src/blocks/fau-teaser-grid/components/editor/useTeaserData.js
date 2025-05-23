@@ -9,8 +9,7 @@ export const usePostTypes = () => {
 			allPostTypes?.filter(
 				( type ) =>
 					type.viewable &&
-					type.slug !== 'attachment' &&
-					type.slug !== 'wp_block'
+					( type.slug === 'post' || type.slug === 'page' )
 			) || []
 		);
 	}, [] );

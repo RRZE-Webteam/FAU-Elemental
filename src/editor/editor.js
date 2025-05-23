@@ -29,10 +29,21 @@ subscribe( () => {
 	// Add class for the currently selected block
 	if ( selectedBlockId ) {
 		const block = select( 'core/block-editor' ).getBlock( selectedBlockId );
+		const parentBlockIds = select('core/block-editor').getBlockParents(selectedBlockId);
+		const parentBlockId = parentBlockIds[parentBlockIds.length - 1]; // Get the immediate parent
+		const parentBlock = parentBlockId ? select('core/block-editor').getBlock(parentBlockId) : null;
+		
 		if ( block && block.name.startsWith( 'core/' ) ) {
 			const blockType = block.name.replace( 'core/', '' );
 			document.body.classList.add(
 				`faue-is-${ blockType }-block-selected`
+			);
+		}
+
+		if ( parentBlock && parentBlock.name.startsWith( 'core/' ) ) {
+			const blockType = parentBlock.name.replace( 'core/', '' );
+			document.body.classList.add(
+				`faue-is-${ blockType }-parent-block-selected`
 			);
 		}
 	}

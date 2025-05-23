@@ -58,12 +58,16 @@ figure.wp-block-image:has(figcaption)::before {
 			figcaption {
 				position: relative;
 				font-size: var(--P-Body-Text-Small);
-				background-color: #fff;
+				background-color: var(--FAU-Col-FAU-Weiss-100);
 				bottom: 47px;
 				left: 50%;
 				padding: var(--Spacing-6x) 75px var(--Spacing-6x) var(--Spacing-8x);
 				overflow-wrap: break-word;
 				white-space: pre-wrap;
+
+				.is-style-dark & {
+					background-color: var(--FAU-Col-FAU-Blau-100);
+				}
 			}
 
 			.image-fullscreen-btn {
@@ -93,6 +97,10 @@ figure.wp-block-image:has(figcaption)::before {
 	color: transparent;
 	background-color: var(--FAU-Col-FAU-Blau-100);
 	cursor: pointer;
+
+	.is-style-dark & {
+		background-color: var(--FAU-Col-FAU-Weiss-100);
+	}
 
 	&.prev {
 
@@ -137,6 +145,10 @@ figure.wp-block-image:has(figcaption)::before {
 		top: 14px;
 		z-index: 1;
 		transition: var(--basic-animation);
+
+		.is-style-dark & {
+			background-image: var(--icon-arrow-fau-blau);
+		}
 	}
 }
 
