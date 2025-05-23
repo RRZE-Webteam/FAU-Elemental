@@ -20,7 +20,6 @@ import { useEffect } from '@wordpress/element';
 /**
  * Internal dependencies
  */
-import './editor.scss';
 import './style.scss';
 import EditorPreview from './EditorPreview';
 

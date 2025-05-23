@@ -315,7 +315,9 @@ function fau_elemental_remigrate_portal_menus() {
 
 /**
  * Add debugging information to the portal page
+ * DISABLED: Debug info removed per user request
  */
+/*
 function fau_elemental_portal_page_debug_info() {
     // Only show for admins
     if (!current_user_can('manage_options')) {
@@ -368,7 +370,8 @@ function fau_elemental_portal_page_debug_info() {
         echo '</div>';
     }
 }
-add_action('wp_footer', 'fau_elemental_portal_page_debug_info');
+*/
+// add_action('wp_footer', 'fau_elemental_portal_page_debug_info');
 
 /**
  * AJAX handler for remigration button
@@ -513,7 +516,7 @@ function fau_elemental_portalmenu_shortcode($atts) {
     }
     
     // Load our menu walker class
-    if (!class_exists('FAU_Elemental\\Walker_Content_Menu')) {
+    if (!class_exists('Walker_Content_Menu')) {
         require_once get_template_directory() . '/inc/class-walker-content-menu.php';
     }
     
@@ -526,11 +529,15 @@ function fau_elemental_portalmenu_shortcode($atts) {
         'menu' => $menu_id,
         'container' => false,
         'menu_class' => 'subpages-menu',
-        'walker' => new FAU_Elemental\Walker_Content_Menu([
+        'walker' => new Walker_Content_Menu([
             'columns' => intval($atts['columns']),
-            'hide_subs' => $hide_subs,
-            'hide_thumbs' => $hide_thumbs,
-            'no_fallback' => $no_fallback,
+            'showsubs' => !$hide_subs,
+            'nothumbs' => $hide_thumbs,
+            'nofallback' => $no_fallback,
+            'listview' => $list_view,
+            'hoverzoom' => $hover_zoom,
+            'hoverblur' => $hover_blur,
+            'type' => $type,
         ]),
     ]);
     

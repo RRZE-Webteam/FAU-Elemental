@@ -1,9 +1,10 @@
 /**
  * Portal Menu Block
  * 
- * Provides a block for inserting portal menus in the block editor.
+ * DISABLED: This old block is being replaced by the new fau-elemental/portalmenu block
  */
 
+/*
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { 
@@ -19,9 +20,7 @@ const {
 } = wp.components;
 const { Fragment } = wp.element;
 
-/**
- * Register Portal Menu Block
- */
+// Register Portal Menu Block
 registerBlockType('fau/portal-menu', {
     title: __('FAU Portal Menu', 'fau-elemental'),
     description: __('Display a portal menu with optional thumbnails and layout options.', 'fau-elemental'),
@@ -228,4 +227,5 @@ registerBlockType('fau/portal-menu', {
         // Rendering is done on the server side
         return null;
     },
-}); 
+});
+*/ 

@@ -8,6 +8,19 @@ $fau-blue-light: #0F69B4;
 $fau-gray-light: #F2F2F2;
 $fau-white: #FFFFFF;
 
+// Screen reader text utility
+.screen-reader-text {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 // Portal Menu Container - standalone or in block
 .contentmenu,
 .wp-block-fau-elemental-portalmenu .contentmenu {
@@ -118,19 +131,18 @@ $fau-white: #FFFFFF;
       background: $fau-white;
       flex-grow: 1;
       
-      // Title with arrow button 
+      // Title with WordPress core button 
       .portal-title {
         // Container Header
         display: flex;
-        flex-direction: row;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-start;
         padding: 0;
-        gap: 24px;
+        gap: 16px;
         width: 100%;
-        height: 40px;
         margin: 0;
         
-        a.portal-main-link {
+        .portal-main-title {
           // Headline
           font-family: 'Source Sans Pro', sans-serif;
           font-style: normal;
@@ -139,51 +151,39 @@ $fau-white: #FFFFFF;
           line-height: 130%;
           letter-spacing: 0.02em;
           color: $fau-blue;
+          margin: 0;
+          width: 100%;
+        }
+        
+        .portal-main-button {
+          // WordPress core button styling
+          background: $fau-blue;
+          color: $fau-white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: 4px;
           text-decoration: none;
-          flex-grow: 1;
-          display: flex;
-          justify-content: space-between;
+          display: inline-flex;
           align-items: center;
+          gap: 8px;
+          font-family: 'Source Sans Pro', sans-serif;
+          font-weight: 600;
+          font-size: 14px;
+          transition: background-color 0.2s ease;
           
-          // Arrow button
-          .portal-button-arrow {
-            // Link-Button
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            padding: 8px;
-            gap: 12px;
-            width: 40px;
-            height: 40px;
-            background: $fau-blue;
+          &:hover {
+            background-color: $fau-blue-light;
             color: $fau-white;
-            flex-shrink: 0;
-            position: relative;
-            transition: background-color 0.2s ease;
-            
-            &::after {
-              content: "→";
-              font-size: 24px;
-              line-height: 1;
-              color: $fau-white;
-            }
-            
-            .screen-reader-text {
-              position: absolute;
-              width: 1px;
-              height: 1px;
-              padding: 0;
-              margin: -1px;
-              overflow: hidden;
-              clip: rect(0, 0, 0, 0);
-              white-space: nowrap;
-              border: 0;
-            }
           }
           
-          &:hover .portal-button-arrow {
-            background-color: $fau-blue-light;
+          .wp-element-button__text {
+            flex-grow: 1;
+          }
+          
+          .wp-element-button__icon {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
           }
         }
       }
@@ -195,7 +195,7 @@ $fau-white: #FFFFFF;
         flex-direction: column;
         align-items: flex-start;
         padding: 0 24px 0 0;
-        gap: 16px;
+        gap: 12px;
         width: 100%;
         
         .portal-subitem {
@@ -207,38 +207,40 @@ $fau-white: #FFFFFF;
           gap: 4px;
           width: 100%;
           
-          a.portal-sublink {
-            // Tertiary link style
-            font-family: 'Source Sans Pro', sans-serif;
-            font-style: normal;
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 28px;
-            letter-spacing: 0.04em;
+          .portal-sublink {
+            // WordPress core button outline style
+            background: transparent;
             color: $fau-blue;
+            border: 1px solid $fau-blue;
+            padding: 6px 12px;
+            border-radius: 4px;
             text-decoration: none;
-            flex-grow: 1;
-            position: relative;
-            padding-right: 24px;
-            
-            &::after {
-              content: "";
-              position: absolute;
-              right: 0;
-              top: 50%;
-              transform: translateY(-50%);
-              width: 14px;
-              height: 14px;
-              background-color: $fau-blue;
-              clip-path: polygon(40% 0%, 100% 50%, 40% 100%, 40% 0%);
-            }
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            width: 100%;
+            justify-content: space-between;
             
             &:hover {
-              color: $fau-blue-light;
-              
-              &::after {
-                background-color: $fau-blue-light;
-              }
+              background-color: $fau-blue;
+              color: $fau-white;
+              border-color: $fau-blue;
+            }
+            
+            .wp-element-button__text {
+              flex-grow: 1;
+              text-align: left;
+            }
+            
+            .wp-element-button__icon {
+              width: 14px;
+              height: 14px;
+              fill: currentColor;
+              flex-shrink: 0;
             }
           }
         }

@@ -8,11 +8,6 @@
  * @return string Rendered block HTML.
  */
 function render_block_fau_portalmenu($attributes, $content, $block) {
-    // Include shortcodes file if not already included
-    if (!function_exists('do_shortcode')) {
-        return '';
-    }
-    
     // Ensure Walker_Content_Menu class is loaded
     if (!class_exists('Walker_Content_Menu')) {
         require_once get_template_directory() . '/inc/class-walker-content-menu.php';
@@ -32,29 +27,72 @@ function render_block_fau_portalmenu($attributes, $content, $block) {
                '</div>';
     }
     
-    // Build shortcode attributes
-    $shortcode_atts = array(
-        'menu' => $menu,
-        'meganav' => !empty($attributes['isMegaNav']) ? 'true' : 'false',
-        'showsubs' => !empty($attributes['showSubs']) ? 'true' : 'false',
-        'nothumbs' => !empty($attributes['noThumbs']) ? 'true' : 'false',
-        'nofallback' => !empty($attributes['noFallback']) ? 'true' : 'false',
-        'type' => isset($attributes['type']) ? $attributes['type'] : 1,
-        'listview' => !empty($attributes['listView']) ? 'true' : 'false',
-        'hoverzoom' => !empty($attributes['hoverZoom']) ? 'true' : 'false',
-        'hoverblur' => !empty($attributes['hoverBlur']) ? 'true' : 'false',
-    );
+    // Parse attributes with defaults
+    $type = isset($attributes['type']) ? intval($attributes['type']) : 1;
+    $show_subs = !empty($attributes['showSubs']);
+    $is_mega_nav = !empty($attributes['isMegaNav']);
+    $list_view = !empty($attributes['listView']);
+    $no_thumbs = !empty($attributes['noThumbs']);
+    $no_fallback = !empty($attributes['noFallback']);
+    $hover_zoom = !empty($attributes['hoverZoom']);
+    $hover_blur = !empty($attributes['hoverBlur']);
     
-    // Build the shortcode string
-    $shortcode = '[portalmenu';
-    foreach ($shortcode_atts as $key => $value) {
-        $shortcode .= ' ' . $key . '="' . $value . '"';
+    // Setup CSS classes
+    $menu_classes = 'contentmenu';
+    
+    // Add size class based on type
+    if ($type == 1) {
+        $menu_classes .= ' size_2-1';
+    } elseif ($type == 2) {
+        $menu_classes .= ' size_3-2';
+    } elseif ($type == 3) {
+        $menu_classes .= ' size_3-4';
     }
-    $shortcode .= ']';
     
-    // Execute the shortcode
-    $output = do_shortcode($shortcode);
+    // Add optional classes
+    if ($list_view) {
+        $menu_classes .= ' listview';
+    }
+    if ($no_thumbs) {
+        $menu_classes .= ' no-thumb';
+    }
+    if ($hover_zoom) {
+        $menu_classes .= ' hover-zoom';
+    }
+    if ($hover_blur) {
+        $menu_classes .= ' hover-blur';
+    }
     
-    // Add wrapper div with class names
-    return '<div class="wp-block-fau-elemental-portalmenu">' . $output . '</div>';
+    // Create Walker instance with settings
+    $walker = new Walker_Content_Menu([
+        'type' => $type,
+        'showsubs' => $show_subs,
+        'listview' => $list_view,
+        'nothumbs' => $no_thumbs,
+        'nofallback' => $no_fallback,
+        'hoverzoom' => $hover_zoom,
+        'hoverblur' => $hover_blur,
+        'meganav' => $is_mega_nav,
+        'columns' => 3, // Default columns
+    ]);
+    
+    // Buffer the output
+    ob_start();
+    
+    echo '<div class="wp-block-fau-elemental-portalmenu">';
+    echo '<div class="' . esc_attr($menu_classes) . '">';
+    
+    // Render the menu directly
+    wp_nav_menu([
+        'menu' => $menu,
+        'container' => false,
+        'menu_class' => 'subpages-menu',
+        'walker' => $walker,
+        'fallback_cb' => false,
+    ]);
+    
+    echo '</div>';
+    echo '</div>';
+    
+    return ob_get_clean();
 } 

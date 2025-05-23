@@ -33,14 +33,22 @@ const blockEntries = blockFolders.reduce( ( entries, folder ) => {
 		path.resolve( folderPath, 'view.js' )
 	);
 
+	const hasEditorStyle = fs.existsSync(
+		path.resolve( folderPath, 'editor.scss' )
+	);
+
 	return {
 		...entries,
 		[ `${ outputPrefix }/index` ]: path.resolve( folderPath, 'index.js' ),
 		[ `${ outputPrefix }/style` ]: path.resolve( folderPath, 'style.scss' ),
-		[ `${ outputPrefix }/editor` ]: path.resolve(
-			folderPath,
-			'editor.scss'
-		),
+		...( hasEditorStyle
+			? {
+					[ `${ outputPrefix }/editor` ]: path.resolve(
+						folderPath,
+						'editor.scss'
+					),
+			  }
+			: {} ),
 		...( hasViewScript
 			? {
 					[ `${ outputPrefix }/view` ]: path.resolve(

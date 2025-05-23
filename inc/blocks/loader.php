@@ -20,7 +20,4 @@ require_once get_template_directory() . '/inc/blocks/heading.php';
 require_once get_template_directory() . '/inc/blocks/image.php';
 require_once get_template_directory() . '/inc/blocks/gallery.php';
 
-// Load Portal Menu block
-require_once get_template_directory() . '/inc/blocks/portal-menu.php';
-
 require_once get_template_directory() . '/inc/blocks/quote.php';

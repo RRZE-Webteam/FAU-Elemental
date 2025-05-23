@@ -35,7 +35,7 @@ if (!$menu_name) {
 
 // Get display options
 $display_type = get_post_meta(get_the_ID(), 'portal_menu_type', true) ?: 1;
-$columns = get_post_meta(get_the_ID(), 'portal_menu_columns', true) ?: 3;
+$columns = 3; // Always use 3 columns
 $show_subs = !get_post_meta(get_the_ID(), 'portal_menu_hide_subs', true);
 $list_view = get_post_meta(get_the_ID(), 'portal_menu_list_view', true) ?: false;
 $no_thumbs = get_post_meta(get_the_ID(), 'portal_menu_hide_thumbs', true) ?: false;

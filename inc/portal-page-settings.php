@@ -139,7 +139,7 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
     // Get the saved values
     $menu_id = get_post_meta($post->ID, 'portal_menu_id', true);
     $display_type = get_post_meta($post->ID, 'portal_menu_type', true) ?: 1;
-    $columns = get_post_meta($post->ID, 'portal_menu_columns', true) ?: 3;
+    $columns = 3; // Always use 3 columns
     $hide_subs = get_post_meta($post->ID, 'portal_menu_hide_subs', true);
     $list_view = get_post_meta($post->ID, 'portal_menu_list_view', true);
     $hide_thumbs = get_post_meta($post->ID, 'portal_menu_hide_thumbs', true);
@@ -174,16 +174,6 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
             <option value="1" <?php selected($display_type, 1); ?>><?php esc_html_e('Type 1 (2:1 Ratio)', 'fau-elemental'); ?></option>
             <option value="2" <?php selected($display_type, 2); ?>><?php esc_html_e('Type 2 (3:2 Ratio)', 'fau-elemental'); ?></option>
             <option value="3" <?php selected($display_type, 3); ?>><?php esc_html_e('Type 3 (3:4 Ratio)', 'fau-elemental'); ?></option>
-        </select>
-    </p>
-    
-    <p>
-        <label for="portal_menu_columns"><strong><?php esc_html_e('Columns', 'fau-elemental'); ?>:</strong></label>
-        <select name="portal_menu_columns" id="portal_menu_columns" class="widefat">
-            <option value="1" <?php selected($columns, 1); ?>>1</option>
-            <option value="2" <?php selected($columns, 2); ?>>2</option>
-            <option value="3" <?php selected($columns, 3); ?>>3</option>
-            <option value="4" <?php selected($columns, 4); ?>>4</option>
         </select>
     </p>
     
@@ -262,10 +252,8 @@ function fau_elemental_save_portal_menu_meta_box_data($post_id) {
         update_post_meta($post_id, 'portal_menu_type', intval($_POST['portal_menu_type']));
     }
     
-    // Save columns setting
-    if (isset($_POST['portal_menu_columns'])) {
-        update_post_meta($post_id, 'portal_menu_columns', intval($_POST['portal_menu_columns']));
-    }
+    // Always save 3 columns
+    update_post_meta($post_id, 'portal_menu_columns', 3);
 
     // Save checkboxes
     $checkbox_fields = array(

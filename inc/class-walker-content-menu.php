@@ -160,23 +160,38 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                     $output .= '</div>';
                 }
                 
-                // Main content section with title and arrow button
+                // Main content section with title and button
                 $output .= '<div class="portal-content fau-card-content">';
-                $output .= '<h3 class="portal-title fau-card-title">';
-                $output .= '<a href="' . esc_url($permalink) . '"' . $target . ' class="portal-main-link">' . $title;
-                // Add arrow button based on faculty color
-                $output .= '<span class="portal-button-arrow ' . $faculty_class . '"><span class="screen-reader-text">' . __('Go to', 'fau-elemental') . ' ' . $title . '</span>→</span>';
+                $output .= '<div class="portal-title fau-card-title">';
+                $output .= '<h3 class="portal-main-title">' . $title . '</h3>';
+                
+                // Use WordPress core button structure
+                $output .= '<a href="' . esc_url($permalink) . '"' . $target . ' class="wp-element-button portal-main-button" aria-label="' . esc_attr(__('Go to', 'fau-elemental')) . ' ' . esc_attr($title) . '">';
+                $output .= '<span class="screen-reader-text">' . __('Go to', 'fau-elemental') . ' ' . $title . '</span>';
+                $output .= '<svg class="wp-element-button__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">';
+                $output .= '<path d="M14.3 6.7l5.6 5.6-5.6 5.6-1.4-1.4 3.3-3.3H5v-2h11.2l-3.3-3.3 1.4-1.4z"></path>';
+                $output .= '</svg>';
                 $output .= '</a>';
-                $output .= '</h3>';
+                $output .= '</div>';
             }
         } else {
             // Child items (sublinks)
             if ($this->settings['listview']) {
                 $output .= $indent . '<li class="portal-subitem ' . implode(' ', $classes) . '">';
-                $output .= '<a href="' . esc_url($permalink) . '"' . $target . '>' . $title . '</a>';
+                $output .= '<a href="' . esc_url($permalink) . '"' . $target . ' class="wp-element-button is-style-outline portal-sublink">';
+                $output .= '<span class="wp-element-button__text">' . $title . '</span>';
+                $output .= '<svg class="wp-element-button__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">';
+                $output .= '<path d="M14.3 6.7l5.6 5.6-5.6 5.6-1.4-1.4 3.3-3.3H5v-2h11.2l-3.3-3.3 1.4-1.4z"></path>';
+                $output .= '</svg>';
+                $output .= '</a>';
             } else {
                 $output .= $indent . '<div class="portal-subitem fau-card-sublink">';
-                $output .= '<a href="' . esc_url($permalink) . '"' . $target . ' class="portal-sublink">' . $title . '</a>';
+                $output .= '<a href="' . esc_url($permalink) . '"' . $target . ' class="wp-element-button is-style-outline portal-sublink">';
+                $output .= '<span class="wp-element-button__text">' . $title . '</span>';
+                $output .= '<svg class="wp-element-button__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">';
+                $output .= '<path d="M14.3 6.7l5.6 5.6-5.6 5.6-1.4-1.4 3.3-3.3H5v-2h11.2l-3.3-3.3 1.4-1.4z"></path>';
+                $output .= '</svg>';
+                $output .= '</a>';
             }
         }
     }
