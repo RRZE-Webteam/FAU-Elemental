@@ -376,5 +376,62 @@ $fau-white: #FFFFFF;
       }
     }
   }
+}
+
+/**
+ * Dark Theme Styling
+ */
+.contentmenu.is-style-dark,
+.wp-block-fau-elemental-portalmenu .contentmenu.is-style-dark {
+  
+  .portal-item {
+    // Dark theme content container
+    .portal-content {
+      background: #2c3e50;
+      color: $fau-white;
+      
+      // Dark theme title styling
+      .portal-title {
+        .portal-main-title {
+          color: $fau-white;
+        }
+        
+        .portal-main-button {
+          background: $fau-white;
+          color: #2c3e50;
+          
+          &:hover {
+            background-color: $fau-gray-light;
+            color: #2c3e50;
+          }
+          
+          .wp-element-button__icon {
+            fill: currentColor;
+          }
+        }
+      }
+      
+      // Dark theme submenu styling
+      .portal-submenu {
+        .portal-subitem {
+          .portal-sublink {
+            background: transparent;
+            color: $fau-white;
+            border-color: $fau-white;
+            
+            &:hover {
+              background-color: $fau-white;
+              color: #2c3e50;
+              border-color: $fau-white;
+            }
+            
+            .wp-element-button__icon {
+              fill: currentColor;
+            }
+          }
+        }
+      }
+    }
+  }
 } 
 

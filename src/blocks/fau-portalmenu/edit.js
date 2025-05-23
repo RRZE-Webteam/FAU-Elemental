@@ -84,15 +84,15 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                     />
 
                     <ToggleControl
-                        label={__('Show Submenus', 'fau-elemental')}
-                        checked={attributes.showSubs !== false}
-                        onChange={(showSubs) => setAttributes({ showSubs })}
+                        label={__('Is Mega Navigation', 'fau-elemental')}
+                        checked={attributes.isMegaNav}
+                        onChange={(value) => setAttributes({ isMegaNav: value })}
                     />
 
                     <ToggleControl
-                        label={__('Mega Navigation', 'fau-elemental')}
-                        checked={!!attributes.isMegaNav}
-                        onChange={(isMegaNav) => setAttributes({ isMegaNav })}
+                        label={__('Show Submenus', 'fau-elemental')}
+                        checked={attributes.showSubs}
+                        onChange={(value) => setAttributes({ showSubs: value })}
                     />
 
                     <ToggleControl

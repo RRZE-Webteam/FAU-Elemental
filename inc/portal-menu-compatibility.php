@@ -421,6 +421,8 @@ function fau_elemental_portalmenu_shortcode($atts) {
         'hoverZoom' => false,
         'hoverblur' => false,
         'hoverBlur' => false,
+        'is-style-dark' => false,
+        'dark' => false,
     ], $atts, 'portalmenu');
     
     // Find menu ID - priority: id param, menu param, page setting
@@ -487,6 +489,7 @@ function fau_elemental_portalmenu_shortcode($atts) {
     $list_view = filter_var($atts['listview'], FILTER_VALIDATE_BOOLEAN);
     $hover_zoom = filter_var($atts['hoverzoom'] ?: $atts['hoverZoom'], FILTER_VALIDATE_BOOLEAN);
     $hover_blur = filter_var($atts['hoverblur'] ?: $atts['hoverBlur'], FILTER_VALIDATE_BOOLEAN);
+    $is_dark = filter_var($atts['is-style-dark'] ?: $atts['dark'], FILTER_VALIDATE_BOOLEAN);
     
     // Setup CSS classes
     $menu_classes = 'contentmenu';
@@ -513,6 +516,9 @@ function fau_elemental_portalmenu_shortcode($atts) {
     }
     if ($hover_blur) {
         $menu_classes .= ' hover-blur';
+    }
+    if ($is_dark) {
+        $menu_classes .= ' is-style-dark';
     }
     
     // Load our menu walker class

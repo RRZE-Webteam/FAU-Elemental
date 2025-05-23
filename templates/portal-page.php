@@ -42,6 +42,7 @@ $no_thumbs = get_post_meta(get_the_ID(), 'portal_menu_hide_thumbs', true) ?: fal
 $no_fallback = get_post_meta(get_the_ID(), 'portal_menu_no_fallback', true) ?: false;
 $hover_zoom = get_post_meta(get_the_ID(), 'portal_menu_hover_zoom', true) ?: false;
 $hover_blur = get_post_meta(get_the_ID(), 'portal_menu_hover_blur', true) ?: false;
+$is_dark = get_post_meta(get_the_ID(), 'portal_menu_is_dark', true) ?: false;
 ?>
 
 <main id="primary" class="site-main">
@@ -72,6 +73,7 @@ $hover_blur = get_post_meta(get_the_ID(), 'portal_menu_hover_blur', true) ?: fal
             $shortcode .= ' nofallback="' . ($no_fallback ? 'true' : 'false') . '"';
             $shortcode .= ' hoverzoom="' . ($hover_zoom ? 'true' : 'false') . '"';
             $shortcode .= ' hoverblur="' . ($hover_blur ? 'true' : 'false') . '"';
+            $shortcode .= ' is-style-dark="' . ($is_dark ? 'true' : 'false') . '"';
             $shortcode .= ']';
             
          

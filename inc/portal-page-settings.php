@@ -146,6 +146,7 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
     $no_fallback = get_post_meta($post->ID, 'portal_menu_no_fallback', true);
     $hover_zoom = get_post_meta($post->ID, 'portal_menu_hover_zoom', true);
     $hover_blur = get_post_meta($post->ID, 'portal_menu_hover_blur', true);
+    $is_dark = get_post_meta($post->ID, 'portal_menu_is_dark', true);
 
     // Get all menus
     $menus = wp_get_nav_menus();
@@ -208,6 +209,12 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
         <?php esc_html_e('Blur', 'fau-elemental'); ?></label>
     </p>
     
+    <h4><?php esc_html_e('Appearance', 'fau-elemental'); ?></h4>
+    <p>
+        <label><input type="checkbox" name="portal_menu_is_dark" id="portal_menu_is_dark" value="1" <?php checked($is_dark, true); ?> />
+        <?php esc_html_e('Dark Style', 'fau-elemental'); ?></label>
+    </p>
+    
     <?php
     // Always display the shortcode usage example
     echo '<div class="portal-menu-shortcode-example" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">';
@@ -262,7 +269,8 @@ function fau_elemental_save_portal_menu_meta_box_data($post_id) {
         'portal_menu_hide_thumbs',
         'portal_menu_no_fallback',
         'portal_menu_hover_zoom',
-        'portal_menu_hover_blur'
+        'portal_menu_hover_blur',
+        'portal_menu_is_dark'
     );
 
     foreach ($checkbox_fields as $field) {
