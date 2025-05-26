@@ -19,19 +19,17 @@ require_once get_template_directory() . '/inc/enqueue-assets.php';
 require_once get_template_directory() . '/inc/blocks/loader.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
 
-
-
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
 
 // Shortcodes functionality
 require_once get_template_directory() . '/inc/shortcodes-loader.php';
 
-// Portal page settings
-require_once get_template_directory() . '/inc/portal-page-settings.php';
-
 // Portal menu compatibility with old theme
 require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
+
+// Breadcrumb functionality
+require_once get_template_directory() . '/src/components/breadcrumbs/breadcrumbs.php';
 
 /**
  * Register custom page templates
@@ -146,9 +144,3 @@ add_action('after_switch_theme', function() {
         fau_elemental_check_old_portal_menu_settings();
     }
 });
-
-// Page settings
-require_once get_template_directory() . '/inc/page-settings.php';
-
-// Breadcrumb functionality
-require_once get_template_directory() . '/src/components/breadcrumbs/breadcrumbs.php';
