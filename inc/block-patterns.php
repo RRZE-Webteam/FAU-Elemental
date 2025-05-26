@@ -66,35 +66,5 @@ function fau_elemental_register_patterns() {
             })()
         )
     );
-
-    // Register header single pattern
-    register_block_pattern(
-        'fau-elemental/header-single',
-        array(
-            'title' => __('Single Post Header', 'fau-elemental'),
-            'description' => __('Header pattern for single posts with meta information and featured image.', 'fau-elemental'),
-            'categories' => array('fau-elemental', 'header'),
-            'source' => 'theme',
-            'blockTypes' => array('core/template-part/header'),
-            'postTypes' => array('post'),
-            'viewportWidth' => 1376,
-            'content' => file_get_contents(get_theme_file_path('patterns/header-single.php'))
-        )
-    );
-
-    // Register post starter pattern
-    register_block_pattern(
-        'fau-elemental/post-starter',
-        array(
-            'title' => __('Post Starter', 'fau-elemental'),
-            'description' => __('A starter pattern for creating new posts with meta information, featured image, and content area.', 'fau-elemental'),
-            'categories' => array('fau-elemental', 'posts'),
-            'source' => 'theme',
-            'blockTypes' => array('core/post-content'),
-            'postTypes' => array('post'),
-            'viewportWidth' => 1376,
-            'content' => file_get_contents(get_theme_file_path('patterns/post-starter.php'))
-        )
-    );
 }
 add_action('init', 'fau_elemental_register_patterns'); 
