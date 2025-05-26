@@ -36,6 +36,60 @@ addFilter(
 			return settings;
 		}
 
+		// Ensure this is only done once.
+		if ( settings.fauModded ) {
+			return settings;
+		}
+		settings.fauModded = true;
+
+		// Deprecation for old Core-Markup
+		const oldSaveFn = settings.save;
+		const coreQuoteDeprecation = {
+			supports: { ...settings.supports },
+			attributes: { ...settings.attributes },
+			save: oldSaveFn,
+			migrate( attributes, innerBlocks ) {
+				const firstParagraph = innerBlocks.find(
+					( x ) => x.name === 'core/paragraph'
+				);
+				const firstImage = innerBlocks.find(
+					( x ) => x.name === 'core/image'
+				);
+				let quoteImage = null;
+				if ( firstImage ) {
+					quoteImage = {
+						id: firstImage.attributes.id,
+						alt: firstImage.attributes.alt,
+						url: firstImage.attributes.url,
+					};
+				}
+				const migratedQuote = {
+					id: uuidv4(),
+					content: firstParagraph?.attributes.content?.text || '',
+					citation: attributes.citation?.text || '',
+					image: quoteImage,
+				};
+				return [
+					{
+						...attributes,
+						citation: undefined,
+						quotes: [ migratedQuote ],
+					},
+					[],
+				];
+			},
+			isEligible( _attributes, innerBlocks, { block } ) {
+				return (
+					innerBlocks?.length ||
+					block?.attributes?.citation?.text?.length
+				);
+			},
+		};
+		settings.deprecated = [
+			coreQuoteDeprecation,
+			...( settings.deprecated || [] ),
+		];
+
 		const initialUuid = uuidv4();
 
 		return {

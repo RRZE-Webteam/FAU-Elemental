@@ -28,11 +28,11 @@ require_once get_template_directory() . '/inc/theme-settings.php';
 // Shortcodes functionality
 require_once get_template_directory() . '/inc/shortcodes-loader.php';
 
-// Portal page settings
-require_once get_template_directory() . '/inc/portal-page-settings.php';
-
 // Portal menu compatibility with old theme
 require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
+
+// Breadcrumb functionality
+require_once get_template_directory() . '/src/components/breadcrumbs/breadcrumbs.php';
 
 /**
  * Register custom page templates
