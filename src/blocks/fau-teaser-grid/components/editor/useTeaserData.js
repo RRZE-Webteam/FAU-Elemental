@@ -6,9 +6,8 @@ export const usePostTypes = () => {
 		const coreSelect = select( 'core' );
 		const allPostTypes = coreSelect.getPostTypes();
 		return (
-			allPostTypes?.filter(
-				( type ) =>
-					[ 'post', 'page' ].includes( type.slug )
+			allPostTypes?.filter( ( type ) =>
+				[ 'post', 'page' ].includes( type.slug )
 			) || []
 		);
 	}, [] );
