@@ -67,6 +67,21 @@ function fau_elemental_register_patterns() {
         )
     );
 
+    // Register header single pattern
+    register_block_pattern(
+        'fau-elemental/header-single',
+        array(
+            'title' => __('Single Post Header', 'fau-elemental'),
+            'description' => __('Header pattern for single posts with meta information and featured image.', 'fau-elemental'),
+            'categories' => array('fau-elemental', 'header'),
+            'source' => 'theme',
+            'blockTypes' => array('core/template-part/header'),
+            'postTypes' => array('post'),
+            'viewportWidth' => 1376,
+            'content' => file_get_contents(get_theme_file_path('patterns/header-single.php'))
+        )
+    );
+
     // Register post starter pattern
     register_block_pattern(
         'fau-elemental/post-starter',

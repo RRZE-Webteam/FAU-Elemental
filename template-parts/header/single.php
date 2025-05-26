@@ -1,86 +1,74 @@
 <?php
 /**
- * Single Post Header Template Part (PHP fallback version)
+ * Template part for displaying the single post header
  *
- * @package Fau-Elemental
+ * @package FAU-Elemental
  */
 
-// Get post data
+// Get post meta options
 $post_id = get_the_ID();
-
-// Check if reading time should be displayed
 $show_reading_time = get_post_meta($post_id, 'show_reading_time', true);
-$reading_time = function_exists('get_reading_time') ? get_reading_time() : '5 min';
+$show_categories = get_post_meta($post_id, 'show_categories', true);
 
-// Check if listen link should be displayed
-$show_listen_link = get_post_meta($post_id, 'show_listen_link', true);
-$listen_url = get_post_meta($post_id, 'listen_url', true);
+// Get reading time
+$reading_time = get_reading_time($post_id);
 
-// Check if featured image should be displayed
-$show_featured_image = get_post_meta($post_id, 'show_featured_image', true) || has_post_thumbnail();
+// Include the default header
+get_template_part('template-parts/header/default');
 ?>
 
-<div class="post-header alignwide">
-    <div class="post-meta-top">
-        <div class="post-date"><?php echo get_the_date(); ?></div>
-        
-        <?php if (has_category()) : ?>
-        <div class="post-categories">
-            – <?php echo wp_kses_post(get_the_category_list(', ')); ?>
+<main class="wp-block-group post-main" style="margin-top:var(--wp--preset--spacing--50);margin-bottom:var(--wp--preset--spacing--50);padding-top:0;padding-bottom:0;padding-left:var(--wp--preset--spacing--40);padding-right:var(--wp--preset--spacing--40)">
+    <div class="wp-block-group alignwide post-header">
+        <div class="wp-block-group post-header-content">
+            <div class="wp-block-group post-meta-top">
+                <?php if (get_the_date()): ?>
+                    <div class="wp-block-post-date"><?php echo get_the_date(); ?></div>
+                <?php endif; ?>
+
+                <?php if ($show_categories !== '0' && has_category()): ?>
+                    <p class="post-categories-separator">–</p>
+                    <div class="post-categories">
+                        <?php echo strip_tags(get_the_category_list(', ')); ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <h1 class="wp-block-post-title alignwide"><?php the_title(); ?></h1>
+
+            <?php if ($show_reading_time !== '0'): ?>
+                <div class="wp-block-group post-meta">
+                    <p class="reading-time"><?php 
+                        echo esc_html__('Reading time:', 'fau-elemental') . ' ';
+                        echo '<strong>' . esc_html(get_reading_time_value()) . ' ' . esc_html__('min', 'fau-elemental') . '</strong>';
+                    ?></p>
+                </div>
+            <?php endif; ?>
         </div>
+
+        <?php 
+        $show_featured_image = get_post_meta($post_id, 'show_featured_image', true);
+        if ($show_featured_image !== '0' && has_post_thumbnail()): 
+        ?>
+            <figure class="wp-block-image size-large is-style-large wp-block-post-featured-image">
+                <?php 
+                the_post_thumbnail('large', array(
+                    'class' => 'attachment-large size-large wp-post-image',
+                    'style' => 'object-fit:cover;',
+                    'loading' => 'eager',
+                    'fetchpriority' => 'high'
+                ));
+                
+                $thumbnail_id = get_post_thumbnail_id();
+                $caption = wp_get_attachment_caption($thumbnail_id);
+                if ($caption) {
+                    echo '<figcaption class="wp-element-caption">' . esc_html($caption) . '</figcaption>';
+                }
+                ?>
+            </figure>
         <?php endif; ?>
     </div>
-    
-    <h1 class="post-title"><?php the_title(); ?></h1>
-    
-    <div class="post-meta">
-        <?php if ($show_reading_time === '1') : ?>
-        <p class="reading-time"><?php echo esc_html($reading_time); ?></p>
-        <?php endif; ?>
-        
-        <?php if ($show_listen_link === '1' && !empty($listen_url)) : ?>
-        <p class="listen-link">
-            <a href="<?php echo esc_url($listen_url); ?>">
-                Beitrag anhören: <?php echo function_exists('get_audio_duration') ? esc_html(get_audio_duration($listen_url)) : ''; ?> min. abspielen
-            </a>
-        </p>
-        <?php endif; ?>
+
+    <div class="entry-content alignwide wp-block-post-content">
+        <?php the_content(); ?>
     </div>
-    
-    <?php if (has_post_thumbnail()) : 
-        // Get featured image ID
-        $thumbnail_id = get_post_thumbnail_id();
-        
-        // Get image data
-        $image_src = wp_get_attachment_image_src($thumbnail_id, 'large');
-        $image_alt = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
-        
-        // Get image caption from attachment
-        $attachment = get_post($thumbnail_id);
-        $caption = $attachment->post_excerpt;
-        
-        // Create image block attributes
-        $image_attributes = array(
-            'id' => $thumbnail_id,
-            'url' => $image_src[0],
-            'alt' => $image_alt,
-            'caption' => $caption,
-            'sizeSlug' => 'large',
-            'className' => 'wp-block-image',
-            'align' => 'wide'
-        );
-        
-        // Serialize the attributes for the render function
-        $serialized_attributes = json_encode($image_attributes);
-        
-        // Render the image block
-        echo render_block(array(
-            'blockName' => 'core/image',
-            'attrs' => $image_attributes,
-            'innerBlocks' => array(),
-            'innerHTML' => '',
-            'innerContent' => array()
-        ));
-    ?>
-    <?php endif; ?>
-</div> 
+</main> 
