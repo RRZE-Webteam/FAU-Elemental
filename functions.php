@@ -19,7 +19,8 @@ require_once get_template_directory() . '/inc/enqueue-assets.php';
 require_once get_template_directory() . '/inc/blocks/loader.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
 
-
+// Post settings and functionality
+require_once get_template_directory() . '/inc/posts-settings.php';
 
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
