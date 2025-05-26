@@ -8,8 +8,7 @@ export const usePostTypes = () => {
 		return (
 			allPostTypes?.filter(
 				( type ) =>
-					type.viewable &&
-					( type.slug === 'post' || type.slug === 'page' )
+					[ 'post', 'page' ].includes( type.slug )
 			) || []
 		);
 	}, [] );

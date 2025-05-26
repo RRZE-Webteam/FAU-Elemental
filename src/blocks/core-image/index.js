@@ -63,6 +63,42 @@ addFilter(
 			return settings;
 		}
 
+		// Ensure this is only done once.
+		if ( settings.fauModded ) {
+			return settings;
+		}
+		settings.fauModded = true;
+
+		// Deprecation for old Core-Markup
+		const oldSaveFn = settings.save;
+		const coreImageDeprecation = {
+			supports: { ...settings.supports },
+			attributes: { ...settings.attributes },
+			save: oldSaveFn,
+			migrate( attributes ) {
+				return {
+					...attributes,
+					align: 'full',
+					width: undefined,
+					height: undefined,
+					className: 'is-style-large has-overlay',
+					style: undefined,
+				};
+			},
+			isEligible( { align, width, height, style } ) {
+				return (
+					align !== 'full' ||
+					width !== undefined ||
+					height !== undefined ||
+					style !== undefined
+				);
+			},
+		};
+		settings.deprecated = [
+			coreImageDeprecation,
+			...( settings.deprecated || [] ),
+		];
+
 		settings.supports = {
 			...settings.supports,
 			filter: false,
