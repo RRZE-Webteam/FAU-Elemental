@@ -87,7 +87,7 @@ addFilter(
 			},
 			isEligible( { align, width, height, style } ) {
 				return (
-					align !== "full" ||
+					align !== 'full' ||
 					width !== undefined ||
 					height !== undefined ||
 					style !== undefined
