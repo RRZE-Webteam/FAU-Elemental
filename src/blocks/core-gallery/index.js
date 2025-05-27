@@ -145,6 +145,45 @@ const GalleryCarousel = ( props ) => {
 				carouselRef.current.querySelectorAll( '.wp-block-image' )
 			);
 
+			// Display the slide number in the backend
+			slideElements.forEach( ( slide, index ) => {
+				const galleryIndexStr = `${ index + 1 }/${
+					slideElements.length
+				}`;
+				const figcaption = slide.querySelector( 'figcaption' );
+				let galleryIndex = slide.querySelector(
+					'.gallery-index-display'
+				);
+
+				// If the caption is toggled on, we must remove the old index display.
+				if (
+					figcaption &&
+					galleryIndex &&
+					! figcaption.contains( galleryIndex )
+				) {
+					galleryIndex.remove();
+					galleryIndex = null;
+				}
+
+				if ( galleryIndex ) {
+					// If the index already exists we can simply update it.
+					galleryIndex.textContent = galleryIndexStr;
+				} else {
+					// If it does not exists we create it and append it to the figcaption or the image-wrapper
+					galleryIndex = document.createElement( 'span' );
+					galleryIndex.textContent = galleryIndexStr;
+					galleryIndex.classList.add( 'gallery-index-display' );
+
+					if ( figcaption ) {
+						figcaption.appendChild( galleryIndex );
+					} else {
+						slide
+							.querySelector( '.image-wrapper' )
+							?.appendChild( galleryIndex );
+					}
+				}
+			} );
+
 			if ( slideElements.length !== slides.length ) {
 				setSlides( slideElements );
 			}
