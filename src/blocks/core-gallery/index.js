@@ -2,6 +2,7 @@ import { addFilter } from '@wordpress/hooks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { useRef, useEffect, useState } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
+import { useBlockProps } from '@wordpress/block-editor';
 
 addFilter(
 	'blocks.registerBlockType',
@@ -199,25 +200,27 @@ const GalleryCarousel = ( props ) => {
 		selectSlide( 1 );
 	};
 
+	const blockProps = useBlockProps( {
+		className: 'wp-block-gallery-container',
+	} );
+
 	return (
-		<div className="wp-block-gallery-container" ref={ carouselRef }>
-			{ props.children }
+		<div { ...blockProps } ref={ carouselRef }>
 			{ slides.length > 1 && (
-				<>
-					<div className="gallery-nav-container">
-						<button
-							className="gallery-nav-button prev"
-							aria-label="Previous slide"
-							onClick={ handlePrevClick }
-						/>
-						<button
-							className="gallery-nav-button next"
-							aria-label="Next slide"
-							onClick={ handleNextClick }
-						/>
-					</div>
-				</>
+				<div className="gallery-nav-container">
+					<button
+						className="gallery-nav-button prev"
+						aria-label="Previous slide"
+						onClick={ handlePrevClick }
+					/>
+					<button
+						className="gallery-nav-button next"
+						aria-label="Next slide"
+						onClick={ handleNextClick }
+					/>
+				</div>
 			) }
+			{ props.children }
 		</div>
 	);
 };

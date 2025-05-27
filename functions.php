@@ -15,6 +15,9 @@ require_once get_template_directory() . '/inc/theme-setup.php';
 // Asset management
 require_once get_template_directory() . '/inc/enqueue-assets.php';
 
+// Customizer
+require_once get_template_directory() . '/inc/customizer.php';
+
 // Block functionality
 require_once get_template_directory() . '/inc/blocks/loader.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
@@ -24,6 +27,9 @@ require_once get_template_directory() . '/inc/posts-settings.php';
 
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
+
+// Menu registration
+require_once get_template_directory() . '/inc/menu-registration.php';
 
 // Shortcodes functionality
 require_once get_template_directory() . '/inc/shortcodes-loader.php';
@@ -123,6 +129,45 @@ add_filter('template_include', 'fau_elemental_template_include', 99);
 /**
  * Add a filter to post updated messages to help with portal page template
  */
+/**
+ * Main theme setup function for FAU-Elemental
+ */
+ function fau_elemental_theme_setup() {
+    // Add theme support for block templates and FSE
+    add_theme_support('block-templates');
+    
+    // Ensure PHP templates are available as fallbacks
+    add_theme_support('template-hierarchy');
+    
+    // Basic theme features support
+    add_theme_support('post-thumbnails');
+    add_theme_support('custom-logo');
+    add_theme_support('automatic-feed-links');
+    add_theme_support('html5', array(
+        'comment-list', 
+        'comment-form', 
+        'search-form', 
+        'gallery', 
+        'caption',
+        'style',
+        'script'
+    ));
+    add_theme_support('title-tag');
+    
+    // Register core menu locations used by classic templates
+    register_nav_menus(array(
+        'primary' => __('Primary Menu', 'fau-elemental'),
+        'footer' => __('Footer Menu', 'fau-elemental'),
+    ));
+    
+    // Add custom image sizes if needed
+    // add_image_size('featured-large', 1600, 900, true);
+}
+add_action('after_setup_theme', 'fau_elemental_theme_setup');
+
+/**
+ * Add a filter to post updated messages to help with portal page template
+ */
 function fau_elemental_post_updated_messages($messages) {
     global $post;
     
@@ -138,6 +183,138 @@ function fau_elemental_post_updated_messages($messages) {
     return $messages;
 }
 add_filter('post_updated_messages', 'fau_elemental_post_updated_messages');
+
+/**
+ * Ensure plugin hooks are available in the block theme
+ */
+function fau_elemental_add_plugin_compatibility_hooks() {
+    // Common hooks that plugins often use
+    add_action('wp_head', function() {
+        do_action('fau_elemental_header');
+    });
+    
+    add_action('wp_footer', function() {
+        do_action('fau_elemental_footer');
+    });
+    
+    // Hook before and after content
+    add_filter('the_content', function($content) {
+        $before = apply_filters('fau_elemental_before_content', '');
+        $after = apply_filters('fau_elemental_after_content', '');
+        return $before . $content . $after;
+    });
+}
+add_action('init', 'fau_elemental_add_plugin_compatibility_hooks');
+
+/**
+ * Enqueue styles for PHP templates
+ */
+function fau_elemental_enqueue_php_template_styles() {
+    // Ensure block styles are loaded even in PHP templates
+    wp_enqueue_style('wp-block-library');
+    wp_enqueue_style('global-styles');
+}
+add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_php_template_styles');
+
+/**
+ * Add custom classes to body for PHP templates
+ */
+function fau_elemental_body_classes($classes) {
+    // Add these classes to ensure PHP templates look like block templates
+    $classes[] = 'wp-theme';
+    // $classes[] = 'is-layout-flow';
+    
+    return $classes;
+}
+add_filter('body_class', 'fau_elemental_body_classes');
+
+/**
+ * Register template parts for block templates
+ */
+function fau_elemental_register_template_parts() {
+    // Get all template parts from the parts directory
+    $block_parts = glob(get_template_directory() . '/parts/*.html');
+    
+    foreach ($block_parts as $part_file) {
+        $slug = basename($part_file, '.html');
+        
+        // Only register if file exists and has content
+        if (file_exists($part_file) && filesize($part_file) > 0) {
+            // Determine category based on slug prefix
+            $category = 'uncategorized';
+            if (strpos($slug, 'header-') === 0) {
+                $category = 'header';
+            } elseif (strpos($slug, 'footer-') === 0) {
+                $category = 'footer';
+            } elseif (strpos($slug, 'sidebar-') === 0) {
+                $category = 'sidebar';
+            }
+            
+            // Create title from slug
+            $title = str_replace('-', ' ', $slug);
+            $title = ucwords($title);
+            
+            register_block_pattern(
+                'fau-elemental/' . $slug,
+                array(
+                    'title'       => $title,
+                    'description' => sprintf(__('%s template part', 'fau-elemental'), $title),
+                    'content'     => file_get_contents($part_file),
+                    'categories'  => array($category),
+                )
+            );
+        }
+    }
+}
+add_action('init', 'fau_elemental_register_template_parts');
+
+// This will load the main footer.php dont remove this
+function render_footer_template() {
+    ob_start();
+    get_footer(); 
+    return ob_get_clean();
+}
+
+register_block_type('fau-elemental/footer', array(
+    'render_callback' => 'render_footer_template'
+));
+
+/**
+ * Function to load template parts for both block and PHP templates
+ *
+ * @param string $slug Template slug
+ * @param string $name Template name (optional)
+ * @param array $args Additional arguments to pass to the template (optional)
+ */
+function fau_elemental_load_template_part($slug, $name = null, $args = array()) {
+    // First check if block template part exists
+    $part_name = $name ? "{$slug}-{$name}" : $slug;
+    $block_part_file = get_theme_file_path("/parts/{$part_name}.html");
+    
+    if (file_exists($block_part_file) && filesize($block_part_file) > 0) {
+        // Block template exists, use it
+        echo do_blocks(file_get_contents($block_part_file));
+    } else {
+        // Fall back to PHP template part
+        // Use WordPress's standard structure for template-parts
+        $directory = '';
+        
+        // Organize by type if slug has a recognizable prefix
+        if (strpos($slug, 'header') === 0) {
+            $directory = 'header';
+        } elseif (strpos($slug, 'footer') === 0) {
+            $directory = 'footer';
+        } elseif (strpos($slug, 'content') === 0) {
+            $directory = 'content';
+        }
+        
+        if ($directory) {
+            get_template_part("template-parts/{$directory}/{$slug}", $name, $args);
+        } else {
+            get_template_part("template-parts/{$slug}", $name, $args);
+        }
+    }
+}
 
 /**
  * Hook to migrate settings right after theme activation
