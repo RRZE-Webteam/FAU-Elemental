@@ -19,9 +19,6 @@ require_once get_template_directory() . '/inc/enqueue-assets.php';
 require_once get_template_directory() . '/inc/blocks/loader.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
 
-// Post Types
-require_once get_template_directory() . '/inc/post-types/faq.php';
-
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
 
@@ -85,6 +82,83 @@ function fau_get_search_suggestions($request) {
     
     return $suggestions;
 }
+
+/**
+ * Register REST API endpoint for frequent queries
+ */
+function fau_register_frequent_queries_endpoint() {
+    register_rest_route('fau/v1', '/frequent-queries', array(
+        'methods' => 'GET',
+        'callback' => 'fau_get_frequent_queries',
+        'permission_callback' => '__return_true',
+        'args' => array(
+            'per_page' => array(
+                'default' => 5,
+                'sanitize_callback' => 'absint',
+            ),
+        ),
+    ));
+}
+add_action('rest_api_init', 'fau_register_frequent_queries_endpoint');
+
+/**
+ * Get frequent queries
+ * This function retrieves the most frequently searched queries from the search logs
+ */
+function fau_get_frequent_queries($request) {
+    $per_page = $request->get_param('per_page');
+    
+    // Get search logs from options
+    $search_logs = get_option('fau_search_logs', array());
+    
+    // Sort by frequency
+    arsort($search_logs);
+    
+    // Get top queries
+    $frequent_queries = array_slice($search_logs, 0, $per_page, true);
+    
+    // Format the response
+    $queries = array();
+    foreach ($frequent_queries as $query => $count) {
+        $queries[] = array(
+            'title' => $query,
+            'link' => home_url('/?s=' . urlencode($query)),
+            'count' => $count
+        );
+    }
+    
+    return $queries;
+}
+
+/**
+ * Log search queries
+ */
+function fau_log_search_query($query) {
+    if (!is_admin() && !empty($query) && is_search()) {
+        $search_logs = get_option('fau_search_logs', array());
+        $search_term = sanitize_text_field($query);
+        
+        if (!empty($search_term)) {
+            if (isset($search_logs[$search_term])) {
+                $search_logs[$search_term]++;
+            } else {
+                $search_logs[$search_term] = 1;
+            }
+            
+            // Keep only the top 100 searches
+            arsort($search_logs);
+            $search_logs = array_slice($search_logs, 0, 100, true);
+            
+            update_option('fau_search_logs', $search_logs);
+        }
+    }
+}
+add_action('pre_get_posts', function($query) {
+    if (!is_admin() && $query->is_main_query() && is_search()) {
+        fau_log_search_query(get_search_query());
+    }
+});
+
 // Logo display functionality
 require_once get_template_directory() . '/inc/logo-display.php';
 

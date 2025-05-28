@@ -36,12 +36,12 @@ function initializeSearchSuggestions() {
         const defaultContent = suggestionsArea.dataset.defaultContent;
 
         // Store FAQs for quick access
-        let cachedFAQs = null;
+        let cachedFrequentQueries = null;
 
         // Handle focus event
         searchInput.addEventListener('focus', async () => {
             if (searchInput.value.length === 0) {
-                await showFAQs();
+                await showFrequentQueries();
             }
         });
 
@@ -64,34 +64,34 @@ function initializeSearchSuggestions() {
             }, 200);
         });
 
-        async function showFAQs() {
-            if (!cachedFAQs) {
+        async function showFrequentQueries() {
+            if (!cachedFrequentQueries) {
                 try {
-                    const response = await fetch('/wp-json/wp/v2/faq?per_page=5');
+                    const response = await fetch('/wp-json/fau/v1/frequent-queries?per_page=5');
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                    cachedFAQs = await response.json();
+                    cachedFrequentQueries = await response.json();
                 } catch (error) {
-                    console.error('Error fetching FAQs:', error);
+                    console.error('Error fetching frequent queries:', error);
                     return;
                 }
             }
 
-            if (cachedFAQs && cachedFAQs.length > 0) {
-                const faqHtml = `
-                    <div class="search-faqs">
-                        <h3 class="search-faqs-title">${window.fauGlobalSearch?.strings?.faqsTitle || 'Frequently Asked Questions'}</h3>
-                        <ul class="search-faqs-list">
-                            ${cachedFAQs.map(faq => `
+            if (cachedFrequentQueries && cachedFrequentQueries.length > 0) {
+                const queriesHtml = `
+                    <div class="search-frequent-queries">
+                        <h3 class="search-frequent-queries-title">${window.fauGlobalSearch?.strings?.frequentQueriesTitle || 'Frequently Searched Queries'}</h3>
+                        <ul class="search-frequent-queries-list">
+                            ${cachedFrequentQueries.map(query => `
                                 <li>
-                                    <a href="${faq.link}">${faq.title.rendered}</a>
+                                    <a href="${query.link}">${query.title}</a>
                                 </li>
                             `).join('')}
                         </ul>
                     </div>
                 `;
-                suggestionsArea.innerHTML = faqHtml;
+                suggestionsArea.innerHTML = queriesHtml;
             }
         }
 

@@ -27,7 +27,7 @@ if (!function_exists('render_block_fau_global_search')) {
         // Add translations and configuration
         wp_localize_script('fau-global-search', 'fauGlobalSearch', array(
             'strings' => array(
-                'faqsTitle' => __('Frequently Asked Questions', 'fau-elemental'),
+                'frequentQueriesTitle' => __('Frequently Searched Queries', 'fau-elemental'),
                 'suggestionsTitle' => __('Search Suggestions', 'fau-elemental'),
                 'noResults' => __('No results found', 'fau-elemental'),
             ),
