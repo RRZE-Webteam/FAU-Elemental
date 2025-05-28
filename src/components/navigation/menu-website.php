@@ -114,8 +114,12 @@ class FAU_Menu_With_Children_Walker extends Walker_Nav_Menu {
             $page_children = get_pages(array(
                 'child_of' => $item->object_id,
                 'parent' => $item->object_id,
-                'numberposts' => 1
+                'numberposts' => -1
             ));
+            // Filter out pages that should be hidden from menu
+            $page_children = array_filter($page_children, function($child) {
+                return !FAU_Page_Meta_Fields::should_hide_from_menu($child->ID);
+            });
             $has_page_children = !empty($page_children);
         }
         
@@ -144,6 +148,11 @@ class FAU_Menu_With_Children_Walker extends Walker_Nav_Menu {
             'sort_column' => 'menu_order',
             'sort_order' => 'ASC'
         ));
+        
+        // Filter out pages that should be hidden from menu
+        $children = array_filter($children, function($child) {
+            return !FAU_Page_Meta_Fields::should_hide_from_menu($child->ID);
+        });
         if (!empty($children)) {
             // Only add toggle button if not mixed with menu children
             if (!$mixed_with_menu) {
@@ -158,8 +167,12 @@ class FAU_Menu_With_Children_Walker extends Walker_Nav_Menu {
                 $has_children = get_pages(array(
                     'child_of' => $child->ID,
                     'parent' => $child->ID,
-                    'numberposts' => 1
+                    'numberposts' => -1
                 ));
+                // Filter out pages that should be hidden from menu
+                $has_children = array_filter($has_children, function($grandchild) {
+                    return !FAU_Page_Meta_Fields::should_hide_from_menu($grandchild->ID);
+                });
                 if (!empty($has_children)) {
                     $child_classes .= ' menu-item-has-children';
                 }

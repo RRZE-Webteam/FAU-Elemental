@@ -25,6 +25,9 @@ require_once get_template_directory() . '/inc/theme-settings.php';
 // Logo display functionality
 require_once get_template_directory() . '/inc/logo-display.php';
 
+// Page meta fields
+require_once get_template_directory() . '/inc/page-meta-fields.php';
+
 /**
  * Calculate reading time for posts
  *
