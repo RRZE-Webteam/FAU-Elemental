@@ -11,6 +11,7 @@ if (!defined('ABSPATH')) {
 
 require_once get_theme_file_path('src/fau-copyright-info/render.php');
 require_once get_theme_file_path('src/blocks/fau-teaser-grid/render.php');
+require_once get_theme_file_path('src/blocks/fau-facts-grid/render.php');
 
 /**
  * Register all custom blocks from the build directory
@@ -38,10 +39,13 @@ function fau_elemental_register_blocks() {
                     $render_function = 'render_block_' . str_replace('-', '_', $block_name);
                 }
                 
-                $block_json['render_callback'] = $render_function;
+                // Register the block with explicit render callback
+                register_block_type($block_folder, array(
+                    'render_callback' => $render_function
+                ));
+            } else {
+                register_block_type($block_folder, $block_json);
             }
-            
-            register_block_type($block_folder, $block_json);
         }
     }
 }
