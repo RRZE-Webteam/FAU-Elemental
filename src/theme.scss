@@ -188,6 +188,11 @@ h1.big-teaser {
 	font-size: var(--H-Heading-Big-Teaser);
 }
 
+// WP defaults override
+:root :where(.is-layout-flow) > * {
+	margin-block-start: 0;
+}
+
 // Import Core Block Styles
 @import "./blocks/core-button/style";
 @import "./blocks/core-code/style";

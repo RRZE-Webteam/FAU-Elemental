@@ -1,5 +1,5 @@
 .post-meta {
-    padding: 0 var(--Spacing-10x);
+    padding: var(--Spacing-8x) var(--Spacing-10x);
 
     .post-meta-wrapper {
         max-width: var(--small-max-width);
@@ -54,7 +54,6 @@
 // Dark mode
 .is-style-dark.post-meta {
     background-color: var(--FAU-Col-FAU-Blau-100);
-    padding: var(--Spacing-8x) var(--Spacing-10x);
 
     .post-meta-wrapper .post-meta-inner {
         border-top: 1px solid var(--FAU-Col-FAU-Schwarz-37_5);
