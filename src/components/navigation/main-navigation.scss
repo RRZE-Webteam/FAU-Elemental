@@ -277,3 +277,15 @@
         color: var(--color-primary, #005fa3);
     }
 } 
+.site-header__main--front-page{
+    position: absolute;
+    top: 40%;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+    box-shadow: none;
+    z-index: 1001;
+    .main-navigation {
+        box-shadow:none;
+    }
+}
