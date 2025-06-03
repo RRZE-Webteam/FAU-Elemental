@@ -1,0 +1,437 @@
+// FAU Big Button Teaser Group Block Styles
+// Aligned with FAU theme button design patterns
+
+.fau-big-button-teaser-group {
+  margin-bottom: 2rem;
+
+  // Roof line styling
+  &__roof-line {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+  }
+
+  // Headline styling
+  &__headline {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 1rem 0;
+
+    @media (min-width: 768px) {
+      font-size: 2.25rem;
+    }
+  }
+
+  // Teaser text styling
+  &__teaser-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    
+    p {
+      margin: 0 0 1rem 0;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // Buttons container
+  &__buttons {
+    display: grid;
+    gap: 1.5rem;
+    
+    // Small size (default): Auto-fit with min 280px width
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    
+    @media (min-width: 768px) {
+      // Small size: Prefer 4 columns but allow more
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    
+    @media (min-width: 1024px) {
+      gap: 2rem;
+      // Better spacing for larger screens
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+  }
+
+  // Individual button styling - following FAU button patterns
+  &__button {
+    position: relative;
+    display: block;
+    
+    &-link {
+      display: block;
+      text-decoration: none;
+      height: 100%;
+      transition: all 0.2s ease-in-out;
+      
+      &:hover {
+        .fau-big-button-teaser-group__button-content::after {
+          right: 1.75rem;
+          transition: all 0.2s ease-in-out;
+        }
+      }
+    }
+
+    &-content {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      min-height: 200px;
+      padding: var(--Spacing-4x);
+      padding-right: calc(var(--Spacing-4x) + 48px); // Space for arrow
+      border-radius: 0; // Square corners like FAU buttons
+      border: 1px solid transparent; // Default border for structure
+      transition: all 0.2s ease-in-out;
+      
+      // Arrow icon following FAU pattern
+      &::after {
+        content: "";
+        background-repeat: no-repeat;
+        position: absolute;
+        top: var(--Spacing-4x);
+        right: 2rem;
+        width: 21px;
+        height: 14px;
+        transition: all 0.2s ease-in-out;
+      }
+    }
+
+    &-title {
+      font-size: var(--H-Heading-6);
+      font-weight: 600;
+      line-height: 1.3;
+      margin: 0 0 0.75rem 0;
+      color: inherit;
+    }
+
+    &-text {
+      font-size: var(--P-Body-Text-Small);
+      line-height: 1.5;
+      margin: 0;
+      opacity: 0.9;
+      
+      p {
+        margin: 0;
+      }
+    }
+
+    &-url {
+      margin-top: 1rem;
+      opacity: 0.6;
+      font-size: 0.75rem;
+    }
+  }
+
+  // Large size variant
+  &--large {
+    .fau-big-button-teaser-group__buttons {
+      @media (min-width: 768px) {
+        // Large size: Prefer 3 columns but allow more with larger min width
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      }
+
+      @media (min-width: 1024px) {
+        // Even larger minimum width for large buttons on desktop
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      }
+    }
+
+    .fau-big-button-teaser-group__button-content {
+      min-height: 240px;
+      padding: calc(var(--Spacing-4x) + var(--Spacing-2x));
+      padding-right: calc(var(--Spacing-4x) + var(--Spacing-2x) + 48px);
+
+      &::after {
+        top: calc(var(--Spacing-4x) + var(--Spacing-2x));
+        width: 24px;
+        height: 16px;
+      }
+    }
+
+    .fau-big-button-teaser-group__button-title {
+      font-size: var(--H-Heading-5);
+    }
+
+    .fau-big-button-teaser-group__button-text {
+      font-size: 1rem;
+    }
+  }
+
+  // Light mode (default) - using FAU design system
+  &--light {
+    color: var(--FAU-Col-FAU-Schwarz-90);
+
+    .fau-big-button-teaser-group__roof-line {
+      color: var(--FAU-Col-FAU-Schwarz-75);
+    }
+
+    .fau-big-button-teaser-group__headline {
+      color: var(--FAU-Col-FAU-Schwarz-100);
+    }
+
+    .fau-big-button-teaser-group__teaser-text {
+      color: var(--FAU-Col-FAU-Schwarz-90);
+    }
+  }
+
+  // Filled variant - FAU primary button style
+  &--filled {
+    .fau-big-button-teaser-group__button-content {
+      background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+      border-color: var(--FAU-Col-FAU-Dunkelblau-100);
+      color: var(--FAU-Col-FAU-Weiss-100);
+
+      &::after {
+        background-image: var(--icon-arrow-weiss);
+      }
+    }
+  }
+
+  // Outline variant - FAU secondary button style
+  &--outline {
+    .fau-big-button-teaser-group__button-content {
+      background-color: transparent;
+      border-color: var(--FAU-Col-FAU-Blau-100);
+      color: var(--FAU-Col-FAU-Blau-100);
+
+      &::after {
+        background-image: var(--icon-arrow-fau-blau);
+      }
+    }
+  }
+
+  // Dark mode
+  &--dark {
+    color: var(--FAU-Col-FAU-Weiss-100);
+
+    .fau-big-button-teaser-group__roof-line {
+      color: var(--FAU-Col-FAU-Weiss-75);
+    }
+
+    .fau-big-button-teaser-group__headline {
+      color: var(--FAU-Col-FAU-Weiss-100);
+    }
+
+    .fau-big-button-teaser-group__teaser-text {
+      color: var(--FAU-Col-FAU-Weiss-90);
+    }
+
+    // Filled variant in dark mode
+    &.fau-big-button-teaser-group--filled {
+      .fau-big-button-teaser-group__button-content {
+        background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+        border-color: var(--FAU-Col-FAU-Dunkelblau-100);
+        color: var(--FAU-Col-FAU-Weiss-100);
+
+        &::after {
+          background-image: var(--icon-arrow-weiss);
+        }
+      }
+    }
+
+    // Outline variant in dark mode
+    &.fau-big-button-teaser-group--outline {
+      .fau-big-button-teaser-group__button-content {
+        background-color: transparent;
+        border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+        color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+
+        &::after {
+          background-image: var(--icon-arrow-weiss);
+        }
+      }
+    }
+  }
+
+  // Faculty color variants - using FAU design system
+  &--fau {
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--filled {
+      .fau-big-button-teaser-group__button-content {
+        background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+        border-color: var(--FAU-Col-FAU-Dunkelblau-100);
+        color: var(--FAU-Col-FAU-Weiss-100);
+
+        &::after {
+          background-image: var(--icon-arrow-weiss);
+        }
+      }
+    }
+
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--outline {
+      .fau-big-button-teaser-group__button-content {
+        border-color: var(--FAU-Col-FAU-Blau-100);
+        color: var(--FAU-Col-FAU-Blau-100);
+
+        &::after {
+          background-image: var(--icon-arrow-fau-blau);
+        }
+      }
+    }
+  }
+
+  &--phil {
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--filled {
+      .fau-big-button-teaser-group__button-content {
+        background-color: var(--FAU-Col-Phil-Gelb-100);
+        border-color: var(--FAU-Col-Phil-Gelb-100);
+        color: var(--FAU-Col-FAU-Schwarz-100);
+
+        &::after {
+          background-image: var(--icon-arrow-fau-blau);
+        }
+      }
+    }
+
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--outline {
+      .fau-big-button-teaser-group__button-content {
+        border-color: var(--FAU-Col-Phil-Gelb-100);
+        color: var(--FAU-Col-Phil-Gelb-100);
+
+        &::after {
+          background-image: var(--icon-arrow-fau-blau);
+        }
+      }
+    }
+  }
+
+  &--rw {
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--filled {
+      .fau-big-button-teaser-group__button-content {
+        background-color: var(--FAU-Col-RW-Rot-100);
+        border-color: var(--FAU-Col-RW-Rot-100);
+        color: var(--FAU-Col-FAU-Weiss-100);
+
+        &::after {
+          background-image: var(--icon-arrow-weiss);
+        }
+      }
+    }
+
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--outline {
+      .fau-big-button-teaser-group__button-content {
+        border-color: var(--FAU-Col-RW-Rot-100);
+        color: var(--FAU-Col-RW-Rot-100);
+
+        &::after {
+          background-image: var(--icon-arrow-weiss);
+        }
+      }
+    }
+  }
+
+  &--med {
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--filled {
+      .fau-big-button-teaser-group__button-content {
+        background-color: var(--FAU-Col-Med-Blau-100);
+        border-color: var(--FAU-Col-Med-Blau-100);
+        color: var(--FAU-Col-FAU-Weiss-100);
+
+        &::after {
+          background-image: var(--icon-arrow-weiss);
+        }
+      }
+    }
+
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--outline {
+      .fau-big-button-teaser-group__button-content {
+        border-color: var(--FAU-Col-Med-Blau-100);
+        color: var(--FAU-Col-Med-Blau-100);
+
+        &::after {
+          background-image: var(--icon-arrow-fau-blau);
+        }
+      }
+    }
+  }
+
+  &--nat {
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--filled {
+      .fau-big-button-teaser-group__button-content {
+        background-color: var(--FAU-Col-Nat-Gruen-100);
+        border-color: var(--FAU-Col-Nat-Gruen-100);
+        color: var(--FAU-Col-FAU-Weiss-100);
+
+        &::after {
+          background-image: var(--icon-arrow-weiss);
+        }
+      }
+    }
+
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--outline {
+      .fau-big-button-teaser-group__button-content {
+        border-color: var(--FAU-Col-Nat-Gruen-100);
+        color: var(--FAU-Col-Nat-Gruen-100);
+
+        &::after {
+          background-image: var(--icon-arrow-fau-blau);
+        }
+      }
+    }
+  }
+
+  &--tf {
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--filled {
+      .fau-big-button-teaser-group__button-content {
+        background-color: var(--FAU-Col-TF-Metallic-100);
+        border-color: var(--FAU-Col-TF-Metallic-100);
+        color: var(--FAU-Col-FAU-Weiss-100);
+
+        &::after {
+          background-image: var(--icon-arrow-weiss);
+        }
+      }
+    }
+
+    &.fau-big-button-teaser-group--light.fau-big-button-teaser-group--outline {
+      .fau-big-button-teaser-group__button-content {
+        border-color: var(--FAU-Col-TF-Metallic-100);
+        color: var(--FAU-Col-TF-Metallic-100);
+
+        &::after {
+          background-image: var(--icon-arrow-fau-blau);
+        }
+      }
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: 767px) {
+    &__buttons {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    &__button-content {
+      min-height: 160px;
+      padding: var(--Spacing-3x);
+      padding-right: calc(var(--Spacing-3x) + 40px);
+    }
+
+    &--large {
+      .fau-big-button-teaser-group__button-content {
+        min-height: 180px;
+      }
+    }
+  }
+
+  // Editor-specific styles
+  .block-editor & {
+    .fau-big-button-teaser-group__button-url {
+      display: block;
+    }
+
+    .fau-big-button-teaser-group__button-link {
+      pointer-events: none;
+    }
+  }
+} 
