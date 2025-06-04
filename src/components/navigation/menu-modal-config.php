@@ -18,12 +18,8 @@ global $menu_modal;
 
 // Ensure the menu modal instance exists
 if (!$menu_modal || !is_object($menu_modal)) {
-    error_log('FAU Debug: $menu_modal instance not found');
     return;
 }
-
-// Debug: Log menu modal registration
-error_log('FAU Debug: Starting menu modal configuration');
 
 // Configure Services Modal (Global Menu - replaces menu-meta-nav functionality)
 $menu_modal->register_modal('services', array(
@@ -64,8 +60,6 @@ $menu_modal->register_modal('menu-website', array(
     'show_close_button' => true,
 ));
 
-error_log('FAU Debug: Modals registered');
-
 /**
  * Helper functions to check if menus exist (for use in navigation components)
  */
@@ -78,11 +72,9 @@ error_log('FAU Debug: Modals registered');
 function fau_elemental_has_services_menu() {
     global $menu_modal;
     if (!$menu_modal || !is_object($menu_modal)) {
-        error_log('FAU Debug: has_services_menu - no menu_modal instance');
         return false;
     }
     $result = $menu_modal->has_menu(array('meta_navigation_services'), true);
-    error_log('FAU Debug: has_services_menu result: ' . ($result ? 'true' : 'false'));
     return $result;
 }
 
@@ -94,11 +86,9 @@ function fau_elemental_has_services_menu() {
 function fau_elemental_has_structure_menu() {
     global $menu_modal;
     if (!$menu_modal || !is_object($menu_modal)) {
-        error_log('FAU Debug: has_structure_menu - no menu_modal instance');
         return false;
     }
     $result = $menu_modal->has_menu(array('meta_navigation_structure'), true);
-    error_log('FAU Debug: has_structure_menu result: ' . ($result ? 'true' : 'false'));
     return $result;
 }
 
@@ -110,11 +100,9 @@ function fau_elemental_has_structure_menu() {
 function fau_elemental_has_website_menu() {
     global $menu_modal;
     if (!$menu_modal || !is_object($menu_modal)) {
-        error_log('FAU Debug: has_website_menu - no menu_modal instance');
         return false;
     }
     $result = $menu_modal->has_menu(array('primary'));
-    error_log('FAU Debug: has_website_menu result: ' . ($result ? 'true' : 'false'));
     return $result;
 }
 

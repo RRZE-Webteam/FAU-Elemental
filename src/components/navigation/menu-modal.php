@@ -299,9 +299,7 @@ class Menu_Modal {
      * Render all registered modals
      */
     public function render_all_modals() {
-        error_log('FAU Debug: render_all_modals called. Total configs: ' . count($this->modal_configs));
         foreach ($this->modal_configs as $modal_id => $config) {
-            error_log('FAU Debug: Rendering modal: ' . $modal_id . ' with class: ' . $config['modal_class']);
             $this->render_modal($modal_id, $config);
         }
     }

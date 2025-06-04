@@ -22,7 +22,6 @@
             // Open modal buttons
             $(document).on('click', '.menu-modal__open-btn', (e) => {
                 e.preventDefault();
-                console.log('FAU Debug: Open button clicked');
                 const modalTarget = $(e.currentTarget).data('modal-target') || $(e.currentTarget).data('meta-modal');
                 if (modalTarget) {
                     this.openModal(modalTarget);
@@ -32,21 +31,18 @@
             // Close modal buttons - Updated to match actual generated HTML structure
             $(document).on('click', '.menu-modal__close-btn, .menu-meta-nav__modal__close-btn, .menu-website-modal__close-btn', (e) => {
                 e.preventDefault();
-                console.log('FAU Debug: Close button clicked');
                 this.closeCurrentModal();
             });
 
             // Back buttons
             $(document).on('click', '.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn', (e) => {
                 e.preventDefault();
-                console.log('FAU Debug: Back button clicked');
                 this.goBack();
             });
 
             // Overlay click to close
             $(document).on('click', '.menu-modal__overlay, .menu-meta-nav__modal__overlay, .menu-website-modal__overlay', (e) => {
                 if (e.target === e.currentTarget) {
-                    console.log('FAU Debug: Overlay clicked');
                     this.closeCurrentModal();
                 }
             });
@@ -54,14 +50,12 @@
             // Submenu toggles
             $(document).on('click', '.menu-modal__submenu-toggle, .menu-website-modal__submenu-toggle', (e) => {
                 e.preventDefault();
-                console.log('FAU Debug: Submenu toggle clicked');
                 this.toggleSubmenu($(e.currentTarget));
             });
 
             // Escape key to close
             $(document).on('keydown', (e) => {
                 if (e.key === 'Escape' && this.currentModal) {
-                    console.log('FAU Debug: Escape key pressed');
                     this.closeCurrentModal();
                 }
             });
@@ -82,31 +76,21 @@
         }
 
         openModal(modalId) {
-            console.log('FAU Debug: === OPENING MODAL ===');
-            console.log('FAU Debug: modalId requested:', modalId);
-            
             // Close any currently open modal
             this.closeCurrentModal();
 
             // Find the modal (support different ID formats)
             let $modal = $(`#${modalId}`);
-            console.log('FAU Debug: First search for #' + modalId + ':', $modal.length, $modal.get(0));
             
             if (!$modal.length) {
                 $modal = $(`#${modalId}-modal`);
-                console.log('FAU Debug: Second search for #' + modalId + '-modal:', $modal.length, $modal.get(0));
             }
             
             if (!$modal.length) {
                 console.warn(`Modal not found: ${modalId}`);
-                console.log('FAU Debug: Available modals on page:');
-                $('.menu-modal, .menu-meta-nav__modal, .menu-website-modal').each(function(i) {
-                    console.log('  Modal ' + i + ':', this.id, this.className);
-                });
                 return;
             }
 
-            console.log('FAU Debug: Modal found successfully:', $modal.attr('id'), $modal.attr('class'));
             this.currentModal = $modal;
 
             // Reset modal to initial state
@@ -118,19 +102,6 @@
             // Show modal using CSS classes only
             $modal.addClass('is-open');
             $modal.attr('aria-hidden', 'false');
-            
-            // Debug: Log the actual HTML structure of menu items with toggle buttons
-            console.log('FAU Debug: === MENU STRUCTURE ANALYSIS ===');
-            $modal.find('.menu-item').each(function(i) {
-                const $item = $(this);
-                const hasToggle = $item.find('.menu-modal__submenu-toggle').length > 0;
-                if (hasToggle) {
-                    console.log('FAU Debug: Menu item ' + i + ' with toggle:');
-                    console.log('  Classes:', $item.attr('class'));
-                    console.log('  HTML structure:', $item.get(0).outerHTML.substring(0, 200) + '...');
-                    console.log('  Toggle button position:', $item.find('.menu-modal__submenu-toggle').get(0));
-                }
-            });
 
             // Focus management
             const $firstFocusable = $modal.find('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])').first();
@@ -174,8 +145,6 @@
             
             // Clear navigation stack
             $modal.data('navigation-stack', []);
-            
-            console.log('FAU Debug: Modal state reset to initial state');
         }
 
         closeCurrentModal() {
@@ -237,8 +206,6 @@
             const $backButton = $modal.find('.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn');
             const navigationStack = $modal.data('navigation-stack') || [];
             
-            console.log('FAU Debug: Going back from drill-down navigation. Stack depth:', navigationStack.length);
-            
             if (navigationStack.length > 0) {
                 // Pop the most recent navigation state
                 const { parentUl, parentLi } = navigationStack.pop();
@@ -269,8 +236,6 @@
                 if (navigationStack.length === 0) {
                     $backButton.hide();
                 }
-                
-                console.log('FAU Debug: Restored to menu level. Remaining stack depth:', navigationStack.length);
             } else {
                 // If no navigation stack, just close the modal
                 this.closeCurrentModal();
@@ -284,8 +249,6 @@
             const $backButton = $modal.find('.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn');
             
             if ($submenu.length === 0) return;
-            
-            console.log('FAU Debug: Drill-down navigation activated');
             
             // Use drill-down navigation for all menus (both global and local)
             // Hide all siblings of the current item
@@ -318,8 +281,6 @@
             
             // Show back button
             $backButton.show();
-            
-            console.log('FAU Debug: Navigation stack depth:', navigationStack.length);
         }
 
         trapFocus($modal) {
@@ -349,18 +310,7 @@
 
     // Initialize when DOM is ready
     $(document).ready(function() {
-        console.log('FAU Debug: MenuModal JavaScript initializing');
-        
-        // Check if buttons exist
-        const openButtons = $('.menu-modal__open-btn');
-        console.log('FAU Debug: Found ' + openButtons.length + ' open buttons');
-        
-        // Check if modals exist
-        const modals = $('.menu-modal, .menu-meta-nav__modal, .menu-website-modal');
-        console.log('FAU Debug: Found ' + modals.length + ' modals');
-        
         new MenuModal();
-        console.log('FAU Debug: MenuModal initialized');
     });
 
     // Add CSS class to body when modal is open
