@@ -25,7 +25,7 @@ class Main_Navigation {
      */
     public function enqueue_scripts() {
         wp_enqueue_style('main-navigation', get_template_directory_uri() . '/src/components/navigation/main-navigation.scss');
-        wp_enqueue_script('main-navigation', get_template_directory_uri() . '/src/components/navigation/main-navigation.js', array('jquery'), '1.0.0', true);
+        // Note: JavaScript is now handled by the unified menu-modal system
     }
 
     /**
@@ -37,7 +37,11 @@ class Main_Navigation {
             require_once get_template_directory() . '/inc/logo-display.php';
         }
 
-        $has_website_menu = has_nav_menu('primary');
+        // Include the unified menu modal configuration
+        require_once get_template_directory() . '/src/components/navigation/menu-modal-config.php';
+
+        // Check if website menu exists using unified system
+        $has_website_menu = fau_elemental_has_website_menu();
         ?>
         <nav class="main-navigation" role="navigation" aria-label="<?php esc_attr_e('Main Navigation', 'fau-elemental'); ?>">
             <div class="main-navigation__container">
@@ -62,7 +66,7 @@ class Main_Navigation {
 
                 <div class="main-navigation__menu-container">
                     <?php if ($has_website_menu): ?>
-                        <button class="main-navigation__toggle" aria-expanded="false" aria-controls="menu-website-modal">
+                        <button class="main-navigation__toggle menu-modal__open-btn" aria-expanded="false" aria-controls="menu-website-modal" data-modal-target="menu-website-modal">
                             <span class="main-navigation__toggle-text">Menü</span>
                             <span class="main-navigation__toggle-icon"></span>
                         </button>

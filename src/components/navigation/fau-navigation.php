@@ -25,24 +25,19 @@ class FAU_Navigation {
      */
     public function enqueue_scripts() {
         wp_enqueue_style('fau-navigation', get_template_directory_uri() . '/src/components/navigation/fau-navigation.css');
-        wp_enqueue_script('fau-navigation', get_template_directory_uri() . '/src/components/navigation/fau-navigation.js', array(), '1.0.0', true);
-        
-        // Enqueue meta navigation scripts and styles
-        wp_enqueue_style('menu-meta-nav', get_template_directory_uri() . '/src/components/navigation/menu-meta-nav.scss');
-        wp_enqueue_script('menu-meta-nav', get_template_directory_uri() . '/src/components/navigation/menu-meta-nav.js', array('jquery'), '1.0.0', true);
+        // Note: JavaScript is now handled by the unified menu-modal system
     }
 
     /**
      * Render the FAU navigation
      */
     public function render() {
-        // For Services
-        $services_menu_items = function_exists('get_main_site_id') ? (new Menu_Meta_Nav_Modal())->get_main_site_menu('meta_navigation_services') : [];
-        $has_services = !empty($services_menu_items) || has_nav_menu('meta_navigation_services');
-
-        // For Structure
-        $structure_menu_items = function_exists('get_main_site_id') ? (new Menu_Meta_Nav_Modal())->get_main_site_menu('meta_navigation_structure') : [];
-        $has_structure = !empty($structure_menu_items) || has_nav_menu('meta_navigation_structure');
+        // Include the unified menu modal configuration
+        require_once get_template_directory() . '/src/components/navigation/menu-modal-config.php';
+        
+        // Check for Services and Structure menus using unified system
+        $has_services = fau_elemental_has_services_menu();
+        $has_structure = fau_elemental_has_structure_menu();
         ?>
         <nav class="fau-navigation" role="navigation" aria-label="<?php esc_attr_e('FAU Navigation', 'fau-elemental'); ?>">
             <div class="fau-navigation__container">
@@ -72,12 +67,10 @@ class FAU_Navigation {
                         // Fallback menu items if no menu is set
                         ?>
                         <ul class="fau-navigation__menu">
-                            <?php
-                            // Only show the button if the menu exists
-                            if ($has_services): ?>
+                            <?php if ($has_services): ?>
                                 <li class="menu-item">
-                                    <button class="fau-navigation__button menu-meta-nav__open-btn"
-                                        data-meta-modal="services"
+                                    <button class="fau-navigation__button menu-modal__open-btn"
+                                        data-modal-target="services-modal"
                                         aria-label="Services"
                                         aria-expanded="false">
                                         <span class="fau-navigation__icon">
@@ -91,8 +84,8 @@ class FAU_Navigation {
                             <?php endif; ?>
                             <?php if ($has_structure): ?>
                                 <li class="menu-item">
-                                    <button class="fau-navigation__button menu-meta-nav__open-btn"
-                                        data-meta-modal="structure"
+                                    <button class="fau-navigation__button menu-modal__open-btn"
+                                        data-modal-target="structure-modal"
                                         aria-label="Structure"
                                         aria-expanded="false">
                                         <span class="fau-navigation__icon">
@@ -183,6 +176,4 @@ class FAU_Navigation_Walker extends Walker_Nav_Menu {
 }
 
 // Initialize the component
-$fau_navigation = new FAU_Navigation();
-
-get_template_part('src/components/navigation/menu-meta-nav'); 
+$fau_navigation = new FAU_Navigation(); 
