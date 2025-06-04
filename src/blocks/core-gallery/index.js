@@ -22,8 +22,8 @@ addFilter(
 		// Deprecation for old Core-Markup
 		const oldSaveFn = settings.save;
 		const coreGalleryDeprecation = {
-			supports: { ...settings.supports }, // They stay the same (besides some defaults)
-			attributes: { ...settings.attributes }, // They stay the same (besides some defaults)
+			supports: { ...settings.supports },
+			attributes: { ...settings.attributes },
 			save: oldSaveFn,
 			migrate( attributes ) {
 				return {

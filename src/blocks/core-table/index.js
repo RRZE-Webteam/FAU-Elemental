@@ -25,8 +25,8 @@ addFilter(
 		const originalGetSaveElement = settings.save;
 
 		const coreTableDeprecation = {
-			supports: { ...settings.supports }, // They stay the same (besides some defaults)
-			attributes: { ...settings.attributes }, // They stay the same (besides some defaults)
+			supports: { ...settings.supports },
+			attributes: { ...settings.attributes },
 			save: originalGetSaveElement,
 			migrate( attributes ) {
 				return {
