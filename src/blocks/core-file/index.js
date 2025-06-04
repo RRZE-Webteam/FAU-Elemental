@@ -62,6 +62,25 @@ addFilter(
 		// Clone the settings before we modify it
 		const originalSettings = { ...settings };
 
+		// Deprecation for old Core-Markup
+		const oldSaveFn = settings.save;
+		const coreFileDeprecation = {
+			supports: { ...settings.supports },
+			attributes: { ...settings.attributes },
+			save: oldSaveFn,
+			migrate( attributes ) {
+				return {
+					...attributes,
+					coverImage: null,
+					fileDetails: null,
+				};
+			},
+		};
+		settings.deprecated = [
+			coreFileDeprecation,
+			...( settings.deprecated || [] ),
+		];
+
 		// Add custom attributes
 		settings.attributes = {
 			...( settings.attributes || {} ),
