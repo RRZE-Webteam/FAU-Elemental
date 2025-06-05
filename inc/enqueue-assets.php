@@ -27,13 +27,24 @@ function faue_enqueue_styles() {
 }
 add_action('wp_enqueue_scripts', 'faue_enqueue_styles');
 
-// Enqueue Editor Wrapper Styles
+// Enqueue Editor Styles
 function faue_enqueue_editor_assets() {
+    // Load main editor styles (compiled from editor.scss)
+    $editor_asset = include get_theme_file_path('build/css/editor.asset.php');
+    wp_enqueue_style(
+        'faue-editor',
+        get_theme_file_uri('build/css/editor.css'),
+        $editor_asset['dependencies'],
+        $editor_asset['version']
+    );
+
+    // Load editor wrapper styles
+    $wrapper_asset = include get_theme_file_path('build/css/editor-wrapper.asset.php');
     wp_enqueue_style(
         'faue-editor-wrapper',
         get_theme_file_uri('build/css/editor-wrapper.css'),
-        array(),
-        wp_get_theme()->get('Version')
+        $wrapper_asset['dependencies'],
+        $wrapper_asset['version']
     );
 }
 add_action('enqueue_block_editor_assets', 'faue_enqueue_editor_assets');

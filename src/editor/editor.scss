@@ -11,6 +11,10 @@
 @import "../blocks/fau-portalmenu/editor";
 @import "../blocks/core-verse/editor";
 
+html :where(.editor-styles-wrapper) {
+	font-family: var(--font-family-base);
+}
+
 .edit-post-visual-editor__post-title-wrapper {
 	margin: var(--Spacing-10x) 0;
 }
