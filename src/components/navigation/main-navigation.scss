@@ -1,8 +1,10 @@
+// Interim CSS, will be changed later
 .main-navigation {
     position: relative;
     background-color: var(--color-background);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 100;
+    max-width: 1320px;
+    margin: 0 auto;
 
     &__container {
         display: flex;
@@ -22,8 +24,6 @@
     }
 
     &__logo {
-        display: flex;
-        align-items: center;
 
         .textlogo {
             display: flex;
@@ -38,33 +38,10 @@
             align-items: center;
 
             img, svg {
-                height: var(--logo-height, 40px);
+                height: var(--logo-height, 56px);
                 width: auto;
                 display: block;
             }
-        }
-
-        .text {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.2;
-        }
-
-        .fau-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--color-text);
-        }
-
-        .fau-title-place {
-            font-size: 1rem;
-            color: var(--color-text-secondary);
-        }
-
-        .visible-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--color-text);
         }
 
         .website-shortcut {
@@ -74,7 +51,6 @@
 
         .separator {
             color: var(--color-text-secondary);
-            margin: 0 0.5rem;
         }
     }
 
@@ -152,7 +128,6 @@
         right: 0;
         min-width: 220px;
         background: #fff;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
         border-radius: 6px;
         z-index: 100;
         padding: 1rem 0;
@@ -208,7 +183,6 @@
         left: 0;
         background-color: var(--wp--preset--color--background);
         min-width: 200px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         z-index: 1000;
 
         @media (max-width: 768px) {
@@ -276,4 +250,46 @@
     &:hover {
         color: var(--color-primary, #005fa3);
     }
-} 
+}
+
+.site-header__main--front-page{
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+    box-shadow: none;
+    z-index: 1001;
+    .main-navigation {
+        box-shadow:none;
+    }
+}
+
+// Logo and claim style (New CSS)
+.main-navigation {
+    &__logo {
+        display: flex;
+        align-items: center;
+        max-width: 380px;
+
+        a {
+            text-decoration: none;
+
+            .textlogo {
+                display: flex;
+                align-items: flex-start;
+                gap: var(--Spacing-3x);
+
+                .text {
+                    position: relative;
+                    top: -4px;
+                    font-size: 0.875rem;
+                    color: var(--FAU-Col-FAU-Weiss-100);
+                    line-height: 1.3;
+                    font-weight: 500;
+                    letter-spacing: var(--letter-spacing-small);
+                }
+            }
+        }
+    }
+}

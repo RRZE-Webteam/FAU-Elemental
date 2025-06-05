@@ -1,9 +1,10 @@
+// Interim CSS, will be changed later
 .site-header {
     position: relative;
     z-index: 100;
 
     &__top {
-        background-color: var(--wp--preset--color--theme-1000, #003865);
+        background-color: var(--FAU-Col-FAU-Dunkelblau-100);
         padding: 0.5rem 0;
         
         .wp-block-navigation {
@@ -21,9 +22,9 @@
     }
 
     &__main {
-        background-color: var(--wp--preset--color--white, #ffffff);
-        border-bottom: 1px solid var(--wp--preset--color--border, #e5e5e5);
-        padding: 1rem 0;
+        background-color: var(--FAU-Col-FAU-Blau-100);
+        padding: 1.25rem 0;
+        margin: 0;
 
         .wp-block-group {
             display: flex;
@@ -70,4 +71,34 @@
             }
         }
     }
-} 
+}
+
+// Header style (New CSS)
+.site-header {
+
+    &__main {
+
+		@each $faculty, $color in (
+			"phil": var(--FAU-Col-Phil-Gelb-100),
+			"nat": var(--FAU-Col-Nat-Gruen-100),
+			"med": var(--FAU-Col-Med-Blau-100),
+			"rw": var(--FAU-Col-RW-Rot-100),
+			"tf": var(--FAU-Col-TF-Metallic-100)
+		) {
+			.fauorg-fakultaet.faculty-#{$faculty} & {
+				background-color: $color;
+
+                .main-navigation__logo .text {
+                    color: var(--FAU-Col-FAU-Blau-100);
+                }
+			}
+
+            .fauorg-fakultaet.faculty-#{rw} & {
+
+                .main-navigation__logo .text {
+                    color: var(--FAU-Col-FAU-Weiss-100);
+                }
+			}
+		}
+    }
+}

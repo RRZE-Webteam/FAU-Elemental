@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
 function fau_use_svg($name, $width = 0, $height = 0, $class = '', $echo = true) {
     // Check if it's the FAU logo
     if ($name === 'fau-logo-2021') {
-        $svg_path = get_template_directory() . '/assets/images/logo.svg';
+        $svg_path = get_template_directory() . '/assets/images/logo-white.svg';
     } else {
         $svg_path = get_template_directory() . '/assets/svg/' . $name . '.svg';
     }

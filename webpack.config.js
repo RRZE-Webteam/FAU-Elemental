@@ -74,15 +74,15 @@ module.exports = {
 			process.cwd(),
 			'src/blocks/core-gallery/gallery-slider.js'
 		),
-		// Add navigation component styles
-		'css/menu-meta-nav': path.resolve(
+		// Add navigation component styles (unified menu modal system)
+		'css/menu-modal': path.resolve(
 			process.cwd(),
-			'src/components/navigation/menu-meta-nav.scss'
+			'src/components/navigation/menu-modal.scss'
 		),
-		// Add navigation component scripts
-		'js/menu-meta-nav': path.resolve(
+		// Add navigation component scripts (unified menu modal system)
+		'js/menu-modal': path.resolve(
 			process.cwd(),
-			'src/components/navigation/menu-meta-nav.js'
+			'src/components/navigation/menu-modal.js'
 		),
 	},
 	plugins: [
