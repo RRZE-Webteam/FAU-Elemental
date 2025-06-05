@@ -89,6 +89,7 @@
 					flex-direction: column;
 					gap: var(--Spacing-3x);
 					margin: 0;
+					list-style: none;
 
 					li {
 
@@ -122,6 +123,7 @@
 				flex-wrap: wrap;
 				padding-left: unset; // no ul padding
 				margin: 0;
+				list-style: none;
 
 				a {
 					color: var(--FAU-Col-FAU-Weiss-100);

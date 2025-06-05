@@ -29,9 +29,9 @@ function fau_footer_customizer_settings($wp_customize) {
     
     // Main Footer Panel
     $wp_customize->add_panel('fau_footer_panel', [
-        'title' => __('Footer Settings', 'fau-elemental'),
+        'title' => __('Footer-Einstellungen', 'fau-elemental'),
         'priority' => 130,
-        'description' => __('Customize all footer elements for your site', 'fau-elemental'),
+        'description' => __('Einstellungen für den Footer', 'fau-elemental'),
     ]);
     
     // ======= 1. CLAIM SECTION =======
