@@ -17,6 +17,11 @@ get_header();
     <div class="entry-content">
         <?php the_content(); ?>
     </div>
+
+    <?php 
+    // Include post meta (conditionally displayed)
+    get_template_part('template-parts/post-meta');
+    ?>
 </article>
 
 <?php

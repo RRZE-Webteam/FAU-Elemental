@@ -61,4 +61,11 @@
         </nav>
     </header>
 
+    <?php 
+    // Display breadcrumbs on all pages except front page
+    if (function_exists('faue_breadcrumbs')) {
+        faue_breadcrumbs();
+    }
+    ?>
+
     <div id="content" class="site-content"> 

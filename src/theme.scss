@@ -238,3 +238,7 @@ address {
 @import "./components/breadcrumbs/style";
 @import "scss/components/footer";
 @import "scss/components/footer-instance";
+@import "./post-meta.scss";
+
+// Import post-meta styles
+@import 'post-meta';

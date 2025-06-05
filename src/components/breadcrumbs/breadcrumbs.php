@@ -53,11 +53,13 @@ function faue_breadcrumbs() {
     $mode = get_theme_mod('faue_breadcrumb_mode', false);
 
     // Start breadcrumb navigation
-    $classes = array('breadcrumbs');
+    $wrapper_classes = array('breadcrumbs-wrapper');
     if ($mode) {
-        $classes[] = 'is-style-dark';
+        $wrapper_classes[] = 'is-style-dark';
     }
-    echo '<nav class="' . esc_attr(implode(' ', $classes)) . '" aria-label="' . esc_attr__('Breadcrumb navigation', 'fau-elemental') . '">';
+    
+    echo '<div class="' . esc_attr(implode(' ', $wrapper_classes)) . '">';
+    echo '<nav class="breadcrumbs" aria-label="' . esc_attr__('Breadcrumb navigation', 'fau-elemental') . '">';
     echo '<ol class="breadcrumbs__list" itemscope itemtype="https://schema.org/BreadcrumbList">';
 
     // Home link (desktop only)
@@ -154,4 +156,5 @@ function faue_breadcrumbs() {
 
     echo '</ol>';
     echo '</nav>';
+    echo '</div>';
 }

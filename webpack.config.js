@@ -114,10 +114,16 @@ module.exports = {
 			process.cwd(),
 			'src/blocks/core-quote/quote-carousel.js'
 		),
+		// Add post-meta script
+		'js/post-meta': path.resolve(
+			process.cwd(),
+			'src/js/post-meta.js'
+		),
 	},
 	output: {
 		...defaultConfig.output,
 		path: path.resolve( process.cwd(), 'build' ),
+
 	},
 	plugins: [
 		...defaultConfig.plugins,

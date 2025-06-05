@@ -49,6 +49,24 @@ function faue_enqueue_editor_assets() {
 }
 add_action('enqueue_block_editor_assets', 'faue_enqueue_editor_assets');
 
+// Enqueue Frontend Scripts
+function faue_enqueue_scripts() {
+
+    // Post meta script for share functionality
+    if (is_singular()) {
+        $post_meta_asset = include get_theme_file_path('build/js/post-meta.asset.php');
+        
+        wp_enqueue_script(
+            'faue-post-meta',
+            get_theme_file_uri('build/js/post-meta.js'),
+            $post_meta_asset['dependencies'],
+            $post_meta_asset['version'],
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'faue_enqueue_scripts');
+
 // Enqueue Editor Scripts
 function faue_enqueue_block_editor_script() {
     wp_enqueue_script(

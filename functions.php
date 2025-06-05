@@ -28,6 +28,9 @@ require_once get_template_directory() . '/inc/posts-settings.php';
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
 
+// Include post meta functionality
+require_once get_template_directory() . '/inc/post-meta.php';
+
 // Menu registration
 require_once get_template_directory() . '/inc/menu-registration.php';
 

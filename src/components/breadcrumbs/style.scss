@@ -4,8 +4,15 @@
 
 @import "../../mixins";
 
+.breadcrumbs-wrapper{
+	&.is-style-dark{
+		background-color: var(--FAU-Col-FAU-Blau-100);
+	}
+}
+
 .breadcrumbs {
 	max-width: var(--wide-max-width);
+	margin: 0 auto;
 	padding: var(--Spacing-4x) var(--Spacing-10x);
 
 	&__list {
