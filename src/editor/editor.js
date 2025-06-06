@@ -11,20 +11,20 @@ import { unregisterFormatType } from '@wordpress/rich-text';
  */
 
 // Subscribe to block selection changes
-subscribe(() => {
+subscribe( () => {
 	// Clear all block selection classes first
-	document.body.classList.forEach((className) => {
+	document.body.classList.forEach( ( className ) => {
 		if (
-			className.startsWith('faue-is-') &&
-			className.endsWith('-block-selected')
+			className.startsWith( 'faue-is-' ) &&
+			className.endsWith( '-block-selected' )
 		) {
-			document.body.classList.remove(className);
+			document.body.classList.remove( className );
 		}
-	});
+	} );
 
 	// Get the currently selected block (first in selection array)
 	const selectedBlockId =
-		select('core/block-editor').getSelectedBlockClientId();
+		select( 'core/block-editor' ).getSelectedBlockClientId();
 
 	// Add class for the currently selected block
 	if ( selectedBlockId ) {
@@ -50,10 +50,10 @@ subscribe(() => {
 			);
 		}
 	}
-});
+} );
 
 // Remove the text-color format type
-unregisterFormatType('core/text-color');
+unregisterFormatType( 'core/text-color' );
 
 /**
  * Filter Rich Text Format Types
@@ -90,46 +90,48 @@ unregisterFormatType('core/text-color');
 // 	}, 'withFilteredFormatTypes')
 // );
 
-const { createNotice } = dispatch('core/notices');
+const { createNotice } = dispatch( 'core/notices' );
 
 let isProcessing = false;
 
 // Function to remove the most recently added FAU Hero pattern
 function removeLastFAUHeroPattern() {
-	const blocks = select('core/block-editor').getBlocks();
+	const blocks = select( 'core/block-editor' ).getBlocks();
 
 	// Find all top-level blocks that contain the FAU Hero pattern
 	const heroBlocks = [];
 
-	blocks.forEach((block, index) => {
-		if (containsFAUHeroPattern(block)) {
-			heroBlocks.push({
+	blocks.forEach( ( block, index ) => {
+		if ( containsFAUHeroPattern( block ) ) {
+			heroBlocks.push( {
 				clientId: block.clientId,
 				index: index,
-				block: block
-			});
+				block: block,
+			} );
 		}
-	});
+	} );
 
 	// If we have more than one hero block, remove the last one
-	if (heroBlocks.length > 1) {
-		const lastHeroBlock = heroBlocks[heroBlocks.length - 1];
-		dispatch('core/block-editor').removeBlock(lastHeroBlock.clientId);
+	if ( heroBlocks.length > 1 ) {
+		const lastHeroBlock = heroBlocks[ heroBlocks.length - 1 ];
+		dispatch( 'core/block-editor' ).removeBlock( lastHeroBlock.clientId );
 	}
 }
 
 // Helper function to check if a block (or its children) contains the FAU Hero pattern
-function containsFAUHeroPattern(block) {
+function containsFAUHeroPattern( block ) {
 	// Check if this is the main hero group block
-	if (block.name === 'core/group' &&
-		block.attributes?.className?.includes('hero-fau')) {
+	if (
+		block.name === 'core/group' &&
+		block.attributes?.className?.includes( 'hero-fau' )
+	) {
 		return true;
 	}
 
 	// Check if any inner blocks contain the hero pattern
-	if (block.innerBlocks && block.innerBlocks.length > 0) {
-		return block.innerBlocks.some(innerBlock =>
-			containsFAUHeroPatternRecursive(innerBlock)
+	if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
+		return block.innerBlocks.some( ( innerBlock ) =>
+			containsFAUHeroPatternRecursive( innerBlock )
 		);
 	}
 
@@ -137,18 +139,20 @@ function containsFAUHeroPattern(block) {
 }
 
 // Recursive helper to check inner blocks
-function containsFAUHeroPatternRecursive(block) {
+function containsFAUHeroPatternRecursive( block ) {
 	// Check for hero-specific classes
-	if (block.attributes?.className?.includes('hero-front-page-title') ||
-		block.attributes?.className?.includes('hero-content') ||
-		block.attributes?.className?.includes('hero-fau')) {
+	if (
+		block.attributes?.className?.includes( 'hero-front-page-title' ) ||
+		block.attributes?.className?.includes( 'hero-content' ) ||
+		block.attributes?.className?.includes( 'hero-fau' )
+	) {
 		return true;
 	}
 
 	// Check inner blocks recursively
-	if (block.innerBlocks && block.innerBlocks.length > 0) {
-		return block.innerBlocks.some(innerBlock =>
-			containsFAUHeroPatternRecursive(innerBlock)
+	if ( block.innerBlocks && block.innerBlocks.length > 0 ) {
+		return block.innerBlocks.some( ( innerBlock ) =>
+			containsFAUHeroPatternRecursive( innerBlock )
 		);
 	}
 
@@ -158,17 +162,17 @@ function containsFAUHeroPatternRecursive(block) {
 // Subscribe to block editor changes
 let previousBlockCount = 0;
 
-subscribe(() => {
-	if (isProcessing) return;
+subscribe( () => {
+	if ( isProcessing ) return;
 
-	const blocks = select('core/block-editor').getBlocks();
-	const currentBlockCount = select('core/block-editor').getBlockCount();
+	const blocks = select( 'core/block-editor' ).getBlocks();
+	const currentBlockCount = select( 'core/block-editor' ).getBlockCount();
 
 	// Only check when blocks are added (not removed or modified)
-	if (currentBlockCount > previousBlockCount) {
-		const patternCount = countFAUHeroOccurrences(blocks);
+	if ( currentBlockCount > previousBlockCount ) {
+		const patternCount = countFAUHeroOccurrences( blocks );
 
-		if (patternCount > 1) {
+		if ( patternCount > 1 ) {
 			isProcessing = true;
 
 			// Remove the duplicate
@@ -180,29 +184,29 @@ subscribe(() => {
 				'Only one FAU Hero pattern is allowed per page. The duplicate has been removed.',
 				{
 					isDismissible: true,
-					type: 'snackbar'
+					type: 'snackbar',
 				}
 			);
 
-			setTimeout(() => {
+			setTimeout( () => {
 				isProcessing = false;
-			}, 100);
+			}, 100 );
 		}
 	}
 
 	previousBlockCount = currentBlockCount;
-});
+} );
 
 // Count how many times the FAU Hero pattern appears (count top-level occurrences only)
-function countFAUHeroOccurrences(blocks) {
+function countFAUHeroOccurrences( blocks ) {
 	let count = 0;
 
 	// Only count top-level blocks that contain the hero pattern
-	blocks.forEach(block => {
-		if (containsFAUHeroPattern(block)) {
+	blocks.forEach( ( block ) => {
+		if ( containsFAUHeroPattern( block ) ) {
 			count++;
 		}
-	});
+	} );
 
 	return count;
 }

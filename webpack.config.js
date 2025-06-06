@@ -16,7 +16,13 @@ const blockFolders = [
 // Get all pattern folders from conditional-patterns directory
 const patternFolders = fs
 	.readdirSync( path.resolve( process.cwd(), 'conditional-patterns' ) )
-	.filter( ( folder ) => fs.statSync( path.resolve( process.cwd(), 'conditional-patterns', folder ) ).isDirectory() );
+	.filter( ( folder ) =>
+		fs
+			.statSync(
+				path.resolve( process.cwd(), 'conditional-patterns', folder )
+			)
+			.isDirectory()
+	);
 
 // Create entries for each block
 const blockEntries = blockFolders.reduce( ( entries, folder ) => {
@@ -137,15 +143,11 @@ module.exports = {
 			'src/blocks/core-quote/quote-carousel.js'
 		),
 		// Add post-meta script
-		'js/post-meta': path.resolve(
-			process.cwd(),
-			'src/js/post-meta.js'
-		),
+		'js/post-meta': path.resolve( process.cwd(), 'src/js/post-meta.js' ),
 	},
 	output: {
 		...defaultConfig.output,
 		path: path.resolve( process.cwd(), 'build' ),
-
 	},
 	plugins: [
 		...defaultConfig.plugins,
