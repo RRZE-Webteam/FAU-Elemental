@@ -12,8 +12,6 @@ get_header();
 <main>
     <?php while (have_posts()) : the_post(); ?>
 
-        <h1>Portal Page</h1>
-
         <div>
             <?php the_content(); ?>
         </div>
