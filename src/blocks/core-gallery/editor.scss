@@ -4,6 +4,10 @@
 	.is-tablet-preview & {
 		top: 547px;
 	}
+
+	.gallery-nav-button {
+		z-index: 1;
+	}
 }
 
 .wp-block-gallery-container {
