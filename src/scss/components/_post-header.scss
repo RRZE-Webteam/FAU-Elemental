@@ -1,4 +1,4 @@
-@import "../../mixins";
+@use "../../mixins" as *;
 
 .post-header {
 	margin-top: var(--Spacing-8x) !important; // mit Marten besprechen > "constrained"

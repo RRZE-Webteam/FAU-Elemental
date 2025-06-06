@@ -2,7 +2,7 @@
  * Breadcrumbs Styles
  */
 
-@import "../../mixins";
+@use "../../mixins" as *;
 
 .breadcrumbs-wrapper{
 	&.is-style-dark{

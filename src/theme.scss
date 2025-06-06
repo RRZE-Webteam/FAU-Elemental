@@ -213,7 +213,6 @@ address {
 }
 
 // Import Core Block Styles
-@import "./mixins";
 @import "./blocks/core-button/style";
 @import "./blocks/core-code/style";
 @import "./blocks/core-details/style";
@@ -242,3 +241,14 @@ address {
 
 // Import post-meta styles
 @import 'post-meta';
+
+// Import Pattern Styles
+@import "./patterns/hero-portal/style";
+@import "./patterns/hero-portal/editor";
+
+@import "./patterns/hero-page/style";
+
+// Import Conditional Pattern Styles
+@import "../conditional-patterns/hero-fau/hero-fau";
+
+// Add any other theme-wide styles below

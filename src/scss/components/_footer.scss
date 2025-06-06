@@ -1,4 +1,4 @@
-@import "../../mixins";
+@use "../../mixins" as *;
 
 footer.wp-block-template-part {
 	margin: 0; // Reset footer margin

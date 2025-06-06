@@ -24,6 +24,27 @@ function faue_enqueue_styles() {
         $theme_asset['dependencies'],
         $theme_asset['version']
     );
+
+    // Enqueue all pattern styles
+    $pattern_folders = array_diff(scandir(get_theme_file_path('conditional-patterns')), array('.', '..'));
+    foreach ($pattern_folders as $folder) {
+        if (is_dir(get_theme_file_path("conditional-patterns/{$folder}"))) {
+            wp_enqueue_style(
+                "faue-{$folder}",
+                get_theme_file_uri("build/css/{$folder}.css"),
+                array('faue-theme'),
+                wp_get_theme()->get('Version')
+            );
+        }
+    }
+
+    // Enqueue hero-fau styles
+    wp_enqueue_style(
+        'faue-hero-fau',
+        get_theme_file_uri('build/css/hero-fau.css'),
+        array('faue-theme'),
+        wp_get_theme()->get('Version')
+    );
 }
 add_action('wp_enqueue_scripts', 'faue_enqueue_styles');
 

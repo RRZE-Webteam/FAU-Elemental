@@ -666,3 +666,62 @@ function faue_show_post_meta() {
 function faue_post_meta_dark_theme() {
     return get_theme_mod('faue_post_meta_dark_theme', false);
 } 
+
+// TODO
+/**
+ * Hero Customizer Settings
+ */
+function fau_hero_customizer_settings($wp_customize) {
+    // Add Hero panel
+    $wp_customize->add_panel('fau_hero_panel', [
+        'title' => __('Hero Settings', 'fau-elemental'),
+        'priority' => 120,
+    ]);
+
+    // Mobile Display Section
+    $wp_customize->add_section('hero_mobile_display', [
+        'title' => __('Mobile Display Options', 'fau-elemental'),
+        'panel' => 'fau_hero_panel',
+    ]);
+
+    // Show/Hide Text and Link on Mobile
+    $wp_customize->add_setting('hero_show_text_mobile', [
+        'default' => true,
+    ]);
+    $wp_customize->add_control('hero_show_text_mobile', [
+        'label' => __('Show Description Text and Link on Mobile', 'fau-elemental'),
+        'section' => 'hero_mobile_display',
+        'type' => 'checkbox',
+    ]);
+}
+add_action('customize_register', 'fau_hero_customizer_settings');
+
+/**
+ * Add hero styles
+ */
+function fau_hero_styles() {
+    $show_text = get_theme_mod('hero_show_text_mobile', true);
+    
+    $css = '@media screen and (max-width: 991px) {';
+    if (!$show_text) {
+        $css .= '.hero-mobile-optional { display: none!important; }';
+    }
+    $css .= '}';
+    
+    wp_add_inline_style('wp-block-library', $css);
+}
+add_action('wp_enqueue_scripts', 'fau_hero_styles', 999);
+
+/**
+ * Clear cache when hero settings are changed
+ */
+function fau_hero_settings_changed($value, $old_value, $option) {
+    if (function_exists('wp_cache_flush')) {
+        wp_cache_flush();
+    }
+    return $value;
+}
+add_filter('pre_update_option_hero_show_text_mobile', 'fau_hero_settings_changed', 10, 3);
+
+
+

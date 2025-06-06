@@ -8,6 +8,8 @@
 get_header();
 ?>
 
+<?php get_template_part('template-parts/hero-page'); ?>
+
 <main>
 <?php while (have_posts()) : the_post(); ?>
     

@@ -9,8 +9,8 @@
     </div>
     <!-- /wp:group -->
 
-    <!-- wp:heading {"textAlign":"center","level":1} -->
-    <h1 class="wp-block-heading has-text-align-center">TODO: Other Hero Pattern</h1>
+    <!-- wp:heading -->
+    <h2 class="wp-block-heading">TODO: Cooperation Hero Pattern</h2>
     <!-- /wp:heading -->
 </header>
 <!-- /wp:group -->

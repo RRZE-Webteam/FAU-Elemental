@@ -3,6 +3,7 @@ import {
 	unregisterBlockVariation,
 } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
+import { addFilter } from '@wordpress/hooks';
 
 // Register block styles for core/paragraph
 wp.domReady( () => {
@@ -22,3 +23,25 @@ wp.domReady( () => {
 		isDefault: false,
 	} );
 } );
+
+// Add isSpan attribute to paragraph block
+addFilter(
+	'blocks.registerBlockType',
+	'fau-elemental/paragraph-is-span-attribute',
+	( settings, name ) => {
+		if ( name !== 'core/paragraph' ) {
+			return settings;
+		}
+
+		return {
+			...settings,
+			attributes: {
+				...settings.attributes,
+				isSpan: {
+					type: 'boolean',
+					default: false,
+				},
+			},
+		};
+	}
+);

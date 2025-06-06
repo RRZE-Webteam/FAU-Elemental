@@ -1,3 +1,5 @@
+@use "../../mixins" as *;
+
 .wp-block-image {
 	position: relative;
 	max-width: var(--small-max-width);

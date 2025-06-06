@@ -2,6 +2,8 @@
  * Core List Block Styles
  */
 
+@use "../../mixins" as *;
+
 .wp-block-list {
 	max-width: var(--small-max-width);
 	margin: 0 auto;

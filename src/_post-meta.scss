@@ -1,3 +1,5 @@
+@use "mixins" as *;
+
 .post-meta {
     padding: var(--Spacing-8x) var(--Spacing-10x);
 

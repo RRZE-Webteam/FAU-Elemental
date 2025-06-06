@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-require_once get_theme_file_path('src/fau-copyright-info/render.php');
+require_once get_theme_file_path('src/blocks/fau-copyright-info/render.php');
 require_once get_theme_file_path('src/blocks/fau-teaser-grid/render.php');
 
 /**

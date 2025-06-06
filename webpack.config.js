@@ -13,6 +13,11 @@ const blockFolders = [
 		.filter( ( folder ) => folder.startsWith( 'fau-' ) ),
 ];
 
+// Get all pattern folders from conditional-patterns directory
+const patternFolders = fs
+	.readdirSync( path.resolve( process.cwd(), 'conditional-patterns' ) )
+	.filter( ( folder ) => fs.statSync( path.resolve( process.cwd(), 'conditional-patterns', folder ) ).isDirectory() );
+
 // Create entries for each block
 const blockEntries = blockFolders.reduce( ( entries, folder ) => {
 	// Determine the correct folder path
@@ -52,6 +57,21 @@ const blockEntries = blockFolders.reduce( ( entries, folder ) => {
 	};
 }, {} );
 
+// Create entries for each pattern
+const patternEntries = patternFolders.reduce( ( entries, folder ) => {
+	return {
+		...entries,
+		[ `css/${ folder }` ]: path.resolve(
+			process.cwd(),
+			`conditional-patterns/${ folder }/${ folder }.scss`
+		),
+		[ `css/editor-${ folder }` ]: path.resolve(
+			process.cwd(),
+			`conditional-patterns/${ folder }/${ folder }.scss`
+		),
+	};
+}, {} );
+
 const editorScripts = [
 	path.resolve( process.cwd(), 'src/editor/editor.js' ),
 	path.resolve( process.cwd(), 'src/blocks/core-button/index.js' ),
@@ -76,6 +96,8 @@ module.exports = {
 		...defaultConfig.entry,
 		// Add all block entries
 		...blockEntries,
+		// Add all pattern entries
+		...patternEntries,
 		// Add theme styles
 		'css/theme': path.resolve( process.cwd(), 'src/theme.scss' ),
 		// Add block editor styles

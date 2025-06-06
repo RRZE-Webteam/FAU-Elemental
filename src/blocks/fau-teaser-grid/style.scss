@@ -1,4 +1,4 @@
-@import "../../mixins";
+@use "../../mixins" as *;
 
 .wp-block-fau-elemental-fau-teaser-grid {
 	max-width: var(--wide-max-width);

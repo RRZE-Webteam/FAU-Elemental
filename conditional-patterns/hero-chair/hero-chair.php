@@ -10,7 +10,7 @@
     <!-- /wp:group -->
 
     <!-- wp:heading {"textAlign":"center","level":1} -->
-    <h1 class="wp-block-heading has-text-align-center">TODO: Chair Hero Pattern</h1>
+    <h2 class="wp-block-heading has-text-align-center">TODO: Chair Hero Pattern</h2>
     <!-- /wp:heading -->
 </header>
 <!-- /wp:group -->

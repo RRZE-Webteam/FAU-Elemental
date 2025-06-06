@@ -1,3 +1,5 @@
+@use "../../mixins" as *;
+
 .wp-block-media-text {
 	max-width: var(--base-max-width);
 	gap: var(--Spacing-8x);

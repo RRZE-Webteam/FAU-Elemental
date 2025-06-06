@@ -1,3 +1,5 @@
+@use "../../mixins" as *;
+
 .wp-block-quote-item {
 	max-width: var(--base-max-width);
 	margin: 0 auto;
