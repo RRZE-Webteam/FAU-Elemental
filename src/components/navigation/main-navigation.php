@@ -68,7 +68,11 @@ class Main_Navigation {
                     <?php if ($has_website_menu): ?>
                         <button class="main-navigation__toggle menu-modal__open-btn" aria-expanded="false" aria-controls="menu-website-modal" data-modal-target="menu-website-modal">
                             <span class="main-navigation__toggle-text">Menü</span>
-                            <span class="main-navigation__toggle-icon"></span>
+                            <span class="main-navigation__toggle-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </span>
                         </button>
                     <?php endif; ?>
                 </div>
