@@ -12,9 +12,9 @@ $website_type = get_theme_mod('faue_website_type', 'fau');
     <footer id="colophon" class="site-footer">
         <div class="inner-footer">
             <?php if ($website_type === 'fau') : ?>
-                <?php include get_theme_file_path('template-parts/footer/main.php'); ?>
+                    <?php include get_theme_file_path('components/template-parts/footer-main/footer-main.php'); ?>
             <?php else : ?>
-                <?php include get_theme_file_path('template-parts/footer/instance.php'); ?>
+    <?php include get_theme_file_path('components/template-parts/footer-instance/footer-instance.php'); ?>
             <?php endif; ?>
         </div>
     </footer>

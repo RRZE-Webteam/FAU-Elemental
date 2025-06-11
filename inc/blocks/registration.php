@@ -9,8 +9,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-require_once get_theme_file_path('src/blocks/fau-copyright-info/render.php');
-require_once get_theme_file_path('src/blocks/fau-teaser-grid/render.php');
+require_once get_theme_file_path('components/blocks/fau-copyright-info/render.php');
+require_once get_theme_file_path('components/blocks/fau-teaser-grid/render.php');
 
 /**
  * Register all custom blocks from the build directory
@@ -19,7 +19,6 @@ function fau_elemental_register_blocks() {
     // Get all directories in the build/blocks and build folders that start with 'fau-'
     $block_folders = array_merge(
         glob(get_theme_file_path('build/blocks/fau-*'), GLOB_ONLYDIR),
-        glob(get_theme_file_path('build/fau-*'), GLOB_ONLYDIR)
     );
 
     // Register each block

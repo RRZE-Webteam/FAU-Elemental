@@ -128,7 +128,7 @@ function fau_elemental_register_patterns() {
 
     // Register the pattern with content based on website type
     $pattern_name = isset($pattern_map[$website_type]) ? $pattern_map[$website_type] : 'hero-fau';
-    $pattern_path = get_theme_file_path("/conditional-patterns/{$pattern_name}/{$pattern_name}.php");
+            $pattern_path = get_theme_file_path("/components/patterns/{$pattern_name}/pattern.php");
     
     if (!file_exists($pattern_path)) {
         error_log('FAU Elemental - Pattern file not found: ' . $pattern_path);
@@ -156,23 +156,3 @@ function fau_elemental_register_patterns() {
     );
 }
 add_action('init', 'fau_elemental_register_patterns');
-
-/**
- * Register block patterns and categories.
- */
-function fau_elemental_register_block_patterns() {
-    // Register pattern categories
-    register_block_pattern_category(
-        'fau-elemental',
-        array('label' => esc_html__('FAU Elemental', 'fau-elemental'))
-    );
-    register_block_pattern_category(
-        'page-starters',
-        array('label' => esc_html__('Page Starters', 'fau-elemental'))
-    );
-    register_block_pattern_category(
-        'hero',
-        array('label' => esc_html__('Hero', 'fau-elemental'))
-    );
-}
-add_action('init', 'fau_elemental_register_block_patterns');

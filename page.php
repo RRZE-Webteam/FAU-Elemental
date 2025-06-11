@@ -9,7 +9,7 @@
 get_header();
 ?>
 
-<?php get_template_part('template-parts/hero-page'); ?>
+<?php get_template_part('components/template-parts/hero-page/hero-page'); ?>
 
 <main>
     <?php while (have_posts()) : the_post(); ?>

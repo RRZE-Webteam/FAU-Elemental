@@ -41,7 +41,7 @@ require_once get_template_directory() . '/inc/shortcodes-loader.php';
 require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
 
 // Breadcrumb functionality
-require_once get_template_directory() . '/src/components/breadcrumbs/breadcrumbs.php';
+require_once get_template_directory() . '/components/template-parts/breadcrumbs/breadcrumbs.php';
 
 /**
  * Register custom page templates

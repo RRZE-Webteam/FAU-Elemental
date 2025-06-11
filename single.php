@@ -12,7 +12,7 @@ get_header();
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
     <?php
     // Include the post header template part
-    get_template_part('template-parts/header/post');
+    get_template_part('components/template-parts/header-post/header-post');
     ?>
 
     <div class="entry-content">
@@ -21,7 +21,7 @@ get_header();
 
     <?php
     // Include post meta (conditionally displayed)
-    get_template_part('template-parts/post-meta');
+    get_template_part('components/template-parts/post-meta/post-meta');
     ?>
 </article>
 

@@ -24,8 +24,8 @@ function fau_sanitize_checkbox($checked) {
 
 function fau_customizer_settings($wp_customize) {
     // Get the website type from theme settings
-    $website_type = get_option('faue_website_type', 'fau');
-    $faculty = get_option('faue_faculty', 'phil');
+    $website_type = get_theme_mod('faue_website_type', 'fau');
+    $faculty = get_theme_mod('faue_faculty', 'phil');
     
     // Main Footer Panel
     $wp_customize->add_panel('fau_footer_panel', [

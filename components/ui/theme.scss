@@ -1,0 +1,39 @@
+// ============================================================================
+// MAIN THEME STYLES
+// ============================================================================
+// This file imports all component styles for the frontend theme
+
+// UI Foundation (Variables and Base Styles)
+@import "variables/_index";
+@import "base/_index";
+
+// Core Block Styles (modifications to WordPress core blocks)
+@import "../core-blocks/button/style";
+@import "../core-blocks/code/style";
+@import "../core-blocks/details/style";
+@import "../core-blocks/file/style";
+@import "../core-blocks/gallery/style";
+@import "../core-blocks/group/style";
+@import "../core-blocks/heading/style";
+@import "../core-blocks/image/style";
+@import "../core-blocks/list/style";
+@import "../core-blocks/media-text/style";
+@import "../core-blocks/paragraph/style";
+@import "../core-blocks/quote/style";
+@import "../core-blocks/separator/style";
+@import "../core-blocks/table/style";
+@import "../core-blocks/tag-cloud/style";
+@import "../core-blocks/verse/style";
+
+// Pattern Styles
+@import "../patterns/hero-chair/style";
+@import "../patterns/hero-cooperation/style";
+@import "../patterns/hero-faculty/style";
+@import "../patterns/hero-fau/style";
+@import "../patterns/hero-other/style";
+
+// Template Part Styles
+@import "../template-parts/breadcrumbs/style";
+@import "../template-parts/footer-instance/style";
+@import "../template-parts/footer-main/style";
+@import "../template-parts/post-meta/style"; 
