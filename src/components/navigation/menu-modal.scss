@@ -151,6 +151,38 @@
                 }
             }
             
+            // Active/current page styles
+            &.current-menu-item,
+            &.menu-item-active {
+                > a,
+                > .menu-modal__link--active {
+                    background: #e3f2fd;
+                    color: #1565c0;
+                    font-weight: 600;
+                    border-left: 4px solid #1565c0;
+                    
+                    &:hover {
+                        background: #bbdefb;
+                        color: #0d47a1;
+                    }
+                }
+            }
+            
+            // Parent/ancestor styles (less prominent than current)
+            &.current-menu-parent,
+            &.current-menu-ancestor {
+                > a,
+                > .menu-modal__submenu-row {
+                    background: #f8f9fa;
+                    color: #1565c0;
+                    font-weight: 500;
+                    
+                    &:hover {
+                        background: #e3f2fd;
+                    }
+                }
+            }
+            
             // Has children indicator
             &.has-children,
             &.menu-item-has-children {
@@ -167,7 +199,7 @@
     // Force all toggle buttons to be positioned within their menu items
     .menu-modal__submenu-toggle,
     button.menu-modal__submenu-toggle {
-        position: absolute !important;
+        //position: absolute !important;
         right: 0.5rem !important;
         top: 50% !important;
         transform: translateY(-50%) !important;
@@ -177,13 +209,12 @@
         cursor: pointer !important;
         padding: 0.25rem !important;
         border-radius: 4px !important;
-        width: 2rem !important;
         height: 2rem !important;
         align-items: center !important;
         justify-content: center !important;
         transition: all 0.2s ease-in-out !important;
         z-index: 10 !important;
-        margin: 0 !important;
+        margin: 1rem;
         
         // Allow JavaScript to control visibility
         &:not(.hidden):not([style*="display: none"]) {
@@ -209,6 +240,22 @@
         svg {
             width: 16px !important;
             height: 16px !important;
+        }
+        
+        // Active state for submenu toggle buttons
+        &.menu-modal__submenu-row--active {
+            background: #f8f9fa !important;
+            color: #1565c0 !important;
+            font-weight: 500 !important;
+            
+            &:hover {
+                background: #e3f2fd !important;
+            }
+            
+            .menu-modal__item-title {
+                color: #1565c0 !important;
+                font-weight: 500 !important;
+            }
         }
     }
 
@@ -242,6 +289,37 @@
                 &:hover {
                     color: #374151;
                     background: #f9fafb;
+                }
+            }
+            
+            // Active/current page styles for submenu items
+            &.current-menu-item,
+            &.menu-item-active {
+                > a,
+                > .menu-modal__link--active {
+                    background: #e3f2fd;
+                    color: #1565c0;
+                    font-weight: 600;
+                    border-left: 3px solid #1565c0;
+                    
+                    &:hover {
+                        background: #bbdefb;
+                        color: #0d47a1;
+                    }
+                }
+            }
+            
+            // Parent/ancestor styles for submenu items
+            &.current-menu-parent,
+            &.current-menu-ancestor {
+                > a {
+                    background: #f8f9fa;
+                    color: #1565c0;
+                    font-weight: 500;
+                    
+                    &:hover {
+                        background: #e3f2fd;
+                    }
                 }
             }
             

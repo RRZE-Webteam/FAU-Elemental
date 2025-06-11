@@ -47,8 +47,8 @@
                 }
             });
 
-            // Submenu toggles
-            $(document).on('click', '.menu-modal__submenu-toggle, .menu-website-modal__submenu-toggle', (e) => {
+            // Submenu toggles (including new row-style toggles)
+            $(document).on('click', '.menu-modal__submenu-toggle, .menu-website-modal__submenu-toggle, .menu-modal__submenu-row', (e) => {
                 e.preventDefault();
                 this.toggleSubmenu($(e.currentTarget));
             });
@@ -127,18 +127,17 @@
             // Show all menu items
             $menu.find('.menu-item').show();
             
-            // Hide all submenus
+            // Hide all submenus initially
             $menu.find('.sub-menu').hide();
             
-            // Reset all toggle states to collapsed
-            $menu.find('.menu-modal__submenu-toggle, .menu-website-modal__submenu-toggle').attr('aria-expanded', 'false').show();
+            // Remove all overview links
+            $menu.find('.menu-item-overview').remove();
             
-            // Restore all link styles
-            $menu.find('a').css({
-                'font-weight': '', 
-                'pointer-events': '', 
-                'color': ''
-            });
+            // Remove all level headings
+            $menu.find('.menu-modal__level-heading').remove();
+            
+            // Reset all toggle states
+            $menu.find('.menu-modal__submenu-toggle, .menu-website-modal__submenu-toggle').attr('aria-expanded', 'false').removeClass('expanded').show();
             
             // Hide back button
             $backButton.hide();
@@ -162,15 +161,14 @@
             // Hide all submenus
             $menu.find('.sub-menu').hide();
             
-            // Reset all toggle states
-            $menu.find('.menu-modal__submenu-toggle').attr('aria-expanded', 'false').show();
+            // Remove all overview links
+            $menu.find('.menu-item-overview').remove();
             
-            // Restore all link styles
-            $menu.find('a').css({
-                'font-weight': '', 
-                'pointer-events': '', 
-                'color': ''
-            });
+            // Remove all level headings
+            $menu.find('.menu-modal__level-heading').remove();
+            
+            // Reset all toggle states
+            $menu.find('.menu-modal__submenu-toggle').attr('aria-expanded', 'false').removeClass('expanded').show();
             
             // Hide back button
             $backButton.hide();
@@ -211,20 +209,20 @@
                 const { parentUl, parentLi } = navigationStack.pop();
                 
                 // Hide current submenu
-                parentLi.find('.sub-menu').hide();
+                const $submenu = parentLi.find('.sub-menu');
+                $submenu.hide();
                 
-                // Restore parent link styles
-                parentLi.children('a').css({
-                    'font-weight': '', 
-                    'pointer-events': '', 
-                    'color': ''
-                });
+                // Remove overview link if it exists
+                $submenu.find('.menu-item-overview').remove();
+                
+                // Remove level heading if it exists
+                parentLi.find('.menu-modal__level-heading').remove();
                 
                 // Show all siblings in the parent menu
                 parentUl.children('li').show();
                 
-                // Show the parent link and toggle
-                parentLi.children('a, .menu-modal__submenu-toggle').show();
+                // Show the parent toggle button
+                parentLi.children('.menu-modal__submenu-toggle').show();
                 
                 // Set all toggles in the current menu to collapsed
                 parentUl.find('> li > .menu-modal__submenu-toggle').attr('aria-expanded', 'false');
@@ -232,8 +230,19 @@
                 // Update navigation stack
                 $modal.data('navigation-stack', navigationStack);
                 
-                // Hide back button if we're back to the root
-                if (navigationStack.length === 0) {
+                // Check if there's still a parent level to show heading for
+                if (navigationStack.length > 0) {
+                    // Get the parent level info from the remaining stack
+                    const currentLevel = navigationStack[navigationStack.length - 1];
+                    if (currentLevel.parentTitle) {
+                        // Remove any existing headings first
+                        $modal.find('.menu-modal__level-heading').remove();
+                        // Add heading for the level we're going back to
+                        parentUl.prepend('<h2 class="menu-modal__level-heading">' + currentLevel.parentTitle + '</h2>');
+                    }
+                } else {
+                    // We're back to the root level, remove all headings
+                    $modal.find('.menu-modal__level-heading').remove();
                     $backButton.hide();
                 }
             } else {
@@ -243,27 +252,53 @@
         }
 
         toggleSubmenu($toggle) {
+            console.log('toggleSubmenu called'); // Debug
             const $parentLi = $toggle.closest('.menu-item');
             const $submenu = $toggle.siblings('.sub-menu');
             const $modal = $toggle.closest('.menu-modal, .menu-meta-nav__modal, .menu-website-modal');
             const $backButton = $modal.find('.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn');
             
-            if ($submenu.length === 0) return;
+            console.log('Parent LI:', $parentLi.length); // Debug
+            console.log('Submenu found:', $submenu.length); // Debug
+            console.log('Modal found:', $modal.length); // Debug
+            console.log('Back button found:', $backButton.length); // Debug
+            
+            if ($submenu.length === 0) {
+                console.log('No submenu found, returning'); // Debug
+                return;
+            }
+            
+            // Get parent information from data attributes
+            const parentUrl = $toggle.data('parent-url');
+            const parentTitle = $toggle.data('parent-title');
+            
+            console.log('Parent URL:', parentUrl); // Debug
+            console.log('Parent Title:', parentTitle); // Debug
             
             // Use drill-down navigation for all menus (both global and local)
             // Hide all siblings of the current item
+            console.log('Hiding siblings of parent LI'); // Debug
             $parentLi.siblings().hide();
             
-            // Hide the submenu toggle, keep parent link visible as styled label
+            // Hide the submenu toggle and add heading for current level
+            console.log('Hiding toggle and adding level heading'); // Debug
             $toggle.hide();
-            $parentLi.children('a').css({
-                'display': '', 
-                'font-weight': 'bold', 
-                'pointer-events': 'none', 
-                'color': '#333'
-            });
+            
+            // Remove any existing level headings in the modal
+            $modal.find('.menu-modal__level-heading').remove();
+            
+            // Add new level heading for current level
+            $toggle.after('<h2 class="menu-modal__level-heading">' + parentTitle + '</h2>');
+            
+            // Add overview link at the beginning of submenu
+            if (parentUrl && parentTitle) {
+                console.log('Adding overview link'); // Debug
+                const overviewLink = `<li class="menu-item menu-item-overview"><a href="${parentUrl}">Übersicht: ${parentTitle}</a></li>`;
+                $submenu.prepend(overviewLink);
+            }
             
             // Show the submenu
+            console.log('Showing submenu'); // Debug
             $submenu.css('display', 'block');
             $toggle.attr('aria-expanded', 'true');
             
@@ -276,7 +311,9 @@
             const navigationStack = $modal.data('navigation-stack');
             navigationStack.push({
                 parentUl: $parentLi.parent(),
-                parentLi: $parentLi
+                parentLi: $parentLi,
+                parentUrl: parentUrl,
+                parentTitle: parentTitle
             });
             
             // Show back button
@@ -313,7 +350,7 @@
         new MenuModal();
     });
 
-    // Add CSS class to body when modal is open
+    // Add CSS class to body when modal is open and styles for new menu structure
     const style = document.createElement('style');
     style.textContent = `
         body.modal-open {
@@ -325,6 +362,57 @@
                 position: fixed;
                 width: 100%;
             }
+        }
+        
+        /* New submenu row button styles */
+        .menu-modal__submenu-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: inherit;
+            font-family: inherit;
+            color: inherit;
+            transition: background-color 0.2s ease;
+        }
+        
+        .menu-modal__submenu-row:hover,
+        .menu-modal__submenu-row:focus {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .menu-modal__item-title {
+            flex: 1;
+        }
+        
+        .menu-modal__submenu-arrow {
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+        
+        /* Level heading styles */
+        .menu-modal__level-heading {
+            padding: 16px 16px 8px 16px;
+            margin: 0 0 8px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 1px solid #eee;
+        }
+        
+        /* Overview link special styling */
+        .menu-item-overview a {
+            font-weight: 600;
+            color: #0066cc;
+        }
+        
+        .menu-item-overview a:hover {
+            color: #0052a3;
         }
     `;
     document.head.appendChild(style);

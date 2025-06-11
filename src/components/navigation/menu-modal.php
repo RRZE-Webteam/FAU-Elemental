@@ -330,14 +330,17 @@ class Menu_Modal_Walker extends Walker_Nav_Menu {
 
         $output .= '<li' . $class_names . '>';
         
-        // Add the link
-        $output .= '<a href="' . esc_attr($item->url) . '">' . apply_filters('the_title', $item->title, $item->ID) . '</a>';
-
-        // Add toggle button for items with children
+        // For items with children, create a clickable row that opens submenu
         if (in_array('menu-item-has-children', $classes)) {
-            $output .= '<button class="menu-modal__submenu-toggle" aria-expanded="false" aria-label="' . esc_attr($item->title) . ' submenu">';
-            $output .= '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 5L12 10L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+            $button_classes = 'menu-modal__submenu-toggle menu-modal__submenu-row';
+            
+            $output .= '<button class="' . esc_attr($button_classes) . '" aria-expanded="false" aria-label="' . esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $item->title)) . '" data-parent-url="' . esc_attr($item->url) . '" data-parent-title="' . esc_attr($item->title) . '">';
+            $output .= '<span class="menu-modal__item-title">' . apply_filters('the_title', $item->title, $item->ID) . '</span>';
+            $output .= '<svg class="menu-modal__submenu-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 5L12 10L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
             $output .= '</button>';
+        } else {
+            // For items without children, keep normal link
+            $output .= '<a href="' . esc_attr($item->url) . '">' . apply_filters('the_title', $item->title, $item->ID) . '</a>';
         }
     }
 
