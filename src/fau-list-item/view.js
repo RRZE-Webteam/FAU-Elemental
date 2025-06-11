@@ -1,4 +1,3 @@
-console.log( 'FAU List Item View Script Loading...' );
 
 // Update the FALLBACK_IMAGE constant at the top of the file
 import FALLBACK_IMAGE from '../../assets/images/logo.svg';

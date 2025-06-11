@@ -190,6 +190,14 @@
                     padding-right: 3rem; // Make room for the toggle button
                 }
             }
+
+            a.current-menu-item-focused,
+            a.active {
+                background: #e3f2fd;
+                color: #1565c0;
+                font-weight: 600;
+                border-left: 4px solid #1565c0;
+            }
         }
     }
 }
@@ -451,4 +459,11 @@
         width: 16px;
         height: 16px;
     }
+}
+
+.menu-modal__submenu-toggle.current-menu-item-focused {
+    background: #e6f3ff;
+    color: #0073e6;
+    font-weight: bold;
+    border-radius: 4px;
 } 

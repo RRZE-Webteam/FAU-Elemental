@@ -103,6 +103,9 @@
             $modal.addClass('is-open');
             $modal.attr('aria-hidden', 'false');
 
+            // Find current page in menu and open its path
+            this.openCurrentPagePath($modal);
+
             // Focus management
             const $firstFocusable = $modal.find('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])').first();
             if ($firstFocusable.length) {
@@ -117,6 +120,124 @@
 
             // Trap focus within modal
             this.trapFocus($modal);
+        }
+
+        // Helper to highlight the overview link for the current page if present in the given submenu
+        highlightCurrentOverviewLink($submenu) {
+            // Remove highlight from all overview links and menu items in the entire modal
+            $submenu.closest('.menu-modal, .menu-meta-nav__modal, .menu-website-modal')
+                .find('.current-menu-item-focused, .active')
+                .removeClass('current-menu-item-focused active');
+            const currentPath = window.location.pathname.replace(/\/$/, '');
+            const currentPathWithSlash = currentPath === '' ? '/' : currentPath + '/';
+            const $overviewLink = $submenu.find('.menu-item-overview a').filter(function() {
+                try {
+                    if (this.getAttribute('href') === '#') return false;
+                    const linkPath = new URL(this.href, window.location.origin).pathname.replace(/\/$/, '');
+                    return linkPath === currentPath || linkPath === currentPathWithSlash;
+                } catch (e) {
+                    return false;
+                }
+            }).first();
+            if ($overviewLink.length) {
+                $overviewLink.addClass('current-menu-item-focused active');
+                $overviewLink[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        openCurrentPagePath($modal) {
+            let currentPath = window.location.pathname.replace(/\/$/, ''); // remove trailing slash
+            const currentPathWithSlash = currentPath === '' ? '/' : currentPath + '/';
+
+            // Debug: log all data-menu-url values
+            const allMenuUrls = $modal.find('[data-menu-url]').map(function() { return $(this).attr('data-menu-url'); }).get();
+
+            // Try to find the current item with or without trailing slash
+            let $currentItem = $modal.find(`[data-menu-url="${currentPath}"]`).first();
+            if (!$currentItem.length) {
+                $currentItem = $modal.find(`[data-menu-url="${currentPathWithSlash}"]`).first();
+            }
+            if (!$currentItem.length) return;
+
+            // Find all parent menu-items (from root to direct parent)
+            const $parents = $currentItem.parents('.menu-item').get().reverse();
+            let $lastParent = null;
+            $parents.forEach((parentItem, idx) => {
+                const $parent = $(parentItem);
+                const $toggle = $parent.children('.menu-modal__submenu-toggle');
+                if ($toggle.length) {
+                    this.drillDownToMenuItem($modal, $parent, $toggle);
+                    $lastParent = $parent;
+                }
+            });
+
+            // If the current item itself is a parent, drill down into it as well
+            const $submenu = $currentItem.children('.sub-menu');
+            const $toggle = $currentItem.children('.menu-modal__submenu-toggle');
+            if ($submenu.length && $toggle.length) {
+                this.drillDownToMenuItem($modal, $currentItem, $toggle);
+            }
+
+            if ($submenu.length) {
+                $submenu.css('display', 'block');
+                // Always highlight the overview link after showing the submenu
+                this.highlightCurrentOverviewLink($submenu);
+            } else {
+                // Remove highlight from all overview links and menu items in the modal
+                $modal.find('.current-menu-item-focused, .active').removeClass('current-menu-item-focused active');
+                // Highlight the current item as before (for leaf pages)
+                // Try to highlight the <a> inside the <li>
+                if ($currentItem.find('a').length) {
+                    $currentItem.find('a').addClass('current-menu-item-focused active');
+                    $currentItem.find('a')[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    $currentItem.addClass('current-menu-item-focused active');
+                    $currentItem[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        drillDownToMenuItem($modal, $parentLi, $toggle) {
+            const $submenu = $toggle.siblings('.sub-menu');
+            const $backButton = $modal.find('.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn');
+            if ($submenu.length === 0) return;
+
+            // Hide all siblings of the current item
+            $parentLi.siblings().hide();
+            // Hide the submenu toggle and add heading for current level
+            $toggle.hide();
+            // Remove any existing level headings in the modal
+            $modal.find('.menu-modal__level-heading').remove();
+            // Add new level heading for current level
+            $toggle.after('<h2 class="menu-modal__level-heading">' + $toggle.data('parent-title') + '</h2>');
+            // Remove any old overview links in this submenu
+            $submenu.find('.menu-item-overview').remove();
+            // Add overview link at the beginning of submenu
+            const parentUrl = $toggle.data('parent-url');
+            const parentTitle = $toggle.data('parent-title');
+            if (parentUrl && parentTitle && parentUrl !== '#') {
+                const overviewLink = `<li class="menu-item menu-item-overview"><a href="${parentUrl}">Übersicht: ${parentTitle}</a></li>`;
+                $submenu.prepend(overviewLink);
+            }
+            // Show the submenu
+            $submenu.css('display', 'block');
+            $toggle.attr('aria-expanded', 'true');
+            // Always highlight the overview link after showing the submenu
+            this.highlightCurrentOverviewLink($submenu);
+            // Initialize or get navigation stack
+            if (!$modal.data('navigation-stack')) {
+                $modal.data('navigation-stack', []);
+            }
+            // Push current state to navigation stack
+            const navigationStack = $modal.data('navigation-stack');
+            navigationStack.push({
+                parentUl: $parentLi.parent(),
+                parentLi: $parentLi,
+                parentUrl: parentUrl,
+                parentTitle: parentTitle
+            });
+            // Show back button
+            $backButton.show();
         }
 
         resetModalState($modal) {
@@ -245,6 +366,13 @@
                     $modal.find('.menu-modal__level-heading').remove();
                     $backButton.hide();
                 }
+                // Always highlight the overview link after showing the parent submenu
+                this.highlightCurrentOverviewLink(parentUl.find('> .sub-menu'));
+                // Also highlight in any currently visible submenu (for robustness)
+                const $visibleSubmenus = $modal.find('.sub-menu:visible');
+                $visibleSubmenus.each((_, submenu) => {
+                    this.highlightCurrentOverviewLink($(submenu));
+                });
             } else {
                 // If no navigation stack, just close the modal
                 this.closeCurrentModal();
@@ -252,19 +380,12 @@
         }
 
         toggleSubmenu($toggle) {
-            console.log('toggleSubmenu called'); // Debug
             const $parentLi = $toggle.closest('.menu-item');
             const $submenu = $toggle.siblings('.sub-menu');
             const $modal = $toggle.closest('.menu-modal, .menu-meta-nav__modal, .menu-website-modal');
             const $backButton = $modal.find('.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn');
             
-            console.log('Parent LI:', $parentLi.length); // Debug
-            console.log('Submenu found:', $submenu.length); // Debug
-            console.log('Modal found:', $modal.length); // Debug
-            console.log('Back button found:', $backButton.length); // Debug
-            
             if ($submenu.length === 0) {
-                console.log('No submenu found, returning'); // Debug
                 return;
             }
             
@@ -272,16 +393,11 @@
             const parentUrl = $toggle.data('parent-url');
             const parentTitle = $toggle.data('parent-title');
             
-            console.log('Parent URL:', parentUrl); // Debug
-            console.log('Parent Title:', parentTitle); // Debug
-            
             // Use drill-down navigation for all menus (both global and local)
             // Hide all siblings of the current item
-            console.log('Hiding siblings of parent LI'); // Debug
             $parentLi.siblings().hide();
             
             // Hide the submenu toggle and add heading for current level
-            console.log('Hiding toggle and adding level heading'); // Debug
             $toggle.hide();
             
             // Remove any existing level headings in the modal
@@ -292,15 +408,15 @@
             
             // Add overview link at the beginning of submenu
             if (parentUrl && parentTitle) {
-                console.log('Adding overview link'); // Debug
                 const overviewLink = `<li class="menu-item menu-item-overview"><a href="${parentUrl}">Übersicht: ${parentTitle}</a></li>`;
                 $submenu.prepend(overviewLink);
             }
             
             // Show the submenu
-            console.log('Showing submenu'); // Debug
             $submenu.css('display', 'block');
             $toggle.attr('aria-expanded', 'true');
+            // Always highlight the overview link after showing the submenu
+            this.highlightCurrentOverviewLink($submenu);
             
             // Initialize or get navigation stack
             if (!$modal.data('navigation-stack')) {
@@ -415,6 +531,7 @@
             color: #0052a3;
         }
     `;
+
     document.head.appendChild(style);
 
-})(jQuery); 
+})(jQuery);

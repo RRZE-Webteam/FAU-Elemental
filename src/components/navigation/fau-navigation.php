@@ -24,8 +24,6 @@ class FAU_Navigation {
      * Enqueue necessary scripts and styles
      */
     public function enqueue_scripts() {
-        wp_enqueue_style('fau-navigation', get_template_directory_uri() . '/src/components/navigation/fau-navigation.css');
-        // Note: JavaScript is now handled by the unified menu-modal system
     }
 
     /**

@@ -325,10 +325,17 @@ class Menu_Modal_Walker extends Walker_Nav_Menu {
             $classes[] = 'has-children';
         }
 
+        // Add current page class and data attribute
+        $current_url = rtrim($_SERVER['REQUEST_URI'], '/');
+        $item_url = rtrim(parse_url($item->url, PHP_URL_PATH), '/');
+        if ($current_url === $item_url) {
+            $classes[] = 'current-menu-item';
+        }
+
         $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
         $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
 
-        $output .= '<li' . $class_names . '>';
+        $output .= '<li' . $class_names . ' data-menu-url="' . esc_attr($item_url) . '">';
         
         // For items with children, create a clickable row that opens submenu
         if (in_array('menu-item-has-children', $classes)) {
