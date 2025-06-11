@@ -7,8 +7,7 @@
 	"category": "fau-elemental/FAU",
 	"icon": "heading",
 	"description": "A meta headline for the following section content",
-	"supports": {
-	},
+	"supports": {},
 	"attributes": {
 		"headline": {
 			"source": "rich-text",
