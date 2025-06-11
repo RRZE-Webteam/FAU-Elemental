@@ -1,22 +1,22 @@
 {
-  "$schema": "https://schemas.wp.org/trunk/block.json",
-  "apiVersion": 3,
-  "name": "fau-elemental/fau-meta-headline",
-  "version": "0.1.0",
-  "title": "Meta Headline",
-  "category": "fau-elemental/FAU",
-  "icon": "heading",
-  "description": "A meta headline for the following section content",
-  "supports": {},
-  "attributes": {
-    "headline": {
-      "source": "rich-text",
-      "type": "rich-text",
-      "selector": "header"
-    }
-  },
-  "textdomain": "fau-elemental",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./editor.css",
-  "style": "file:./style-style.css"
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "fau-elemental/fau-meta-headline",
+	"version": "0.1.0",
+	"title": "Meta Headline",
+	"category": "fau-elemental/FAU",
+	"icon": "heading",
+	"description": "A meta headline for the following section content",
+	"supports": {},
+	"attributes": {
+		"headline": {
+			"source": "rich-text",
+			"type": "rich-text",
+			"selector": "header"
+		}
+	},
+	"textdomain": "fau-elemental",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style-style.css"
 }
