@@ -86,13 +86,13 @@ module.exports = {
 		// EDITOR STYLES BUNDLE
 		// ============================================================================
 		// This creates editor.css with all theme styles + editor-specific styles
-		'css/editor': path.resolve( process.cwd(), 'components/ui/editor.scss' ),
+		'css/editor': path.resolve( process.cwd(), 'components/ui/editor/editor.scss' ),
 
 		// ============================================================================
 		// EDITOR WRAPPER STYLES BUNDLE
 		// ============================================================================
 		// This creates editor-wrapper.css with editor environment styles
-		'css/editor-wrapper': path.resolve( process.cwd(), 'components/ui/editor-wrapper.scss' ),
+		'css/editor-wrapper': path.resolve( process.cwd(), 'components/ui/editor/editor-wrapper.scss' ),
 
 		// ============================================================================
 		// JAVASCRIPT BUNDLES

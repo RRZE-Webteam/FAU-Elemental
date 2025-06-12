@@ -3,13 +3,15 @@
  */
 
 @import "../theme";
-@import "../../components/core-blocks/details/editor";
-@import "../../components/core-blocks/gallery/editor";
-@import "../../components/core-blocks/image/editor";
-@import "../../components/core-blocks/file/editor";
-@import "../../components/core-blocks/quote/editor";
-@import "../../components/blocks/fau-portalmenu/editor";
-@import "../../components/core-blocks/verse/editor";
+
+@import "../../core-blocks/details/editor";
+@import "../../core-blocks/gallery/editor";
+@import "../../core-blocks/image/editor";
+@import "../../core-blocks/file/editor";
+@import "../../core-blocks/quote/editor";
+@import "../../core-blocks/verse/editor";
+
+@import "../../patterns/hero-fau/editor";
 
 html :where(.editor-styles-wrapper) {
 	font-family: var(--font-family-base);

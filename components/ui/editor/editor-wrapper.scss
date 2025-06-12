@@ -3,17 +3,16 @@
  */
 
 // Import all block editor wrapper styles
-@import "../../components/core-blocks/button/editor-wrapper";
-@import "../../components/core-blocks/heading/editor-wrapper";
-@import "../../components/core-blocks/image/editor-wrapper";
-@import "../../components/core-blocks/media-text/editor-wrapper";
-@import "../../components/core-blocks/paragraph/editor-wrapper";
-@import "../../components/core-blocks/quote/editor-wrapper";
-@import "../../components/core-blocks/table/editor-wrapper";
-@import "../../components/core-blocks/tag-cloud/editor-wrapper";
-@import "../../components/core-blocks/verse/editor-wrapper";
-@import "../../components/core-blocks/gallery/editor-wrapper";
-@import "../scss/components/editor-wrapper";
+@import "../../core-blocks/button/editor-wrapper";
+@import "../../core-blocks/heading/editor-wrapper";
+@import "../../core-blocks/image/editor-wrapper";
+@import "../../core-blocks/media-text/editor-wrapper";
+@import "../../core-blocks/paragraph/editor-wrapper";
+@import "../../core-blocks/quote/editor-wrapper";
+@import "../../core-blocks/table/editor-wrapper";
+@import "../../core-blocks/tag-cloud/editor-wrapper";
+@import "../../core-blocks/verse/editor-wrapper";
+@import "../../core-blocks/gallery/editor-wrapper";
 
 /**
  * Post Header Component - Editor Wrapper Styles - Hide Editor Features
@@ -46,3 +45,49 @@
 	}
 }
 
+// Editor wrapper specific styles
+.editor-styles-wrapper {
+    // Ensure consistent font family in editor
+    font-family: var(--font-family-base);
+    
+    // Set base text color
+    color: var(--FAU-Col-FAU-Schwarz-100);
+    
+    // Base typography settings
+    font-size: var(--P-Body-Text);
+    line-height: 1.5;
+    
+    // Ensure proper spacing for nested blocks
+    .wp-block-group .wp-block {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    
+    // Editor-specific button styles
+    .wp-block-button {
+        margin-bottom: 0;
+    }
+    
+    // Editor-specific list styles
+    .wp-block-list {
+        padding-left: 1.5em;
+    }
+    
+    // Editor-specific heading styles
+    h1, h2, h3, h4, h5, h6 {
+        margin-top: 0;
+        margin-bottom: 1em;
+    }
+    
+    // Editor-specific paragraph styles
+    p {
+        margin-top: 0;
+        margin-bottom: 1em;
+    }
+    
+    // Ensure images don't overflow in editor
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+} 

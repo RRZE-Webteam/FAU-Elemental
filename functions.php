@@ -193,7 +193,6 @@ add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_php_template_styles');
 function fau_elemental_body_classes($classes) {
     // Add these classes to ensure PHP templates look like block templates
     $classes[] = 'wp-theme';
-    // $classes[] = 'is-layout-flow';
     
     return $classes;
 }
