@@ -1,0 +1,104 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "fau-elemental/fau-list-filters",
+	"version": "0.1.0",
+	"title": "FAU List Filters",
+	"category": "fau-elemental/FAU",
+	"icon": "filter",
+	"description": "Interactive filters for lists with search, filter selection, and sorting options",
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"textdomain": "fau-elemental",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php",
+	"attributes": {
+		"enableSearch": {
+			"type": "boolean",
+			"default": true
+		},
+		"searchPlaceholder": {
+			"type": "string",
+			"default": "Search..."
+		},
+		"enableFilters": {
+			"type": "boolean",
+			"default": true
+		},
+		"filterFields": {
+			"type": "array",
+			"default": []
+		},
+		"showMoreFiltersButton": {
+			"type": "boolean",
+			"default": false
+		},
+		"enableViewSwitcher": {
+			"type": "boolean",
+			"default": true
+		},
+		"availableViews": {
+			"type": "array",
+			"default": ["cards", "table"]
+		},
+		"defaultView": {
+			"type": "string",
+			"default": "cards"
+		},
+		"enableSorting": {
+			"type": "boolean",
+			"default": true
+		},
+		"sortOptions": {
+			"type": "array",
+			"default": [
+				{"value": "date", "label": "Date"},
+				{"value": "title", "label": "Alphabetic"},
+				{"value": "modified", "label": "Last Modified"}
+			]
+		},
+		"defaultSort": {
+			"type": "string",
+			"default": "date"
+		},
+		"showResultsCount": {
+			"type": "boolean",
+			"default": true
+		},
+		"resultsPerPage": {
+			"type": "number",
+			"default": 15
+		},
+		"gridWidth": {
+			"type": "string",
+			"default": "12",
+			"enum": ["8", "10", "12"]
+		}
+	},
+	"example": {
+		"attributes": {
+			"enableSearch": true,
+			"searchPlaceholder": "Search...",
+			"enableFilters": true,
+			"filterFields": [],
+			"showMoreFiltersButton": false,
+			"enableViewSwitcher": true,
+			"availableViews": ["cards", "table"],
+			"defaultView": "cards",
+			"enableSorting": true,
+			"sortOptions": [
+				{"value": "date", "label": "Date"},
+				{"value": "title", "label": "Alphabetic"}
+			],
+			"defaultSort": "date",
+			"showResultsCount": true,
+			"resultsPerPage": 15,
+			"gridWidth": "12"
+		}
+	}
+} 

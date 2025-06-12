@@ -1,0 +1,494 @@
+/**
+ * FAU List Filters Block Styles
+ * Light mode only - responsive design
+ */
+
+// Variables
+$fau-primary: #003865;
+$fau-secondary: #0066cc;
+$fau-light-gray: #f5f5f5;
+$fau-medium-gray: #e0e0e0;
+$fau-dark-gray: #666666;
+$fau-text: #333333;
+$fau-white: #ffffff;
+$fau-success: #28a745;
+$fau-danger: #dc3545;
+
+// Breakpoints
+$mobile: 768px;
+$tablet: 1024px;
+$desktop: 1200px;
+
+// Main container
+.fau-list-filters {
+    margin-bottom: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    
+    // Grid width variations
+    &.grid-width-8 {
+        max-width: calc(8 / 12 * 100%);
+        margin: 0 auto 2rem;
+    }
+    
+    &.grid-width-10 {
+        max-width: calc(10 / 12 * 100%);
+        margin: 0 auto 2rem;
+    }
+    
+    &.grid-width-12 {
+        width: 100%;
+    }
+}
+
+// Search Section
+.fau-list-filters__search-section {
+    margin-bottom: 1.5rem;
+    
+    .search-wrapper {
+        position: relative;
+        max-width: 400px;
+        
+        @media (max-width: $mobile) {
+            max-width: 100%;
+        }
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 0.75rem 3rem 0.75rem 1rem;
+        border: 2px solid $fau-medium-gray;
+        border-radius: 4px;
+        font-size: 1rem;
+        background-color: $fau-white;
+        transition: border-color 0.2s ease;
+        
+        &:focus {
+            outline: none;
+            border-color: $fau-secondary;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+        
+        &::placeholder {
+            color: $fau-dark-gray;
+        }
+    }
+    
+    .search-clear {
+        position: absolute;
+        right: 0.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+            background-color: $fau-light-gray;
+        }
+        
+        &:focus {
+            outline: 2px solid $fau-secondary;
+            outline-offset: 2px;
+        }
+        
+        // Clear icon (using CSS)
+        &::before {
+            content: "×";
+            font-size: 1.25rem;
+            color: $fau-dark-gray;
+            font-weight: bold;
+        }
+    }
+}
+
+// Filter Section
+.fau-list-filters__filter-section {
+    margin-bottom: 1.5rem;
+    
+    .filter-controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+        
+        @media (max-width: $mobile) {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .filter-field {
+        &.hidden {
+            display: none;
+        }
+    }
+    
+    .filter-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: $fau-text;
+        font-size: 0.9rem;
+    }
+    
+    .filter-select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid $fau-medium-gray;
+        border-radius: 4px;
+        font-size: 1rem;
+        background-color: $fau-white;
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+        
+        &:focus {
+            outline: none;
+            border-color: $fau-secondary;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+        
+        &:hover {
+            border-color: $fau-secondary;
+        }
+    }
+    
+    .show-more-filters {
+        grid-column: 1 / -1;
+        padding: 0.75rem 1.5rem;
+        background-color: $fau-light-gray;
+        border: 2px solid $fau-medium-gray;
+        border-radius: 4px;
+        color: $fau-primary;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        justify-self: start;
+        
+        &:hover {
+            background-color: $fau-medium-gray;
+            border-color: $fau-secondary;
+        }
+        
+        &:focus {
+            outline: 2px solid $fau-secondary;
+            outline-offset: 2px;
+        }
+    }
+    
+    // Active filters (chips)
+    .active-filters {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid $fau-medium-gray;
+    }
+    
+    .filter-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .filter-chip {
+        display: inline-flex;
+        align-items: center;
+        background-color: $fau-primary;
+        color: $fau-white;
+        padding: 0.5rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        
+        .chip-label {
+            margin-right: 0.5rem;
+        }
+        
+        .chip-remove {
+            background: none;
+            border: none;
+            color: $fau-white;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 0.25rem;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease;
+            
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+            
+            &:focus {
+                outline: 2px solid $fau-white;
+                outline-offset: 1px;
+            }
+        }
+        
+        .chip-remove-icon {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+    }
+    
+    .clear-all-filters {
+        padding: 0.5rem 1rem;
+        background-color: $fau-danger;
+        color: $fau-white;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+            background-color: darken($fau-danger, 10%);
+        }
+        
+        &:focus {
+            outline: 2px solid $fau-danger;
+            outline-offset: 2px;
+        }
+    }
+}
+
+// Sort Section
+.fau-list-filters__sort-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: $fau-light-gray;
+    border-radius: 4px;
+    
+    @media (max-width: $mobile) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .results-count {
+        color: $fau-dark-gray;
+        font-size: 0.9rem;
+        font-weight: 500;
+        
+        @media (max-width: $mobile) {
+            text-align: center;
+            order: -1;
+        }
+    }
+    
+    .sort-controls {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        
+        @media (max-width: $mobile) {
+            flex-direction: column;
+            width: 100%;
+        }
+    }
+    
+    // View switcher
+    .view-switcher {
+        display: flex;
+        border: 2px solid $fau-medium-gray;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    
+    .view-button {
+        padding: 0.5rem 1rem;
+        background-color: $fau-white;
+        border: none;
+        border-right: 1px solid $fau-medium-gray;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        
+        &:last-child {
+            border-right: none;
+        }
+        
+        &:hover {
+            background-color: $fau-light-gray;
+        }
+        
+        &:focus {
+            outline: 2px solid $fau-secondary;
+            outline-offset: -2px;
+            z-index: 1;
+        }
+        
+        &.active {
+            background-color: $fau-primary;
+            color: $fau-white;
+        }
+    }
+    
+    // View icons (using CSS)
+    .view-icon {
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        
+        &-cards::before {
+            content: "⊞";
+            font-size: 14px;
+        }
+        
+        &-table::before {
+            content: "☰";
+            font-size: 14px;
+        }
+        
+        &-list::before {
+            content: "≡";
+            font-size: 14px;
+        }
+    }
+    
+    .view-label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        
+        @media (max-width: $mobile) {
+            display: none;
+        }
+    }
+    
+    // Sort dropdown
+    .sort-dropdown {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        
+        @media (max-width: $mobile) {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+    
+    .sort-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: $fau-text;
+        white-space: nowrap;
+    }
+    
+    .sort-select {
+        padding: 0.5rem;
+        border: 2px solid $fau-medium-gray;
+        border-radius: 4px;
+        background-color: $fau-white;
+        cursor: pointer;
+        min-width: 150px;
+        
+        @media (max-width: $mobile) {
+            flex: 1;
+            min-width: auto;
+        }
+        
+        &:focus {
+            outline: none;
+            border-color: $fau-secondary;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+        
+        &:hover {
+            border-color: $fau-secondary;
+        }
+    }
+}
+
+// Editor styles
+.fau-list-filters-editor {
+    border: 2px dashed $fau-medium-gray;
+    padding: 2rem;
+    border-radius: 4px;
+    text-align: center;
+    background-color: $fau-light-gray;
+    
+    h3 {
+        margin: 0 0 0.5rem;
+        color: $fau-primary;
+        font-size: 1.25rem;
+    }
+    
+    p {
+        margin: 0 0 1.5rem;
+        color: $fau-dark-gray;
+        font-size: 0.9rem;
+    }
+}
+
+.fau-list-filters-preview {
+    text-align: left;
+    background-color: $fau-white;
+    border: 1px solid $fau-medium-gray;
+    border-radius: 4px;
+    padding: 1.5rem;
+    
+    // Disable all interactions in preview
+    input, select, button {
+        pointer-events: none;
+        opacity: 0.7;
+    }
+}
+
+// Accessibility improvements
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+    .fau-list-filters {
+        .search-input,
+        .filter-select,
+        .sort-select {
+            border-width: 3px;
+        }
+        
+        .filter-chip {
+            border: 2px solid $fau-white;
+        }
+        
+        .view-button.active {
+            border: 3px solid $fau-white;
+        }
+    }
+}
+
+// Print styles
+@media print {
+    .fau-list-filters {
+        .search-clear,
+        .chip-remove,
+        .clear-all-filters,
+        .show-more-filters,
+        .view-switcher,
+        .sort-dropdown {
+            display: none;
+        }
+        
+        .active-filters {
+            .filter-chip {
+                background-color: transparent;
+                color: $fau-text;
+                border: 1px solid $fau-text;
+            }
+        }
+    }
+} 
