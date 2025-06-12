@@ -45,31 +45,80 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 			return [];
 		}
 
-		// Get menu items
+		// Get menu items - all items, not just hierarchical
 		const menuItemsData = select( 'core' ).getMenuItems( { 
 			menus: parseInt( attributes.menuId ),
 			per_page: 100,
-			_embed: true 
+			orderby: 'menu_order',
+			order: 'asc'
 		} );
 
 		if ( ! menuItemsData ) {
 			return [];
 		}
 
-		// Build hierarchical menu structure
-		const buildMenuTree = ( items, parentId = 0 ) => {
-			const children = items.filter( item => item.parent === parentId );
+		// Process all items and fetch featured images
+		const processedItems = menuItemsData.map( item => {
+			// Try to get featured image from the linked object (post/page)
+			let featuredImageUrl = null;
+			if ( item.object_id && item.object === 'page' ) {
+				// For pages, try to get the featured image
+				const page = select( 'core' ).getEntityRecord( 'postType', 'page', item.object_id );
+				if ( page && page.featured_media ) {
+					const media = select( 'core' ).getMedia( page.featured_media );
+					if ( media && media.media_details && media.media_details.sizes ) {
+						const imageSize = media.media_details.sizes.medium || media.media_details.sizes.full;
+						if ( imageSize ) {
+							featuredImageUrl = imageSize.source_url;
+						} else {
+							featuredImageUrl = media.source_url;
+						}
+					}
+				}
+			} else if ( item.object_id && item.object === 'post' ) {
+				// For posts, try to get the featured image
+				const post = select( 'core' ).getEntityRecord( 'postType', 'post', item.object_id );
+				if ( post && post.featured_media ) {
+					const media = select( 'core' ).getMedia( post.featured_media );
+					if ( media && media.media_details && media.media_details.sizes ) {
+						const imageSize = media.media_details.sizes.medium || media.media_details.sizes.full;
+						if ( imageSize ) {
+							featuredImageUrl = imageSize.source_url;
+						} else {
+							featuredImageUrl = media.source_url;
+						}
+					}
+				}
+			}
 			
-			return children.map( item => {
-				const childItems = buildMenuTree( items, item.id );
-				return {
-					...item,
-					children: childItems
-				};
-			} );
-		};
+			return {
+				...item,
+				featuredImageUrl: featuredImageUrl
+			};
+		} );
 
-		return buildMenuTree( menuItemsData );
+		// Return only top-level items (parent == 0) for display
+		// but include children data for each
+		const topLevelItems = processedItems.filter( item => item.parent == 0 );
+		
+		// If no top-level items found, return all items (some menus might not use hierarchy)
+		if ( topLevelItems.length === 0 ) {
+			return processedItems.map( item => ( {
+				...item,
+				children: []
+			} ) );
+		}
+		
+		return topLevelItems.map( topItem => {
+			// Find children for this top-level item
+			const children = processedItems.filter( item => item.parent == topItem.id );
+			
+			return {
+				...topItem,
+				children: children
+			};
+		} );
+
 	}, [ attributes.menuId ] );
 
 	// Build CSS classes based on attributes - matches backend logic exactly
@@ -108,7 +157,12 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 
 	// Get featured image for menu item if available
 	const getMenuItemImage = ( item ) => {
-		// Check if the menu item has a featured image
+		// Use the pre-fetched featured image URL
+		if ( item.featuredImageUrl ) {
+			return item.featuredImageUrl;
+		}
+		
+		// Fallback: check if the menu item has embedded featured media
 		if ( item._embedded && item._embedded['wp:featuredmedia'] && item._embedded['wp:featuredmedia'][0] ) {
 			const media = item._embedded['wp:featuredmedia'][0];
 			if ( media.media_details && media.media_details.sizes ) {
@@ -120,89 +174,75 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 			}
 			return media.source_url;
 		}
+		
 		return null;
 	};
 
 	// Render individual menu item
 	const renderMenuItem = ( item, index ) => {
 		const hasChildren = item.children && item.children.length > 0;
-		const showSubs = attributes.showSubs !== false && hasChildren;
+		const showSubs = attributes.showSubs !== false;
 		const itemImage = getMenuItemImage( item );
+		const itemTitle = item.title?.rendered || item.title || __( 'Menu Item', 'fau-elemental' );
 
 		return (
 			<li key={ item.id } className={ `${ CSS_CLASSES.portal_item } ${ getColumnClass() }` }>
 				{ ! attributes.noThumbs && (
 					<div className={ CSS_CLASSES.portal_thumbnail }>
-						<div className={ CSS_CLASSES.image_link }>
+						<a
+							href="#"
+							onClick={ ( e ) => e.preventDefault() }
+							className={ CSS_CLASSES.image_link }
+							aria-label={ sprintf( __( 'Go to %s', 'fau-elemental' ), itemTitle ) }
+							tabIndex="0"
+						>
 							{ itemImage ? (
 								<img 
 									src={ itemImage } 
-									alt={ item.title?.rendered || '' }
-									style={ {
-										width: '100%',
-										height: '100%',
-										objectFit: 'cover'
-									} }
+									alt={ sprintf( __( 'Featured image for %s', 'fau-elemental' ), itemTitle ) }
+									loading="lazy"
 								/>
 							) : (
-								<div
-									className="editor-preview-thumbnail"
-									style={ {
-										width: '100%',
-										height: '100%',
-										backgroundColor: 'var(--FAU-Col-FAU-Grau-12_5, #f2f2f2)',
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'center',
-										color: 'var(--FAU-Col-FAU-Blau-100, #04316a)',
-										fontSize: '0.875rem',
-										fontWeight: '600'
-									} }
-								>
-									{ __( 'No Image', 'fau-elemental' ) }
+								<div className="portal-placeholder-image" role="img" aria-label={ sprintf( __( 'No image available for %s', 'fau-elemental' ), itemTitle ) }>
+									<span>{ __( 'No Image', 'fau-elemental' ) }</span>
 								</div>
 							) }
-						</div>
+						</a>
 					</div>
 				) }
+				
 				<div className={ CSS_CLASSES.portal_content }>
-					<div className={ CSS_CLASSES.portal_title }>
+					<h3 className={ CSS_CLASSES.portal_title }>
 						<a
 							href="#"
 							onClick={ ( e ) => e.preventDefault() }
 							className={ CSS_CLASSES.portal_main_link }
+							aria-label={ sprintf( __( 'Go to main page: %s', 'fau-elemental' ), itemTitle ) }
+							tabIndex="0"
 						>
-							{ item.title?.rendered || item.title || __( 'Menu Item', 'fau-elemental' ) }
-							<span className={ CSS_CLASSES.portal_button_arrow }>
-								<span className={ CSS_CLASSES.screen_reader_text }>
-									{ __( 'Visit page', 'fau-elemental' ) }
-								</span>
-							</span>
+							{ itemTitle }
 						</a>
-					</div>
+					</h3>
+					
 					{ showSubs && (
-						<div className={ CSS_CLASSES.portal_submenu }>
-							{ item.children.slice( 0, 3 ).map( ( child, childIndex ) => (
-								<div key={ child.id } className={ CSS_CLASSES.portal_subitem }>
-									<a
-										href="#"
-										onClick={ ( e ) => e.preventDefault() }
-										className={ CSS_CLASSES.portal_sublink }
-									>
-										{ child.title?.rendered || child.title || __( 'Submenu Item', 'fau-elemental' ) }
-									</a>
-								</div>
-							) ) }
-							{ item.children.length > 3 && (
-								<div className={ CSS_CLASSES.portal_subitem }>
-									<span className={ CSS_CLASSES.portal_sublink } style={ { opacity: 0.7 } }>
-										{ sprintf( 
-											__( '... and %d more', 'fau-elemental' ), 
-											item.children.length - 3 
-										) }
-									</span>
-								</div>
-							) }
+						<div className={ CSS_CLASSES.portal_submenu } role="list">
+							{ hasChildren && item.children.map( ( child, childIndex ) => {
+								const childTitle = child.title?.rendered || child.title || __( 'Submenu Item', 'fau-elemental' );
+								return (
+									<div key={ child.id } className={ CSS_CLASSES.portal_subitem } role="listitem">
+										<a
+											href="#"
+											onClick={ ( e ) => e.preventDefault() }
+											className={ CSS_CLASSES.portal_sublink }
+											aria-label={ sprintf( __( 'Go to %s', 'fau-elemental' ), childTitle ) }
+											tabIndex="0"
+										>
+											<span className="portal-link-text">{ childTitle }</span>
+											<span className="portal-link-button" aria-hidden="true"></span>
+										</a>
+									</div>
+								);
+							} ) }
 						</div>
 					) }
 				</div>
@@ -218,11 +258,7 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 					{ __( 'Portal Menu:', 'fau-elemental' ) } { selectedMenuName }
 				</h2>
 				<nav className={ getContentClasses() } role="navigation" aria-label={ __( 'Portal Menu', 'fau-elemental' ) }>
-					<div style={ {
-						padding: 'var(--Spacing-8x, 2rem)',
-						textAlign: 'center',
-						color: 'var(--FAU-Col-FAU-Blau-100, #04316a)'
-					} }>
+					<div className="portal-loading-state" role="status" aria-live="polite">
 						{ __( 'Loading menu items...', 'fau-elemental' ) }
 					</div>
 				</nav>
@@ -238,12 +274,7 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 					{ __( 'Portal Menu:', 'fau-elemental' ) } { selectedMenuName }
 				</h2>
 				<nav className={ getContentClasses() } role="navigation" aria-label={ __( 'Portal Menu', 'fau-elemental' ) }>
-					<div style={ {
-						padding: 'var(--Spacing-8x, 2rem)',
-						textAlign: 'center',
-						color: 'var(--FAU-Col-FAU-Blau-100, #04316a)',
-						fontStyle: 'italic'
-					} }>
+					<div className="portal-empty-state" role="status" aria-live="polite">
 						{ __( 'This menu has no items. Please add items to the menu in Appearance → Menus.', 'fau-elemental' ) }
 					</div>
 				</nav>
@@ -266,12 +297,7 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 					) : (
 						// Fallback to sample items if no menu items
 						<li className={ `${ CSS_CLASSES.portal_item } ${ getColumnClass() }` }>
-							<div style={ {
-								padding: 'var(--Spacing-6x, 1.5rem)',
-								textAlign: 'center',
-								color: 'var(--FAU-Col-FAU-Schwarz-75, #666)',
-								fontStyle: 'italic'
-							} }>
+							<div className="portal-no-menu-state" role="status" aria-live="polite">
 								{ __( 'No menu selected', 'fau-elemental' ) }
 							</div>
 						</li>

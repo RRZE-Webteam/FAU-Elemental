@@ -37,34 +37,41 @@ $fau-white: #fff;
 
 	// Individual portal item
 	.portal-item {
-		// Component-Part / Portal-Menu-List-Item-Image
 		display: flex;
 		flex-direction: column;
-		align-items: center;
 		padding: 0;
-		margin-bottom: var(--Spacing-7x);
+		margin-bottom: var(--Spacing-7x, 1.875rem);
 		width: 100%;
+		background: var(--FAU-Col-FAU-Weiss-100, #fff);
+		border-radius: 8px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		overflow: hidden;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		color: var(--FAU-Col-FAU-Weiss-100, #fff);
+
+		&:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+		}
 
 		@media (min-width: 75rem) {
-
 			&.portal-column-3 {
-				width: calc(33.333% - var(--Spacing-5x));
+				width: calc(33.333% - var(--Spacing-5x, 1.375rem));
 			}
 
 			&.portal-column-2 {
-				width: calc(50% - var(--Spacing-4x));
+				width: calc(50% - var(--Spacing-4x, 1rem));
 			}
 
 			&.portal-column-4 {
-				width: calc(25% - var(--Spacing-6x));
+				width: calc(25% - var(--Spacing-6x, 1.5rem));
 			}
 		}
 
 		@media (max-width: 74.9375rem) and (min-width: 48rem) {
-
 			&.portal-column-3,
 			&.portal-column-4 {
-				width: calc(50% - var(--Spacing-4x));
+				width: calc(50% - var(--Spacing-4x, 1rem));
 			}
 		}
 
@@ -72,181 +79,164 @@ $fau-white: #fff;
 			width: 100%;
 		}
 
-		// Image container with fixed aspect ratio
+		// Image container at the top
 		.portal-thumbnail {
-			// Image_Fixed-aspect-ratio-fixed
-			display: flex;
-			flex-direction: column;
-			align-items: flex-start;
-			padding: 0;
 			width: 100%;
-			height: 17.5rem;
-			background-color: var(--FAU-Col-FAU-Grau-12_5);
+			height: 200px;
 			overflow: hidden;
 			position: relative;
-			margin: calc(var(--Spacing-6x) * -1) 0 0 0;
 
-			// Image link
 			.image-link {
 				display: block;
 				width: 100%;
 				height: 100%;
+				transition: transform 0.3s ease;
 
-				img {
-					width: 100%;
-					height: 100%;
-					object-fit: cover;
-					transition: transform var(--animation-duration-fast) ease, filter var(--animation-duration-fast) ease;
+				&:hover {
+					transform: scale(1.02);
+				}
+
+				&:focus {
+					outline: 2px solid var(--FAU-Col-FAU-Weiss-100, #fff);
+				}
+			}
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: transform 0.3s ease;
+			}
+
+			// Placeholder image styling
+			.portal-placeholder-image {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 0.875rem;
+				font-weight: 600;
+				color: #666;
+				background: linear-gradient(135deg, 
+					#f1f1f1 25%, 
+					#e5e5e5 25%, 
+					#e5e5e5 50%, 
+					#f1f1f1 50%, 
+					#f1f1f1 75%, 
+					#e5e5e5 75%);
+				background-size: 1.25rem 1.25rem;
+				
+				span {
+					padding: 0.5rem;
+					background: rgba(255, 255, 255, 0.9);
+					border-radius: 4px;
+					font-size: 0.75rem;
+					text-transform: uppercase;
+					letter-spacing: 0.05em;
 				}
 			}
 		}
 
-		// Content container
+		// Content container below image
 		.portal-content {
-			// Container-Spacing
-			width: 100%;
-
-			// Container-Content
+			padding: var(--Spacing-6x, 1.5rem);
+			flex-grow: 1;
 			display: flex;
 			flex-direction: column;
-			justify-content: center;
-			align-items: flex-start;
-			padding: var(--Spacing-4x) 0 var(--Spacing-4x) var(--Spacing-4x);
-			gap: var(--Spacing-6x);
-			background: var(--FAU-Col-FAU-Weiss-100);
-			flex-grow: 1;
 
-			// Title with arrow button
+			// Title styling
 			.portal-title {
-				// Container Header
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				padding: 0;
-				gap: var(--Spacing-6x);
-				width: 100%;
-				height: 2.5rem;
-				margin: 0;
+				margin: 0 0 var(--Spacing-4x, 1rem) 0;
 
-				a.portal-main-link {
-					// Headline
-					font-family: var(--font-family-primary);
-					font-style: normal;
+				.portal-main-link {
+					font-family: var(--font-family-primary, "Source Sans Pro", sans-serif);
 					font-weight: 700;
-					font-size: var(--H-Heading-5);
-					line-height: var(--line-height-tight);
-					letter-spacing: var(--letter-spacing-normal);
-					color: var(--FAU-Col-FAU-Blau-100);
+					font-size: var(--H-Heading-5, 1.25rem);
+					line-height: var(--line-height-tight, 1.3);
+					color: var(--FAU-Col-FAU-Weiss-100, #fff);
 					text-decoration: none;
-					flex-grow: 1;
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
+					display: block;
+					transition: color 0.3s ease;
 
-					// Arrow button
-					.portal-button-arrow {
-						// Link-Button
-						display: flex;
-						flex-direction: row;
-						justify-content: center;
-						align-items: center;
-						padding: var(--Spacing-2x);
-						gap: var(--Spacing-3x);
-						width: 2.5rem;
-						height: 2.5rem;
-						background: var(--FAU-Col-FAU-Blau-100);
-						color: var(--FAU-Col-FAU-Weiss-100);
-						flex-shrink: 0;
-						position: relative;
-						transition: background-color var(--animation-duration-fast) ease;
-
-						&::after {
-							content: "→";
-							font-size: 1.5rem;
-							line-height: 1;
-							color: var(--FAU-Col-FAU-Weiss-100);
-						}
-
-						.screen-reader-text {
-							position: absolute;
-							width: 1px;
-							height: 1px;
-							padding: 0;
-							margin: -1px;
-							overflow: hidden;
-							clip: rect(0, 0, 0, 0);
-							white-space: nowrap;
-							border: 0;
-						}
-					}
-
-					&:hover .portal-button-arrow {
-						background-color: var(--FAU-Col-FAU-Blau-75);
+					&:hover,
+					&:focus {
+						color: var(--FAU-Col-FAU-Grau-12_5, #f2f2f2);
 					}
 
 					&:focus {
-						outline: 2px solid var(--FAU-Col-FAU-Blau-100);
-						outline-offset: 2px;
+						outline-color: var(--FAU-Col-FAU-Weiss-100, #fff);
 					}
 				}
 			}
 
-			// Submenu container
+			// Submenu list styling
 			.portal-submenu {
-				// Container Link-List
+				list-style: none;
+				margin: 0;
+				padding: 0;
 				display: flex;
 				flex-direction: column;
-				align-items: flex-start;
-				padding: 0 var(--Spacing-6x) 0 0;
-				gap: var(--Spacing-4x);
-				width: 100%;
+				gap: var(--Spacing-3x, 0.75rem);
 
 				.portal-subitem {
-					// Button_Tertiary_FAU
-					display: flex;
-					flex-direction: row;
-					align-items: center;
+					margin: 0;
 					padding: 0;
-					gap: var(--Spacing-1x);
-					width: 100%;
 
-					a.portal-sublink {
-						// Tertiary link style
-						font-family: var(--font-family-primary);
-						font-style: normal;
-						font-weight: 600;
-						font-size: var(--P-Body);
-						line-height: var(--line-height-normal);
-						letter-spacing: var(--letter-spacing-wide);
-						color: var(--FAU-Col-FAU-Blau-100);
+					.portal-sublink {
+						padding: var(--Spacing-2x, 0.5rem) 0;
+						font-family: var(--font-family-primary, "Source Sans Pro", sans-serif);
+						font-weight: 400;
+						font-size: var(--P-Body, 1rem);
+						line-height: var(--line-height-normal, 1.5);
+						color: var(--FAU-Col-FAU-Weiss-100, #fff);
 						text-decoration: none;
-						flex-grow: 1;
-						position: relative;
-						padding-right: var(--Spacing-6x);
+						border-bottom: 1px solid transparent;
+						transition: color 0.3s ease, border-bottom-color 0.3s ease;
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
 
-						&::after {
-							content: "";
-							position: absolute;
-							right: 0;
-							top: 50%;
-							transform: translateY(-50%);
-							width: 0.875rem;
-							height: 0.875rem;
-							background-color: var(--FAU-Col-FAU-Blau-100);
-							clip-path: polygon(40% 0%, 100% 50%, 40% 100%, 40% 0%);
+						.portal-link-text {
+							flex-grow: 1;
 						}
 
-						&:hover {
-							color: var(--FAU-Col-FAU-Blau-75);
+						.portal-link-button {
+							width: 1.5rem;
+							height: 1.5rem;
+							background-color: var(--FAU-Col-FAU-Weiss-100, #fff);
+							border-radius: 50%;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							transition: background-color 0.3s ease;
+							flex-shrink: 0;
+							margin-left: 1rem;
 
 							&::after {
-								background-color: var(--FAU-Col-FAU-Blau-75);
+								content: "→";
+								font-size: 0.875rem;
+								color: var(--FAU-Col-FAU-Dunkelblau-100, #2c3e50);
+								line-height: 1;
+							}
+						}
+
+						&:hover,
+						&:focus {
+							color: var(--FAU-Col-FAU-Grau-12_5, #f2f2f2);
+							border-bottom-color: var(--FAU-Col-FAU-Grau-12_5, #f2f2f2);
+
+							.portal-link-button {
+								background-color: var(--FAU-Col-FAU-Grau-12_5, #f2f2f2);
+
+								&::after {
+									color: var(--FAU-Col-FAU-Dunkelblau-100, #2c3e50);
+								}
 							}
 						}
 
 						&:focus {
-							outline: 2px solid var(--FAU-Col-FAU-Blau-100);
-							outline-offset: 2px;
+							outline: 2px solid var(--FAU-Col-FAU-Weiss-100, #fff);
 						}
 					}
 				}
@@ -396,43 +386,107 @@ $fau-white: #fff;
 .contentmenu.is-style-dark,
 .wp-block-fau-elemental-portalmenu .contentmenu.is-style-dark {
 	
-	.portal-item .portal-content {
-		background: var(--FAU-Col-FAU-Dunkelblau-100);
-		color: var(--FAU-Col-FAU-Weiss-100);
-	}
+	.portal-item {
+		background: var(--FAU-Col-FAU-Dunkelblau-100, #2c3e50);
+		color: var(--FAU-Col-FAU-Weiss-100, #fff);
 
-	.portal-item .portal-content .portal-title .portal-main-title {
-		color: var(--FAU-Col-FAU-Weiss-100);
-	}
+		.portal-content .portal-title .portal-main-link {
+			color: var(--FAU-Col-FAU-Weiss-100, #fff);
 
-	.portal-item .portal-content .portal-title .portal-main-button {
-		background: var(--FAU-Col-FAU-Weiss-100);
-		color: var(--FAU-Col-FAU-Dunkelblau-100);
-	}
+			&:hover,
+			&:focus {
+				color: var(--FAU-Col-FAU-Grau-12_5, #f2f2f2);
+			}
 
-	.portal-item .portal-content .portal-title .portal-main-button:hover {
-		background-color: var(--FAU-Col-FAU-Grau-12_5);
-		color: var(--FAU-Col-FAU-Dunkelblau-100);
-	}
+			&:focus {
+				outline-color: var(--FAU-Col-FAU-Weiss-100, #fff);
+			}
+		}
 
-	.portal-item .portal-content .portal-title .portal-main-button .wp-element-button__icon {
-		fill: currentColor;
-	}
+		.portal-thumbnail .image-link:focus {
+			outline-color: var(--FAU-Col-FAU-Weiss-100, #fff);
+		}
 
-	.portal-item .portal-content .portal-submenu .portal-subitem .portal-sublink {
-		background: transparent;
-		border-color: var(--FAU-Col-FAU-Weiss-100);
-		color: var(--FAU-Col-FAU-Weiss-100);
-	}
+		.portal-content .portal-submenu .portal-subitem .portal-sublink {
+			color: var(--FAU-Col-FAU-Weiss-100, #fff);
 
-	.portal-item .portal-content .portal-submenu .portal-subitem .portal-sublink:hover {
-		background-color: var(--FAU-Col-FAU-Weiss-100);
-		border-color: var(--FAU-Col-FAU-Weiss-100);
-		color: var(--FAU-Col-FAU-Dunkelblau-100);
-	}
+			.portal-link-button {
+				background-color: var(--FAU-Col-FAU-Weiss-100, #fff);
 
-	.portal-item .portal-content .portal-submenu .portal-subitem .portal-sublink .wp-element-button__icon {
-		fill: currentColor;
+				&::after {
+					color: var(--FAU-Col-FAU-Dunkelblau-100, #2c3e50);
+				}
+			}
+
+			&:hover,
+			&:focus {
+				color: var(--FAU-Col-FAU-Grau-12_5, #f2f2f2);
+				border-bottom-color: var(--FAU-Col-FAU-Grau-12_5, #f2f2f2);
+
+				.portal-link-button {
+					background-color: var(--FAU-Col-FAU-Grau-12_5, #f2f2f2);
+
+					&::after {
+						color: var(--FAU-Col-FAU-Dunkelblau-100, #2c3e50);
+					}
+				}
+			}
+
+			&:focus {
+				outline-color: var(--FAU-Col-FAU-Weiss-100, #fff);
+			}
+		}
+
+		.portal-thumbnail .portal-placeholder-image {
+			background: linear-gradient(135deg, 
+				#2c3e50 25%, 
+				#34495e 25%, 
+				#34495e 50%, 
+				#2c3e50 50%, 
+				#2c3e50 75%, 
+				#34495e 75%);
+			color: #fff;
+		}
 	}
+}
+
+// State classes for loading, empty, and no-menu states (accessibility compliance)
+.portal-loading-state,
+.portal-empty-state,
+.portal-no-menu-state {
+	padding: var(--Spacing-8x, 2rem);
+	text-align: center;
+	color: var(--FAU-Col-FAU-Blau-100, #04316a);
+	font-size: var(--P-Body, 1rem);
+	border-radius: 4px;
+	background-color: var(--FAU-Col-FAU-Grau-6_25, #f9f9f9);
+	border: 1px solid var(--FAU-Col-FAU-Grau-25, #e0e0e0);
+}
+
+.portal-empty-state,
+.portal-no-menu-state {
+	font-style: italic;
+	color: var(--FAU-Col-FAU-Schwarz-75, #666);
+}
+
+.portal-loading-state {
+	position: relative;
+	
+	&::after {
+		content: "";
+		display: inline-block;
+		width: 1rem;
+		height: 1rem;
+		margin-left: 0.5rem;
+		border: 2px solid transparent;
+		border-top: 2px solid var(--FAU-Col-FAU-Blau-100, #04316a);
+		border-radius: 50%;
+		animation: portal-loading-spin 1s linear infinite;
+	}
+}
+
+@keyframes portal-loading-spin {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
 }
 
