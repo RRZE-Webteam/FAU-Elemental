@@ -138,13 +138,7 @@ function fau_elemental_render_portal_menu_block( $attributes ) {
  */
 function fau_elemental_portal_menu_block_editor_assets() {
     // Enqueue editor script for the block
-    wp_enqueue_script(
-        'fau-portal-menu-block-editor',
-        get_template_directory_uri() . '/build/js/portal-menu-block.js',
-        array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components' ),
-        filemtime( get_template_directory() . '/build/js/portal-menu-block.js' ),
-        true
-    );
+
 
     // Get all menus for the select control
     $menus = wp_get_nav_menus();

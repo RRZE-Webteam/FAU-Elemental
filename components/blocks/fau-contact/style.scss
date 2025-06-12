@@ -1,0 +1,287 @@
+// FAU Contact Block Styles
+
+.wp-block-fau-elemental-fau-contact {
+	.fau-contact-block {
+		border: 1px solid #e0e0e0;
+		border-radius: 8px;
+		padding: 1.5rem;
+		margin: 1rem 0;
+		background: #fff;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+		.contact-topline {
+			color: #666;
+			margin-bottom: 1rem;
+			padding-bottom: 0.5rem;
+			border-bottom: 1px solid #f0f0f0;
+
+			small {
+				font-size: 0.875rem;
+				text-transform: uppercase;
+				letter-spacing: 0.5px;
+			}
+		}
+
+		.contact-main {
+			display: flex;
+			gap: 1.5rem;
+			align-items: flex-start;
+
+			@media (max-width: 768px) {
+				flex-direction: column;
+				gap: 1rem;
+			}
+
+			.contact-image {
+				flex-shrink: 0;
+				width: 120px;
+				height: 120px;
+				border-radius: 50%;
+				overflow: hidden;
+				border: 3px solid #f0f0f0;
+
+				@media (max-width: 768px) {
+					width: 100px;
+					height: 100px;
+					align-self: center;
+				}
+
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+			}
+
+			.contact-content {
+				flex: 1;
+				min-width: 0; // Prevent flex item from overflowing
+
+				.contact-headline {
+					margin: 0 0 1rem 0;
+					color: #003865; // FAU blue
+					font-size: 1.5rem;
+					font-weight: 600;
+					line-height: 1.3;
+				}
+
+				.contact-address,
+				.contact-hours {
+					margin-bottom: 1rem;
+
+					strong {
+						display: block;
+						color: #333;
+						margin-bottom: 0.25rem;
+						font-weight: 600;
+					}
+
+					.address-content,
+					.hours-content {
+						color: #666;
+						line-height: 1.5;
+					}
+				}
+
+				.contact-links,
+				.social-links {
+					margin-bottom: 1rem;
+
+					&:last-child {
+						margin-bottom: 0;
+					}
+
+					strong {
+						display: block;
+						color: #333;
+						margin-bottom: 0.5rem;
+						font-weight: 600;
+					}
+
+					ul {
+						list-style: none;
+						margin: 0;
+						padding: 0;
+						display: flex;
+						flex-wrap: wrap;
+						gap: 0.75rem;
+
+						li {
+							margin: 0;
+
+							a {
+								display: inline-flex;
+								align-items: center;
+								gap: 0.5rem;
+								padding: 0.5rem 0.75rem;
+								background: #f8f9fa;
+								border: 1px solid #e9ecef;
+								border-radius: 4px;
+								text-decoration: none;
+								color: #495057;
+								font-size: 0.875rem;
+								transition: all 0.2s ease;
+
+								&:hover,
+								&:focus {
+									background: #003865; // FAU blue
+									color: white;
+									border-color: #003865;
+									transform: translateY(-1px);
+									box-shadow: 0 2px 4px rgba(0, 56, 101, 0.2);
+								}
+
+								i {
+									font-size: 1rem;
+									width: 16px;
+									text-align: center;
+								}
+
+								.screen-reader-text {
+									position: absolute;
+									width: 1px;
+									height: 1px;
+									padding: 0;
+									margin: -1px;
+									overflow: hidden;
+									clip: rect(0, 0, 0, 0);
+									white-space: nowrap;
+									border: 0;
+								}
+							}
+						}
+					}
+				}
+
+				.social-links {
+					ul {
+						li {
+							a {
+								// Social media specific colors on hover
+								&.social-link-facebook:hover {
+									background: #1877f2;
+									border-color: #1877f2;
+								}
+
+								&.social-link-twitter:hover {
+									background: #1da1f2;
+									border-color: #1da1f2;
+								}
+
+								&.social-link-instagram:hover {
+									background: #e4405f;
+									border-color: #e4405f;
+								}
+
+								&.social-link-linkedin:hover {
+									background: #0077b5;
+									border-color: #0077b5;
+								}
+
+								&.social-link-xing:hover {
+									background: #026466;
+									border-color: #026466;
+								}
+
+								&.social-link-youtube:hover {
+									background: #ff0000;
+									border-color: #ff0000;
+								}
+
+								&.social-link-github:hover {
+									background: #333;
+									border-color: #333;
+								}
+
+								&.social-link-researchgate:hover {
+									background: #0cb;
+									border-color: #0cb;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Contact link specific styling
+	.contact-link {
+		&.contact-link-phone a:hover {
+			background: #28a745;
+			border-color: #28a745;
+		}
+
+		&.contact-link-email a:hover {
+			background: #dc3545;
+			border-color: #dc3545;
+		}
+
+		&.contact-link-website a:hover {
+			background: #17a2b8;
+			border-color: #17a2b8;
+		}
+
+		&.contact-link-messenger a:hover {
+			background: #0084ff;
+			border-color: #0084ff;
+		}
+
+		&.contact-link-matrix a:hover {
+			background: #000;
+			border-color: #000;
+		}
+	}
+
+	// Dark theme support
+	@media (prefers-color-scheme: dark) {
+		.fau-contact-block {
+			background: #1a1a1a;
+			border-color: #333;
+			color: #e0e0e0;
+
+			.contact-topline {
+				color: #b0b0b0;
+				border-bottom-color: #333;
+			}
+
+			.contact-main .contact-content {
+				.contact-headline {
+					color: #4dabf7; // Lighter FAU blue for dark mode
+				}
+
+				.contact-address,
+				.contact-hours {
+					strong {
+						color: #e0e0e0;
+					}
+
+					.address-content,
+					.hours-content {
+						color: #b0b0b0;
+					}
+				}
+
+				.contact-links,
+				.social-links {
+					strong {
+						color: #e0e0e0;
+					}
+
+					ul li a {
+						background: #2a2a2a;
+						border-color: #444;
+						color: #e0e0e0;
+
+						&:hover,
+						&:focus {
+							background: #4dabf7;
+							border-color: #4dabf7;
+							color: #000;
+						}
+					}
+				}
+			}
+		}
+	}
+} 

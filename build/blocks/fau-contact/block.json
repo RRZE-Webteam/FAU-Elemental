@@ -1,0 +1,99 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "fau-elemental/fau-contact",
+	"version": "0.1.0",
+	"title": "FAU Contact",
+	"category": "fau-elemental/FAU",
+	"icon": "businessperson",
+	"description": "Display contact information for a person or department with optional fields",
+	"supports": {
+		"html": false,
+		"multiple": true
+	},
+	"attributes": {
+		"showTopLine": {
+			"type": "boolean",
+			"default": false
+		},
+		"topLine": {
+			"type": "string",
+			"default": ""
+		},
+		"imageId": {
+			"type": "number",
+			"default": 0
+		},
+		"imageUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"imageAlt": {
+			"type": "string",
+			"default": ""
+		},
+		"headline": {
+			"type": "string",
+			"default": ""
+		},
+		"showAddress": {
+			"type": "boolean",
+			"default": false
+		},
+		"address": {
+			"type": "string",
+			"default": ""
+		},
+		"showOpeningHours": {
+			"type": "boolean",
+			"default": false
+		},
+		"openingHours": {
+			"type": "string",
+			"default": ""
+		},
+		"contactLinks": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "object",
+				"properties": {
+					"type": {
+						"type": "string",
+						"enum": ["phone", "email", "messenger", "website", "matrix"]
+					},
+					"label": {
+						"type": "string"
+					},
+					"value": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"socialLinks": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "object",
+				"properties": {
+					"type": {
+						"type": "string",
+						"enum": ["facebook", "twitter", "instagram", "linkedin", "xing", "youtube", "github", "researchgate"]
+					},
+					"label": {
+						"type": "string"
+					},
+					"url": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	},
+	"textdomain": "fau-elemental",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+} 
