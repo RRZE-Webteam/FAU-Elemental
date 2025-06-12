@@ -15,23 +15,33 @@ require_once get_template_directory() . '/inc/theme-setup.php';
 // Asset management
 require_once get_template_directory() . '/inc/enqueue-assets.php';
 
+// Customizer
+require_once get_template_directory() . '/inc/customizer.php';
+
 // Block functionality
 require_once get_template_directory() . '/inc/blocks/loader.php';
 require_once get_template_directory() . '/inc/block-patterns.php';
 
-
+// Post settings and functionality
+require_once get_template_directory() . '/inc/posts-settings.php';
 
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
 
+// Include post meta functionality
+require_once get_template_directory() . '/inc/post-meta.php';
+
+// Menu registration
+require_once get_template_directory() . '/inc/menu-registration.php';
+
 // Shortcodes functionality
 require_once get_template_directory() . '/inc/shortcodes-loader.php';
 
-// Portal page settings
-require_once get_template_directory() . '/inc/portal-page-settings.php';
-
 // Portal menu compatibility with old theme
 require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
+
+// Breadcrumb functionality
+require_once get_template_directory() . '/components/template-parts/breadcrumbs/breadcrumbs.php';
 
 /**
  * Register custom page templates
@@ -40,14 +50,8 @@ require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
  * not in templates/ directory for it to work with WordPress template selector
  */
 function fau_elemental_register_page_templates($templates) {
-    // Root template is the most important one - always register it first
-    // This is the one that will be used in the dropdown
+    // Register the portal page template
     $templates['portal-page.php'] = 'Portal Page';
-    
-    // Secondary location as fallback (might not appear in dropdown)
-    if (file_exists(get_template_directory() . '/templates/portal-page.php')) {
-        $templates['templates/portal-page.php'] = 'Portal Page (Templates)';
-    }
     
     // Force flush the template cache if we're in admin
     if (is_admin()) {
@@ -84,34 +88,14 @@ function fau_elemental_template_include($template) {
             }
         }
         
-        // Priority 2: Use the template in templates/ directory if selected
-        if ($template_slug === 'templates/portal-page.php') {
-            $nested_template = locate_template(['templates/portal-page.php']);
-            if (!empty($nested_template)) {
-                return $nested_template;
-            }
-            
-            // If the template in templates/ is selected but doesn't exist,
-            // try to use the root template as fallback
-            $root_template = locate_template(['portal-page.php']);
-            if (!empty($root_template)) {
-                error_log('FAU Elemental: Using root portal-page.php as fallback');
-                update_post_meta(get_the_ID(), '_wp_page_template', 'portal-page.php');
-                return $root_template;
-            }
-        }
-        
         // If the requested template isn't found but the page has a portal menu ID
-        // Try to use any available portal template
+        // Try to use the portal template
         if (get_post_meta(get_the_ID(), 'portal_menu_id', true)) {
-            $possible_templates = ['portal-page.php', 'templates/portal-page.php'];
-            foreach ($possible_templates as $possible) {
-                $try_template = locate_template([$possible]);
-                if (!empty($try_template)) {
-                    error_log('FAU Elemental: Portal menu ID found, using template: ' . $possible);
-                    update_post_meta(get_the_ID(), '_wp_page_template', $possible);
-                    return $try_template;
-                }
+            $portal_template = locate_template(['portal-page.php']);
+            if (!empty($portal_template)) {
+                error_log('FAU Elemental: Portal menu ID found, using template: portal-page.php');
+                update_post_meta(get_the_ID(), '_wp_page_template', 'portal-page.php');
+                return $portal_template;
             }
         }
     }
@@ -122,13 +106,46 @@ add_filter('template_include', 'fau_elemental_template_include', 99);
 /**
  * Add a filter to post updated messages to help with portal page template
  */
+/**
+ * Main theme setup function for FAU-Elemental
+ */
+ function fau_elemental_theme_setup() {
+    // Basic theme features support
+    add_theme_support('post-thumbnails');
+    add_theme_support('custom-logo');
+    add_theme_support('automatic-feed-links');
+    add_theme_support('html5', array(
+        'comment-list', 
+        'comment-form', 
+        'search-form', 
+        'gallery', 
+        'caption',
+        'style',
+        'script'
+    ));
+    add_theme_support('title-tag');
+    
+    // Register core menu locations used by PHP templates
+    register_nav_menus(array(
+        'primary' => __('Primary Menu', 'fau-elemental'),
+        'footer' => __('Footer Menu', 'fau-elemental'),
+    ));
+    
+    // Add custom image sizes if needed
+    // add_image_size('featured-large', 1600, 900, true);
+}
+add_action('after_setup_theme', 'fau_elemental_theme_setup');
+
+/**
+ * Add a filter to post updated messages to help with portal page template
+ */
 function fau_elemental_post_updated_messages($messages) {
     global $post;
     
     if ($post && get_post_type($post) === 'page') {
         $template = get_post_meta($post->ID, '_wp_page_template', true);
         
-        if ($template === 'portal-page.php' || $template === 'templates/portal-page.php') {
+        if ($template === 'portal-page.php') {
             // Add message for portal page template
             $messages['post'][1] .= ' <span style="color:#2271b1;">This page is using the Portal Page template. Make sure to select a menu in the Portal Menu Settings box.</span>';
         }
@@ -137,6 +154,91 @@ function fau_elemental_post_updated_messages($messages) {
     return $messages;
 }
 add_filter('post_updated_messages', 'fau_elemental_post_updated_messages');
+
+/**
+ * Ensure plugin hooks are available in the block theme
+ */
+function fau_elemental_add_plugin_compatibility_hooks() {
+    // Common hooks that plugins often use
+    add_action('wp_head', function() {
+        do_action('fau_elemental_header');
+    });
+    
+    add_action('wp_footer', function() {
+        do_action('fau_elemental_footer');
+    });
+    
+    // Hook before and after content
+    add_filter('the_content', function($content) {
+        $before = apply_filters('fau_elemental_before_content', '');
+        $after = apply_filters('fau_elemental_after_content', '');
+        return $before . $content . $after;
+    });
+}
+add_action('init', 'fau_elemental_add_plugin_compatibility_hooks');
+
+/**
+ * Enqueue styles for PHP templates
+ */
+function fau_elemental_enqueue_php_template_styles() {
+    // Ensure block styles are loaded even in PHP templates
+    wp_enqueue_style('wp-block-library');
+    wp_enqueue_style('global-styles');
+}
+add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_php_template_styles');
+
+/**
+ * Add custom classes to body for PHP templates
+ */
+function fau_elemental_body_classes($classes) {
+    // Add these classes to ensure PHP templates look like block templates
+    $classes[] = 'wp-theme';
+    // $classes[] = 'is-layout-flow';
+    
+    return $classes;
+}
+add_filter('body_class', 'fau_elemental_body_classes');
+
+
+
+
+
+/**
+ * Function to load template parts for both block and PHP templates
+ *
+ * @param string $slug Template slug
+ * @param string $name Template name (optional)
+ * @param array $args Additional arguments to pass to the template (optional)
+ */
+function fau_elemental_load_template_part($slug, $name = null, $args = array()) {
+    // First check if block template part exists
+    $part_name = $name ? "{$slug}-{$name}" : $slug;
+    $block_part_file = get_theme_file_path("/parts/{$part_name}.html");
+    
+    if (file_exists($block_part_file) && filesize($block_part_file) > 0) {
+        // Block template exists, use it
+        echo do_blocks(file_get_contents($block_part_file));
+    } else {
+        // Fall back to PHP template part
+        // Use WordPress's standard structure for template-parts
+        $directory = '';
+        
+        // Organize by type if slug has a recognizable prefix
+        if (strpos($slug, 'header') === 0) {
+            $directory = 'header';
+        } elseif (strpos($slug, 'footer') === 0) {
+            $directory = 'footer';
+        } elseif (strpos($slug, 'content') === 0) {
+            $directory = 'content';
+        }
+        
+        if ($directory) {
+            get_template_part("template-parts/{$directory}/{$slug}", $name, $args);
+        } else {
+            get_template_part("template-parts/{$slug}", $name, $args);
+        }
+    }
+}
 
 /**
  * Hook to migrate settings right after theme activation
