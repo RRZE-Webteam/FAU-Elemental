@@ -1,0 +1,52 @@
+// Import the main styles to ensure consistency
+@import "./style";
+
+.wp-block-fau-elemental-fau-teaser-grid {
+	max-width: var(--wide-max-width);
+	margin: 0 auto;
+}
+
+.fau-teaser-grid {
+
+
+	.wp-block-button__link {
+		border-radius: 0; // make arrow buttons square
+	}
+
+	a {
+		text-decoration: none;
+	}
+}
+
+
+.teaser-item.disabled {
+	pointer-events: none;
+	cursor: default;
+}
+
+// Styles for the panel UI
+.components-panel {
+
+	.search-instructions {
+		font-style: italic;
+		color: #757575;
+		margin-top: 4px;
+		font-size: 13px;
+	}
+
+	.no-results-message {
+		color: #d94f4f;
+		margin-top: 4px;
+		font-size: 13px;
+	}
+
+	.selected-posts-list div {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 8px;
+		padding: 6px 8px;
+		background: #f0f0f0;
+		border-radius: 4px;
+	}
+}
