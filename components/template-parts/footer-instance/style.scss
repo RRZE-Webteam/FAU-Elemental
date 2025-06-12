@@ -412,7 +412,7 @@
 					// Placeholder styling for target groups without links
 					&--placeholder {
 						cursor: default;
-						opacity: 0.7;
+		
 
 						&:hover,
 						&:focus {
@@ -422,7 +422,13 @@
 						}
 
 						.arrow-link {
-							opacity: 0.5;
+							opacity: 0.4;
+							background-color: var(--FAU-Col-FAU-Grau-80);
+						}
+
+						h4,
+						p {
+							color: var(--FAU-Col-FAU-Grau-80);
 						}
 					}
 				}
