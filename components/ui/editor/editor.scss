@@ -2,14 +2,16 @@
  * Editor Styles
  */
 
-@import "../theme";
-@import "../../components/core-blocks/details/editor";
-@import "../../components/core-blocks/gallery/editor";
-@import "../../components/core-blocks/image/editor";
-@import "../../components/core-blocks/file/editor";
-@import "../../components/core-blocks/quote/editor";
-@import "../../components/blocks/fau-portalmenu/editor";
-@import "../../components/core-blocks/verse/editor";
+@use "../theme" as *;
+
+@use "../../core-blocks/details/editor" as *;
+@use "../../core-blocks/gallery/editor" as *;
+@use "../../core-blocks/image/editor" as *;
+@use "../../core-blocks/file/editor" as *;
+@use "../../core-blocks/quote/editor" as *;
+@use "../../core-blocks/verse/editor" as *;
+
+@use "../../patterns/hero-fau/editor" as *;
 
 html :where(.editor-styles-wrapper) {
 	font-family: var(--font-family-base);

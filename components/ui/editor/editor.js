@@ -3,6 +3,21 @@ import { select, subscribe, dispatch } from '@wordpress/data';
 // import { createHigherOrderComponent } from '@wordpress/compose';
 import { unregisterFormatType } from '@wordpress/rich-text';
 
+// Import all core-blocks
+import '../../core-blocks/button/index.js';
+import '../../core-blocks/details/index.js';
+import '../../core-blocks/file/index.js';
+import '../../core-blocks/gallery/index.js';
+import '../../core-blocks/group/index.js';
+import '../../core-blocks/image/index.js';
+import '../../core-blocks/list/index.js';
+import '../../core-blocks/media-text/index.js';
+import '../../core-blocks/paragraph/index.js';
+import '../../core-blocks/quote/index.js';
+import '../../core-blocks/separator/index.js';
+import '../../core-blocks/table/index.js';
+import '../../core-blocks/tag-cloud/index.js';
+
 /**
  * Block Selection Class Manager
  *

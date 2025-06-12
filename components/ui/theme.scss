@@ -4,36 +4,37 @@
 // This file imports all component styles for the frontend theme
 
 // UI Foundation (Variables and Base Styles)
-@import "variables/_index";
-@import "base/_index";
+@use "variables/_index" as *;
+@use "base/_index" as *;
 
 // Core Block Styles (modifications to WordPress core blocks)
-@import "../core-blocks/button/style";
-@import "../core-blocks/code/style";
-@import "../core-blocks/details/style";
-@import "../core-blocks/file/style";
-@import "../core-blocks/gallery/style";
-@import "../core-blocks/group/style";
-@import "../core-blocks/heading/style";
-@import "../core-blocks/image/style";
-@import "../core-blocks/list/style";
-@import "../core-blocks/media-text/style";
-@import "../core-blocks/paragraph/style";
-@import "../core-blocks/quote/style";
-@import "../core-blocks/separator/style";
-@import "../core-blocks/table/style";
-@import "../core-blocks/tag-cloud/style";
-@import "../core-blocks/verse/style";
+@use "../core-blocks/button/style" as *;
+@use "../core-blocks/code/style" as *;
+@use "../core-blocks/details/style" as *;
+@use "../core-blocks/file/style" as *;
+@use "../core-blocks/gallery/style" as *;
+@use "../core-blocks/group/style" as *;
+@use "../core-blocks/heading/style" as *;
+@use "../core-blocks/image/style" as *;
+@use "../core-blocks/list/style" as *;
+@use "../core-blocks/media-text/style" as *;
+@use "../core-blocks/paragraph/style" as *;
+@use "../core-blocks/quote/style" as *;
+@use "../core-blocks/separator/style" as *;
+@use "../core-blocks/table/style" as *;
+@use "../core-blocks/tag-cloud/style" as *;
+@use "../core-blocks/verse/style" as *;
 
 // Pattern Styles
-@import "../patterns/hero-chair/style";
-@import "../patterns/hero-cooperation/style";
-@import "../patterns/hero-faculty/style";
-@import "../patterns/hero-fau/style";
-@import "../patterns/hero-other/style";
+@use "../patterns/hero-chair/style" as *;
+@use "../patterns/hero-cooperation/style" as *;
+@use "../patterns/hero-faculty/style" as *;
+@use "../patterns/hero-fau/style" as *;
+@use "../patterns/hero-other/style" as *;
 
 // Template Part Styles
-@import "../template-parts/breadcrumbs/style";
-@import "../template-parts/footer-instance/style";
-@import "../template-parts/footer-main/style";
-@import "../template-parts/post-meta/style"; 
+@use "../template-parts/breadcrumbs/style" as *;
+@use "../template-parts/footer-instance/style" as *;
+@use "../template-parts/footer-main/style" as *;
+@use "../template-parts/hero-page/style" as *;
+@use "../template-parts/post-meta/style" as *; 

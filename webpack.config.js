@@ -86,13 +86,13 @@ module.exports = {
 		// EDITOR STYLES BUNDLE
 		// ============================================================================
 		// This creates editor.css with all theme styles + editor-specific styles
-		'css/editor': path.resolve( process.cwd(), 'components/ui/editor.scss' ),
+		'css/editor': path.resolve( process.cwd(), 'components/ui/editor/editor.scss' ),
 
 		// ============================================================================
 		// EDITOR WRAPPER STYLES BUNDLE
 		// ============================================================================
 		// This creates editor-wrapper.css with editor environment styles
-		'css/editor-wrapper': path.resolve( process.cwd(), 'components/ui/editor-wrapper.scss' ),
+		'css/editor-wrapper': path.resolve( process.cwd(), 'components/ui/editor/editor-wrapper.scss' ),
 
 		// ============================================================================
 		// JAVASCRIPT BUNDLES
@@ -113,6 +113,38 @@ module.exports = {
 		// Legacy Scripts
 		'js/portal-menu-block': path.resolve( process.cwd(), 'src/js/portal-menu-block.js' ),
 	},
+	
+	// ============================================================================
+	// PERFORMANCE OPTIMIZATIONS
+	// ============================================================================
+	optimization: {
+		...defaultConfig.optimization,
+		splitChunks: {
+			...defaultConfig.optimization?.splitChunks,
+			cacheGroups: {
+				...defaultConfig.optimization?.splitChunks?.cacheGroups,
+				// Extract fonts into separate chunk to better manage their size warnings
+				fonts: {
+					test: /\.(woff|woff2|ttf|eot)$/,
+					name: 'fonts',
+					chunks: 'all',
+					enforce: true,
+				},
+			},
+		},
+	},
+	
+	// ============================================================================
+	// PERFORMANCE BUDGET CONFIGURATION
+	// ============================================================================
+	// Increase size limits to account for theme fonts and reduce warnings
+	performance: {
+		...defaultConfig.performance,
+		maxAssetSize: 1000000, // 1MB for individual assets (to handle large fonts)
+		maxEntrypointSize: 1000000, // 1MB for entrypoints
+		hints: 'warning', // Show warnings but don't fail build
+	},
+	
 	plugins: [
 		// Keep all existing plugins from the default config
 		...defaultConfig.plugins,
