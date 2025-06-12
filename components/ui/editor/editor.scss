@@ -12,6 +12,7 @@
 @use "../../core-blocks/verse/editor" as *;
 
 @use "../../patterns/hero-fau/editor" as *;
+@use "../../patterns/hero-portal/editor" as *;
 
 html :where(.editor-styles-wrapper) {
 	font-family: var(--font-family-base);

@@ -3,10 +3,10 @@
 /**
  * Title: Hero: Portal
  * Slug: fau-elemental/hero-portal
- * Categories: hero, page-starters, fau-elemental
+ * Categories: hero, fau-elemental
  * Viewport Width: 1376
  * Block Types: core/post-content
- * Post Types: page, wp_template
+ * Post Types: page
  */
 ?>
 

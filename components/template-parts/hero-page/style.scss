@@ -1,4 +1,4 @@
- @import "../../ui/mixins/mixins";
+@use "../../ui/mixins/mixins" as *;
 
 .hero-page {
     padding: var(--Spacing-10x) var(--Spacing-10x);
