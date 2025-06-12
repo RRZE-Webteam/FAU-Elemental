@@ -40,6 +40,12 @@ require_once get_template_directory() . '/inc/shortcodes-loader.php';
 // Portal menu compatibility with old theme
 require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
 
+// Portal menu configuration
+require_once get_template_directory() . '/inc/portal-menu-config.php';
+
+// Portal page settings
+require_once get_template_directory() . '/inc/portal-page-settings.php';
+
 // Breadcrumb functionality
 require_once get_template_directory() . '/components/template-parts/breadcrumbs/breadcrumbs.php';
 

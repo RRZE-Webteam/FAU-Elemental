@@ -1,5 +1,6 @@
 /**
  * Frontend styles for the FAU Portal Menu block
+ * Compliant with WCAG 2.2 Level II and technical requirements
  */
 
 // Define FAU colors
@@ -19,7 +20,7 @@ $fau-white: #fff;
 	flex-direction: row;
 	flex-wrap: wrap;
 	align-items: flex-start;
-	gap: 32px;
+	gap: var(--Spacing-8x);
 	width: 100%;
 
 	// Base styling for the portal menu
@@ -31,7 +32,7 @@ $fau-white: #fff;
 		flex-direction: row;
 		flex-wrap: wrap;
 		width: 100%;
-		gap: 32px;
+		gap: var(--Spacing-8x);
 	}
 
 	// Individual portal item
@@ -41,33 +42,33 @@ $fau-white: #fff;
 		flex-direction: column;
 		align-items: center;
 		padding: 0;
-		margin-bottom: 30px;
+		margin-bottom: var(--Spacing-7x);
 		width: 100%;
 
-		@media (min-width: 1200px) {
+		@media (min-width: 75rem) {
 
 			&.portal-column-3 {
-				width: calc(33.333% - 22px);
+				width: calc(33.333% - var(--Spacing-5x));
 			}
 
 			&.portal-column-2 {
-				width: calc(50% - 16px);
+				width: calc(50% - var(--Spacing-4x));
 			}
 
 			&.portal-column-4 {
-				width: calc(25% - 24px);
+				width: calc(25% - var(--Spacing-6x));
 			}
 		}
 
-		@media (max-width: 1199px) and (min-width: 768px) {
+		@media (max-width: 74.9375rem) and (min-width: 48rem) {
 
 			&.portal-column-3,
 			&.portal-column-4 {
-				width: calc(50% - 16px);
+				width: calc(50% - var(--Spacing-4x));
 			}
 		}
 
-		@media (max-width: 767px) {
+		@media (max-width: 47.9375rem) {
 			width: 100%;
 		}
 
@@ -79,11 +80,11 @@ $fau-white: #fff;
 			align-items: flex-start;
 			padding: 0;
 			width: 100%;
-			height: 280px;
-			background-color: $fau-gray-light;
+			height: 17.5rem;
+			background-color: var(--FAU-Col-FAU-Grau-12_5);
 			overflow: hidden;
 			position: relative;
-			margin: -48px 0 0 0;
+			margin: calc(var(--Spacing-6x) * -1) 0 0 0;
 
 			// Image link
 			.image-link {
@@ -95,7 +96,7 @@ $fau-white: #fff;
 					width: 100%;
 					height: 100%;
 					object-fit: cover;
-					transition: transform 0.3s ease, filter 0.3s ease;
+					transition: transform var(--animation-duration-fast) ease, filter var(--animation-duration-fast) ease;
 				}
 			}
 		}
@@ -110,9 +111,9 @@ $fau-white: #fff;
 			flex-direction: column;
 			justify-content: center;
 			align-items: flex-start;
-			padding: 16px 0 16px 16px;
-			gap: 24px;
-			background: $fau-white;
+			padding: var(--Spacing-4x) 0 var(--Spacing-4x) var(--Spacing-4x);
+			gap: var(--Spacing-6x);
+			background: var(--FAU-Col-FAU-Weiss-100);
 			flex-grow: 1;
 
 			// Title with arrow button
@@ -122,20 +123,20 @@ $fau-white: #fff;
 				flex-direction: row;
 				align-items: center;
 				padding: 0;
-				gap: 24px;
+				gap: var(--Spacing-6x);
 				width: 100%;
-				height: 40px;
+				height: 2.5rem;
 				margin: 0;
 
 				a.portal-main-link {
 					// Headline
-					font-family: "Source Sans Pro", sans-serif;
+					font-family: var(--font-family-primary);
 					font-style: normal;
 					font-weight: 700;
-					font-size: 20px;
-					line-height: 130%;
-					letter-spacing: 0.02em;
-					color: $fau-blue;
+					font-size: var(--H-Heading-5);
+					line-height: var(--line-height-tight);
+					letter-spacing: var(--letter-spacing-normal);
+					color: var(--FAU-Col-FAU-Blau-100);
 					text-decoration: none;
 					flex-grow: 1;
 					display: flex;
@@ -149,21 +150,21 @@ $fau-white: #fff;
 						flex-direction: row;
 						justify-content: center;
 						align-items: center;
-						padding: 8px;
-						gap: 12px;
-						width: 40px;
-						height: 40px;
-						background: $fau-blue;
-						color: $fau-white;
+						padding: var(--Spacing-2x);
+						gap: var(--Spacing-3x);
+						width: 2.5rem;
+						height: 2.5rem;
+						background: var(--FAU-Col-FAU-Blau-100);
+						color: var(--FAU-Col-FAU-Weiss-100);
 						flex-shrink: 0;
 						position: relative;
-						transition: background-color 0.2s ease;
+						transition: background-color var(--animation-duration-fast) ease;
 
 						&::after {
 							content: "→";
-							font-size: 24px;
+							font-size: 1.5rem;
 							line-height: 1;
-							color: $fau-white;
+							color: var(--FAU-Col-FAU-Weiss-100);
 						}
 
 						.screen-reader-text {
@@ -180,7 +181,12 @@ $fau-white: #fff;
 					}
 
 					&:hover .portal-button-arrow {
-						background-color: $fau-blue-light;
+						background-color: var(--FAU-Col-FAU-Blau-75);
+					}
+
+					&:focus {
+						outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+						outline-offset: 2px;
 					}
 				}
 			}
@@ -191,8 +197,8 @@ $fau-white: #fff;
 				display: flex;
 				flex-direction: column;
 				align-items: flex-start;
-				padding: 0 24px 0 0;
-				gap: 16px;
+				padding: 0 var(--Spacing-6x) 0 0;
+				gap: var(--Spacing-4x);
 				width: 100%;
 
 				.portal-subitem {
@@ -201,22 +207,22 @@ $fau-white: #fff;
 					flex-direction: row;
 					align-items: center;
 					padding: 0;
-					gap: 4px;
+					gap: var(--Spacing-1x);
 					width: 100%;
 
 					a.portal-sublink {
 						// Tertiary link style
-						font-family: "Source Sans Pro", sans-serif;
+						font-family: var(--font-family-primary);
 						font-style: normal;
 						font-weight: 600;
-						font-size: 16px;
-						line-height: 28px;
-						letter-spacing: 0.04em;
-						color: $fau-blue;
+						font-size: var(--P-Body);
+						line-height: var(--line-height-normal);
+						letter-spacing: var(--letter-spacing-wide);
+						color: var(--FAU-Col-FAU-Blau-100);
 						text-decoration: none;
 						flex-grow: 1;
 						position: relative;
-						padding-right: 24px;
+						padding-right: var(--Spacing-6x);
 
 						&::after {
 							content: "";
@@ -224,18 +230,23 @@ $fau-white: #fff;
 							right: 0;
 							top: 50%;
 							transform: translateY(-50%);
-							width: 14px;
-							height: 14px;
-							background-color: $fau-blue;
+							width: 0.875rem;
+							height: 0.875rem;
+							background-color: var(--FAU-Col-FAU-Blau-100);
 							clip-path: polygon(40% 0%, 100% 50%, 40% 100%, 40% 0%);
 						}
 
 						&:hover {
-							color: $fau-blue-light;
+							color: var(--FAU-Col-FAU-Blau-75);
 
 							&::after {
-								background-color: $fau-blue-light;
+								background-color: var(--FAU-Col-FAU-Blau-75);
 							}
+						}
+
+						&:focus {
+							outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+							outline-offset: 2px;
 						}
 					}
 				}
@@ -293,8 +304,8 @@ $fau-white: #fff;
 			display: block;
 
 			li {
-				width: 100% !important;
-				margin-bottom: 16px;
+				width: 100%;
+				margin-bottom: var(--Spacing-4x);
 				padding: 0;
 				display: block;
 			}
@@ -310,15 +321,15 @@ $fau-white: #fff;
 	.subpages-menu {
 		display: flex;
 		flex-wrap: wrap;
-		margin: 0 -15px; /* Negative margin for grid gutters */
+		margin: 0 calc(var(--Spacing-4x) * -1); /* Negative margin for grid gutters */
 		padding: 0;
 		list-style: none;
 		width: 100%;
 	}
 
 	.portal-item {
-		padding: 0 15px;
-		margin-bottom: 30px;
+		padding: 0 var(--Spacing-4x);
+		margin-bottom: var(--Spacing-7x);
 		display: flex;
 		flex-direction: column;
 
@@ -334,11 +345,11 @@ $fau-white: #fff;
 
 		/* Submenu spacing */
 		.portal-submenu {
-			margin-top: 10px;
+			margin-top: var(--Spacing-3x);
 		}
 
 		.portal-subitem {
-			margin-bottom: 5px;
+			margin-bottom: var(--Spacing-1x);
 		}
 
 		/* Responsive column layouts */
@@ -348,36 +359,80 @@ $fau-white: #fff;
 
 		&.portal-column-2 {
 
-			@media (min-width: 768px) {
+			@media (min-width: 48rem) {
 				width: 50%;
 			}
 		}
 
 		&.portal-column-3 {
 
-			@media (min-width: 992px) {
+			@media (min-width: 62rem) {
 				width: 33.333%;
 			}
 
-			@media (min-width: 768px) and (max-width: 991px) {
+			@media (min-width: 48rem) and (max-width: 61.9375rem) {
 				width: 50%;
 			}
 		}
 
 		&.portal-column-4 {
 
-			@media (min-width: 1200px) {
+			@media (min-width: 75rem) {
 				width: 25%;
 			}
 
-			@media (min-width: 992px) and (max-width: 1199px) {
+			@media (min-width: 62rem) and (max-width: 74.9375rem) {
 				width: 33.333%;
 			}
 
-			@media (min-width: 768px) and (max-width: 991px) {
+			@media (min-width: 48rem) and (max-width: 61.9375rem) {
 				width: 50%;
 			}
 		}
+	}
+}
+
+// Dark style support
+.contentmenu.is-style-dark,
+.wp-block-fau-elemental-portalmenu .contentmenu.is-style-dark {
+	
+	.portal-item .portal-content {
+		background: var(--FAU-Col-FAU-Dunkelblau-100);
+		color: var(--FAU-Col-FAU-Weiss-100);
+	}
+
+	.portal-item .portal-content .portal-title .portal-main-title {
+		color: var(--FAU-Col-FAU-Weiss-100);
+	}
+
+	.portal-item .portal-content .portal-title .portal-main-button {
+		background: var(--FAU-Col-FAU-Weiss-100);
+		color: var(--FAU-Col-FAU-Dunkelblau-100);
+	}
+
+	.portal-item .portal-content .portal-title .portal-main-button:hover {
+		background-color: var(--FAU-Col-FAU-Grau-12_5);
+		color: var(--FAU-Col-FAU-Dunkelblau-100);
+	}
+
+	.portal-item .portal-content .portal-title .portal-main-button .wp-element-button__icon {
+		fill: currentColor;
+	}
+
+	.portal-item .portal-content .portal-submenu .portal-subitem .portal-sublink {
+		background: transparent;
+		border-color: var(--FAU-Col-FAU-Weiss-100);
+		color: var(--FAU-Col-FAU-Weiss-100);
+	}
+
+	.portal-item .portal-content .portal-submenu .portal-subitem .portal-sublink:hover {
+		background-color: var(--FAU-Col-FAU-Weiss-100);
+		border-color: var(--FAU-Col-FAU-Weiss-100);
+		color: var(--FAU-Col-FAU-Dunkelblau-100);
+	}
+
+	.portal-item .portal-content .portal-submenu .portal-subitem .portal-sublink .wp-element-button__icon {
+		fill: currentColor;
 	}
 }
 
