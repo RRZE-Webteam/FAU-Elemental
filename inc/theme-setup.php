@@ -38,13 +38,19 @@ function faue_setup() {
 
     // Register navigation menus
     register_nav_menus(array(
+        // Main navigation menus
         'primary' => esc_html__('Primary Menu', 'fau-elemental'),
-        'primary_direct' => esc_html__('Direct Links Menu', 'fau-elemental'),
-        'secondary_links'  => esc_html__('Secondary Links', 'fau-elemental'),
-        'footer' => esc_html__('Footer Menu', 'fau-elemental'),
+        'secondary_links' => esc_html__('Secondary Links', 'fau-elemental'),
+        
+        // FAU system menus
         'fau_top_navigation' => esc_html__('FAU Top Navigation', 'fau-elemental'),
         'meta_navigation_services' => esc_html__('Meta Navigation Services', 'fau-elemental'),
         'meta_navigation_structure' => esc_html__('Meta Navigation Structure', 'fau-elemental'),
+        
+        // Footer menus
+        'footer' => esc_html__('Footer Menu', 'fau-elemental'),
+        'footer-menu' => esc_html__('Footer Menu (Alternative)', 'fau-elemental'),
+        'footer-wichtige-links' => esc_html__('Footer Wichtige Links', 'fau-elemental'),
     ));
 
     add_editor_style(array(
@@ -53,6 +59,40 @@ function faue_setup() {
     ));
 }
 add_action('after_setup_theme', 'faue_setup');
+
+/**
+ * Add menu classes based on theme location
+ */
+function fau_elemental_menu_classes($classes, $item, $args) {
+    if ($args->theme_location === 'fau_top_navigation') {
+        $classes[] = 'fau-navigation__item';
+    } elseif ($args->theme_location === 'primary') {
+        $classes[] = 'menu-website-modal__item';
+    } elseif ($args->theme_location === 'secondary_links') {
+        $classes[] = 'menu-website-modal__secondary-item';
+    } elseif ($args->theme_location === 'footer') {
+        $classes[] = 'footer-navigation__item';
+    }
+    return $classes;
+}
+add_filter('nav_menu_css_class', 'fau_elemental_menu_classes', 10, 3);
+
+/**
+ * Add menu link classes based on theme location
+ */
+function fau_elemental_menu_link_classes($atts, $item, $args) {
+    if ($args->theme_location === 'fau_top_navigation') {
+        $atts['class'] = 'fau-navigation__link';
+    } elseif ($args->theme_location === 'primary') {
+        $atts['class'] = 'menu-website-modal__link';
+    } elseif ($args->theme_location === 'secondary_links') {
+        $atts['class'] = 'menu-website-modal__secondary-link';
+    } elseif ($args->theme_location === 'footer') {
+        $atts['class'] = 'footer-navigation__link';
+    }
+    return $atts;
+}
+add_filter('nav_menu_link_attributes', 'fau_elemental_menu_link_classes', 10, 3);
 
 // Add organization-specific body classes
 function faue_get_org_classes() {
