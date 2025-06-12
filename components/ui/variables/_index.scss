@@ -1,9 +1,9 @@
 // Variables Index
-// Import all variable partials
+// Forward all variable partials
 
-@import "colors";
-@import "typography";
-@import "spacing";
-@import "breakpoints";
-@import "animations";
-@import "icons"; 
+@forward "colors";
+@forward "typography";
+@forward "spacing";
+@forward "breakpoints";
+@forward "animations";
+@forward "icons"; 

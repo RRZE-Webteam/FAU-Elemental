@@ -2,16 +2,16 @@
  * Editor Styles
  */
 
-@import "../theme";
+@use "../theme" as *;
 
-@import "../../core-blocks/details/editor";
-@import "../../core-blocks/gallery/editor";
-@import "../../core-blocks/image/editor";
-@import "../../core-blocks/file/editor";
-@import "../../core-blocks/quote/editor";
-@import "../../core-blocks/verse/editor";
+@use "../../core-blocks/details/editor" as *;
+@use "../../core-blocks/gallery/editor" as *;
+@use "../../core-blocks/image/editor" as *;
+@use "../../core-blocks/file/editor" as *;
+@use "../../core-blocks/quote/editor" as *;
+@use "../../core-blocks/verse/editor" as *;
 
-@import "../../patterns/hero-fau/editor";
+@use "../../patterns/hero-fau/editor" as *;
 
 html :where(.editor-styles-wrapper) {
 	font-family: var(--font-family-base);
