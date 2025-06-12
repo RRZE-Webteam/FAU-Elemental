@@ -1,13 +1,43 @@
-// TODO: This is only a placeholder.
 .wp-block-fau-elemental-fau-meta-headline {
-	color: red; 
-	margin-left: 20px;
+	position: relative;
+	max-width: var(--base-max-width);
+	margin: 0 auto;
+	margin-bottom: var(--Spacing-10x);
+	font-size: 1rem;
+	line-height: 1.5;
+	font-weight: 600;
+	color: var(--FAU-Col-FAU-Dunkelblau-100);
+	letter-spacing: var(--letter-spacing-big);
 
 	&::before {
-		display: inline-block;
-		content: "";
-		width: 20px;
-		height: 2px;
-		background-color: red;
+		content: '';
+		position: absolute;
+		width: 100vh;
+		height: 0.125rem;
+		top: 0.65rem;
+		left: calc(-100vh - 1.5rem);
+		background-color: var(--FAU-Col-FAU-Blau-100);
+	}
+}
+
+// Dark Mode
+.is-style-dark {
+	.wp-block-fau-elemental-fau-meta-headline {
+		color: var(--FAU-Col-FAU-Weiss-100);
+
+		&::before {
+			background-color: var(--FAU-Col-FAU-Weiss-100);
+		}
+	}
+}
+
+// Responsive
+@media screen and (max-width: 1190px) {
+	.wp-block-fau-elemental-fau-meta-headline {
+		margin-left: var(--Spacing-10x);
+
+		&::before {
+			left: calc(-100vh - 1rem);
+		}
 	}
 }
