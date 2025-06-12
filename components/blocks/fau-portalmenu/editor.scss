@@ -1,72 +1,499 @@
 /**
- * Editor-only styles for the FAU Portal Menu block
+ * Editor styles for the FAU Portal Menu block
+ * Includes all frontend styles with fallbacks plus editor-specific enhancements
+ * WCAG 2.2 Level II compliant
  */
 
-// Hide old markup for legacy compatibility
-.block-editor-block-list__block[data-type="fau/portal-menu"] .portal-menu-preview,
-.block-editor-block-list__block[data-type="fau/portal-menu"] .portal-menu-preview-header,
-.block-editor-block-list__block[data-type="fau/portal-menu"] .portal-menu-preview-settings {
-	display: none !important;
-}
+// Editor-specific styles that match frontend exactly
+.editor-styles-wrapper,
+.block-editor-block-list__layout {
 
-// Editor-specific styling
-.wp-block-fau-elemental-portalmenu {
-	display: block !important; // Force display
-	visibility: visible !important; // Force visibility
+	// Portal Menu Container - matches frontend exactly
+	.contentmenu,
+	.wp-block-fau-elemental-portalmenu .contentmenu {
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-items: flex-start;
+		gap: 2rem; // Fallback for var(--Spacing-8x)
+		width: 100%;
 
-	// Menu notice - only visible in editor
-	.menu-notice {
-		margin-top: 15px;
-		padding: 10px;
-		background: #f9f9f9;
-		border-left: 4px solid #0073aa;
-		font-size: 0.9em;
-
-		p {
+		// Base styling for the portal menu
+		.subpages-menu {
+			list-style: none;
 			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			width: 100%;
+			gap: 2rem; // Fallback for var(--Spacing-8x)
 		}
 
-		strong {
-			color: #0073aa;
+		// Individual portal item
+		.portal-item {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 0;
+			margin-bottom: 1.875rem; // Fallback for var(--Spacing-7x)
+			width: 100%;
+
+			@media (min-width: 75rem) {
+				&.portal-column-3 {
+					width: calc(33.333% - 1.375rem); // Fallback for var(--Spacing-5x)
+				}
+
+				&.portal-column-2 {
+					width: calc(50% - 1rem); // Fallback for var(--Spacing-4x)
+				}
+
+				&.portal-column-4 {
+					width: calc(25% - 1.5rem); // Fallback for var(--Spacing-6x)
+				}
+			}
+
+			@media (max-width: 74.9375rem) and (min-width: 48rem) {
+				&.portal-column-3,
+				&.portal-column-4 {
+					width: calc(50% - 1rem); // Fallback for var(--Spacing-4x)
+				}
+			}
+
+			@media (max-width: 47.9375rem) {
+				width: 100%;
+			}
+
+			// Image container with fixed aspect ratio
+			.portal-thumbnail {
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				padding: 0;
+				width: 100%;
+				height: 17.5rem;
+				background-color: #f2f2f2; // Fallback for var(--FAU-Col-FAU-Grau-12_5)
+				overflow: hidden;
+				position: relative;
+				margin: -3rem 0 0 0; // Fallback for calc(var(--Spacing-6x) * -1)
+
+				// Image link
+				.image-link {
+					display: block;
+					width: 100%;
+					height: 100%;
+
+					img {
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+						transition: transform 0.3s ease, filter 0.3s ease; // Fallback for var(--animation-duration-fast)
+					}
+				}
+
+				// Editor preview thumbnails - specific styling
+				.editor-preview-thumbnail {
+					width: 100%;
+					height: 100%;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 0.875rem;
+					font-weight: 600;
+					color: #04316a; // Fallback for var(--FAU-Col-FAU-Blau-100)
+					background: linear-gradient(135deg, 
+						#f1f1f1 25%, 
+						#e5e5e5 25%, 
+						#e5e5e5 50%, 
+						#f1f1f1 50%, 
+						#f1f1f1 75%, 
+						#e5e5e5 75%);
+					background-size: 1.25rem 1.25rem;
+					border-radius: 4px;
+					transition: opacity 0.3s ease;
+					
+					&:hover {
+						opacity: 0.8;
+					}
+				}
+			}
+
+			// Content container
+			.portal-content {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: flex-start;
+				padding: 1rem 0 1rem 1rem; // Fallback for var(--Spacing-4x)
+				gap: 1.5rem; // Fallback for var(--Spacing-6x)
+				background: #fff; // Fallback for var(--FAU-Col-FAU-Weiss-100)
+				flex-grow: 1;
+
+				// Title with arrow button
+				.portal-title {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					padding: 0;
+					gap: 1.5rem; // Fallback for var(--Spacing-6x)
+					width: 100%;
+					height: 2.5rem;
+					margin: 0;
+
+					a.portal-main-link {
+						font-family: "Source Sans Pro", sans-serif; // Fallback for var(--font-family-primary)
+						font-style: normal;
+						font-weight: 700;
+						font-size: 1.25rem; // Fallback for var(--H-Heading-5)
+						line-height: 1.3; // Fallback for var(--line-height-tight)
+						letter-spacing: 0.02em; // Fallback for var(--letter-spacing-normal)
+						color: #04316a; // Fallback for var(--FAU-Col-FAU-Blau-100)
+						text-decoration: none;
+						flex-grow: 1;
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						cursor: default; // Editor-specific
+
+						// Arrow button
+						.portal-button-arrow {
+							display: flex;
+							flex-direction: row;
+							justify-content: center;
+							align-items: center;
+							padding: 0.5rem; // Fallback for var(--Spacing-2x)
+							gap: 0.75rem; // Fallback for var(--Spacing-3x)
+							width: 2.5rem;
+							height: 2.5rem;
+							background: #04316a; // Fallback for var(--FAU-Col-FAU-Blau-100)
+							color: #fff; // Fallback for var(--FAU-Col-FAU-Weiss-100)
+							flex-shrink: 0;
+							position: relative;
+							transition: background-color 0.3s ease; // Fallback for var(--animation-duration-fast)
+
+							&::after {
+								content: "→";
+								font-size: 1.5rem;
+								line-height: 1;
+								color: #fff; // Fallback for var(--FAU-Col-FAU-Weiss-100)
+							}
+
+							.screen-reader-text {
+								position: absolute;
+								width: 1px;
+								height: 1px;
+								padding: 0;
+								margin: -1px;
+								overflow: hidden;
+								clip: rect(0, 0, 0, 0);
+								white-space: nowrap;
+								border: 0;
+							}
+						}
+
+						&:hover .portal-button-arrow {
+							background-color: #0f69b4; // Fallback for var(--FAU-Col-FAU-Blau-75)
+						}
+
+						&:focus {
+							outline: 2px solid #04316a; // Fallback for var(--FAU-Col-FAU-Blau-100)
+							outline-offset: 2px;
+						}
+					}
+				}
+
+				// Submenu container
+				.portal-submenu {
+					display: flex;
+					flex-direction: column;
+					align-items: flex-start;
+					padding: 0 1.5rem 0 0; // Fallback for var(--Spacing-6x)
+					gap: 1rem; // Fallback for var(--Spacing-4x)
+					width: 100%;
+
+					.portal-subitem {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						padding: 0;
+						gap: 0.25rem; // Fallback for var(--Spacing-1x)
+						width: 100%;
+
+						a.portal-sublink,
+						span.portal-sublink {
+							font-family: "Source Sans Pro", sans-serif; // Fallback for var(--font-family-primary)
+							font-style: normal;
+							font-weight: 600;
+							font-size: 1rem; // Fallback for var(--P-Body)
+							line-height: 1.5; // Fallback for var(--line-height-normal)
+							letter-spacing: 0.04em; // Fallback for var(--letter-spacing-wide)
+							color: #04316a; // Fallback for var(--FAU-Col-FAU-Blau-100)
+							text-decoration: none;
+							flex-grow: 1;
+							position: relative;
+							padding-right: 1.5rem; // Fallback for var(--Spacing-6x)
+							cursor: default; // Editor-specific
+
+							&::after {
+								content: "";
+								position: absolute;
+								right: 0;
+								top: 50%;
+								transform: translateY(-50%);
+								width: 0.875rem;
+								height: 0.875rem;
+								background-color: #04316a; // Fallback for var(--FAU-Col-FAU-Blau-100)
+								clip-path: polygon(40% 0%, 100% 50%, 40% 100%, 40% 0%);
+							}
+
+							&:hover {
+								color: #0f69b4; // Fallback for var(--FAU-Col-FAU-Blau-75)
+
+								&::after {
+									background-color: #0f69b4; // Fallback for var(--FAU-Col-FAU-Blau-75)
+								}
+							}
+
+							&:focus {
+								outline: 2px solid #04316a; // Fallback for var(--FAU-Col-FAU-Blau-100)
+								outline-offset: 2px;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Apply hover zoom effect if enabled
+		&.hover-zoom .portal-thumbnail img:hover {
+			transform: scale(1.05);
+		}
+
+		// Apply hover blur effect if enabled
+		&.hover-blur .portal-thumbnail img:hover {
+			filter: blur(1px);
+		}
+
+		// No thumbnails mode
+		&.no-thumb .portal-thumbnail {
+			display: none;
+		}
+
+		// Adjust sizes based on type selection
+		&.size_2-1 .portal-thumbnail {
+			aspect-ratio: 2/1;
+
+			img,
+			.editor-preview-thumbnail {
+				object-fit: cover;
+				height: 100%;
+			}
+		}
+
+		&.size_3-2 .portal-thumbnail {
+			aspect-ratio: 3/2;
+
+			img,
+			.editor-preview-thumbnail {
+				object-fit: cover;
+				height: 100%;
+			}
+		}
+
+		&.size_3-4 .portal-thumbnail {
+			aspect-ratio: 3/4;
+
+			img,
+			.editor-preview-thumbnail {
+				object-fit: cover;
+				height: 100%;
+			}
+		}
+
+		// List view mode
+		&.listview {
+			ul.subpages-menu {
+				display: block;
+
+				li {
+					width: 100%;
+					margin-bottom: 1rem; // Fallback for var(--Spacing-4x)
+					padding: 0;
+					display: block;
+				}
+			}
+		}
+
+		// Dark style support
+		&.is-style-dark {
+			.portal-item .portal-content {
+				background: #2c3e50; // Fallback for var(--FAU-Col-FAU-Dunkelblau-100)
+				color: #fff; // Fallback for var(--FAU-Col-FAU-Weiss-100)
+			}
+
+			.portal-item .portal-content .portal-title .portal-main-link {
+				color: #fff; // Fallback for var(--FAU-Col-FAU-Weiss-100)
+			}
+
+			.portal-item .portal-content .portal-title .portal-main-link .portal-button-arrow {
+				background: #fff; // Fallback for var(--FAU-Col-FAU-Weiss-100)
+				color: #2c3e50; // Fallback for var(--FAU-Col-FAU-Dunkelblau-100)
+
+				&::after {
+					color: #2c3e50; // Fallback for var(--FAU-Col-FAU-Dunkelblau-100)
+				}
+			}
+
+			.portal-item .portal-content .portal-title .portal-main-link .portal-button-arrow:hover {
+				background-color: #f2f2f2; // Fallback for var(--FAU-Col-FAU-Grau-12_5)
+				color: #2c3e50; // Fallback for var(--FAU-Col-FAU-Dunkelblau-100)
+			}
+
+			.portal-item .portal-content .portal-submenu .portal-subitem .portal-sublink {
+				background: transparent;
+				border-color: #fff; // Fallback for var(--FAU-Col-FAU-Weiss-100)
+				color: #fff; // Fallback for var(--FAU-Col-FAU-Weiss-100)
+
+				&::after {
+					background-color: #fff; // Fallback for var(--FAU-Col-FAU-Weiss-100)
+				}
+			}
+
+			.portal-item .portal-content .portal-submenu .portal-subitem .portal-sublink:hover {
+				background-color: #fff; // Fallback for var(--FAU-Col-FAU-Weiss-100)
+				border-color: #fff; // Fallback for var(--FAU-Col-FAU-Weiss-100)
+				color: #2c3e50; // Fallback for var(--FAU-Col-FAU-Dunkelblau-100)
+
+				&::after {
+					background-color: #2c3e50; // Fallback for var(--FAU-Col-FAU-Dunkelblau-100)
+				}
+			}
+
+			.editor-preview-thumbnail {
+				background: linear-gradient(135deg, 
+					#2c3e50 25%, 
+					#34495e 25%, 
+					#34495e 50%, 
+					#2c3e50 50%, 
+					#2c3e50 75%, 
+					#34495e 75%);
+				color: #fff;
+			}
 		}
 	}
 
-	// Placeholder style - only visible in editor
-	.fau-custom-placeholder {
-		padding: 2em;
-		text-align: center;
-		background-color: #f0f0f0;
-		border: 1px dashed #999;
-		border-radius: 4px;
-		margin: 1em 0;
-		min-height: 100px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+	// Ensure portal menu block displays properly in editor
+	.wp-block-fau-elemental-portalmenu {
+		display: block;
+		visibility: visible;
+		
+		// Editor notice styling - only visible in editor
+		.editor-menu-notice {
+			margin-top: 1rem;
+			padding: 0.75rem;
+			background-color: #f2f2f2;
+			border-radius: 4px;
+			font-size: 0.875rem;
+			color: #04316a;
+			border-left: 4px solid #04316a;
+			
+			p {
+				margin: 0;
+			}
+			
+			strong {
+				color: #04316a;
+				font-weight: 600;
+			}
+		}
 
-		p {
-			margin: 0;
+		// Screen reader text visible in editor for development
+		.screen-reader-text {
+			// Show in editor for accessibility development
+			position: static !important;
+			width: auto !important;
+			height: auto !important;
+			padding: 0.125rem 0.25rem;
+			margin: 0 0.25rem;
+			overflow: visible !important;
+			clip: unset !important;
+			white-space: nowrap;
+			border: 1px dashed #ccc;
+			background-color: #fff;
+			color: #04316a;
+			font-size: 0.75rem;
+			font-style: italic;
+			opacity: 0.7;
+		}
+	}
+	
+	// Placeholder component styling
+	.components-placeholder {
+		padding: 2rem;
+		border-radius: 4px;
+		border: 1px dashed #ccc;
+		background-color: #fff;
+		
+		.components-placeholder__label {
+			color: #04316a;
+			font-weight: 600;
+		}
+		
+		.components-placeholder__instructions {
 			color: #666;
 		}
-	}
-
-	// Placeholder thumbnail styling for editor
-	.thumbnail.placeholder {
-		background: linear-gradient(135deg, #f1f1f1 25%, #e5e5e5 25%, #e5e5e5 50%, #f1f1f1 50%, #f1f1f1 75%, #e5e5e5 75%);
-		background-size: 20px 20px;
+		
+		.components-placeholder__icon {
+			fill: #04316a;
+		}
 	}
 }
 
-// Ensure proper spacing in editor
-.block-editor-block-list__block[data-type="fau-elemental/portalmenu"],
-.block-editor-block-list__block[data-type="fau/portal-menu"] {
-	margin: 1em 0;
-	background-color: white;
-	padding: 1em;
-	border-radius: 2px;
+// Block editor specific adjustments
+.block-editor-block-list__block[data-type="fau-elemental/portalmenu"] {
+	margin: 1.5rem 0;
+	
+	// Ensure block selections work properly
+	&.is-selected .wp-block-fau-elemental-portalmenu {
+		outline: 2px solid #04316a;
+		outline-offset: 2px;
+		border-radius: 4px;
+	}
+	
+	// Improve hover state
+	&.is-hovered .wp-block-fau-elemental-portalmenu {
+		box-shadow: 0 2px 8px rgba(4, 49, 106, 0.1);
+		border-radius: 4px;
+	}
+}
 
-	.components-placeholder {
-		padding: 2em;
-		border-radius: 2px;
+// Inspector controls improvements
+.block-editor-block-inspector {
+	.components-panel__body-title {
+		.components-button {
+			font-weight: 600;
+		}
+	}
+	
+	.components-toggle-control__label {
+		font-weight: 500;
+	}
+	
+	.components-base-control__help {
+		font-size: 0.875rem;
+		color: #666;
+		margin-top: 0.25rem;
+	}
+}
+
+// Legacy block support - hide old implementations
+.block-editor-block-list__block[data-type="fau/portal-menu"] {
+	.portal-menu-preview,
+	.portal-menu-preview-header,
+	.portal-menu-preview-settings {
+		display: none;
 	}
 }

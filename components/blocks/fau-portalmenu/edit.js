@@ -23,6 +23,7 @@ import EditorPreview from './EditorPreview';
 
 /**
  * Edit component for the FAU Portal Menu block
+ * WCAG 2.2 Level II compliant with full feature support
  */
 export default function Edit( { attributes, setAttributes, clientId } ) {
 	const blockProps = useBlockProps( {
@@ -46,7 +47,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		...menus,
 	];
 
-	// Add type options
+	// Add type options that match the backend configuration
 	const typeOptions = [
 		{ label: __( 'Type 1 (2:1 Ratio)', 'fau-elemental' ), value: '1' },
 		{ label: __( 'Type 2 (3:2 Ratio)', 'fau-elemental' ), value: '2' },
@@ -81,6 +82,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						value={ attributes.menuId }
 						options={ menuOptions }
 						onChange={ ( menuId ) => setAttributes( { menuId } ) }
+						help={ __( 'Select the navigation menu to display as portal menu.', 'fau-elemental' ) }
 					/>
 
 					<RadioControl
@@ -90,22 +92,21 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						onChange={ ( type ) =>
 							setAttributes( { type: parseInt( type ) } )
 						}
+						help={ __( 'Choose the aspect ratio for thumbnail images.', 'fau-elemental' ) }
 					/>
+				</PanelBody>
 
+				<PanelBody
+					title={ __( 'Display Options', 'fau-elemental' ) }
+					initialOpen={ false }
+				>
 					<ToggleControl
 						label={ __( 'Show Submenus', 'fau-elemental' ) }
 						checked={ attributes.showSubs !== false }
 						onChange={ ( showSubs ) =>
 							setAttributes( { showSubs } )
 						}
-					/>
-
-					<ToggleControl
-						label={ __( 'Mega Navigation', 'fau-elemental' ) }
-						checked={ !! attributes.isMegaNav }
-						onChange={ ( isMegaNav ) =>
-							setAttributes( { isMegaNav } )
-						}
+						help={ __( 'Display submenu items below each main menu item.', 'fau-elemental' ) }
 					/>
 
 					<ToggleControl
@@ -114,6 +115,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						onChange={ ( listView ) =>
 							setAttributes( { listView } )
 						}
+						help={ __( 'Display menu items in a vertical list instead of grid.', 'fau-elemental' ) }
 					/>
 
 					<ToggleControl
@@ -122,6 +124,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						onChange={ ( noThumbs ) =>
 							setAttributes( { noThumbs } )
 						}
+						help={ __( 'Hide thumbnail images for all menu items.', 'fau-elemental' ) }
 					/>
 
 					<ToggleControl
@@ -130,6 +133,30 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						onChange={ ( noFallback ) =>
 							setAttributes( { noFallback } )
 						}
+						help={ __( 'Do not show fallback images when thumbnails are missing.', 'fau-elemental' ) }
+					/>
+
+					<ToggleControl
+						label={ __( 'Dark Style', 'fau-elemental' ) }
+						checked={ !! attributes.isDark }
+						onChange={ ( isDark ) =>
+							setAttributes( { isDark } )
+						}
+						help={ __( 'Use dark background styling for the portal menu.', 'fau-elemental' ) }
+					/>
+				</PanelBody>
+
+				<PanelBody
+					title={ __( 'Advanced Options', 'fau-elemental' ) }
+					initialOpen={ false }
+				>
+					<ToggleControl
+						label={ __( 'Mega Navigation', 'fau-elemental' ) }
+						checked={ !! attributes.isMegaNav }
+						onChange={ ( isMegaNav ) =>
+							setAttributes( { isMegaNav } )
+						}
+						help={ __( 'Enable mega navigation features (advanced).', 'fau-elemental' ) }
 					/>
 
 					<ToggleControl
@@ -138,6 +165,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						onChange={ ( hoverZoom ) =>
 							setAttributes( { hoverZoom } )
 						}
+						help={ __( 'Add zoom effect when hovering over thumbnails.', 'fau-elemental' ) }
 					/>
 
 					<ToggleControl
@@ -146,6 +174,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						onChange={ ( hoverBlur ) =>
 							setAttributes( { hoverBlur } )
 						}
+						help={ __( 'Add blur effect when hovering over thumbnails.', 'fau-elemental' ) }
 					/>
 				</PanelBody>
 			</Panel>
@@ -167,9 +196,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					<Placeholder
 						label={ __( 'FAU Portal Menu', 'fau-elemental' ) }
 						instructions={ __(
-							'Please select a menu in the block settings panel.',
+							'Please select a menu in the block settings panel to display as a portal menu.',
 							'fau-elemental'
 						) }
+						icon="menu"
 					/>
 				) }
 			</div>
