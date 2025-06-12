@@ -5,115 +5,122 @@
 @use "../../ui/mixins/mixins" as *;
 
 .hero-portalseite {
-  max-width: var(--wide-max-width);
-  margin: 0 auto;
-  gap: var(--Spacing-10x);
-  padding: var(--Spacing-8x) var(--Spacing-10x);
-  box-sizing: content-box;
+	max-width: var(--wide-max-width);
+	margin: 0 auto;
+	gap: var(--Spacing-10x);
+	padding: var(--Spacing-8x) var(--Spacing-10x);
+	box-sizing: content-box;
 
-  .wp-block-post-title {
-    position: relative;
-    width: max-content; // Allow text to overflow into img area
-    max-width: calc(100% + 250px); // Prevent text from overflowing too far
-    left: calc(-1 * var(--Spacing-6x));
-    z-index: 1;
-    padding: var(--Spacing-5x);
-    background-color: var(--FAU-Col-FAU-Weiss-100);
-    margin-top: var(--Spacing-10x);
-  }
+	.wp-block-post-title {
+		position: relative;
+		width: max-content; // Allow text to overflow into img area
+		max-width: calc(100% + 250px); // Prevent text from overflowing too far
+		left: calc(-1 * var(--Spacing-6x));
+		z-index: 1;
+		padding: var(--Spacing-5x);
+		background-color: var(--FAU-Col-FAU-Weiss-100);
+		margin-top: var(--Spacing-10x);
+	}
 
-  .post-description {
-    margin-top: 0;
-    box-sizing: border-box;
-  }
+	.post-description {
+		margin-top: 0;
+		box-sizing: border-box;
+	}
 
-  .wp-block-buttons {
-    margin: var(--Spacing-4x) 0;
-  }
+	.wp-block-buttons {
+		margin: var(--Spacing-4x) 0;
+	}
 
-  .wp-block-cover {
-    aspect-ratio: 3/2;
-  }
+	.wp-block-cover {
+		aspect-ratio: 3/2;
+	}
 }
 
 // Responsive
 @media screen and (max-width: 1399px) {
-  .hero-portalseite .wp-block-cover {
-    aspect-ratio: 1/1;
-  }
+
+	.hero-portalseite .wp-block-cover {
+		aspect-ratio: 1/1;
+	}
 }
 
 @media screen and (max-width: 999px) {
-  .hero-portalseite {
-    flex-direction: column-reverse;
-    gap: unset;
 
-    .wp-block-post-title {
-      margin-top: -40px;
-      left: unset;
-      width: 90%;
-      max-width: unset;
-      margin-left: auto;
-      margin-right: auto;
-      padding: var(--Spacing-4x) var(--Spacing-6x) 0 var(--Spacing-6x);
-      font-size: 2.5rem;
-    }
+	.hero-portalseite {
+		flex-direction: column-reverse;
+		gap: unset;
 
-    .post-description {
-      width: 90%;
-      margin-left: auto;
-      margin-right: auto;
-      padding: var(--Spacing-4x) var(--Spacing-6x);
-    }
+		.wp-block-post-title {
+			margin-top: -40px;
+			left: unset;
+			width: 90%;
+			max-width: unset;
+			margin-left: auto;
+			margin-right: auto;
+			padding: var(--Spacing-4x) var(--Spacing-6x) 0 var(--Spacing-6x);
+			font-size: 2.5rem;
+		}
 
-    .wp-block-buttons {
-      width: 90%;
-      margin: 0 auto;
-      padding: 0 var(--Spacing-6x);
-    }
+		.post-description {
+			width: 90%;
+			margin-left: auto;
+			margin-right: auto;
+			padding: var(--Spacing-4x) var(--Spacing-6x);
+		}
 
-    .wp-block-cover {
-      aspect-ratio: 3/2;
-    }
-  }
+		.wp-block-buttons {
+			width: 90%;
+			margin: 0 auto;
+			padding: 0 var(--Spacing-6x);
+		}
+
+		.wp-block-cover {
+			aspect-ratio: 3/2;
+		}
+	}
 }
 
 @include respond-to("small") {
-  .hero-portalseite {
-    > div:last-child {
-      overflow: hidden;
-    }
 
-    .wp-block-cover {
-      min-height: 350px; // Reduce min-height to keep horizontal aspect ratio
-    }
-  }
+	.hero-portalseite {
+
+		> div:last-child {
+			overflow: hidden;
+		}
+
+		.wp-block-cover {
+			min-height: 350px; // Reduce min-height to keep horizontal aspect ratio
+		}
+	}
 }
 
 @media screen and (max-width: 599px) {
-  .hero-portalseite .wp-block-cover {
-    min-height: 280px;
-  }
+
+	.hero-portalseite .wp-block-cover {
+		min-height: 280px;
+	}
 }
 
 @media screen and (max-width: 499px) {
-  .hero-portalseite .wp-block-cover {
-    min-height: 200px;
-  }
+
+	.hero-portalseite .wp-block-cover {
+		min-height: 200px;
+	}
 }
 
 @include respond-to("x-small") {
-  .hero-portalseite {
-    padding: unset;
 
-    .wp-block-post-title {
-      font-size: 1.75rem;
-      padding: var(--Spacing-3x);
-    }
+	.hero-portalseite {
+		padding: unset;
 
-    .post-description,
-    .wp-block-buttons {
-      padding: 0 var(--Spacing-3x) var(--Spacing-3x) var(--Spacing-3x);
-    }
-  }
+		.wp-block-post-title {
+			font-size: 1.75rem;
+			padding: var(--Spacing-3x);
+		}
+
+		.post-description,
+		.wp-block-buttons {
+			padding: 0 var(--Spacing-3x) var(--Spacing-3x) var(--Spacing-3x);
+		}
+	}
 }

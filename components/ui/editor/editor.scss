@@ -3,14 +3,12 @@
  */
 
 @use "../theme" as *;
-
 @use "../../core-blocks/details/editor" as *;
 @use "../../core-blocks/gallery/editor" as *;
 @use "../../core-blocks/image/editor" as *;
 @use "../../core-blocks/file/editor" as *;
 @use "../../core-blocks/quote/editor" as *;
 @use "../../core-blocks/verse/editor" as *;
-
 @use "../../patterns/hero-fau/editor" as *;
 @use "../../patterns/hero-portal/editor" as *;
 
@@ -27,8 +25,9 @@ html :where(.editor-styles-wrapper) {
 }
 
 .edit-post-visual-editor__post-title-wrapper {
+
 	.wp-block-post-title {
 		max-width: var(--small-max-width);
 		margin: 0 auto;
-	} 
+	}
 }
