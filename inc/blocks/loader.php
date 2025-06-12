@@ -24,3 +24,6 @@ require_once get_template_directory() . '/inc/blocks/gallery.php';
 require_once get_template_directory() . '/inc/blocks/quote.php';
 
 require_once get_template_directory() . '/inc/blocks/paragraph.php';
+
+// Load custom FAU blocks
+require_once get_template_directory() . '/components/blocks/fau-list-filters/render.php';
