@@ -129,7 +129,6 @@ module.exports = {
 		'js/template-parts-post-meta': path.resolve( process.cwd(), 'components/template-parts/post-meta/script.js' ),
 		
 		// Legacy Scripts
-		'js/portal-menu-block': path.resolve( process.cwd(), 'src/js/portal-menu-block.js' ),
 	},
 	plugins: [
 		// Keep all existing plugins from the default config
