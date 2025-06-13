@@ -156,17 +156,15 @@ function render_block_fau_big_button_teaser_group($attributes, $content, $block)
             ?>
                 <div class="fau-big-button-teaser-group__button">
                     <a href="<?php echo $page_url; ?>" class="fau-big-button-teaser-group__button-link">
-                        <div class="fau-big-button-teaser-group__button-content">
-                            <h3 class="fau-big-button-teaser-group__button-title">
-                                <?php echo $page_title; ?>
-                            </h3>
-                            
-                            <?php if (!empty($page_excerpt)) : ?>
-                                <div class="fau-big-button-teaser-group__button-text">
-                                    <?php echo esc_html(wp_trim_words($page_excerpt, 20, '...')); ?>
-                                </div>
-                            <?php endif; ?>
-                        </div>
+                        <h3 class="fau-big-button-teaser-group__button-title">
+                            <?php echo $page_title; ?>
+                        </h3>
+                        <?php if (!empty($page_excerpt)) : ?>
+                            <p class="fau-big-button-teaser-group__button-text">
+                                <?php echo esc_html(wp_trim_words($page_excerpt, 20, '...')); ?>
+                            </p>
+                        <?php endif; ?>
+                        <span class="arrow-link"></span>
                     </a>
                 </div>
             <?php 

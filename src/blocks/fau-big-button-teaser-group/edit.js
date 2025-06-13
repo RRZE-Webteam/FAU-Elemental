@@ -174,7 +174,6 @@ export default function Edit({ attributes, setAttributes }) {
 						value={facultyColor}
 						options={[
 							{ label: __('Default', 'fau-elemental'), value: 'default' },
-							{ label: __('FAU', 'fau-elemental'), value: 'fau' },
 							{ label: __('Philosophy', 'fau-elemental'), value: 'phil' },
 							{ label: __('Law & Economics', 'fau-elemental'), value: 'rw' },
 							{ label: __('Medicine', 'fau-elemental'), value: 'med' },
@@ -329,33 +328,32 @@ export default function Edit({ attributes, setAttributes }) {
 				<div className="fau-big-button-teaser-group__buttons">
 					{pages && pages.slice(0, numberOfButtons).map((page, index) => (
 						<div key={page.id} className="fau-big-button-teaser-group__button">
-							<div className="fau-big-button-teaser-group__button-content">
+							<a href={page.link} className="fau-big-button-teaser-group__button-link">
 								<h3 className="fau-big-button-teaser-group__button-title">
 									<span dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
 								</h3>
 								{page.excerpt && page.excerpt.rendered && (
-									<div className="fau-big-button-teaser-group__button-text">
+									<p className="fau-big-button-teaser-group__button-text">
 										<span dangerouslySetInnerHTML={{ __html: page.excerpt.rendered.replace(/<[^>]*>/g, '').substring(0, 120) + '...' }} />
-									</div>
+									</p>
 								)}
-								<div className="fau-big-button-teaser-group__button-url">
-									<small>{__('URL:', 'fau-elemental')} {page.link}</small>
-								</div>
-							</div>
+								<span className="arrow-link"></span>
+							</a>
 						</div>
 					))}
 					
 					{/* Show placeholder buttons for empty slots */}
 					{Array.from({ length: numberOfButtons - (pages ? pages.length : 0) }).map((_, index) => (
 						<div key={`placeholder-${index}`} className="fau-big-button-teaser-group__button fau-big-button-teaser-group__button--placeholder">
-							<div className="fau-big-button-teaser-group__button-content">
+							<a href="#" className="fau-big-button-teaser-group__button-link">
 								<h3 className="fau-big-button-teaser-group__button-title">
 									{__('Select a page...', 'fau-elemental')}
 								</h3>
-								<div className="fau-big-button-teaser-group__button-text">
+								<p className="fau-big-button-teaser-group__button-text">
 									{__('Use the Page Selection panel to choose pages for your button teasers.', 'fau-elemental')}
-								</div>
-							</div>
+								</p>
+								<span className="arrow-link"></span>
+							</a>
 						</div>
 					))}
 				</div>
