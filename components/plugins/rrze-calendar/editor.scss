@@ -13,15 +13,15 @@
         .event-item {
             // Slightly more subtle hover effect in editor
             &:hover {
-                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+       
                 transform: translateY(-1px);
             }
         }
         
         .event-date {
             // Ensure date box is visible in editor dark mode
-            background: var(--FAU-Col-FAU-Dunkelblau-100, #041e42) !important;
-            color: var(--FAU-Col-FAU-Weiss-100, #fff) !important;
+            background: var(--FAU-Col-FAU-Dunkelblau-100, #041e42) ;
+          
         }
         
         // Editor placeholder for when calendar is loading or empty
@@ -29,32 +29,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 200px;
-            background: var(--FAU-Col-FAU-Schwarz-5, #f2f2f2);
-            border: 1px dashed var(--FAU-Col-FAU-Schwarz-25, #bfbfbf);
-            border-radius: 8px;
-            
-            &::before {
-                content: "Loading calendar events...";
-                color: var(--FAU-Col-FAU-Schwarz-62_5, #5e5e5e);
-                font-style: italic;
-            }
+        
         }
         
         &.empty {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 150px;
-            background: var(--FAU-Col-FAU-Schwarz-5, #f2f2f2);
-            border: 1px dashed var(--FAU-Col-FAU-Schwarz-25, #bfbfbf);
-            border-radius: 8px;
-            
-            &::before {
-                content: "No calendar events to display";
-                color: var(--FAU-Col-FAU-Schwarz-62_5, #5e5e5e);
-                font-style: italic;
-            }
+       
         }
     }
 }
@@ -68,10 +50,7 @@
             
             .components-placeholder__label {
                 color: var(--FAU-Col-FAU-Blau-100, #04316a);
-                
-                &::before {
-                    content: "📅 ";
-                }
+          
             }
         }
     }

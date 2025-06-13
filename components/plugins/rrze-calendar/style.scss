@@ -8,10 +8,7 @@
     .events-list {
         list-style: none;
         padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
+     
     }
 
     .event-item {
@@ -19,26 +16,17 @@
         align-items: flex-start;
         background: #fff;
         border: 1px solid var(--FAU-Col-FAU-Schwarz-12_5, #e0e0e0);
-        border-radius: 8px;
-        overflow: hidden;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
 
         &:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
             transform: translateY(-2px);
         }
     }
 
     .event-date {
         flex-shrink: 0;
-        background: var(--FAU-Col-FAU-Dunkelblau-100, #041e42);
-        color: var(--FAU-Col-FAU-Weiss-100, #fff);
-        padding: 1rem;
-        min-width: 80px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      
     }
 
     .day-month {
@@ -63,16 +51,12 @@
     .event-info {
         flex: 1;
         padding: 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
+
     }
 
     .event-time {
         font-size: 0.875rem;
-        color: var(--FAU-Col-FAU-Schwarz-62_5, #5e5e5e);
-        font-weight: 500;
-        margin: 0;
+      
     }
 
     .event-title {
@@ -81,15 +65,7 @@
         a {
             color: var(--FAU-Col-FAU-Dunkelblau-100, #041e42);
             text-decoration: none;
-            font-size: 1.125rem;
-            font-weight: 600;
-            line-height: 1.4;
-            transition: color 0.2s ease;
-
-            &:hover {
-                color: var(--FAU-Col-FAU-Blau-100, #04316a);
-                text-decoration: underline;
-            }
+       
         }
     }
 
@@ -100,14 +76,7 @@
             margin: 0;
             font-size: 0.9rem;
             color: var(--FAU-Col-FAU-Schwarz-62_5, #5e5e5e);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-
-            &:before {
-                content: "📍";
-                font-size: 0.875rem;
-            }
+          
         }
     }
 
