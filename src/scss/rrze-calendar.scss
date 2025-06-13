@@ -1,0 +1,117 @@
+// ============================================================================
+// RRZE Calendar Plugin Styles
+// ============================================================================
+
+.rrze-calendar {
+    margin: 2rem 0;
+
+    .events-list {
+   
+        padding: 0;
+        margin: 0;
+        display: flex;
+   
+    }
+
+    .event-item {
+        display: flex;
+        align-items: flex-start;
+        background: #fff;
+ 
+
+      
+    }
+
+    .event-date {
+      
+        
+        justify-content: center;
+    }
+
+    .day-month {
+        text-align: center;
+
+    }
+
+    .day {
+        font-size: 2rem;
+
+    }
+
+    .month {
+        font-size: 0.875rem;
+        font-weight: 600;
+  
+    }
+
+    .event-info {
+        flex: 1;
+        padding: 1.5rem;
+   
+    }
+
+    .event-time {
+        font-size: 0.875rem;
+     
+    }
+
+    .event-title {
+        margin: 0;
+
+        a {
+            color: var(--FAU-Col-FAU-Dunkelblau-100, #041e42);
+         
+
+            &:hover {
+                color: var(--FAU-Col-FAU-Blau-100, #04316a);
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .event-location {
+        margin: 0;
+
+        p {
+            margin: 0;
+            font-size: 0.9rem;
+  
+
+            &:before {
+             
+                font-size: 0.875rem;
+            }
+        }
+    }
+
+    // Responsive Design
+    @media (max-width: 768px) {
+        .event-item {
+            flex-direction: column;
+        }
+        
+        .event-date {
+            width: 100%;
+ 
+        }
+        
+        .day-month {
+            display: flex;
+            align-items: center;
+  
+        }
+        
+        .day {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+        }
+        
+        .month {
+            font-size: 0.875rem;
+        }
+        
+        .event-info {
+            padding: 1.25rem;
+        }
+    }
+} 

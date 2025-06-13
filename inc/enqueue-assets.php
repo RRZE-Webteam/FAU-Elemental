@@ -23,6 +23,19 @@ function faue_enqueue_styles() {
         );
     }
 
+    // Enqueue RRZE Calendar styles
+    $calendar_asset_path = get_theme_file_path('build/css/rrze-calendar.asset.php');
+    if (file_exists($calendar_asset_path)) {
+        $calendar_asset = include $calendar_asset_path;
+        
+        wp_enqueue_style(
+            'faue-rrze-calendar',
+            get_theme_file_uri('build/css/rrze-calendar.css'),
+            $calendar_asset['dependencies'],
+            $calendar_asset['version']
+        );
+    }
+
     // Note: Pattern styles are already included in the main theme bundle above
     // No need to load them separately anymore since they're compiled into css/theme.css
 }
