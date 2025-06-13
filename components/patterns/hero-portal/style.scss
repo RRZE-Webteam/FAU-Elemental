@@ -14,7 +14,8 @@
 	.wp-block-post-title {
 		position: relative;
 		width: max-content; // Allow text to overflow into img area
-		max-width: calc(100% + 250px); // Prevent text from overflowing too far
+		max-width: calc(100% + 16rem); // Prevent text from overflowing too far
+		min-width: calc(100% + 5.5rem); // Ensure small white overlap over the image
 		left: calc(-1 * var(--Spacing-6x));
 		z-index: 1;
 		padding: var(--Spacing-5x);
@@ -51,10 +52,11 @@
 		gap: unset;
 
 		.wp-block-post-title {
-			margin-top: -40px;
+			margin-top: -2.5rem;
 			left: unset;
 			width: 90%;
 			max-width: unset;
+			min-width: unset;
 			margin-left: auto;
 			margin-right: auto;
 			padding: var(--Spacing-4x) var(--Spacing-6x) 0 var(--Spacing-6x);
