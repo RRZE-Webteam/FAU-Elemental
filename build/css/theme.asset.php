@@ -1,5 +1,1 @@
-<<<<<<< 6-komponente-footer-2
-<?php return array('dependencies' => array(), 'version' => 'f3a0083d813db3136b64');
-=======
-<?php return array('dependencies' => array(), 'version' => '4c28f6c95de36fee7ade');
->>>>>>> dev
+<?php return array('dependencies' => array(), 'version' => '8817dd1af4a5cc47d115');
