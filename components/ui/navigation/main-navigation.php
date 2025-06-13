@@ -112,9 +112,9 @@ class Main_Navigation {
                 <div class="main-navigation__direct-links">
                     <?php
                     // Check if primary menu exists
-                    if (has_nav_menu('primary')) {
+                    if (has_nav_menu('header_primary_menu')) {
                         wp_nav_menu(array(
-                            'theme_location' => 'primary',
+                            'theme_location' => 'header_primary_menu',
                             'menu_id'        => 'main-direct-links',
                             'menu_class'     => 'main-navigation__direct-menu',
                             'container'      => false,

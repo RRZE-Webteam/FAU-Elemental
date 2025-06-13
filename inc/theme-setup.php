@@ -39,13 +39,12 @@ function faue_setup() {
     // Register navigation menus
     register_nav_menus(array(
         // Main navigation menus
-        'primary' => esc_html__('Primary Menu', 'fau-elemental'),
-        'secondary_links' => esc_html__('Secondary Links', 'fau-elemental'),
+        'header_primary_menu' => esc_html__('Header Primary Menu', 'fau-elemental'),
+        'header_menu_links' => esc_html__('Header Menu Links', 'fau-elemental'),
         
         // FAU system menus
-        'fau_top_navigation' => esc_html__('FAU Top Navigation', 'fau-elemental'),
-        'meta_navigation_services' => esc_html__('Meta Navigation Services', 'fau-elemental'),
-        'meta_navigation_structure' => esc_html__('Meta Navigation Structure', 'fau-elemental'),
+        'top_header_nav_services' => esc_html__('Top Header Nav Services', 'fau-elemental'),
+        'top_header_nav_structure' => esc_html__('Top Header Nav Structure', 'fau-elemental'),
         
         // Footer menus
         'footer' => esc_html__('Footer Menu', 'fau-elemental'),
@@ -64,11 +63,9 @@ add_action('after_setup_theme', 'faue_setup');
  * Add menu classes based on theme location
  */
 function fau_elemental_menu_classes($classes, $item, $args) {
-    if ($args->theme_location === 'fau_top_navigation') {
-        $classes[] = 'fau-navigation__item';
-    } elseif ($args->theme_location === 'primary') {
+    if ($args->theme_location === 'header_primary_menu') {
         $classes[] = 'menu-website-modal__item';
-    } elseif ($args->theme_location === 'secondary_links') {
+    } elseif ($args->theme_location === 'header_menu_links') {
         $classes[] = 'menu-website-modal__secondary-item';
     } elseif ($args->theme_location === 'footer') {
         $classes[] = 'footer-navigation__item';
@@ -81,11 +78,9 @@ add_filter('nav_menu_css_class', 'fau_elemental_menu_classes', 10, 3);
  * Add menu link classes based on theme location
  */
 function fau_elemental_menu_link_classes($atts, $item, $args) {
-    if ($args->theme_location === 'fau_top_navigation') {
-        $atts['class'] = 'fau-navigation__link';
-    } elseif ($args->theme_location === 'primary') {
+    if ($args->theme_location === 'header_primary_menu') {
         $atts['class'] = 'menu-website-modal__link';
-    } elseif ($args->theme_location === 'secondary_links') {
+    } elseif ($args->theme_location === 'header_menu_links') {
         $atts['class'] = 'menu-website-modal__secondary-link';
     } elseif ($args->theme_location === 'footer') {
         $atts['class'] = 'footer-navigation__link';

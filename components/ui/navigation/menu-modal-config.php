@@ -23,7 +23,7 @@ if (!$menu_modal || !is_object($menu_modal)) {
 
 // Configure Services Modal (Global Menu - replaces menu-meta-nav functionality)
 $menu_modal->register_modal('services', array(
-    'theme_locations' => array('meta_navigation_services'),
+    'theme_locations' => array('top_header_nav_services'),
     'use_global_menu' => true,
     'modal_class' => 'menu-meta-nav__modal',
     'menu_class' => 'menu-meta-nav__menu',
@@ -36,7 +36,7 @@ $menu_modal->register_modal('services', array(
 
 // Configure Structure Modal (Global Menu - replaces menu-meta-nav functionality)
 $menu_modal->register_modal('structure', array(
-    'theme_locations' => array('meta_navigation_structure'),
+    'theme_locations' => array('top_header_nav_structure'),
     'use_global_menu' => true,
     'modal_class' => 'menu-meta-nav__modal',
     'menu_class' => 'menu-meta-nav__menu',
@@ -49,7 +49,7 @@ $menu_modal->register_modal('structure', array(
 
 // Configure Website Menu Modal (Local Menu - replaces menu-website functionality)
 $menu_modal->register_modal('menu-website', array(
-    'theme_locations' => array('primary', 'secondary_links'),
+    'theme_locations' => array('header_primary_menu', 'header_menu_links'),
     'use_global_menu' => false,
     'modal_class' => 'menu-website-modal',
     'menu_class' => 'menu-website-modal__menu',
@@ -74,7 +74,7 @@ function fau_elemental_has_services_menu() {
     if (!$menu_modal || !is_object($menu_modal)) {
         return false;
     }
-    $result = $menu_modal->has_menu(array('meta_navigation_services'), true);
+    $result = $menu_modal->has_menu(array('top_header_nav_services'), true);
     return $result;
 }
 
@@ -88,7 +88,7 @@ function fau_elemental_has_structure_menu() {
     if (!$menu_modal || !is_object($menu_modal)) {
         return false;
     }
-    $result = $menu_modal->has_menu(array('meta_navigation_structure'), true);
+    $result = $menu_modal->has_menu(array('top_header_nav_structure'), true);
     return $result;
 }
 
@@ -102,7 +102,7 @@ function fau_elemental_has_website_menu() {
     if (!$menu_modal || !is_object($menu_modal)) {
         return false;
     }
-    $result = $menu_modal->has_menu(array('primary'));
+    $result = $menu_modal->has_menu(array('header_primary_menu'));
     return $result;
 }
 
@@ -116,7 +116,7 @@ function fau_elemental_get_services_menu_items() {
     if (!$menu_modal || !is_object($menu_modal)) {
         return false;
     }
-    return $menu_modal->get_main_site_menu('meta_navigation_services');
+    return $menu_modal->get_main_site_menu('top_header_nav_services');
 }
 
 /**
@@ -129,5 +129,5 @@ function fau_elemental_get_structure_menu_items() {
     if (!$menu_modal || !is_object($menu_modal)) {
         return false;
     }
-    return $menu_modal->get_main_site_menu('meta_navigation_structure');
+    return $menu_modal->get_main_site_menu('top_header_nav_structure');
 } 

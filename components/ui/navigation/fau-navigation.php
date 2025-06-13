@@ -50,16 +50,7 @@ class FAU_Navigation {
 
                 <div class="fau-navigation__right">
                     <?php
-                    if (has_nav_menu('fau_top_navigation')) {
-                        wp_nav_menu(array(
-                            'theme_location' => 'fau_top_navigation',
-                            'menu_class' => 'fau-navigation__menu',
-                            'container' => false,
-                            'fallback_cb' => false,
-                            'depth' => 2,
-                            'walker' => new FAU_Navigation_Walker(),
-                        ));
-                    } else {
+                    {
                         // Fallback menu items if no menu is set
                         ?>
                         <ul class="fau-navigation__menu">
