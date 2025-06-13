@@ -2,8 +2,8 @@ import { __ } from '@wordpress/i18n';
 import {
 	useBlockProps,
 	InspectorControls,
-	MediaUpload,
-	MediaUploadCheck,
+	BlockControls,
+	InnerBlocks,
 	RichText,
 } from '@wordpress/block-editor';
 import {
@@ -13,16 +13,16 @@ import {
 	TextareaControl,
 	SelectControl,
 	Button,
+	ToolbarGroup,
+	ToolbarButton,
 	__experimentalVStack as VStack,
 	Card,
 	CardHeader,
 	CardBody,
 	Flex,
 	FlexItem,
-	Icon,
 } from '@wordpress/components';
-import { useState } from '@wordpress/element';
-import { plus, trash } from '@wordpress/icons';
+import { plus, trash, arrowUp, arrowDown } from '@wordpress/icons';
 
 const CONTACT_TYPES = [
 	{ label: __( 'Phone', 'fau-elemental' ), value: 'phone' },
@@ -32,31 +32,34 @@ const CONTACT_TYPES = [
 	{ label: __( 'Matrix', 'fau-elemental' ), value: 'matrix' },
 ];
 
-const SOCIAL_TYPES = [
-	{ label: __( 'Facebook', 'fau-elemental' ), value: 'facebook' },
-	{ label: __( 'Twitter', 'fau-elemental' ), value: 'twitter' },
+const SOCIAL_PLATFORMS = [
 	{ label: __( 'Instagram', 'fau-elemental' ), value: 'instagram' },
+	{ label: __( 'Facebook', 'fau-elemental' ), value: 'facebook' },
+	{ label: __( 'Xing', 'fau-elemental' ), value: 'xing' },
 	{ label: __( 'LinkedIn', 'fau-elemental' ), value: 'linkedin' },
-	{ label: __( 'XING', 'fau-elemental' ), value: 'xing' },
+	{ label: __( 'Twitter/X', 'fau-elemental' ), value: 'twitter' },
+	{ label: __( 'Mastodon', 'fau-elemental' ), value: 'mastodon' },
+	{ label: __( 'Bluesky', 'fau-elemental' ), value: 'bluesky' },
 	{ label: __( 'YouTube', 'fau-elemental' ), value: 'youtube' },
-	{ label: __( 'GitHub', 'fau-elemental' ), value: 'github' },
-	{ label: __( 'ResearchGate', 'fau-elemental' ), value: 'researchgate' },
+	{ label: __( 'TikTok', 'fau-elemental' ), value: 'tiktok' },
+];
+
+const ALLOWED_BLOCKS = [ 'core/image' ];
+const TEMPLATE = [
+	[ 'core/image' ],
 ];
 
 export default function Edit( { attributes, setAttributes } ) {
 	const {
 		showTopLine,
 		topLine,
-		imageId,
-		imageUrl,
-		imageAlt,
 		headline,
 		showAddress,
 		address,
 		showOpeningHours,
 		openingHours,
 		contactLinks,
-		socialLinks,
+		socialMedia,
 	} = attributes;
 
 	const blockProps = useBlockProps();
@@ -80,28 +83,37 @@ export default function Edit( { attributes, setAttributes } ) {
 		setAttributes( { contactLinks: newContactLinks } );
 	};
 
-	const addSocialLink = () => {
-		if ( socialLinks.length >= 8 ) return;
-		const newSocialLinks = [
-			...socialLinks,
-			{ type: 'facebook', label: '', url: '' },
-		];
-		setAttributes( { socialLinks: newSocialLinks } );
-	};
-
-	const updateSocialLink = ( index, field, value ) => {
-		const newSocialLinks = [ ...socialLinks ];
-		newSocialLinks[ index ][ field ] = value;
-		setAttributes( { socialLinks: newSocialLinks } );
-	};
-
-	const removeSocialLink = ( index ) => {
-		const newSocialLinks = socialLinks.filter( ( _, i ) => i !== index );
-		setAttributes( { socialLinks: newSocialLinks } );
+	const updateSocialMedia = ( platform, url ) => {
+		const newSocialMedia = { ...socialMedia };
+		if ( url.trim() ) {
+			newSocialMedia[ platform ] = url;
+		} else {
+			delete newSocialMedia[ platform ];
+		}
+		setAttributes( { socialMedia: newSocialMedia } );
 	};
 
 	return (
 		<div { ...blockProps }>
+			<BlockControls>
+				<ToolbarGroup>
+					<ToolbarButton
+						icon={ arrowUp }
+						label={ __( 'Move up', 'fau-elemental' ) }
+						onClick={ () => {
+							// Add functionality if needed for reordering
+						} }
+					/>
+					<ToolbarButton
+						icon={ arrowDown }
+						label={ __( 'Move down', 'fau-elemental' ) }
+						onClick={ () => {
+							// Add functionality if needed for reordering
+						} }
+					/>
+				</ToolbarGroup>
+			</BlockControls>
+
 			<InspectorControls>
 				<PanelBody title={ __( 'Contact Settings', 'fau-elemental' ) }>
 					<ToggleControl
@@ -118,49 +130,8 @@ export default function Edit( { attributes, setAttributes } ) {
 							onChange={ ( value ) =>
 								setAttributes( { topLine: value } )
 							}
+							placeholder={ __( 'e.g. Forschung an der FAU', 'fau-elemental' ) }
 						/>
-					) }
-				</PanelBody>
-
-				<PanelBody title={ __( 'Image', 'fau-elemental' ) }>
-					<MediaUploadCheck>
-						<MediaUpload
-							onSelect={ ( media ) => {
-								setAttributes( {
-									imageId: media.id,
-									imageUrl: media.url,
-									imageAlt: media.alt,
-								} );
-							} }
-							allowedTypes={ [ 'image' ] }
-							value={ imageId }
-							render={ ( { open } ) => (
-								<Button
-									onClick={ open }
-									variant="secondary"
-									style={ { marginBottom: '12px' } }
-								>
-									{ imageId
-										? __( 'Change Image', 'fau-elemental' )
-										: __( 'Select Image', 'fau-elemental' ) }
-								</Button>
-							) }
-						/>
-					</MediaUploadCheck>
-					{ imageId && (
-						<Button
-							onClick={ () => {
-								setAttributes( {
-									imageId: 0,
-									imageUrl: '',
-									imageAlt: '',
-								} );
-							} }
-							variant="link"
-							isDestructive
-						>
-							{ __( 'Remove Image', 'fau-elemental' ) }
-						</Button>
 					) }
 				</PanelBody>
 
@@ -179,6 +150,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							onChange={ ( value ) =>
 								setAttributes( { address: value } )
 							}
+							placeholder={ __( 'Street\nCity, Postal Code', 'fau-elemental' ) }
 						/>
 					) }
 
@@ -196,6 +168,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							onChange={ ( value ) =>
 								setAttributes( { openingHours: value } )
 							}
+							placeholder={ __( 'Mo., Di. und Do.\n10:00-16:00 Uhr', 'fau-elemental' ) }
 						/>
 					) }
 				</PanelBody>
@@ -240,6 +213,7 @@ export default function Edit( { attributes, setAttributes } ) {
 											onChange={ ( value ) =>
 												updateContactLink( index, 'label', value )
 											}
+											placeholder={ __( 'Display text', 'fau-elemental' ) }
 										/>
 										<TextControl
 											label={ __( 'Value', 'fau-elemental' ) }
@@ -247,6 +221,7 @@ export default function Edit( { attributes, setAttributes } ) {
 											onChange={ ( value ) =>
 												updateContactLink( index, 'value', value )
 											}
+											placeholder={ __( 'Phone, email, or URL', 'fau-elemental' ) }
 										/>
 									</VStack>
 								</CardBody>
@@ -265,91 +240,37 @@ export default function Edit( { attributes, setAttributes } ) {
 				<PanelBody title={ __( 'Social Media Links', 'fau-elemental' ) }>
 					<p>
 						{ __(
-							'Maximum 8 social media links allowed.',
+							'Add URLs for social media platforms you want to display.',
 							'fau-elemental'
 						) }
 					</p>
-					<VStack spacing={ 3 }>
-						{ socialLinks.map( ( link, index ) => (
-							<Card key={ index }>
-								<CardHeader>
-									<Flex>
-										<FlexItem>
-											<strong>
-												{ __( 'Social Link', 'fau-elemental' ) }{ ' ' }
-												{ index + 1 }
-											</strong>
-										</FlexItem>
-										<FlexItem>
-											<Button
-												icon={ trash }
-												onClick={ () =>
-													removeSocialLink( index )
-												}
-												variant="tertiary"
-												isDestructive
-											/>
-										</FlexItem>
-									</Flex>
-								</CardHeader>
-								<CardBody>
-									<VStack spacing={ 2 }>
-										<SelectControl
-											label={ __( 'Platform', 'fau-elemental' ) }
-											value={ link.type }
-											options={ SOCIAL_TYPES }
-											onChange={ ( value ) =>
-												updateSocialLink( index, 'type', value )
-											}
-										/>
-										<TextControl
-											label={ __( 'Label', 'fau-elemental' ) }
-											value={ link.label }
-											onChange={ ( value ) =>
-												updateSocialLink( index, 'label', value )
-											}
-										/>
-										<TextControl
-											label={ __( 'URL', 'fau-elemental' ) }
-											value={ link.url }
-											onChange={ ( value ) =>
-												updateSocialLink( index, 'url', value )
-											}
-										/>
-									</VStack>
-								</CardBody>
-							</Card>
+					<VStack spacing={ 2 }>
+						{ SOCIAL_PLATFORMS.map( ( platform ) => (
+							<TextControl
+								key={ platform.value }
+								label={ platform.label }
+								value={ socialMedia[ platform.value ] || '' }
+								onChange={ ( value ) =>
+									updateSocialMedia( platform.value, value )
+								}
+								placeholder={ __( 'https://...', 'fau-elemental' ) }
+							/>
 						) ) }
-						{ socialLinks.length < 8 && (
-							<Button
-								icon={ plus }
-								onClick={ addSocialLink }
-								variant="secondary"
-							>
-								{ __( 'Add Social Link', 'fau-elemental' ) }
-							</Button>
-						) }
 					</VStack>
 				</PanelBody>
 			</InspectorControls>
 
-			<div className="fau-contact-block-editor">
+			<div className="fau-contact-block">
 				{ showTopLine && topLine && (
 					<div className="contact-topline">
-						<small>{ topLine }</small>
+						{ topLine }
 					</div>
 				) }
 
-				<div className="contact-main">
-					{ imageUrl && (
-						<div className="contact-image">
-							<img src={ imageUrl } alt={ imageAlt } />
-						</div>
-					) }
-
+				<div className="contact-layout">
 					<div className="contact-content">
 						<RichText
-							tagName="h3"
+							tagName="h2"
 							className="contact-headline"
 							placeholder={ __( 'Enter headline...', 'fau-elemental' ) }
 							value={ headline }
@@ -359,44 +280,51 @@ export default function Edit( { attributes, setAttributes } ) {
 						/>
 
 						{ showAddress && address && (
-							<div className="contact-address">
-								<strong>{ __( 'Address:', 'fau-elemental' ) }</strong>
-								<div>{ address }</div>
+							<div className="contact-section">
+								<h3>{ __( 'Adresse', 'fau-elemental' ) }</h3>
+								<div className="contact-text">{ address }</div>
 							</div>
 						) }
 
 						{ showOpeningHours && openingHours && (
-							<div className="contact-hours">
-								<strong>{ __( 'Opening Hours:', 'fau-elemental' ) }</strong>
-								<div>{ openingHours }</div>
+							<div className="contact-section">
+								<h3>{ __( 'Sprechzeiten', 'fau-elemental' ) }</h3>
+								<div className="contact-text">{ openingHours }</div>
 							</div>
 						) }
 
 						{ contactLinks.length > 0 && (
-							<div className="contact-links">
-								<strong>{ __( 'Contact:', 'fau-elemental' ) }</strong>
-								<ul>
-									{ contactLinks.map( ( link, index ) => (
-										<li key={ index }>
-											{ link.type }: { link.label || link.value }
-										</li>
-									) ) }
-								</ul>
+							<div className="contact-section">
+								<h3>{ __( 'Kontakt', 'fau-elemental' ) }</h3>
+								{ contactLinks.map( ( link, index ) => (
+									<div key={ index } className={ `contact-link contact-link-${ link.type }` }>
+										<i className="fas fa-icon" aria-hidden="true"></i>
+										<span>{ link.label || link.value }</span>
+									</div>
+								) ) }
 							</div>
 						) }
 
-						{ socialLinks.length > 0 && (
-							<div className="social-links">
-								<strong>{ __( 'Social Media:', 'fau-elemental' ) }</strong>
-								<ul>
-									{ socialLinks.map( ( link, index ) => (
-										<li key={ index }>
-											{ link.type }: { link.label || link.url }
-										</li>
+						{ Object.keys( socialMedia ).length > 0 && (
+							<div className="contact-section">
+								<div className="social-links">
+									{ Object.entries( socialMedia ).map( ( [ platform, url ] ) => (
+										url && (
+											<a key={ platform } href={ url } className={ `social-link ${ platform }` } rel="noopener noreferrer">
+												{ /* Social icon will be added via CSS */ }
+											</a>
+										)
 									) ) }
-								</ul>
+								</div>
 							</div>
 						) }
+					</div>
+
+					<div className="contact-image-section">
+						<InnerBlocks
+							allowedBlocks={ ALLOWED_BLOCKS }
+							template={ TEMPLATE }
+						/>
 					</div>
 				</div>
 			</div>

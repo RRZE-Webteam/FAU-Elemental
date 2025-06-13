@@ -6,7 +6,7 @@
 	"title": "FAU Contact",
 	"category": "fau-elemental/FAU",
 	"icon": "businessperson",
-	"description": "Display contact information for a person or department with optional fields",
+	"description": "Display contact information with professional layout matching FAU design",
 	"supports": {
 		"html": false,
 		"multiple": true
@@ -17,18 +17,6 @@
 			"default": false
 		},
 		"topLine": {
-			"type": "string",
-			"default": ""
-		},
-		"imageId": {
-			"type": "number",
-			"default": 0
-		},
-		"imageUrl": {
-			"type": "string",
-			"default": ""
-		},
-		"imageAlt": {
 			"type": "string",
 			"default": ""
 		},
@@ -71,23 +59,46 @@
 				}
 			}
 		},
-		"socialLinks": {
-			"type": "array",
-			"default": [],
-			"items": {
-				"type": "object",
-				"properties": {
-					"type": {
-						"type": "string",
-						"enum": ["facebook", "twitter", "instagram", "linkedin", "xing", "youtube", "github", "researchgate"]
-					},
-					"label": {
-						"type": "string"
-					},
-					"url": {
-						"type": "string"
-					}
+		"socialMedia": {
+			"type": "object",
+			"default": {},
+			"properties": {
+				"instagram": { "type": "string" },
+				"facebook": { "type": "string" },
+				"xing": { "type": "string" },
+				"linkedin": { "type": "string" },
+				"twitter": { "type": "string" },
+				"mastodon": { "type": "string" },
+				"bluesky": { "type": "string" },
+				"youtube": { "type": "string" },
+				"tiktok": { "type": "string" }
+			}
+		}
+	},
+	"example": {
+		"attributes": {
+			"showTopLine": true,
+			"topLine": "Forschung an der FAU",
+			"headline": "Prof. Dr. Max Mustermann",
+			"showAddress": true,
+			"address": "Schlossplatz 4\n91054 Erlangen",
+			"showOpeningHours": true,
+			"openingHours": "Mo., Di. und Do.\n10:00-16:00 Uhr",
+			"contactLinks": [
+				{
+					"type": "phone",
+					"label": "Telefon",
+					"value": "+49 9131 85-12345"
+				},
+				{
+					"type": "email",
+					"label": "E-Mail",
+					"value": "max.mustermann@fau.de"
 				}
+			],
+			"socialMedia": {
+				"twitter": "https://twitter.com/unifau",
+				"linkedin": "https://linkedin.com/company/fau"
 			}
 		}
 	},

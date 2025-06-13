@@ -20,134 +20,124 @@ if ( ! function_exists( 'render_block_fau_contact' ) ) {
      * @return string Returns the contact block HTML.
      */
     function render_block_fau_contact( $attributes, $content, $block ) {
-        // Extract attributes with defaults
+        // Ensure we have attributes
+        if ( ! isset( $attributes ) ) {
+            return;
+        }
+
+        // Extract attributes
         $show_top_line = $attributes['showTopLine'] ?? false;
         $top_line = $attributes['topLine'] ?? '';
-        $image_id = $attributes['imageId'] ?? 0;
-        $image_url = $attributes['imageUrl'] ?? '';
-        $image_alt = $attributes['imageAlt'] ?? '';
         $headline = $attributes['headline'] ?? '';
         $show_address = $attributes['showAddress'] ?? false;
         $address = $attributes['address'] ?? '';
         $show_opening_hours = $attributes['showOpeningHours'] ?? false;
         $opening_hours = $attributes['openingHours'] ?? '';
         $contact_links = $attributes['contactLinks'] ?? [];
-        $social_links = $attributes['socialLinks'] ?? [];
+        $social_media = $attributes['socialMedia'] ?? [];
 
-        // If no headline, don't render the block
-        if ( empty( $headline ) ) {
-            return '';
-        }
+        // Build output
+        $output = '';
 
-        // Start building the output
-        $wrapper_attributes = get_block_wrapper_attributes([
-            'class' => 'fau-contact-block',
-        ]);
+        // Start contact block with semantic HTML
+        $output .= '<section class="fau-contact-block" role="region" aria-labelledby="contact-heading">';
 
-        $output = sprintf('<div %s>', $wrapper_attributes);
-
-        // Top line (optional)
+        // Top line
         if ( $show_top_line && ! empty( $top_line ) ) {
-            $output .= sprintf(
-                '<div class="contact-topline"><small>%s</small></div>',
-                esc_html( $top_line )
-            );
+            $output .= '<div class="contact-topline">' . esc_html( $top_line ) . '</div>';
         }
 
-        $output .= '<div class="contact-main">';
-
-        // Image section
-        if ( $image_id && $image_url ) {
-            $output .= '<div class="contact-image">';
-            $output .= sprintf(
-                '<img src="%s" alt="%s" loading="lazy" />',
-                esc_url( $image_url ),
-                esc_attr( $image_alt )
-            );
-            $output .= '</div>';
-        }
+        // Main layout
+        $output .= '<div class="contact-layout">';
 
         // Content section
         $output .= '<div class="contact-content">';
 
-        // Headline (required)
-        $output .= sprintf(
-            '<h3 class="contact-headline">%s</h3>',
-            wp_kses_post( $headline )
-        );
+        // Headline with proper ID for aria-labelledby
+        if ( ! empty( $headline ) ) {
+            $output .= '<h2 id="contact-heading" class="contact-headline">' . wp_kses_post( $headline ) . '</h2>';
+        }
 
-        // Address (optional)
+        // Address section
         if ( $show_address && ! empty( $address ) ) {
-            $output .= '<div class="contact-address">';
-            $output .= sprintf('<strong>%s</strong>', esc_html__( 'Address:', 'fau-elemental' ));
-            $output .= sprintf('<div class="address-content">%s</div>', nl2br( esc_html( $address ) ));
+            $output .= '<div class="contact-section">';
+            $output .= '<h3>' . esc_html__( 'Adresse', 'fau-elemental' ) . '</h3>';
+            $output .= '<div class="contact-text">' . nl2br( esc_html( $address ) ) . '</div>';
             $output .= '</div>';
         }
 
-        // Opening hours (optional)
+        // Opening hours section
         if ( $show_opening_hours && ! empty( $opening_hours ) ) {
-            $output .= '<div class="contact-hours">';
-            $output .= sprintf('<strong>%s</strong>', esc_html__( 'Opening Hours:', 'fau-elemental' ));
-            $output .= sprintf('<div class="hours-content">%s</div>', nl2br( esc_html( $opening_hours ) ));
+            $output .= '<div class="contact-section">';
+            $output .= '<h3>' . esc_html__( 'Sprechzeiten', 'fau-elemental' ) . '</h3>';
+            $output .= '<div class="contact-text">' . nl2br( esc_html( $opening_hours ) ) . '</div>';
             $output .= '</div>';
         }
 
-        // Contact links (optional)
+        // Contact links section
         if ( ! empty( $contact_links ) ) {
-            $output .= '<div class="contact-links">';
-            $output .= sprintf('<strong>%s</strong>', esc_html__( 'Contact:', 'fau-elemental' ));
-            $output .= '<ul class="contact-links-list">';
+            $output .= '<div class="contact-section">';
+            $output .= '<h3>' . esc_html__( 'Kontakt', 'fau-elemental' ) . '</h3>';
             
             foreach ( $contact_links as $link ) {
                 if ( ! empty( $link['value'] ) ) {
                     $icon_class = fau_elemental_get_contact_icon_class( $link['type'] );
                     $formatted_link = fau_elemental_format_contact_link( $link['type'], $link['value'] );
-                    $label = ! empty( $link['label'] ) ? $link['label'] : $link['value'];
+                    $display_text = ! empty( $link['label'] ) ? $link['label'] : $link['value'];
                     
-                    $output .= sprintf(
-                        '<li class="contact-link contact-link-%s"><i class="%s" aria-hidden="true"></i><a href="%s">%s</a></li>',
-                        esc_attr( $link['type'] ),
-                        esc_attr( $icon_class ),
-                        esc_url( $formatted_link ),
-                        esc_html( $label )
-                    );
+                    $output .= '<div class="contact-link contact-link-' . esc_attr( $link['type'] ) . '">';
+                    $output .= '<i class="' . esc_attr( $icon_class ) . '" aria-hidden="true"></i>';
+                    if ( in_array( $link['type'], [ 'phone', 'email' ] ) || filter_var( $link['value'], FILTER_VALIDATE_URL ) ) {
+                        $output .= '<a href="' . esc_url( $formatted_link ) . '">' . esc_html( $display_text ) . '</a>';
+                    } else {
+                        $output .= '<span>' . esc_html( $display_text ) . '</span>';
+                    }
+                    $output .= '</div>';
                 }
             }
             
-            $output .= '</ul>';
             $output .= '</div>';
         }
 
-        // Social media links (optional, max 8)
-        if ( ! empty( $social_links ) ) {
-            $social_links = array_slice( $social_links, 0, 8 ); // Ensure max 8 links
+        // Social media links section (using footer styling approach)
+        if ( ! empty( $social_media ) ) {
+            $output .= '<div class="contact-section">';
             $output .= '<div class="social-links">';
-            $output .= sprintf('<strong>%s</strong>', esc_html__( 'Social Media:', 'fau-elemental' ));
-            $output .= '<ul class="social-links-list">';
             
-            foreach ( $social_links as $link ) {
-                if ( ! empty( $link['url'] ) ) {
-                    $icon_class = fau_elemental_get_social_icon_class( $link['type'] );
-                    $label = ! empty( $link['label'] ) ? $link['label'] : ucfirst( $link['type'] );
-                    
-                    $output .= sprintf(
-                        '<li class="social-link social-link-%s"><a href="%s" target="_blank" rel="noopener noreferrer"><i class="%s" aria-hidden="true"></i><span class="screen-reader-text">%s</span><span aria-hidden="true">%s</span></a></li>',
-                        esc_attr( $link['type'] ),
-                        esc_url( $link['url'] ),
-                        esc_attr( $icon_class ),
-                        esc_html( sprintf( __( 'Visit %s profile', 'fau-elemental' ), $label ) ),
-                        esc_html( $label )
-                    );
+            // Used the same order and platform names as the footer
+            $social_platforms = [
+                'instagram' => 'Instagram',
+                'facebook' => 'Facebook',
+                'xing' => 'Xing',
+                'linkedin' => 'LinkedIn',
+                'twitter' => 'Twitter/X',
+                'mastodon' => 'Mastodon',
+                'bluesky' => 'Bluesky',
+                'youtube' => 'YouTube',
+                'tiktok' => 'TikTok'
+            ];
+            
+            foreach ( $social_platforms as $platform => $label ) {
+                if ( ! empty( $social_media[ $platform ] ) ) {
+                    $output .= '<a href="' . esc_url( $social_media[ $platform ] ) . '" class="social-link ' . esc_attr( $platform ) . '" aria-label="' . esc_attr( $label ) . '" rel="noopener noreferrer">';
+                    $output .= '<!-- ' . esc_html( $label ) . ' -->';
+                    $output .= '</a>';
                 }
             }
             
-            $output .= '</ul>';
+            $output .= '</div>';
             $output .= '</div>';
         }
 
-        $output .= '</div>'; // Close contact-content
-        $output .= '</div>'; // Close contact-main
-        $output .= '</div>'; // Close wrapper
+        $output .= '</div>'; // End contact-content
+
+        // Image section - using InnerBlocks content (core image block)
+        $output .= '<div class="contact-image-section">';
+        $output .= $content; // This will contain the core image block HTML
+        $output .= '</div>';
+
+        $output .= '</div>'; // End contact-layout
+        $output .= '</section>'; // End fau-contact-block
 
         return $output;
     }
@@ -167,29 +157,6 @@ if ( ! function_exists( 'fau_elemental_get_contact_icon_class' ) ) {
             'messenger' => 'fas fa-comments',
             'website' => 'fas fa-globe',
             'matrix' => 'fas fa-matrix-org',
-        ];
-
-        return $icon_classes[ $type ] ?? 'fas fa-link';
-    }
-}
-
-if ( ! function_exists( 'fau_elemental_get_social_icon_class' ) ) {
-    /**
-     * Get the appropriate icon class for social media types.
-     *
-     * @param string $type The social media type.
-     * @return string The icon class.
-     */
-    function fau_elemental_get_social_icon_class( $type ) {
-        $icon_classes = [
-            'facebook' => 'fab fa-facebook-f',
-            'twitter' => 'fab fa-twitter',
-            'instagram' => 'fab fa-instagram',
-            'linkedin' => 'fab fa-linkedin-in',
-            'xing' => 'fab fa-xing',
-            'youtube' => 'fab fa-youtube',
-            'github' => 'fab fa-github',
-            'researchgate' => 'fab fa-researchgate',
         ];
 
         return $icon_classes[ $type ] ?? 'fas fa-link';
