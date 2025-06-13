@@ -117,12 +117,6 @@ module.exports = {
 		'css/theme': path.resolve( process.cwd(), 'components/ui/theme.scss' ),
 
 		// ============================================================================
-		// RRZE CALENDAR PLUGIN STYLES
-		// ============================================================================
-		// This creates rrze-calendar.css for the RRZE Calendar plugin styling
-		'css/rrze-calendar': path.resolve( process.cwd(), 'src/scss/rrze-calendar.scss' ),
-
-		// ============================================================================
 		// DYNAMIC CUSTOM BLOCKS (Auto-detected from components/blocks/fau-*)
 		// ============================================================================
 		// Block.json and render.php files are copied via CopyWebpackPlugin below

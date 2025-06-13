@@ -1,0 +1,84 @@
+// ============================================================================
+// RRZE Calendar Plugin - Editor Styles
+// ============================================================================
+// These styles apply to the calendar when viewed in the WordPress block editor
+
+// Editor-specific overrides and additions
+.editor-styles-wrapper {
+    
+    .rrze-calendar {
+        // Ensure proper spacing in editor context
+        margin: var(--Spacing-8x) 0;
+        
+        .event-item {
+            // Slightly more subtle hover effect in editor
+            &:hover {
+                box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+                transform: translateY(-1px);
+            }
+        }
+        
+        .event-date {
+            // Ensure date box is visible in editor dark mode
+            background: var(--FAU-Col-FAU-Dunkelblau-100, #041e42) !important;
+            color: var(--FAU-Col-FAU-Weiss-100, #fff) !important;
+        }
+        
+        // Editor placeholder for when calendar is loading or empty
+        &.loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            background: var(--FAU-Col-FAU-Schwarz-5, #f2f2f2);
+            border: 1px dashed var(--FAU-Col-FAU-Schwarz-25, #bfbfbf);
+            border-radius: 8px;
+            
+            &::before {
+                content: "Loading calendar events...";
+                color: var(--FAU-Col-FAU-Schwarz-62_5, #5e5e5e);
+                font-style: italic;
+            }
+        }
+        
+        &.empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+            background: var(--FAU-Col-FAU-Schwarz-5, #f2f2f2);
+            border: 1px dashed var(--FAU-Col-FAU-Schwarz-25, #bfbfbf);
+            border-radius: 8px;
+            
+            &::before {
+                content: "No calendar events to display";
+                color: var(--FAU-Col-FAU-Schwarz-62_5, #5e5e5e);
+                font-style: italic;
+            }
+        }
+    }
+}
+
+// Editor-only preview styles for shortcode blocks
+.wp-block[data-type="core/shortcode"] {
+    .components-placeholder {
+        
+        &[data-shortcode*="rrze-calendar"] {
+            border-color: var(--FAU-Col-FAU-Blau-100, #04316a);
+            
+            .components-placeholder__label {
+                color: var(--FAU-Col-FAU-Blau-100, #04316a);
+                
+                &::before {
+                    content: "📅 ";
+                }
+            }
+        }
+    }
+}
+
+// Ensure calendar is visible in editor iframe
+.edit-post-layout__content .rrze-calendar {
+    position: relative;
+    z-index: 1;
+} 
