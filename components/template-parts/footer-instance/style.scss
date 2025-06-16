@@ -47,6 +47,7 @@
 
 		.footer-instance-contact {
 			display: flex;
+			padding-bottom: var(--Spacing-12x);
 
 			.contact-address {
 				flex-basis: 33%;
@@ -106,10 +107,6 @@
 					}
 				}
 			}
-		}
-
-		.footer-instance-contact {
-			padding-bottom: var(--Spacing-12x);
 		}
 
 		.footer-instance-menu {
@@ -290,7 +287,7 @@
 
 			&::before {
 				content: "";
-				background-color: white;
+				background-color: #fff; // TODO Maybe use a custom property
 				width: 56px;
 				height: 56px;
 				position: absolute;

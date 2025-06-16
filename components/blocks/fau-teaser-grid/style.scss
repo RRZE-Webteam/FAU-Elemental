@@ -320,11 +320,6 @@
 					}
 				}
 			}
-		}
-
-		// Layout 2sl and Layout l2s specific styles
-		&.layout-2sl,
-		&.layout-l2s {
 
 			&[data-variant="page"] .teaser-group .teaser-item {
 
@@ -485,11 +480,8 @@
 	.excerpt.clamp-3 [aria-hidden="true"] {
 		margin: 0;
 	}
-}
 
-// Pagination styles > Interim solution, will be reworked later
-.wp-block-fau-elemental-fau-teaser-grid {
-
+	// Pagination styles > Interim solution, will be reworked later
 	.pagination {
 		display: flex;
 		justify-content: center;
