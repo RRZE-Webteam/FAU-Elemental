@@ -1,48 +1,50 @@
 .wp-block-fau-elemental-copyright-info {
-	margin-top: var(--Spacing-4x);
-	margin-bottom: var(--Spacing-4x);
-	font-size: var(--Text-S);
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 1rem;
 
-	h3 {
-		font-size: var(--H-Heading-6);
-		margin-bottom: var(--Spacing-2x);
-		color: var(--FAU-Col-FAU-Dunkelblau-100);
-	}
-
-	// Hide the label by default (only show in footer)
 	.copyright-info-label {
-		display: none;
+		color: var(--FAU-Col-FAU-Weiss-100);
+		margin-right: var(--Spacing-3x);
+		font-weight: 500;
 	}
 
-	.copyright-info-list {
+	p.copyright-info-list {
+		display: inline-flex;
+		flex-wrap: wrap;
+		gap: var(--Spacing-6x);
+		align-items: baseline;
 		list-style: none;
 		margin: 0;
 		padding: 0;
 
 		li {
-			margin-bottom: var(--Spacing-1x);
-			color: var(--FAU-Col-FAU-Dunkelblau-50);
+			margin-bottom: 0;
+			color: var(--FAU-Col-FAU-Weiss-100);
+			position: relative;
+			counter-increment: copyright-counter;
+			list-style: none;
 
-			&:last-child {
-				margin-bottom: 0;
+			&::before {
+				content: "©";
+				margin-right: var(--Spacing-1x);
+				color: var(--FAU-Col-FAU-Weiss-100);
+				font-weight: 500;
+			}
+
+			&::after {
+				content: counter(copyright-counter);
+				position: absolute;
+				top: -0.5em;
+				right: -0.75em;
+				font-size: 0.75em;
+				line-height: 1;
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+
+			&:first-child {
+				counter-reset: copyright-counter;
 			}
 		}
-	}
-}
-
-// Editor styles
-.copyright-info-placeholder {
-	padding: var(--Spacing-4x);
-	background-color: var(--FAU-Col-FAU-Schwarz-5);
-	border: 1px dashed var(--FAU-Col-FAU-Dunkelblau-25);
-
-	h3 {
-		margin-top: 0;
-		margin-bottom: var(--Spacing-2x);
-	}
-
-	.description {
-		margin: 0;
-		color: var(--FAU-Col-FAU-Dunkelblau-50);
 	}
 }

@@ -328,4 +328,6 @@ if (!function_exists('fau_elemental_wrap_teaser_items')) {
         
         return $output;
     }
-} 
+}
+
+echo render_block_fau_teaser_grid($attributes, $content, $block);

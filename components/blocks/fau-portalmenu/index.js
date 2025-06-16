@@ -17,8 +17,7 @@ import ServerSideRender from '@wordpress/server-side-render';
 /**
  * Internal dependencies
  */
-import './style.scss';
-import './editor.scss';
+
 import Edit from './edit';
 
 /**
