@@ -193,7 +193,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 								updateQuote( index, 'content', content )
 							}
 							placeholder={ __(
-								'Enter quote text...',
+								'Enter quote text…',
 								'fau-elemental'
 							) }
 							allowedFormats={ [] }
@@ -205,7 +205,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 								updateQuote( index, 'citation', citation )
 							}
 							placeholder={ __(
-								'Enter citation...',
+								'Enter citation…',
 								'fau-elemental'
 							) }
 							allowedFormats={ [] }
@@ -217,7 +217,9 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 
 		// Show all quotes inside the editor
 		const renderQuotes = () => {
-			if ( ! attributes.quotes?.length ) return null;
+			if ( ! attributes.quotes?.length ) {
+				return null;
+			}
 
 			if ( attributes.quotes.length === 1 ) {
 				return (
@@ -367,7 +369,9 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 		// Renders the InspectorControls to manage
 		// all quotes inside this block, including adding new ones
 		const renderManageInspectorControls = () => {
-			if ( ! attributes.quotes?.length ) return null;
+			if ( ! attributes.quotes?.length ) {
+				return null;
+			}
 			return (
 				<>
 					<div className="quote-list">

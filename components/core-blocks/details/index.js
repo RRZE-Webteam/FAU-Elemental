@@ -46,7 +46,9 @@ addFilter(
 				onMouseDown: ( event ) => {
 					// Get the summary element
 					const summary = event.target.closest( 'summary' );
-					if ( ! summary ) return;
+					if ( ! summary ) {
+						return;
+					}
 
 					// Get the click position relative to the summary
 					const rect = summary.getBoundingClientRect();
