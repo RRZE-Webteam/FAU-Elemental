@@ -291,7 +291,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 											icon="format-image"
 											iconPosition="left"
 											disabled={
-												mediaUploaderButton.current ==
+												mediaUploaderButton.current ===
 												null
 											}
 											onClick={ () => {
