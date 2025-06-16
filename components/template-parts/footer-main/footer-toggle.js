@@ -10,8 +10,8 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	if ( toggleButton && fauInfoSection ) {
 		// Get localized strings from wp_localize_script
 		const strings = window.fauFooterStrings || {
-			showMore: 'Show More',
-			showLess: 'Show Less',
+			showMore: 'Mehr anzeigen',
+			showLess: 'Weniger anzeigen',
 		};
 
 		toggleButton.addEventListener( 'click', function () {

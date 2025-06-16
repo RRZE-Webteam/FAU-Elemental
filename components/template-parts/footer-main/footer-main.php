@@ -48,9 +48,7 @@
                 'container_class' => 'footer-lists-container',
                 'depth' => 2,
                 'fallback_cb' => function() {
-                    echo '<nav class="footer-lists-container">';
-                    echo '<p>' . esc_html__('Please assign a menu to the "Footer Lists Menu" location in Appearance > Menus', 'fau-elemental') . '</p>';
-                    echo '</nav>';
+                    echo '';
                 }
             ));
             ?>
