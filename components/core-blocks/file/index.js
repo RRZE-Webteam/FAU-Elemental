@@ -31,7 +31,7 @@ const getFileType = ( fileDetails ) => {
 	if ( ! fileDetails?.mime_type ) {
 		return '';
 	}
-	
+
 	const mimeType = fileDetails.mime_type;
 	const mimeParts = mimeType.split( '/' );
 	if ( mimeParts.length !== 2 ) {
