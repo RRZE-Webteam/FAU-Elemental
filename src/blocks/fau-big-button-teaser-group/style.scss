@@ -1,0 +1,290 @@
+@import "../../mixins";
+
+.fau-big-button-teaser-group {
+
+  .fau-big-button-teaser-group__buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--Spacing-8x);
+    max-width: var(--wide-max-width);
+    margin: 0 auto;
+    padding: 0 var(--Spacing-10x);
+  
+    a {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: var(--Spacing-3x);
+      text-decoration: none;
+      background-color: var(--FAU-Col-FAU-Blau-100);
+      padding: var(--Spacing-4x) var(--Spacing-14x) var(--Spacing-4x) var(--Spacing-6x);
+  
+      h3 {
+        margin: 0;
+        color: var(--FAU-Col-FAU-Weiss-100);
+        font-size: 1.25rem;
+      }
+
+      p {
+        margin: 0;
+        max-width: unset;
+        color: var(--FAU-Col-FAU-Weiss-100);
+      }
+  
+      .arrow-link {
+        position: absolute;
+        display: block;
+        background-color: var(--FAU-Col-FAU-Weiss-100);
+        right: -1px;
+        top: calc(50% - 20px);
+        height: 40px;
+        width: 40px;
+
+        &::before {
+          content: '';
+          position: absolute;
+          background-image: var(--icon-arrow-fau-blau);
+          background-repeat: no-repeat;
+          right: calc(50% - 8px);
+          top: calc(50% - 5.5px);
+          transition: var(--basic-animation);
+          height: 11px;
+          width: 16px;
+        }
+      }
+
+      &:hover,
+      &:focus-visible {
+        .arrow-link {
+          &::before {
+            right: calc(50% - 12px);
+          }
+        }
+      }
+    }
+  }
+
+  // 3 Column layout for large buttons
+  &.fau-big-button-teaser-group--large {
+
+    .fau-big-button-teaser-group__buttons {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }  
+
+  // Outline variation
+  &.fau-big-button-teaser-group--outline {
+
+    .fau-big-button-teaser-group__buttons {
+
+      a {
+        background-color: var(--FAU-Col-FAU-Weiss-100);
+        border: 1px solid var(--FAU-Col-FAU-Blau-100);
+
+        h3 {
+          color: var(--FAU-Col-FAU-Blau-100);
+        }
+
+        p {
+          color: var(--FAU-Col-FAU-Schwarz-90);
+        }
+
+        .arrow-link {
+          background-color: var(--FAU-Col-FAU-Blau-100);
+  
+          &::before {
+            background-image: var(--icon-arrow-weiss);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Dark mode
+.is-style-dark {
+
+  .fau-big-button-teaser-group__buttons {
+
+    a {
+      background-color: var(--FAU-Col-FAU-Weiss-100);
+  
+      h3 {
+        color: var(--FAU-Col-FAU-Blau-100);
+      }
+
+      p {
+        color: var(--FAU-Col-FAU-Schwarz-90);
+      }
+  
+      .arrow-link {
+        background-color: var(--FAU-Col-FAU-Blau-100);
+
+        &::before {
+          background-image: var(--icon-arrow-weiss);
+        }
+      }
+    }
+  }
+
+  // Outline variation
+  .fau-big-button-teaser-group--outline {
+
+    .fau-big-button-teaser-group__buttons {
+
+      a {
+        background-color: var(--FAU-Col-FAU-Blau-100);
+        border: 1px solid var(--FAU-Col-FAU-Weiss-100);
+
+        h3,
+        p {
+          color: var(--FAU-Col-FAU-Weiss-100);
+        }
+    
+        .arrow-link {
+          background-color: var(--FAU-Col-FAU-Weiss-100);
+
+          &::before {
+            background-image: var(--icon-arrow-fau-blau);
+          }
+        }
+      }
+    }
+  }
+}
+
+// Faculty colors
+@each $faculty, $color in (
+  "phil": var(--FAU-Col-Phil-Gelb-100),
+  "nat": var(--FAU-Col-Nat-Gruen-100),
+  "med": var(--FAU-Col-Med-Blau-100),
+  "rw": var(--FAU-Col-RW-Rot-100),
+  "tf": var(--FAU-Col-TF-Metallic-100)
+) {
+  .fau-big-button-teaser-group--#{$faculty} {
+
+    .fau-big-button-teaser-group__buttons {
+
+      a {
+        background-color: $color;
+  
+        h3 {
+          color: var(--FAU-Col-FAU-Blau-100);
+        }
+  
+        p {
+          color: var(--FAU-Col-FAU-Schwarz-90);
+        }
+      }
+    }
+
+    // Outline variation
+    &.fau-big-button-teaser-group--outline {
+
+      .fau-big-button-teaser-group__buttons {
+  
+        a {
+          border: 1px solid $color;
+
+          .is-style-dark & {
+            border: 1px solid var(--FAU-Col-FAU-Weiss-100);
+          }
+  
+          h3 {
+            color: var(--FAU-Col-FAU-Blau-100);
+
+            // Dark Mode variation
+            .is-style-dark & {
+              color: var(--FAU-Col-FAU-Weiss-100);
+            }
+          }
+  
+          p {
+            color: var(--FAU-Col-FAU-Schwarz-90);
+
+            // Dark Mode variation
+            .is-style-dark & {
+              color: var(--FAU-Col-FAU-Weiss-100);
+            }
+          }
+  
+          .arrow-link {
+            background-color: $color;
+    
+            &::before {
+              background-image: var(--icon-arrow-fau-blau);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Exceptions for RW faculty
+  .fau-big-button-teaser-group--rw {
+
+    .fau-big-button-teaser-group__buttons {
+
+      a {
+
+        h3,
+        p {
+          color: var(--FAU-Col-FAU-Weiss-100);
+        }
+
+        .arrow-link {
+          background-color: var(--FAU-Col-FAU-Blau-100);
+          right: 0;
+
+          &::before {
+            background-image: var(--icon-arrow-weiss);
+          }
+        }
+      }
+    }
+
+    &.fau-big-button-teaser-group--outline {
+
+      .fau-big-button-teaser-group__buttons {
+
+        a {
+
+          .arrow-link {
+            right: -1px;
+  
+            &::before {
+              background-image: var(--icon-arrow-weiss);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive
+@media screen and (max-width: 999px) {
+  .fau-big-button-teaser-group .fau-big-button-teaser-group__buttons,
+  .fau-big-button-teaser-group.fau-big-button-teaser-group--large .fau-big-button-teaser-group__buttons {
+    grid-template-columns: repeat(2, 1fr);
+
+    a {
+      p {
+        font-size: var(--P-Body-Text-Small);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 599px) {
+  .fau-big-button-teaser-group .fau-big-button-teaser-group__buttons,
+  .fau-big-button-teaser-group.fau-big-button-teaser-group--large .fau-big-button-teaser-group__buttons {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@include respond-to("x-small") {
+  .fau-big-button-teaser-group .fau-big-button-teaser-group__buttons {
+    padding: 0 var(--Spacing-5x);
+  }
+}

@@ -9,8 +9,9 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-require_once get_theme_file_path('components/blocks/fau-copyright-info/render.php');
-require_once get_theme_file_path('components/blocks/fau-teaser-grid/render.php');
+require_once get_theme_file_path('src/fau-copyright-info/render.php');
+require_once get_theme_file_path('src/blocks/fau-teaser-grid/render.php');
+require_once get_theme_file_path('src/blocks/fau-big-button-teaser-group/render.php');
 
 /**
  * Register all custom blocks from the build directory
