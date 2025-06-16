@@ -8,7 +8,7 @@ import {
 	PanelBody,
 	Placeholder,
 	Spinner,
-	__experimentalToggleGroupControl ,
+	__experimentalToggleGroupControl,
 	__experimentalToggleGroupControlOption,
 	DropdownMenu,
 } from '@wordpress/components';

@@ -27,10 +27,9 @@ jobs:
             - name: Check if JS code is formatted
               shell: bash
               run: |
-                  npm run format
+                  npm run format > /dev/null
                   if [[ $(git status --porcelain) ]]; then
                     echo "ERROR: some files were not formatted:"
                     git status --porcelain
                     exit 1
                   fi
-                  
