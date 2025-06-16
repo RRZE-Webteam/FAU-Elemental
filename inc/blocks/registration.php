@@ -20,7 +20,6 @@ function fau_elemental_register_blocks() {
     // Get all directories in the build/blocks and build folders that start with 'fau-'
     $block_folders = array_merge(
         glob(get_theme_file_path('build/blocks/fau-*'), GLOB_ONLYDIR),
-        glob(get_theme_file_path('build/fau-*'), GLOB_ONLYDIR)
     );
 
     // Register each block

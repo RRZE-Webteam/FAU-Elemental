@@ -22,16 +22,16 @@ function fau_sanitize_checkbox($checked) {
     return $result;
 }
 
-function fau_footer_customizer_settings($wp_customize) {
+function fau_customizer_settings($wp_customize) {
     // Get the website type from theme settings
-    $website_type = get_option('faue_website_type', 'fau');
-    $faculty = get_option('faue_faculty', 'phil');
+    $website_type = get_theme_mod('faue_website_type', 'fau');
+    $faculty = get_theme_mod('faue_faculty', 'phil');
     
     // Main Footer Panel
     $wp_customize->add_panel('fau_footer_panel', [
-        'title' => __('Footer Settings', 'fau-elemental'),
+        'title' => __('Footer-Einstellungen', 'fau-elemental'),
         'priority' => 130,
-        'description' => __('Customize all footer elements for your site', 'fau-elemental'),
+        'description' => __('Einstellungen für den Footer', 'fau-elemental'),
     ]);
     
     // ======= 1. CLAIM SECTION =======
@@ -363,15 +363,43 @@ function fau_footer_customizer_settings($wp_customize) {
         ]);
     }
     
- 
-  
-    
- 
- 
+    // ======= 6. POST OPTIONS SECTION =======
+    $wp_customize->add_section('faue_post_options', array(
+        'title'    => esc_html__('Beitrags-Einstellungen', 'fau-elemental'),
+        'priority' => 140,
+    ));
 
+    // Add setting for showing/hiding post meta
+    $wp_customize->add_setting('faue_show_post_meta', array(
+        'default'           => true,
+        'sanitize_callback' => 'faue_sanitize_checkbox',
+        'transport'         => 'refresh',
+    ));
+
+    // Add control for showing/hiding post meta
+    $wp_customize->add_control('faue_show_post_meta', array(
+        'label'    => esc_html__('Beitrags-Metadaten anzeigen', 'fau-elemental'),
+        'section'  => 'faue_post_options',
+        'type'     => 'checkbox',
+        'priority' => 10,
+    ));
+
+    // Add setting for post meta dark theme
+    $wp_customize->add_setting('faue_post_meta_dark_theme', array(
+        'default'           => false,
+        'sanitize_callback' => 'faue_sanitize_checkbox',
+        'transport'         => 'refresh',
+    ));
+
+    // Add control for post meta dark theme
+    $wp_customize->add_control('faue_post_meta_dark_theme', array(
+        'label'    => esc_html__('Beitrags-Metadaten im dunklen Theme anzeigen', 'fau-elemental'),
+        'section'  => 'faue_post_options',
+        'type'     => 'checkbox',
+        'priority' => 20,
+    ));
 }
-
-add_action('customize_register', 'fau_footer_customizer_settings');
+add_action('customize_register', 'fau_customizer_settings');
 
 /**
  * Migrate address information from old theme (FAU-Einrichtungen) to new theme (FAU-Elemental)
@@ -611,4 +639,89 @@ function fau_debug_address_setting() {
 }
 add_action('wp_ajax_fau_debug_address_setting', 'fau_debug_address_setting');
 
-?>
+/**
+ * Sanitize checkbox value.
+ *
+ * @param bool $checked Whether the checkbox is checked.
+ * @return bool Whether the checkbox is checked.
+ */
+function faue_sanitize_checkbox($checked) {
+    return (bool) $checked;
+}
+
+/**
+ * Check if post meta should be displayed.
+ *
+ * @return bool
+ */
+function faue_show_post_meta() {
+    return get_theme_mod('faue_show_post_meta', true);
+}
+
+/**
+ * Check if post meta should use dark theme.
+ *
+ * @return bool
+ */
+function faue_post_meta_dark_theme() {
+    return get_theme_mod('faue_post_meta_dark_theme', false);
+} 
+
+// TODO
+/**
+ * Hero Customizer Settings
+ */
+function fau_hero_customizer_settings($wp_customize) {
+    // Add Hero panel
+    $wp_customize->add_panel('fau_hero_panel', [
+        'title' => __('Hero Settings', 'fau-elemental'),
+        'priority' => 120,
+    ]);
+
+    // Mobile Display Section
+    $wp_customize->add_section('hero_mobile_display', [
+        'title' => __('Mobile Display Options', 'fau-elemental'),
+        'panel' => 'fau_hero_panel',
+    ]);
+
+    // Show/Hide Text and Link on Mobile
+    $wp_customize->add_setting('hero_show_text_mobile', [
+        'default' => true,
+    ]);
+    $wp_customize->add_control('hero_show_text_mobile', [
+        'label' => __('Show Description Text and Link on Mobile', 'fau-elemental'),
+        'section' => 'hero_mobile_display',
+        'type' => 'checkbox',
+    ]);
+}
+add_action('customize_register', 'fau_hero_customizer_settings');
+
+/**
+ * Add hero styles
+ */
+function fau_hero_styles() {
+    $show_text = get_theme_mod('hero_show_text_mobile', true);
+    
+    $css = '@media screen and (max-width: 991px) {';
+    if (!$show_text) {
+        $css .= '.hero-mobile-optional { display: none!important; }';
+    }
+    $css .= '}';
+    
+    wp_add_inline_style('wp-block-library', $css);
+}
+add_action('wp_enqueue_scripts', 'fau_hero_styles', 999);
+
+/**
+ * Clear cache when hero settings are changed
+ */
+function fau_hero_settings_changed($value, $old_value, $option) {
+    if (function_exists('wp_cache_flush')) {
+        wp_cache_flush();
+    }
+    return $value;
+}
+add_filter('pre_update_option_hero_show_text_mobile', 'fau_hero_settings_changed', 10, 3);
+
+
+

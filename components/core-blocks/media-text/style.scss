@@ -1,0 +1,54 @@
+@use "../../ui/mixins/mixins" as *;
+
+.wp-block-media-text {
+	max-width: var(--base-max-width);
+	gap: var(--Spacing-8x);
+	margin: 0 auto;
+	padding: 0 var(--Spacing-10x);
+	box-sizing: content-box;
+
+	.wp-block-media-text__content {
+		padding: 0;
+
+		> * {
+			margin-bottom: var(--Spacing-4x);
+		}
+	}
+}
+
+// Responsive
+@include respond-to("small") {
+
+	.wp-block-media-text {
+		gap: var(--Spacing-4x);
+	}
+}
+
+@media screen and (max-width: 600px) {
+	// Change order of media and text
+	.wp-block-media-text.has-media-on-the-right.is-stacked-on-mobile {
+
+		> .wp-block-media-text__content {
+			grid-row: 1;
+
+			> *:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		> .wp-block-media-text__media {
+			grid-row: 2;
+		}
+	}
+
+	.wp-block-media-text {
+		gap: var(--Spacing-8x);
+	}
+}
+
+@include respond-to("x-small") {
+
+	.wp-block-media-text {
+		padding: 0 var(--Spacing-5x);
+	}
+}
