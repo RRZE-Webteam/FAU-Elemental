@@ -1,10 +1,15 @@
 <?php
 /**
  * Footer Target Groups Component
- * Uses the same styling as the big button block but with custom target group data
+ * Uses the shared big button rendering function with custom target group data
  *
  * @package FAU-Elemental
  */
+
+// Ensure the shared rendering function is available
+if (!function_exists('render_big_button_teaser_group_html')) {
+    require_once get_template_directory() . '/components/blocks/fau-big-button-teaser-group/render.php';
+}
 
 /**
  * Render footer target groups with big button styling
@@ -19,38 +24,26 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
         return '';
     }
 
-    // Generate CSS classes to match the big button block
-    $css_classes = [
-        'fau-big-button-teaser-group',
-        'fau-big-button-teaser-group--' . $size,
-        'fau-big-button-teaser-group--' . $variant,
-        'fau-big-button-teaser-group--light' // Default to light mode
+    // Convert target groups to the format expected by the shared function
+    $items = [];
+    foreach ($target_groups as $group) {
+        if (!empty($group['title'])) {
+            $items[] = [
+                'title' => $group['title'],
+                'excerpt' => $group['description'],
+                'url' => !empty($group['link']) ? $group['link'] : '#'
+            ];
+        }
+    }
+
+    // Prepare options for the shared rendering function
+    $options = [
+        'variant' => $variant,
+        'teaser_size' => $size,
+        'faculty_color' => 'default',
+        'max_items' => count($items)
     ];
 
-    ob_start();
-    ?>
-    <div class="<?php echo implode(' ', $css_classes); ?>">
-        <div class="fau-big-button-teaser-group__buttons">
-            <?php 
-            foreach ($target_groups as $group) : 
-                if (!empty($group['title'])) :
-                    $title = esc_html($group['title']);
-                    $description = esc_html($group['description']);
-                    $link = !empty($group['link']) ? esc_url($group['link']) : '#';
-            ?>
-                <a href="<?php echo $link; ?>">
-                    <h3><?php echo $title; ?></h3>
-                    <?php if (!empty($description)) : ?>
-                        <p><?php echo wp_trim_words($description, 9, '...'); ?></p>
-                    <?php endif; ?>
-                    <span class="arrow-link"></span>
-                </a>
-            <?php 
-                endif;
-            endforeach; 
-            ?>
-        </div>
-    </div>
-    <?php
-    return ob_get_clean();
+    // Use the shared rendering function
+    return render_big_button_teaser_group_html($items, $options);
 } 

@@ -6,6 +6,107 @@
  */
 
 /**
+ * Shared rendering function for big button teaser groups
+ *
+ * @param array $items Array of items with 'title', 'excerpt', 'url' keys
+ * @param array $options Rendering options
+ * @return string HTML output
+ */
+function render_big_button_teaser_group_html($items, $options = []) {
+    // Set default options
+    $defaults = [
+        'roof_line' => '',
+        'show_roof_line' => false,
+        'headline' => '',
+        'show_headline' => false,
+        'teaser_text' => '',
+        'show_teaser_text' => false,
+        'faculty_color' => 'default',
+        'teaser_size' => 'small',
+        'variant' => 'filled',
+        'is_dark_style' => false,
+        'wrapper_attributes' => '',
+        'max_items' => 3
+    ];
+    $options = wp_parse_args($options, $defaults);
+
+    // Generate CSS classes
+    $css_classes = [
+        'fau-big-button-teaser-group',
+        'fau-big-button-teaser-group--' . $options['teaser_size'],
+        'fau-big-button-teaser-group--' . $options['variant']
+    ];
+
+    if ($options['faculty_color'] !== 'default') {
+        $css_classes[] = 'fau-big-button-teaser-group--' . $options['faculty_color'];
+    }
+
+    // Add dark/light mode class
+    if ($options['is_dark_style']) {
+        $css_classes[] = 'fau-big-button-teaser-group--dark';
+    } else {
+        $css_classes[] = 'fau-big-button-teaser-group--light';
+    }
+
+    // Use provided wrapper attributes or generate default
+    $wrapper_attributes = !empty($options['wrapper_attributes']) 
+        ? $options['wrapper_attributes']
+        : 'class="' . implode(' ', $css_classes) . '"';
+
+    // Start building the output
+    ob_start();
+    ?>
+    <div <?php echo $wrapper_attributes; ?>>
+        <?php if ($options['show_roof_line'] && !empty($options['roof_line'])) : ?>
+            <div class="fau-big-button-teaser-group__roof-line">
+                <?php echo esc_html($options['roof_line']); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($options['show_headline'] && !empty($options['headline'])) : ?>
+            <h2 class="fau-big-button-teaser-group__headline">
+                <?php echo esc_html($options['headline']); ?>
+            </h2>
+        <?php endif; ?>
+
+        <?php if ($options['show_teaser_text'] && !empty($options['teaser_text'])) : ?>
+            <div class="fau-big-button-teaser-group__teaser-text">
+                <?php echo wp_kses_post(wpautop($options['teaser_text'])); ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="fau-big-button-teaser-group__buttons">
+            <?php 
+            // Display items as buttons (limit to max_items)
+            foreach (array_slice($items, 0, $options['max_items']) as $item) : 
+                $title = esc_html($item['title']);
+                $excerpt = wp_strip_all_tags($item['excerpt']);
+                $url = esc_url($item['url']);
+                
+                if (!empty($title) && !empty($url)) :
+            ?>
+                <a href="<?php echo $url; ?>">
+                    <h3>
+                        <?php echo $title; ?>
+                    </h3>
+                    <?php if (!empty($excerpt)) : ?>
+                        <p>
+                            <?php echo esc_html(wp_trim_words($excerpt, 9, '...')); ?>
+                        </p>
+                    <?php endif; ?>
+                    <span class="arrow-link"></span>
+                </a>
+            <?php 
+                endif;
+            endforeach; 
+            ?>
+        </div>
+    </div>
+    <?php
+    return ob_get_clean();
+}
+
+/**
  * Renders the FAU Big Button Teaser Group block on the server.
  *
  * @param array $attributes Block attributes.
@@ -50,32 +151,13 @@ function render_block_fau_big_button_teaser_group($attributes, $content, $block)
         $is_dark_style = strpos($block->parsed_block['attrs']['className'], 'is-style-dark') !== false;
     }
 
-    // Generate CSS classes
-    $css_classes = [
-        'fau-big-button-teaser-group',
-        'fau-big-button-teaser-group--' . $teaser_size,
-        'fau-big-button-teaser-group--' . $variant
-    ];
-
-    if ($faculty_color !== 'default') {
-        $css_classes[] = 'fau-big-button-teaser-group--' . $faculty_color;
-    }
-
-    // Add dark mode class if dark style is applied
-    if ($is_dark_style) {
-        $css_classes[] = 'fau-big-button-teaser-group--dark';
-    } else {
-        // Add light mode class as default
-        $css_classes[] = 'fau-big-button-teaser-group--light';
-    }
-
     // Add wrapper classes if they exist
     if (isset($block->context['postId'])) {
         $wrapper_attributes = get_block_wrapper_attributes([
-            'class' => implode(' ', $css_classes)
+            'class' => 'fau-big-button-teaser-group fau-big-button-teaser-group--' . $teaser_size . ' fau-big-button-teaser-group--' . $variant . ($faculty_color !== 'default' ? ' fau-big-button-teaser-group--' . $faculty_color : '') . ($is_dark_style ? ' fau-big-button-teaser-group--dark' : ' fau-big-button-teaser-group--light')
         ]);
     } else {
-        $wrapper_attributes = 'class="' . implode(' ', $css_classes) . '"';
+        $wrapper_attributes = '';
     }
 
     // Get page data for selected pages
@@ -92,7 +174,6 @@ function render_block_fau_big_button_teaser_group($attributes, $content, $block)
         
         foreach ($pages_query as $page) {
             $pages[] = [
-                'id' => $page->ID,
                 'title' => get_the_title($page->ID),
                 'excerpt' => get_the_excerpt($page->ID),
                 'url' => get_permalink($page->ID)
@@ -113,7 +194,6 @@ function render_block_fau_big_button_teaser_group($attributes, $content, $block)
             
             foreach ($pages_query as $page) {
                 $pages[] = [
-                    'id' => $page->ID,
                     'title' => get_the_title($page->ID),
                     'excerpt' => get_the_excerpt($page->ID),
                     'url' => get_permalink($page->ID)
@@ -122,55 +202,21 @@ function render_block_fau_big_button_teaser_group($attributes, $content, $block)
         }
     }
 
-    // Start building the output
-    ob_start();
-    ?>
-    <div <?php echo $wrapper_attributes; ?>>
-        <?php if ($show_roof_line && !empty($roof_line)) : ?>
-            <div class="fau-big-button-teaser-group__roof-line">
-                <?php echo esc_html($roof_line); ?>
-            </div>
-        <?php endif; ?>
+    // Prepare options for shared rendering function
+    $options = [
+        'roof_line' => $roof_line,
+        'show_roof_line' => $show_roof_line,
+        'headline' => $headline,
+        'show_headline' => $show_headline,
+        'teaser_text' => $teaser_text,
+        'show_teaser_text' => $show_teaser_text,
+        'faculty_color' => $faculty_color,
+        'teaser_size' => $teaser_size,
+        'variant' => $variant,
+        'is_dark_style' => $is_dark_style,
+        'wrapper_attributes' => $wrapper_attributes,
+        'max_items' => $number_of_buttons
+    ];
 
-        <?php if ($show_headline && !empty($headline)) : ?>
-            <h2 class="fau-big-button-teaser-group__headline">
-                <?php echo esc_html($headline); ?>
-            </h2>
-        <?php endif; ?>
-
-        <?php if ($show_teaser_text && !empty($teaser_text)) : ?>
-            <div class="fau-big-button-teaser-group__teaser-text">
-                <?php echo wp_kses_post(wpautop($teaser_text)); ?>
-            </div>
-        <?php endif; ?>
-
-        <div class="fau-big-button-teaser-group__buttons">
-            <?php 
-            // Display selected pages as buttons
-            foreach (array_slice($pages, 0, $number_of_buttons) as $page) : 
-                $page_title = esc_html($page['title']);
-                $page_excerpt = wp_strip_all_tags($page['excerpt']);
-                $page_url = esc_url($page['url']);
-                
-                if (!empty($page_title) && !empty($page_url)) :
-            ?>
-                <a href="<?php echo $page_url; ?>">
-                    <h3>
-                        <?php echo $page_title; ?>
-                    </h3>
-                    <?php if (!empty($page_excerpt)) : ?>
-                        <p>
-                            <?php echo esc_html(wp_trim_words($page_excerpt, 9, '...')); ?>
-                        </p>
-                    <?php endif; ?>
-                    <span class="arrow-link"></span>
-                </a>
-            <?php 
-                endif;
-            endforeach; 
-            ?>
-        </div>
-    </div>
-    <?php
-    return ob_get_clean();
+    return render_big_button_teaser_group_html($pages, $options);
 } 
