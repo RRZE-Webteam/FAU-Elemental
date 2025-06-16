@@ -31,4 +31,4 @@ document.addEventListener( 'DOMContentLoaded', function () {
 				'<span class="toggle-icon" aria-hidden="true"></span>';
 		} );
 	}
-} ); 
+} );
