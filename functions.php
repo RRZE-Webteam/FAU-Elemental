@@ -9,6 +9,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+
+// Configuration
+require_once get_template_directory() . '/inc/config.php';
+
 // Theme setup and core functionality
 require_once get_template_directory() . '/inc/theme-setup.php';
 
@@ -191,10 +195,6 @@ function fau_elemental_body_classes($classes) {
 }
 add_filter('body_class', 'fau_elemental_body_classes');
 
-
-
-
-
 /**
  * Function to load template parts for both block and PHP templates
  *
@@ -281,7 +281,7 @@ function fau_elemental_enqueue_footer_scripts() {
         return;
     }
     
-    $website_type = get_theme_mod('faue_website_type', 'fau');
+    $website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
     
     // Enqueue footer toggle script for instance sites (where the toggle is used)
     if ($website_type !== 'fau') {

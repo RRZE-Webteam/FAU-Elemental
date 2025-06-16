@@ -122,8 +122,8 @@ function removeLastFAUHeroPattern() {
 		if ( containsFAUHeroPattern( block ) ) {
 			heroBlocks.push( {
 				clientId: block.clientId,
-				index: index,
-				block: block,
+				index,
+				block,
 			} );
 		}
 	} );
@@ -180,7 +180,9 @@ function containsFAUHeroPatternRecursive( block ) {
 let previousBlockCount = 0;
 
 subscribe( () => {
-	if ( isProcessing ) return;
+	if ( isProcessing ) {
+		return;
+	}
 
 	const blocks = select( 'core/block-editor' ).getBlocks();
 	const currentBlockCount = select( 'core/block-editor' ).getBlockCount();

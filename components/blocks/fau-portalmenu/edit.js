@@ -13,12 +13,6 @@ import {
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
-
-/**
- * Internal dependencies
- */
-import './editor.scss';
-import './style.scss';
 import EditorPreview from './EditorPreview';
 
 /**

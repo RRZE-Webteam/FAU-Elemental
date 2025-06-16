@@ -127,13 +127,22 @@
 	"rw": var(--FAU-Col-RW-Rot-100),
 	"tf": var(--FAU-Col-TF-Metallic-100)
 ) {
+
+	.fauorg-fakultaet.faculty-#{$faculty} .breadcrumbs-wrapper {
+		background-color: $color;
+	}
+
 	.fauorg-fakultaet.faculty-#{$faculty} .breadcrumbs {
 		background-color: $color;
+
+		&__link {
+			color: var(--FAU-Col-FAU-Blau-100);
+		}
 	}
 }
 
 // Dark mode and rw faculty
-.is-style-dark,
+body:not(.fauorg-fakultaet) .is-style-dark,
 .fauorg-fakultaet.faculty-rw {
 
 	.breadcrumbs {
@@ -149,7 +158,7 @@
 		}
 
 		&__item:first-child::before {
-			background-image: var(--icon-home-weiss);
+			background-image: var(--icon-home-grau);
 		}
 
 		.breadcrumbs__chevron {

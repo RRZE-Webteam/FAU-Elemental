@@ -36,7 +36,7 @@ function faue_get_org_classes() {
     $classes = array('fau-theme', 'fau-elemental');
 
     // Get website type from customizer
-    $website_type = get_theme_mod('faue_website_type', 'fau');
+    $website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
 
     // Add website type specific classes
     switch ($website_type) {

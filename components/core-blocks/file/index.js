@@ -14,18 +14,29 @@ import { __ } from '@wordpress/i18n';
 
 // Shared utility functions
 const formatFileSize = ( bytes ) => {
-	if ( ! bytes ) return '';
+	if ( ! bytes ) {
+		return '';
+	}
+
 	const sizes = [ 'Bytes', 'KB', 'MB', 'GB', 'TB' ];
-	if ( bytes === 0 ) return '0 Byte';
+	if ( bytes === 0 ) {
+		return '0 Byte';
+	}
+
 	const i = parseInt( Math.floor( Math.log( bytes ) / Math.log( 1024 ) ) );
 	return Math.round( bytes / Math.pow( 1024, i ), 2 ) + ' ' + sizes[ i ];
 };
 
 const getFileType = ( fileDetails ) => {
-	if ( ! fileDetails?.mime_type ) return '';
+	if ( ! fileDetails?.mime_type ) {
+		return '';
+	}
+
 	const mimeType = fileDetails.mime_type;
 	const mimeParts = mimeType.split( '/' );
-	if ( mimeParts.length !== 2 ) return mimeType.toUpperCase();
+	if ( mimeParts.length !== 2 ) {
+		return mimeType.toUpperCase();
+	}
 
 	const mimeMap = {
 		'application/pdf': 'PDF',
