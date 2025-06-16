@@ -225,48 +225,37 @@
                     <p><?php echo wp_kses_post(get_theme_mod('fau_footer_description', __('FAU is Germany\'s most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research.', 'fau-elemental'))); ?></p>
                 </section>
 
-                <section class="target-groups">
-                    <?php
-                    $target_groups = array(
-                        'section1' => array(
-                            'title' => get_theme_mod('target_section1_title', __('Target Group Section 1', 'fau-elemental')),
-                            'description' => get_theme_mod('target_section1_description', __('History, features, data, structure and more', 'fau-elemental')),
-                            'link' => get_theme_mod('target_section1_link', '')
-                        ),
-                        'section2' => array(
-                            'title' => get_theme_mod('target_section2_title', __('Target Group Section 2', 'fau-elemental')),
-                            'description' => get_theme_mod('target_section2_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
-                            'link' => get_theme_mod('target_section2_link', '')
-                        ),
-                        'section3' => array(
-                            'title' => get_theme_mod('target_section3_title', __('Target Group Section 3', 'fau-elemental')),
-                            'description' => get_theme_mod('target_section3_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
-                            'link' => get_theme_mod('target_section3_link', '')
-                        ),
-                        'section4' => array(
-                            'title' => get_theme_mod('target_section4_title', __('Target Group Section 4', 'fau-elemental')),
-                            'description' => get_theme_mod('target_section4_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
-                            'link' => get_theme_mod('target_section4_link', '')
-                        )
-                    );
+                <?php
+                // Include the footer target groups component
+                require_once get_theme_file_path('components/template-parts/footer-instance/footer-target-groups.php');
+                
+                // Get target groups from customizer
+                $target_groups = array(
+                    array(
+                        'title' => get_theme_mod('target_section1_title', __('Target Group Section 1', 'fau-elemental')),
+                        'description' => get_theme_mod('target_section1_description', __('History, features, data, structure and more', 'fau-elemental')),
+                        'link' => get_theme_mod('target_section1_link', '')
+                    ),
+                    array(
+                        'title' => get_theme_mod('target_section2_title', __('Target Group Section 2', 'fau-elemental')),
+                        'description' => get_theme_mod('target_section2_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
+                        'link' => get_theme_mod('target_section2_link', '')
+                    ),
+                    array(
+                        'title' => get_theme_mod('target_section3_title', __('Target Group Section 3', 'fau-elemental')),
+                        'description' => get_theme_mod('target_section3_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
+                        'link' => get_theme_mod('target_section3_link', '')
+                    ),
+                    array(
+                        'title' => get_theme_mod('target_section4_title', __('Target Group Section 4', 'fau-elemental')),
+                        'description' => get_theme_mod('target_section4_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
+                        'link' => get_theme_mod('target_section4_link', '')
+                    )
+                );
 
-                    foreach ($target_groups as $key => $group) : 
-                        // Only render if link is not empty (avoids dead end links)
-                        if (!empty($group['link'])) : ?>
-                            <a href="<?php echo esc_url($group['link']); ?>" class="target-group">
-                                <h4><?php echo esc_html($group['title']); ?></h4>
-                                <p><?php echo esc_html($group['description']); ?></p>
-                                <span class="arrow-link" aria-hidden="true"></span>
-                            </a>
-                        <?php else : ?>
-                            <div class="target-group target-group--placeholder">
-                                <h4><?php echo esc_html($group['title']); ?></h4>
-                                <p><?php echo esc_html($group['description']); ?></p>
-                                <span class="arrow-link" aria-hidden="true"></span>
-                            </div>
-                        <?php endif;
-                    endforeach; ?>
-                </section>
+                // Render the target groups using the footer component with outline variant
+                echo render_footer_target_groups($target_groups, 'outline', 'small');
+                ?>
             </div>
         <?php endif; ?>
 

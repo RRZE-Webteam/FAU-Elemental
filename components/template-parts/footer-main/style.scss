@@ -74,100 +74,6 @@ footer.wp-block-template-part {
 		}
 	}
 
-	// Zielgruppen menu
-	.target-groups {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: var(--Spacing-8x);
-		max-width: var(--wide-max-width);
-		margin: 0 auto;
-		padding-bottom: var(--Spacing-12x);
-
-		.target-group {
-			display: flex;
-			flex-direction: column;
-			min-width: 25%;
-			gap: var(--Spacing-3x);
-			background-color: var(--FAU-Col-FAU-Weiss-100);
-			text-decoration: none;
-			padding: var(--Spacing-4x) var(--Spacing-14x) var(--Spacing-6x) var(--Spacing-6x);
-			position: relative;
-
-			h3 {
-				margin: 0;
-				color: var(--FAU-Col-FAU-Blau-100);
-				font-size: 1.25rem;
-			}
-
-			p {
-				margin: 0;
-				color: var(--FAU-Col-FAU-Blau-100);
-			}
-
-			.arrow-link {
-				width: 40px;
-				height: 40px;
-				display: block;
-				background-color: var(--FAU-Col-FAU-Blau-100);
-				position: absolute;
-				top: calc(50% - 20px);
-				right: 0;
-
-				&::before {
-					content: "";
-					position: absolute;
-					background-image: var(--icon-arrow-weiss);
-					background-repeat: no-repeat;
-					top: calc(50% - 5.5px);
-					right: calc(50% - 8px);
-					height: 11px;
-					width: 16px;
-					transition: var(--basic-animation);
-				}
-			}
-
-			&:hover,
-			&:focus-visible {
-
-				.arrow-link {
-
-					&::before {
-						right: calc(50% - 12px);
-					}
-				}
-			}
-
-			// Improved focus styles for WCAG compliance
-			&:focus-visible {
-				outline: 2px solid var(--FAU-Col-FAU-Blau-100);
-				outline-offset: 2px;
-			}
-
-			// Placeholder styling for target groups without links
-			&--placeholder {
-				cursor: default;
-
-				&:hover,
-				&:focus {
-
-					.arrow-link::before {
-						right: calc(50% - 8px); // No animation for placeholder
-					}
-				}
-
-				.arrow-link {
-					opacity: 0.4;
-					background-color: var(--FAU-Col-FAU-Grau-80);
-				}
-
-				h3,
-				p {
-					color: var(--FAU-Col-FAU-Grau-80);
-				}
-			}
-		}
-	}
-
 	// "Redaktionelle Links" menu
 	.footer-lists-menu {
 		list-style: none;
@@ -490,7 +396,6 @@ footer.wp-block-template-part {
 
 	.site-footer {
 
-		.target-groups,
 		.footer-lists-menu {
 			grid-template-columns: repeat(2, 1fr);
 		}
@@ -539,13 +444,6 @@ footer.wp-block-template-part {
 
 	.site-footer {
 
-		.target-group {
-
-			p {
-				font-size: 1rem;
-			}
-		}
-
 		.footer-bottom .footer-bottom-wrapper .footer-bottom-top {
 			flex-wrap: wrap;
 
@@ -564,7 +462,6 @@ footer.wp-block-template-part {
 
 	.site-footer {
 
-		.target-groups,
 		.footer-lists-menu {
 			grid-template-columns: 1fr;
 		}
