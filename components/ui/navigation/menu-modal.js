@@ -136,17 +136,19 @@
             $submenu.closest('.menu-modal, .menu-meta-nav__modal, .menu-website-modal')
                 .find('.current-menu-item-focused, .active')
                 .removeClass('current-menu-item-focused active');
-            const currentPath = window.location.pathname.replace(/\/$/, '');
-            const currentPathWithSlash = currentPath === '' ? '/' : currentPath + '/';
+            
+            const currentUrl = window.location.href;
             const $overviewLink = $submenu.find('.menu-item-overview a').filter(function() {
                 try {
                     if (this.getAttribute('href') === '#') return false;
-                    const linkPath = new URL(this.href, window.location.origin).pathname.replace(/\/$/, '');
-                    return linkPath === currentPath || linkPath === currentPathWithSlash;
+                    // Compare full URLs instead of just paths
+                    const linkUrl = this.href;
+                    return linkUrl === currentUrl;
                 } catch (e) {
                     return false;
                 }
             }).first();
+            
             if ($overviewLink.length) {
                 $overviewLink.addClass('current-menu-item-focused active');
                 $overviewLink[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -154,17 +156,25 @@
         }
 
         openToSpecificItem($modal, targetItemId, targetUrl) {
-            // Find the target item by matching the URL exactly
-            let $targetItem = $modal.find('li[data-menu-url]').filter(function() {
-                const itemUrl = $(this).attr('data-menu-url');
-                // Remove trailing slashes for comparison
-                const normalizedItemUrl = itemUrl ? itemUrl.replace(/\/$/, '') : '';
-                const normalizedTargetUrl = targetUrl ? targetUrl.replace(/\/$/, '') : '';
-                return normalizedItemUrl === normalizedTargetUrl;
-            }).first();
+            // First try to find the target item by ID if provided
+            let $targetItem = null;
+            if (targetItemId) {
+                $targetItem = $modal.find(`li[data-menu-item-id="${targetItemId}"]`).first();
+            }
             
-            // If not found by data-menu-url, try finding by button/toggle with matching parent-url
-            if (!$targetItem.length) {
+            // If not found by ID, try finding by URL
+            if (!$targetItem) {
+                $targetItem = $modal.find('li[data-menu-url]').filter(function() {
+                    const itemUrl = $(this).attr('data-menu-url');
+                    // Remove trailing slashes for comparison
+                    const normalizedItemUrl = itemUrl ? itemUrl.replace(/\/$/, '') : '';
+                    const normalizedTargetUrl = targetUrl ? targetUrl.replace(/\/$/, '') : '';
+                    return normalizedItemUrl === normalizedTargetUrl;
+                }).first();
+            }
+            
+            // If still not found, try finding by button/toggle with matching parent-url
+            if (!$targetItem) {
                 $targetItem = $modal.find('.menu-modal__submenu-toggle, .menu-modal__submenu-row').filter(function() {
                     const parentUrl = $(this).data('parent-url');
                     const normalizedParentUrl = parentUrl ? parentUrl.replace(/\/$/, '') : '';
@@ -174,7 +184,7 @@
             }
             
             // If still not found, try to find by link href
-            if (!$targetItem.length) {
+            if (!$targetItem) {
                 $targetItem = $modal.find('a').filter(function() {
                     const href = $(this).attr('href');
                     if (!href) return false;
@@ -188,7 +198,7 @@
                 }).closest('.menu-item').first();
             }
             
-            if (!$targetItem.length) {
+            if (!$targetItem) {
                 // Fallback to current page path if target not found
                 this.openCurrentPagePath($modal);
                 return;
@@ -218,9 +228,19 @@
             const currentPathWithSlash = currentPath === '' ? '/' : currentPath + '/';
 
             // Try to find the current item with or without trailing slash
-            let $currentItem = $modal.find(`[data-menu-url="${currentPath}"]`).first();
-            if (!$currentItem.length) {
-                $currentItem = $modal.find(`[data-menu-url="${currentPathWithSlash}"]`).first();
+            let $currentItem = $();
+            if (currentPath === '') {
+                // Only match homepage menu item (data-menu-url='/')
+                $currentItem = $modal.find('[data-menu-url="/"]').first();
+            } else {
+                $currentItem = $modal.find(`[data-menu-url="${currentPath}"]`).filter(function() {
+                    return $(this).attr('data-menu-url') !== '';
+                }).first();
+                if (!$currentItem.length) {
+                    $currentItem = $modal.find(`[data-menu-url="${currentPathWithSlash}"]`).filter(function() {
+                        return $(this).attr('data-menu-url') !== '';
+                    }).first();
+                }
             }
             
             if ($currentItem.length) {
@@ -238,15 +258,36 @@
             let currentPath = window.location.pathname.replace(/\/$/, ''); // remove trailing slash
             const currentPathWithSlash = currentPath === '' ? '/' : currentPath + '/';
 
-            // Try to find the current item with or without trailing slash
-            let $currentItem = $modal.find(`[data-menu-url="${currentPath}"]`).first();
-            if (!$currentItem.length) {
-                $currentItem = $modal.find(`[data-menu-url="${currentPathWithSlash}"]`).first();
+           // Try to find the current item with or without trailing slash
+            let $currentItem = $();
+            if (currentPath === '') {
+                // Only match homepage menu item (data-menu-url='/')
+                $currentItem = $modal.find('[data-menu-url="/"]').first();
+            } else {
+                $currentItem = $modal.find(`[data-menu-url="${currentPath}"]`).filter(function() {
+                    return $(this).attr('data-menu-url') !== '';
+                }).first();
+                if (!$currentItem.length) {
+                    $currentItem = $modal.find(`[data-menu-url="${currentPathWithSlash}"]`).filter(function() {
+                        return $(this).attr('data-menu-url') !== '';
+                    }).first();
+                }
             }
             
-            // If current page is not found in the menu, just show root level
+            // If current page is not found in the menu, just show root level without highlighting anything
             if (!$currentItem.length) {
-                // Just highlight any matching items at root level if they exist, but don't drill down
+                // Reset any existing highlights
+                $modal.find('.current-menu-item-focused, .active').removeClass('current-menu-item-focused active');
+                // Hide all submenus
+                $modal.find('.sub-menu').hide().css('display', 'none');
+                // Show all top-level menu items
+                $modal.find('.menu-modal__menu > .menu-item, .menu-meta-nav__menu > .menu-item, .menu-website-modal__menu > .menu-item').show();
+                // Hide all back buttons and level headings
+                $modal.find('.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn').hide();
+                $modal.find('.menu-modal__level-heading').remove();
+                // Reset navigation stack
+                $modal.data('navigation-stack', []);
+                // Debug log
                 return;
             }
 
@@ -336,24 +377,18 @@
             const $menu = $modal.find('.menu-modal__menu, .menu-meta-nav__menu, .menu-website-modal__menu');
             const $backButton = $modal.find('.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn');
             
-            // Show all menu items
-            $menu.find('.menu-item').show();
-            
+            // Show all top-level menu items
+            $menu.children('.menu-item').show();
             // Hide all submenus initially
             $menu.find('.sub-menu').hide();
-            
             // Remove all overview links
             $menu.find('.menu-item-overview').remove();
-            
             // Remove all level headings
             $menu.find('.menu-modal__level-heading').remove();
-            
             // Reset all toggle states
             $menu.find('.menu-modal__submenu-toggle, .menu-website-modal__submenu-toggle').attr('aria-expanded', 'false').removeClass('expanded').show();
-            
             // Hide back button
             $backButton.hide();
-            
             // Clear navigation stack
             $modal.data('navigation-stack', []);
         }

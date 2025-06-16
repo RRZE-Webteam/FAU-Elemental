@@ -334,7 +334,7 @@ class Menu_Modal_Walker extends Walker_Nav_Menu {
         $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
         $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
 
-        $output .= '<li' . $class_names . ' data-menu-url="' . esc_attr($item_url) . '">';
+        $output .= '<li' . $class_names . ' data-menu-url="' . esc_attr($item_url) . '" data-menu-item-id="' . esc_attr($item->ID) . '">';
         
         // For items with children, create a clickable row that opens submenu
         if (in_array('menu-item-has-children', $classes)) {
