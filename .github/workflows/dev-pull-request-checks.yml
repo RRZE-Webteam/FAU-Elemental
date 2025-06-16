@@ -1,35 +1,40 @@
 name: Pull Request checks for the dev-Branch
 
 on:
-    push:
-        branches: ['dev']
-    pull_request:
-        branches: ['dev']
+  push:
+    branches: ['dev']
+  pull_request:
+    branches: ['dev']
 
 jobs:
-    check:
-        runs-on: ubuntu-latest
+  check:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 'latest'
-                  cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          cache: 'npm'
 
-            - name: Install dependencies
-              run: |
-                  npm install
+      - name: Install dependencies
+        run: npm install
 
-            - name: Check if JS code is formatted
-              shell: bash
-              run: |
-                  npm run format > /dev/null
-                  if [[ $(git status --porcelain) ]]; then
-                    echo "ERROR: some files were not formatted:"
-                    git status --porcelain
-                    exit 1
-                  fi
+      - name: Check if JS code is formatted
+        shell: bash
+        run: |
+          npm run format > /dev/null
+          if [[ $(git status --porcelain) ]]; then
+            echo "ERROR: some files were not formatted:"
+            git status --porcelain
+            exit 1
+          fi
+
+      - name: Lint JS
+        run: npm run lint:js
+      
+      - name: Lint CSS
+        run: npm run lint:js
