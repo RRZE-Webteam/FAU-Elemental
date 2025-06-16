@@ -247,3 +247,86 @@ add_action('after_switch_theme', function() {
         fau_elemental_check_old_portal_menu_settings();
     }
 });
+
+/**
+ * Sanitize and format telephone number
+ * Follows international standards as required by FAU
+ *
+ * @param string $phone The phone number to format
+ * @return string Formatted phone number
+ */
+function fau_elemental_format_phone_number($phone) {
+    if (empty($phone)) {
+        return '';
+    }
+    
+    // Remove all characters except numbers, "+", "(", ")", "-" and spaces
+    $phone = preg_replace('/[^\d\+\-\(\) ]/', '', $phone);
+    $phone = preg_replace('/\s+/', ' ', trim($phone));
+    
+    // Convert "+49(0)" to "+49"
+    $phone = preg_replace('/^\+49\s*\(0\)/', '+49', $phone);
+    $phone = preg_replace('/^0049/', '+49', $phone);
+    
+    // If number starts with "0" (German number without country code)
+    if (preg_match('/^0[1-9]/', $phone)) {
+        $phone = preg_replace('/^0/', '+49 ', $phone);
+    }
+    
+    // Standardize format with spaces between groups
+    $phone = preg_replace('/(\+?\d{1,3})\s*(\d{3,4})\s*(\d{3,4})\s*(\d{0,4})/', '$1 $2 $3 $4', $phone);
+    
+    return trim($phone); // Remove excess spaces at the end
+}
+
+/**
+ * Enqueue footer scripts and localize strings
+ */
+function fau_elemental_enqueue_footer_scripts() {
+    // Only enqueue on pages that have footers
+    if (is_admin()) {
+        return;
+    }
+    
+    $website_type = get_theme_mod('faue_website_type', 'fau');
+    
+    // Enqueue footer toggle script for instance footers
+    if ($website_type !== 'fau') {
+        wp_enqueue_script(
+            'fau-footer-toggle',
+            get_theme_file_uri('src/js/footer-toggle.js'),
+            [],
+            wp_get_theme()->get('Version'),
+            true
+        );
+        
+        // Localize strings for the toggle functionality
+        wp_localize_script('fau-footer-toggle', 'fauFooterStrings', [
+            'showMore' => __('Show More', 'fau-elemental'),
+            'showLess' => __('Show Less', 'fau-elemental')
+        ]);
+    }
+    
+    // Enqueue footer columns script for main footers (if footer-lists menu is used)
+    if ($website_type === 'fau' && has_nav_menu('footer-lists-menu')) {
+        wp_enqueue_script(
+            'fau-footer-columns',
+            get_theme_file_uri('src/js/footer-columns.js'),
+            [],
+            wp_get_theme()->get('Version'),
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_footer_scripts');
+
+/**
+ * Register additional menu locations for footer functionality
+ */
+function fau_elemental_register_footer_menus() {
+    register_nav_menus(array(
+        'footer-lists-menu' => __('Footer Lists Menu', 'fau-elemental'),
+        'footer-wichtige-links' => __('Footer Important Links', 'fau-elemental'),
+    ));
+}
+add_action('after_setup_theme', 'fau_elemental_register_footer_menus');

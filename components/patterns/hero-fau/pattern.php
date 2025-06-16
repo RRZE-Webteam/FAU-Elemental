@@ -3,8 +3,10 @@
 /**
  * Title: Hero: FAU
  * Slug: fau-elemental/hero-fau
- * Categories: hero, starter
+ * Categories: hero, fau-elemental
  * Viewport Width: 1376
+ * Block Types: core/post-content
+ * Post Types: page
  */
 
 $show_text_mobile = get_theme_mod('hero_show_text_mobile', true);

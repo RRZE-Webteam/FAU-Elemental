@@ -9,6 +9,11 @@
 		color: var(--FAU-Col-FAU-Dunkelblau-100);
 	}
 
+	// Hide the label by default (only show in footer)
+	.copyright-info-label {
+		display: none;
+	}
+
 	.copyright-info-list {
 		list-style: none;
 		margin: 0;
