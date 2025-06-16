@@ -198,10 +198,6 @@ function fau_elemental_body_classes($classes) {
 }
 add_filter('body_class', 'fau_elemental_body_classes');
 
-
-
-
-
 /**
  * Function to load template parts for both block and PHP templates
  *
@@ -288,7 +284,7 @@ function fau_elemental_enqueue_footer_scripts() {
         return;
     }
     
-    $website_type = get_theme_mod('faue_website_type', 'fau');
+    $website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
     
     // Enqueue footer toggle script for instance footers
     if ($website_type !== 'fau') {
