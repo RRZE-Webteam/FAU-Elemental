@@ -239,6 +239,11 @@ add_action('after_switch_theme', function() {
     if (function_exists('fau_elemental_check_old_portal_menu_settings')) {
         fau_elemental_check_old_portal_menu_settings();
     }
+    
+    // Also trigger address migration
+    if (function_exists('fau_elemental_migrate_address_information')) {
+        fau_elemental_migrate_address_information();
+    }
 });
 
 /**

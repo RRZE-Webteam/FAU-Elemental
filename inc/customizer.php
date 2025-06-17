@@ -5,6 +5,33 @@
  */
 
 /**
+ * ============================================================================
+ * FAU-EINRICHTUNGEN BACKWARDS COMPATIBILITY
+ * ============================================================================
+ * 
+ * This section handles backwards compatibility for address information
+ * when upgrading from the FAU-Einrichtungen theme to FAU-Elemental.
+ * 
+ * OLD THEME FIELDS (FAU-Einrichtungen):
+ * - advanced_footer_display_address: Whether to show address
+ * - contact_address_name: Organization name (line 1)
+ * - contact_address_name2: Organization name (line 2)
+ * - contact_address_street: Street address
+ * - contact_address_plz: Postal code
+ * - contact_address_ort: City
+ * - contact_address_country: Country
+ * 
+ * NEW THEME FIELDS (FAU-Elemental):
+ * - display_footer_address: Whether to show address
+ * - instance_university_name: University name
+ * - instance_faculty_name: Faculty name
+ * - instance_street: Street address
+ * - instance_city: City with postal code
+ * - instance_country: Country
+
+ */
+
+/**
  * Sanitize checkbox values
  * @param bool $checked Whether the checkbox is checked
  * @return bool Sanitized boolean value
@@ -20,6 +47,31 @@ function fau_sanitize_checkbox($checked) {
     error_log('FAU Elemental: Sanitizing checkbox value - Output: ' . var_export($result, true));
     
     return $result;
+}
+
+/**
+ * Sanitize and format telephone number according to FAU standards
+ * @param string $phone The phone number to sanitize
+ * @return string Formatted phone number
+ */
+function fau_sanitize_phone_number($phone) {
+    // Entferne alle Zeichen außer Zahlen, "+", "(", ")", "-" und Leerzeichen
+    $phone = preg_replace('/[^\d\+\-\(\) ]/', '', $phone);
+    $phone = preg_replace('/\s+/', ' ', trim($phone));
+
+    // Falls die Nummer mit "+49(0)" beginnt → zu "+49" umwandeln
+    $phone = preg_replace('/^\+49\s*\(0\)/', '+49', $phone);
+    $phone = preg_replace('/^0049/', '+49', $phone);
+
+    // Falls die Nummer mit "0" beginnt (deutsche Nummer ohne Ländercode)
+    if (preg_match('/^0[1-9]/', $phone)) {
+        $phone = preg_replace('/^0/', '+49 ', $phone);
+    }
+
+    // Standardisiere das Format mit Leerzeichen zwischen Gruppen
+    $phone = preg_replace('/(\+?\d{1,3})\s*(\d{3,4})\s*(\d{3,4})\s*(\d{0,4})/', '$1 $2 $3 $4', $phone);
+
+    return trim($phone); // Entfernt überflüssige Leerzeichen am Ende
 }
 
 function fau_customizer_settings($wp_customize) {
@@ -132,35 +184,35 @@ function fau_customizer_settings($wp_customize) {
                 'name' => __('Philosophische Fakultät', 'fau-elemental'),
                 'street' => 'Bismarckstraße 1',
                 'city' => '91054 Erlangen',
-                'phone' => '+49 9131 85-22345',
+                'phone' => '+49 9131 85 22345',
                 'email' => 'dekanat-phil@fau.de'
             ],
             'nat' => [
                 'name' => __('Naturwissenschaftliche Fakultät', 'fau-elemental'),
                 'street' => 'Naturwissenschaftliche Fakultät',
                 'city' => '91058 Erlangen',
-                'phone' => '+49 9131 85-27032',
+                'phone' => '+49 9131 85 27032',
                 'email' => 'dekanat-nat@fau.de'
             ],
             'med' => [
                 'name' => __('Medizinische Fakultät', 'fau-elemental'),
                 'street' => 'Krankenhausstraße 12',
                 'city' => '91054 Erlangen',
-                'phone' => '+49 9131 85-26730',
+                'phone' => '+49 9131 85 26730',
                 'email' => 'med-dekanat@fau.de'
             ],
             'rw' => [
                 'name' => __('Rechtswissenschaftliche Fakultät', 'fau-elemental'),
                 'street' => 'Schillerstraße 1',
                 'city' => '91054 Erlangen',
-                'phone' => '+49 9131 85-22260',
+                'phone' => '+49 9131 85 22260',
                 'email' => 'dekanat-rw@fau.de'
             ],
             'tf' => [
                 'name' => __('Technische Fakultät', 'fau-elemental'),
                 'street' => 'Martensstraße 5a',
                 'city' => '91058 Erlangen',
-                'phone' => '+49 9131 85-27130',
+                'phone' => '+49 9131 85 27130',
                 'email' => 'tf-dekanat@fau.de'
             ]
         ];
@@ -186,38 +238,45 @@ function fau_customizer_settings($wp_customize) {
         $contact_fields = [
             'instance_university_name' => [
                 'label' => __('Name der Universität', 'fau-elemental'),
-                'default' => 'Friedrich-Alexander-Universität Erlangen-Nürnberg'
+                'default' => ''
             ],
             'instance_faculty_name' => [
                 'label' => __('Name der Fakultät', 'fau-elemental'),
-                'default' => $faculty_defaults['name']
+                'default' => ''
             ],
             'instance_street' => [
                 'label' => __('Straße', 'fau-elemental'),
-                'default' => $faculty_defaults['street']
+                'default' => ''
             ],
             'instance_city' => [
                 'label' => __('PLZ Ort', 'fau-elemental'),
-                'default' => $faculty_defaults['city']
+                'default' => ''
             ],
             'instance_phone' => [
                 'label' => __('Telefonnummer', 'fau-elemental'),
-                'default' => $faculty_defaults['phone']
+                'default' => ''
             ],
             'instance_email' => [
                 'label' => __('E-Mail-Adresse', 'fau-elemental'),
-                'default' => $faculty_defaults['email']
+                'default' => ''
             ],
             'instance_directions_link' => [
                 'label' => __('Link zur Anfahrt', 'fau-elemental'),
-                'default' => 'https://www.fau.de/anfahrt/'
+                'default' => ''
             ]
         ];
 
         foreach ($contact_fields as $setting => $config) {
+            $sanitize_callback = 'sanitize_text_field';
+            
+            // Use phone sanitizer for phone number fields
+            if ($setting === 'instance_phone') {
+                $sanitize_callback = 'fau_elemental_format_phone_number';
+            }
+            
             $wp_customize->add_setting($setting, [
                 'default' => $config['default'],
-                'sanitize_callback' => 'sanitize_text_field',
+                'sanitize_callback' => $sanitize_callback,
             ]);
 
             $wp_customize->add_control($setting, [
@@ -414,97 +473,112 @@ function fau_elemental_migrate_address_information($force = false) {
         return false;
     }
     
-    // Get old theme values
-    $old_display_address = get_theme_mod('advanced_footer_display_address');
-    $old_address_name = get_theme_mod('contact_address_name');
-    $old_address_name2 = get_theme_mod('contact_address_name2');
-    $old_address_street = get_theme_mod('contact_address_street');
-    $old_address_plz = get_theme_mod('contact_address_plz');
-    $old_address_ort = get_theme_mod('contact_address_ort');
-    $old_address_country = get_theme_mod('contact_address_country');
+    // Get the old theme's stored data from theme_mods_FAU-Einrichtungen-master
+    $old_theme_mods = get_option('theme_mods_FAU-Einrichtungen-master', array());
     
-    // Also save original values for direct access compatibility
+    // Extract address fields from old theme mods
+    $old_display_address = isset($old_theme_mods['advanced_footer_display_address']) ? $old_theme_mods['advanced_footer_display_address'] : false;
+    $old_address_name = isset($old_theme_mods['contact_address_name']) ? $old_theme_mods['contact_address_name'] : '';
+    $old_address_name2 = isset($old_theme_mods['contact_address_name2']) ? $old_theme_mods['contact_address_name2'] : '';
+    $old_address_street = isset($old_theme_mods['contact_address_street']) ? $old_theme_mods['contact_address_street'] : '';
+    $old_address_plz = isset($old_theme_mods['contact_address_plz']) ? $old_theme_mods['contact_address_plz'] : '';
+    $old_address_ort = isset($old_theme_mods['contact_address_ort']) ? $old_theme_mods['contact_address_ort'] : '';
+    $old_address_country = isset($old_theme_mods['contact_address_country']) ? $old_theme_mods['contact_address_country'] : '';
+    
+    // Log what we found for debugging
+    error_log('FAU Elemental Migration - Found old theme data:');
+    error_log('Display address: ' . var_export($old_display_address, true));
+    error_log('Address name: ' . var_export($old_address_name, true));
+    error_log('Address name2: ' . var_export($old_address_name2, true));
+    error_log('Address street: ' . var_export($old_address_street, true));
+    error_log('Address PLZ: ' . var_export($old_address_plz, true));
+    error_log('Address Ort: ' . var_export($old_address_ort, true));
+    error_log('Address Country: ' . var_export($old_address_country, true));
+    
+    $migration_performed = false;
+    
+    // Migrate display address setting
+    if ($old_display_address !== false) {
+        set_theme_mod('display_footer_address', $old_display_address);
+        error_log('FAU Elemental: Migrated display_footer_address = ' . var_export($old_display_address, true));
+        $migration_performed = true;
+    }
+    
+    // Migrate address fields if they exist
     if (!empty($old_address_name)) {
+        set_theme_mod('instance_university_name', $old_address_name);
+        error_log('FAU Elemental: Migrated instance_university_name = ' . $old_address_name);
+        $migration_performed = true;
+    }
+    
+    if (!empty($old_address_name2)) {
+        set_theme_mod('instance_faculty_name', $old_address_name2);
+        error_log('FAU Elemental: Migrated instance_faculty_name = ' . $old_address_name2);
+        $migration_performed = true;
+    }
+    
+    if (!empty($old_address_street)) {
+        set_theme_mod('instance_street', $old_address_street);
+        error_log('FAU Elemental: Migrated instance_street = ' . $old_address_street);
+        $migration_performed = true;
+    }
+    
+    if (!empty($old_address_plz) || !empty($old_address_ort)) {
+        $city_combined = trim($old_address_plz . ' ' . $old_address_ort);
+        if (!empty($city_combined)) {
+            set_theme_mod('instance_city', $city_combined);
+            error_log('FAU Elemental: Migrated instance_city = ' . $city_combined);
+            $migration_performed = true;
+        }
+    }
+    
+    if (!empty($old_address_country)) {
+        set_theme_mod('instance_country', $old_address_country);
+        error_log('FAU Elemental: Migrated instance_country = ' . $old_address_country);
+        $migration_performed = true;
+    }
+    
+    // Also preserve the old field names for backward compatibility (only if new fields are empty)
+    if (!empty($old_address_name) && empty(get_theme_mod('contact_address_name'))) {
         set_theme_mod('contact_address_name', $old_address_name);
     }
-    if (!empty($old_address_name2)) {
+    if (!empty($old_address_name2) && empty(get_theme_mod('contact_address_name2'))) {
         set_theme_mod('contact_address_name2', $old_address_name2);
     }
-    if (!empty($old_address_street)) {
+    if (!empty($old_address_street) && empty(get_theme_mod('contact_address_street'))) {
         set_theme_mod('contact_address_street', $old_address_street);
     }
-    if (!empty($old_address_plz)) {
+    if (!empty($old_address_plz) && empty(get_theme_mod('contact_address_plz'))) {
         set_theme_mod('contact_address_plz', $old_address_plz);
     }
-    if (!empty($old_address_ort)) {
+    if (!empty($old_address_ort) && empty(get_theme_mod('contact_address_ort'))) {
         set_theme_mod('contact_address_ort', $old_address_ort);
     }
-    
-    // Check if we have old values to migrate
-    if (isset($old_display_address) || !empty($old_address_name) || !empty($old_address_street) || !empty($old_address_plz)) {
-        error_log('FAU Elemental: Migrating address information from old theme');
-        
-        // Set the display toggle based on old theme setting
-        if (isset($old_display_address)) {
-            // Only migrate if the user hasn't already set a value
-            $current_setting = get_theme_mod('display_footer_address');
-            if ($current_setting === null || $current_setting === '') {
-                // Convert to boolean for the new theme
-                $show_address = (bool)$old_display_address;
-                set_theme_mod('display_footer_address', $show_address);
-                // Also save the original value for direct access
-                set_theme_mod('advanced_footer_display_address', $old_display_address);
-                error_log('FAU Elemental: Set display_footer_address to ' . ($show_address ? 'true' : 'false'));
-            } else {
-                error_log('FAU Elemental: Skipping display_footer_address migration - user has already set a value');
-            }
-        }
-        
-        // Map old values to new theme mods
-        if (!empty($old_address_name)) {
-            set_theme_mod('instance_faculty_name', $old_address_name . (!empty($old_address_name2) ? ' ' . $old_address_name2 : ''));
-        }
-        
-        if (!empty($old_address_street)) {
-            set_theme_mod('instance_street', $old_address_street);
-        }
-        
-        if (!empty($old_address_plz) || !empty($old_address_ort)) {
-            $city = '';
-            if (!empty($old_address_plz)) {
-                $city .= $old_address_plz;
-            }
-            
-            if (!empty($old_address_ort)) {
-                $city .= (!empty($city) ? ' ' : '') . $old_address_ort;
-            }
-            
-            if (!empty($city)) {
-                set_theme_mod('instance_city', $city);
-            }
-        }
-        
-        if (!empty($old_address_country)) {
-            // Store country in a custom theme mod for compatibility
-            set_theme_mod('instance_country', $old_address_country);
-            set_theme_mod('contact_address_country', $old_address_country);
-        }
-        
-        // Set default university name if not already set
-        if (empty(get_theme_mod('instance_university_name'))) {
-            set_theme_mod('instance_university_name', 'Friedrich-Alexander-Universität Erlangen-Nürnberg');
-        }
-        
-        // Mark as migrated
-        update_option('fau_elemental_address_migrated', true);
-        error_log('FAU Elemental: Address information migrated successfully');
-        return true;
+    if (!empty($old_address_country) && empty(get_theme_mod('contact_address_country'))) {
+        set_theme_mod('contact_address_country', $old_address_country);
     }
     
-    return false;
+    // Set default university name only if no data was migrated
+    if (empty($old_address_name) && empty(get_theme_mod('instance_university_name'))) {
+        set_theme_mod('instance_university_name', 'Friedrich-Alexander-Universität Erlangen-Nürnberg');
+        error_log('FAU Elemental: Set default instance_university_name');
+    }
+    
+    // Mark as migrated
+    update_option('fau_elemental_address_migrated', true);
+    
+    if ($migration_performed) {
+        set_transient('fau_elemental_address_migrated_success', true, 30);
+        error_log('FAU Elemental: Address migration completed successfully');
+    } else {
+        set_transient('fau_elemental_address_migrated_none', true, 30);
+        error_log('FAU Elemental: No address data found to migrate');
+    }
+    
+    return $migration_performed;
 }
 
-// Run the migration when switching themes and after settings are saved
+// Run the migration when switching themes only (not on every customizer save)
 add_action('after_switch_theme', 'fau_elemental_migrate_address_information');
 
 /**
@@ -550,27 +624,32 @@ function fau_elemental_migration_admin_notice() {
     }
     
     // Check if we've already migrated
-    if (get_option('fau_elemental_address_migrated')) {
+    $migration_flag = get_option('fau_elemental_address_migrated');
+    
+    if ($migration_flag) {
         return;
     }
     
     // Check if there are any old theme settings
-    $old_display_address = get_theme_mod('advanced_footer_display_address');
-    $old_address_name = get_theme_mod('contact_address_name');
-    $old_address_street = get_theme_mod('contact_address_street');
-    $old_address_plz = get_theme_mod('contact_address_plz');
+    $old_theme_mods = get_option('theme_mods_FAU-Einrichtungen-master', array());
     
-    if (isset($old_display_address) || !empty($old_address_name) || !empty($old_address_street) || !empty($old_address_plz)) {
-        ?>
-        <div class="notice notice-info is-dismissible">
-            <p><?php _e('FAU-Elemental detected address settings from the FAU-Einrichtungen theme that can be migrated.', 'fau-elemental'); ?></p>
-            <p>
-                <a href="<?php echo esc_url(admin_url('themes.php?fau-migrate-address=1&_wpnonce=' . wp_create_nonce('fau-migrate-address'))); ?>" class="button button-primary">
-                    <?php _e('Migrate Address Settings', 'fau-elemental'); ?>
-                </a>
-            </p>
-        </div>
-        <?php
+    if (!empty($old_theme_mods)) {
+        $has_address_data = isset($old_theme_mods['contact_address_name']) || 
+                           isset($old_theme_mods['contact_address_street']) || 
+                           isset($old_theme_mods['contact_address_plz']);
+        
+        if ($has_address_data) {
+            ?>
+            <div class="notice notice-info is-dismissible">
+                <p><?php _e('FAU-Elemental detected address settings from the FAU-Einrichtungen theme that can be migrated.', 'fau-elemental'); ?></p>
+                <p>
+                    <a href="<?php echo esc_url(admin_url('themes.php?fau-migrate-address=1&_wpnonce=' . wp_create_nonce('fau-migrate-address'))); ?>" class="button button-primary">
+                        <?php _e('Migrate Address Settings', 'fau-elemental'); ?>
+                    </a>
+                </p>
+            </div>
+            <?php
+        }
     }
 }
 add_action('admin_notices', 'fau_elemental_migration_admin_notice');
@@ -621,25 +700,6 @@ function fau_elemental_migration_success_notice() {
 add_action('admin_notices', 'fau_elemental_migration_success_notice');
 
 /**
- * Debug function to check current theme mod values
- * Call this in wp-admin/admin-ajax.php by visiting: /wp-admin/admin-ajax.php?action=fau_debug_address_setting
- */
-function fau_debug_address_setting() {
-    if (!current_user_can('manage_options')) {
-        wp_die('Unauthorized');
-    }
-    
-    echo "<h3>Address Setting Debug Information</h3>";
-    echo "<p><strong>display_footer_address:</strong> " . var_export(get_theme_mod('display_footer_address'), true) . "</p>";
-    echo "<p><strong>display_footer_address (with default):</strong> " . var_export(get_theme_mod('display_footer_address', true), true) . "</p>";
-    echo "<p><strong>advanced_footer_display_address:</strong> " . var_export(get_theme_mod('advanced_footer_display_address'), true) . "</p>";
-    echo "<p><strong>Migration flag:</strong> " . var_export(get_option('fau_elemental_address_migrated'), true) . "</p>";
-    
-    wp_die();
-}
-add_action('wp_ajax_fau_debug_address_setting', 'fau_debug_address_setting');
-
-/**
  * Sanitize checkbox value.
  *
  * @param bool $checked Whether the checkbox is checked.
@@ -665,7 +725,7 @@ function faue_show_post_meta() {
  */
 function faue_post_meta_dark_theme() {
     return get_theme_mod('faue_post_meta_dark_theme', false);
-} 
+}
 
 // TODO
 /**
