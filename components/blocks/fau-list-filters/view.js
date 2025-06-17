@@ -24,6 +24,9 @@ function initializeFilterBlock(blockElement) {
     const sortSelect = blockElement.querySelector('.sort-select');
     const resultsCountElement = blockElement.querySelector('.results-text');
     
+    // Find associated teaser grid
+    const associatedGrid = findAssociatedGrid(blockId);
+    
     // State
     let currentFilters = {};
     let currentSearch = '';
@@ -74,6 +77,21 @@ function initializeFilterBlock(blockElement) {
     // Sort functionality
     if (sortSelect) {
         sortSelect.addEventListener('change', handleSortChange);
+    }
+
+    // Helper function to find associated grid
+    function findAssociatedGrid(filterId) {
+        // Look for a grid with matching filter-block-id
+        const grids = document.querySelectorAll('.filterable-grid');
+        for (let grid of grids) {
+            if (grid.getAttribute('data-filter-block-id') === filterId) {
+                return grid;
+            }
+        }
+        
+        // Fallback: look for the closest grid after this filter block
+        const nextGrid = blockElement.parentElement.querySelector('.fau-list-item, .filterable-grid');
+        return nextGrid;
     }
 
     // Search functions
@@ -198,10 +216,14 @@ function initializeFilterBlock(blockElement) {
             const label = blockElement.querySelector(`label[for="${select.id}"]`);
             
             if (label) {
-                if (currentFilters[filterName]) {
-                    label.textContent = `1 filter selected`;
+                const selectedCount = Object.keys(currentFilters).filter(key => 
+                    key === filterName && currentFilters[key].value
+                ).length;
+                
+                if (selectedCount > 0) {
+                    label.textContent = `${selectedCount} Filter ausgewählt`;
                 } else {
-                    label.textContent = `All ${filterName}`;
+                    label.textContent = `Alle ${filterName}`;
                 }
             }
         });
@@ -211,38 +233,37 @@ function initializeFilterBlock(blockElement) {
         const hiddenFilters = blockElement.querySelectorAll('.filter-field.hidden');
         const isExpanded = showMoreButton.getAttribute('aria-expanded') === 'true';
         
-        if (isExpanded) {
-            hiddenFilters.forEach(filter => filter.classList.add('hidden'));
-            showMoreButton.textContent = 'Show more filters';
-            showMoreButton.setAttribute('aria-expanded', 'false');
-        } else {
-            hiddenFilters.forEach(filter => filter.classList.remove('hidden'));
-            showMoreButton.textContent = 'Show fewer filters';
-            showMoreButton.setAttribute('aria-expanded', 'true');
-        }
+        hiddenFilters.forEach(filter => {
+            filter.classList.toggle('hidden');
+        });
+        
+        showMoreButton.setAttribute('aria-expanded', !isExpanded);
+        showMoreButton.textContent = isExpanded ? 
+            'Show more filters' : 'Show fewer filters';
     }
 
     function clearAllFilters() {
-        // Clear search
-        if (searchInput) {
-            searchInput.value = '';
-            currentSearch = '';
-            searchClear.style.display = 'none';
-        }
-        
-        // Clear all filters
-        currentFilters = {};
+        // Clear all filter selects
         filterSelects.forEach(select => {
             select.value = '';
         });
         
+        // Clear search
+        if (searchInput) {
+            searchInput.value = '';
+            searchClear.style.display = 'none';
+        }
+        
+        // Reset state
+        currentFilters = {};
+        currentSearch = '';
+        currentPage = 1;
+        
         updateFilterChips();
         updateFilterLabels();
-        currentPage = 1;
         performSearch();
     }
 
-    // View functions
     function getCurrentView() {
         const activeButton = blockElement.querySelector('.view-button.active');
         return activeButton ? activeButton.getAttribute('data-view') : 'cards';
@@ -250,7 +271,7 @@ function initializeFilterBlock(blockElement) {
 
     function handleViewChange(e) {
         const button = e.currentTarget;
-        const newView = button.getAttribute('data-view');
+        const view = button.getAttribute('data-view');
         
         // Update button states
         viewButtons.forEach(btn => {
@@ -261,52 +282,145 @@ function initializeFilterBlock(blockElement) {
         button.classList.add('active');
         button.setAttribute('aria-pressed', 'true');
         
-        currentView = newView;
+        currentView = view;
         
-        // Trigger view change event
-        const event = new CustomEvent('fauListFiltersViewChanged', {
-            detail: {
-                blockId: blockId,
-                view: newView,
-                filters: currentFilters,
-                search: currentSearch,
-                sort: currentSort
-            }
-        });
-        document.dispatchEvent(event);
+        // Update grid view if connected
+        if (associatedGrid) {
+            updateGridView(view);
+        }
     }
 
-    // Sort functions
+    function updateGridView(view) {
+        const gridContainer = associatedGrid.querySelector('.fau-teaser-grid');
+        if (gridContainer) {
+            // Remove existing view classes
+            gridContainer.classList.remove('view-cards', 'view-table', 'view-list');
+            // Add new view class
+            gridContainer.classList.add(`view-${view}`);
+        }
+    }
+
     function handleSortChange(e) {
         currentSort = e.target.value;
         currentPage = 1;
         performSearch();
     }
 
-    // Search execution
     function performSearch() {
-        // Trigger search event for external handling
-        const event = new CustomEvent('fauListFiltersChanged', {
-            detail: {
-                blockId: blockId,
-                search: currentSearch,
-                filters: currentFilters,
-                sort: currentSort,
-                view: currentView,
-                page: currentPage,
-                resultsPerPage: resultsPerPage
-            }
+        if (!associatedGrid) {
+            console.warn('No associated grid found for filter block');
+            simulateResults();
+            return;
+        }
+
+        // Show loading state
+        showLoadingState();
+
+        // Prepare filter data
+        const filterData = {};
+        Object.entries(currentFilters).forEach(([key, data]) => {
+            filterData[key] = data.value;
         });
-        document.dispatchEvent(event);
-        
-        // For demo purposes, simulate results
-        simulateResults();
+
+        // Get grid configuration
+        const gridConfig = {
+            variant: associatedGrid.getAttribute('data-variant') || 'post',
+            posts_per_page: parseInt(associatedGrid.getAttribute('data-posts-per-page')) || 15,
+            display_style: associatedGrid.getAttribute('data-display-style') || 'teaser-grid',
+            teaser_layout: associatedGrid.getAttribute('data-teaser-layout') || '3m',
+            heading_level: associatedGrid.getAttribute('data-heading-level') || 'h4'
+        };
+
+        // Prepare AJAX data
+        const ajaxData = {
+            action: 'fau_teaser_grid_filter',
+            nonce: associatedGrid.getAttribute('data-nonce'),
+            ...gridConfig,
+            page: currentPage,
+            search: currentSearch,
+            filters: filterData,
+            sort: currentSort,
+            sort_order: 'DESC' // Could be made configurable
+        };
+
+        // Perform AJAX request
+        fetch(window.ajaxurl || '/wp-admin/admin-ajax.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(ajaxData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                updateGridContent(data.data);
+                updateResultsCount(data.data);
+            } else {
+                console.error('Filter request failed:', data);
+                hideLoadingState();
+            }
+        })
+        .catch(error => {
+            console.error('Filter request error:', error);
+            hideLoadingState();
+        });
     }
 
-    // Simulate results for demonstration
+    function showLoadingState() {
+        if (associatedGrid) {
+            const loadingElement = associatedGrid.querySelector('.grid-loading');
+            const gridContent = associatedGrid.querySelector('.fau-teaser-grid');
+            
+            if (loadingElement) {
+                loadingElement.style.display = 'block';
+            }
+            if (gridContent) {
+                gridContent.style.opacity = '0.5';
+            }
+        }
+    }
+
+    function hideLoadingState() {
+        if (associatedGrid) {
+            const loadingElement = associatedGrid.querySelector('.grid-loading');
+            const gridContent = associatedGrid.querySelector('.fau-teaser-grid');
+            
+            if (loadingElement) {
+                loadingElement.style.display = 'none';
+            }
+            if (gridContent) {
+                gridContent.style.opacity = '1';
+            }
+        }
+    }
+
+    function updateGridContent(data) {
+        if (!associatedGrid) return;
+        
+        const gridContainer = associatedGrid.querySelector('.fau-teaser-grid');
+        if (gridContainer) {
+            gridContainer.innerHTML = data.html;
+        }
+        
+        hideLoadingState();
+    }
+
+    function updateResultsCount(data) {
+        if (resultsCountElement) {
+            resultsCountElement.textContent = data.results_text || `${data.found_posts} records found`;
+        }
+        
+        totalResults = data.found_posts || 0;
+    }
+
     function simulateResults() {
-        const hasFilters = Object.keys(currentFilters).length > 0 || currentSearch.length > 0;
-        totalResults = hasFilters ? Math.floor(Math.random() * 50) + 10 : 100;
+        // Fallback simulation for when no grid is connected
+        const baseResults = 100;
+        const searchModifier = currentSearch ? 0.6 : 1;
+        const filterModifier = Object.keys(currentFilters).length > 0 ? 0.8 : 1;
+        
+        totalResults = Math.floor(baseResults * searchModifier * filterModifier);
         updateResultsDisplay();
     }
 
@@ -314,12 +428,10 @@ function initializeFilterBlock(blockElement) {
         if (resultsCountElement) {
             const startResult = ((currentPage - 1) * resultsPerPage) + 1;
             const endResult = Math.min(currentPage * resultsPerPage, totalResults);
-            
             resultsCountElement.textContent = `${startResult} to ${endResult} from ${totalResults} records`;
         }
     }
 
-    // Utility functions
     function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -331,37 +443,4 @@ function initializeFilterBlock(blockElement) {
             timeout = setTimeout(later, wait);
         };
     }
-
-    // Public API for external integration
-    blockElement.fauListFilters = {
-        getCurrentState: () => ({
-            search: currentSearch,
-            filters: currentFilters,
-            sort: currentSort,
-            view: currentView,
-            page: currentPage,
-            resultsPerPage: resultsPerPage,
-            totalResults: totalResults
-        }),
-        
-        setSearch: (searchTerm) => {
-            searchInput.value = searchTerm;
-            handleSearch();
-        },
-        
-        setFilter: (filterName, value) => {
-            const select = blockElement.querySelector(`[data-filter-name="${filterName}"]`);
-            if (select) {
-                select.value = value;
-                handleFilterChange({ target: select });
-            }
-        },
-        
-        clearAll: clearAllFilters,
-        
-        updateResults: (newTotalResults) => {
-            totalResults = newTotalResults;
-            updateResultsDisplay();
-        }
-    };
 } 

@@ -32,6 +32,11 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $order_by = $attributes['orderBy'] ?? 'date';
         $order = $attributes['order'] ?? 'DESC';
         $heading_level = $attributes['headingLevel'] ?? 'h4';
+        $enable_filter_integration = $attributes['enableFilterIntegration'] ?? false;
+        $filter_block_id = $attributes['filterBlockId'] ?? '';
+        
+        // Generate unique ID for this grid instance
+        $grid_id = 'fau-teaser-grid-' . uniqid();
         
         // Ensure it's a valid heading tag
         $allowed_headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
@@ -40,10 +45,24 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         }
         
         // Start building the output
+        $wrapper_classes = ['fau-list-item'];
+        if ($enable_filter_integration) {
+            $wrapper_classes[] = 'filterable-grid';
+        }
+        
         $wrapper_attributes = get_block_wrapper_attributes([
-            'class' => 'fau-list-item',
+            'class' => implode(' ', $wrapper_classes),
             'role' => 'region',
-            'aria-label' => __('Content grid', 'fau-elemental')
+            'aria-label' => __('Content grid', 'fau-elemental'),
+            'id' => $grid_id,
+            'data-grid-id' => $grid_id,
+            'data-variant' => $variant,
+            'data-posts-per-page' => $posts_per_page,
+            'data-display-style' => $display_style,
+            'data-teaser-layout' => $teaser_layout,
+            'data-filter-integration' => $enable_filter_integration ? 'true' : 'false',
+            'data-filter-block-id' => $filter_block_id,
+            'data-nonce' => wp_create_nonce('fau_teaser_grid_filter')
         ]);
 
         $grid_classes = ['fau-teaser-grid', $display_style];
@@ -60,6 +79,14 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         }
 
         $output = sprintf('<section %s>', $wrapper_attributes);
+        
+        // Loading indicator for AJAX updates
+        if ($enable_filter_integration) {
+            $output .= '<div class="grid-loading" style="display: none;" role="status" aria-live="polite">';
+            $output .= '<span class="loading-text">' . esc_html__('Loading...', 'fau-elemental') . '</span>';
+            $output .= '</div>';
+        }
+        
         $output .= sprintf(
             '<div class="%s" aria-label="%s" data-variant="%s">', 
             esc_attr(implode(' ', $grid_classes)),
@@ -101,6 +128,18 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
                 }
                 wp_reset_postdata();
                 $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
+                
+                // Store query info for filter integration
+                if ($enable_filter_integration) {
+                    $output .= sprintf(
+                        '<script type="application/json" class="grid-query-data">%s</script>',
+                        json_encode([
+                            'found_posts' => $query->found_posts,
+                            'max_num_pages' => $query->max_num_pages,
+                            'current_page' => $current_page
+                        ])
+                    );
+                }
             } else {
                 $output .= sprintf(
                     '<p role="status" class="no-items-found">%s</p>',
@@ -329,5 +368,122 @@ if (!function_exists('fau_elemental_wrap_teaser_items')) {
         return $output;
     }
 }
+
+if (!function_exists('fau_teaser_grid_ajax_filter')) {
+    /**
+     * AJAX handler for teaser grid filtering
+     */
+    function fau_teaser_grid_ajax_filter() {
+        // Verify nonce
+        if (!wp_verify_nonce($_POST['nonce'] ?? '', 'fau_teaser_grid_filter')) {
+            wp_die(__('Security check failed', 'fau-elemental'), 403);
+        }
+
+        // Get parameters
+        $variant = sanitize_text_field($_POST['variant'] ?? 'post');
+        $posts_per_page = absint($_POST['posts_per_page'] ?? 15);
+        $current_page = absint($_POST['page'] ?? 1);
+        $search_query = sanitize_text_field($_POST['search'] ?? '');
+        $filters = $_POST['filters'] ?? [];
+        $sort = sanitize_text_field($_POST['sort'] ?? 'date');
+        $sort_order = sanitize_text_field($_POST['sort_order'] ?? 'DESC');
+        $display_style = sanitize_text_field($_POST['display_style'] ?? 'teaser-grid');
+        $teaser_layout = sanitize_text_field($_POST['teaser_layout'] ?? '3m');
+        $heading_level = sanitize_text_field($_POST['heading_level'] ?? 'h4');
+
+        // Build query args
+        $args = [
+            'post_type' => $variant,
+            'posts_per_page' => $posts_per_page,
+            'paged' => $current_page,
+            'orderby' => $sort,
+            'order' => $sort_order,
+            'post_status' => 'publish'
+        ];
+
+        // Add search
+        if (!empty($search_query)) {
+            $args['s'] = $search_query;
+        }
+
+        // Add filters (categories, tags, etc.)
+        if (!empty($filters) && is_array($filters)) {
+            foreach ($filters as $filter_type => $filter_value) {
+                if (!empty($filter_value)) {
+                    switch ($filter_type) {
+                        case 'category':
+                            $args['cat'] = absint($filter_value);
+                            break;
+                        case 'tag':
+                            $args['tag_id'] = absint($filter_value);
+                            break;
+                        default:
+                            // Handle custom taxonomies
+                            if (taxonomy_exists($filter_type)) {
+                                $args['tax_query'][] = [
+                                    'taxonomy' => $filter_type,
+                                    'field' => 'term_id',
+                                    'terms' => absint($filter_value)
+                                ];
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
+        // Perform query
+        $query = new WP_Query($args);
+
+        $grid_classes = ['fau-teaser-grid', $display_style];
+        if ($display_style === 'teaser-grid') {
+            if ($teaser_layout === '2s-left' || $teaser_layout === '2s-right') {
+                $grid_classes[] = 'layout-2s';
+                $grid_classes[] = "layout-{$teaser_layout}";
+            } else {
+                $grid_classes[] = "layout-{$teaser_layout}";
+            }
+        } elseif ($display_style === 'mini-list') {
+            $grid_classes[] = 'style-mini-list';
+        }
+
+        $response = [
+            'success' => true,
+            'data' => [
+                'html' => '',
+                'found_posts' => $query->found_posts,
+                'max_num_pages' => $query->max_num_pages,
+                'current_page' => $current_page,
+                'results_text' => sprintf(
+                    __('%d to %d from %d records', 'fau-elemental'),
+                    (($current_page - 1) * $posts_per_page) + 1,
+                    min($current_page * $posts_per_page, $query->found_posts),
+                    $query->found_posts
+                )
+            ]
+        ];
+
+        if ($query->have_posts()) {
+            $teaser_items = [];
+            while ($query->have_posts()) {
+                $query->the_post();
+                $teaser_items[] = fau_elemental_render_teaser_item(get_post(), $variant, $grid_classes, $heading_level);
+            }
+            wp_reset_postdata();
+            $response['data']['html'] = fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
+        } else {
+            $response['data']['html'] = sprintf(
+                '<p role="status" class="no-items-found">%s</p>',
+                esc_html__('No items found', 'fau-elemental')
+            );
+        }
+
+        wp_send_json($response);
+    }
+}
+
+// Hook the AJAX handler
+add_action('wp_ajax_fau_teaser_grid_filter', 'fau_teaser_grid_ajax_filter');
+add_action('wp_ajax_nopriv_fau_teaser_grid_filter', 'fau_teaser_grid_ajax_filter');
 
 echo render_block_fau_teaser_grid($attributes, $content, $block);
