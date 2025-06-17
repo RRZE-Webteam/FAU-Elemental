@@ -18,8 +18,6 @@ import '../../core-blocks/separator/index.js';
 import '../../core-blocks/table/index.js';
 import '../../core-blocks/tag-cloud/index.js';
 
-
-
 /**
  * Block Selection Class Manager
  *
