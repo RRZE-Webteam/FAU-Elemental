@@ -37,20 +37,7 @@ function faue_setup() {
     add_theme_support('menus');
 
     // Register navigation menus
-    register_nav_menus(array(
-        // Main navigation menus
-        'header_primary_menu' => esc_html__('Header Primary Menu', 'fau-elemental'),
-        'header_menu_links' => esc_html__('Header Menu Links', 'fau-elemental'),
-        
-        // FAU system menus
-        'top_header_nav_services' => esc_html__('Top Header Nav Services', 'fau-elemental'),
-        'top_header_nav_structure' => esc_html__('Top Header Nav Structure', 'fau-elemental'),
-        
-        // Footer menus
-        'footer' => esc_html__('Footer Menu', 'fau-elemental'),
-        'footer-menu' => esc_html__('Footer Menu (Alternative)', 'fau-elemental'),
-        'footer-wichtige-links' => esc_html__('Footer Wichtige Links', 'fau-elemental'),
-    ));
+    // Menus are now registered in inc/menu-registration.php
 
     add_editor_style(array(
         'style.css',
