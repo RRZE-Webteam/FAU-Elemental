@@ -8,8 +8,6 @@ import {
 	PanelBody,
 	Placeholder,
 	Spinner,
-	__experimentalToggleGroupControl,
-	__experimentalToggleGroupControlOption,
 	DropdownMenu,
 } from '@wordpress/components';
 import { useState, useEffect, useRef, useMemo } from '@wordpress/element';

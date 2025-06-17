@@ -1,10 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import {
-	PanelBody,
-	SelectControl,
-	__experimentalToggleGroupControl as ToggleGroupControl,
-	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
-} from '@wordpress/components';
+import { PanelBody, SelectControl } from '@wordpress/components';
 
 // Define teaser layout options
 const TEASER_LAYOUTS = [
@@ -30,7 +25,6 @@ export const DisplaySettings = ( {
 	displayStyle,
 	teaserLayout,
 	headingLevel,
-	onDisplayStyleChange,
 	onTeaserLayoutChange,
 	setAttributes,
 } ) => {

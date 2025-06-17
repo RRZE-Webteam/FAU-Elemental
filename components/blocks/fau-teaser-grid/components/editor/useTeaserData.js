@@ -1,5 +1,4 @@
 import { useSelect, createSelector } from '@wordpress/data';
-import { useMemo } from 'react';
 
 export const usePostTypes = () => {
 	return useSelect( ( select ) => {
@@ -23,7 +22,7 @@ export const useCategories = () => {
 	}, [] );
 };
 
-export const usePosts = ( variant, queryParams ) => {
+export const usePosts = ( postVariant, queryParams ) => {
 	const getPosts = createSelector(
 		( select, variant, query ) => {
 			const rawPosts = select( 'core' ).getEntityRecords(
@@ -65,10 +64,10 @@ export const usePosts = ( variant, queryParams ) => {
 
 	return useSelect(
 		( select ) => {
-			const posts = getPosts( select, variant, queryParams );
+			const posts = getPosts( select, postVariant, queryParams );
 			const isResolving = select( 'core' ).isResolving(
 				'getEntityRecords',
-				[ 'postType', variant, queryParams ]
+				[ 'postType', postVariant, queryParams ]
 			);
 
 			return {
@@ -76,7 +75,7 @@ export const usePosts = ( variant, queryParams ) => {
 				isLoading: isResolving,
 			};
 		},
-		[ variant, queryParams, getPosts ]
+		[ postVariant, queryParams, getPosts ]
 	);
 };
 
