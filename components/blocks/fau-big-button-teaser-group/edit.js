@@ -530,7 +530,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							className="fau-big-button-teaser-group__button fau-big-button-teaser-group__button--placeholder"
 						>
 							<a
-								href="#"
+								href="#preview"
 								className="fau-big-button-teaser-group__button-link"
 							>
 								<h3 className="fau-big-button-teaser-group__button-title">

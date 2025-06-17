@@ -61,7 +61,7 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 						<div className="portal-content">
 							<h2 className="portal-title">
 								<a
-									href="#"
+									href="#preview"
 									onClick={ ( e ) => e.preventDefault() }
 									className="portal-main-link"
 								>
@@ -83,7 +83,7 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 								<ul className="portal-submenu">
 									<li className="portal-subitem">
 										<a
-											href="#"
+											href="#preview"
 											onClick={ ( e ) =>
 												e.preventDefault()
 											}
@@ -97,7 +97,7 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 									</li>
 									<li className="portal-subitem">
 										<a
-											href="#"
+											href="#preview"
 											onClick={ ( e ) =>
 												e.preventDefault()
 											}
@@ -131,7 +131,7 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 						<div className="portal-content">
 							<h2 className="portal-title">
 								<a
-									href="#"
+									href="#preview"
 									onClick={ ( e ) => e.preventDefault() }
 									className="portal-main-link"
 								>
@@ -153,7 +153,7 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 								<ul className="portal-submenu">
 									<li className="portal-subitem">
 										<a
-											href="#"
+											href="#preview"
 											onClick={ ( e ) =>
 												e.preventDefault()
 											}
