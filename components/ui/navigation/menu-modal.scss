@@ -7,463 +7,474 @@
 .menu-modal,
 .menu-meta-nav__modal,
 .menu-website-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    display: none;
-    
-    &[style*="display: block"],
-    &:not([style*="display: none"]) {
-        display: flex;
-    }
-    
-    // Overlay (semi-transparent to show website behind)
-    &__overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-    }
-    
-    // Container (this is the white modal box)
-    &__container {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 500px;
-        height: 100vh;
-        background: white;
-        box-shadow: 0 0 60px rgba(4, 49, 106, 0.6);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        z-index: 10; // Ensure it's above the overlay
-        transform: translateX(100%); // Start off-screen to the right
-        transition: transform 0.2s ease-in-out;
-    }
-    
-    // Header with back and close buttons
-    &__header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem;
-    }
-    
-    // Back button
-    &__back-btn {
-        display: none; // Hidden by default, shown during drill-down navigation
-        align-items: center;
-        gap: 0.5rem;
-        background: none;
-        border: none;
-        color: #374151;
-        cursor: pointer;
-        font-size: 0.875rem;
-        padding: 0.5rem;
-        border-radius: 4px;
-        transition: background-color 0.2s ease-in-out;
-        
-        &:hover {
-            background: #e5e7eb;
-        }
-        
-        &:focus {
-            outline: 2px solid #3b82f6;
-            outline-offset: 2px;
-        }
-    }
-    
-    &__back-icon {
-        width: 20px;
-        height: 20px;
-        flex-shrink: 0;
-    }
-    
-    &__back-text {
-        font-weight: 500;
-    }
-    
-    // Close button
-    &__close-btn {
-        background: none;
-        border: none;
-        color: #6b7280;
-        cursor: pointer;
-        padding: 0.5rem;
-        border-radius: 4px;
-        transition: background-color 0.2s ease-in-out;
-        margin-left: auto;
-        
-        &:hover {
-            background: #e5e7eb;
-            color: #374151;
-        }
-        
-        &:focus {
-            outline: 2px solid #3b82f6;
-            outline-offset: 2px;
-        }
-    }
-    
-    &__close-icon {
-        width: 24px;
-        height: 24px;
-    }
-    
-    // Content area
-    &__content {
-        flex: 1;
-        overflow-y: auto;
-        padding: 1rem;
-    }
-    
-    // Menu styles
-    &__menu {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        
-        .menu-item {
-            position: relative; // Critical for absolute positioning of toggle buttons
-            
-            a {
-                display: block;
-                padding: 0.75rem 1rem;
-                color: #374151;
-                text-decoration: none;
-                border-radius: 4px;
-                transition: background-color 0.2s ease-in-out;
-                
-                &:hover {
-                    background: #f3f4f6;
-                    color: #1f2937;
-                }
-                
-                &:focus {
-                    outline: 2px solid #3b82f6;
-                    outline-offset: 2px;
-                }
-            }
-            
-            // Active/current page styles
-            &.current-menu-item,
-            &.menu-item-active {
-                > a,
-                > .menu-modal__link--active {
-                    background: #e3f2fd;
-                    color: #1565c0;
-                    font-weight: 600;
-                    border-left: 4px solid #1565c0;
-                    
-                    &:hover {
-                        background: #bbdefb;
-                        color: #0d47a1;
-                    }
-                }
-            }
-            
-            // Parent/ancestor styles (less prominent than current)
-            &.current-menu-parent,
-            &.current-menu-ancestor {
-                > a,
-                > .menu-modal__submenu-row {
-                    background: #f8f9fa;
-                    color: #1565c0;
-                    font-weight: 500;
-                    
-                    &:hover {
-                        background: #e3f2fd;
-                    }
-                }
-            }
-            
-            // Has children indicator
-            &.has-children,
-            &.menu-item-has-children {
-                > a {
-                    padding-right: 3rem; // Make room for the toggle button
-                }
-            }
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	display: none;
 
-            a.current-menu-item-focused,
-            a.active {
-                background: #e3f2fd;
-                color: #1565c0;
-                font-weight: 600;
-                border-left: 4px solid #1565c0;
-            }
-        }
-    }
+	&[style*="display: block"],
+	&:not([style*="display: none"]) {
+		display: flex;
+	}
+
+	// Overlay (semi-transparent to show website behind)
+	&__overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+	}
+
+	// Container (this is the white modal box)
+	&__container {
+		position: fixed;
+		top: 0;
+		right: 0;
+		width: 500px;
+		height: 100vh;
+		background: white;
+		box-shadow: 0 0 60px rgba(4, 49, 106, 0.6);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		z-index: 10; // Ensure it's above the overlay
+		transform: translateX(100%); // Start off-screen to the right
+		transition: transform 0.2s ease-in-out;
+	}
+
+	// Header with back and close buttons
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem;
+	}
+
+	// Back button
+	&__back-btn {
+		display: none; // Hidden by default, shown during drill-down navigation
+		align-items: center;
+		gap: 0.5rem;
+		background: none;
+		border: none;
+		color: #374151;
+		cursor: pointer;
+		font-size: 0.875rem;
+		padding: 0.5rem;
+		border-radius: 4px;
+		transition: background-color 0.2s ease-in-out;
+
+		&:hover {
+			background: #e5e7eb;
+		}
+
+		&:focus {
+			outline: 2px solid #3b82f6;
+			outline-offset: 2px;
+		}
+	}
+
+	&__back-icon {
+		width: 20px;
+		height: 20px;
+		flex-shrink: 0;
+	}
+
+	&__back-text {
+		font-weight: 500;
+	}
+
+	// Close button
+	&__close-btn {
+		background: none;
+		border: none;
+		color: #6b7280;
+		cursor: pointer;
+		padding: 0.5rem;
+		border-radius: 4px;
+		transition: background-color 0.2s ease-in-out;
+		margin-left: auto;
+
+		&:hover {
+			background: #e5e7eb;
+			color: #374151;
+		}
+
+		&:focus {
+			outline: 2px solid #3b82f6;
+			outline-offset: 2px;
+		}
+	}
+
+	&__close-icon {
+		width: 24px;
+		height: 24px;
+	}
+
+	// Content area
+	&__content {
+		flex: 1;
+		overflow-y: auto;
+		padding: 1rem;
+	}
+
+	// Menu styles
+	&__menu {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		.menu-item {
+			position: relative; // Critical for absolute positioning of toggle buttons
+
+			a {
+				display: block;
+				padding: 0.75rem 1rem;
+				color: #374151;
+				text-decoration: none;
+				border-radius: 4px;
+				transition: background-color 0.2s ease-in-out;
+
+				&:hover {
+					background: #f3f4f6;
+					color: #1f2937;
+				}
+
+				&:focus {
+					outline: 2px solid #3b82f6;
+					outline-offset: 2px;
+				}
+			}
+
+			// Active/current page styles
+			&.current-menu-item,
+			&.menu-item-active {
+
+				> a,
+				> .menu-modal__link--active {
+					background: #e3f2fd;
+					color: #1565c0;
+					font-weight: 600;
+					border-left: 4px solid #1565c0;
+
+					&:hover {
+						background: #bbdefb;
+						color: #0d47a1;
+					}
+				}
+			}
+
+			// Parent/ancestor styles (less prominent than current)
+			&.current-menu-parent,
+			&.current-menu-ancestor {
+
+				> a,
+				> .menu-modal__submenu-row {
+					background: #f8f9fa;
+					color: #1565c0;
+					font-weight: 500;
+
+					&:hover {
+						background: #e3f2fd;
+					}
+				}
+			}
+
+			// Has children indicator
+			&.has-children,
+			&.menu-item-has-children {
+
+				> a {
+					padding-right: 3rem; // Make room for the toggle button
+				}
+			}
+
+			a.current-menu-item-focused,
+			a.active {
+				background: #e3f2fd;
+				color: #1565c0;
+				font-weight: 600;
+				border-left: 4px solid #1565c0;
+			}
+		}
+	}
 }
 
 // Global toggle button positioning (targets all possible configurations)
-.menu-modal, .menu-meta-nav__modal, .menu-website-modal {
-    // Force all toggle buttons to be positioned within their menu items
-    .menu-modal__submenu-toggle,
-    button.menu-modal__submenu-toggle {
-        //position: absolute !important;
-        right: 0.5rem !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        background: none !important;
-        border: none !important;
-        color: #6b7280 !important;
-        cursor: pointer !important;
-        padding: 0.25rem !important;
-        border-radius: 4px !important;
-        height: 2rem !important;
-        align-items: center !important;
-        justify-content: center !important;
-        transition: all 0.2s ease-in-out !important;
-        z-index: 10 !important;
-        margin: 1rem;
-        
-        // Allow JavaScript to control visibility
-        &:not(.hidden):not([style*="display: none"]) {
-            display: flex !important;
-        }
-        
-        &:hover {
-            background: #e5e7eb !important;
-            color: #374151 !important;
-        }
-        
-        &:focus {
-            outline: 2px solid #3b82f6 !important;
-            outline-offset: 2px !important;
-        }
-        
-        // Collapsed state (default) - always show right arrow for drill-down
-        &[aria-expanded="false"],
-        &[aria-expanded="true"] {
-            transform: translateY(-50%) rotate(0deg) !important;
-        }
-        
-        svg {
-            width: 16px !important;
-            height: 16px !important;
-        }
-        
-        // Active state for submenu toggle buttons
-        &.menu-modal__submenu-row--active {
-            background: #f8f9fa !important;
-            color: #1565c0 !important;
-            font-weight: 500 !important;
-            
-            &:hover {
-                background: #e3f2fd !important;
-            }
-            
-            .menu-modal__item-title {
-                color: #1565c0 !important;
-                font-weight: 500 !important;
-            }
-        }
-    }
+.menu-modal,
+ .menu-meta-nav__modal,
+ .menu-website-modal {
+	// Force all toggle buttons to be positioned within their menu items
+	.menu-modal__submenu-toggle,
+	button.menu-modal__submenu-toggle {
+		//position: absolute !important;
+		right: 0.5rem !important;
+		top: 50% !important;
+		transform: translateY(-50%) !important;
+		background: none !important;
+		border: none !important;
+		color: #6b7280 !important;
+		cursor: pointer !important;
+		padding: 0.25rem !important;
+		border-radius: 4px !important;
+		height: 2rem !important;
+		align-items: center !important;
+		justify-content: center !important;
+		transition: all 0.2s ease-in-out !important;
+		z-index: 10 !important;
+		margin: 1rem;
 
-    .menu-item.menu-item-has-children,
-    .menu-item.has-children {
-        position: relative !important;
-        
-        > a {
-            padding-right: 3rem !important;
-        }
-    }
-    
-    // Submenu styles
-    .sub-menu {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        padding-left: 1rem;
-        border-left: 2px solid #e5e7eb;
-        margin-top: 0.25rem;
-        display: none; // Hide submenus by default
-        
-        .menu-item {
-            position: relative !important;
-            
-            a {
-                padding: 0.5rem 1rem;
-                font-size: 0.875rem;
-                color: #6b7280;
-                
-                &:hover {
-                    color: #374151;
-                    background: #f9fafb;
-                }
-            }
-            
-            // Active/current page styles for submenu items
-            &.current-menu-item,
-            &.menu-item-active {
-                > a,
-                > .menu-modal__link--active {
-                    background: #e3f2fd;
-                    color: #1565c0;
-                    font-weight: 600;
-                    border-left: 3px solid #1565c0;
-                    
-                    &:hover {
-                        background: #bbdefb;
-                        color: #0d47a1;
-                    }
-                }
-            }
-            
-            // Parent/ancestor styles for submenu items
-            &.current-menu-parent,
-            &.current-menu-ancestor {
-                > a {
-                    background: #f8f9fa;
-                    color: #1565c0;
-                    font-weight: 500;
-                    
-                    &:hover {
-                        background: #e3f2fd;
-                    }
-                }
-            }
-            
-            // Ensure submenu items also get proper toggle button positioning
-            &.menu-item-has-children,
-            &.has-children {
-                > a {
-                    padding-right: 3rem !important;
-                }
-            }
-        }
-    }
+		// Allow JavaScript to control visibility
+		&:not(.hidden):not([style*="display: none"]) {
+			display: flex !important;
+		}
+
+		&:hover {
+			background: #e5e7eb !important;
+			color: #374151 !important;
+		}
+
+		&:focus {
+			outline: 2px solid #3b82f6 !important;
+			outline-offset: 2px !important;
+		}
+
+		// Collapsed state (default) - always show right arrow for drill-down
+		&[aria-expanded="false"],
+		&[aria-expanded="true"] {
+			transform: translateY(-50%) rotate(0deg) !important;
+		}
+
+		svg {
+			width: 16px !important;
+			height: 16px !important;
+		}
+
+		// Active state for submenu toggle buttons
+		&.menu-modal__submenu-row--active {
+			background: #f8f9fa !important;
+			color: #1565c0 !important;
+			font-weight: 500 !important;
+
+			&:hover {
+				background: #e3f2fd !important;
+			}
+
+			.menu-modal__item-title {
+				color: #1565c0 !important;
+				font-weight: 500 !important;
+			}
+		}
+	}
+
+	.menu-item.menu-item-has-children,
+	.menu-item.has-children {
+		position: relative !important;
+
+		> a {
+			padding-right: 3rem !important;
+		}
+	}
+
+	// Submenu styles
+	.sub-menu {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		padding-left: 1rem;
+		border-left: 2px solid #e5e7eb;
+		margin-top: 0.25rem;
+		display: none; // Hide submenus by default
+
+		.menu-item {
+			position: relative !important;
+
+			a {
+				padding: 0.5rem 1rem;
+				font-size: 0.875rem;
+				color: #6b7280;
+
+				&:hover {
+					color: #374151;
+					background: #f9fafb;
+				}
+			}
+
+			// Active/current page styles for submenu items
+			&.current-menu-item,
+			&.menu-item-active {
+
+				> a,
+				> .menu-modal__link--active {
+					background: #e3f2fd;
+					color: #1565c0;
+					font-weight: 600;
+					border-left: 3px solid #1565c0;
+
+					&:hover {
+						background: #bbdefb;
+						color: #0d47a1;
+					}
+				}
+			}
+
+			// Parent/ancestor styles for submenu items
+			&.current-menu-parent,
+			&.current-menu-ancestor {
+
+				> a {
+					background: #f8f9fa;
+					color: #1565c0;
+					font-weight: 500;
+
+					&:hover {
+						background: #e3f2fd;
+					}
+				}
+			}
+
+			// Ensure submenu items also get proper toggle button positioning
+			&.menu-item-has-children,
+			&.has-children {
+
+				> a {
+					padding-right: 3rem !important;
+				}
+			}
+		}
+	}
 }
 
 // Responsive design
 @media (max-width: 768px) {
-    .menu-modal,
-    .menu-meta-nav__modal,
-    .menu-website-modal {
-        &__container {
-            width: 100%; // Full width on mobile
-            right: 0;
-        }
-        
-        &__content {
-            padding: 0.5rem;
-        }
-        
-        &__menu {
-            .menu-item a {
-                padding: 1rem;
-                font-size: 1rem;
-            }
-            
-            .sub-menu .menu-item a {
-                padding: 0.75rem 1rem;
-            }
-        }
-    }
+
+	.menu-modal,
+	.menu-meta-nav__modal,
+	.menu-website-modal {
+
+		&__container {
+			width: 100%; // Full width on mobile
+			right: 0;
+		}
+
+		&__content {
+			padding: 0.5rem;
+		}
+
+		&__menu {
+
+			.menu-item a {
+				padding: 1rem;
+				font-size: 1rem;
+			}
+
+			.sub-menu .menu-item a {
+				padding: 0.75rem 1rem;
+			}
+		}
+	}
 }
 
 // Animation states
 .menu-modal,
 .menu-meta-nav__modal,
 .menu-website-modal {
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
-    
-    &.is-open,
-    &.is-open[style],
-    &.is-open[style*="display"] {
-        opacity: 1;
-        display: flex;
-        
-        // Ensure immediate visibility
-        transition: all 0.2s ease-in-out;
-        
-        // Make sure it's positioned correctly (matching the base positioning)
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-    }
-    
-    &__container {
-        transform: translateX(100%); // Start off-screen to the right
-        transition: transform 0.2s ease-in-out;
-    }
-    
-    &.is-open &__container {
-        transform: translateX(0); // Slide in from the right
-        background: white;
-        z-index: 1000000;
-    }
+	opacity: 0;
+	transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+
+	&.is-open,
+	&.is-open[style],
+	&.is-open[style*="display"] {
+		opacity: 1;
+		display: flex;
+
+		// Ensure immediate visibility
+		transition: all 0.2s ease-in-out;
+
+		// Make sure it's positioned correctly (matching the base positioning)
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+	}
+
+	&__container {
+		transform: translateX(100%); // Start off-screen to the right
+		transition: transform 0.2s ease-in-out;
+	}
+
+	&.is-open &__container {
+		transform: translateX(0); // Slide in from the right
+		background: white;
+		z-index: 1000000;
+	}
 }
 
 // Additional fallback for any specific modal IDs
 #services-modal.is-open,
-#structure-modal.is-open,  
+#structure-modal.is-open,
 #menu-website-modal.is-open {
-    display: flex;
-    opacity: 1;
-    visibility: visible;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 999999;
+	display: flex;
+	opacity: 1;
+	visibility: visible;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 999999;
 }
 
 // Also handle legacy menu-website-modal class if it exists
 .menu-website-modal__submenu-toggle {
-    position: absolute;
-    right: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: #6b7280;
-    cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 4px;
-    width: 2rem;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease-in-out;
-    
-    &:hover {
-        background: #e5e7eb;
-        color: #374151;
-    }
-    
-    &:focus {
-        outline: 2px solid #3b82f6;
-        outline-offset: 2px;
-    }
-    
-    // Always show right arrow for drill-down navigation
-    &[aria-expanded="false"],
-    &[aria-expanded="true"] {
-        transform: translateY(-50%) rotate(0deg);
-    }
-    
-    svg {
-        width: 16px;
-        height: 16px;
-    }
+	position: absolute;
+	right: 0.5rem;
+	top: 50%;
+	transform: translateY(-50%);
+	background: none;
+	border: none;
+	color: #6b7280;
+	cursor: pointer;
+	padding: 0.25rem;
+	border-radius: 4px;
+	width: 2rem;
+	height: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease-in-out;
+
+	&:hover {
+		background: #e5e7eb;
+		color: #374151;
+	}
+
+	&:focus {
+		outline: 2px solid #3b82f6;
+		outline-offset: 2px;
+	}
+
+	// Always show right arrow for drill-down navigation
+	&[aria-expanded="false"],
+	&[aria-expanded="true"] {
+		transform: translateY(-50%) rotate(0deg);
+	}
+
+	svg {
+		width: 16px;
+		height: 16px;
+	}
 }
 
 .menu-modal__submenu-toggle.current-menu-item-focused {
-    background: #e6f3ff;
-    color: #0073e6;
-    font-weight: bold;
-    border-radius: 4px;
-} 
+	background: #e6f3ff;
+	color: #0073e6;
+	font-weight: 700;
+	border-radius: 4px;
+}

@@ -1,477 +1,490 @@
 .footer-content--instance {
 
-    margin: 0 auto;
-    padding: 3rem 0;
-    color: white;
-    
-    // Row 1: Header
-    .footer-instance-header {
-        margin-bottom: 3rem;
-    
-        padding: 0 1rem;
-        
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: white;
-        }
-        
-        p {
-            font-size: 1.1rem;
-          
-            margin: 0 auto;
-            color: rgba(255, 255, 255, 0.9);
-        }
-    }
-    
-    // Row 2: Contact info (3 columns)
-    .footer-instance-contact {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-        margin-bottom: 3rem;
-        padding: 0 2rem;
-        
-        @media (max-width: 991px) {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        
-        @media (max-width: 767px) {
-            grid-template-columns: 1fr;
-            padding: 0 1rem;
-        }
-        
-        h2 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-            color: white;
-        }
-        
-        .contact-address, 
-        .contact-details, 
-        .footer-important-links {
-            h2 {
-              
-                padding-bottom: 0.5rem;
-            }
-        }
-        
-        address {
-            font-style: normal;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
-        
-        .contact-details {
-            p {
-                margin-bottom: 0.5rem;
-                color: rgba(255, 255, 255, 0.9);
-            }
-            
-            a {
-                color: white;
-                text-decoration: none;
-                
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
-        }
-        
-        .important-links-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            
-            li {
-                margin-bottom: 0.5rem;
-            }
-            
-            a {
-                color: white;
-                text-decoration: none;
-                
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
-        }
-    }
-    
-    // Row 3: Footer menu
-    .footer-instance-menu {
-   
-        padding-top: 1.5rem;
-        padding: 1.5rem 2rem 0;
-        
-        @media (max-width: 767px) {
-            padding: 1.5rem 1rem 0;
-        }
-        
-        .footer-menu-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-            
-            li {
-                margin: 0;
-            }
-            
-            a {
-                color: rgba(255, 255, 255, 0.8);
-                text-decoration: none;
-                font-size: 0.9rem;
-                
-                &:hover {
-                    color: white;
-                    text-decoration: underline;
-                }
-            }
-        }
-    }
-    
-    // Updated for stretching
-    .footer-columns {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-       
-        width: 100%;
-        padding: 0 var(--wp--custom--spacing--outer);
-        margin: 0 auto;
-        
-        @media (max-width: 991px) {
-            grid-template-columns: repeat(2, 1fr);
-        }
-        
-        @media (max-width: 767px) {
-            grid-template-columns: 1fr;
-        }
-    }
-    
-    // Social links
-    .footer-social {
-        display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
-        flex-wrap: wrap;
-        
-        .social-link {
-            color: white;
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 0.5rem 1rem;
-            
-            text-decoration: none;
-            transition: background-color 0.3s;
-            
-            &:hover {
-                background-color: rgba(255, 255, 255, 0.2);
-                text-decoration: none;
-            }
-        }
-    }
+	margin: 0 auto;
+	padding: 3rem 0;
+	color: white;
+
+	// Row 1: Header
+	.footer-instance-header {
+		margin-bottom: 3rem;
+
+		padding: 0 1rem;
+
+		h1 {
+			font-size: 2rem;
+			margin-bottom: 1rem;
+			color: white;
+		}
+
+		p {
+			font-size: 1.1rem;
+
+			margin: 0 auto;
+			color: rgba(255, 255, 255, 0.9);
+		}
+	}
+
+	// Row 2: Contact info (3 columns)
+	.footer-instance-contact {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+		margin-bottom: 3rem;
+		padding: 0 2rem;
+
+		@media (max-width: 991px) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		@media (max-width: 767px) {
+			grid-template-columns: 1fr;
+			padding: 0 1rem;
+		}
+
+		h2 {
+			font-size: 1.25rem;
+			margin-bottom: 1rem;
+			color: white;
+		}
+
+		.contact-address,
+		.contact-details,
+		.footer-important-links {
+
+			h2 {
+
+				padding-bottom: 0.5rem;
+			}
+		}
+
+		address {
+			font-style: normal;
+			line-height: 1.6;
+			margin-bottom: 1rem;
+			color: rgba(255, 255, 255, 0.9);
+		}
+
+		.contact-details {
+
+			p {
+				margin-bottom: 0.5rem;
+				color: rgba(255, 255, 255, 0.9);
+			}
+
+			a {
+				color: white;
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+
+		.important-links-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			li {
+				margin-bottom: 0.5rem;
+			}
+
+			a {
+				color: white;
+				text-decoration: none;
+
+				&:hover {
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+	// Row 3: Footer menu
+	.footer-instance-menu {
+
+		padding-top: 1.5rem;
+		padding: 1.5rem 2rem 0;
+
+		@media (max-width: 767px) {
+			padding: 1.5rem 1rem 0;
+		}
+
+		.footer-menu-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			gap: 1.5rem;
+
+			li {
+				margin: 0;
+			}
+
+			a {
+				color: rgba(255, 255, 255, 0.8);
+				text-decoration: none;
+				font-size: 0.9rem;
+
+				&:hover {
+					color: white;
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+
+	// Updated for stretching
+	.footer-columns {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2rem;
+
+		width: 100%;
+		padding: 0 var(--wp--custom--spacing--outer);
+		margin: 0 auto;
+
+		@media (max-width: 991px) {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		@media (max-width: 767px) {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	// Social links
+	.footer-social {
+		display: flex;
+		gap: 1rem;
+		margin-top: 2rem;
+		flex-wrap: wrap;
+
+		.social-link {
+			color: white;
+			background-color: rgba(255, 255, 255, 0.1);
+			padding: 0.5rem 1rem;
+
+			text-decoration: none;
+			transition: background-color 0.3s;
+
+			&:hover {
+				background-color: rgba(255, 255, 255, 0.2);
+				text-decoration: none;
+			}
+		}
+	}
 }
 
 // Add a new style for the footer wrapper to add the dark background
 .site-footer {
-    background-color: var(--FAU-Col-FAU-Blau-100); // FAU blue color
-    
-    .footer-content--instance {
-        width: 100%;
-        
-        &::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.1);
-            z-index: -1;
-        }
-    }
+	background-color: var(--FAU-Col-FAU-Blau-100); // FAU blue color
+
+	.footer-content--instance {
+		width: 100%;
+
+		&::before {
+			content: "";
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			background-color: rgba(0, 0, 0, 0.1);
+			z-index: -1;
+		}
+	}
 }
 
 @media (max-width: 1024px) {
-    .footer-bottom {
-        .target-groups {
-            grid-template-columns: repeat(2, 1fr);
-        }
 
-        .footer-bottom-bar {
-            flex-direction: column;
-       
-        }
+	.footer-bottom {
 
-        .footer-meta {
-            flex-direction: column;
-        }
+		.target-groups {
+			grid-template-columns: repeat(2, 1fr);
+		}
 
-        .footer-links .footer-meta-menu {
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-    }
+		.footer-bottom-bar {
+			flex-direction: column;
+
+		}
+
+		.footer-meta {
+			flex-direction: column;
+		}
+
+		.footer-links .footer-meta-menu {
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+	}
 }
 
 @media (max-width: 768px) {
-    .footer-content--instance {
-        .footer-columns {
-            grid-template-columns: 1fr;
-        }
-    }
 
-    .footer-bottom {
-        .target-groups {
-            grid-template-columns: 1fr;
-        }
-    }
+	.footer-content--instance {
+
+		.footer-columns {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.footer-bottom {
+
+		.target-groups {
+			grid-template-columns: 1fr;
+		}
+	}
 }
 
 // Common social links styling for both footers
 .social-links,
 .footer-social {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
 
-    .social-link {
-        color: #fff;
-        text-decoration: none;
-        
-        &:hover {
-            text-decoration: underline;
-        }
-    }
+	.social-link {
+		color: #fff;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 }
 
 // Main footer specific
 .footer-content--main {
-    .social-links {
-        margin-top: 0.5rem;
-    }
+
+	.social-links {
+		margin-top: 0.5rem;
+	}
 }
 
 // Instance footer specific
 .footer-content--instance {
-    .footer-social {
-        display: flex;
-        align-items: center;
-    }
+
+	.footer-social {
+		display: flex;
+		align-items: center;
+	}
 }
 
 // Footer bottom styling
 .footer-bottom {
-    background-color:var(--FAU-Col-FAU-Dunkelblau-100); // Darker blue for footer bottom
-    color: white;
-    
-    .footer-bottom-wrapper {
-       
-        margin: 0 auto;
-        padding: 0;
-    }
-    
-    // Common styles for all rows
-    .footer-bottom-row {
-        padding: 1.5rem 2rem;
-        
-        @media (max-width: 767px) {
-            padding: 1.5rem 1rem;
-        }
-    }
-    
-    // Row 1: Logo and toggle
-    .footer-controls {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-     
-        
-        .footer-logo {
-            img {
-                height: 40px;
-                width: auto;
-            }
-        }
-        
-        .toggle-container {
-            text-align: right;
-        }
-        
-        .fau-info-toggle {
-            background-color: transparent;
-            color: white;
-          
-            border-radius: 4px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            
-            &:hover, &:focus {
-                background-color: rgba(255, 255, 255, 0.1);
-            }
-            
-            &[aria-expanded="true"] {
-                background-color: rgba(255, 255, 255, 0.15);
-            }
-            
-            .toggle-icon {
-                display: inline-block;
-                width: 12px;
-                height: 12px;
-                margin-left: 8px;
-                position: relative;
-                
-                &::before, &::after {
-                    content: '';
-                    position: absolute;
-                    background-color: white;
-                    transition: transform 0.3s ease;
-                }
-                
-                &::before {
-                    top: 5px;
-                    left: 0;
-                    width: 12px;
-                    height: 2px;
-                }
-                
-                &::after {
-                    top: 0;
-                    left: 5px;
-                    width: 2px;
-                    height: 12px;
-                    opacity: 1;
-                }
-            }
-            
-            &[aria-expanded="true"] .toggle-icon::after {
-                transform: rotate(90deg);
-                opacity: 0;
-            }
-        }
-        
-        @media (max-width: 767px) {
-            flex-direction: column;
-            gap: 1rem;
-            align-items: center;
-            
-            .footer-logo {
-                margin-bottom: 0.5rem;
-            }
-            
-            .toggle-container {
-               
-            }
-        }
-    }
-    
-    // Row 2: FAU Info section
-    .fau-info-section {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-      
-        &[hidden] {
-            display: none;
-        }
-        
-        .fau-claim {
+	background-color: var(--FAU-Col-FAU-Dunkelblau-100); // Darker blue for footer bottom
+	color: white;
 
-            margin-bottom: 2rem;
-            
-            h2 {
-                font-size: 1.8rem;
-                margin-bottom: 1rem;
-                color: white;
-            }
-            
-            p {
-                
-                margin: 0 auto;
-                color: rgba(255, 255, 255, 0.9);
-                font-size: 1.1rem;
-            }
-        }
-        
-        .target-groups {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            
-            @media (max-width: 1024px) {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            @media (max-width: 767px) {
-                grid-template-columns: 1fr;
-            }
-            
-            .target-group {
-                background-color: rgba(255, 255, 255, 0.05);
-                border-radius: 6px;
-                padding: 1.5rem;
-                color: white;
-                text-decoration: none;
-                transition: background-color 0.3s ease;
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-                
-                &:hover, &:focus {
-                    background-color: rgba(255, 255, 255, 0.1);
-                }
-                
-                h3 {
-                    font-size: 1.2rem;
-                    margin-bottom: 0.8rem;
-                    color: white;
-                }
-                
-                p {
-                    margin-bottom: 1rem;
-                    color: rgba(255, 255, 255, 0.9);
-                    font-size: 0.9rem;
-                    flex-grow: 1;
-                }
-                
-                .arrow-link {
-                    display: inline-block;
-                    font-size: 0.9rem;
-                    font-weight: 500;
-                    color: white;
-                    position: relative;
-                    padding-right: 20px;
-                    
-                    &::after {
-                        content: '→';
-                        position: absolute;
-                        right: 0;
-                        transition: transform 0.3s ease;
-                    }
-                }
-                
-                &:hover .arrow-link::after {
-                    transform: translateX(3px);
-                }
-            }
-        }
-    }
-    
-    // Row 3: Credits
-    .footer-credits {
+	.footer-bottom-wrapper {
 
-        font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.7);
-        
-        p {
-            margin: 0;
-        }
-    }
+		margin: 0 auto;
+		padding: 0;
+	}
+
+	// Common styles for all rows
+	.footer-bottom-row {
+		padding: 1.5rem 2rem;
+
+		@media (max-width: 767px) {
+			padding: 1.5rem 1rem;
+		}
+	}
+
+	// Row 1: Logo and toggle
+	.footer-controls {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+
+		.footer-logo {
+
+			img {
+				height: 40px;
+				width: auto;
+			}
+		}
+
+		.toggle-container {
+			text-align: right;
+		}
+
+		.fau-info-toggle {
+			background-color: transparent;
+			color: white;
+
+			border-radius: 4px;
+			font-size: 0.9rem;
+			cursor: pointer;
+			transition: all 0.3s ease;
+			display: flex;
+			align-items: center;
+
+			&:hover,
+ &:focus {
+				background-color: rgba(255, 255, 255, 0.1);
+			}
+
+			&[aria-expanded="true"] {
+				background-color: rgba(255, 255, 255, 0.15);
+			}
+
+			.toggle-icon {
+				display: inline-block;
+				width: 12px;
+				height: 12px;
+				margin-left: 8px;
+				position: relative;
+
+				&::before,
+ &::after {
+					content: "";
+					position: absolute;
+					background-color: white;
+					transition: transform 0.3s ease;
+				}
+
+				&::before {
+					top: 5px;
+					left: 0;
+					width: 12px;
+					height: 2px;
+				}
+
+				&::after {
+					top: 0;
+					left: 5px;
+					width: 2px;
+					height: 12px;
+					opacity: 1;
+				}
+			}
+
+			&[aria-expanded="true"] .toggle-icon::after {
+				transform: rotate(90deg);
+				opacity: 0;
+			}
+		}
+
+		@media (max-width: 767px) {
+			flex-direction: column;
+			gap: 1rem;
+			align-items: center;
+
+			.footer-logo {
+				margin-bottom: 0.5rem;
+			}
+
+			.toggle-container {
+
+			}
+		}
+	}
+
+	// Row 2: FAU Info section
+	.fau-info-section {
+		padding-top: 2rem;
+		padding-bottom: 2rem;
+
+		&[hidden] {
+			display: none;
+		}
+
+		.fau-claim {
+
+			margin-bottom: 2rem;
+
+			h2 {
+				font-size: 1.8rem;
+				margin-bottom: 1rem;
+				color: white;
+			}
+
+			p {
+
+				margin: 0 auto;
+				color: rgba(255, 255, 255, 0.9);
+				font-size: 1.1rem;
+			}
+		}
+
+		.target-groups {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1.5rem;
+
+			@media (max-width: 1024px) {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			@media (max-width: 767px) {
+				grid-template-columns: 1fr;
+			}
+
+			.target-group {
+				background-color: rgba(255, 255, 255, 0.05);
+				border-radius: 6px;
+				padding: 1.5rem;
+				color: white;
+				text-decoration: none;
+				transition: background-color 0.3s ease;
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+
+				&:hover,
+ &:focus {
+					background-color: rgba(255, 255, 255, 0.1);
+				}
+
+				h3 {
+					font-size: 1.2rem;
+					margin-bottom: 0.8rem;
+					color: white;
+				}
+
+				p {
+					margin-bottom: 1rem;
+					color: rgba(255, 255, 255, 0.9);
+					font-size: 0.9rem;
+					flex-grow: 1;
+				}
+
+				.arrow-link {
+					display: inline-block;
+					font-size: 0.9rem;
+					font-weight: 500;
+					color: white;
+					position: relative;
+					padding-right: 20px;
+
+					&::after {
+						content: "→";
+						position: absolute;
+						right: 0;
+						transition: transform 0.3s ease;
+					}
+				}
+
+				&:hover .arrow-link::after {
+					transform: translateX(3px);
+				}
+			}
+		}
+	}
+
+	// Row 3: Credits
+	.footer-credits {
+
+		font-size: 0.8rem;
+		color: rgba(255, 255, 255, 0.7);
+
+		p {
+			margin: 0;
+		}
+	}
 }

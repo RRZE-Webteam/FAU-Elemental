@@ -1,82 +1,83 @@
 // Interim CSS, will be changed later
 .site-header {
-    position: relative;
-    z-index: 100;
+	position: relative;
+	z-index: 100;
 
-    &__top {
-        background-color: var(--FAU-Col-FAU-Dunkelblau-100);
-        padding: 0.5rem 0;
-        
-        .wp-block-navigation {
-            --navigation-layout-justification-setting: flex-end;
-            
-            &__container {
-                color: var(--wp--preset--color--white, #ffffff);
-                font-size: 0.875rem;
-            }
-            
-            &__submenu-icon {
-                color: var(--wp--preset--color--white, #ffffff);
-            }
-        }
-    }
+	&__top {
+		background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+		padding: 0.5rem 0;
 
-    &__main {
-        background-color: var(--FAU-Col-FAU-Blau-100);
-        padding: 1.25rem 0;
-        margin: 0;
+		.wp-block-navigation {
+			--navigation-layout-justification-setting: flex-end;
 
-        .wp-block-group {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+			&__container {
+				color: var(--wp--preset--color--white, #fff);
+				font-size: 0.875rem;
+			}
 
-        .wp-block-site-logo {
-            margin: 0;
-            
-            img {
-                height: auto;
-                max-height: 60px;
-                width: auto;
-            }
-        }
+			&__submenu-icon {
+				color: var(--wp--preset--color--white, #fff);
+			}
+		}
+	}
 
-        .wp-block-navigation {
-            &__container {
-                gap: 2rem;
-            }
+	&__main {
+		background-color: var(--FAU-Col-FAU-Blau-100);
+		padding: 1.25rem 0;
+		margin: 0;
 
-            &__submenu-icon {
-                margin-left: 0.25rem;
-            }
-        }
-    }
+		.wp-block-group {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
 
-    &__breadcrumbs {
-        background-color: var(--wp--preset--color--theme-50, #f5f5f5);
-        padding: 0.75rem 0;
-        font-size: 0.875rem;
+		.wp-block-site-logo {
+			margin: 0;
 
-        .wp-block-group {
-            margin: 0;
-        }
+			img {
+				height: auto;
+				max-height: 60px;
+				width: auto;
+			}
+		}
 
-        a {
-            color: var(--wp--preset--color--theme-700, #1f4d7a);
-            text-decoration: none;
+		.wp-block-navigation {
 
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
+			&__container {
+				gap: 2rem;
+			}
+
+			&__submenu-icon {
+				margin-left: 0.25rem;
+			}
+		}
+	}
+
+	&__breadcrumbs {
+		background-color: var(--wp--preset--color--theme-50, #f5f5f5);
+		padding: 0.75rem 0;
+		font-size: 0.875rem;
+
+		.wp-block-group {
+			margin: 0;
+		}
+
+		a {
+			color: var(--wp--preset--color--theme-700, #1f4d7a);
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
 }
 
 // Header style (New CSS)
 .site-header {
 
-    &__main {
+	&__main {
 
 		@each $faculty, $color in (
 			"phil": var(--FAU-Col-Phil-Gelb-100),
@@ -88,17 +89,17 @@
 			.fauorg-fakultaet.faculty-#{$faculty} & {
 				background-color: $color;
 
-                .main-navigation__logo .text {
-                    color: var(--FAU-Col-FAU-Blau-100);
-                }
+				.main-navigation__logo .text {
+					color: var(--FAU-Col-FAU-Blau-100);
+				}
 			}
 
-            .fauorg-fakultaet.faculty-#{rw} & {
+			.fauorg-fakultaet.faculty-#{rw} & {
 
-                .main-navigation__logo .text {
-                    color: var(--FAU-Col-FAU-Weiss-100);
-                }
+				.main-navigation__logo .text {
+					color: var(--FAU-Col-FAU-Weiss-100);
+				}
 			}
 		}
-    }
+	}
 }
