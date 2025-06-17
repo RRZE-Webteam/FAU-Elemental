@@ -199,6 +199,10 @@ footer.wp-block-template-part {
 				}
 			}
 
+			.footer-bottom-bottom .wp-block-fau-elemental-copyright-info .copyright-info-list li {
+				font-size: 0.875rem;
+			}
+
 			.photo-credits {
 				color: var(--FAU-Col-FAU-Weiss-100);
 				font-size: 1rem;
@@ -211,8 +215,9 @@ footer.wp-block-template-part {
 	// Social media links styling (also used in instance footer)
 	.social-links {
 		display: flex;
-		gap: var(--Spacing-6x);
 		align-items: center;
+		flex-wrap: wrap;
+		gap: var(--Spacing-6x);
 
 		a {
 			display: block;
