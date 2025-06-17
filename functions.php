@@ -126,7 +126,7 @@ add_filter('template_include', 'fau_elemental_template_include', 99);
     ));
     add_theme_support('title-tag');
     
-    // Menu registration is now handled in inc/menu-registration.php
+ 
     
     // Add custom image sizes if needed
     // add_image_size('featured-large', 1600, 900, true);

@@ -18,7 +18,7 @@ import '../../core-blocks/separator/index.js';
 import '../../core-blocks/table/index.js';
 import '../../core-blocks/tag-cloud/index.js';
 
-// Footer toggle is now enqueued on the frontend via functions.php
+
 
 /**
  * Block Selection Class Manager

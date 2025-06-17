@@ -22,7 +22,7 @@ function faue_setup() {
     // Enable support for Post Thumbnails on posts and pages
     add_theme_support('post-thumbnails');
 
-    // Menu registration is now handled in inc/menu-registration.php
+
 
     add_editor_style(array(
         'style.css',
