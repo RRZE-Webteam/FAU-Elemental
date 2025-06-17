@@ -376,7 +376,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 				<>
 					<div className="quote-list">
 						{ attributes.quotes.map( ( quote, index ) => (
-							<div
+							<button
 								key={ quote.id }
 								className={ `quote-list-item ${
 									index === selectedQuoteIndex
@@ -453,7 +453,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 										}
 									/>
 								</div>
-							</div>
+							</button>
 						) ) }
 						<button
 							type="button"
