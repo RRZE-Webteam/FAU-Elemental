@@ -287,12 +287,10 @@
 					$targetItem
 						.find( 'a' )
 						.addClass( 'current-menu-item-focused active' );
-					$targetItem
-						.find( 'a' )[ 0 ]
-						.scrollIntoView( {
-							behavior: 'smooth',
-							block: 'center',
-						} );
+					$targetItem.find( 'a' )[ 0 ].scrollIntoView( {
+						behavior: 'smooth',
+						block: 'center',
+					} );
 				} else {
 					$targetItem.addClass( 'current-menu-item-focused active' );
 					$targetItem[ 0 ].scrollIntoView( {
@@ -440,12 +438,10 @@
 					$currentItem
 						.find( 'a' )
 						.addClass( 'current-menu-item-focused active' );
-					$currentItem
-						.find( 'a' )[ 0 ]
-						.scrollIntoView( {
-							behavior: 'smooth',
-							block: 'center',
-						} );
+					$currentItem.find( 'a' )[ 0 ].scrollIntoView( {
+						behavior: 'smooth',
+						block: 'center',
+					} );
 				} else {
 					$currentItem.addClass( 'current-menu-item-focused active' );
 					$currentItem[ 0 ].scrollIntoView( {
