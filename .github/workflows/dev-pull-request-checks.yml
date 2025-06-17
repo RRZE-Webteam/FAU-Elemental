@@ -20,6 +20,15 @@ jobs:
           node-version: 'latest'
           cache: 'npm'
 
+      - name: Check if no build directory exists
+        shell: bash
+        run: |
+          if [[ -e ./build ]]; then
+            echo "ERROR: a build directory was found!"
+            echo "       Please remove the build directory."
+            exit 1
+          fi
+
       - name: Install dependencies
         run: npm install
 
@@ -33,9 +42,11 @@ jobs:
             exit 1
           fi
 
-      # Disabled for now
-      #- name: Lint JS
-      #  run: npm run lint:js
+      - name: Lint JS
+        run: npm run lint:js
       
       - name: Lint CSS
         run: npm run lint:css
+      
+      - name: Webpack Build
+        run: npm run build -- --fail-on-warnings

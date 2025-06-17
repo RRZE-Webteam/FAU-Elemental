@@ -56,7 +56,7 @@ class FAU_Elemental_Shortcodes {
 
         // Normalize menu parameter - could be an ID, slug, or name
         $menu = $atts['menu'] ? esc_attr($atts['menu']) : '';
-        $error = '<p>' . __("Es konnte kein Menu unter der angegebenen Bezeichnung gefunden werden", 'fau-elemental') . '</p>';
+        $error = '<p>' . __("No menu could be found with the specified name", 'fau-elemental') . '</p>';
         $error .= "name=$menu";
         
         if (!empty($menu)) {
@@ -159,7 +159,7 @@ class FAU_Elemental_Shortcodes {
                 require_once get_template_directory() . '/inc/class-walker-content-menu.php';
             }
             
-            $out .= '<div class="' . implode(' ', $a_contentmenuclasses) . '" role="navigation" aria-label="' . __('Inhaltsmenü', 'fau-elemental') . '">';
+            $out .= '<div class="' . implode(' ', $a_contentmenuclasses) . '" role="navigation" aria-label="' . __('Content Menu', 'fau-elemental') . '">';
             
             // Set up walker settings
             $walker_settings = array(
