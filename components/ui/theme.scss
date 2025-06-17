@@ -4,8 +4,8 @@
 // This file imports all component styles for the frontend theme
 
 // UI Foundation (Variables and Base Styles)
-@use "variables/_index" as *;
-@use "base/_index" as *;
+@use "variables/index" as *;
+@use "base/index" as *;
 
 // Core Block Styles (modifications to WordPress core blocks)
 @use "../core-blocks/button/style" as *;
@@ -26,11 +26,7 @@
 @use "../core-blocks/verse/style" as *;
 
 // Pattern Styles
-@use "../patterns/hero-chair/style" as *;
-@use "../patterns/hero-cooperation/style" as *;
-@use "../patterns/hero-faculty/style" as *;
 @use "../patterns/hero-fau/style" as *;
-@use "../patterns/hero-other/style" as *;
 @use "../patterns/hero-portal/style" as *;
 
 // Template Part Styles

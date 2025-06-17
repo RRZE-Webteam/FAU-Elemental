@@ -85,7 +85,6 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
         // Get menu item details
         $title = apply_filters('the_title', $item->title, $item->ID);
         $permalink = !empty($item->url) ? $item->url : '';
-        $target = !empty($item->target) ? ' target="' . esc_attr($item->target) . '"' : '';
         
         // Generate item classes
         $classes = empty($item->classes) ? array() : (array) $item->classes;
@@ -134,7 +133,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 
                 $output .= '<div class="portal-content">';
                 $output .= '<h3 class="portal-title">';
-                $output .= '<a href="' . esc_url($permalink) . '"' . $target . '>' . $title . '</a>';
+                $output .= '<a href="' . esc_url($permalink) . '">' . $title . '</a>';
                 $output .= '</h3>';
             } else {
                 // Grid view / Column view (modern)
@@ -154,7 +153,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                     if ($this->settings['hoverblur']) $hover_classes .= ' portal-hover-blur';
                     
                     $output .= '<div class="portal-thumbnail fau-card-image' . $hover_classes . '">';
-                    $output .= '<a href="' . esc_url($permalink) . '"' . $target . ' class="image-link">';
+                    $output .= '<a href="' . esc_url($permalink) . '" class="image-link">';
                     $output .= '<img src="' . esc_url($thumbnail) . '" alt="' . esc_attr($title) . '" />';
                     $output .= '</a>';
                     $output .= '</div>';
@@ -163,7 +162,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 // Main content section with title and arrow button
                 $output .= '<div class="portal-content fau-card-content">';
                 $output .= '<h3 class="portal-title fau-card-title">';
-                $output .= '<a href="' . esc_url($permalink) . '"' . $target . ' class="portal-main-link">' . $title;
+                $output .= '<a href="' . esc_url($permalink) . '" class="portal-main-link">' . $title;
                 // Add arrow button based on faculty color
                 $output .= '<span class="portal-button-arrow ' . $faculty_class . '"><span class="screen-reader-text">' . __('Go to', 'fau-elemental') . ' ' . $title . '</span>→</span>';
                 $output .= '</a>';
@@ -173,10 +172,10 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
             // Child items (sublinks)
             if ($this->settings['listview']) {
                 $output .= $indent . '<li class="portal-subitem ' . implode(' ', $classes) . '">';
-                $output .= '<a href="' . esc_url($permalink) . '"' . $target . '>' . $title . '</a>';
+                $output .= '<a href="' . esc_url($permalink) . '">' . $title . '</a>';
             } else {
                 $output .= $indent . '<div class="portal-subitem fau-card-sublink">';
-                $output .= '<a href="' . esc_url($permalink) . '"' . $target . ' class="portal-sublink">' . $title . '</a>';
+                $output .= '<a href="' . esc_url($permalink) . '" class="portal-sublink">' . $title . '</a>';
             }
         }
     }

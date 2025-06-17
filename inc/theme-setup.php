@@ -22,15 +22,7 @@ function faue_setup() {
     // Enable support for Post Thumbnails on posts and pages
     add_theme_support('post-thumbnails');
 
-    // Register navigation menus
-    register_nav_menus(
-        array(
-            'primary' => esc_html__('Primary Menu', 'fau-elemental'),
-            'footer' => esc_html__('Footer Menu', 'fau-elemental'),
-            'social' => esc_html__('Social Menu', 'fau-elemental'),
-            'portal' => esc_html__('Portal Menu', 'fau-elemental'),
-        )
-    );
+
 
     add_editor_style(array(
         'style.css',
@@ -44,7 +36,7 @@ function faue_get_org_classes() {
     $classes = array('fau-theme', 'fau-elemental');
 
     // Get website type from customizer
-    $website_type = get_theme_mod('faue_website_type', 'fau');
+    $website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
 
     // Add website type specific classes
     switch ($website_type) {

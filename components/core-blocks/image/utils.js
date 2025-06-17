@@ -7,10 +7,14 @@ export const enforceImageAspectRatio = ( block ) => {
 	const isInGallery = block.matches(
 		'.wp-block-gallery-container .wp-block-image-wrapper'
 	);
-	if ( isInGallery ) return;
+	if ( isInGallery ) {
+		return;
+	}
 
 	const img = block.querySelector( 'img' );
-	if ( ! img ) return;
+	if ( ! img ) {
+		return;
+	}
 
 	const naturalWidth = img.naturalWidth;
 	const naturalHeight = img.naturalHeight;

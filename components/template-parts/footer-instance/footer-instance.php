@@ -13,7 +13,7 @@
         <section class="footer-instance-contact">
             <!-- Column 1: Address -->
             <div class="contact-address">
-                <h3><?php esc_html_e('Contact and Directions', 'fau-elemental'); ?></h3>
+                <h3><?php esc_html_e('Kontakt und Anfahrt', 'fau-elemental'); ?></h3>
 
                 <div class="contact-address-and-tel-container">
                     <?php
@@ -94,7 +94,7 @@
                             }
                         ?>
                             <p>
-                                <?php esc_html_e('Phone', 'fau-elemental'); ?>:
+                                <?php esc_html_e('Telefon', 'fau-elemental'); ?>:
                                 <a href="tel:<?php echo esc_attr($phone); ?>">
                                     <?php echo esc_html($phone); ?>
                                 </a>
@@ -104,7 +104,7 @@
                         $email = get_theme_mod('instance_email', '');
                         if (!empty($email)) : ?>
                             <p>
-                                <?php esc_html_e('Email', 'fau-elemental'); ?>:
+                                <?php esc_html_e('Mail', 'fau-elemental'); ?>:
                                 <a href="mailto:<?php echo esc_attr($email); ?>">
                                     <?php echo esc_html($email); ?>
                                 </a>
@@ -113,9 +113,9 @@
                         <?php 
                         $directions_link = get_theme_mod('instance_directions_link', '');
                         if (!empty($directions_link)) : ?>
-                            <p>
+                            <p class="directions">
                                 <a href="<?php echo esc_url($directions_link); ?>" class="directions-link">
-                                    <?php esc_html_e('Directions', 'fau-elemental'); ?>
+                                    <?php esc_html_e('Anfahrt', 'fau-elemental'); ?>
                                 </a>
                             </p>
                         <?php endif; ?>
@@ -125,7 +125,7 @@
 
             <!-- Column 3: Important links -->
             <nav class="footer-important-links">
-                <h3><?php esc_html_e('Important Links', 'fau-elemental'); ?></h3>
+                <h3><?php esc_html_e('Wichtige Links', 'fau-elemental'); ?></h3>
                 <?php
                 wp_nav_menu(array(
                     'theme_location' => 'footer-wichtige-links',
@@ -163,7 +163,6 @@
                         'linkedin' => 'LinkedIn',
                         'x' => 'X',
                         'mastodon' => 'Mastodon',
-                        'blog' => 'Blog',
                         'bluesky' => 'Bluesky',
                         'youtube' => 'YouTube',
                         'tiktok' => 'TikTok'
@@ -212,7 +211,7 @@
 
                 <div class="toggle-container">
                     <button class="fau-info-toggle" aria-expanded="false" aria-controls="fau-info-section">
-                        <?php echo esc_html(get_theme_mod('fau_info_toggle_text', __('Show More', 'fau-elemental'))); ?>
+                        <?php echo esc_html(get_theme_mod('fau_info_toggle_text', __('Mehr anzeigen', 'fau-elemental'))); ?>
                         <span class="toggle-icon" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -225,48 +224,37 @@
                     <p><?php echo wp_kses_post(get_theme_mod('fau_footer_description', __('FAU is Germany\'s most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research.', 'fau-elemental'))); ?></p>
                 </section>
 
-                <section class="target-groups">
-                    <?php
-                    $target_groups = array(
-                        'section1' => array(
-                            'title' => get_theme_mod('target_section1_title', __('Target Group Section 1', 'fau-elemental')),
-                            'description' => get_theme_mod('target_section1_description', __('History, features, data, structure and more', 'fau-elemental')),
-                            'link' => get_theme_mod('target_section1_link', '')
-                        ),
-                        'section2' => array(
-                            'title' => get_theme_mod('target_section2_title', __('Target Group Section 2', 'fau-elemental')),
-                            'description' => get_theme_mod('target_section2_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
-                            'link' => get_theme_mod('target_section2_link', '')
-                        ),
-                        'section3' => array(
-                            'title' => get_theme_mod('target_section3_title', __('Target Group Section 3', 'fau-elemental')),
-                            'description' => get_theme_mod('target_section3_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
-                            'link' => get_theme_mod('target_section3_link', '')
-                        ),
-                        'section4' => array(
-                            'title' => get_theme_mod('target_section4_title', __('Target Group Section 4', 'fau-elemental')),
-                            'description' => get_theme_mod('target_section4_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
-                            'link' => get_theme_mod('target_section4_link', '')
-                        )
-                    );
+                <?php
+                // Include the footer target groups component
+                require_once get_theme_file_path('components/template-parts/footer-instance/footer-target-groups.php');
+                
+                // Get target groups from customizer
+                $target_groups = array(
+                    array(
+                        'title' => get_theme_mod('target_section1_title', __('Target Group Section 1', 'fau-elemental')),
+                        'description' => get_theme_mod('target_section1_description', __('History, features, data, structure and more', 'fau-elemental')),
+                        'link' => get_theme_mod('target_section1_link', '')
+                    ),
+                    array(
+                        'title' => get_theme_mod('target_section2_title', __('Target Group Section 2', 'fau-elemental')),
+                        'description' => get_theme_mod('target_section2_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
+                        'link' => get_theme_mod('target_section2_link', '')
+                    ),
+                    array(
+                        'title' => get_theme_mod('target_section3_title', __('Target Group Section 3', 'fau-elemental')),
+                        'description' => get_theme_mod('target_section3_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
+                        'link' => get_theme_mod('target_section3_link', '')
+                    ),
+                    array(
+                        'title' => get_theme_mod('target_section4_title', __('Target Group Section 4', 'fau-elemental')),
+                        'description' => get_theme_mod('target_section4_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
+                        'link' => get_theme_mod('target_section4_link', '')
+                    )
+                );
 
-                    foreach ($target_groups as $key => $group) : 
-                        // Only render if link is not empty (avoids dead end links)
-                        if (!empty($group['link'])) : ?>
-                            <a href="<?php echo esc_url($group['link']); ?>" class="target-group">
-                                <h4><?php echo esc_html($group['title']); ?></h4>
-                                <p><?php echo esc_html($group['description']); ?></p>
-                                <span class="arrow-link" aria-hidden="true"></span>
-                            </a>
-                        <?php else : ?>
-                            <div class="target-group target-group--placeholder">
-                                <h4><?php echo esc_html($group['title']); ?></h4>
-                                <p><?php echo esc_html($group['description']); ?></p>
-                                <span class="arrow-link" aria-hidden="true"></span>
-                            </div>
-                        <?php endif;
-                    endforeach; ?>
-                </section>
+                // Render the target groups using the footer component with outline variant
+                echo render_footer_target_groups($target_groups, 'outline', 'small');
+                ?>
             </div>
         <?php endif; ?>
 

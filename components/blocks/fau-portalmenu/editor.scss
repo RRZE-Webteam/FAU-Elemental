@@ -61,7 +61,7 @@
 .block-editor-block-list__block[data-type="fau-elemental/portalmenu"],
 .block-editor-block-list__block[data-type="fau/portal-menu"] {
 	margin: 1em 0;
-	background-color: white;
+	background-color: #fff; // TODO Should this be loaded from a custom property?
 	padding: 1em;
 	border-radius: 2px;
 
