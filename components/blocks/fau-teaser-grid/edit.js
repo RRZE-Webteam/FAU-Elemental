@@ -17,6 +17,7 @@ import {
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 	ToolbarButton,
 	DropdownMenu,
+	TextControl,
 } from '@wordpress/components';
 import { useSelect, createSelector } from '@wordpress/data';
 import './editor.scss';
@@ -73,6 +74,8 @@ export default function Edit( { attributes, setAttributes } ) {
 		selectedPosts,
 		selectionMode,
 		headingLevel,
+		enableFilterIntegration,
+		filterBlockId,
 	} = attributes;
 
 	const gridRef = useRef( null );
@@ -209,6 +212,24 @@ export default function Edit( { attributes, setAttributes } ) {
 						categories={ categories }
 					/>
 				) }
+
+				<PanelBody title={ __( 'Filter Integration', 'fau-elemental' ) }>
+					<ToggleControl
+						label={ __( 'Enable Filter Integration', 'fau-elemental' ) }
+						checked={ enableFilterIntegration }
+						onChange={ ( value ) => setAttributes( { enableFilterIntegration: value } ) }
+						help={ __( 'Allow this grid to be filtered by FAU List Filters blocks', 'fau-elemental' ) }
+					/>
+					{ enableFilterIntegration && (
+						<TextControl
+							label={ __( 'Filter Block ID', 'fau-elemental' ) }
+							value={ filterBlockId }
+							onChange={ ( value ) => setAttributes( { filterBlockId: value } ) }
+							help={ __( 'Optional: specify a specific filter block ID to connect to. Leave empty to auto-connect to the nearest filter block.', 'fau-elemental' ) }
+							placeholder="fau-list-filters-xxxxx"
+						/>
+					) }
+				</PanelBody>
 
 				<PanelBody title={ __( 'Accessibility', 'fau-elemental' ) }>
 					<p>

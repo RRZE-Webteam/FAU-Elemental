@@ -31,6 +31,14 @@
 			"type": "boolean",
 			"default": false
 		},
+		"enableFilterIntegration": {
+			"type": "boolean",
+			"default": false
+		},
+		"filterBlockId": {
+			"type": "string",
+			"default": ""
+		},
 		"selectedCategory": {
 			"type": "number",
 			"default": 0
@@ -87,21 +95,9 @@
 	"example": {
 		"attributes": {
 			"variant": "post",
-			"postsPerPage": 3,
-			"showFilters": false,
-			"selectedCategory": 0,
-			"selectedTaxonomy": "",
-			"currentPage": 1,
+			"postsPerPage": 6,
 			"displayStyle": "teaser-grid",
-			"showPagination": true,
-			"totalPosts": 3,
-			"orderBy": "date",
-			"order": "DESC",
-			"teaserLayout": "3m",
-			"teaserSizes": [],
-			"selectedPosts": [],
-			"selectionMode": "auto",
-			"headingLevel": "h4"
+			"teaserLayout": "3m"
 		}
 	}
 }
