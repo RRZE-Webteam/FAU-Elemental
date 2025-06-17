@@ -23,7 +23,7 @@ jobs:
       
       - name: Build project
         run: |
-          rm -f ./build
+          rm -rf ./build
           npm run build
       
       - name: Commit build output
