@@ -31,10 +31,11 @@ if (!defined('ABSPATH')) {
         <div class="site-header__top">
             <?php
             // Include and instantiate FAU Navigation
-            require_once get_template_directory() . '/src/components/navigation/fau-navigation.php';
             if (class_exists('FAU_Navigation')) {
-                $fau_nav = new FAU_Navigation();
-                $fau_nav->render();
+                global $fau_navigation;
+                if ($fau_navigation) {
+                    $fau_navigation->render();
+                }
             }
             ?>
         </div>
@@ -43,10 +44,11 @@ if (!defined('ABSPATH')) {
         <div class="site-header__main">
             <?php
             // Include and instantiate Main Navigation
-            require_once get_template_directory() . '/src/components/navigation/main-navigation.php';
             if (class_exists('Main_Navigation')) {
-                $main_nav = new Main_Navigation();
-                $main_nav->render();
+                global $main_navigation;
+                if ($main_navigation) {
+                    $main_navigation->render();
+                }
             }
             ?>
         </div>

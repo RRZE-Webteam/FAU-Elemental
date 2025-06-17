@@ -1,0 +1,60 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "fau-elemental/portalmenu",
+	"version": "0.1.0",
+	"title": "FAU Portal Menu",
+	"category": "fau-elemental/FAU",
+	"icon": "menu",
+	"description": "Displays a navigation menu as portal menu with thumbnails and links.",
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"menuId": {
+			"type": "string",
+			"default": ""
+		},
+		"menuName": {
+			"type": "string",
+			"default": ""
+		},
+		"isMegaNav": {
+			"type": "boolean",
+			"default": false
+		},
+		"showSubs": {
+			"type": "boolean",
+			"default": true
+		},
+		"noThumbs": {
+			"type": "boolean",
+			"default": false
+		},
+		"noFallback": {
+			"type": "boolean",
+			"default": false
+		},
+		"type": {
+			"type": "number",
+			"default": 1
+		},
+		"listView": {
+			"type": "boolean",
+			"default": false
+		},
+		"hoverZoom": {
+			"type": "boolean",
+			"default": false
+		},
+		"hoverBlur": {
+			"type": "boolean",
+			"default": false
+		}
+	},
+	"textdomain": "fau-elemental",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

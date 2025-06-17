@@ -1,0 +1,24 @@
+/**
+ * Editor Styles
+ */
+
+@import "../theme";
+@import "../../components/core-blocks/details/editor";
+@import "../../components/core-blocks/gallery/editor";
+@import "../../components/core-blocks/image/editor";
+@import "../../components/core-blocks/file/editor";
+@import "../../components/core-blocks/quote/editor";
+@import "../../components/blocks/fau-portalmenu/editor";
+@import "../../components/core-blocks/verse/editor";
+
+html :where(.editor-styles-wrapper) {
+	font-family: var(--font-family-base);
+}
+
+.edit-post-visual-editor__post-title-wrapper {
+	margin: var(--Spacing-10x) 0;
+}
+
+.wp-block-file__content-wrapper > .wp-block-file > .wp-block-file {
+	margin-bottom: var(--Spacing-4x);
+}

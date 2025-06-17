@@ -15,9 +15,30 @@ if (!defined('ABSPATH')) {
 function faue_customize_register($wp_customize) {
     // Add FAU Elemental section
     $wp_customize->add_section('faue_theme_settings', array(
-        'title'    => __('FAU Elemental Settings', 'fau-elemental'),
+        'title'    => __('FAU Elemental Einstellungen', 'fau-elemental'),
         'priority' => 30,
     ));
+
+    // Add Header Settings section
+    $wp_customize->add_section('faue_header_settings', array(
+        'title'    => __('Header-Einstellungen', 'fau-elemental'),
+        'priority' => 25,
+    ));
+
+    // Breadcrumb Mode Setting (stores boolean, convert to 'dark'/'light' when using)
+    $wp_customize->add_setting('faue_breadcrumb_mode', [
+        'default' => false,
+        'transport' => 'refresh',
+        'sanitize_callback' => 'faue_sanitize_breadcrumb_mode',
+    ]);
+    
+    $wp_customize->add_control('faue_breadcrumb_mode', [
+        'label' => __('Breadcrumb Dark Mode', 'fau-elemental'),
+        'description' => __('Apply dark styling to the breadcrumbs', 'fau-elemental'),
+        'section' => 'faue_header_settings',
+        'type' => 'checkbox',
+        'priority' => 15,
+    ]);
 
     // Website Type Setting
     $wp_customize->add_setting('faue_website_type', array(
@@ -99,20 +120,6 @@ function faue_sanitize_website_type($input) {
 
     return $input;
 }
-
-/**
- * Sanitize faculty input
- */
-function faue_sanitize_faculty($input) {
-    $valid_faculties = array('phil', 'nat', 'med', 'rw', 'tf', '');
-
-    if (!in_array($input, $valid_faculties)) {
-        return '';
-    }
-
-    return $input;
-}
-
 /**
  * Sanitize copyright info priority input
  */
@@ -124,4 +131,89 @@ function faue_sanitize_copyright_info_priority($input) {
     }
 
     return $input;
+}
+
+
+
+/**
+ * Restrict specific blocks to certain post types
+ * 
+ * This function restricts the FAU Teaser Grid block to pages only
+ */
+function restrict_blocks_by_post_type($allowed_blocks, $editor_context) {
+    if (empty($editor_context->post)) {
+        return $allowed_blocks;
+    }
+
+    $post_type = $editor_context->post->post_type;
+    $block_to_remove = 'fau-elemental/fau-teaser-grid';
+
+    if ($post_type === 'post') {
+        // If $allowed_blocks is true or null, we need to get all registered blocks
+        if ($allowed_blocks === true || is_null($allowed_blocks)) {
+            // Make sure WP_Block_Type_Registry class exists
+            if (class_exists('WP_Block_Type_Registry')) {
+                $registry = WP_Block_Type_Registry::get_instance();
+                $allowed_blocks = array_keys($registry->get_all_registered());
+            } else {
+                // If the registry class doesn't exist, we can't reliably filter blocks
+                return $allowed_blocks;
+            }
+        }
+
+        // Now that we've ensured $allowed_blocks is an array, we can safely filter it
+        if (is_array($allowed_blocks)) {
+            $allowed_blocks = array_diff($allowed_blocks, [$block_to_remove]);
+        }
+    }
+
+    return $allowed_blocks;
+}
+add_filter('allowed_block_types_all', 'restrict_blocks_by_post_type', 10, 2);
+
+function hide_teaser_grid_block_for_posts() {
+    global $post;
+
+    if (!is_admin() || get_post_type($post) !== 'post') {
+        return;
+    }
+
+    ?>
+    <script type="text/javascript">
+        wp.domReady(() => {
+            wp.blocks.unregisterBlockType('fau-elemental/fau-teaser-grid');
+        });
+    </script>
+    <?php
+}
+add_action('admin_footer', 'hide_teaser_grid_block_for_posts');
+
+
+/**
+ * Prevent non-super admins from accessing the site editor directly
+ */
+add_action('load-site-editor.php', function() {
+    if (!is_super_admin()) {
+        wp_die(__('You do not have sufficient permissions to access this page.', 'fau-elemental'), 403);
+    }
+});
+
+/**
+ * Sanitize faculty input
+ */
+function faue_sanitize_faculty($input) {
+    $valid_faculties = array('phil', 'nat', 'med', 'rw', 'tf');
+
+    if (!in_array($input, $valid_faculties)) {
+        return 'phil';
+    }
+
+    return $input;
+}
+
+/**
+ * Sanitize breadcrumb mode input
+ */
+function faue_sanitize_breadcrumb_mode($input) {
+    return (bool) $input;
 }

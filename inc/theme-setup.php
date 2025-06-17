@@ -38,13 +38,19 @@ function faue_setup() {
 
     // Register navigation menus
     register_nav_menus(array(
-        'primary' => esc_html__('Primary Menu', 'fau-elemental'),
-        'primary_direct' => esc_html__('Direct Links Menu', 'fau-elemental'),
-        'secondary_links'  => esc_html__('Secondary Links', 'fau-elemental'),
+        // Main navigation menus
+        'header_primary_menu' => esc_html__('Header Primary Menu', 'fau-elemental'),
+        'header_menu_links' => esc_html__('Header Menu Links', 'fau-elemental'),
+        
+        // FAU system menus
+        'top_header_nav_services' => esc_html__('Top Header Nav Services', 'fau-elemental'),
+        'top_header_nav_structure' => esc_html__('Top Header Nav Structure', 'fau-elemental'),
+        'search_options_menu' => __('Search Options Menu', 'fau-elemental'),
+        
+        // Footer menus
         'footer' => esc_html__('Footer Menu', 'fau-elemental'),
-        'fau_top_navigation' => esc_html__('FAU Top Navigation', 'fau-elemental'),
-        'meta_navigation_services' => esc_html__('Meta Navigation Services', 'fau-elemental'),
-        'meta_navigation_structure' => esc_html__('Meta Navigation Structure', 'fau-elemental'),
+        'footer-menu' => esc_html__('Footer Menu (Alternative)', 'fau-elemental'),
+        'footer-wichtige-links' => esc_html__('Footer Wichtige Links', 'fau-elemental'),
     ));
 
     add_editor_style(array(
@@ -54,12 +60,42 @@ function faue_setup() {
 }
 add_action('after_setup_theme', 'faue_setup');
 
+/**
+ * Add menu classes based on theme location
+ */
+function fau_elemental_menu_classes($classes, $item, $args) {
+    if ($args->theme_location === 'header_primary_menu') {
+        $classes[] = 'menu-website-modal__item';
+    } elseif ($args->theme_location === 'header_menu_links') {
+        $classes[] = 'menu-website-modal__secondary-item';
+    } elseif ($args->theme_location === 'footer') {
+        $classes[] = 'footer-navigation__item';
+    }
+    return $classes;
+}
+add_filter('nav_menu_css_class', 'fau_elemental_menu_classes', 10, 3);
+
+/**
+ * Add menu link classes based on theme location
+ */
+function fau_elemental_menu_link_classes($atts, $item, $args) {
+    if ($args->theme_location === 'header_primary_menu') {
+        $atts['class'] = 'menu-website-modal__link';
+    } elseif ($args->theme_location === 'header_menu_links') {
+        $atts['class'] = 'menu-website-modal__secondary-link';
+    } elseif ($args->theme_location === 'footer') {
+        $atts['class'] = 'footer-navigation__link';
+    }
+    return $atts;
+}
+add_filter('nav_menu_link_attributes', 'fau_elemental_menu_link_classes', 10, 3);
+
 // Add organization-specific body classes
 function faue_get_org_classes() {
     $classes = array('fau-theme', 'fau-elemental');
 
-    // Get website type from options
-    $website_type = get_option('faue_website_type', 'fau');
+    // Get website type from customizer
+    $website_type = get_theme_mod('faue_website_type', 'fau');
 
     // Add website type specific classes
     switch ($website_type) {
@@ -68,6 +104,11 @@ function faue_get_org_classes() {
             break;
         case 'faculty':
             $classes[] = 'fauorg-fakultaet';
+            // Add faculty-specific class only if website type is faculty
+            $faculty = get_theme_mod('faue_faculty', 'phil');
+            if ($faculty) {
+                $classes[] = 'faculty-' . sanitize_html_class($faculty);
+            }
             break;
         case 'chair':
             $classes[] = 'fauorg-unterorg';
@@ -75,12 +116,6 @@ function faue_get_org_classes() {
         case 'cooperation':
             $classes[] = 'fauorg-kooperation';
             break;
-    }
-
-    // Add faculty-specific class if set
-    $faculty = get_option('faue_faculty', '');
-    if ($faculty) {
-        $classes[] = 'faculty-' . sanitize_html_class($faculty);
     }
 
     return $classes;

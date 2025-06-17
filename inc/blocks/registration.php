@@ -9,18 +9,18 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-require_once get_theme_file_path('src/fau-copyright-info/render.php');
-require_once get_theme_file_path('src/blocks/fau-teaser-grid/render.php');
-require_once get_theme_file_path('src/blocks/fau-global-search/render.php');
+require_once get_theme_file_path('components/blocks/fau-copyright-info/render.php');
+require_once get_theme_file_path('components/blocks/fau-teaser-grid/render.php');
+require_once get_theme_file_path('components/blocks/fau-global-search/render.php');
 
 /**
  * Register all custom blocks from the build directory
  */
 function fau_elemental_register_blocks() {
-    // Get all directories in the build/blocks and build folders that start with 'fau-'
+    // Get all directories in both build/blocks and components/blocks that start with 'fau-'
     $block_folders = array_merge(
         glob(get_theme_file_path('build/blocks/fau-*'), GLOB_ONLYDIR),
-        glob(get_theme_file_path('build/fau-*'), GLOB_ONLYDIR)
+        glob(get_theme_file_path('components/blocks/fau-*'), GLOB_ONLYDIR)
     );
 
     // Register each block
@@ -37,7 +37,7 @@ function fau_elemental_register_blocks() {
                 continue;
             }
             
-            // If render.php exists in the build folder, explicitly set the render callback
+            // If render.php exists in the block folder, explicitly set the render callback
             if (file_exists($block_folder . '/render.php')) {
                 // Ensure block name is valid before using it
                 if (isset($block_json['name']) && is_string($block_json['name'])) {

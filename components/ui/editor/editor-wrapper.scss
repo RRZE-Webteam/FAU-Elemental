@@ -1,0 +1,48 @@
+/**
+ * Editor Wrapper Styles - Hide Editor Features
+ */
+
+// Import all block editor wrapper styles
+@import "../../components/core-blocks/button/editor-wrapper";
+@import "../../components/core-blocks/heading/editor-wrapper";
+@import "../../components/core-blocks/image/editor-wrapper";
+@import "../../components/core-blocks/media-text/editor-wrapper";
+@import "../../components/core-blocks/paragraph/editor-wrapper";
+@import "../../components/core-blocks/quote/editor-wrapper";
+@import "../../components/core-blocks/table/editor-wrapper";
+@import "../../components/core-blocks/tag-cloud/editor-wrapper";
+@import "../../components/core-blocks/verse/editor-wrapper";
+@import "../../components/core-blocks/gallery/editor-wrapper";
+@import "../scss/components/editor-wrapper";
+
+/**
+ * Post Header Component - Editor Wrapper Styles - Hide Editor Features
+ */
+
+ .edit-post-meta-boxes-area {
+
+	label {
+		display: block;
+		margin-bottom: 0.5rem;
+	}
+
+	strong {
+		font-weight: 400;
+	}
+
+	#post_header_options .postbox-header h2.hndle.ui-sortable-handle {
+		border: none;
+		box-shadow: none;
+		color: #1e1e1e;
+		font-weight: 500;
+		height: auto;
+		outline: none;
+		padding: 16px 48px 16px 16px;
+		position: relative;
+		text-align: left;
+		width: 100%;
+		align-items: center;
+		font-size: 13px;
+	}
+}
+

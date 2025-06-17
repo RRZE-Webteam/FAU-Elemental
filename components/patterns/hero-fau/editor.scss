@@ -1,0 +1,117 @@
+@use "../../ui/mixins/mixins" as *;
+
+.editor-styles-wrapper .wp-block {
+    margin-left: 0 !important;
+
+    .wp-block-cover {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+        padding: 3.75rem;
+        min-height: 800px;
+
+        .wp-block-cover__inner-container {
+            width: unset;
+
+            .hero-content {
+                background-color: var(--FAU-Col-FAU-Blau-100);
+                gap: var(--Spacing-5x);
+                max-width: 770px;
+                padding: var(--Spacing-4x) var(--Spacing-6x);
+
+                > p {
+                    font-size: 3.85rem;
+                    line-height: 1.2;
+                    font-weight: 700;
+                    letter-spacing: var(--letter-spacing-big);
+                }
+
+                .hero-link-wrapper {
+                    margin: var(--Spacing-4x) 0;
+            
+                    a {
+                        font-size: 1rem;
+                        color: var(--FAU-Col-FAU-Weiss-100);
+                        text-decoration: none;
+                        letter-spacing: var(--letter-spacing-big);
+            
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            display: block;
+                            width: 18px;
+                            height: 12px;
+                            right: -26px;
+                            top: 5px;
+                            background-image: var(--icon-arrow-weiss);
+                            background-repeat: no-repeat;
+                            transition: var(--basic-animation);
+                        }
+            
+                        &:hover,
+                        &:focus-visible {
+                            &::after {
+                                right: -30px;
+                                transition: var(--basic-animation);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Responsive
+@include respond-to("medium") {
+    .editor-styles-wrapper .wp-block .wp-block-cover {
+        min-height: 750px;
+
+        .wp-block-cover__inner-container .hero-content {
+            max-width: 750px;
+        }
+    }
+}
+
+@include respond-to("small") {
+    .editor-styles-wrapper .wp-block .wp-block-cover {
+        padding: var(--Spacing-10x);
+        min-height: 600px;
+
+        .wp-block-cover__inner-container .hero-content {
+            max-width: 500px;
+            gap: var(--Spacing-4x);
+
+            .hero-link-wrapper {
+                margin-top: var(--Spacing-2x);
+            }
+    
+            > p {
+                font-size: 3rem;
+            }
+        }
+    }
+}
+
+@include respond-to("x-small") {
+    .editor-styles-wrapper .wp-block .wp-block-cover {
+        padding-left: unset;
+
+        &.no-text-and-link {
+            padding-bottom: 130px;
+        }
+
+        .wp-block-cover__inner-container .hero-content {
+            padding: var(--Spacing-4x) var(--Spacing-5x);
+            gap: var(--Spacing-3x);
+            
+            .hero-link-wrapper {
+                margin-bottom: 0;
+            }
+
+            > p {
+                font-size: 2.5rem;
+            }
+        }
+    }
+}
