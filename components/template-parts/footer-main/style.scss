@@ -146,10 +146,10 @@ footer.wp-block-template-part {
 			// Placeholder styling for target groups without links
 			&--placeholder {
 				cursor: default;
-		
 
 				&:hover,
 				&:focus {
+
 					.arrow-link::before {
 						right: calc(50% - 8px); // No animation for placeholder
 					}
@@ -334,12 +334,14 @@ footer.wp-block-template-part {
 			}
 
 			&.x {
+				/* stylelint-disable-next-line function-url-quotes */
 				background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg id='Ebene_1' data-name='Ebene 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28.76 26'%3E%3Cdefs%3E%3Cstyle%3E .cls-1 %7B fill: %23a0b1c6; %7D %3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='M22.65,0h4.41l-9.64,11.01,11.34,14.99h-8.88l-6.96-9.09-7.95,9.09H.56l10.31-11.78L0,0h9.1l6.28,8.31L22.65,0ZM21.1,23.36h2.44L7.77,2.5h-2.62l15.96,20.86Z'/%3E%3C/svg%3E");
 				width: 28px;
 				height: 26px;
 			}
 
 			&.blog {
+				/* stylelint-disable-next-line function-url-quotes */
 				background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg id='Ebene_1' data-name='Ebene 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 30'%3E%3Cdefs%3E%3Cstyle%3E .cls-1 %7B fill: %239fb1c6; %7D %3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='M31.6,8.83L16.8.24c-.48-.28-1.11-.28-1.59,0L.41,8.83c-.27.16-.44.45-.44.77v11.97c0,.32.17.62.44.77l14.8,8.59c.24.14.51.21.8.21s.56-.07.8-.21l14.8-8.59c.27-.16.44-.45.44-.77V9.6c0-.32-.17-.62-.44-.77ZM16,2.21l12.8,7.43-12.8,7.43L3.2,9.64,16,2.21ZM29.6,20.8l-12.8,7.43v-14.86l12.8-7.43v14.86Z'/%3E%3C/svg%3E");
 				width: 32px;
 				height: 30px;
