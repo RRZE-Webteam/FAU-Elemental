@@ -12,9 +12,10 @@
 		}
 	],
     "rules": {
+        "jsdoc/require-param": "off",
         "no-nested-ternary": "off", /* it would be nice to enable this, but we have a lot of JSX using this rule */
         "react-hooks/rules-of-hooks": "off", /* this causes errors with our Gutenberg Core Block overrides, maybe we can fix this later */
-        "jsdoc/require-param": "off",
-        "@wordpress/no-unsafe-wp-apis": "off"
+        "react-hooks/exhaustive-deps": "off", /* this detects non-dependencies like setAttributes. Maybe we use hooks like useEffect way to much or even wrong, but for now we just don't check it */
+        "@wordpress/no-unsafe-wp-apis": "off" /* in some places we needed unsafe apis, maybe this rule can be more concrete which functions are allowed */
     }
 }
