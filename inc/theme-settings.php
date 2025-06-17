@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 function faue_customize_register($wp_customize) {
     // Add FAU Elemental section
     $wp_customize->add_section('faue_theme_settings', array(
-        'title'    => __('FAU Elemental Settings', 'fau-elemental'),
+        'title'    => __('FAU Elemental Einstellungen', 'fau-elemental'),
         'priority' => 30,
     ));
 

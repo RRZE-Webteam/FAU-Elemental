@@ -1,0 +1,82 @@
+@use "../../ui/mixins/mixins" as *;
+
+.post-meta {
+	padding: var(--Spacing-8x) var(--Spacing-10x);
+
+	.post-meta-wrapper {
+		max-width: var(--small-max-width);
+		margin: 0 auto;
+
+		.post-meta-inner {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: var(--Spacing-4x);
+			border-top: 1px solid var(--FAU-Col-FAU-Schwarz-37_5);
+			padding-top: var(--Spacing-4x);
+
+			.post-last-update span {
+				font-size: 0.875rem;
+				color: var(--FAU-Col-FAU-Schwarz-90);
+				line-height: 1.5;
+				font-weight: 400;
+			}
+		}
+	}
+
+	.share-button-container {
+
+		.wp-block-buttons .wp-block-button .wp-block-button__link {
+			cursor: pointer;
+
+			&::before {
+				/* stylelint-disable-next-line function-url-quotes */
+				background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8'%3F%3E%3Csvg id='Ebene_1' data-name='Ebene 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 16'%3E%3Cdefs%3E%3Cstyle%3E .cls-1 %7B fill: %2304316a; %7D %3C/style%3E%3C/defs%3E%3Cpath class='cls-1' d='M11.5,16c-.69,0-1.28-.24-1.77-.73-.49-.49-.73-1.08-.73-1.77,0-.12.03-.33.08-.6l-4.94-3.02c-.22.19-.47.35-.75.46-.28.11-.58.17-.89.17-.69,0-1.28-.24-1.77-.73-.49-.49-.73-1.08-.73-1.77s.24-1.28.73-1.77c.49-.49,1.08-.73,1.77-.73.32,0,.62.06.9.17.28.11.53.26.75.46l4.94-3.02c-.03-.1-.05-.19-.06-.29-.01-.09-.02-.2-.02-.32,0-.69.24-1.28.73-1.77.49-.49,1.08-.73,1.77-.73s1.28.24,1.77.73c.49.49.73,1.08.73,1.77s-.24,1.28-.73,1.77c-.49.49-1.08.73-1.77.73-.32,0-.62-.06-.9-.17-.28-.11-.53-.26-.75-.46l-4.94,3.02c.03.1.05.19.06.29.01.09.02.2.02.32s0,.22-.02.32c-.01.09-.03.19-.06.29l4.94,3.02c.22-.19.47-.35.75-.46.28-.11.58-.17.89-.17.69,0,1.28.24,1.77.73.49.49.73,1.08.73,1.77s-.24,1.28-.73,1.77c-.49.49-1.08.73-1.77.73ZM11.5,14.5c.28,0,.52-.1.71-.29s.29-.43.29-.71-.1-.52-.29-.71-.43-.29-.71-.29-.52.1-.71.29-.29.43-.29.71.1.52.29.71.43.29.71.29ZM2.5,9c.28,0,.52-.1.71-.29.19-.19.29-.43.29-.71s-.1-.52-.29-.71c-.19-.19-.43-.29-.71-.29s-.52.1-.71.29c-.19.19-.29.43-.29.71s.1.52.29.71c.19.19.43.29.71.29ZM11.5,3.5c.28,0,.52-.1.71-.29.19-.19.29-.43.29-.71s-.1-.52-.29-.71c-.19-.19-.43-.29-.71-.29s-.52.1-.71.29c-.19.19-.29.43-.29.71s.1.52.29.71c.19.19.43.29.71.29Z'/%3E%3C/svg%3E");
+				right: -31px;
+				width: 15px;
+				height: 17px;
+			}
+
+			&:hover,
+			&:focus-visible {
+
+				&::before {
+					transform: rotate(90deg);
+				}
+			}
+		}
+
+		.share-dropdown {
+			display: none;
+
+			&.is-active {
+				display: block;
+			}
+		}
+	}
+}
+
+// Dark mode
+.is-style-dark.post-meta {
+	background-color: var(--FAU-Col-FAU-Blau-100);
+
+	.post-meta-wrapper .post-meta-inner {
+		border-top: 1px solid var(--FAU-Col-FAU-Schwarz-37_5);
+
+		.post-last-update span {
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+	}
+
+	@include respond-to("x-small") {
+		padding: var(--Spacing-8x) var(--Spacing-5x);
+	}
+}
+
+// Responsive
+@include respond-to("x-small") {
+
+	.post-meta {
+		padding: 0 var(--Spacing-5x);
+	}
+}

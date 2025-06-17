@@ -1,0 +1,37 @@
+// ============================================================================
+// MAIN THEME STYLES
+// ============================================================================
+// This file imports all component styles for the frontend theme
+
+// UI Foundation (Variables and Base Styles)
+@use "variables/index" as *;
+@use "base/index" as *;
+
+// Core Block Styles (modifications to WordPress core blocks)
+@use "../core-blocks/button/style" as *;
+@use "../core-blocks/code/style" as *;
+@use "../core-blocks/details/style" as *;
+@use "../core-blocks/file/style" as *;
+@use "../core-blocks/gallery/style" as *;
+@use "../core-blocks/group/style" as *;
+@use "../core-blocks/heading/style" as *;
+@use "../core-blocks/image/style" as *;
+@use "../core-blocks/list/style" as *;
+@use "../core-blocks/media-text/style" as *;
+@use "../core-blocks/paragraph/style" as *;
+@use "../core-blocks/quote/style" as *;
+@use "../core-blocks/separator/style" as *;
+@use "../core-blocks/table/style" as *;
+@use "../core-blocks/tag-cloud/style" as *;
+@use "../core-blocks/verse/style" as *;
+
+// Pattern Styles
+@use "../patterns/hero-fau/style" as *;
+@use "../patterns/hero-portal/style" as *;
+
+// Template Part Styles
+@use "../template-parts/breadcrumbs/style" as *;
+@use "../template-parts/footer-instance/style" as *;
+@use "../template-parts/footer-main/style" as *;
+@use "../template-parts/hero-page/style" as *;
+@use "../template-parts/post-meta/style" as *;
