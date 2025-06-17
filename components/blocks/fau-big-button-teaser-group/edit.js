@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 import {
 	PanelBody,
@@ -91,16 +91,24 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	// Handle page selection
 	const handlePageSelection = ( pageId ) => {
-		if ( ! pageId ) return;
+		if ( ! pageId ) {
+			return;
+		}
 
 		const page = availablePages.find( ( p ) => p.id === pageId );
-		if ( ! page ) return;
+		if ( ! page ) {
+			return;
+		}
 
 		// Don't add if already selected
-		if ( selectedPages.some( ( p ) => p.id === page.id ) ) return;
+		if ( selectedPages.some( ( p ) => p.id === page.id ) ) {
+			return;
+		}
 
 		// Don't add if we've reached the maximum number of buttons
-		if ( selectedPages.length >= numberOfButtons ) return;
+		if ( selectedPages.length >= numberOfButtons ) {
+			return;
+		}
 
 		const newSelectedPages = [
 			...selectedPages,
@@ -438,15 +446,14 @@ export default function Edit( { attributes, setAttributes } ) {
 										marginTop: '8px',
 									} }
 								>
-									{ __(
-										'Note: Only the first ',
-										'fau-elemental'
-									) +
-										numberOfButtons +
+									{ sprintf(
+										// translators: %s: number of pages
 										__(
-											' pages will be displayed based on your "Number of Buttons" setting.',
+											'Note: Only the first %s pages will be displayed based on your "Number of Buttons" setting.',
 											'fau-elemental'
-										) }
+										),
+										numberOfButtons
+									) }
 								</p>
 							) }
 						</div>
@@ -475,47 +482,44 @@ export default function Edit( { attributes, setAttributes } ) {
 
 				<div className="fau-big-button-teaser-group__buttons">
 					{ pages &&
-						pages
-							.slice( 0, numberOfButtons )
-							.map( ( page, index ) => (
-								<div
-									key={ page.id }
-									className="fau-big-button-teaser-group__button"
+						pages.slice( 0, numberOfButtons ).map( ( page ) => (
+							<div
+								key={ page.id }
+								className="fau-big-button-teaser-group__button"
+							>
+								<a
+									href={ page.link }
+									className="fau-big-button-teaser-group__button-link"
 								>
-									<a
-										href={ page.link }
-										className="fau-big-button-teaser-group__button-link"
-									>
-										<h3 className="fau-big-button-teaser-group__button-title">
+									<h3 className="fau-big-button-teaser-group__button-title">
+										<span
+											dangerouslySetInnerHTML={ {
+												__html: page.title.rendered,
+											} }
+										/>
+									</h3>
+									{ page.excerpt && page.excerpt.rendered && (
+										<p className="fau-big-button-teaser-group__button-text">
 											<span
 												dangerouslySetInnerHTML={ {
-													__html: page.title.rendered,
+													__html:
+														page.excerpt.rendered
+															.replace(
+																/<[^>]*>/g,
+																''
+															)
+															.substring(
+																0,
+																120
+															) + '...',
 												} }
 											/>
-										</h3>
-										{ page.excerpt &&
-											page.excerpt.rendered && (
-												<p className="fau-big-button-teaser-group__button-text">
-													<span
-														dangerouslySetInnerHTML={ {
-															__html:
-																page.excerpt.rendered
-																	.replace(
-																		/<[^>]*>/g,
-																		''
-																	)
-																	.substring(
-																		0,
-																		120
-																	) + '...',
-														} }
-													/>
-												</p>
-											) }
-										<span className="arrow-link"></span>
-									</a>
-								</div>
-							) ) }
+										</p>
+									) }
+									<span className="arrow-link"></span>
+								</a>
+							</div>
+						) ) }
 
 					{ /* Show placeholder buttons for empty slots */ }
 					{ Array.from( {
@@ -530,10 +534,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								className="fau-big-button-teaser-group__button-link"
 							>
 								<h3 className="fau-big-button-teaser-group__button-title">
-									{ __(
-										'Select a page...',
-										'fau-elemental'
-									) }
+									{ __( 'Select a page…', 'fau-elemental' ) }
 								</h3>
 								<p className="fau-big-button-teaser-group__button-text">
 									{ __(
