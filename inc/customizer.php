@@ -400,17 +400,17 @@ function fau_customizer_settings($wp_customize) {
         'description' => __('Configure social media links', 'fau-elemental'),
     ]);
     
-    $social_platforms = [
+    $social_platforms = array(
         'instagram' => 'Instagram',
         'facebook' => 'Facebook',
         'xing' => 'Xing',
         'linkedin' => 'LinkedIn',
-        'twitter' => 'X/Twitter',
+        'x' => 'X',
         'mastodon' => 'Mastodon',
-        'bluesky' => 'BlueSky',
+        'bluesky' => 'Bluesky',
         'youtube' => 'YouTube',
         'tiktok' => 'TikTok'
-    ];
+    );
 
     foreach ($social_platforms as $key => $label) {
         $wp_customize->add_setting('social_' . $key);

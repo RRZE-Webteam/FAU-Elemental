@@ -108,7 +108,6 @@
                             'linkedin' => 'LinkedIn',
                             'x' => 'X',
                             'mastodon' => 'Mastodon',
-                            'blog' => 'Blog',
                             'bluesky' => 'Bluesky',
                             'youtube' => 'YouTube',
                             'tiktok' => 'TikTok'
