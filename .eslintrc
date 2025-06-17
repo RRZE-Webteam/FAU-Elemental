@@ -1,5 +1,9 @@
 {
 	"root": true,
+    "env": {
+        "jquery": true,
+        "browser": true
+    },
 	"extends": [ "plugin:@wordpress/eslint-plugin/recommended" ],
 	"overrides": [
 		{
@@ -8,5 +12,9 @@
 		}
 	],
     "rules": {
+        "no-nested-ternary": "off", /* it would be nice to enable this, but we have a lot of JSX using this rule */
+        "react-hooks/rules-of-hooks": "off", /* this causes errors with our Gutenberg Core Block overrides, maybe we can fix this later */
+        "jsdoc/require-param": "off",
+        "@wordpress/no-unsafe-wp-apis": "off"
     }
 }
