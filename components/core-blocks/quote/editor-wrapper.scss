@@ -98,6 +98,10 @@
 
 		&:hover {
 			background: #f0f0f0;
+
+			.quote-list-item__actions {
+				opacity: 1;
+			}
 		}
 
 		&.is-selected {
@@ -161,13 +165,6 @@
 
 			&:not(:disabled):not([aria-disabled="true"]):hover {
 				color: #cc1818;
-			}
-		}
-
-		&:hover {
-
-			.quote-list-item__actions {
-				opacity: 1;
 			}
 		}
 

@@ -220,7 +220,7 @@ const GalleryCarousel = ( props ) => {
 		}
 
 		// figure out the next slide - handle both positive and negative offsets correctly
-		let nextSlideIndex =
+		const nextSlideIndex =
 			( ( ( currentSlideIndex + offset ) % slides.length ) +
 				slides.length ) %
 			slides.length;

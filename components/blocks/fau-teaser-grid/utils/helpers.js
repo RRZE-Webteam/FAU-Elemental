@@ -39,7 +39,9 @@ export function shallowEqual( obj1, obj2 ) {
 }
 
 export function createPagination( currentPage, totalPages, onPageChange ) {
-	if ( totalPages <= 1 ) return null;
+	if ( totalPages <= 1 ) {
+		return null;
+	}
 
 	const pages = [];
 	const maxVisiblePages = 5;
@@ -121,7 +123,9 @@ export function createPagination( currentPage, totalPages, onPageChange ) {
 }
 
 export function updateGridClasses( grid, displayStyle, teaserLayout ) {
-	if ( ! grid ) return;
+	if ( ! grid ) {
+		return;
+	}
 
 	// First, remove all existing classes
 	grid.className = '';
