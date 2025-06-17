@@ -81,6 +81,7 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 			className="teaser-item disabled"
 			data-variant={ variant }
 			aria-labelledby={ `teaser-title-${ post.id }` }
+			href="#preview"
 		>
 			{ memoizedData.image && (
 				<div className="teaser-image-wrapper">
