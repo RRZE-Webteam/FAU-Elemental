@@ -22,15 +22,7 @@ function faue_setup() {
     // Enable support for Post Thumbnails on posts and pages
     add_theme_support('post-thumbnails');
 
-    // Register navigation menus
-    register_nav_menus(
-        array(
-            'primary' => esc_html__('Primary Menu', 'fau-elemental'),
-            'footer' => esc_html__('Footer Menu', 'fau-elemental'),
-            'social' => esc_html__('Social Menu', 'fau-elemental'),
-            'portal' => esc_html__('Portal Menu', 'fau-elemental'),
-        )
-    );
+
 
     add_editor_style(array(
         'style.css',
