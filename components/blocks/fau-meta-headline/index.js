@@ -14,7 +14,7 @@ registerBlockType( 'fau-elemental/fau-meta-headline', {
 				onChange={ ( content ) =>
 					setAttributes( { headline: content } )
 				}
-				placeholder={ __( 'Enter meta headline...', 'fau-elemental' ) }
+				placeholder={ __( 'Enter meta headline…', 'fau-elemental' ) }
 				allowedFormats={ [] }
 			/>
 		);

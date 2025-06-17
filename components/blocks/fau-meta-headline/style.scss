@@ -10,7 +10,7 @@
 	letter-spacing: var(--letter-spacing-big);
 
 	&::before {
-		content: '';
+		content: "";
 		position: absolute;
 		width: 100vh;
 		height: 0.125rem;
@@ -22,6 +22,7 @@
 
 // Dark Mode
 .is-style-dark {
+
 	.wp-block-fau-elemental-fau-meta-headline {
 		color: var(--FAU-Col-FAU-Weiss-100);
 
@@ -33,6 +34,7 @@
 
 // Responsive
 @media screen and (max-width: 1190px) {
+
 	.wp-block-fau-elemental-fau-meta-headline {
 		margin-left: var(--Spacing-10x);
 
