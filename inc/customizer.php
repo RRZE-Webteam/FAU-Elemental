@@ -81,9 +81,9 @@ function fau_customizer_settings($wp_customize) {
     
     // Main Footer Panel
     $wp_customize->add_panel('fau_footer_panel', [
-        'title' => __('Footer-Einstellungen', 'fau-elemental'),
+        'title' => __('Footer Settings', 'fau-elemental'),
         'priority' => 130,
-        'description' => __('Einstellungen für den Footer', 'fau-elemental'),
+        'description' => __('Settings for the footer', 'fau-elemental'),
     ]);
     
     // ======= 1. CLAIM SECTION =======
@@ -116,7 +116,7 @@ function fau_customizer_settings($wp_customize) {
         'default' => 'FAU - Wissen in Bewegung'
     ]);
     $wp_customize->add_control('fau_footer_title', [
-        'label' => __('Überschrift', 'fau-elemental'),
+        'label' => __('Heading', 'fau-elemental'),
         'description' => __('Main heading for the claim section', 'fau-elemental'),
         'section' => 'footer_claim',
         'type' => 'text',
@@ -138,7 +138,7 @@ function fau_customizer_settings($wp_customize) {
     // ======= 2. BESCHREIBUNG SECTION (Faculty Information) =======
     if ($website_type !== 'fau') {
         $wp_customize->add_section('footer_beschreibung', [
-            'title' => __('Beschreibung', 'fau-elemental'),
+            'title' => __('Description', 'fau-elemental'),
             'panel' => 'fau_footer_panel',
             'priority' => 20,
             'description' => __('Configure faculty information', 'fau-elemental'),
@@ -149,7 +149,7 @@ function fau_customizer_settings($wp_customize) {
             'default' => get_bloginfo('name')
         ]);
         $wp_customize->add_control('instance_title', [
-            'label' => __('Überschrift', 'fau-elemental'),
+            'label' => __('Heading', 'fau-elemental'),
             'description' => __('Main heading for the faculty section', 'fau-elemental'),
             'section' => 'footer_beschreibung',
             'type' => 'text',
@@ -161,7 +161,7 @@ function fau_customizer_settings($wp_customize) {
             'default' => get_bloginfo('description')
         ]);
         $wp_customize->add_control('instance_description', [
-            'label' => __('Beschreibung', 'fau-elemental'),
+            'label' => __('Description', 'fau-elemental'),
             'description' => __('Descriptive text for the faculty section', 'fau-elemental'),
             'section' => 'footer_beschreibung',
             'type' => 'textarea',
@@ -172,7 +172,7 @@ function fau_customizer_settings($wp_customize) {
     // ======= 3. KONTAKTINFORMATION SECTION =======
     if ($website_type !== 'fau') {
         $wp_customize->add_section('footer_kontaktinformation', [
-            'title' => __('Kontaktinformation', 'fau-elemental'),
+            'title' => __('Contact Information', 'fau-elemental'),
             'panel' => 'fau_footer_panel',
             'priority' => 30,
             'description' => __('Configure contact information', 'fau-elemental'),
@@ -181,35 +181,35 @@ function fau_customizer_settings($wp_customize) {
         // Get faculty-specific default values
         $defaults = [
             'phil' => [
-                'name' => __('Philosophische Fakultät', 'fau-elemental'),
+                'name' => __('Philosophical Faculty', 'fau-elemental'),
                 'street' => 'Bismarckstraße 1',
                 'city' => '91054 Erlangen',
                 'phone' => '+49 9131 85 22345',
                 'email' => 'dekanat-phil@fau.de'
             ],
             'nat' => [
-                'name' => __('Naturwissenschaftliche Fakultät', 'fau-elemental'),
+                'name' => __('Natural Sciences Faculty', 'fau-elemental'),
                 'street' => 'Naturwissenschaftliche Fakultät',
                 'city' => '91058 Erlangen',
                 'phone' => '+49 9131 85 27032',
                 'email' => 'dekanat-nat@fau.de'
             ],
             'med' => [
-                'name' => __('Medizinische Fakultät', 'fau-elemental'),
+                'name' => __('Medical Faculty', 'fau-elemental'),
                 'street' => 'Krankenhausstraße 12',
                 'city' => '91054 Erlangen',
                 'phone' => '+49 9131 85 26730',
                 'email' => 'med-dekanat@fau.de'
             ],
             'rw' => [
-                'name' => __('Rechtswissenschaftliche Fakultät', 'fau-elemental'),
+                'name' => __('Law Faculty', 'fau-elemental'),
                 'street' => 'Schillerstraße 1',
                 'city' => '91054 Erlangen',
                 'phone' => '+49 9131 85 22260',
                 'email' => 'dekanat-rw@fau.de'
             ],
             'tf' => [
-                'name' => __('Technische Fakultät', 'fau-elemental'),
+                'name' => __('Technical Faculty', 'fau-elemental'),
                 'street' => 'Martensstraße 5a',
                 'city' => '91058 Erlangen',
                 'phone' => '+49 9131 85 27130',
@@ -228,8 +228,8 @@ function fau_customizer_settings($wp_customize) {
         ]);
         
         $wp_customize->add_control('display_footer_address', [
-            'label' => __('Adressinformationen anzeigen', 'fau-elemental'),
-            'description' => __('Adressinformationen im Footer anzeigen oder ausblenden', 'fau-elemental'),
+            'label' => __('Display Address Information', 'fau-elemental'),
+            'description' => __('Display address information in the footer', 'fau-elemental'),
             'section' => 'footer_kontaktinformation',
             'type' => 'checkbox',
             'priority' => 5,
@@ -237,31 +237,31 @@ function fau_customizer_settings($wp_customize) {
         
         $contact_fields = [
             'instance_university_name' => [
-                'label' => __('Name der Universität', 'fau-elemental'),
+                'label' => __('Name of the University', 'fau-elemental'),
                 'default' => ''
             ],
             'instance_faculty_name' => [
-                'label' => __('Name der Fakultät', 'fau-elemental'),
+                'label' => __('Name of the Faculty', 'fau-elemental'),
                 'default' => ''
             ],
             'instance_street' => [
-                'label' => __('Straße', 'fau-elemental'),
+                'label' => __('Street', 'fau-elemental'),
                 'default' => ''
             ],
             'instance_city' => [
-                'label' => __('PLZ Ort', 'fau-elemental'),
+                'label' => __('Postal Code and City', 'fau-elemental'),
                 'default' => ''
             ],
             'instance_phone' => [
-                'label' => __('Telefonnummer', 'fau-elemental'),
+                'label' => __('Phone Number', 'fau-elemental'),
                 'default' => ''
             ],
             'instance_email' => [
-                'label' => __('E-Mail-Adresse', 'fau-elemental'),
+                'label' => __('E-Mail Address', 'fau-elemental'),
                 'default' => ''
             ],
             'instance_directions_link' => [
-                'label' => __('Link zur Anfahrt', 'fau-elemental'),
+                'label' => __('Directions Link', 'fau-elemental'),
                 'default' => ''
             ]
         ];
@@ -294,7 +294,7 @@ function fau_customizer_settings($wp_customize) {
         ]);
         
         $wp_customize->add_control('instance_country', [
-            'label' => __('Land', 'fau-elemental'),
+            'label' => __('Country', 'fau-elemental'),
             'section' => 'footer_kontaktinformation',
             'type' => 'text',
             'priority' => 65,
@@ -303,7 +303,7 @@ function fau_customizer_settings($wp_customize) {
     
     // ======= 4. ZIELGRUPPEN-LINKS SECTION =======
     $wp_customize->add_section('footer_zielgruppen', [
-        'title' => __('Zielgruppen-Links', 'fau-elemental'),
+        'title' => __('Target Group Links', 'fau-elemental'),
         'panel' => 'fau_footer_panel',
         'priority' => 40,
         'description' => __('Configure the target group sections', 'fau-elemental')
@@ -316,10 +316,10 @@ function fau_customizer_settings($wp_customize) {
             'transport' => 'refresh',
             'sanitize_callback' => 'fau_sanitize_checkbox',
         ]);
-        
+                    
         $wp_customize->add_control('hide_fau_info_section', [
-            'label' => __('FAU-Bereich ausblenden', 'fau-elemental'),
-            'description' => __('FAU-Logo und Zielgruppen-Links ausblenden (nur Copyright-Informationen anzeigen). Empfohlen für externe Kooperationswebsites.', 'fau-elemental'),
+            'label' => __('Hide FAU section', 'fau-elemental'),
+            'description' => __('Hide FAU section (only show copyright information). Recommended for external cooperation websites.', 'fau-elemental'),
             'section' => 'footer_zielgruppen',
             'type' => 'checkbox',
             'priority' => 5,
@@ -327,10 +327,10 @@ function fau_customizer_settings($wp_customize) {
     }
     
     $target_groups = [
-        'section1' => __('Sektion 1', 'fau-elemental'),
-        'section2' => __('Sektion 2', 'fau-elemental'),
-        'section3' => __('Sektion 3', 'fau-elemental'),
-        'section4' => __('Sektion 4', 'fau-elemental')
+        'section1' => __('Section 1', 'fau-elemental'),
+        'section2' => __('Section 2', 'fau-elemental'),
+        'section3' => __('Section 3', 'fau-elemental'),
+        'section4' => __('Section 4', 'fau-elemental')
     ];
     
     foreach ($target_groups as $key => $label) {
@@ -350,22 +350,22 @@ function fau_customizer_settings($wp_customize) {
             'default' => $label
         ]);
         $wp_customize->add_control('target_' . $key . '_title', [
-            'label' => __('Überschrift', 'fau-elemental'),
+            'label' => __('Heading', 'fau-elemental'),
             'section' => 'footer_zielgruppen',
             'type' => 'text'
         ]);
         
         // Beschreibung (was Description)
-        $default_desc = __('Schwerpunkte, Leitbild, Reputation, Erfolge u.v.m.', 'fau-elemental');
+        $default_desc = __('Focus, Mission, Reputation, Successes, etc.', 'fau-elemental');
         if ($key === 'section1') {
-            $default_desc = __('Geschichte, Besonderheiten Daten, Struktur u.v.m', 'fau-elemental');
+            $default_desc = __('History, Specialties, Data, Structure, etc.', 'fau-elemental');
         }
         
         $wp_customize->add_setting('target_' . $key . '_description', [
             'default' => $default_desc
         ]);
         $wp_customize->add_control('target_' . $key . '_description', [
-            'label' => __('Beschreibung', 'fau-elemental'),
+            'label' => __('Description', 'fau-elemental'),
             'section' => 'footer_zielgruppen',
             'type' => 'textarea'
         ]);
@@ -394,7 +394,7 @@ function fau_customizer_settings($wp_customize) {
     
     // ======= 5. SOCIAL-MEDIA-LINKS SECTION =======
     $wp_customize->add_section('footer_social_media', [
-        'title' => __('Social-Media-Links', 'fau-elemental'),
+        'title' => __('Social Media Links', 'fau-elemental'),
         'panel' => 'fau_footer_panel',
         'priority' => 50,
         'description' => __('Configure social media links', 'fau-elemental'),
@@ -416,7 +416,7 @@ function fau_customizer_settings($wp_customize) {
         $wp_customize->add_setting('social_' . $key);
         $wp_customize->add_control('social_' . $key, [
             'label' => $label,
-            'description' => sprintf(__('%s URL eingeben', 'fau-elemental'), $label),
+            'description' => sprintf(__('Enter the %s URL', 'fau-elemental'), $label),
             'section' => 'footer_social_media',
             'type' => 'url'
         ]);
@@ -424,7 +424,7 @@ function fau_customizer_settings($wp_customize) {
     
     // ======= 6. POST OPTIONS SECTION =======
     $wp_customize->add_section('faue_post_options', array(
-        'title'    => esc_html__('Beitrags-Einstellungen', 'fau-elemental'),
+        'title'    => esc_html__('Post Settings', 'fau-elemental'),
         'priority' => 140,
     ));
 
@@ -437,7 +437,7 @@ function fau_customizer_settings($wp_customize) {
 
     // Add control for showing/hiding post meta
     $wp_customize->add_control('faue_show_post_meta', array(
-        'label'    => esc_html__('Beitrags-Metadaten anzeigen', 'fau-elemental'),
+        'label'    => esc_html__('Show post metadata', 'fau-elemental'),
         'section'  => 'faue_post_options',
         'type'     => 'checkbox',
         'priority' => 10,
@@ -452,7 +452,7 @@ function fau_customizer_settings($wp_customize) {
 
     // Add control for post meta dark theme
     $wp_customize->add_control('faue_post_meta_dark_theme', array(
-        'label'    => esc_html__('Beitrags-Metadaten im dunklen Theme anzeigen', 'fau-elemental'),
+        'label'    => esc_html__('Show post metadata in dark theme', 'fau-elemental'),
         'section'  => 'faue_post_options',
         'type'     => 'checkbox',
         'priority' => 20,
