@@ -10,7 +10,9 @@ const FALLBACK_IMAGE =
 const getRestBaseUrl = createSelector( ( select ) => window.location.origin );
 
 export default function PostTeaser( { post, headingLevel = 'h4' } ) {
-	if ( ! post ) return null;
+	if ( ! post ) {
+		return null;
+	}
 
 	const baseUrl = useSelect( ( select ) => getRestBaseUrl( select ), [] );
 

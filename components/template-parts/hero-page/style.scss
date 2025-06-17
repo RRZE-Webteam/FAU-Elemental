@@ -1,0 +1,62 @@
+@use "../../ui/mixins/mixins" as *;
+
+.hero-page {
+	padding: var(--Spacing-10x) var(--Spacing-10x);
+	box-sizing: content-box;
+	max-width: 1320px;
+	margin-left: auto;
+	margin-right: auto;
+
+	.faeu-featured-image + div {
+		position: relative;
+		margin: 0 auto;
+		top: -40px;
+		background: var(--FAU-Col-FAU-Weiss-100);
+		padding: var(--Spacing-5x) var(--Spacing-8x);
+		max-width: calc(870px + 4rem);
+	}
+}
+
+// Responsive
+@include respond-to("medium") {
+
+	.hero-page {
+
+		.wp-block-post-featured-image + .wp-block-post-title {
+			width: 80%; // Make sure there is a distance between title container and image borders
+		}
+	}
+}
+
+@include respond-to("small") {
+
+	.hero-page {
+
+		.wp-block-post-title {
+			font-size: 2.5rem;
+		}
+
+		.wp-block-post-featured-image + .wp-block-post-title {
+			top: -77px;
+			padding: var(--Spacing-4x) var(--Spacing-6x);
+		}
+	}
+}
+
+@include respond-to("x-small") {
+
+	.hero-page {
+		padding: unset;
+
+		.wp-block-post-title {
+			font-size: 1.75rem;
+			padding: 0 var(--Spacing-10x);
+		}
+
+		.wp-block-post-featured-image + .wp-block-post-title {
+			top: -57px;
+			width: 90%;
+			padding: var(--Spacing-3x) var(--Spacing-3x);
+		}
+	}
+}
