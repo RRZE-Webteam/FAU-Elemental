@@ -61,6 +61,7 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 			className="teaser-item disabled"
 			data-variant={ variant }
 			aria-labelledby={ `teaser-title-${ page.id }` }
+			href="#preview"
 		>
 			{ memoizedData.image && (
 				<div className="teaser-image-wrapper">
