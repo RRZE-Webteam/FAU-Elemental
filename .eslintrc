@@ -1,0 +1,22 @@
+{
+	"root": true,
+    "env": {
+        "jquery": true,
+        "browser": true
+    },
+	"extends": [ "plugin:@wordpress/eslint-plugin/recommended" ],
+	"overrides": [
+		{
+			"files": [ "**/@(test|__tests__)/**/*.js', '**/?(*.)test.js" ],
+			"extends": [ "plugin:@wordpress/eslint-plugin/test-unit" ]
+		}
+	],
+    "rules": {
+        "jsdoc/require-param": "off",
+        "no-console": ["error", { "allow": ["warn", "error"] }], /* warnings and errors in the console are ok */
+        "no-nested-ternary": "off", /* it would be nice to enable this, but we have a lot of JSX using this rule */
+        "react-hooks/rules-of-hooks": "off", /* this causes errors with our Gutenberg Core Block overrides, maybe we can fix this later */
+        "react-hooks/exhaustive-deps": "off", /* this detects non-dependencies like setAttributes. Maybe we use hooks like useEffect way to much or even wrong, but for now we just don't check it */
+        "@wordpress/no-unsafe-wp-apis": "off" /* in some places we needed unsafe apis, maybe this rule can be more concrete which functions are allowed */
+    }
+}

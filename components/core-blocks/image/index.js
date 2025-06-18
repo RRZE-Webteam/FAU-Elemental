@@ -132,7 +132,7 @@ addFilter(
  * It also adds an 'image-wrapper' class to the parent div of images for styling purposes.
  *
  * @param {*} BlockEdit
- * @returns {JSX} The enhanced Image block component.
+ * @return {JSX} The enhanced Image block component.
  */
 addFilter(
 	'editor.BlockEdit',
@@ -161,17 +161,23 @@ addFilter(
 
 			// Helper function to enforce 3:2 aspect ratio maximum
 			const enforceAspectRatio = () => {
-				if ( ! blockRef.current ) return;
+				if ( ! blockRef.current ) {
+					return;
+				}
 				enforceImageAspectRatio( blockRef.current );
 			};
 
 			// Add the button and enforce aspect ratio after the component mounts
 			useEffect( () => {
-				if ( ! url ) return;
+				if ( ! url ) {
+					return;
+				}
 
 				const figure = blockRef.current?.querySelector( 'figure' );
 				const img = blockRef.current?.querySelector( 'img' );
-				if ( ! img ) return;
+				if ( ! img ) {
+					return;
+				}
 
 				// Add image-wrapper class to the parent div of the img
 				const parentDiv = img?.parentNode;

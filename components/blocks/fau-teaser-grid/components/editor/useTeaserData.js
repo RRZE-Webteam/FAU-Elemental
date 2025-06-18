@@ -1,5 +1,4 @@
 import { useSelect, createSelector } from '@wordpress/data';
-import { useMemo } from 'react';
 
 export const usePostTypes = () => {
 	return useSelect( ( select ) => {
@@ -23,7 +22,7 @@ export const useCategories = () => {
 	}, [] );
 };
 
-export const usePosts = ( variant, queryParams ) => {
+export const usePosts = ( postVariant, queryParams ) => {
 	const getPosts = createSelector(
 		( select, variant, query ) => {
 			const rawPosts = select( 'core' ).getEntityRecords(
@@ -31,7 +30,9 @@ export const usePosts = ( variant, queryParams ) => {
 				variant,
 				query
 			);
-			if ( ! Array.isArray( rawPosts ) ) return [];
+			if ( ! Array.isArray( rawPosts ) ) {
+				return [];
+			}
 
 			return rawPosts.map( ( post ) => ( {
 				id: post.id,
@@ -63,10 +64,10 @@ export const usePosts = ( variant, queryParams ) => {
 
 	return useSelect(
 		( select ) => {
-			const posts = getPosts( select, variant, queryParams );
+			const posts = getPosts( select, postVariant, queryParams );
 			const isResolving = select( 'core' ).isResolving(
 				'getEntityRecords',
-				[ 'postType', variant, queryParams ]
+				[ 'postType', postVariant, queryParams ]
 			);
 
 			return {
@@ -74,14 +75,16 @@ export const usePosts = ( variant, queryParams ) => {
 				isLoading: isResolving,
 			};
 		},
-		[ variant, queryParams, getPosts ]
+		[ postVariant, queryParams, getPosts ]
 	);
 };
 
 export const useAvailablePosts = ( searchTerm, variant ) => {
 	return useSelect(
 		( select ) => {
-			if ( ! searchTerm || ! variant ) return [];
+			if ( ! searchTerm || ! variant ) {
+				return [];
+			}
 			const posts =
 				select( 'core' ).getEntityRecords( 'postType', variant, {
 					search: searchTerm,
@@ -104,7 +107,9 @@ export const useAvailablePosts = ( searchTerm, variant ) => {
 export const useTotalItems = ( variant, selectedCategory ) => {
 	return useSelect(
 		( select ) => {
-			if ( ! variant ) return { totalItems: 0 };
+			if ( ! variant ) {
+				return { totalItems: 0 };
+			}
 
 			const countQuery = {
 				per_page: 1,

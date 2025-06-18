@@ -121,6 +121,38 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 }
                 $output .= '</a>';
                 $output .= '</div>';
+            } else {
+                // Grid view / Column view (modern)
+                $type_class = 'portal-type-' . $this->settings['type'];
+                $has_thumbnail = ($thumbnail && !$this->settings['nothumbs']) ? 'has-thumbnail' : 'no-thumbnail';
+                
+                // Calculate column class based on settings
+                $column_class = 'portal-column-' . $this->settings['columns'];
+                
+                // Add modern FAU card layout classes
+                $output .= $indent . '<li class="portal-item ' . $type_class . ' ' . $has_thumbnail . ' ' . $theme_class . ' ' . $faculty_class . ' ' . $column_class . ' fau-card">';
+                
+                // Image section first
+                if ($thumbnail && !$this->settings['nothumbs']) {
+                    $hover_classes = '';
+                    if ($this->settings['hoverzoom']) $hover_classes .= ' portal-hover-zoom';
+                    if ($this->settings['hoverblur']) $hover_classes .= ' portal-hover-blur';
+                    
+                    $output .= '<div class="portal-thumbnail fau-card-image' . $hover_classes . '">';
+                    $output .= '<a href="' . esc_url($permalink) . '" class="image-link">';
+                    $output .= '<img src="' . esc_url($thumbnail) . '" alt="' . esc_attr($title) . '" />';
+                    $output .= '</a>';
+                    $output .= '</div>';
+                }
+                
+                // Main content section with title and arrow button
+                $output .= '<div class="portal-content fau-card-content">';
+                $output .= '<h3 class="portal-title fau-card-title">';
+                $output .= '<a href="' . esc_url($permalink) . '" class="portal-main-link">' . $title;
+                // Add arrow button based on faculty color
+                $output .= '<span class="portal-button-arrow ' . $faculty_class . '"><span class="screen-reader-text">' . __('Go to', 'fau-elemental') . ' ' . $title . '</span>→</span>';
+                $output .= '</a>';
+                $output .= '</h3>';
             }
             
             // Content section

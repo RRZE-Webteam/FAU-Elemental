@@ -124,4 +124,4 @@ function render_block_fau_portalmenu($attributes, $content, $block) {
     echo '</section>';
     
     return ob_get_clean();
-} 
+}

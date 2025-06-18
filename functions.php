@@ -9,6 +9,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+
+// Configuration
+require_once get_template_directory() . '/inc/config.php';
+
 // Theme setup and core functionality
 require_once get_template_directory() . '/inc/theme-setup.php';
 
@@ -110,9 +114,6 @@ function fau_elemental_template_include($template) {
 add_filter('template_include', 'fau_elemental_template_include', 99);
 
 /**
- * Add a filter to post updated messages to help with portal page template
- */
-/**
  * Main theme setup function for FAU-Elemental
  */
  function fau_elemental_theme_setup() {
@@ -131,11 +132,7 @@ add_filter('template_include', 'fau_elemental_template_include', 99);
     ));
     add_theme_support('title-tag');
     
-    // Register core menu locations used by PHP templates
-    register_nav_menus(array(
-        'primary' => __('Primary Menu', 'fau-elemental'),
-        'footer' => __('Footer Menu', 'fau-elemental'),
-    ));
+ 
     
     // Add custom image sizes if needed
     // add_image_size('featured-large', 1600, 900, true);
@@ -199,15 +196,10 @@ add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_php_template_styles');
 function fau_elemental_body_classes($classes) {
     // Add these classes to ensure PHP templates look like block templates
     $classes[] = 'wp-theme';
-    // $classes[] = 'is-layout-flow';
     
     return $classes;
 }
 add_filter('body_class', 'fau_elemental_body_classes');
-
-
-
-
 
 /**
  * Function to load template parts for both block and PHP templates
@@ -253,4 +245,70 @@ add_action('after_switch_theme', function() {
     if (function_exists('fau_elemental_check_old_portal_menu_settings')) {
         fau_elemental_check_old_portal_menu_settings();
     }
+    
+    // Also trigger address migration
+    if (function_exists('fau_elemental_migrate_address_information')) {
+        fau_elemental_migrate_address_information();
+    }
 });
+
+/**
+ * Sanitize and format telephone number
+ * Follows international standards as required by FAU
+ *
+ * @param string $phone The phone number to format
+ * @return string Formatted phone number
+ */
+function fau_elemental_format_phone_number($phone) {
+    if (empty($phone)) {
+        return '';
+    }
+    
+    // Remove all characters except numbers, "+", "(", ")", "-" and spaces
+    $phone = preg_replace('/[^\d\+\-\(\) ]/', '', $phone);
+    $phone = preg_replace('/\s+/', ' ', trim($phone));
+    
+    // Convert "+49(0)" to "+49"
+    $phone = preg_replace('/^\+49\s*\(0\)/', '+49', $phone);
+    $phone = preg_replace('/^0049/', '+49', $phone);
+    
+    // If number starts with "0" (German number without country code)
+    if (preg_match('/^0[1-9]/', $phone)) {
+        $phone = preg_replace('/^0/', '+49 ', $phone);
+    }
+    
+    // Standardize format with spaces between groups
+    $phone = preg_replace('/(\+?\d{1,3})\s*(\d{3,4})\s*(\d{3,4})\s*(\d{0,4})/', '$1 $2 $3 $4', $phone);
+    
+    return trim($phone); // Remove excess spaces at the end
+}
+
+/**
+ * Enqueue footer scripts and localize strings
+ */
+function fau_elemental_enqueue_footer_scripts() {
+    // Only enqueue on pages that have footers
+    if (is_admin()) {
+        return;
+    }
+    
+    $website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
+    
+    // Enqueue footer toggle script for instance sites (where the toggle is used)
+    if ($website_type !== 'fau') {
+        wp_enqueue_script(
+            'fau-footer-toggle',
+            get_theme_file_uri('components/template-parts/footer-main/footer-toggle.js'),
+            [],
+            wp_get_theme()->get('Version'),
+            true
+        );
+        
+        // Localize strings for the footer toggle functionality
+        wp_localize_script('fau-footer-toggle', 'fauFooterStrings', [
+            'showMore' => __('Show more', 'fau-elemental'),
+            'showLess' => __('Show less', 'fau-elemental')
+        ]);
+    }
+}
+add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_footer_scripts');
