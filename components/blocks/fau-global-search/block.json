@@ -1,29 +1,29 @@
 {
-    "$schema": "https://schemas.wp.org/trunk/block.json",
-    "apiVersion": 3,
-    "name": "fau-elemental/fau-global-search",
-    "title": "FAU Global Search",
-    "category": "widgets",
-    "description": "A block with multisite search capabilities, customizable title, and search suggestions.",
-    "version": "0.1.0",
-    "textdomain": "fau-elemental",
-    "icon": "search",
-    "supports": {
-        "html": false,
-        "align": true
-    },
-    "attributes": {
-        "align": {
-            "type": "string",
-            "default": "none"
-        },
-        "searchScope": {
-            "type": "string",
-            "default": "current"
-        }
-    },
-    "editorScript": "file:./index.js",
-    "render": "file:./render.php",
-    "style": "file:./style.scss",
-    "editorStyle": "file:./editor.scss"
-} 
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "fau-elemental/fau-global-search",
+	"title": "FAU Global Search",
+	"category": "widgets",
+	"description": "A block with multisite search capabilities, customizable title, and search suggestions.",
+	"version": "0.1.0",
+	"textdomain": "fau-elemental",
+	"icon": "search",
+	"supports": {
+		"html": false,
+		"align": true
+	},
+	"attributes": {
+		"align": {
+			"type": "string",
+			"default": "none"
+		},
+		"searchScope": {
+			"type": "string",
+			"default": "current"
+		}
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php",
+	"style": "file:./style.scss",
+	"editorStyle": "file:./editor.scss"
+}
