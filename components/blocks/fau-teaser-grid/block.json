@@ -27,17 +27,9 @@
 			"type": "number",
 			"default": 3
 		},
-		"showFilters": {
+		"showLoadMore": {
 			"type": "boolean",
 			"default": false
-		},
-		"enableFilterIntegration": {
-			"type": "boolean",
-			"default": false
-		},
-		"filterBlockId": {
-			"type": "string",
-			"default": ""
 		},
 		"selectedCategory": {
 			"type": "number",
@@ -54,10 +46,6 @@
 		"displayStyle": {
 			"type": "string",
 			"default": "teaser-grid"
-		},
-		"showPagination": {
-			"type": "boolean",
-			"default": true
 		},
 		"totalPosts": {
 			"type": "number",
@@ -97,7 +85,8 @@
 			"variant": "post",
 			"postsPerPage": 6,
 			"displayStyle": "teaser-grid",
-			"teaserLayout": "3m"
+			"teaserLayout": "3m",
+			"showLoadMore": true
 		}
 	}
 }

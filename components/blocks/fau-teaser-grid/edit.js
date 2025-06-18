@@ -11,12 +11,10 @@ import {
 	__experimentalToggleGroupControl,
 	__experimentalToggleGroupControlOption,
 	DropdownMenu,
-	TextControl,
 	ToggleControl,
 } from '@wordpress/components';
 import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { createBlock } from '@wordpress/blocks';
 
 import PostTeaser from './components/PostTeaser';
 import PageTeaser from './components/PageTeaser';
@@ -61,110 +59,17 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		postsPerPage,
 		selectedCategory,
 		currentPage,
-		showPagination,
 		totalPosts,
 		orderBy,
 		order,
 		selectedPosts,
 		selectionMode,
 		headingLevel,
-		enableFilterIntegration,
-		filterBlockId,
+		showLoadMore,
 	} = attributes;
 
 	const gridRef = useRef( null );
 	const [ searchTerm, setSearchTerm ] = useState( '' );
-
-	// Block editor hooks
-	const { insertBlock } = useDispatch( 'core/block-editor' );
-	const { createSuccessNotice } = useDispatch( 'core/notices' );
-	const { getBlockIndex, getBlockRootClientId, getBlocks } =
-		useSelect( 'core/block-editor' );
-
-	// Function to automatically insert a list filters block
-	const insertListFiltersBlock = () => {
-		try {
-			// Create a new FAU List Filters block
-			const listFiltersBlock = createBlock(
-				'fau-elemental/fau-list-filters',
-				{
-					enableSearch: true,
-					enableFilters: true,
-					showMoreFiltersButton: true,
-					enableViewSwitcher: true,
-					availableViews: [ 'cards', 'table' ],
-					defaultView: 'cards',
-					enableSorting: true,
-					showResultsCount: true,
-					resultsPerPage: postsPerPage,
-				}
-			);
-
-			// Get the current block's position
-			const rootClientId = getBlockRootClientId( clientId );
-			const blockIndex = getBlockIndex( clientId );
-
-			// Insert the filters block before the current teaser grid block
-			insertBlock( listFiltersBlock, blockIndex, rootClientId );
-
-			// Optionally set the filter block ID for connection
-			const newFilterBlockId = `fau-list-filters-${ listFiltersBlock.clientId }`;
-			setAttributes( { filterBlockId: newFilterBlockId } );
-
-			// Show success notification
-			createSuccessNotice(
-				__(
-					'A List Filters block has been automatically added above your Teaser Grid.',
-					'fau-elemental'
-				),
-				{
-					type: 'snackbar',
-					isDismissible: true,
-				}
-			);
-		} catch ( error ) {
-			console.error( 'Error inserting List Filters block:', error );
-		}
-	};
-
-	// Function to check if a list filters block already exists nearby
-	const hasNearbyListFiltersBlock = () => {
-		const rootClientId = getBlockRootClientId( clientId );
-		const blocks = getBlocks( rootClientId );
-		const currentIndex = getBlockIndex( clientId );
-
-		// Check the 3 blocks before and after the current block
-		const searchRange = 3;
-		const startIndex = Math.max( 0, currentIndex - searchRange );
-		const endIndex = Math.min(
-			blocks.length - 1,
-			currentIndex + searchRange
-		);
-
-		for ( let i = startIndex; i <= endIndex; i++ ) {
-			if (
-				i !== currentIndex &&
-				blocks[ i ]?.name === 'fau-elemental/fau-list-filters'
-			) {
-				return true;
-			}
-		}
-
-		return false;
-	};
-
-	// Handle filter integration toggle
-	const handleFilterIntegrationToggle = ( value ) => {
-		setAttributes( { enableFilterIntegration: value } );
-
-		// If enabling filter integration and no nearby filters block exists, create one
-		if ( value && ! hasNearbyListFiltersBlock() ) {
-			// Small delay to ensure the attribute is set first
-			setTimeout( () => {
-				insertListFiltersBlock();
-			}, 100 );
-		}
-	};
 
 	// Effect to update grid classes when display style or layout changes
 	useEffect( () => {
@@ -292,7 +197,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						variant={ variant }
 						selectedCategory={ selectedCategory }
 						postsPerPage={ postsPerPage }
-						showPagination={ showPagination }
 						orderBy={ orderBy }
 						order={ order }
 						setAttributes={ setAttributes }
@@ -302,36 +206,23 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					/>
 				) }
 
-				<PanelBody
-					title={ __( 'Filter Integration', 'fau-elemental' ) }
-				>
-					<ToggleControl
-						label={ __(
-							'Enable Filter Integration',
-							'fau-elemental'
-						) }
-						checked={ enableFilterIntegration }
-						onChange={ handleFilterIntegrationToggle }
-						help={ __(
-							'Allow this grid to be filtered by FAU List Filters blocks',
-							'fau-elemental'
-						) }
-					/>
-					{ enableFilterIntegration && (
-						<TextControl
-							label={ __( 'Filter Block ID', 'fau-elemental' ) }
-							value={ filterBlockId }
+				{ selectionMode === 'auto' && (
+					<PanelBody
+						title={ __( 'Load More Settings', 'fau-elemental' ) }
+					>
+						<ToggleControl
+							label={ __( 'Show Load More Button', 'fau-elemental' ) }
+							checked={ showLoadMore }
 							onChange={ ( value ) =>
-								setAttributes( { filterBlockId: value } )
+								setAttributes( { showLoadMore: value } )
 							}
 							help={ __(
-								'Optional: specify a specific filter block ID to connect to. Leave empty to auto-connect to the nearest filter block.',
+								'Display a "Load More" button to load additional posts dynamically.',
 								'fau-elemental'
 							) }
-							placeholder="fau-list-filters-xxxxx"
 						/>
-					) }
-				</PanelBody>
+					</PanelBody>
+				) }
 
 				<PanelBody title={ __( 'Accessibility', 'fau-elemental' ) }>
 					<p>
@@ -472,9 +363,41 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				) }
 			</div>
 
-			{ showPagination &&
-				calculatedTotalPages > 1 &&
-				selectionMode === 'auto' && (
+			{ /* Show Load More button preview in editor */ }
+			{ selectionMode === 'auto' && showLoadMore && calculatedTotalPages > 1 && (
+				<div 
+					className="fau-teaser-grid__load-more-wrapper"
+					style={{ 
+						display: 'flex', 
+						justifyContent: 'flex-end', 
+						alignItems: 'center',
+						marginTop: '20px',
+						width: '100%'
+					}}
+				>
+					<div className="wp-block-button">
+						<button 
+							className="wp-block-button__link wp-element-button fau-teaser-grid__load-more-button"
+							disabled
+							style={{ opacity: 0.7, cursor: 'not-allowed' }}
+						>
+							{ __( 'Load More', 'fau-elemental' ) }
+						</button>
+					</div>
+					<p style={{ 
+						fontSize: '12px', 
+						color: '#666', 
+						marginLeft: '10px',
+						margin: '0 0 0 10px'
+					}}>
+						{ __( 'Preview: Load More button will be functional on the frontend', 'fau-elemental' ) }
+					</p>
+				</div>
+			) }
+
+			{ calculatedTotalPages > 1 &&
+				selectionMode === 'auto' && 
+				! showLoadMore && (
 					<nav
 						role="navigation"
 						aria-label={ __( 'Pagination', 'fau-elemental' ) }
