@@ -3,14 +3,12 @@ import {
 	PanelBody,
 	SelectControl,
 	RangeControl,
-	ToggleControl,
 } from '@wordpress/components';
 
 export const ContentSettings = ( {
 	variant,
 	selectedCategory,
 	postsPerPage,
-	showPagination,
 	orderBy,
 	order,
 	setAttributes,
@@ -86,19 +84,6 @@ export const ContentSettings = ( {
 				) }
 				__nextHasNoMarginBottom={ true }
 				__next40pxDefaultSize={ true }
-			/>
-
-			<ToggleControl
-				label={ __( 'Show Pagination', 'fau-elemental' ) }
-				checked={ showPagination }
-				onChange={ ( value ) =>
-					setAttributes( { showPagination: value } )
-				}
-				help={ __(
-					'Toggle to show or hide pagination.',
-					'fau-elemental'
-				) }
-				__nextHasNoMarginBottom={ true }
 			/>
 
 			<SelectControl

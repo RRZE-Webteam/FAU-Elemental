@@ -11,12 +11,13 @@ import {
 	CheckboxControl,
 	__experimentalText as Text,
 	__experimentalSpacer as Spacer,
+	Notice,
 } from '@wordpress/components';
 import { useState, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
 const Edit = ( props ) => {
-	const { attributes, setAttributes } = props;
+	const { attributes, setAttributes, clientId } = props;
 	const {
 		enableSearch,
 		searchPlaceholder,

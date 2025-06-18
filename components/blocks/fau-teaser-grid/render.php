@@ -25,15 +25,13 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $selected_posts = $attributes['selectedPosts'] ?? [];
         $display_style = $attributes['displayStyle'] ?? 'teaser-grid';
         $teaser_layout = $attributes['teaserLayout'] ?? '3m';
-        $show_pagination = $attributes['showPagination'] ?? true;
         $current_page = $attributes['currentPage'] ?? 1;
         $posts_per_page = $attributes['postsPerPage'] ?? 15;
         $selected_category = $attributes['selectedCategory'] ?? 0;
         $order_by = $attributes['orderBy'] ?? 'date';
         $order = $attributes['order'] ?? 'DESC';
         $heading_level = $attributes['headingLevel'] ?? 'h4';
-        $enable_filter_integration = $attributes['enableFilterIntegration'] ?? false;
-        $filter_block_id = $attributes['filterBlockId'] ?? '';
+        $show_load_more = $attributes['showLoadMore'] ?? false;
         
         // Generate unique ID for this grid instance
         $grid_id = 'fau-teaser-grid-' . uniqid();
@@ -46,8 +44,8 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         
         // Start building the output
         $wrapper_classes = ['fau-list-item'];
-        if ($enable_filter_integration) {
-            $wrapper_classes[] = 'filterable-grid';
+        if ($show_load_more) {
+            $wrapper_classes[] = 'has-load-more';
         }
         
         $wrapper_attributes = get_block_wrapper_attributes([
@@ -61,9 +59,11 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             'data-posts-per-page' => $posts_per_page,
             'data-display-style' => $display_style,
             'data-teaser-layout' => $teaser_layout,
-            'data-filter-integration' => $enable_filter_integration ? 'true' : 'false',
-            'data-filter-block-id' => $filter_block_id,
-            'data-nonce' => wp_create_nonce('fau_teaser_grid_filter')
+            'data-order-by' => $order_by,
+            'data-order' => $order,
+            'data-heading-level' => $heading_level,
+            'data-show-load-more' => $show_load_more ? 'true' : 'false',
+            'data-nonce' => wp_create_nonce('fau_load_more_nonce')
         ]);
 
         $grid_classes = ['fau-teaser-grid', $display_style];
@@ -80,13 +80,6 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         }
 
         $output = sprintf('<section %s>', $wrapper_attributes);
-        
-        // Loading indicator for AJAX updates
-        if ($enable_filter_integration) {
-            $output .= '<div class="grid-loading" style="display: none;" role="status" aria-live="polite">';
-            $output .= '<span class="loading-text">' . esc_html__('Loading...', 'fau-elemental') . '</span>';
-            $output .= '</div>';
-        }
         
         $output .= sprintf(
             '<div class="%s" aria-label="%s" data-variant="%s">', 
@@ -110,7 +103,7 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             $args = [
                 'post_type' => $variant,
                 'posts_per_page' => $posts_per_page,
-                'paged' => $current_page,
+                'paged' => 1, // Always start with page 1 for load more
                 'orderby' => $order_by,
                 'order' => $order,
             ];
@@ -129,18 +122,6 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
                 }
                 wp_reset_postdata();
                 $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
-                
-                // Store query info for filter integration
-                if ($enable_filter_integration) {
-                    $output .= sprintf(
-                        '<script type="application/json" class="grid-query-data">%s</script>',
-                        json_encode([
-                            'found_posts' => $query->found_posts,
-                            'max_num_pages' => $query->max_num_pages,
-                            'current_page' => $current_page
-                        ])
-                    );
-                }
             } else {
                 $output .= sprintf(
                     '<p role="status" class="no-items-found">%s</p>',
@@ -150,29 +131,33 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         }
 
         $output .= '</div>'; // Close teaser grid
-
-        // Add pagination if enabled and there are multiple pages
-        if ($show_pagination && isset($query) && $query->found_posts > $posts_per_page && $selection_mode === 'auto') {
-            $total_pages = ceil($query->found_posts / $posts_per_page);
-            $output .= sprintf(
-                '<nav class="pagination" role="navigation" aria-label="%s">',
-                esc_attr__('Pagination', 'fau-elemental')
-            );
-            $output .= paginate_links(array(
-                'base' => add_query_arg('paged', '%#%'),
-                'format' => '',
-                'current' => $current_page,
-                'total' => $total_pages,
-                'prev_text' => __('Previous page', 'fau-elemental'),
-                'next_text' => __('Next page', 'fau-elemental'),
-                'type' => 'plain',
-                'end_size' => 3,
-                'mid_size' => 3
-            ));
-            $output .= '</nav>';
+        
+        // Add Load More button outside the grid if enabled and there are more posts
+        if ($selection_mode === 'auto' && $show_load_more && isset($query) && $query->max_num_pages > 1) {
+            $output .= '<div class="fau-teaser-grid__load-more-wrapper">';
+            $output .= '<div class="wp-block-button">';
+            $output .= '<button class="wp-block-button__link wp-element-button fau-teaser-grid__load-more-button" ';
+            $output .= 'data-page="1" data-max-pages="' . esc_attr($query->max_num_pages) . '" ';
+            $output .= 'aria-label="' . esc_attr__('Load more posts', 'fau-elemental') . '">';
+            $output .= __('Load More', 'fau-elemental');
+            $output .= '</button>';
+            $output .= '</div>';
+            $output .= '<div class="load-more-spinner" role="status" aria-live="polite">';
+            $output .= '<span class="loading-text">' . esc_html__('Loading...', 'fau-elemental') . '</span>';
+            $output .= '</div>';
+            $output .= '</div>';
         }
-
+        
         $output .= '</section>'; // Close fau-list-item section
+
+        // Enqueue and localize script for load more functionality
+        if ($show_load_more) {
+            wp_enqueue_script('fau-teaser-grid-view', get_template_directory_uri() . '/build/blocks/fau-teaser-grid/view.js', [], '1.0.0', true);
+            wp_localize_script('fau-teaser-grid-view', 'fauTeaserGrid', [
+                'ajaxUrl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('fau_load_more_nonce'),
+            ]);
+        }
 
         return $output;
     }
@@ -370,6 +355,81 @@ if (!function_exists('fau_elemental_wrap_teaser_items')) {
     }
 }
 
+// AJAX handler for load more functionality
+add_action('wp_ajax_fau_load_more_posts', 'fau_load_more_posts_handler');
+add_action('wp_ajax_nopriv_fau_load_more_posts', 'fau_load_more_posts_handler');
+
+if (!function_exists('fau_load_more_posts_handler')) {
+    function fau_load_more_posts_handler() {
+        // Verify nonce for security
+        if (!wp_verify_nonce($_POST['nonce'] ?? '', 'fau_load_more_nonce')) {
+            wp_die(__('Security check failed', 'fau-elemental'), 403);
+        }
+
+        // Get parameters
+        $variant = sanitize_text_field($_POST['variant'] ?? 'post');
+        $posts_per_page = absint($_POST['posts_per_page'] ?? 3);
+        $page = absint($_POST['page'] ?? 1);
+        $category = absint($_POST['category'] ?? 0);
+        $order_by = sanitize_text_field($_POST['order_by'] ?? 'date');
+        $order = sanitize_text_field($_POST['order'] ?? 'DESC');
+        $display_style = sanitize_text_field($_POST['display_style'] ?? 'teaser-grid');
+        $teaser_layout = sanitize_text_field($_POST['teaser_layout'] ?? '3m');
+        $heading_level = sanitize_text_field($_POST['heading_level'] ?? 'h4');
+
+        // Build query args
+        $args = [
+            'post_type' => $variant,
+            'posts_per_page' => $posts_per_page,
+            'paged' => $page,
+            'orderby' => $order_by,
+            'order' => $order,
+            'post_status' => 'publish'
+        ];
+
+        if ($category) {
+            $args['cat'] = $category;
+        }
+
+        // Perform query
+        $query = new WP_Query($args);
+        
+        $grid_classes = ['fau-teaser-grid', $display_style];
+        if ($display_style === 'teaser-grid') {
+            if ($teaser_layout === '2s-left' || $teaser_layout === '2s-right') {
+                $grid_classes[] = 'layout-2s';
+                $grid_classes[] = "layout-{$teaser_layout}";
+            } else {
+                $grid_classes[] = "layout-{$teaser_layout}";
+            }
+        } elseif ($display_style === 'mini-list') {
+            $grid_classes[] = 'style-mini-list';
+        }
+
+        $response = [
+            'success' => true,
+            'data' => [
+                'html' => '',
+                'has_more' => $query->max_num_pages > $page,
+                'current_page' => $page,
+                'max_pages' => $query->max_num_pages
+            ]
+        ];
+
+        if ($query->have_posts()) {
+            $teaser_items = [];
+            while ($query->have_posts()) {
+                $query->the_post();
+                $teaser_items[] = fau_elemental_render_teaser_item(get_post(), $variant, $grid_classes, $heading_level);
+            }
+            wp_reset_postdata();
+            $response['data']['html'] = fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
+        }
+
+        wp_send_json($response);
+    }
+}
+
 if (!function_exists('fau_teaser_grid_ajax_filter')) {
     /**
      * AJAX handler for teaser grid filtering
@@ -483,7 +543,7 @@ if (!function_exists('fau_teaser_grid_ajax_filter')) {
     }
 }
 
-// Hook the AJAX handler
+// Hook the AJAX handlers
 add_action('wp_ajax_fau_teaser_grid_filter', 'fau_teaser_grid_ajax_filter');
 add_action('wp_ajax_nopriv_fau_teaser_grid_filter', 'fau_teaser_grid_ajax_filter');
 

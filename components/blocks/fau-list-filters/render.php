@@ -43,31 +43,8 @@ if ( ! function_exists( 'render_block_fau_list_filters' ) ) {
         // Generate unique ID for this block instance
         $block_id = 'fau-list-filters-' . uniqid();
 
-        // Try to find associated teaser grid to scope filter options
-        $scoped_post_type = 'post';
-        $scoped_category = 0;
-        
-        // Look for nearby teaser grid blocks to get their configuration
-        if (isset($block->context['postId'])) {
-            $post_content = get_post_field('post_content', $block->context['postId']);
-            if ($post_content) {
-                // Parse blocks to find teaser grids
-                $blocks = parse_blocks($post_content);
-                foreach ($blocks as $parsed_block) {
-                    if ($parsed_block['blockName'] === 'fau-elemental/fau-teaser-grid') {
-                        $attrs = $parsed_block['attrs'] ?? [];
-                        if (!empty($attrs['enableFilterIntegration'])) {
-                            $scoped_post_type = $attrs['variant'] ?? 'post';
-                            $scoped_category = $attrs['selectedCategory'] ?? 0;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        // Get scoped filter options based on teaser grid configuration
-        $available_filter_options = fau_get_scoped_filter_options($scoped_post_type, $scoped_category);
+        // Get general filter options
+        $available_filter_options = fau_get_available_filter_options();
 
         // Start building the output
         $wrapper_attributes = get_block_wrapper_attributes([
@@ -443,12 +420,12 @@ if ( ! function_exists( 'fau_list_filters_render_sort_section' ) ) {
     }
 }
 
-// AJAX handler for filtering teaser grid content
-add_action('wp_ajax_fau_filter_teaser_grid', 'fau_filter_teaser_grid_ajax_handler');
-add_action('wp_ajax_nopriv_fau_filter_teaser_grid', 'fau_filter_teaser_grid_ajax_handler');
+// AJAX handler for general filtering (if needed for other purposes)
+add_action('wp_ajax_fau_filter_content', 'fau_filter_content_ajax_handler');
+add_action('wp_ajax_nopriv_fau_filter_content', 'fau_filter_content_ajax_handler');
 
-if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
-    function fau_filter_teaser_grid_ajax_handler() {
+if (!function_exists('fau_filter_content_ajax_handler')) {
+    function fau_filter_content_ajax_handler() {
         // Verify nonce for security
         if (!wp_verify_nonce($_POST['nonce'] ?? '', 'fau_filter_nonce')) {
             wp_die('Security check failed');
@@ -461,25 +438,16 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
         $page = intval($_POST['page'] ?? 1);
         $per_page = intval($_POST['per_page'] ?? 15);
         $post_type = sanitize_text_field($_POST['post_type'] ?? 'post');
-        $category = intval($_POST['category'] ?? 0);
 
-        // Debug logging for received data
-        error_log('FAU Filter Debug - Raw $_POST filters: ' . print_r($_POST['filters'] ?? [], true));
-
-        // Build query arguments starting with teaser grid's base configuration
+        // Build query arguments
         $args = [
             'post_type' => $post_type,
             'post_status' => 'publish',
             'posts_per_page' => $per_page,
             'paged' => $page,
-            'meta_query' => [],
-            'tax_query' => [],
         ];
 
-        // NOTE: We'll handle category filtering through tax_query for consistency
-        // Do not use $args['cat'] to avoid conflicts
-
-        // Add search on top of existing configuration
+        // Add search
         if (!empty($search)) {
             $args['s'] = $search;
         }
@@ -501,18 +469,9 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
                 break;
         }
 
-        // Process filters - build tax_query array
+        // Process filters
         $tax_queries = [];
         
-        // Always add the base category from teaser grid if it exists
-        if ($category > 0) {
-            $tax_queries[] = [
-                'taxonomy' => 'category',
-                'field' => 'term_id',
-                'terms' => $category,
-            ];
-        }
-
         foreach ($filters as $filter_name => $filter_data) {
             $filter_type = $filter_data['type'] ?? '';
             $filter_value = $filter_data['value'] ?? '';
@@ -521,46 +480,13 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
                 continue;
             }
 
-            // Debug logging for filter processing
-            error_log("FAU Filter Debug - Processing filter: $filter_name");
-            error_log("FAU Filter Debug - Filter type: $filter_type");
-            error_log("FAU Filter Debug - Filter value: $filter_value");
-
-            // Handle different filter types
-            // For configured filters, we need to determine the actual filter type from the name
-            $actual_filter_type = $filter_type;
-            if ($filter_type === 'configured') {
-                // For configured filters, determine the type from the filter name
-                $filter_name_lower = strtolower($filter_name);
-                if (strpos($filter_name_lower, 'categor') !== false) {
-                    $actual_filter_type = 'categories';
-                } elseif (strpos($filter_name_lower, 'tag') !== false) {
-                    $actual_filter_type = 'tags';
-                } elseif (strpos($filter_name_lower, 'author') !== false) {
-                    $actual_filter_type = 'authors';
-                } elseif (strpos($filter_name_lower, 'year') !== false) {
-                    $actual_filter_type = 'years';
-                }
-            }
-
-            error_log("FAU Filter Debug - Actual filter type determined: $actual_filter_type");
-
-            switch ($actual_filter_type) {
+            switch ($filter_type) {
                 case 'categories':
-                    // IMPORTANT: Only allow category filters if no base category is set
-                    // If a base category is set, category filters are not allowed to override it
-                    if ($category == 0) {
-                        $tax_queries[] = [
-                            'taxonomy' => 'category',
-                            'field' => 'slug',
-                            'terms' => $filter_value,
-                        ];
-                        error_log("FAU Filter Debug - Added category tax_query for: $filter_value");
-                    } else {
-                        error_log("FAU Filter Debug - Skipped category filter because base category is set: $category");
-                    }
-                    // If base category is set, ignore additional category filters
-                    // This ensures we stay within the editor's chosen category
+                    $tax_queries[] = [
+                        'taxonomy' => 'category',
+                        'field' => 'slug',
+                        'terms' => $filter_value,
+                    ];
                     break;
                 case 'tags':
                     $tax_queries[] = [
@@ -568,13 +494,11 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
                         'field' => 'slug',
                         'terms' => $filter_value,
                     ];
-                    error_log("FAU Filter Debug - Added tag tax_query for: $filter_value");
                     break;
                 case 'authors':
                     $author = get_user_by('slug', $filter_value);
                     if ($author) {
                         $args['author'] = $author->ID;
-                        error_log("FAU Filter Debug - Added author filter for: $filter_value (ID: {$author->ID})");
                     }
                     break;
                 case 'years':
@@ -583,10 +507,6 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
                             'year' => intval($filter_value),
                         ],
                     ];
-                    error_log("FAU Filter Debug - Added year filter for: $filter_value");
-                    break;
-                default:
-                    error_log("FAU Filter Debug - Unknown filter type: $actual_filter_type");
                     break;
             }
         }
@@ -602,10 +522,6 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
         // Execute query
         $query = new WP_Query($args);
         $posts = [];
-
-        // Debug logging
-        error_log('FAU Filter Debug - Query Args: ' . print_r($args, true));
-        error_log('FAU Filter Debug - Found Posts: ' . $query->found_posts);
 
         if ($query->have_posts()) {
             while ($query->have_posts()) {
@@ -649,139 +565,8 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
             'total' => $query->found_posts,
             'pages' => $query->max_num_pages,
             'current_page' => $page,
-            'debug_args' => $args, // Add debug info
         ];
-
-        error_log('FAU Filter Debug - Response: ' . print_r($response, true));
 
         wp_send_json($response);
-    }
-}
-
-// Function to get scoped filter options based on specific query
-if (!function_exists('fau_get_scoped_filter_options')) {
-    function fau_get_scoped_filter_options($post_type = 'post', $category = 0) {
-        $filter_options = [
-            'tags' => [
-                'label' => __('Tags', 'fau-elemental'),
-                'options' => []
-            ],
-            'authors' => [
-                'label' => __('Authors', 'fau-elemental'),
-                'options' => []
-            ],
-            'years' => [
-                'label' => __('Year', 'fau-elemental'),
-                'options' => []
-            ]
-        ];
-
-        // Only include category filters if no base category is set
-        // This prevents users from changing the category that the editor configured
-        if ($category == 0) {
-            $filter_options['categories'] = [
-                'label' => __('Categories', 'fau-elemental'),
-                'options' => []
-            ];
-        }
-
-        // Build base query for scoping
-        $base_args = [
-            'post_type' => $post_type,
-            'post_status' => 'publish',
-            'posts_per_page' => -1,
-            'fields' => 'ids',
-        ];
-
-        if ($category > 0) {
-            $base_args['tax_query'] = [
-                [
-                    'taxonomy' => 'category',
-                    'field' => 'term_id',
-                    'terms' => $category,
-                ]
-            ];
-        }
-
-        $scoped_query = new WP_Query($base_args);
-        $post_ids = $scoped_query->posts;
-
-        if (empty($post_ids)) {
-            return $filter_options;
-        }
-
-        // Get categories used by these posts (only if no base category is set)
-        if ($category == 0 && isset($filter_options['categories'])) {
-            $categories = wp_get_object_terms($post_ids, 'category');
-            foreach ($categories as $cat) {
-                if (!is_wp_error($cat)) {
-                    $filter_options['categories']['options'][] = [
-                        'value' => $cat->slug,
-                        'label' => $cat->name,
-                        'count' => $cat->count
-                    ];
-                }
-            }
-        }
-
-        // Get tags used by these posts
-        $tags = wp_get_object_terms($post_ids, 'post_tag');
-        foreach ($tags as $tag) {
-            if (!is_wp_error($tag)) {
-                $filter_options['tags']['options'][] = [
-                    'value' => $tag->slug,
-                    'label' => $tag->name,
-                    'count' => $tag->count
-                ];
-            }
-        }
-
-        // Get authors of these posts
-        global $wpdb;
-        $post_ids_placeholders = implode(',', array_fill(0, count($post_ids), '%d'));
-        $author_ids = $wpdb->get_col($wpdb->prepare("
-            SELECT DISTINCT post_author 
-            FROM {$wpdb->posts} 
-            WHERE ID IN ($post_ids_placeholders)
-            AND post_author > 0
-        ", ...$post_ids));
-
-        foreach ($author_ids as $author_id) {
-            $author = get_userdata($author_id);
-            if ($author) {
-                $post_count = $wpdb->get_var($wpdb->prepare("
-                    SELECT COUNT(*) 
-                    FROM {$wpdb->posts} 
-                    WHERE post_author = %d 
-                    AND ID IN ($post_ids_placeholders)",
-                    $author_id, ...$post_ids
-                ));
-
-                $filter_options['authors']['options'][] = [
-                    'value' => $author->user_nicename,
-                    'label' => $author->display_name,
-                    'count' => $post_count
-                ];
-            }
-        }
-
-        // Get years from these posts
-        $years = $wpdb->get_results($wpdb->prepare("
-            SELECT DISTINCT YEAR(post_date) as year, COUNT(*) as count 
-            FROM {$wpdb->posts} 
-            WHERE ID IN ($post_ids_placeholders)
-            GROUP BY YEAR(post_date) 
-            ORDER BY year DESC
-        ", ...$post_ids));
-        
-        foreach ($years as $year_data) {
-            $filter_options['years']['options'][] = [
-                'value' => $year_data->year,
-                'label' => $year_data->year,
-                'count' => $year_data->count
-            ];
-        }
-
-        return apply_filters('fau_list_filters_scoped_options', $filter_options, $post_type, $category);
     }
 } 
