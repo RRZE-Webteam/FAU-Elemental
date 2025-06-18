@@ -11,7 +11,6 @@ if (!defined('ABSPATH')) {
 
 require_once get_theme_file_path('components/blocks/fau-copyright-info/render.php');
 require_once get_theme_file_path('components/blocks/fau-teaser-grid/render.php');
-require_once get_theme_file_path('components/blocks/fau-list-filters/render.php');
 require_once get_theme_file_path('components/blocks/fau-big-button-teaser-group/render.php');
 require_once get_theme_file_path('components/blocks/fau-portalmenu/render.php');
 
@@ -37,9 +36,6 @@ function fau_elemental_register_blocks() {
             switch ($block_name) {
                 case 'fau-elemental/fau-teaser-grid':
                     $render_callback = 'render_block_fau_teaser_grid';
-                    break;
-                case 'fau-elemental/fau-list-filters':
-                    $render_callback = 'render_block_fau_list_filters';
                     break;
                 case 'fau-elemental/fau-copyright-info':
                     $render_callback = 'render_block_fau_copyright_info';
