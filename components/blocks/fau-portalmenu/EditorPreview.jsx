@@ -362,7 +362,7 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 					id="portal-menu-heading"
 					className={ CSS_CLASSES.screen_reader_text }
 				>
-					{/* translators: %s: Menu name */}
+					{ /* translators: %s: Menu name */ }
 					{ __( 'Portal Menu:', 'fau-elemental' ) }{ ' ' }
 					{ selectedMenuName }
 				</h2>
@@ -394,7 +394,7 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 					id="portal-menu-heading"
 					className={ CSS_CLASSES.screen_reader_text }
 				>
-					{/* translators: %s: Menu name */}
+					{ /* translators: %s: Menu name */ }
 					{ __( 'Portal Menu:', 'fau-elemental' ) }{ ' ' }
 					{ selectedMenuName }
 				</h2>
@@ -428,9 +428,8 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 				id="portal-menu-heading"
 				className={ CSS_CLASSES.screen_reader_text }
 			>
-				{/* translators: %s: Menu name */}
-				{ __( 'Portal Menu:', 'fau-elemental' ) }{ ' ' }
-				{ selectedMenuName }
+				{ /* translators: %s: Menu name */ }
+				{ __( 'Portal Menu:', 'fau-elemental' ) } { selectedMenuName }
 			</h2>
 
 			{ /* Navigation with semantic markup - matches frontend exactly */ }

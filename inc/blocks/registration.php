@@ -9,8 +9,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-require_once get_theme_file_path('components/blocks/fau-copyright-info/render.php');
-require_once get_theme_file_path('components/blocks/fau-teaser-grid/render.php');
+require_once get_theme_file_path('components/blocks/fau-big-button-teaser-group/render.php');
 require_once get_theme_file_path('components/blocks/fau-portalmenu/render.php');
 
 /**
@@ -32,10 +31,10 @@ function fau_elemental_register_blocks() {
                 $block_name = substr($block_json['name'], strrpos($block_json['name'], '/') + 1);
                 
                 // Special cases for blocks with custom render function names
-                if ($block_name === 'fau-teaser_grid') {
-                    $render_function = 'render_block_fau_list_item';
-                } elseif ($block_name === 'portalmenu') {
+                if ($block_name === 'portalmenu') {
                     $render_function = 'render_block_fau_portalmenu';
+                } elseif ($block_name === 'fau-big-button-teaser-group') {
+                    $render_function = 'render_block_fau_big_button_teaser_group';
                 } else {
                     $render_function = 'render_block_' . str_replace('-', '_', $block_name);
                 }
