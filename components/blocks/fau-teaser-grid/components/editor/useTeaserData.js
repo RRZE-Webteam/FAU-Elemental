@@ -31,7 +31,9 @@ export const usePosts = ( variant, queryParams ) => {
 				variant,
 				query
 			);
-			if ( ! Array.isArray( rawPosts ) ) return [];
+			if ( ! Array.isArray( rawPosts ) ) {
+				return [];
+			}
 
 			return rawPosts.map( ( post ) => ( {
 				id: post.id,
@@ -81,7 +83,9 @@ export const usePosts = ( variant, queryParams ) => {
 export const useAvailablePosts = ( searchTerm, variant ) => {
 	return useSelect(
 		( select ) => {
-			if ( ! searchTerm || ! variant ) return [];
+			if ( ! searchTerm || ! variant ) {
+				return [];
+			}
 			const posts =
 				select( 'core' ).getEntityRecords( 'postType', variant, {
 					search: searchTerm,
@@ -104,7 +108,9 @@ export const useAvailablePosts = ( searchTerm, variant ) => {
 export const useTotalItems = ( variant, selectedCategory ) => {
 	return useSelect(
 		( select ) => {
-			if ( ! variant ) return { totalItems: 0 };
+			if ( ! variant ) {
+				return { totalItems: 0 };
+			}
 
 			const countQuery = {
 				per_page: 1,
