@@ -300,8 +300,8 @@ function fau_elemental_enqueue_footer_scripts() {
         
         // Localize strings for the footer toggle functionality
         wp_localize_script('fau-footer-toggle', 'fauFooterStrings', [
-            'showMore' => __('Mehr anzeigen', 'fau-elemental'),
-            'showLess' => __('Weniger anzeigen', 'fau-elemental')
+            'showMore' => __('Show more', 'fau-elemental'),
+            'showLess' => __('Show less', 'fau-elemental')
         ]);
     }
 }

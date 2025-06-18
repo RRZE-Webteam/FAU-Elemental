@@ -9,7 +9,7 @@ import {
 import { PanelBody, Button } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { getSaveElement } from '@wordpress/blocks';
-import { useEffect, cloneElement } from 'react';
+import { useEffect, cloneElement } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 // Shared utility functions
