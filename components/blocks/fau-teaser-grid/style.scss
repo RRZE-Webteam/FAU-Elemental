@@ -491,8 +491,10 @@
 		margin-top: var(--Spacing-8x);
 
 		a.page-numbers,
+		button.page-numbers,
 		span.page-numbers {
 			display: inline-flex;
+			cursor: pointer;
 			align-items: center;
 			justify-content: center;
 			min-width: 40px;
