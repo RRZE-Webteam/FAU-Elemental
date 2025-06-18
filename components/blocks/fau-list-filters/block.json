@@ -44,7 +44,7 @@
 		},
 		"availableViews": {
 			"type": "array",
-			"default": ["cards", "table"]
+			"default": [ "cards", "table" ]
 		},
 		"defaultView": {
 			"type": "string",
@@ -57,9 +57,9 @@
 		"sortOptions": {
 			"type": "array",
 			"default": [
-				{"value": "date", "label": "Date"},
-				{"value": "title", "label": "Alphabetic"},
-				{"value": "modified", "label": "Last Modified"}
+				{ "value": "date", "label": "Date" },
+				{ "value": "title", "label": "Alphabetic" },
+				{ "value": "modified", "label": "Last Modified" }
 			]
 		},
 		"defaultSort": {
@@ -77,7 +77,7 @@
 		"gridWidth": {
 			"type": "string",
 			"default": "12",
-			"enum": ["8", "10", "12"]
+			"enum": [ "8", "10", "12" ]
 		}
 	},
 	"example": {
@@ -88,12 +88,12 @@
 			"filterFields": [],
 			"showMoreFiltersButton": false,
 			"enableViewSwitcher": true,
-			"availableViews": ["cards", "table"],
+			"availableViews": [ "cards", "table" ],
 			"defaultView": "cards",
 			"enableSorting": true,
 			"sortOptions": [
-				{"value": "date", "label": "Date"},
-				{"value": "title", "label": "Alphabetic"}
+				{ "value": "date", "label": "Date" },
+				{ "value": "title", "label": "Alphabetic" }
 			],
 			"defaultSort": "date",
 			"showResultsCount": true,
@@ -101,4 +101,4 @@
 			"gridWidth": "12"
 		}
 	}
-} 
+}
