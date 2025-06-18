@@ -1,9 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import {
-	PanelBody,
-	SelectControl,
-	RangeControl,
-} from '@wordpress/components';
+import { PanelBody, SelectControl, RangeControl } from '@wordpress/components';
 
 export const ContentSettings = ( {
 	variant,
