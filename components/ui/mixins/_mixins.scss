@@ -1,0 +1,30 @@
+// Responsive Mixins
+// Updated to work with CSS custom properties defined in variables
+
+@mixin respond-to($size) {
+
+	@if $size == "xs" or $size == "x-small" {
+
+		@media (max-width: 393px) {
+			@content;
+		}
+	} @else if $size == "sm" or $size == "small" {
+
+		@media (max-width: 768px) {
+			@content;
+		}
+	} @else if $size == "md" or $size == "medium" {
+
+		@media (max-width: 1440px) {
+			@content;
+		}
+	} @else if $size == "lg" or $size == "large" {
+
+		@media (max-width: 1920px) {
+			@content;
+		}
+	} @else {
+
+		@warn "Unknown breakpoint: #{$size}. Available breakpoints: xs, sm, md, lg";
+	}
+}

@@ -1,0 +1,111 @@
+// Facts Grid Block Styles
+.wp-block-fau-elemental-fau-facts-grid {
+
+	.fau-facts-grid {
+		margin: 2rem 0;
+		background: #f8f9fa;
+		padding: 2rem;
+		border-radius: 8px;
+
+		.fau-facts-grid-roof-line {
+			margin-bottom: 2rem;
+			font-size: 1.25rem;
+			font-weight: 600;
+			color: var(--wp--preset--color--foreground, #333);
+			position: relative;
+			padding-left: 21rem;
+
+			&::before {
+				content: "";
+				position: absolute;
+				left: 0;
+				top: 50%;
+				transform: translateY(-50%);
+				width: 20rem;
+				height: 2px;
+				background: var(--wp--preset--color--primary, #003865);
+			}
+		}
+
+		.fau-facts-grid-items {
+			display: grid;
+			gap: 1.5rem;
+			margin: 0;
+
+			// Mobile: 1 column
+			grid-template-columns: 1fr;
+
+			// Tablet: 2 columns
+			@media (min-width: 768px) {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			// Desktop: 4 columns
+			@media (min-width: 1024px) {
+				grid-template-columns: repeat(4, 1fr);
+			}
+		}
+
+		.fau-facts-grid-item {
+			display: flex;
+			align-items: flex-start;
+			gap: 1rem;
+			padding: 1rem;
+			background: var(--FAU-Col-FAU-Weiss-100, #fff);
+			border-radius: 6px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+			transition: all 0.3s ease;
+
+			&:hover {
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+			}
+
+			.fau-facts-grid-item-icon {
+				flex-shrink: 0;
+				width: 3rem;
+				height: 3rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 50%;
+
+				img {
+					width: 1.5rem;
+					height: 1.5rem;
+					object-fit: contain;
+				}
+
+				svg {
+					width: 1.5rem;
+					height: 1.5rem;
+					fill: var(--FAU-Col-FAU-Weiss-100, #fff);
+				}
+			}
+
+			.fau-facts-grid-item-content {
+				flex: 1;
+				min-width: 0;
+			}
+
+			.fau-facts-grid-item-text {
+				font-size: 0.9rem;
+				line-height: 1.4;
+				color: var(--wp--preset--color--foreground, #333);
+				margin: 0 0 0.75rem 0;
+
+				strong {
+					font-weight: 700;
+					color: var(--wp--preset--color--primary, #003865);
+				}
+			}
+
+			// Hover effect for items with links
+			&.has-link {
+
+				&:hover {
+					transform: translateY(-1px);
+				}
+			}
+		}
+	}
+}

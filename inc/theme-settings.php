@@ -15,13 +15,13 @@ if (!defined('ABSPATH')) {
 function faue_customize_register($wp_customize) {
     // Add FAU Elemental section
     $wp_customize->add_section('faue_theme_settings', array(
-        'title'    => __('FAU Elemental Settings', 'fau-elemental'),
+        'title'    => __('Theme Settings', 'fau-elemental'),
         'priority' => 30,
     ));
 
     // Add Header Settings section
     $wp_customize->add_section('faue_header_settings', array(
-        'title'    => __('Header-Einstellungen', 'fau-elemental'),
+        'title'    => __('Header Settings', 'fau-elemental'),
         'priority' => 25,
     ));
 
@@ -52,10 +52,10 @@ function faue_customize_register($wp_customize) {
         'type'     => 'select',
         'choices'  => array(
             'fau'          => __('FAU.de', 'fau-elemental'),
-            'faculty'      => __('Fakultät', 'fau-elemental'),
-            'chair'        => __('Lehrstuhl', 'fau-elemental'),
-            'other'        => __('Sonstige', 'fau-elemental'),
-            'cooperation'  => __('Kooperation', 'fau-elemental'),
+            'faculty'      => __('Faculty', 'fau-elemental'),
+            'chair'        => __('Chair', 'fau-elemental'),
+            'other'        => __('Other', 'fau-elemental'),
+            'cooperation'  => __('Cooperation', 'fau-elemental'),
         ),
     ));
 
@@ -70,11 +70,11 @@ function faue_customize_register($wp_customize) {
         'section'         => 'faue_theme_settings',
         'type'            => 'select',
         'choices'         => array(
-            'phil' => __('Philosophische Fakultät', 'fau-elemental'),
-            'nat'  => __('Naturwissenschaftliche Fakultät', 'fau-elemental'),
-            'med'  => __('Medizinische Fakultät', 'fau-elemental'),
-            'rw'   => __('Rechtswissenschaftliche Fakultät', 'fau-elemental'),
-            'tf'   => __('Technische Fakultät', 'fau-elemental'),
+            'phil' => __('Philosophical Faculty', 'fau-elemental'),
+            'nat'  => __('Natural Sciences Faculty', 'fau-elemental'),
+            'med'  => __('Medical Faculty', 'fau-elemental'),
+            'rw'   => __('Law Faculty', 'fau-elemental'),
+            'tf'   => __('Technical Faculty', 'fau-elemental'),
         ),
         'active_callback' => 'faue_is_faculty_website',
     ));
@@ -188,15 +188,6 @@ function hide_teaser_grid_block_for_posts() {
 }
 add_action('admin_footer', 'hide_teaser_grid_block_for_posts');
 
-
-/**
- * Prevent non-super admins from accessing the site editor directly
- */
-add_action('load-site-editor.php', function() {
-    if (!is_super_admin()) {
-        wp_die(__('You do not have sufficient permissions to access this page.', 'fau-elemental'), 403);
-    }
-});
 
 /**
  * Sanitize faculty input
