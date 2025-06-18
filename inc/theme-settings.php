@@ -16,13 +16,13 @@ function faue_customize_register($wp_customize) {
     // Add FAU Elemental section
     $wp_customize->add_section('faue_theme_settings', array(
         'title'    => __('Theme Settings', 'fau-elemental'),
-        'priority' => 30,
+        'priority' => 120,
     ));
 
     // Add Header Settings section
     $wp_customize->add_section('faue_header_settings', array(
         'title'    => __('Header Settings', 'fau-elemental'),
-        'priority' => 25,
+        'priority' => 125,
     ));
 
     // Breadcrumb Mode Setting (stores boolean, convert to 'dark'/'light' when using)
