@@ -237,8 +237,8 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 							type="button"
 							onClick={ ( e ) => e.preventDefault() }
 							className={ CSS_CLASSES.image_link }
-							/* translators: %s: Menu item title */
 							aria-label={ sprintf(
+								// translators: %s: Menu item title
 								__( 'Go to %s', 'fau-elemental' ),
 								itemTitle
 							) }
@@ -247,8 +247,8 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 							{ itemImage ? (
 								<img
 									src={ itemImage }
-									/* translators: %s: Menu item title */
 									alt={ sprintf(
+										// translators: %s: Menu item title
 										__(
 											'Featured image for %s',
 											'fau-elemental'
@@ -258,11 +258,11 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 									loading="lazy"
 								/>
 							) : (
-								/* translators: %s: Menu item title */
 								<div
 									className="portal-placeholder-image"
 									role="img"
 									aria-label={ sprintf(
+										// translators: %s: Menu item title
 										__(
 											'No image available for %s',
 											'fau-elemental'
@@ -285,8 +285,8 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 							type="button"
 							onClick={ ( e ) => e.preventDefault() }
 							className={ CSS_CLASSES.portal_main_link }
-							/* translators: %s: Menu item title */
 							aria-label={ sprintf(
+								// translators: %s: Menu item title
 								__( 'Go to main page: %s', 'fau-elemental' ),
 								itemTitle
 							) }
@@ -323,8 +323,8 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 												className={
 													CSS_CLASSES.portal_sublink
 												}
-												/* translators: %s: Submenu item title */
 												aria-label={ sprintf(
+													// translators: %s: Submenu item title
 													__(
 														'Go to %s',
 														'fau-elemental'
