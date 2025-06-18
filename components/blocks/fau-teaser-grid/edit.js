@@ -12,7 +12,6 @@ import {
 	ToggleControl,
 } from '@wordpress/components';
 import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
-import { useDispatch, useSelect } from '@wordpress/data';
 
 import PostTeaser from './components/PostTeaser';
 import PageTeaser from './components/PageTeaser';
@@ -49,7 +48,7 @@ const wrapTeaserItems = ( items, layout ) => {
 	return wrappedItems;
 };
 
-export default function Edit( { attributes, setAttributes, clientId } ) {
+export default function Edit( { attributes, setAttributes } ) {
 	const {
 		displayStyle,
 		variant,

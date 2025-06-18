@@ -60,8 +60,8 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	);
 
 	loadMoreButtons.forEach( function ( button ) {
-		button.addEventListener( 'click', function ( e ) {
-			e.preventDefault();
+		button.addEventListener( 'click', function ( event ) {
+			event.preventDefault();
 
 			// Get the grid container
 			const gridContainer = button.closest( '[data-grid-id]' );
@@ -70,7 +70,6 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			}
 
 			// Get data attributes
-			const gridId = gridContainer.getAttribute( 'data-grid-id' );
 			const variant = gridContainer.getAttribute( 'data-variant' );
 			const category = gridContainer.getAttribute( 'data-category' );
 			const postsPerPage = gridContainer.getAttribute(
@@ -90,8 +89,6 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			const currentPage =
 				parseInt( button.getAttribute( 'data-page' ) ) || 1;
 			const nextPage = currentPage + 1;
-			const maxPages =
-				parseInt( button.getAttribute( 'data-max-pages' ) ) || 1;
 
 			// Show loading state
 			const spinner =
@@ -116,7 +113,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			formData.append( 'heading_level', headingLevel );
 
 			// Make AJAX request
-			fetch( fauTeaserGrid.ajaxUrl, {
+			fetch( window.fauTeaserGrid.ajaxUrl, {
 				method: 'POST',
 				body: formData,
 				credentials: 'same-origin',
@@ -143,42 +140,49 @@ document.addEventListener( 'DOMContentLoaded', function () {
 							const newTeaserItems = teaserGrid.querySelectorAll(
 								'.teaser-item[data-href]:not([data-initialized])'
 							);
-							newTeaserItems.forEach( function ( item ) {
-								item.setAttribute( 'data-initialized', 'true' );
+							newTeaserItems.forEach( function ( newItem ) {
+								newItem.setAttribute(
+									'data-initialized',
+									'true'
+								);
 
-								const href = item.getAttribute( 'data-href' );
-								item.style.cursor = 'pointer';
+								const newHref =
+									newItem.getAttribute( 'data-href' );
+								newItem.style.cursor = 'pointer';
 
-								item.addEventListener( 'focus', function () {
+								newItem.addEventListener( 'focus', function () {
 									this.classList.add( 'is-focused' );
 								} );
 
-								item.addEventListener( 'blur', function () {
+								newItem.addEventListener( 'blur', function () {
 									this.classList.remove( 'is-focused' );
 								} );
 
-								item.addEventListener( 'click', function ( e ) {
-									if (
-										e.target.tagName.toLowerCase() ===
-											'a' ||
-										e.target.closest( 'a' )
-									) {
-										return;
-									}
-									window.location.href = href;
-								} );
-
-								item.addEventListener(
-									'keydown',
-									function ( e ) {
+								newItem.addEventListener(
+									'click',
+									function ( clickEvent ) {
 										if (
-											e.key === 'Enter' ||
-											e.key === ' ' ||
-											e.keyCode === 13 ||
-											e.keyCode === 32
+											clickEvent.target.tagName.toLowerCase() ===
+												'a' ||
+											clickEvent.target.closest( 'a' )
 										) {
-											e.preventDefault();
-											window.location.href = href;
+											return;
+										}
+										window.location.href = newHref;
+									}
+								);
+
+								newItem.addEventListener(
+									'keydown',
+									function ( keyEvent ) {
+										if (
+											keyEvent.key === 'Enter' ||
+											keyEvent.key === ' ' ||
+											keyEvent.keyCode === 13 ||
+											keyEvent.keyCode === 32
+										) {
+											keyEvent.preventDefault();
+											window.location.href = newHref;
 										}
 									}
 								);
