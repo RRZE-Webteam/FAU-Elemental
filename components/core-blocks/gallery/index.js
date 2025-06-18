@@ -122,7 +122,6 @@ addFilter(
 const GalleryCarousel = ( props ) => {
 	const [ slides, setSlides ] = useState( [] );
 	const carouselRef = useRef( null );
-	const { useSelect } = wp.data;
 
 	// Get the current block's inner blocks and content
 	const { innerBlocks, content } = useSelect(

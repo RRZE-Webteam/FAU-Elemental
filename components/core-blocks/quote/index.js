@@ -20,7 +20,7 @@ import {
 	MenuItem,
 } from '@wordpress/components';
 import { useEffect, useRef, useState } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { v4 as uuidv4 } from 'uuid';
 
 domReady( () => {
@@ -376,7 +376,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 				<>
 					<div className="quote-list">
 						{ attributes.quotes.map( ( quote, index ) => (
-							<div
+							<button
 								key={ quote.id }
 								className={ `quote-list-item ${
 									index === selectedQuoteIndex
@@ -453,7 +453,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 										}
 									/>
 								</div>
-							</div>
+							</button>
 						) ) }
 						<button
 							type="button"
@@ -492,6 +492,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 						'Add an image to accompany this quote',
 						'fau-elemental'
 					) }
+					id="quote-image-upload"
 				>
 					<div className="quote-image-controls">
 						<MediaUploadCheck>
@@ -515,6 +516,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 												selectedQuoteIndex
 											].image && (
 												<Button
+													id="quote-image-upload"
 													ref={ mediaUploaderButton }
 													onClick={ open }
 													variant="secondary"
@@ -545,6 +547,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 													/>
 													<div className="editor-post-featured-image__actions">
 														<Button
+															id="quote-image-upload"
 															ref={
 																mediaUploaderButton
 															}
@@ -779,9 +782,10 @@ const QuoteCarousel = ( { children, selectedIndex = 0, onSlideChange } ) => {
 								className={
 									index === currentSlide ? 'active' : ''
 								}
-								aria-label={ __(
-									`Go to slide ${ index + 1 }`,
-									'fau-elemental'
+								aria-label={ sprintf(
+									// translators: %s: slide index
+									__( `Go to slide %s`, 'fau-elemental' ),
+									index + 1
 								) }
 								onClick={ () => handleDotClick( index ) }
 							/>
