@@ -36,6 +36,7 @@ function faue_setup() {
     // Add support for menus
     add_theme_support('menus');
 
+
     add_editor_style(array(
         'style.css',
         'build/css/editor.css'

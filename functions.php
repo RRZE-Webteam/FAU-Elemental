@@ -704,6 +704,52 @@ function fau_elemental_enqueue_footer_scripts() {
         return;
     }
     
+    // Also trigger address migration
+    if (function_exists('fau_elemental_migrate_address_information')) {
+        fau_elemental_migrate_address_information();
+    }
+});
+
+/**
+ * Sanitize and format telephone number
+ * Follows international standards as required by FAU
+ *
+ * @param string $phone The phone number to format
+ * @return string Formatted phone number
+ */
+function fau_elemental_format_phone_number($phone) {
+    if (empty($phone)) {
+        return '';
+    }
+    
+    // Remove all characters except numbers, "+", "(", ")", "-" and spaces
+    $phone = preg_replace('/[^\d\+\-\(\) ]/', '', $phone);
+    $phone = preg_replace('/\s+/', ' ', trim($phone));
+    
+    // Convert "+49(0)" to "+49"
+    $phone = preg_replace('/^\+49\s*\(0\)/', '+49', $phone);
+    $phone = preg_replace('/^0049/', '+49', $phone);
+    
+    // If number starts with "0" (German number without country code)
+    if (preg_match('/^0[1-9]/', $phone)) {
+        $phone = preg_replace('/^0/', '+49 ', $phone);
+    }
+    
+    // Standardize format with spaces between groups
+    $phone = preg_replace('/(\+?\d{1,3})\s*(\d{3,4})\s*(\d{3,4})\s*(\d{0,4})/', '$1 $2 $3 $4', $phone);
+    
+    return trim($phone); // Remove excess spaces at the end
+}
+
+/**
+ * Enqueue footer scripts and localize strings
+ */
+function fau_elemental_enqueue_footer_scripts() {
+    // Only enqueue on pages that have footers
+    if (is_admin()) {
+        return;
+    }
+    
     $website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
     
     // Enqueue footer toggle script for instance sites (where the toggle is used)
