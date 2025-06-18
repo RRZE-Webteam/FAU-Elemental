@@ -1,113 +1,113 @@
-const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
-const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
-const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
-const path = require( 'path' );
-const fs = require( 'fs' );
+const defaultConfig = require('@wordpress/scripts/config/webpack.config');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
+const fs = require('fs');
 
 // ============================================================================
 // DYNAMIC CUSTOM BLOCK DETECTION
 // ============================================================================
 // Get all custom block folders from components/blocks directory
 const customBlockFolders = fs.existsSync(
-	path.resolve( process.cwd(), 'components/blocks' )
+	path.resolve(process.cwd(), 'components/blocks')
 )
 	? fs
-			.readdirSync( path.resolve( process.cwd(), 'components/blocks' ) )
-			.filter(
-				( folder ) =>
-					fs
-						.statSync(
-							path.resolve(
-								process.cwd(),
-								'components/blocks',
-								folder
-							)
+		.readdirSync(path.resolve(process.cwd(), 'components/blocks'))
+		.filter(
+			(folder) =>
+				fs
+					.statSync(
+						path.resolve(
+							process.cwd(),
+							'components/blocks',
+							folder
 						)
-						.isDirectory() && folder.startsWith( 'fau-' )
-			)
+					)
+					.isDirectory() && folder.startsWith('fau-')
+		)
 	: [];
 
 // Create entries for each custom block (WordPress Scripts handles block.json copying)
-const customBlockEntries = customBlockFolders.reduce( ( entries, folder ) => {
+const customBlockEntries = customBlockFolders.reduce((entries, folder) => {
 	const folderPath = path.resolve(
 		process.cwd(),
-		`components/blocks/${ folder }`
+		`components/blocks/${folder}`
 	);
-	const outputPrefix = `blocks/${ folder }`;
+	const outputPrefix = `blocks/${folder}`;
 
 	const hasViewScript = fs.existsSync(
-		path.resolve( folderPath, 'view.js' )
+		path.resolve(folderPath, 'view.js')
 	);
 	const hasStyleScss = fs.existsSync(
-		path.resolve( folderPath, 'style.scss' )
+		path.resolve(folderPath, 'style.scss')
 	);
 	const hasEditorScss = fs.existsSync(
-		path.resolve( folderPath, 'editor.scss' )
+		path.resolve(folderPath, 'editor.scss')
 	);
-	const hasIndexJs = fs.existsSync( path.resolve( folderPath, 'index.js' ) );
+	const hasIndexJs = fs.existsSync(path.resolve(folderPath, 'index.js'));
 
 	return {
 		...entries,
-		...( hasIndexJs
+		...(hasIndexJs
 			? {
-					[ `${ outputPrefix }/index` ]: path.resolve(
-						folderPath,
-						'index.js'
-					),
-			  }
-			: {} ),
-		...( hasStyleScss
+				[`${outputPrefix}/index`]: path.resolve(
+					folderPath,
+					'index.js'
+				),
+			}
+			: {}),
+		...(hasStyleScss
 			? {
-					[ `${ outputPrefix }/theme` ]: path.resolve(
-						folderPath,
-						'style.scss'
-					),
-			  }
-			: {} ),
-		...( hasEditorScss
+				[`${outputPrefix}/theme`]: path.resolve(
+					folderPath,
+					'style.scss'
+				),
+			}
+			: {}),
+		...(hasEditorScss
 			? {
-					[ `${ outputPrefix }/editor` ]: path.resolve(
-						folderPath,
-						'editor.scss'
-					),
-			  }
-			: {} ),
-		...( hasViewScript
+				[`${outputPrefix}/editor`]: path.resolve(
+					folderPath,
+					'editor.scss'
+				),
+			}
+			: {}),
+		...(hasViewScript
 			? {
-					[ `${ outputPrefix }/view` ]: path.resolve(
-						folderPath,
-						'view.js'
-					),
-			  }
-			: {} ),
+				[`${outputPrefix}/view`]: path.resolve(
+					folderPath,
+					'view.js'
+				),
+			}
+			: {}),
 	};
-}, {} );
+}, {});
 
 // Create dynamic copy patterns for block.json and render.php files
-const copyPatterns = customBlockFolders.reduce( ( patterns, folder ) => {
+const copyPatterns = customBlockFolders.reduce((patterns, folder) => {
 	const folderPath = path.resolve(
 		process.cwd(),
-		`components/blocks/${ folder }`
+		`components/blocks/${folder}`
 	);
 
 	// Add block.json copy pattern
-	if ( fs.existsSync( path.resolve( folderPath, 'block.json' ) ) ) {
-		patterns.push( {
-			from: `components/blocks/${ folder }/block.json`,
-			to: `blocks/${ folder }/block.json`,
-		} );
+	if (fs.existsSync(path.resolve(folderPath, 'block.json'))) {
+		patterns.push({
+			from: `components/blocks/${folder}/block.json`,
+			to: `blocks/${folder}/block.json`,
+		});
 	}
 
 	// Add render.php copy pattern
-	if ( fs.existsSync( path.resolve( folderPath, 'render.php' ) ) ) {
-		patterns.push( {
-			from: `components/blocks/${ folder }/render.php`,
-			to: `blocks/${ folder }/render.php`,
-		} );
+	if (fs.existsSync(path.resolve(folderPath, 'render.php'))) {
+		patterns.push({
+			from: `components/blocks/${folder}/render.php`,
+			to: `blocks/${folder}/render.php`,
+		});
 	}
 
 	return patterns;
-}, [] );
+}, []);
 
 // ============================================================================
 // EXTEND DEFAULT WORDPRESS SCRIPTS CONFIG
@@ -122,7 +122,7 @@ module.exports = {
 		// MAIN THEME BUNDLE
 		// ============================================================================
 		// This creates main-theme.css with UI foundation + all component styles (except custom blocks)
-		'css/theme': path.resolve( process.cwd(), 'components/ui/theme.scss' ),
+		'css/theme': path.resolve(process.cwd(), 'components/ui/theme.scss'),
 
 		// ============================================================================
 		// DYNAMIC CUSTOM BLOCKS (Auto-detected from components/blocks/fau-*)
@@ -147,25 +147,6 @@ module.exports = {
 			process.cwd(),
 			'components/ui/editor/editor-wrapper.scss'
 		),
-
-		// ============================================================================
-		// FAU NAVIGATION STYLES
-		// ============================================================================
-		'css/fau-navigation': path.resolve(
-			process.cwd(),
-			'components/ui/navigation/fau-navigation.scss'
-		),
-		'css/main-navigation': path.resolve(
-			process.cwd(),
-			'components/ui/navigation/main-navigation.scss'
-		),
-
-		// Add navigation component styles (unified menu modal system)
-		'css/menu-modal': path.resolve(
-			process.cwd(),
-			'components/ui/navigation/menu-modal.scss'
-		),
-
 		// ============================================================================
 		// JAVASCRIPT BUNDLES
 		// ============================================================================
@@ -241,11 +222,11 @@ module.exports = {
 		// Keep all existing plugins from the default config
 		...defaultConfig.plugins,
 		// Add our custom plugins
-		new RemoveEmptyScriptsPlugin( {
+		new RemoveEmptyScriptsPlugin({
 			stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS,
-		} ),
-		new CopyWebpackPlugin( {
+		}),
+		new CopyWebpackPlugin({
 			patterns: copyPatterns,
-		} ),
+		}),
 	],
 };

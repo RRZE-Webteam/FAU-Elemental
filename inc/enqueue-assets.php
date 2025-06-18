@@ -23,12 +23,6 @@ function faue_enqueue_styles() {
         );
     }
 
-    // Enqueue navigation styles
-    wp_enqueue_style('fau-navigation', get_theme_file_uri('build/css/fau-navigation.css'), array(), '1.0.0');
-    wp_enqueue_style('main-navigation', get_theme_file_uri('build/css/main-navigation.css'), array(), '1.0.0');
-    wp_enqueue_style('footer-navigation', get_theme_file_uri('build/css/footer-navigation.css'), array(), '1.0.0');
-    wp_enqueue_style('menu-modal', get_theme_file_uri('build/css/menu-modal.css'), array(), '1.0.0');
-
     // Note: Pattern styles are already included in the main theme bundle above
     // No need to load them separately anymore since they're compiled into css/theme.css
 }

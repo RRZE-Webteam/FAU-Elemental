@@ -655,3 +655,46 @@ function fau_elemental_enqueue_footer_scripts() {
     }
 }
 add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_footer_scripts');
+
+
+/**
+ * Add logo settings to customizer
+ */
+function fau_elemental_customize_register($wp_customize) {
+    // Add website shorttitle setting
+    $wp_customize->add_setting('website_shorttitle', array(
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    // Add website shorttitle control to Site Identity section
+    $wp_customize->add_control('website_shorttitle', array(
+        'label'    => __('Website Short Title', 'fau-elemental'),
+        'section'  => 'title_tagline',
+        'type'     => 'text',
+    ));
+
+    // Get current website type
+    $website_type = get_option('faue_website_type', 'fau');
+
+    // Only add custom logo control if website type is not cooperation
+    if ($website_type === 'cooperation') {
+        // Add custom logo setting
+        $wp_customize->add_setting('fau_elemental_custom_logo', array(
+            'default'           => '',
+            'sanitize_callback' => 'absint',
+        ));
+
+        // Add custom logo control with cropping
+        $wp_customize->add_control(new WP_Customize_Cropped_Image_Control($wp_customize, 'fau_elemental_custom_logo', array(
+            'label'    => __('Custom Logo', 'fau-elemental'),
+            'section'  => 'title_tagline',
+            'settings' => 'fau_elemental_custom_logo',
+            'width'    => 400,
+            'height'   => 112,
+            'flex_width'  => true,
+            'flex_height' => true,
+        )));
+    }
+}
+add_action('customize_register', 'fau_elemental_customize_register');
