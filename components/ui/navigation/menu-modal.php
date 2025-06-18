@@ -209,87 +209,35 @@ class Menu_Modal {
     private function render_menu_content($modal_id, $config) {
         // Special handling for search modal
         if ($modal_id === 'search') {
-            if (function_exists('render_block_fau_global_search')) {
-                // Add a wrapper div with a specific class for the search modal
-                echo '<div class="menu-modal__search-wrapper">';
-                echo render_block_fau_global_search(array(
-                    'title' => __('Search', 'fau-elemental'),
-                    'searchScope' => 'fau-wide'
-                ), '', null);
-                echo '</div>';
-                ?>
-                <script>
-                jQuery(document).ready(function($) {
-                    // Find the search form in the modal
-                    const $searchForm = $('#search-modal .wp-block-fau-elemental-fau-global-search__form');
+            // Use WordPress's block rendering system to render the fau-global-search block
+            $block_content = '<!-- wp:fau-elemental/fau-global-search {"title":"' . esc_attr(__('Search', 'fau-elemental')) . '","searchScope":"fau-wide"} /-->';
+            
+            echo '<div class="menu-modal__search-wrapper">';
+            echo do_blocks($block_content);
+            echo '</div>';
+            ?>
+            <script>
+            jQuery(document).ready(function($) {
+                // Find the search form in the modal
+                const $searchForm = $('#search-modal .wp-block-fau-elemental-fau-global-search__form');
+                
+                // Add submit handler
+                $searchForm.on('submit', function(e) {
+                    e.preventDefault(); // Prevent default form submission
                     
-                    // Add submit handler
-                    $searchForm.on('submit', function(e) {
-                        e.preventDefault(); // Prevent default form submission
-                        
-                        // Get the search query
-                        const searchQuery = $(this).find('input[name="s"]').val();
-                        const searchScope = $(this).find('input[name="fau_search_scope"]').val() || 'current';
-                        
-                        // Close the modal
-                        $('.menu-modal__close-btn').trigger('click');
-                        
-                        // Navigate to search results page
-                        window.location.href = '<?php echo esc_url(home_url('/')); ?>?s=' + encodeURIComponent(searchQuery) + '&fau_search_scope=' + encodeURIComponent(searchScope);
-                    });
-                });
-                </script>
-                <?php
-            } else {
-                // Fallback to basic search form if block is not available
-                ?>
-                <div class="menu-modal__search-wrapper">
-                    <div class="wp-block-fau-elemental-fau-global-search">
-                        <form class="wp-block-fau-elemental-fau-global-search__form" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
-                            <input type="search" class="wp-block-fau-elemental-fau-global-search__field" placeholder="<?php esc_attr_e('Search...', 'fau-elemental'); ?>" value="<?php echo get_search_query(); ?>" name="s" />
-                            <button type="submit" class="wp-block-fau-elemental-fau-global-search__submit"><?php esc_html_e('Search', 'fau-elemental'); ?></button>
-                        </form>
-                        <div class="wp-block-fau-elemental-fau-global-search__suggestions-area">
-                            <?php if (has_nav_menu('search_options_menu')) : ?>
-                                <div class="search-options-menu">
-                                    <h3 class="search-options-title"><?php _e('Further Search Options', 'fau-elemental'); ?></h3>
-                                    <?php
-                                    wp_nav_menu([
-                                        'theme_location' => 'search_options_menu',
-                                        'container' => 'nav',
-                                        'container_class' => 'search-options-nav',
-                                        'menu_class' => 'search-options-list',
-                                        'fallback_cb' => false,
-                                        'depth' => 1,
-                                    ]);
-                                    ?>
-                                </div>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-                <script>
-                jQuery(document).ready(function($) {
-                    // Find the search form in the modal
-                    const $searchForm = $('#search-modal .wp-block-fau-elemental-fau-global-search__form');
+                    // Get the search query
+                    const searchQuery = $(this).find('input[name="s"]').val();
+                    const searchScope = $(this).find('input[name="fau_search_scope"]').val() || 'current';
                     
-                    // Add submit handler
-                    $searchForm.on('submit', function(e) {
-                        e.preventDefault(); // Prevent default form submission
-                        
-                        // Get the search query
-                        const searchQuery = $(this).find('input[name="s"]').val();
-                        
-                        // Close the modal
-                        $('.menu-modal__close-btn').trigger('click');
-                        
-                        // Navigate to search results page
-                        window.location.href = '<?php echo esc_url(home_url('/')); ?>?s=' + encodeURIComponent(searchQuery);
-                    });
+                    // Close the modal
+                    $('.menu-modal__close-btn').trigger('click');
+                    
+                    // Navigate to search results page
+                    window.location.href = '<?php echo esc_url(home_url('/')); ?>?s=' + encodeURIComponent(searchQuery) + '&fau_search_scope=' + encodeURIComponent(searchScope);
                 });
-                </script>
-                <?php
-            }
+            });
+            </script>
+            <?php
             return;
         }
 

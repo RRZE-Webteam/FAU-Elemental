@@ -122,7 +122,6 @@ addFilter(
 const GalleryCarousel = ( props ) => {
 	const [ slides, setSlides ] = useState( [] );
 	const carouselRef = useRef( null );
-	const { useSelect } = wp.data;
 
 	// Get the current block's inner blocks and content
 	const { innerBlocks, content } = useSelect(
@@ -220,7 +219,7 @@ const GalleryCarousel = ( props ) => {
 		}
 
 		// figure out the next slide - handle both positive and negative offsets correctly
-		let nextSlideIndex =
+		const nextSlideIndex =
 			( ( ( currentSlideIndex + offset ) % slides.length ) +
 				slides.length ) %
 			slides.length;

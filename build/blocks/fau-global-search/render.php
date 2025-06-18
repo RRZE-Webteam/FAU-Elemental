@@ -35,8 +35,8 @@ if (!function_exists('render_block_fau_global_search')) {
             'restNonce' => wp_create_nonce('wp_rest'),
         ));
 
-        $title = $attributes['title'] ?? __('Search', 'fau-elemental');
-        $search_scope = $attributes['searchScope'] ?? 'current';
+        $title = !empty($attributes['title']) ? $attributes['title'] : __('Search', 'fau-elemental');
+        $search_scope = !empty($attributes['searchScope']) ? $attributes['searchScope'] : 'current';
 
         if (isset($_GET['fau_search_scope'])) {
             $search_scope = sanitize_text_field($_GET['fau_search_scope']);
@@ -222,27 +222,6 @@ if (!function_exists('render_block_fau_global_search')) {
                             set_transient('fau_network_search_results_' . get_current_blog_id(), $results, HOUR_IN_SECONDS);
 
                         }
-                    } else {
-                        // Regular search results
-                        if (have_posts()) {
-                            echo '<div class="search-results">';
-                            while (have_posts()) {
-                                the_post();
-                                echo '<article class="search-result">';
-                                echo '<h3><a href="' . esc_url(get_permalink()) . '">' . esc_html(get_the_title()) . '</a></h3>';
-                                echo '<div class="search-result-meta">';
-                                echo '<span class="search-result-date">' . esc_html(get_the_date()) . '</span>';
-                                echo '<span class="search-result-type">' . esc_html(get_post_type_object(get_post_type())->labels->singular_name) . '</span>';
-                                echo '</div>';
-                                if (has_excerpt()) {
-                                    echo '<div class="search-result-excerpt">' . wp_kses_post(get_the_excerpt()) . '</div>';
-                                }
-                                echo '</article>';
-                            }
-                            echo '</div>';
-                        } else {
-                            echo '<p class="no-results">' . __('No results found.', 'fau-elemental') . '</p>';
-                        }
                     }
                 }
                 ?>
@@ -313,3 +292,6 @@ add_filter('the_title', function($title, $post_id) {
 add_filter('get_the_excerpt', function($excerpt, $post) {
     return isset($post->post_excerpt) ? $post->post_excerpt : $excerpt;
 }, 10, 2);
+
+// Execute the render function and output the content
+echo render_block_fau_global_search($attributes, $content, $block);

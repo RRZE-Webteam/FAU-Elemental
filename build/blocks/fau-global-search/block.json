@@ -13,12 +13,6 @@
         "align": true
     },
     "attributes": {
-        "title": {
-            "type": "string",
-            "source": "html",
-            "selector": "h2",
-            "default": "Search"
-        },
         "align": {
             "type": "string",
             "default": "none"

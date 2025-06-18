@@ -13,18 +13,12 @@ import {
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
-
-/**
- * Internal dependencies
- */
-import './editor.scss';
-import './style.scss';
 import EditorPreview from './EditorPreview';
 
 /**
  * Edit component for the FAU Portal Menu block
  */
-export default function Edit( { attributes, setAttributes, clientId } ) {
+export default function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps( {
 		className: 'wp-block-fau-elemental-portalmenu',
 	} );

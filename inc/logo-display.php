@@ -76,7 +76,7 @@ function fau_elemental_display_logo_title() {
         }
     }
 
-    $website_type = get_option('faue_website_type', 'fau');
+    $website_type = get_theme_mod('faue_website_type', 'fau');
     
     // Handle invalid faculty selection for faculty website type
     if ((empty($faculty)) && ($website_type === 'faculty')) {
@@ -132,7 +132,7 @@ function fau_elemental_display_logo_title() {
         echo '</span>';
     }
 
-    // Only show text elements if not a cooperation website
+    // Only show text elements for non-cooperation websites
     if ($website_type !== 'cooperation') {
         echo '<span class="text">';
         if ($visible_toptitle) {
@@ -152,7 +152,6 @@ function fau_elemental_display_logo_title() {
         } elseif ($visible_shortcut) {
             echo '<span id="website-title" class="visible-title' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '" itemprop="name">' . esc_html($visible_shortcut) . '</span>';
         }
-        
         echo '</span>';
     }
     

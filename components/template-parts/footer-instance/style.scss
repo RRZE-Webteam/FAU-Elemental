@@ -10,19 +10,19 @@
 			margin: 0 auto;
 		}
 
-		h1 {
+		h2 {
 			margin-top: 0;
 			font-size: 1.5rem;
 		}
 
-		h2 {
+		h3 {
 			font-size: 1.125rem;
 			margin: 0;
 			padding-bottom: 1rem;
 		}
 
-		h1,
 		h2,
+		h3,
 		p,
 		address,
 		a {
@@ -47,6 +47,7 @@
 
 		.footer-instance-contact {
 			display: flex;
+			padding-bottom: var(--Spacing-12x);
 
 			.contact-address {
 				flex-basis: 33%;
@@ -67,15 +68,19 @@
 						line-height: 1.5;
 					}
 
-					> div p {
-						font-size: 1rem;
+					.contact-details {
 
-						&:last-child {
-							margin-top: var(--Spacing-5x);
+						p {
+							font-size: 1rem;
+
+							// Add spacer if directions are not alone
+							+ .directions {
+								margin-top: var(--Spacing-5x);
+							}
 						}
 					}
 
-					&:has(address) > div {
+					&:has(address) .contact-details {
 						flex-basis: 50%;
 					}
 				}
@@ -106,10 +111,6 @@
 					}
 				}
 			}
-		}
-
-		.footer-instance-contact {
-			padding-bottom: var(--Spacing-12x);
 		}
 
 		.footer-instance-menu {
@@ -145,7 +146,7 @@
 	}
 
 	.footer-bottom {
-		padding: var(--Spacing-8x) var(--Spacing-10x);
+		padding: var(--Spacing-4x) var(--Spacing-10x);
 
 		.footer-controls {
 			display: flex;
@@ -174,7 +175,7 @@
 
 			&::before {
 				content: "";
-				background-color: white;
+				background-color: #fff; // TODO Maybe use a custom property
 				width: 56px;
 				height: 56px;
 				position: absolute;
@@ -212,7 +213,7 @@
 			}
 		}
 
-		// adapted visuals for claim and target groups only for instance (faculty)
+		// adapted visuals for claim only for instance (faculty)
 		#fau-info-section {
 
 			.fau-claim {
@@ -225,6 +226,10 @@
 					display: none;
 				}
 
+				h3 {
+					display: none;
+				}
+
 				p {
 					flex-basis: 66%;
 					padding-bottom: var(--Spacing-10x);
@@ -232,8 +237,8 @@
 				}
 			}
 
-			.target-groups {
-				padding-bottom: var(--Spacing-10x);
+			.fau-big-button-teaser-group {
+				margin-bottom: var(--Spacing-8x);
 			}
 		}
 	}
@@ -322,10 +327,15 @@
 		flex-direction: column;
 
 		address,
-		> div {
+		.contact-details {
 			flex-basis: unset;
 		}
 	}
+}
+
+@media screen and (max-width: 499px) {
+
+	// No target groups specific rules needed - using shared big button styling
 }
 
 @include respond-to("x-small") {
@@ -339,10 +349,6 @@
 				flex-direction: column;
 				gap: var(--Spacing-3x);
 			}
-		}
-
-		.footer-bottom {
-			padding: var(--Spacing-6x) var(--Spacing-5x);
 		}
 	}
 }

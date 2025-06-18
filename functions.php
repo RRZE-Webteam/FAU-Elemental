@@ -9,6 +9,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+
+// Configuration
+require_once get_template_directory() . '/inc/config.php';
+
 // Theme setup and core functionality
 require_once get_template_directory() . '/inc/theme-setup.php';
 
@@ -35,7 +39,7 @@ require_once get_template_directory() . '/inc/theme-settings.php';
 require_once get_template_directory() . '/inc/post-meta.php';
 
 // Menu registration
-
+require_once get_template_directory() . '/inc/menu-registration.php';
 
 // Shortcodes functionality
 require_once get_template_directory() . '/inc/shortcodes-loader.php';
@@ -110,51 +114,30 @@ function fau_elemental_template_include($template) {
 add_filter('template_include', 'fau_elemental_template_include', 99);
 
 /**
- * Add a filter to post updated messages to help with portal page template
- */
-/**
  * Main theme setup function for FAU-Elemental
  */
-// function fau_elemental_theme_setup() {
-//     // Add theme support for block templates and FSE
-//     add_theme_support('block-templates');
-//     
-//     // Ensure PHP templates are available as fallbacks
-//     add_theme_support('template-hierarchy');
-//     
-//     // Basic theme features support
-//     add_theme_support('post-thumbnails');
-//     add_theme_support('custom-logo');
-//     add_theme_support('automatic-feed-links');
-//     add_theme_support('html5', array(
-//         'comment-list', 
-//         'comment-form', 
-//         'search-form', 
-//         'gallery', 
-//         'caption',
-//         'style',
-//         'script'
-//     ));
-//     add_theme_support('title-tag');
-//     
-//     // Register core menu locations used by classic templates
-//     register_nav_menus(array(
-//         'primary' => __('Primary Menu', 'fau-elemental'),
-//         'footer' => __('Footer Menu', 'fau-elemental'),
-//         'footer-instance-menu' => __('Footer Instance Menu', 'fau-elemental')
-//     ));
-//     register_nav_menus(array(
-//         'footer-wichtige-links' => __('Footer Wichtige Links', 'fau-elemental'),
-//         'footer-instance-menu' => __('Footer Instance Menu', 'fau-elemental')
-//     ));
-//     register_nav_menus( array(
-//         'footer-instance' => esc_html__( 'Footer Instance Menu', 'fau-elemental' ),
-//     ) );
-// 
-//     // Add custom image sizes if needed
-//     // add_image_size('featured-large', 1600, 900, true);
-// }
-// add_action('after_setup_theme', 'fau_elemental_theme_setup');
+ function fau_elemental_theme_setup() {
+    // Basic theme features support
+    add_theme_support('post-thumbnails');
+    add_theme_support('custom-logo');
+    add_theme_support('automatic-feed-links');
+    add_theme_support('html5', array(
+        'comment-list', 
+        'comment-form', 
+        'search-form', 
+        'gallery', 
+        'caption',
+        'style',
+        'script'
+    ));
+    add_theme_support('title-tag');
+    
+ 
+    
+    // Add custom image sizes if needed
+    // add_image_size('featured-large', 1600, 900, true);
+}
+add_action('after_setup_theme', 'fau_elemental_theme_setup');
 
 /**
  * Add a filter to post updated messages to help with portal page template
@@ -213,32 +196,10 @@ add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_php_template_styles');
 function fau_elemental_body_classes($classes) {
     // Add these classes to ensure PHP templates look like block templates
     $classes[] = 'wp-theme';
-    // $classes[] = 'is-layout-flow';
     
     return $classes;
 }
 add_filter('body_class', 'fau_elemental_body_classes');
-
-
-
-
-
-
-
-
-
-
-
- // This will load the main footer.php dont remove this
-function render_footer_template() {
-    ob_start();
-    get_footer(); 
-    return ob_get_clean();
-}
-
-register_block_type('fau-elemental/footer', array(
-    'render_callback' => 'render_footer_template'
-));
 
 /**
  * Footer Customizer Settings
@@ -693,22 +654,77 @@ function fau_elemental_sanitize_svg($file) {
             $file['error'] = __('SVG files containing scripts are not allowed for security reasons.', 'fau-elemental');
         }
     }
+    
+    // Also trigger address migration
+    if (function_exists('fau_elemental_migrate_address_information')) {
+        fau_elemental_migrate_address_information();
+    }
+    
     return $file;
 }
 add_filter('wp_handle_upload_prefilter', 'fau_elemental_sanitize_svg');
 
 /**
- * Fix SVG display in media library
+ * Sanitize and format telephone number
+ * Follows international standards as required by FAU
+ *
+ * @param string $phone The phone number to format
+ * @return string Formatted phone number
  */
-function fau_elemental_fix_svg_thumb_display() {
-    echo '<style>
-        .attachment-266x266, .thumbnail img {
-            width: 100% !important;
-            height: auto !important;
-        }
-    </style>';
+function fau_elemental_format_phone_number($phone) {
+    if (empty($phone)) {
+        return '';
+    }
+    
+    // Remove all characters except numbers, "+", "(", ")", "-" and spaces
+    $phone = preg_replace('/[^\d\+\-\(\) ]/', '', $phone);
+    $phone = preg_replace('/\s+/', ' ', trim($phone));
+    
+    // Convert "+49(0)" to "+49"
+    $phone = preg_replace('/^\+49\s*\(0\)/', '+49', $phone);
+    $phone = preg_replace('/^0049/', '+49', $phone);
+    
+    // If number starts with "0" (German number without country code)
+    if (preg_match('/^0[1-9]/', $phone)) {
+        $phone = preg_replace('/^0/', '+49 ', $phone);
+    }
+    
+    // Standardize format with spaces between groups
+    $phone = preg_replace('/(\+?\d{1,3})\s*(\d{3,4})\s*(\d{3,4})\s*(\d{0,4})/', '$1 $2 $3 $4', $phone);
+    
+    return trim($phone); // Remove excess spaces at the end
 }
-add_action('admin_head', 'fau_elemental_fix_svg_thumb_display');
+
+/**
+ * Enqueue footer scripts and localize strings
+ */
+function fau_elemental_enqueue_footer_scripts() {
+    // Only enqueue on pages that have footers
+    if (is_admin()) {
+        return;
+    }
+    
+    $website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
+    
+    // Enqueue footer toggle script for instance sites (where the toggle is used)
+    if ($website_type !== 'fau') {
+        wp_enqueue_script(
+            'fau-footer-toggle',
+            get_theme_file_uri('components/template-parts/footer-main/footer-toggle.js'),
+            [],
+            wp_get_theme()->get('Version'),
+            true
+        );
+        
+        // Localize strings for the footer toggle functionality
+        wp_localize_script('fau-footer-toggle', 'fauFooterStrings', [
+            'showMore' => __('Show more', 'fau-elemental'),
+            'showLess' => __('Show less', 'fau-elemental')
+        ]);
+    }
+}
+add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_footer_scripts');
+
 
 /**
  * Add logo settings to customizer
@@ -731,147 +747,23 @@ function fau_elemental_customize_register($wp_customize) {
     $website_type = get_option('faue_website_type', 'fau');
 
     // Only add custom logo control if website type is not cooperation
-    // (Removed custom logo for cooperation, will use WordPress custom logo instead)
-    // if ($website_type === 'cooperation') {
-    //     // Add custom logo setting
-    //     $wp_customize->add_setting('fau_elemental_custom_logo', array(
-    //         'default'           => '',
-    //         'sanitize_callback' => 'absint',
-    //     ));
+    if ($website_type === 'cooperation') {
+        // Add custom logo setting
+        $wp_customize->add_setting('fau_elemental_custom_logo', array(
+            'default'           => '',
+            'sanitize_callback' => 'absint',
+        ));
 
-    //     // Add custom logo control with cropping
-    //     $wp_customize->add_control(new WP_Customize_Cropped_Image_Control($wp_customize, 'fau_elemental_custom_logo', array(
-    //         'label'    => __('Custom Logo', 'fau-elemental'),
-    //         'section'  => 'title_tagline',
-    //         'settings' => 'fau_elemental_custom_logo',
-    //         'width'    => 400,
-    //         'height'   => 112,
-    //         'flex_width'  => true,
-    //         'flex_height' => true,
-    //     )));
-    // }
-
-    if ($website_type !== 'cooperation') {
-        // Remove the default custom logo control from Site Identity
-        $wp_customize->remove_control('custom_logo');
+        // Add custom logo control with cropping
+        $wp_customize->add_control(new WP_Customize_Cropped_Image_Control($wp_customize, 'fau_elemental_custom_logo', array(
+            'label'    => __('Custom Logo', 'fau-elemental'),
+            'section'  => 'title_tagline',
+            'settings' => 'fau_elemental_custom_logo',
+            'width'    => 400,
+            'height'   => 112,
+            'flex_width'  => true,
+            'flex_height' => true,
+        )));
     }
 }
 add_action('customize_register', 'fau_elemental_customize_register');
-
-/* Commenting out old logo settings but keeping them for reference
-function fau_elemental_logo_customizer_settings($wp_customize) {
-    // Move logo settings to Site Identity section
-    $wp_customize->get_section('title_tagline')->title = __('Site Identity & Logo', 'fau-elemental');
-    $wp_customize->get_section('title_tagline')->priority = 20;
-
-    // Regular Logo
-    $wp_customize->add_setting('fau_regular_logo', array(
-        'default' => '',
-        'sanitize_callback' => 'esc_url_raw',
-    ));
-
-    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'fau_regular_logo', array(
-        'label' => __('Regular Logo', 'fau-elemental'),
-        'description' => __('Upload your regular logo (recommended size: 300x100px)', 'fau-elemental'),
-        'section' => 'title_tagline',
-        'settings' => 'fau_regular_logo',
-        'priority' => 8,
-    )));
-
-    // White Logo
-    $wp_customize->add_setting('fau_white_logo', array(
-        'default' => '',
-        'sanitize_callback' => 'esc_url_raw',
-    ));
-
-    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'fau_white_logo', array(
-        'label' => __('White Logo', 'fau-elemental'),
-        'description' => __('Upload your white logo for dark backgrounds (recommended size: 300x100px)', 'fau-elemental'),
-        'section' => 'title_tagline',
-        'settings' => 'fau_white_logo',
-        'priority' => 9,
-    )));
-
-    // Logo Height
-    $wp_customize->add_setting('fau_logo_height', array(
-        'default' => '50',
-        'sanitize_callback' => 'absint',
-    ));
-
-    $wp_customize->add_control('fau_logo_height', array(
-        'label' => __('Logo Height (px)', 'fau-elemental'),
-        'description' => __('Set the height of your logo in pixels', 'fau-elemental'),
-        'section' => 'title_tagline',
-        'type' => 'number',
-        'priority' => 10,
-        'input_attrs' => array(
-            'min' => 20,
-            'max' => 200,
-            'step' => 5,
-        ),
-    ));
-
-    // University Name (Multi-line)
-    $wp_customize->add_setting('fau_university_name', array(
-        'default' => "Friedrich-Alexander-Universität\nErlangen-Nürnberg",
-        'sanitize_callback' => 'wp_kses_post',
-    ));
-
-    $wp_customize->add_control('fau_university_name', array(
-        'label' => __('University Name', 'fau-elemental'),
-        'description' => __('Enter the full university name. Use line breaks (press Enter) for multiple lines.', 'fau-elemental'),
-        'section' => 'title_tagline',
-        'type' => 'textarea',
-        'priority' => 11,
-    ));
-}
-
-add_action('customize_register', 'fau_elemental_logo_customizer_settings');
-
-// Commenting out old logo helper functions but keeping them for reference
-function fau_elemental_get_logo($type = 'regular') {
-    $logo_url = '';
-    
-    if ($type === 'white') {
-        $logo_url = get_theme_mod('fau_white_logo', '');
-    } else {
-        $logo_url = get_theme_mod('fau_regular_logo', '');
-    }
-    
-    return $logo_url;
-}
-
-function fau_elemental_display_logo($type = 'regular', $class = '') {
-    $logo_url = fau_elemental_get_logo($type);
-    $logo_height = get_theme_mod('fau_logo_height', 50);
-    
-    if (!empty($logo_url)) {
-        $class = !empty($class) ? 'class="' . esc_attr($class) . '"' : '';
-        echo '<img src="' . esc_url($logo_url) . '" alt="' . esc_attr(get_bloginfo('name')) . '" ' . $class . ' style="height: ' . esc_attr($logo_height) . 'px; width: auto;">';
-    }
-}
-
-function fau_elemental_get_university_name() {
-    return get_theme_mod('fau_university_name', "Friedrich-Alexander-Universität\nErlangen-Nürnberg");
-}
-
-function fau_elemental_display_university_name($class = '') {
-    $university_name = fau_elemental_get_university_name();
-    $class = !empty($class) ? 'class="' . esc_attr($class) . '"' : '';
-    
-    echo '<div ' . $class . '>' . nl2br(esc_html($university_name)) . '</div>';
-}
-
-*/
-
-// Register the search modal
-$menu_modal->register_modal('search', array(
-    'theme_locations' => array(),
-    'use_global_menu' => false,
-    'modal_class' => 'menu-modal',
-    'menu_class' => 'menu-modal__menu',
-    'aria_label' => __('Search', 'fau-elemental'),
-    'depth' => 0,
-    'show_back_button' => false,
-    'show_close_button' => true,
-));

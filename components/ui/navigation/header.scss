@@ -1,0 +1,1025 @@
+// Site Header Structure
+.site-header {
+	position: relative;
+	z-index: 100;
+
+	&__top {
+		background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+		padding: 0.5rem 0;
+
+		.wp-block-navigation {
+			--navigation-layout-justification-setting: flex-end;
+
+			&__container {
+				color: var(--wp--preset--color--white, #fff);
+				font-size: 0.875rem;
+			}
+
+			&__submenu-icon {
+				color: var(--wp--preset--color--white, #fff);
+			}
+		}
+	}
+
+	&__main {
+		background-color: var(--FAU-Col-FAU-Blau-100);
+		padding: 1.25rem 0;
+		margin: 0;
+
+		.wp-block-group {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.wp-block-site-logo {
+			margin: 0;
+
+			img {
+				height: auto;
+				max-height: 60px;
+				width: auto;
+			}
+		}
+
+		.wp-block-navigation {
+
+			&__container {
+				gap: 2rem;
+			}
+
+			&__submenu-icon {
+				margin-left: 0.25rem;
+			}
+		}
+	}
+
+	&__breadcrumbs {
+		background-color: var(--wp--preset--color--theme-50, #f5f5f5);
+		padding: 0.75rem 0;
+		font-size: 0.875rem;
+
+		.wp-block-group {
+			margin: 0;
+		}
+
+		a {
+			color: var(--wp--preset--color--theme-700, #1f4d7a);
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+// FAU Navigation
+.fau-navigation {
+	background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+	color: var(--wp--preset--color--white, #fff);
+	padding: 0.5rem 0;
+	position: relative;
+
+	&__container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		max-width: var(--wp--style--global--content-size, 1200px);
+		margin: 0 auto;
+		padding: 0 1rem;
+	}
+
+	&__left {
+		display: flex;
+		align-items: center;
+	}
+
+	&__right {
+		display: flex;
+		align-items: center;
+	}
+
+	&__fau-link {
+		color: var(--wp--preset--color--white, #fff);
+		text-decoration: none;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.5rem;
+		transition: opacity 0.2s ease;
+
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+
+	&__back-icon {
+		display: flex;
+		align-items: center;
+	}
+
+	&__menu {
+		display: flex;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		gap: 1rem;
+	}
+
+	.menu-item {
+		position: relative;
+
+		&.has-children {
+
+			.fau-navigation__button {
+				padding: 0.5rem;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				background: none;
+				border: none;
+				color: inherit;
+				cursor: pointer;
+				font-size: inherit;
+
+				&::after {
+					content: "";
+					width: 0;
+					height: 0;
+					border-left: 4px solid transparent;
+					border-right: 4px solid transparent;
+					border-top: 4px solid currentcolor;
+					transition: transform 0.3s ease;
+				}
+
+				&[aria-expanded="true"]::after {
+					transform: rotate(180deg);
+				}
+			}
+		}
+	}
+
+	&__button {
+		background: none;
+		border: none;
+		color: var(--wp--preset--color--white, #fff);
+		padding: 0.5rem;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		border-radius: 4px;
+		transition: background-color 0.2s ease;
+
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.1);
+		}
+	}
+
+	&__icon {
+		display: flex;
+		align-items: center;
+	}
+
+	// Submenu styles
+	.sub-menu {
+		display: none;
+		position: fixed;
+		top: 0;
+		right: 0;
+		width: 300px;
+		height: 100vh;
+		background-color: var(--wp--preset--color--white, #fff);
+		padding: 2rem;
+		margin: 0;
+		list-style: none;
+		box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+		z-index: 1000;
+		overflow-y: auto;
+
+		&.is-open {
+			display: block;
+		}
+
+		.menu-item {
+			margin-bottom: 0.5rem;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		.fau-navigation__link {
+			color: var(--wp--preset--color--fau-dark-blue, #003865);
+			text-decoration: none;
+			display: block;
+			padding: 0.5rem 0;
+			transition: color 0.2s ease;
+			font-size: 0.9rem;
+
+			&:hover {
+				color: var(--wp--preset--color--fau-blue, #0057a8);
+			}
+		}
+
+		// Nested submenus
+		.sub-menu {
+			position: static;
+			box-shadow: none;
+			padding: 0.5rem 0 0.5rem 1rem;
+			width: auto;
+			height: auto;
+			background: transparent;
+
+			.fau-navigation__link {
+				font-size: 0.85rem;
+			}
+		}
+	}
+
+	// Overlay
+	&__overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 999;
+		display: none;
+	}
+
+	@media (max-width: 768px) {
+
+		.sub-menu {
+			width: 100%;
+			max-width: 300px;
+		}
+	}
+}
+
+// Main Navigation
+.main-navigation {
+	position: relative;
+	background-color: var(--FAU-Col-FAU-Blau-100);
+	z-index: 100;
+	max-width: 1320px;
+	margin: 0 auto;
+
+	&__container {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		max-width: var(--wp--style--global--content-size);
+		margin: 0 auto;
+		padding: 1rem var(--wp--custom--spacing--outer);
+		width: 100%;
+	}
+
+	&__brand {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		flex: 0 1 auto;
+	}
+
+	&__logo {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+
+		img {
+			max-height: 50px;
+			width: auto;
+		}
+
+		.text {
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: var(--FAU-Col-FAU-Weiss-100);
+			margin: 0;
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
+
+	&__site-title {
+		margin: 0;
+		font-size: 1.5rem;
+		font-weight: 600;
+		color: var(--color-text);
+		line-height: 1.2;
+	}
+
+	&__short-title {
+		font-size: 0.875rem;
+		color: var(--color-text-secondary);
+		display: none;
+		margin: 0;
+		line-height: 1.2;
+
+		@media (min-width: 768px) {
+			display: block;
+		}
+	}
+
+	&__tagline {
+		font-size: 0.875rem;
+		color: var(--color-text-secondary);
+	}
+
+	&__menu-container {
+		position: relative;
+	}
+
+	&__toggle {
+		display: flex;
+		align-items: center;
+		gap: var(--Spacing-2x);
+		background: none;
+		border: none;
+		cursor: pointer;
+
+		&-text {
+			color: var(--FAU-Col-FAU-Weiss-100);
+			font-size: 1rem;
+			font-weight: 700;
+			letter-spacing: var(--letter-spacing-small);
+		}
+
+		&-icon {
+			display: flex;
+			flex-direction: column;
+			width: 18px;
+			gap: 3px;
+			transition: var(--basic-animation);
+
+			> span {
+				display: block;
+				height: 2px;
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+			}
+		}
+
+		&:hover,
+		&:focus-visible {
+
+			.main-navigation__toggle-icon {
+				gap: 5px;
+				transition: var(--basic-animation);
+			}
+		}
+	}
+
+	&__dropdown {
+		display: none;
+		position: absolute;
+		top: 100%;
+		right: 0;
+		min-width: 220px;
+		background: #fff;
+		border-radius: 6px;
+		z-index: 100;
+		padding: 1rem 0;
+	}
+
+	&__dropdown.active {
+		display: block;
+	}
+
+	&__menu {
+		display: flex;
+		align-items: center;
+
+		.menu-toggle {
+			display: none;
+			background: none;
+			border: none;
+			color: var(--FAU-Col-FAU-Weiss-100);
+			font-size: 1.5rem;
+			cursor: pointer;
+			padding: 0.5rem;
+
+			@media (max-width: 768px) {
+				display: block;
+			}
+		}
+
+		.menu-main-container {
+
+			@media (max-width: 768px) {
+				display: none;
+				position: absolute;
+				top: 100%;
+				left: 0;
+				right: 0;
+				background: var(--FAU-Col-FAU-Blau);
+				padding: 1rem;
+			}
+
+			&.toggled {
+				display: block;
+			}
+		}
+
+		.menu {
+			display: flex;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			gap: 1.5rem;
+
+			@media (max-width: 768px) {
+				flex-direction: column;
+				gap: 1rem;
+			}
+
+			.menu-item {
+				margin: 0;
+
+				a {
+					color: var(--FAU-Col-FAU-Weiss-100);
+					text-decoration: none;
+					font-size: 1rem;
+					padding: 0.5rem;
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+
+				&.current-menu-item {
+
+					a {
+						font-weight: 700;
+					}
+				}
+			}
+		}
+	}
+
+	.menu-item {
+		position: relative;
+
+		a {
+			display: block;
+			padding: 1rem;
+			color: var(--wp--preset--color--text);
+			text-decoration: none;
+			transition: color 0.3s ease;
+
+			&:hover {
+				color: var(--wp--preset--color--primary);
+			}
+		}
+
+		&.current-menu-item > a {
+			color: var(--wp--preset--color--primary);
+		}
+	}
+
+	.sub-menu {
+		display: none;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		background-color: var(--wp--preset--color--background);
+		min-width: 200px;
+		z-index: 1000;
+
+		@media (max-width: 768px) {
+			position: static;
+			box-shadow: none;
+		}
+
+		.menu-item {
+
+			a {
+				padding: 0.75rem 1rem;
+			}
+		}
+	}
+
+	.menu-item-has-children {
+
+		> a {
+			position: relative;
+			padding-right: 2rem;
+		}
+	}
+}
+
+/**
+ * Unified Menu Modal Styles
+ * Supports both global menus (meta-nav) and local menus (website)
+ */
+
+// Base modal styles that apply to all modal types
+.menu-modal,
+.menu-meta-nav__modal,
+.menu-website-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	display: none;
+
+	&[style*="display: block"],
+	&:not([style*="display: none"]) {
+		display: flex;
+	}
+
+	// Overlay (semi-transparent to show website behind)
+	&__overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		cursor: pointer;
+	}
+
+	// Container (this is the white modal box)
+	&__container {
+		position: fixed;
+		top: 0;
+		right: 0;
+		width: 500px;
+		height: 100vh;
+		background: white;
+		box-shadow: 0 0 60px rgba(4, 49, 106, 0.6);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		z-index: 10; // Ensure it's above the overlay
+		transform: translateX(100%); // Start off-screen to the right
+		transition: transform 0.2s ease-in-out;
+	}
+
+	// Header with back and close buttons
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1rem;
+	}
+
+	// Back button
+	&__back-btn {
+		display: none; // Hidden by default, shown during drill-down navigation
+		align-items: center;
+		gap: 0.5rem;
+		background: none;
+		border: none;
+		color: #374151;
+		cursor: pointer;
+		font-size: 0.875rem;
+		padding: 0.5rem;
+		border-radius: 4px;
+		transition: background-color 0.2s ease-in-out;
+
+		&:hover {
+			background: #e5e7eb;
+		}
+
+		&:focus {
+			outline: 2px solid #3b82f6;
+			outline-offset: 2px;
+		}
+	}
+
+	&__back-icon {
+		width: 20px;
+		height: 20px;
+		flex-shrink: 0;
+	}
+
+	&__back-text {
+		font-weight: 500;
+	}
+
+	// Close button
+	&__close-btn {
+		background: none;
+		border: none;
+		color: #6b7280;
+		cursor: pointer;
+		padding: 0.5rem;
+		border-radius: 4px;
+		transition: background-color 0.2s ease-in-out;
+		margin-left: auto;
+
+		&:hover {
+			background: #e5e7eb;
+			color: #374151;
+		}
+
+		&:focus {
+			outline: 2px solid #3b82f6;
+			outline-offset: 2px;
+		}
+	}
+
+	&__close-icon {
+		width: 24px;
+		height: 24px;
+	}
+
+	// Content area
+	&__content {
+		flex: 1;
+		overflow-y: auto;
+		padding: 1rem;
+	}
+
+	// Menu styles
+	&__menu {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+
+		.menu-item {
+			position: relative; // Critical for absolute positioning of toggle buttons
+
+			a {
+				display: block;
+				padding: 0.75rem 1rem;
+				color: #374151;
+				text-decoration: none;
+				border-radius: 4px;
+				transition: background-color 0.2s ease-in-out;
+
+				&:hover {
+					background: #f3f4f6;
+					color: #1f2937;
+				}
+
+				&:focus {
+					outline: 2px solid #3b82f6;
+					outline-offset: 2px;
+				}
+			}
+
+			// Active/current page styles
+			&.current-menu-item,
+			&.menu-item-active {
+
+				> a,
+				> .menu-modal__link--active {
+					background: #e3f2fd;
+					color: #1565c0;
+					font-weight: 600;
+					border-left: 4px solid #1565c0;
+
+					&:hover {
+						background: #bbdefb;
+						color: #0d47a1;
+					}
+				}
+			}
+
+			// Parent/ancestor styles (less prominent than current)
+			&.current-menu-parent,
+			&.current-menu-ancestor {
+
+				> a,
+				> .menu-modal__submenu-row {
+					background: #f8f9fa;
+					color: #1565c0;
+					font-weight: 500;
+
+					&:hover {
+						background: #e3f2fd;
+					}
+				}
+			}
+
+			// Has children indicator
+			&.has-children,
+			&.menu-item-has-children {
+
+				> a {
+					padding-right: 3rem; // Make room for the toggle button
+				}
+			}
+
+			a.current-menu-item-focused,
+			a.active {
+				background: #e3f2fd;
+				color: #1565c0;
+				font-weight: 600;
+				border-left: 4px solid #1565c0;
+			}
+		}
+	}
+}
+
+// Global toggle button positioning (targets all possible configurations)
+.menu-modal,
+.menu-meta-nav__modal,
+.menu-website-modal {
+	// Force all toggle buttons to be positioned within their menu items
+	.menu-modal__submenu-toggle,
+	button.menu-modal__submenu-toggle {
+		//position: absolute !important;
+		right: 0.5rem !important;
+		top: 50% !important;
+		transform: translateY(-50%) !important;
+		background: none !important;
+		border: none !important;
+		color: #6b7280 !important;
+		cursor: pointer !important;
+		padding: 0.25rem !important;
+		border-radius: 4px !important;
+		height: 2rem !important;
+		align-items: center !important;
+		justify-content: center !important;
+		transition: all 0.2s ease-in-out !important;
+		z-index: 10 !important;
+		margin: 1rem;
+
+		// Allow JavaScript to control visibility
+		&:not(.hidden):not([style*="display: none"]) {
+			display: flex !important;
+		}
+
+		&:hover {
+			background: #e5e7eb !important;
+			color: #374151 !important;
+		}
+
+		&:focus {
+			outline: 2px solid #3b82f6 !important;
+			outline-offset: 2px !important;
+		}
+
+		// Collapsed state (default) - always show right arrow for drill-down
+		&[aria-expanded="false"],
+		&[aria-expanded="true"] {
+			transform: translateY(-50%) rotate(0deg) !important;
+		}
+
+		svg {
+			width: 16px !important;
+			height: 16px !important;
+		}
+
+		// Active state for submenu toggle buttons
+		&.menu-modal__submenu-row--active {
+			background: #f8f9fa !important;
+			color: #1565c0 !important;
+			font-weight: 500 !important;
+
+			&:hover {
+				background: #e3f2fd !important;
+			}
+
+			.menu-modal__item-title {
+				color: #1565c0 !important;
+				font-weight: 500 !important;
+			}
+		}
+	}
+
+	.menu-item.menu-item-has-children,
+	.menu-item.has-children {
+		position: relative !important;
+
+		> a {
+			padding-right: 3rem !important;
+		}
+	}
+
+	// Submenu styles
+	.sub-menu {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		padding-left: 1rem;
+		border-left: 2px solid #e5e7eb;
+		margin-top: 0.25rem;
+		display: none; // Hide submenus by default
+
+		.menu-item {
+			position: relative !important;
+
+			a {
+				padding: 0.5rem 1rem;
+				font-size: 0.875rem;
+				color: #6b7280;
+
+				&:hover {
+					color: #374151;
+					background: #f9fafb;
+				}
+			}
+
+			// Active/current page styles for submenu items
+			&.current-menu-item,
+			&.menu-item-active {
+
+				> a,
+				> .menu-modal__link--active {
+					background: #e3f2fd;
+					color: #1565c0;
+					font-weight: 600;
+					border-left: 3px solid #1565c0;
+
+					&:hover {
+						background: #bbdefb;
+						color: #0d47a1;
+					}
+				}
+			}
+
+			// Parent/ancestor styles for submenu items
+			&.current-menu-parent,
+			&.current-menu-ancestor {
+
+				> a {
+					background: #f8f9fa;
+					color: #1565c0;
+					font-weight: 500;
+
+					&:hover {
+						background: #e3f2fd;
+					}
+				}
+			}
+
+			// Ensure submenu items also get proper toggle button positioning
+			&.menu-item-has-children,
+			&.has-children {
+
+				> a {
+					padding-right: 3rem !important;
+				}
+			}
+		}
+	}
+}
+
+// Responsive design
+@media (max-width: 768px) {
+
+	.menu-modal,
+	.menu-meta-nav__modal,
+	.menu-website-modal {
+
+		&__container {
+			width: 100%; // Full width on mobile
+			right: 0;
+		}
+
+		&__content {
+			padding: 0.5rem;
+		}
+
+		&__menu {
+
+			.menu-item a {
+				padding: 1rem;
+				font-size: 1rem;
+			}
+
+			.sub-menu .menu-item a {
+				padding: 0.75rem 1rem;
+			}
+		}
+	}
+}
+
+// Animation states
+.menu-modal,
+.menu-meta-nav__modal,
+.menu-website-modal {
+	opacity: 0;
+	transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+
+	&.is-open,
+	&.is-open[style],
+	&.is-open[style*="display"] {
+		opacity: 1;
+		display: flex;
+
+		// Ensure immediate visibility
+		transition: all 0.2s ease-in-out;
+
+		// Make sure it's positioned correctly (matching the base positioning)
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+	}
+
+	&__container {
+		transform: translateX(100%); // Start off-screen to the right
+		transition: transform 0.2s ease-in-out;
+	}
+
+	&.is-open &__container {
+		transform: translateX(0); // Slide in from the right
+		background: white;
+		z-index: 1000000;
+	}
+}
+
+// Additional fallback for any specific modal IDs
+#services-modal.is-open,
+#structure-modal.is-open,
+#menu-website-modal.is-open {
+	display: flex;
+	opacity: 1;
+	visibility: visible;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 999999;
+}
+
+// Also handle legacy menu-website-modal class if it exists
+.menu-website-modal__submenu-toggle {
+	position: absolute;
+	right: 0.5rem;
+	top: 50%;
+	transform: translateY(-50%);
+	background: none;
+	border: none;
+	color: #6b7280;
+	cursor: pointer;
+	padding: 0.25rem;
+	border-radius: 4px;
+	width: 2rem;
+	height: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease-in-out;
+
+	&:hover {
+		background: #e5e7eb;
+		color: #374151;
+	}
+
+	&:focus {
+		outline: 2px solid #3b82f6;
+		outline-offset: 2px;
+	}
+
+	// Always show right arrow for drill-down navigation
+	&[aria-expanded="false"],
+	&[aria-expanded="true"] {
+		transform: translateY(-50%) rotate(0deg);
+	}
+
+	svg {
+		width: 16px;
+		height: 16px;
+	}
+}
+
+.menu-modal__submenu-toggle.current-menu-item-focused {
+	background: #e6f3ff;
+	color: #0073e6;
+	font-weight: 700;
+	border-radius: 4px;
+}
+
+// Faculty-specific styles
+.site-header {
+
+	&__main {
+
+		@each $faculty, $color in (
+			"phil": var(--FAU-Col-Phil-Gelb-100),
+			"nat": var(--FAU-Col-Nat-Gruen-100),
+			"med": var(--FAU-Col-Med-Blau-100),
+			"rw": var(--FAU-Col-RW-Rot-100),
+			"tf": var(--FAU-Col-TF-Metallic-100)
+		) {
+			.fauorg-fakultaet.faculty-#{$faculty} & {
+				background-color: $color;
+
+				.main-navigation__logo .text {
+					color: var(--FAU-Col-FAU-Blau-100);
+				}
+			}
+
+			.fauorg-fakultaet.faculty-#{rw} & {
+
+				.main-navigation__logo .text {
+					color: var(--FAU-Col-FAU-Weiss-100);
+				}
+			}
+		}
+	}
+}

@@ -1,5 +1,5 @@
 // Import the main styles to ensure consistency
-@import "./style";
+@use "./style" as *;
 
 .wp-block-fau-elemental-fau-teaser-grid {
 	max-width: var(--wide-max-width);
@@ -7,11 +7,6 @@
 }
 
 .fau-teaser-grid {
-
-
-	.wp-block-button__link {
-		border-radius: 0; // make arrow buttons square
-	}
 
 	a {
 		text-decoration: none;

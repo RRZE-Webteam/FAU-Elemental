@@ -34,6 +34,7 @@ class FAU_Navigation {
         // Check for Services and Structure menus using unified system
         $has_services = fau_elemental_has_services_menu();
         $has_structure = fau_elemental_has_structure_menu();
+        $has_search = fau_elemental_has_search();
         ?>
         <nav class="fau-navigation" role="navigation" aria-label="<?php esc_attr_e('FAU Navigation', 'fau-elemental'); ?>">
             <div class="fau-navigation__container">
@@ -84,6 +85,7 @@ class FAU_Navigation {
                                     </button>
                                 </li>
                             <?php endif; ?>
+                            <?php if ($has_search): ?>
                             <li class="menu-item">
                                 <button class="fau-navigation__button menu-modal__open-btn" data-modal-target="search" aria-label="Search" aria-expanded="false">
                                     <span class="fau-navigation__icon">
@@ -94,6 +96,7 @@ class FAU_Navigation {
                                     Search
                                 </button>
                             </li>
+                            <?php endif; ?>
                             <li class="menu-item">
                                 <button class="fau-navigation__button" aria-label="Language" aria-expanded="false">
                                     DE

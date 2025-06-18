@@ -1,0 +1,98 @@
+@use "./style" as *;
+
+// Editor-specific styles for FAU Big Button Teaser Group
+
+.fau-big-button-teaser-group {
+	// Editor preview styles
+	.block-editor & {
+		border: 1px dashed #ccc;
+		padding: 1rem;
+		margin: 1rem 0;
+
+		// Make buttons non-interactive in editor
+		.fau-big-button-teaser-group__button-link {
+			pointer-events: none;
+			cursor: default;
+		}
+
+		// Show URL in editor for debugging
+		.fau-big-button-teaser-group__button-url {
+			display: block;
+			font-size: 0.75rem;
+			color: #666;
+			font-style: italic;
+			padding: 0.25rem 0;
+			border-top: 1px solid #eee;
+			margin-top: 0.5rem;
+		}
+
+		// Editor-specific hover effects (disabled)
+		.fau-big-button-teaser-group__button-content {
+			transition: none;
+		}
+
+		.fau-big-button-teaser-group__button-link:hover {
+			transform: none;
+			box-shadow: none;
+		}
+
+		// Add editor label
+		&::before {
+			content: "FAU Big Button Teaser Group";
+			display: block;
+			font-size: 0.75rem;
+			font-weight: 600;
+			color: #666;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			margin-bottom: 0.5rem;
+			padding-bottom: 0.5rem;
+			border-bottom: 1px solid #eee;
+		}
+	}
+
+	// Selected state in editor
+	.block-editor &.is-selected {
+		border-color: #007cba;
+		box-shadow: 0 0 0 1px #007cba;
+
+		&::before {
+			color: #007cba;
+		}
+	}
+}
+
+// Editor-specific styles for placeholder buttons
+.fau-big-button-teaser-group__button--placeholder {
+	opacity: 0.6;
+	border: 2px dashed #ddd;
+
+	.fau-big-button-teaser-group__button-content {
+		text-align: center;
+		padding: 2rem;
+	}
+
+	.fau-big-button-teaser-group__button-title {
+		color: #666;
+		font-style: italic;
+	}
+
+	.fau-big-button-teaser-group__button-text {
+		color: #888;
+		font-size: 0.875rem;
+	}
+}
+
+// Editor-specific styles for selected pages list
+.selected-pages-list {
+	margin-top: 16px;
+
+	.selected-page-item {
+		background: #f8f9fa;
+		border-radius: 6px;
+
+		&:hover {
+			background: #f0f1f2;
+		}
+	}
+}
