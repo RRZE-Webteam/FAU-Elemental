@@ -44,13 +44,21 @@ const customBlockEntries = customBlockFolders.reduce( ( entries, folder ) => {
 	const hasEditorScss = fs.existsSync(
 		path.resolve( folderPath, 'editor.scss' )
 	);
+	const hasIndexJs = fs.existsSync( path.resolve( folderPath, 'index.js' ) );
 
 	return {
 		...entries,
-		[ `${ outputPrefix }/index` ]: path.resolve( folderPath, 'index.js' ),
+		...( hasIndexJs
+			? {
+					[ `${ outputPrefix }/index` ]: path.resolve(
+						folderPath,
+						'index.js'
+					),
+			  }
+			: {} ),
 		...( hasStyleScss
 			? {
-					[ `${ outputPrefix }/style` ]: path.resolve(
+					[ `${ outputPrefix }/theme` ]: path.resolve(
 						folderPath,
 						'style.scss'
 					),

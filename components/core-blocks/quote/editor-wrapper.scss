@@ -89,15 +89,23 @@
 
 	.quote-list-item {
 		padding: 12px 16px;
+		border: 0;
 		border-top: 1px solid #e0e0e0;
 		display: flex;
 		align-items: center;
 		gap: 8px;
 		cursor: pointer;
 		transition: background-color 0.1s ease;
+		width: 100%;
+		box-sizing: border-box;
+		background-color: rgba(0, 0, 0, 0);
 
 		&:hover {
 			background: #f0f0f0;
+
+			.quote-list-item__actions {
+				opacity: 1;
+			}
 		}
 
 		&.is-selected {
@@ -161,13 +169,6 @@
 
 			&:not(:disabled):not([aria-disabled="true"]):hover {
 				color: #cc1818;
-			}
-		}
-
-		&:hover {
-
-			.quote-list-item__actions {
-				opacity: 1;
 			}
 		}
 

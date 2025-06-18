@@ -9,6 +9,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+
+// Configuration
+require_once get_template_directory() . '/inc/config.php';
+
 // Theme setup and core functionality
 require_once get_template_directory() . '/inc/theme-setup.php';
 
@@ -104,9 +108,6 @@ function fau_elemental_template_include($template) {
 add_filter('template_include', 'fau_elemental_template_include', 99);
 
 /**
- * Add a filter to post updated messages to help with portal page template
- */
-/**
  * Main theme setup function for FAU-Elemental
  */
  function fau_elemental_theme_setup() {
@@ -125,11 +126,7 @@ add_filter('template_include', 'fau_elemental_template_include', 99);
     ));
     add_theme_support('title-tag');
     
-    // Register core menu locations used by PHP templates
-    register_nav_menus(array(
-        'primary' => __('Primary Menu', 'fau-elemental'),
-        'footer' => __('Footer Menu', 'fau-elemental'),
-    ));
+ 
     
     // Add custom image sizes if needed
     // add_image_size('featured-large', 1600, 900, true);
@@ -198,10 +195,6 @@ function fau_elemental_body_classes($classes) {
 }
 add_filter('body_class', 'fau_elemental_body_classes');
 
-
-
-
-
 /**
  * Function to load template parts for both block and PHP templates
  *
@@ -246,6 +239,11 @@ add_action('after_switch_theme', function() {
     if (function_exists('fau_elemental_check_old_portal_menu_settings')) {
         fau_elemental_check_old_portal_menu_settings();
     }
+    
+    // Also trigger address migration
+    if (function_exists('fau_elemental_migrate_address_information')) {
+        fau_elemental_migrate_address_information();
+    }
 });
 
 /**
@@ -288,45 +286,23 @@ function fau_elemental_enqueue_footer_scripts() {
         return;
     }
     
-    $website_type = get_theme_mod('faue_website_type', 'fau');
+    $website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
     
-    // Enqueue footer toggle script for instance footers
+    // Enqueue footer toggle script for instance sites (where the toggle is used)
     if ($website_type !== 'fau') {
         wp_enqueue_script(
             'fau-footer-toggle',
-            get_theme_file_uri('src/js/footer-toggle.js'),
+            get_theme_file_uri('components/template-parts/footer-main/footer-toggle.js'),
             [],
             wp_get_theme()->get('Version'),
             true
         );
         
-        // Localize strings for the toggle functionality
+        // Localize strings for the footer toggle functionality
         wp_localize_script('fau-footer-toggle', 'fauFooterStrings', [
-            'showMore' => __('Show More', 'fau-elemental'),
-            'showLess' => __('Show Less', 'fau-elemental')
+            'showMore' => __('Show more', 'fau-elemental'),
+            'showLess' => __('Show less', 'fau-elemental')
         ]);
-    }
-    
-    // Enqueue footer columns script for main footers (if footer-lists menu is used)
-    if ($website_type === 'fau' && has_nav_menu('footer-lists-menu')) {
-        wp_enqueue_script(
-            'fau-footer-columns',
-            get_theme_file_uri('src/js/footer-columns.js'),
-            [],
-            wp_get_theme()->get('Version'),
-            true
-        );
     }
 }
 add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_footer_scripts');
-
-/**
- * Register additional menu locations for footer functionality
- */
-function fau_elemental_register_footer_menus() {
-    register_nav_menus(array(
-        'footer-lists-menu' => __('Footer Lists Menu', 'fau-elemental'),
-        'footer-wichtige-links' => __('Footer Important Links', 'fau-elemental'),
-    ));
-}
-add_action('after_setup_theme', 'fau_elemental_register_footer_menus');

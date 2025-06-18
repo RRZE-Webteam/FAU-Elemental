@@ -7,10 +7,12 @@ const FALLBACK_IMAGE =
 	'/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
 // Create a stable selector for the REST API base URL
-const getRestBaseUrl = createSelector( ( select ) => window.location.origin );
+const getRestBaseUrl = createSelector( () => window.location.origin );
 
 export default function PageTeaser( { page, headingLevel = 'h4' } ) {
-	if ( ! page ) return null;
+	if ( ! page ) {
+		return null;
+	}
 
 	const baseUrl = useSelect( ( select ) => getRestBaseUrl( select ), [] );
 
@@ -59,6 +61,7 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 			className="teaser-item disabled"
 			data-variant={ variant }
 			aria-labelledby={ `teaser-title-${ page.id }` }
+			href="#preview"
 		>
 			{ memoizedData.image && (
 				<div className="teaser-image-wrapper">

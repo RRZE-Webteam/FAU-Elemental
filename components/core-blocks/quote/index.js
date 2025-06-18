@@ -20,7 +20,7 @@ import {
 	MenuItem,
 } from '@wordpress/components';
 import { useEffect, useRef, useState } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { v4 as uuidv4 } from 'uuid';
 
 domReady( () => {
@@ -193,7 +193,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 								updateQuote( index, 'content', content )
 							}
 							placeholder={ __(
-								'Enter quote text...',
+								'Enter quote text…',
 								'fau-elemental'
 							) }
 							allowedFormats={ [] }
@@ -205,7 +205,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 								updateQuote( index, 'citation', citation )
 							}
 							placeholder={ __(
-								'Enter citation...',
+								'Enter citation…',
 								'fau-elemental'
 							) }
 							allowedFormats={ [] }
@@ -217,7 +217,9 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 
 		// Show all quotes inside the editor
 		const renderQuotes = () => {
-			if ( ! attributes.quotes?.length ) return null;
+			if ( ! attributes.quotes?.length ) {
+				return null;
+			}
 
 			if ( attributes.quotes.length === 1 ) {
 				return (
@@ -289,7 +291,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 											icon="format-image"
 											iconPosition="left"
 											disabled={
-												mediaUploaderButton.current ==
+												mediaUploaderButton.current ===
 												null
 											}
 											onClick={ () => {
@@ -367,12 +369,14 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 		// Renders the InspectorControls to manage
 		// all quotes inside this block, including adding new ones
 		const renderManageInspectorControls = () => {
-			if ( ! attributes.quotes?.length ) return null;
+			if ( ! attributes.quotes?.length ) {
+				return null;
+			}
 			return (
 				<>
 					<div className="quote-list">
 						{ attributes.quotes.map( ( quote, index ) => (
-							<div
+							<button
 								key={ quote.id }
 								className={ `quote-list-item ${
 									index === selectedQuoteIndex
@@ -449,7 +453,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 										}
 									/>
 								</div>
-							</div>
+							</button>
 						) ) }
 						<button
 							type="button"
@@ -488,6 +492,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 						'Add an image to accompany this quote',
 						'fau-elemental'
 					) }
+					id="quote-image-upload"
 				>
 					<div className="quote-image-controls">
 						<MediaUploadCheck>
@@ -511,6 +516,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 												selectedQuoteIndex
 											].image && (
 												<Button
+													id="quote-image-upload"
 													ref={ mediaUploaderButton }
 													onClick={ open }
 													variant="secondary"
@@ -541,6 +547,7 @@ const withFauImageQuote = createHigherOrderComponent( ( BlockEdit ) => {
 													/>
 													<div className="editor-post-featured-image__actions">
 														<Button
+															id="quote-image-upload"
 															ref={
 																mediaUploaderButton
 															}
@@ -775,9 +782,10 @@ const QuoteCarousel = ( { children, selectedIndex = 0, onSlideChange } ) => {
 								className={
 									index === currentSlide ? 'active' : ''
 								}
-								aria-label={ __(
-									`Go to slide ${ index + 1 }`,
-									'fau-elemental'
+								aria-label={ sprintf(
+									// translators: %s: slide index
+									__( `Go to slide %s`, 'fau-elemental' ),
+									index + 1
 								) }
 								onClick={ () => handleDotClick( index ) }
 							/>

@@ -12,7 +12,6 @@ export const SelectionMode = ( {
 	setAttributes,
 	selectedPosts,
 	availablePosts,
-	searchTerm,
 	setSearchTerm,
 	handlePostSelection,
 	removeSelectedPost,

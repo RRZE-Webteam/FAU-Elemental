@@ -143,8 +143,7 @@ if (!function_exists('render_block_fau_copyright_info')) {
         }
 
         $output = '<div class="wp-block-fau-elemental-copyright-info">';
-        $output .= '<h3>' . esc_html__('Copyright Information', 'fau-elemental') . '</h3>';
-        $output .= '<span class="copyright-info-label">' . esc_html__('Image Credits:', 'fau-elemental') . '</span>';
+        $output .= '<span class="copyright-info-label">' . esc_html__('Bildnachweise:', 'fau-elemental') . '</span>';
         $output .= '<ul class="copyright-info-list">';
         
         foreach ($copyright_info as $info) {
@@ -157,3 +156,5 @@ if (!function_exists('render_block_fau_copyright_info')) {
         return $output;
     }
 } 
+
+echo render_block_fau_copyright_info($attributes, $content);

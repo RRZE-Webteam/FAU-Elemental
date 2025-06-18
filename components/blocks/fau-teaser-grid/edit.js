@@ -6,22 +6,11 @@ import {
 } from '@wordpress/block-editor';
 import {
 	PanelBody,
-	RangeControl,
-	ToggleControl,
-	SelectControl,
 	Placeholder,
 	Spinner,
-	Button,
-	ComboboxControl,
-	__experimentalToggleGroupControl as ToggleGroupControl,
-	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
-	ToolbarButton,
 	DropdownMenu,
 } from '@wordpress/components';
-import { useSelect, createSelector } from '@wordpress/data';
-import './editor.scss';
 import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
-import './editor.scss';
 
 import PostTeaser from './components/PostTeaser';
 import PageTeaser from './components/PageTeaser';
@@ -138,10 +127,14 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	// Post selection handlers
 	const handlePostSelection = ( postId ) => {
-		if ( ! postId ) return;
+		if ( ! postId ) {
+			return;
+		}
 
 		const post = availablePosts.find( ( p ) => p.id === postId );
-		if ( ! post ) return;
+		if ( ! post ) {
+			return;
+		}
 
 		const newSelectedPosts = [ ...selectedPosts ];
 		if ( ! newSelectedPosts.some( ( p ) => p.id === post.id ) ) {
@@ -343,7 +336,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					<Placeholder>
 						<Spinner />
 						<p role="status">
-							{ __( 'Loading...', 'fau-elemental' ) }
+							{ __( 'Loading…', 'fau-elemental' ) }
 						</p>
 					</Placeholder>
 				) }

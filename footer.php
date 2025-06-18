@@ -4,7 +4,7 @@
  *
  * @package Fau-Elemental
  */
-$website_type = get_theme_mod('faue_website_type', 'fau');
+$website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
 ?>
 
     </div><!-- #content -->
