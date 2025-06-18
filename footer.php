@@ -4,13 +4,13 @@
  *
  * @package Fau-Elemental
  */
-$website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
+$faue_website_type = get_theme_mod('faue_website_type');
 ?>
 
     </div><!-- #content -->
 
     <footer id="colophon" class="site-footer">
-        <?php if ($website_type === 'fau') : ?>
+        <?php if ($faue_website_type === 'fau') : ?>
             <?php include get_theme_file_path('components/template-parts/footer-main/footer-main.php'); ?>
         <?php else : ?>
             <?php include get_theme_file_path('components/template-parts/footer-instance/footer-instance.php'); ?>

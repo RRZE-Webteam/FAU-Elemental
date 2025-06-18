@@ -76,7 +76,7 @@ function fau_sanitize_phone_number($phone) {
 
 function fau_customizer_settings($wp_customize) {
     // Get the website type from theme settings
-    $website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
+    $faue_website_type = get_theme_mod('faue_website_type');
     $faculty = get_theme_mod('faue_faculty', 'phil');
     
     // Main Footer Panel
@@ -95,7 +95,7 @@ function fau_customizer_settings($wp_customize) {
     ]);
     
     // Dark Theme Toggle (Priority 15 - only for FAU main site)
-    if ($website_type === 'fau') {
+    if ($faue_website_type === 'fau') {
         $wp_customize->add_setting('footer_dark_style', [
             'default' => false,
             'transport' => 'refresh',
@@ -136,7 +136,7 @@ function fau_customizer_settings($wp_customize) {
     ]);
     
     // ======= 2. BESCHREIBUNG SECTION (Faculty Information) =======
-    if ($website_type !== 'fau') {
+    if ($faue_website_type !== 'fau') {
         $wp_customize->add_section('footer_beschreibung', [
             'title' => __('Description', 'fau-elemental'),
             'panel' => 'fau_footer_panel',
@@ -170,7 +170,7 @@ function fau_customizer_settings($wp_customize) {
     }
     
     // ======= 3. KONTAKTINFORMATION SECTION =======
-    if ($website_type !== 'fau') {
+    if ($faue_website_type !== 'fau') {
         $wp_customize->add_section('footer_kontaktinformation', [
             'title' => __('Contact Information', 'fau-elemental'),
             'panel' => 'fau_footer_panel',
@@ -310,7 +310,7 @@ function fau_customizer_settings($wp_customize) {
     ]);
     
     // Hide FAU info section for cooperation websites (only for non-FAU sites)
-    if ($website_type !== 'fau') {
+    if ($faue_website_type !== 'fau') {
         $wp_customize->add_setting('hide_fau_info_section', [
             'default' => false,
             'transport' => 'refresh',

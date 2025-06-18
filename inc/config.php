@@ -11,7 +11,9 @@ if (!defined('ABSPATH')) {
 // Default Values
 $faue_defaults = array(
     // Website Type
-    'website_type' => 'fau',
+    'faue_website_type' => 'fau',
+    // Breadcrumb Mode
+    'faue_breadcrumb_variant_blue' => true,
 );
 
 // Helper function to get default values
