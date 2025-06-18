@@ -26,9 +26,9 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $display_style = $attributes['displayStyle'] ?? 'teaser-grid';
         $teaser_layout = $attributes['teaserLayout'] ?? '3m';
         $show_pagination = $attributes['showPagination'] ?? true;
-        $current_page = get_query_var('paged') ? get_query_var('paged') : 1;
+        $current_page = $attributes['currentPage'] ?? 1;
         $posts_per_page = $attributes['postsPerPage'] ?? 15;
-        $selected_category = $attributes['category'] ?? 0;
+        $selected_category = $attributes['selectedCategory'] ?? 0;
         $order_by = $attributes['orderBy'] ?? 'date';
         $order = $attributes['order'] ?? 'DESC';
         $heading_level = $attributes['headingLevel'] ?? 'h4';
@@ -57,6 +57,7 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             'id' => $grid_id,
             'data-grid-id' => $grid_id,
             'data-variant' => $variant,
+            'data-category' => $selected_category,
             'data-posts-per-page' => $posts_per_page,
             'data-display-style' => $display_style,
             'data-teaser-layout' => $teaser_layout,

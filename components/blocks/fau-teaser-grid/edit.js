@@ -10,8 +10,11 @@ import {
 	Spinner,
 	DropdownMenu,
 	TextControl,
+	ToggleControl,
 } from '@wordpress/components';
 import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { createBlock } from '@wordpress/blocks';
 
 import PostTeaser from './components/PostTeaser';
 import PageTeaser from './components/PageTeaser';
@@ -48,7 +51,7 @@ const wrapTeaserItems = ( items, layout ) => {
 	return wrappedItems;
 };
 
-export default function Edit( { attributes, setAttributes } ) {
+export default function Edit( { attributes, setAttributes, clientId } ) {
 	const {
 		displayStyle,
 		variant,
@@ -69,6 +72,97 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const gridRef = useRef( null );
 	const [ searchTerm, setSearchTerm ] = useState( '' );
+
+	// Block editor hooks
+	const { insertBlock } = useDispatch( 'core/block-editor' );
+	const { createSuccessNotice } = useDispatch( 'core/notices' );
+	const { getBlockIndex, getBlockRootClientId, getBlocks } =
+		useSelect( 'core/block-editor' );
+
+	// Function to automatically insert a list filters block
+	const insertListFiltersBlock = () => {
+		try {
+			// Create a new FAU List Filters block
+			const listFiltersBlock = createBlock(
+				'fau-elemental/fau-list-filters',
+				{
+					enableSearch: true,
+					enableFilters: true,
+					showMoreFiltersButton: true,
+					enableViewSwitcher: true,
+					availableViews: [ 'cards', 'table' ],
+					defaultView: 'cards',
+					enableSorting: true,
+					showResultsCount: true,
+					resultsPerPage: postsPerPage,
+				}
+			);
+
+			// Get the current block's position
+			const rootClientId = getBlockRootClientId( clientId );
+			const blockIndex = getBlockIndex( clientId );
+
+			// Insert the filters block before the current teaser grid block
+			insertBlock( listFiltersBlock, blockIndex, rootClientId );
+
+			// Optionally set the filter block ID for connection
+			const newFilterBlockId = `fau-list-filters-${ listFiltersBlock.clientId }`;
+			setAttributes( { filterBlockId: newFilterBlockId } );
+
+			// Show success notification
+			createSuccessNotice(
+				__(
+					'A List Filters block has been automatically added above your Teaser Grid.',
+					'fau-elemental'
+				),
+				{
+					type: 'snackbar',
+					isDismissible: true,
+				}
+			);
+		} catch ( error ) {
+			console.error( 'Error inserting List Filters block:', error );
+		}
+	};
+
+	// Function to check if a list filters block already exists nearby
+	const hasNearbyListFiltersBlock = () => {
+		const rootClientId = getBlockRootClientId( clientId );
+		const blocks = getBlocks( rootClientId );
+		const currentIndex = getBlockIndex( clientId );
+
+		// Check the 3 blocks before and after the current block
+		const searchRange = 3;
+		const startIndex = Math.max( 0, currentIndex - searchRange );
+		const endIndex = Math.min(
+			blocks.length - 1,
+			currentIndex + searchRange
+		);
+
+		for ( let i = startIndex; i <= endIndex; i++ ) {
+			if (
+				i !== currentIndex &&
+				blocks[ i ]?.name === 'fau-elemental/fau-list-filters'
+			) {
+				return true;
+			}
+		}
+
+		return false;
+	};
+
+	// Handle filter integration toggle
+	const handleFilterIntegrationToggle = ( value ) => {
+		setAttributes( { enableFilterIntegration: value } );
+
+		// If enabling filter integration and no nearby filters block exists, create one
+		if ( value && ! hasNearbyListFiltersBlock() ) {
+			// Small delay to ensure the attribute is set first
+			setTimeout( () => {
+				insertListFiltersBlock();
+			}, 100 );
+		}
+	};
 
 	// Effect to update grid classes when display style or layout changes
 	useEffect( () => {
@@ -206,19 +300,32 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				) }
 
-				<PanelBody title={ __( 'Filter Integration', 'fau-elemental' ) }>
+				<PanelBody
+					title={ __( 'Filter Integration', 'fau-elemental' ) }
+				>
 					<ToggleControl
-						label={ __( 'Enable Filter Integration', 'fau-elemental' ) }
+						label={ __(
+							'Enable Filter Integration',
+							'fau-elemental'
+						) }
 						checked={ enableFilterIntegration }
-						onChange={ ( value ) => setAttributes( { enableFilterIntegration: value } ) }
-						help={ __( 'Allow this grid to be filtered by FAU List Filters blocks', 'fau-elemental' ) }
+						onChange={ handleFilterIntegrationToggle }
+						help={ __(
+							'Allow this grid to be filtered by FAU List Filters blocks',
+							'fau-elemental'
+						) }
 					/>
 					{ enableFilterIntegration && (
 						<TextControl
 							label={ __( 'Filter Block ID', 'fau-elemental' ) }
 							value={ filterBlockId }
-							onChange={ ( value ) => setAttributes( { filterBlockId: value } ) }
-							help={ __( 'Optional: specify a specific filter block ID to connect to. Leave empty to auto-connect to the nearest filter block.', 'fau-elemental' ) }
+							onChange={ ( value ) =>
+								setAttributes( { filterBlockId: value } )
+							}
+							help={ __(
+								'Optional: specify a specific filter block ID to connect to. Leave empty to auto-connect to the nearest filter block.',
+								'fau-elemental'
+							) }
 							placeholder="fau-list-filters-xxxxx"
 						/>
 					) }
