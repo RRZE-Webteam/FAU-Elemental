@@ -115,7 +115,7 @@
 			}
 
 			if ( ! $modal.length ) {
-				console.warn( `Modal not found: ${ modalId }` );
+				// Modal not found, return early
 				return;
 			}
 
@@ -150,7 +150,7 @@
 			}
 
 			// Store the previously focused element
-			this.previouslyFocused = document.activeElement;
+			this.previouslyFocused = $modal[ 0 ].ownerDocument.activeElement;
 
 			// Prevent body scroll
 			$( 'body' ).addClass( 'modal-open' );
@@ -174,7 +174,9 @@
 				.find( '.menu-item-overview a' )
 				.filter( function () {
 					try {
-						if ( this.getAttribute( 'href' ) === '#' ) return false;
+						if ( this.getAttribute( 'href' ) === '#' ) {
+							return false;
+						}
 						// Compare full URLs instead of just paths
 						const linkUrl = this.href;
 						return linkUrl === currentUrl;
@@ -246,7 +248,9 @@
 					.find( 'a' )
 					.filter( function () {
 						const href = $( this ).attr( 'href' );
-						if ( ! href ) return false;
+						if ( ! href ) {
+							return false;
+						}
 						try {
 							const linkUrl = new URL(
 								href,
@@ -302,7 +306,7 @@
 		}
 
 		highlightCurrentPage( $modal ) {
-			let currentPath = window.location.pathname.replace( /\/$/, '' ); // remove trailing slash
+			const currentPath = window.location.pathname.replace( /\/$/, '' ); // remove trailing slash
 			const currentPathWithSlash =
 				currentPath === '' ? '/' : currentPath + '/';
 
@@ -344,7 +348,7 @@
 		}
 
 		openCurrentPagePath( $modal ) {
-			let currentPath = window.location.pathname.replace( /\/$/, '' ); // remove trailing slash
+			const currentPath = window.location.pathname.replace( /\/$/, '' ); // remove trailing slash
 			const currentPathWithSlash =
 				currentPath === '' ? '/' : currentPath + '/';
 
@@ -402,15 +406,13 @@
 				.parents( '.menu-item' )
 				.get()
 				.reverse();
-			let $lastParent = null;
-			$parents.forEach( ( parentItem, idx ) => {
+			$parents.forEach( ( parentItem ) => {
 				const $parent = $( parentItem );
 				const $toggle = $parent.children(
 					'.menu-modal__submenu-toggle'
 				);
 				if ( $toggle.length ) {
 					this.drillDownToMenuItem( $modal, $parent, $toggle );
-					$lastParent = $parent;
 				}
 			} );
 
@@ -454,10 +456,14 @@
 
 		drillDownToMenuItem( $modal, $parentLi, $toggle ) {
 			const $submenu = $toggle.siblings( '.sub-menu' );
+
+			if ( $submenu.length === 0 ) {
+				return;
+			}
+
 			const $backButton = $modal.find(
 				'.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn'
 			);
-			if ( $submenu.length === 0 ) return;
 
 			// Hide all siblings of the current item
 			$parentLi.siblings().hide();
@@ -494,8 +500,8 @@
 			navigationStack.push( {
 				parentUl: $parentLi.parent(),
 				parentLi: $parentLi,
-				parentUrl: parentUrl,
-				parentTitle: parentTitle,
+				parentUrl,
+				parentTitle,
 			} );
 			// Show back button
 			$backButton.show();
@@ -533,7 +539,9 @@
 		}
 
 		closeCurrentModal() {
-			if ( ! this.currentModal ) return;
+			if ( ! this.currentModal ) {
+				return;
+			}
 
 			const $modal = this.currentModal;
 
@@ -592,90 +600,93 @@
 		}
 
 		goBack() {
-			if ( ! this.currentModal ) return;
+			if ( ! this.currentModal ) {
+				return;
+			}
 
 			const $modal = this.currentModal;
+			const navigationStack = $modal.data( 'navigation-stack' ) || [];
+
+			if ( navigationStack.length === 0 ) {
+				// If no navigation stack, just close the modal
+				this.closeCurrentModal();
+				return;
+			}
+
 			const $backButton = $modal.find(
 				'.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn'
 			);
-			const navigationStack = $modal.data( 'navigation-stack' ) || [];
 
+			// Pop the most recent navigation state
+			const { parentUl, parentLi } = navigationStack.pop();
+
+			// Hide current submenu
+			const $submenu = parentLi.find( '.sub-menu' );
+			$submenu.hide();
+
+			// Remove overview link if it exists
+			$submenu.find( '.menu-item-overview' ).remove();
+
+			// Remove level heading if it exists
+			parentLi.find( '.menu-modal__level-heading' ).remove();
+
+			// Show all siblings in the parent menu
+			parentUl.children( 'li' ).show();
+
+			// Show the parent toggle button
+			parentLi.children( '.menu-modal__submenu-toggle' ).show();
+
+			// Set all toggles in the current menu to collapsed
+			parentUl
+				.find( '> li > .menu-modal__submenu-toggle' )
+				.attr( 'aria-expanded', 'false' );
+
+			// Update navigation stack
+			$modal.data( 'navigation-stack', navigationStack );
+
+			// Check if there's still a parent level to show heading for
 			if ( navigationStack.length > 0 ) {
-				// Pop the most recent navigation state
-				const { parentUl, parentLi } = navigationStack.pop();
-
-				// Hide current submenu
-				const $submenu = parentLi.find( '.sub-menu' );
-				$submenu.hide();
-
-				// Remove overview link if it exists
-				$submenu.find( '.menu-item-overview' ).remove();
-
-				// Remove level heading if it exists
-				parentLi.find( '.menu-modal__level-heading' ).remove();
-
-				// Show all siblings in the parent menu
-				parentUl.children( 'li' ).show();
-
-				// Show the parent toggle button
-				parentLi.children( '.menu-modal__submenu-toggle' ).show();
-
-				// Set all toggles in the current menu to collapsed
-				parentUl
-					.find( '> li > .menu-modal__submenu-toggle' )
-					.attr( 'aria-expanded', 'false' );
-
-				// Update navigation stack
-				$modal.data( 'navigation-stack', navigationStack );
-
-				// Check if there's still a parent level to show heading for
-				if ( navigationStack.length > 0 ) {
-					// Get the parent level info from the remaining stack
-					const currentLevel =
-						navigationStack[ navigationStack.length - 1 ];
-					if ( currentLevel.parentTitle ) {
-						// Remove any existing headings first
-						$modal.find( '.menu-modal__level-heading' ).remove();
-						// Add heading for the level we're going back to
-						parentUl.prepend(
-							'<h2 class="menu-modal__level-heading">' +
-								currentLevel.parentTitle +
-								'</h2>'
-						);
-					}
-				} else {
-					// We're back to the root level, remove all headings
+				// Get the parent level info from the remaining stack
+				const currentLevel =
+					navigationStack[ navigationStack.length - 1 ];
+				if ( currentLevel.parentTitle ) {
+					// Remove any existing headings first
 					$modal.find( '.menu-modal__level-heading' ).remove();
-					$backButton.hide();
+					// Add heading for the level we're going back to
+					parentUl.prepend(
+						'<h2 class="menu-modal__level-heading">' +
+							currentLevel.parentTitle +
+							'</h2>'
+					);
 				}
-				// Always highlight the overview link after showing the parent submenu
-				this.highlightCurrentOverviewLink(
-					parentUl.find( '> .sub-menu' )
-				);
-				// Also highlight in any currently visible submenu (for robustness)
-				const $visibleSubmenus = $modal.find( '.sub-menu:visible' );
-				$visibleSubmenus.each( ( _, submenu ) => {
-					this.highlightCurrentOverviewLink( $( submenu ) );
-				} );
 			} else {
-				// If no navigation stack, just close the modal
-				this.closeCurrentModal();
+				// We're back to the root level, remove all headings
+				$modal.find( '.menu-modal__level-heading' ).remove();
+				$backButton.hide();
 			}
+			// Always highlight the overview link after showing the parent submenu
+			this.highlightCurrentOverviewLink( parentUl.find( '> .sub-menu' ) );
+			// Also highlight in any currently visible submenu (for robustness)
+			const $visibleSubmenus = $modal.find( '.sub-menu:visible' );
+			$visibleSubmenus.each( ( _, submenu ) => {
+				this.highlightCurrentOverviewLink( $( submenu ) );
+			} );
 		}
 
 		toggleSubmenu( $toggle ) {
-			const $parentLi = $toggle.closest( '.menu-item' );
 			const $submenu = $toggle.siblings( '.sub-menu' );
+
+			if ( $submenu.length === 0 ) {
+				return;
+			}
+
+			const $parentLi = $toggle.closest( '.menu-item' );
 			const $modal = $toggle.closest(
 				'.menu-modal, .menu-meta-nav__modal, .menu-website-modal'
 			);
 			const $backButton = $modal.find(
 				'.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn'
 			);
-
-			if ( $submenu.length === 0 ) {
-				return;
-			}
 
 			// Get parent information from data attributes
 			const parentUrl = $toggle.data( 'parent-url' );
@@ -718,8 +729,8 @@
 			navigationStack.push( {
 				parentUl: $parentLi.parent(),
 				parentLi: $parentLi,
-				parentUrl: parentUrl,
-				parentTitle: parentTitle,
+				parentUrl,
+				parentTitle,
 			} );
 
 			// Show back button
@@ -734,20 +745,22 @@
 			const $lastFocusable = $focusableElements.last();
 
 			$modal.on( 'keydown.menu-modal', ( e ) => {
-				if ( e.key !== 'Tab' ) return;
+				if ( e.key !== 'Tab' ) {
+					return;
+				}
+
+				const activeElement = $modal[ 0 ].ownerDocument.activeElement;
 
 				if ( e.shiftKey ) {
 					// Shift + Tab
-					if ( document.activeElement === $firstFocusable[ 0 ] ) {
+					if ( activeElement === $firstFocusable[ 0 ] ) {
 						e.preventDefault();
 						$lastFocusable.focus();
 					}
-				} else {
+				} else if ( activeElement === $lastFocusable[ 0 ] ) {
 					// Tab
-					if ( document.activeElement === $lastFocusable[ 0 ] ) {
-						e.preventDefault();
-						$firstFocusable.focus();
-					}
+					e.preventDefault();
+					$firstFocusable.focus();
 				}
 			} );
 		}
