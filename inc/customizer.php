@@ -82,7 +82,7 @@ function fau_customizer_settings($wp_customize) {
     // Main Footer Panel
     $wp_customize->add_panel('fau_footer_panel', [
         'title' => __('Footer Settings', 'fau-elemental'),
-        'priority' => 130,
+        'priority' => 140,
         'description' => __('Settings for the footer', 'fau-elemental'),
     ]);
     
@@ -425,7 +425,7 @@ function fau_customizer_settings($wp_customize) {
     // ======= 6. POST OPTIONS SECTION =======
     $wp_customize->add_section('faue_post_options', array(
         'title'    => esc_html__('Post Settings', 'fau-elemental'),
-        'priority' => 140,
+        'priority' => 135,
     ));
 
     // Add setting for showing/hiding post meta
@@ -735,7 +735,7 @@ function fau_hero_customizer_settings($wp_customize) {
     // Add Hero panel
     $wp_customize->add_panel('fau_hero_panel', [
         'title' => __('Hero Settings', 'fau-elemental'),
-        'priority' => 120,
+        'priority' => 130,
     ]);
 
     // Mobile Display Section
