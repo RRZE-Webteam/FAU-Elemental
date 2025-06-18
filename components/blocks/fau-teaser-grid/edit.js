@@ -211,7 +211,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						title={ __( 'Load More Settings', 'fau-elemental' ) }
 					>
 						<ToggleControl
-							label={ __( 'Show Load More Button', 'fau-elemental' ) }
+							label={ __(
+								'Show Load More Button',
+								'fau-elemental'
+							) }
 							checked={ showLoadMore }
 							onChange={ ( value ) =>
 								setAttributes( { showLoadMore: value } )
@@ -364,39 +367,29 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			</div>
 
 			{ /* Show Load More button preview in editor */ }
-			{ selectionMode === 'auto' && showLoadMore && calculatedTotalPages > 1 && (
-				<div 
-					className="fau-teaser-grid__load-more-wrapper"
-					style={{ 
-						display: 'flex', 
-						justifyContent: 'flex-end', 
-						alignItems: 'center',
-						marginTop: '20px',
-						width: '100%'
-					}}
-				>
-					<div className="wp-block-button">
-						<button 
-							className="wp-block-button__link wp-element-button fau-teaser-grid__load-more-button"
-							disabled
-							style={{ opacity: 0.7, cursor: 'not-allowed' }}
-						>
-							{ __( 'Load More', 'fau-elemental' ) }
-						</button>
+			{ selectionMode === 'auto' &&
+				showLoadMore &&
+				calculatedTotalPages > 1 && (
+					<div className="fau-teaser-grid__load-more-wrapper fau-teaser-grid__load-more-wrapper--preview">
+						<div className="wp-block-button">
+							<button
+								className="wp-block-button__link wp-element-button fau-teaser-grid__load-more-button"
+								disabled
+							>
+								{ __( 'Load More', 'fau-elemental' ) }
+							</button>
+						</div>
+						<p className="load-more-preview-text">
+							{ __(
+								'Preview: Load More button will be functional on the frontend',
+								'fau-elemental'
+							) }
+						</p>
 					</div>
-					<p style={{ 
-						fontSize: '12px', 
-						color: '#666', 
-						marginLeft: '10px',
-						margin: '0 0 0 10px'
-					}}>
-						{ __( 'Preview: Load More button will be functional on the frontend', 'fau-elemental' ) }
-					</p>
-				</div>
-			) }
+				) }
 
 			{ calculatedTotalPages > 1 &&
-				selectionMode === 'auto' && 
+				selectionMode === 'auto' &&
 				! showLoadMore && (
 					<nav
 						role="navigation"

@@ -8,123 +8,129 @@
 
 // Editor-specific overrides and additions
 .wp-block-fau-elemental-fau-list-filters {
-    .fau-list-filters-editor {
-        // Make the editor preview more prominent
-        border-style: solid;
-        border-width: 3px;
-        
-        .fau-list-filters-preview {
-            margin-top: 1rem;
-            
-            // Make preview elements more visible in editor
-            .search-input,
-            .filter-select,
-            .sort-select {
-                opacity: 0.8;
-                background-color: #f9f9f9;
-            }
-            
-            .view-button {
-                opacity: 0.8;
-                
-                &.active {
-                    opacity: 1;
-                }
-            }
-            
-            .filter-chip {
-                opacity: 0.9;
-            }
-        }
-    }
+
+	.fau-list-filters-editor {
+		// Make the editor preview more prominent
+		border-style: solid;
+		border-width: 3px;
+
+		.fau-list-filters-preview {
+			margin-top: 1rem;
+
+			// Make preview elements more visible in editor
+			.search-input,
+			.filter-select,
+			.sort-select {
+				opacity: 0.8;
+				background-color: #f9f9f9;
+			}
+
+			.view-button {
+				opacity: 0.8;
+
+				&.active {
+					opacity: 1;
+				}
+			}
+
+			.filter-chip {
+				opacity: 0.9;
+			}
+		}
+	}
 }
 
 // Inspector controls specific styles
 .components-panel__body {
-    .fau-list-filters-inspector {
-        .components-base-control__field {
-            margin-bottom: 1rem;
-        }
-        
-        .filter-field-item {
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            
-            .filter-field-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 0.5rem;
-                
-                strong {
-                    color: #1e1e1e;
-                }
-            }
-            
-            .filter-field-meta {
-                font-size: 0.8rem;
-                color: #666;
-            }
-        }
-        
-        .sort-option-item {
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            
-            .components-text-control__input {
-                margin-bottom: 0.5rem;
-            }
-        }
-    }
+
+	.fau-list-filters-inspector {
+
+		.components-base-control__field {
+			margin-bottom: 1rem;
+		}
+
+		.filter-field-item {
+			background-color: #f5f5f5;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			padding: 1rem;
+			margin-bottom: 0.5rem;
+
+			.filter-field-header {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-bottom: 0.5rem;
+
+				strong {
+					color: #1e1e1e;
+				}
+			}
+
+			.filter-field-meta {
+				font-size: 0.8rem;
+				color: #666;
+			}
+		}
+
+		.sort-option-item {
+			background-color: #f5f5f5;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			padding: 1rem;
+			margin-bottom: 0.5rem;
+
+			.components-text-control__input {
+				margin-bottom: 0.5rem;
+			}
+		}
+	}
 }
 
 // Block controls toolbar styles
 .block-editor-block-controls {
-    .fau-list-filters-toolbar {
-        .components-button {
-            &.is-pressed {
-                background-color: #0073aa;
-                color: white;
-            }
-        }
-    }
+
+	.fau-list-filters-toolbar {
+
+		.components-button {
+
+			&.is-pressed {
+				background-color: #0073aa;
+				color: #fff;
+			}
+		}
+	}
 }
 
 // Block validation styles
 .fau-list-filters-validation {
-    padding: 1rem;
-    background-color: #fff3cd;
-    border: 1px solid #ffeaa7;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-    
-    .validation-message {
-        margin: 0;
-        color: #856404;
-        font-size: 0.9rem;
-    }
-    
-    &.error {
-        background-color: #f8d7da;
-        border-color: #f5c6cb;
-        
-        .validation-message {
-            color: #721c24;
-        }
-    }
-    
-    &.success {
-        background-color: #d4edda;
-        border-color: #c3e6cb;
-        
-        .validation-message {
-            color: #155724;
-        }
-    }
-} 
+	padding: 1rem;
+	background-color: #fff3cd;
+	border: 1px solid #ffeaa7;
+	border-radius: 4px;
+	margin-bottom: 1rem;
+
+	.validation-message {
+		margin: 0;
+		color: #856404;
+		font-size: 0.9rem;
+	}
+
+	&.error {
+		background-color: #f8d7da;
+		border-color: #f5c6cb;
+
+		.validation-message {
+			color: #721c24;
+		}
+	}
+
+	&.success {
+		background-color: #d4edda;
+		border-color: #c3e6cb;
+
+		.validation-message {
+			color: #155724;
+		}
+	}
+}

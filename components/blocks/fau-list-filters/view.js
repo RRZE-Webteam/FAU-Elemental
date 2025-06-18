@@ -688,8 +688,10 @@ function initializeFilterBlock( blockElement ) {
 		showLoadingState();
 
 		// Get teaser grid configuration
-		const gridVariant = associatedGrid.getAttribute( 'data-variant' ) || 'post';
-		const gridCategory = associatedGrid.getAttribute( 'data-category' ) || '0';
+		const gridVariant =
+			associatedGrid.getAttribute( 'data-variant' ) || 'post';
+		const gridCategory =
+			associatedGrid.getAttribute( 'data-category' ) || '0';
 
 		// Prepare search parameters
 		const searchParams = {
@@ -704,11 +706,16 @@ function initializeFilterBlock( blockElement ) {
 		};
 
 		// Add filters - need to serialize them properly for PHP
-		Object.entries( currentFilters ).forEach( ( [ filterName, filterData ], index ) => {
-			searchParams[`filters[${filterName}][value]`] = filterData.value;
-			searchParams[`filters[${filterName}][label]`] = filterData.label;
-			searchParams[`filters[${filterName}][type]`] = filterData.type;
-		} );
+		Object.entries( currentFilters ).forEach(
+			( [ filterName, filterData ], index ) => {
+				searchParams[ `filters[${ filterName }][value]` ] =
+					filterData.value;
+				searchParams[ `filters[${ filterName }][label]` ] =
+					filterData.label;
+				searchParams[ `filters[${ filterName }][type]` ] =
+					filterData.type;
+			}
+		);
 
 		// Debug logging - show what we're sending
 		console.log( 'AJAX Request Parameters:' );
@@ -721,7 +728,7 @@ function initializeFilterBlock( blockElement ) {
 		console.log( '- Post Type:', gridVariant );
 		console.log( '- Category:', parseInt( gridCategory ) );
 		console.log( 'Full searchParams object:', searchParams );
-		
+
 		// Also log the serialized body to see exactly what's being sent
 		const serializedBody = new URLSearchParams( searchParams ).toString();
 		console.log( 'Serialized request body:', serializedBody );
@@ -738,7 +745,10 @@ function initializeFilterBlock( blockElement ) {
 			.then( ( data ) => {
 				console.log( 'Filter response:', data ); // Debug log
 				console.log( 'Posts array:', data.posts ); // Debug posts specifically
-				console.log( 'Posts length:', data.posts ? data.posts.length : 'undefined' ); // Debug posts length
+				console.log(
+					'Posts length:',
+					data.posts ? data.posts.length : 'undefined'
+				); // Debug posts length
 				console.log( 'Debug args from server:', data.debug_args ); // Show server query args
 				if ( data.success ) {
 					updateGridContent( data );
@@ -794,7 +804,7 @@ function initializeFilterBlock( blockElement ) {
 
 	function updateGridContent( data ) {
 		console.log( 'updateGridContent called with:', data );
-		
+
 		if ( ! associatedGrid ) {
 			console.log( 'No associated grid found!' );
 			return;
@@ -805,8 +815,10 @@ function initializeFilterBlock( blockElement ) {
 		updateResultsCount( data );
 
 		// Get the grid container (look for the actual content container)
-		const gridContainer = associatedGrid.querySelector( '.fau-teaser-grid' ) || associatedGrid;
-		
+		const gridContainer =
+			associatedGrid.querySelector( '.fau-teaser-grid' ) ||
+			associatedGrid;
+
 		if ( ! gridContainer ) {
 			console.log( 'No grid container found!' );
 			return;
@@ -823,16 +835,25 @@ function initializeFilterBlock( blockElement ) {
 
 		// Check if we have posts to display
 		if ( data.posts && data.posts.length > 0 ) {
-			console.log( 'Creating teaser items for', data.posts.length, 'posts' );
-			
+			console.log(
+				'Creating teaser items for',
+				data.posts.length,
+				'posts'
+			);
+
 			// Create teaser items
 			const teaserItems = data.posts.map( ( post, index ) => {
-				console.log( 'Creating teaser item for post', index, ':', post );
+				console.log(
+					'Creating teaser item for post',
+					index,
+					':',
+					post
+				);
 				return createTeaserItem( post );
 			} );
-			
+
 			console.log( 'Created', teaserItems.length, 'teaser items' );
-			
+
 			// Apply layout wrapping if needed
 			if ( currentLayout && [ 'l2s', '2sl' ].includes( currentLayout ) ) {
 				console.log( 'Applying layout wrapping for', currentLayout );
@@ -842,7 +863,9 @@ function initializeFilterBlock( blockElement ) {
 					if ( groupItems.length > 0 ) {
 						const groupDiv = document.createElement( 'div' );
 						groupDiv.className = 'teaser-group';
-						groupItems.forEach( item => groupDiv.appendChild( item ) );
+						groupItems.forEach( ( item ) =>
+							groupDiv.appendChild( item )
+						);
 						gridContainer.appendChild( groupDiv );
 					}
 				}
@@ -854,15 +877,20 @@ function initializeFilterBlock( blockElement ) {
 					gridContainer.appendChild( item );
 				} );
 			}
-			
-			console.log( 'Grid container after adding items:', gridContainer.innerHTML.length, 'characters' );
+
+			console.log(
+				'Grid container after adding items:',
+				gridContainer.innerHTML.length,
+				'characters'
+			);
 		} else {
 			console.log( 'No posts to display, showing no results message' );
 			// Show no results message
 			const noResultsMessage = document.createElement( 'p' );
 			noResultsMessage.className = 'no-results-message';
 			noResultsMessage.setAttribute( 'role', 'status' );
-			noResultsMessage.textContent = 'No items found matching your filters.';
+			noResultsMessage.textContent =
+				'No items found matching your filters.';
 			gridContainer.appendChild( noResultsMessage );
 		}
 
@@ -872,13 +900,16 @@ function initializeFilterBlock( blockElement ) {
 		}
 
 		// Trigger custom event for other components
-		const contentUpdateEvent = new CustomEvent( 'fauListFiltersContentUpdated', {
-			detail: {
-				data: data,
-				grid: associatedGrid,
-				blockId: blockId,
-			},
-		} );
+		const contentUpdateEvent = new CustomEvent(
+			'fauListFiltersContentUpdated',
+			{
+				detail: {
+					data: data,
+					grid: associatedGrid,
+					blockId: blockId,
+				},
+			}
+		);
 		document.dispatchEvent( contentUpdateEvent );
 	}
 
@@ -919,13 +950,21 @@ function initializeFilterBlock( blockElement ) {
 
 		// Add featured image if available
 		if ( postFeaturedImage ) {
-			teaserHTML += `<img src="${ escapeHtml( postFeaturedImage ) }" alt="${ escapeHtml( postTitle ) }" loading="lazy" />`;
+			teaserHTML += `<img src="${ escapeHtml(
+				postFeaturedImage
+			) }" alt="${ escapeHtml( postTitle ) }" loading="lazy" />`;
 		}
 
 		// Create date object safely
 		const dateObj = new Date( postDate );
 		const day = dateObj.getDate() || 1;
-		const monthYear = dateObj.toLocaleDateString( 'en-US', { month: 'short', year: 'numeric' } ).toUpperCase() || 'JAN 2024';
+		const monthYear =
+			dateObj
+				.toLocaleDateString( 'en-US', {
+					month: 'short',
+					year: 'numeric',
+				} )
+				.toUpperCase() || 'JAN 2024';
 
 		teaserHTML += `
 				</div>
@@ -943,7 +982,9 @@ function initializeFilterBlock( blockElement ) {
 
 		// Add categories if available
 		if ( postCategories.length > 0 ) {
-			teaserHTML += `<span class="category">${ escapeHtml( postCategories[0] ) }</span>`;
+			teaserHTML += `<span class="category">${ escapeHtml(
+				postCategories[ 0 ]
+			) }</span>`;
 		}
 
 		// Add title
@@ -967,7 +1008,9 @@ function initializeFilterBlock( blockElement ) {
 					</div>
 					<div class="button-teaser">
 						<a href="${ escapeHtml( postPermalink ) }" class="wp-block-button__link">
-							<span class="screen-reader-text">Read more about ${ escapeHtml( postTitle ) }</span>
+							<span class="screen-reader-text">Read more about ${ escapeHtml(
+								postTitle
+							) }</span>
 						</a>
 					</div>
 				</div>
@@ -975,15 +1018,15 @@ function initializeFilterBlock( blockElement ) {
 		`;
 
 		article.innerHTML = teaserHTML;
-		
+
 		// Add click handler to make the whole teaser clickable
-		article.addEventListener( 'click', function( e ) {
+		article.addEventListener( 'click', function ( e ) {
 			if ( e.target.tagName !== 'A' ) {
 				window.location.href = postPermalink;
 			}
 		} );
 
-		article.addEventListener( 'keypress', function( e ) {
+		article.addEventListener( 'keypress', function ( e ) {
 			if ( e.key === 'Enter' || e.key === ' ' ) {
 				e.preventDefault();
 				window.location.href = postPermalink;
@@ -1047,10 +1090,10 @@ function initializeFilterBlock( blockElement ) {
 		if ( text === null || text === undefined ) {
 			return '';
 		}
-		
+
 		// Convert to string if it's not already
 		const str = String( text );
-		
+
 		const map = {
 			'&': '&amp;',
 			'<': '&lt;',
