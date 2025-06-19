@@ -128,7 +128,7 @@
                 <h3><?php esc_html_e('Important Links', 'fau-elemental'); ?></h3>
                 <?php
                 wp_nav_menu(array(
-                    'theme_location' => 'footer-wichtige-links',
+                    'theme_location' => 'footer-importnat-links',
                     'menu_class' => 'important-links-list',
                     'container' => false,
                     'fallback_cb' => false
