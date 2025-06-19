@@ -546,5 +546,3 @@ if (!function_exists('fau_teaser_grid_ajax_filter')) {
 // Hook the AJAX handlers
 add_action('wp_ajax_fau_teaser_grid_filter', 'fau_teaser_grid_ajax_filter');
 add_action('wp_ajax_nopriv_fau_teaser_grid_filter', 'fau_teaser_grid_ajax_filter');
-
-echo render_block_fau_teaser_grid($attributes, $content, $block);
