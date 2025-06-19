@@ -112,15 +112,14 @@ class Main_Navigation {
                 <div class="main-navigation__direct-links">
                     <?php
                     // Check if primary menu exists
-                    if (has_nav_menu('header_primary_menu')) {
+                    if (has_nav_menu('header_direct_links_menu')) {
                         wp_nav_menu(array(
-                            'theme_location' => 'header_primary_menu',
+                            'theme_location' => 'header_direct_links_menu',
                             'menu_id'        => 'main-direct-links',
                             'menu_class'     => 'main-navigation__direct-menu',
                             'container'      => false,
                             'fallback_cb'    => false,
                             'depth'          => 1, // Only show top-level items in direct links
-                            'walker'         => new Main_Navigation_Walker(),
                         ));
                     }
                     ?>

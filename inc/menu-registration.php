@@ -19,6 +19,7 @@ function fau_elemental_register_all_menus() {
     $menus = array(
         // Main navigation menus
         'header_primary_menu' => __('Header Primary Menu', 'fau-elemental'),
+        'header_direct_links_menu' => __('Header Direct Links Menu', 'fau-elemental'),
         'header_menu_links' => __('Header Menu Links', 'fau-elemental'),
         
         // FAU system menus
