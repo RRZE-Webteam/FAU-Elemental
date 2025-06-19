@@ -24,6 +24,3 @@ require_once get_template_directory() . '/inc/blocks/gallery.php';
 require_once get_template_directory() . '/inc/blocks/quote.php';
 
 require_once get_template_directory() . '/inc/blocks/paragraph.php';
-
-// Load custom FAU blocks
-// Note: Custom block render functions are loaded via registration.php
