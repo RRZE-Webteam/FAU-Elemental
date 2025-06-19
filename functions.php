@@ -203,32 +203,33 @@ add_filter('body_class', 'fau_elemental_body_classes');
  * @param array $args Additional arguments to pass to the template (optional)
  */
 function fau_elemental_load_template_part($slug, $name = null, $args = array()) {
-    $template_name = $slug;
-    if ($name) {
-        $template_name .= '-' . $name;
-    }
+    // First check if block template part exists
+    $part_name = $name ? "{$slug}-{$name}" : $slug;
+    $block_part_file = get_theme_file_path("/parts/{$part_name}.html");
     
-    // Check if block template exists
-    $block_template = 'templates/parts/' . $template_name . '.html';
-    if (file_exists(get_theme_file_path($block_template))) {
-        // Load block template
-        block_template_part($slug, $name, $args);
-        return;
-    }
-    
-    // Fallback to PHP template
-    $php_template = 'parts/' . $template_name . '.php';
-    if (file_exists(get_theme_file_path($php_template))) {
-        // Extract args for template
-        if (!empty($args)) {
-            extract($args);
+    if (file_exists($block_part_file) && filesize($block_part_file) > 0) {
+        // Block template exists, use it
+        echo do_blocks(file_get_contents($block_part_file));
+    } else {
+        // Fall back to PHP template part
+        // Use WordPress's standard structure for template-parts
+        $directory = '';
+        
+        // Organize by type if slug has a recognizable prefix
+        if (strpos($slug, 'header') === 0) {
+            $directory = 'header';
+        } elseif (strpos($slug, 'footer') === 0) {
+            $directory = 'footer';
+        } elseif (strpos($slug, 'content') === 0) {
+            $directory = 'content';
         }
-        include get_theme_file_path($php_template);
-        return;
+        
+        if ($directory) {
+            get_template_part("template-parts/{$directory}/{$slug}", $name, $args);
+        } else {
+            get_template_part("template-parts/{$slug}", $name, $args);
+        }
     }
-    
-    // If no template found, try WordPress default
-    get_template_part($slug, $name, $args);
 }
 
 /**
@@ -305,17 +306,6 @@ function fau_elemental_enqueue_footer_scripts() {
     }
 }
 add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_footer_scripts');
-
-/**
- * Debug function to check if a template exists
- * 
- * @param string $template_name The template name to check
- * @return bool
- */
-function fau_elemental_template_exists($template_name) {
-    $template_path = locate_template($template_name);
-    return !empty($template_path);
-}
 
 // ============================================================================
 // FAU TEASER GRID AJAX HANDLERS
