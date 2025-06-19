@@ -219,6 +219,4 @@ function render_block_fau_big_button_teaser_group($attributes, $content, $block)
     ];
 
     return render_big_button_teaser_group_html($pages, $options);
-}
-
-echo render_block_fau_big_button_teaser_group($attributes, $content, $block); 
+} 

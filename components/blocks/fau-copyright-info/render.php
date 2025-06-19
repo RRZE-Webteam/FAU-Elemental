@@ -155,6 +155,6 @@ if (!function_exists('render_block_fau_copyright_info')) {
 
         return $output;
     }
-}
+} 
 
 echo render_block_fau_copyright_info($attributes, $content);
