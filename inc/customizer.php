@@ -310,7 +310,7 @@ function fau_customizer_settings($wp_customize) {
     ]);
     
     // Hide FAU info section for cooperation websites (only for non-FAU sites)
-    if ($faue_website_type !== 'fau') {
+    if ($faue_website_type == 'cooperation') {
         $wp_customize->add_setting('hide_fau_info_section', [
             'default' => false,
             'transport' => 'refresh',
