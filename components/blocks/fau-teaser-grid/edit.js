@@ -363,28 +363,6 @@ export default function Edit( { attributes, setAttributes } ) {
 				) }
 			</div>
 
-			{ /* Show Load More button preview in editor */ }
-			{ selectionMode === 'auto' &&
-				showLoadMore &&
-				calculatedTotalPages > 1 && (
-					<div className="fau-teaser-grid__load-more-wrapper fau-teaser-grid__load-more-wrapper--preview">
-						<div className="wp-block-button">
-							<button
-								className="wp-block-button__link wp-element-button fau-teaser-grid__load-more-button"
-								disabled
-							>
-								{ __( 'Load More', 'fau-elemental' ) }
-							</button>
-						</div>
-						<p className="load-more-preview-text">
-							{ __(
-								'Preview: Load More button will be functional on the frontend',
-								'fau-elemental'
-							) }
-						</p>
-					</div>
-				) }
-
 			{ calculatedTotalPages > 1 &&
 				selectionMode === 'auto' &&
 				! showLoadMore && (
