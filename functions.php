@@ -57,6 +57,9 @@ function fau_elemental_register_page_templates($templates) {
     // Register the portal page template
     $templates['portal-page.php'] = 'Portal Page';
     
+    // Register the all posts template
+    $templates['page-all-posts.html'] = 'All Posts';
+    
     // Force flush the template cache if we're in admin
     if (is_admin()) {
         $cache_key = 'page_templates-' . md5(get_theme_root() . '/' . get_stylesheet());
@@ -319,3 +322,188 @@ function fau_elemental_register_teaser_grid_ajax() {
     require_once get_template_directory() . '/components/blocks/fau-teaser-grid/ajax.php';
 }
 add_action('init', 'fau_elemental_register_teaser_grid_ajax');
+
+// AJAX handler for teaser grid filtering (needed for fau-list-filters block)
+add_action('wp_ajax_fau_filter_teaser_grid', 'fau_filter_teaser_grid_ajax_handler');
+add_action('wp_ajax_nopriv_fau_filter_teaser_grid', 'fau_filter_teaser_grid_ajax_handler');
+
+if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
+    function fau_filter_teaser_grid_ajax_handler() {
+        // Add debugging
+        error_log('AJAX handler called: fau_filter_teaser_grid_ajax_handler');
+        
+        // Verify nonce for security
+        $nonce = $_POST['nonce'] ?? '';
+        if (!wp_verify_nonce($nonce, 'fau_filter_nonce')) {
+            wp_send_json_error('Security check failed');
+            return;
+        }
+
+        // Get filter parameters
+        $search = sanitize_text_field($_POST['search'] ?? '');
+        $filters = $_POST['filters'] ?? [];
+        $sort = sanitize_text_field($_POST['sort'] ?? 'date');
+        $page = intval($_POST['page'] ?? 1);
+        $per_page = intval($_POST['per_page'] ?? 15);
+        $post_type = sanitize_text_field($_POST['post_type'] ?? 'post');
+        $category = intval($_POST['category'] ?? 0);
+
+        // Build query arguments
+        $args = [
+            'post_type' => $post_type,
+            'post_status' => 'publish',
+            'posts_per_page' => $per_page,
+            'paged' => $page,
+        ];
+
+        // Add search
+        if (!empty($search)) {
+            $args['s'] = $search;
+        }
+
+        // Add category filter
+        if ($category > 0) {
+            if ($post_type === 'post') {
+                $args['cat'] = $category;
+            }
+        }
+
+        // Add sorting
+        switch ($sort) {
+            case 'title':
+                $args['orderby'] = 'title';
+                $args['order'] = 'ASC';
+                break;
+            case 'modified':
+                $args['orderby'] = 'modified';
+                $args['order'] = 'DESC';
+                break;
+            case 'date':
+            default:
+                $args['orderby'] = 'date';
+                $args['order'] = 'DESC';
+                break;
+        }
+
+        // Process filters
+        $tax_queries = [];
+        
+        foreach ($filters as $filter_name => $filter_data) {
+            $filter_type = $filter_data['type'] ?? '';
+            $filter_value = $filter_data['value'] ?? '';
+
+            if (empty($filter_value)) {
+                continue;
+            }
+
+            switch ($filter_type) {
+                case 'categories':
+                    $tax_queries[] = [
+                        'taxonomy' => 'category',
+                        'field' => 'slug',
+                        'terms' => $filter_value,
+                    ];
+                    break;
+                case 'tags':
+                    $tax_queries[] = [
+                        'taxonomy' => 'post_tag',
+                        'field' => 'slug',
+                        'terms' => $filter_value,
+                    ];
+                    break;
+                case 'authors':
+                    $author = get_user_by('slug', $filter_value);
+                    if ($author) {
+                        $args['author'] = $author->ID;
+                    }
+                    break;
+                case 'years':
+                    $args['date_query'] = [
+                        [
+                            'year' => intval($filter_value),
+                        ],
+                    ];
+                    break;
+            }
+        }
+
+        // Apply tax queries if we have any
+        if (!empty($tax_queries)) {
+            $args['tax_query'] = $tax_queries;
+            if (count($tax_queries) > 1) {
+                $args['tax_query']['relation'] = 'AND';
+            }
+        }
+
+        // Execute query
+        $query = new WP_Query($args);
+        $posts = [];
+
+        if ($query->have_posts()) {
+            while ($query->have_posts()) {
+                $query->the_post();
+                $post_id = get_the_ID();
+                
+                // Get featured image
+                $featured_image = '';
+                if (has_post_thumbnail($post_id)) {
+                    $featured_image = get_the_post_thumbnail_url($post_id, 'medium');
+                }
+
+                // Get categories
+                $categories = get_the_category($post_id);
+                $category_names = array_map(function($cat) { return $cat->name; }, $categories);
+
+                // Get excerpt
+                $excerpt = get_the_excerpt($post_id);
+                if (empty($excerpt)) {
+                    $excerpt = wp_trim_words(get_the_content($post_id), 20);
+                }
+
+                $posts[] = [
+                    'id' => $post_id,
+                    'title' => get_the_title($post_id),
+                    'excerpt' => $excerpt,
+                    'permalink' => get_permalink($post_id),
+                    'featured_image' => $featured_image,
+                    'categories' => $category_names,
+                    'date' => get_the_date('', $post_id),
+                    'author' => get_the_author_meta('display_name', get_post_field('post_author', $post_id)),
+                ];
+            }
+            wp_reset_postdata();
+        }
+
+        // Prepare response in the format expected by the filter block JavaScript
+        $response = [
+            'success' => true,
+            'posts' => $posts,
+            'total' => $query->found_posts,
+            'pages' => $query->max_num_pages,
+            'current_page' => $page,
+            'debug_args' => $args,
+        ];
+
+        wp_send_json($response);
+    }
+}
+
+/**
+ * Enqueue template-specific styles
+ */
+function fau_elemental_enqueue_template_styles() {
+    if (is_page()) {
+        $template = get_page_template_slug();
+        
+        // Enqueue All Posts template styles
+        if ($template === 'page-all-posts.html') {
+            wp_enqueue_style(
+                'fau-all-posts-template',
+                get_theme_file_uri('assets/css/templates/page-all-posts.css'),
+                [],
+                wp_get_theme()->get('Version')
+            );
+        }
+    }
+}
+add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_template_styles');

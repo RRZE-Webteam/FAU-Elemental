@@ -63,7 +63,8 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             'data-order' => $order,
             'data-heading-level' => $heading_level,
             'data-show-load-more' => $show_load_more ? 'true' : 'false',
-            'data-nonce' => wp_create_nonce('fau_load_more_nonce')
+            'data-nonce' => wp_create_nonce('fau_load_more_nonce'),
+            'data-filterable' => 'true'
         ]);
 
         $grid_classes = ['fau-teaser-grid', $display_style];
