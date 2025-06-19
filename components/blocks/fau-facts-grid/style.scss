@@ -6,27 +6,7 @@
 		background: #f8f9fa;
 		padding: 2rem;
 		border-radius: 8px;
-
-		.fau-facts-grid-roof-line {
-			margin-bottom: 2rem;
-			font-size: 1.25rem;
-			font-weight: 600;
-			color: var(--wp--preset--color--foreground, #333);
-			position: relative;
-			padding-left: 21rem;
-
-			&::before {
-				content: "";
-				position: absolute;
-				left: 0;
-				top: 50%;
-				transform: translateY(-50%);
-				width: 20rem;
-				height: 2px;
-				background: var(--wp--preset--color--primary, #003865);
-			}
-		}
-
+		
 		.fau-facts-grid-items {
 			display: grid;
 			gap: 1.5rem;

@@ -57,11 +57,10 @@ export default function Edit( { attributes, setAttributes } ) {
 		<div { ...blockProps }>
 			<InspectorControls>
 				<PanelBody title={ __( 'Facts Management', 'fau-elemental' ) }>
-					<div style={ { marginBottom: '1rem' } }>
+					<div className="fau-facts-grid-inspector-buttons">
 						<Button
 							variant="primary"
 							onClick={ addFact }
-							style={ { marginRight: '0.5rem' } }
 						>
 							{ __( 'Add New Fact', 'fau-elemental' ) }
 						</Button>
@@ -80,13 +79,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							</Button>
 						) }
 					</div>
-					<p
-						style={ {
-							fontSize: '0.9rem',
-							color: '#666',
-							margin: '0.5rem 0',
-						} }
-					>
+					<p className="fau-facts-grid-inspector-help-text">
 						{ __(
 							'Click on a fact in the editor to select and edit it.',
 							'fau-elemental'
@@ -102,14 +95,10 @@ export default function Edit( { attributes, setAttributes } ) {
 							selectedFactIndex + 1
 						) }
 					>
-						<div style={ { marginBottom: '1rem' } }>
+						<div className="fau-facts-grid-icon-field">
 							<label
 								htmlFor={ `fau-facts-grid-icon-${ selectedFactIndex }` }
-								style={ {
-									display: 'block',
-									marginBottom: '0.5rem',
-									fontWeight: '600',
-								} }
+								className="fau-facts-grid-icon-label"
 							>
 								{ __( 'Icon', 'fau-elemental' ) }
 							</label>
@@ -131,11 +120,7 @@ export default function Edit( { attributes, setAttributes } ) {
 											id={ `fau-facts-grid-icon-${ selectedFactIndex }` }
 										>
 											{ selectedFact.iconUrl ? (
-												<div
-													style={ {
-														marginBottom: '0.5rem',
-													} }
-												>
+												<div className="fau-facts-grid-icon-preview">
 													<img
 														src={
 															selectedFact.iconUrl
@@ -144,17 +129,6 @@ export default function Edit( { attributes, setAttributes } ) {
 															'Selected icon',
 															'fau-elemental'
 														) }
-														style={ {
-															width: '60px',
-															height: '60px',
-															objectFit:
-																'contain',
-															border: '1px solid #ddd',
-															borderRadius: '4px',
-															padding: '8px',
-															backgroundColor:
-																'#f9f9f9',
-														} }
 													/>
 												</div>
 											) : null }
@@ -279,21 +253,11 @@ export default function Edit( { attributes, setAttributes } ) {
 									<img
 										src={ fact.iconUrl }
 										alt=""
-										style={ {
-											width: '24px',
-											height: '24px',
-											objectFit: 'contain',
-										} }
 									/>
 								) : (
 									<img
 										src={ `${ window.location.origin }/wp-content/themes/FAU-Elemental/assets/images/fact-icon.png` }
 										alt=""
-										style={ {
-											width: '24px',
-											height: '24px',
-											objectFit: 'contain',
-										} }
 									/>
 								) }
 							</div>
@@ -331,13 +295,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				</div>
 
 				{ facts.length === 0 && (
-					<div
-						style={ {
-							textAlign: 'center',
-							padding: '2rem',
-							color: '#666',
-						} }
-					>
+					<div className="fau-facts-grid-empty-state">
 						<p>
 							{ __(
 								'No facts added yet. Use the "Add New Fact" button in the sidebar to get started.',

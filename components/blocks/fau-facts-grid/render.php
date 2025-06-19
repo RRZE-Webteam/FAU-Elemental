@@ -44,13 +44,11 @@ $wrapper_attributes = get_block_wrapper_attributes();
                                 <img 
                                     src="<?php echo esc_url( $icon_url ); ?>" 
                                     alt=""
-                                    style="width: 24px; height: 24px; object-fit: contain;"
                                 />
                             <?php else : ?>
                                 <img 
                                     src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/fact-icon.png' ); ?>" 
                                     alt=""
-                                    style="width: 24px; height: 24px; object-fit: contain;"
                                 />
                             <?php endif; ?>
                         </div>

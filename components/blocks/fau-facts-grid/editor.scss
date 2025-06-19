@@ -34,6 +34,12 @@
 				}
 			}
 		}
+
+		.fau-facts-grid-empty-state {
+			text-align: center;
+			padding: 2rem;
+			color: #666;
+		}
 	}
 }
 
@@ -43,4 +49,48 @@
 	.components-base-control {
 		margin-bottom: 1rem;
 	}
+}
+
+.fau-facts-grid-inspector-buttons {
+	margin-bottom: 1rem;
+
+	.components-button + .components-button {
+		margin-left: 0.5rem;
+	}
+}
+
+.fau-facts-grid-inspector-help-text {
+	font-size: 0.9rem;
+	color: #666;
+	margin: 0.5rem 0;
+}
+
+.fau-facts-grid-icon-field {
+	margin-bottom: 1rem;
+
+	.fau-facts-grid-icon-label {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-weight: 600;
+	}
+
+	.fau-facts-grid-icon-preview {
+		margin-bottom: 0.5rem;
+
+		img {
+			width: 60px;
+			height: 60px;
+			object-fit: contain;
+			border: 1px solid #ddd;
+			border-radius: 4px;
+			padding: 8px;
+			background-color: #f9f9f9;
+		}
+	}
+}
+
+.fau-facts-grid-item-icon img {
+	width: 24px;
+	height: 24px;
+	object-fit: contain;
 }
