@@ -157,12 +157,8 @@ if (!function_exists('fau_elemental_wrap_teaser_items_ajax')) {
 
 if (!function_exists('fau_load_more_posts_handler')) {
     function fau_load_more_posts_handler() {
-        // Debug: Log incoming request
-        error_log('FAU Load More AJAX Request: ' . print_r($_POST, true));
-        
         // Check if we have POST data
         if (empty($_POST)) {
-            error_log('FAU Load More: No POST data received');
             wp_send_json_error([
                 'message' => __('No data received', 'fau-elemental'),
                 'code' => 'no_data'
@@ -173,7 +169,6 @@ if (!function_exists('fau_load_more_posts_handler')) {
         // Verify nonce for security
         $nonce = $_POST['nonce'] ?? '';
         if (!wp_verify_nonce($nonce, 'fau_load_more_nonce')) {
-            error_log('FAU Load More: Nonce verification failed. Received: ' . $nonce);
             wp_send_json_error([
                 'message' => __('Security check failed', 'fau-elemental'),
                 'code' => 'nonce_failed'
@@ -191,19 +186,6 @@ if (!function_exists('fau_load_more_posts_handler')) {
         $display_style = sanitize_text_field($_POST['display_style'] ?? 'teaser-grid');
         $teaser_layout = sanitize_text_field($_POST['teaser_layout'] ?? '3m');
         $heading_level = sanitize_text_field($_POST['heading_level'] ?? 'h4');
-
-        // Debug: Log processed parameters
-        error_log('FAU Load More Processed Parameters: ' . print_r([
-            'variant' => $variant,
-            'posts_per_page' => $posts_per_page,
-            'page' => $page,
-            'category' => $category,
-            'order_by' => $order_by,
-            'order' => $order,
-            'display_style' => $display_style,
-            'teaser_layout' => $teaser_layout,
-            'heading_level' => $heading_level
-        ], true));
 
         // Validate heading level
         $allowed_headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
@@ -225,14 +207,8 @@ if (!function_exists('fau_load_more_posts_handler')) {
             $args['cat'] = $category;
         }
 
-        // Debug: Log query args
-        error_log('FAU Load More Query Args: ' . print_r($args, true));
-
         // Perform query
         $query = new WP_Query($args);
-        
-        // Debug: Log query results
-        error_log('FAU Load More Query Results: Found ' . $query->found_posts . ' posts, Max pages: ' . $query->max_num_pages);
         
         $grid_classes = ['fau-teaser-grid', $display_style];
         if ($display_style === 'teaser-grid') {
@@ -269,9 +245,6 @@ if (!function_exists('fau_load_more_posts_handler')) {
             ]
         ];
 
-        // Debug: Log response
-        error_log('FAU Load More Response: ' . print_r($response, true));
-
         wp_send_json($response);
     }
 }
@@ -297,6 +270,12 @@ if (!function_exists('fau_teaser_grid_ajax_filter')) {
         $display_style = sanitize_text_field($_POST['display_style'] ?? 'teaser-grid');
         $teaser_layout = sanitize_text_field($_POST['teaser_layout'] ?? '3m');
         $heading_level = sanitize_text_field($_POST['heading_level'] ?? 'h4');
+
+        // Validate heading level
+        $allowed_headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+        if (!in_array($heading_level, $allowed_headings)) {
+            $heading_level = 'h4';
+        }
 
         // Build query args
         $args = [

@@ -8,24 +8,26 @@
  */
 
 // Prevent multiple initializations
-if (typeof window.fauTeaserGridInitialized === 'undefined') {
+if ( typeof window.fauTeaserGridInitialized === 'undefined' ) {
 	window.fauTeaserGridInitialized = true;
 
 	document.addEventListener( 'DOMContentLoaded', function () {
 		// Initialize teaser card clickability
 		initializeTeaserCards();
-		
+
 		// Initialize load more functionality
 		initializeLoadMoreButtons();
 	} );
 
 	function initializeTeaserCards() {
 		// Find all teaser items with data-href attribute that haven't been initialized
-		const teaserItems = document.querySelectorAll( '.teaser-item[data-href]:not([data-teaser-initialized])' );
+		const teaserItems = document.querySelectorAll(
+			'.teaser-item[data-href]:not([data-teaser-initialized])'
+		);
 
 		teaserItems.forEach( function ( item ) {
-			item.setAttribute('data-teaser-initialized', 'true');
-			
+			item.setAttribute( 'data-teaser-initialized', 'true' );
+
 			const href = item.getAttribute( 'data-href' );
 
 			// Set cursor to pointer to indicate clickability
@@ -77,26 +79,29 @@ if (typeof window.fauTeaserGridInitialized === 'undefined') {
 		);
 
 		loadMoreButtons.forEach( function ( button ) {
-			button.setAttribute('data-loadmore-initialized', 'true');
-			
+			button.setAttribute( 'data-loadmore-initialized', 'true' );
+
 			button.addEventListener( 'click', function ( event ) {
 				event.preventDefault();
 
 				// Prevent multiple clicks while loading
-				if (button.disabled || button.classList.contains('loading')) {
+				if (
+					button.disabled ||
+					button.classList.contains( 'loading' )
+				) {
 					return;
 				}
 
 				// Get the grid container
 				const gridContainer = button.closest( '[data-grid-id]' );
 				if ( ! gridContainer ) {
-					console.error('Grid container not found');
+					console.error( 'Grid container not found' );
 					return;
 				}
 
 				// Check if fauTeaserGrid is available
-				if (typeof window.fauTeaserGrid === 'undefined') {
-					console.error('fauTeaserGrid object not found');
+				if ( typeof window.fauTeaserGrid === 'undefined' ) {
+					console.error( 'fauTeaserGrid object not found' );
 					return;
 				}
 
@@ -125,7 +130,7 @@ if (typeof window.fauTeaserGridInitialized === 'undefined') {
 				const spinner =
 					button.parentNode.querySelector( '.load-more-spinner' );
 				button.disabled = true;
-				button.classList.add('loading');
+				button.classList.add( 'loading' );
 				button.style.display = 'none';
 				if ( spinner ) {
 					spinner.classList.add( 'loading' );
@@ -145,22 +150,6 @@ if (typeof window.fauTeaserGridInitialized === 'undefined') {
 				formData.append( 'order', order );
 				formData.append( 'heading_level', headingLevel );
 
-				// Debug: Log request data
-				console.log('Load More Request Data:', {
-					action: 'fau_load_more_posts',
-					nonce: nonce,
-					variant: variant,
-					category: category,
-					posts_per_page: postsPerPage,
-					page: nextPage,
-					display_style: displayStyle,
-					teaser_layout: teaserLayout,
-					order_by: orderBy,
-					order: order,
-					heading_level: headingLevel,
-					ajaxUrl: window.fauTeaserGrid.ajaxUrl
-				});
-
 				// Make AJAX request
 				fetch( window.fauTeaserGrid.ajaxUrl, {
 					method: 'POST',
@@ -168,15 +157,11 @@ if (typeof window.fauTeaserGridInitialized === 'undefined') {
 					credentials: 'same-origin',
 				} )
 					.then( function ( response ) {
-						console.log('Response status:', response.status);
-						console.log('Response headers:', response.headers);
-						
-						if (!response.ok) {
-							// Try to get response text for debugging
-							return response.text().then(text => {
-								console.log('Error response body:', text);
-								throw new Error('Network response was not ok: ' + response.status + ' - ' + text);
-							});
+						if ( ! response.ok ) {
+							throw new Error(
+								'Network response was not ok: ' +
+									response.status
+							);
 						}
 						return response.json();
 					} )
@@ -184,7 +169,9 @@ if (typeof window.fauTeaserGridInitialized === 'undefined') {
 						if ( data.success && data.data && data.data.html ) {
 							// Find the teaser grid
 							const teaserGrid =
-								gridContainer.querySelector( '.fau-teaser-grid' );
+								gridContainer.querySelector(
+									'.fau-teaser-grid'
+								);
 							if ( teaserGrid ) {
 								// Create a temporary container to parse the HTML
 								const tempDiv = document.createElement( 'div' );
@@ -192,7 +179,9 @@ if (typeof window.fauTeaserGridInitialized === 'undefined') {
 
 								// Append new items to the grid
 								while ( tempDiv.firstChild ) {
-									teaserGrid.appendChild( tempDiv.firstChild );
+									teaserGrid.appendChild(
+										tempDiv.firstChild
+									);
 								}
 
 								// Initialize clickable behavior for new items
@@ -203,7 +192,7 @@ if (typeof window.fauTeaserGridInitialized === 'undefined') {
 							if ( data.data.has_more ) {
 								button.setAttribute( 'data-page', nextPage );
 								button.disabled = false;
-								button.classList.remove('loading');
+								button.classList.remove( 'loading' );
 								button.style.display = 'block';
 							} else {
 								// No more posts, hide the button wrapper
@@ -215,10 +204,8 @@ if (typeof window.fauTeaserGridInitialized === 'undefined') {
 								}
 							}
 						} else {
-							// Show error message
-							console.error( 'Failed to load more posts:', data );
 							button.disabled = false;
-							button.classList.remove('loading');
+							button.classList.remove( 'loading' );
 							button.style.display = 'block';
 						}
 
@@ -227,10 +214,9 @@ if (typeof window.fauTeaserGridInitialized === 'undefined') {
 							spinner.classList.remove( 'loading' );
 						}
 					} )
-					.catch( function ( error ) {
-						console.error( 'Error loading more posts:', error );
+					.catch( function () {
 						button.disabled = false;
-						button.classList.remove('loading');
+						button.classList.remove( 'loading' );
 						button.style.display = 'block';
 
 						// Hide loading spinner
