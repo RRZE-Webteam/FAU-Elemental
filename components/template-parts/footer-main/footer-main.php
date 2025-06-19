@@ -47,9 +47,7 @@
                 'container' => 'nav',
                 'container_class' => 'footer-lists-container',
                 'depth' => 2,
-                'fallback_cb' => function() {
-                    echo '';
-                }
+                'fallback_cb' => false // Allow WordPress to show customize interface
             ));
             ?>
         </section>
