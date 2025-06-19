@@ -57,10 +57,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			<InspectorControls>
 				<PanelBody title={ __( 'Facts Management', 'fau-elemental' ) }>
 					<div className="fau-facts-grid-inspector-buttons">
-						<Button
-							variant="primary"
-							onClick={ addFact }
-						>
+						<Button variant="primary" onClick={ addFact }>
 							{ __( 'Add New Fact', 'fau-elemental' ) }
 						</Button>
 						{ facts.length > 0 && (
@@ -249,10 +246,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						>
 							<div className="fau-facts-grid-item-icon">
 								{ fact.iconUrl ? (
-									<img
-										src={ fact.iconUrl }
-										alt=""
-									/>
+									<img src={ fact.iconUrl } alt="" />
 								) : (
 									<img
 										src={ `${ window.location.origin }/wp-content/themes/FAU-Elemental/assets/images/fact-icon.png` }
@@ -281,7 +275,7 @@ export default function Edit( { attributes, setAttributes } ) {
 												href={ fact.link }
 											>
 												{ __(
-													'Mehr',
+													'More',
 													'fau-elemental'
 												) }
 											</a>

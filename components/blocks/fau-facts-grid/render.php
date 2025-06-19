@@ -63,7 +63,7 @@ $wrapper_attributes = get_block_wrapper_attributes();
                                     <!-- wp:button {"className":"is-style-outline"} -->
                                     <div class="wp-block-button is-style-tertiary">
                                         <a class="wp-block-button__link" href="<?php echo esc_url( $link ); ?>">
-                                            <?php echo esc_html( __( 'Mehr', 'fau-elemental' ) ); ?>
+                                            <?php echo esc_html( __( 'More', 'fau-elemental' ) ); ?>
                                         </a>
                                     </div>
                                     <!-- /wp:button -->
