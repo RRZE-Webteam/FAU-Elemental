@@ -9,8 +9,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-
-
 /**
  * Register all custom blocks from the build directory
  */

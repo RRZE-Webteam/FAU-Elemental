@@ -152,11 +152,14 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
 
         // Enqueue and localize script for load more functionality
         if ($show_load_more) {
-            wp_enqueue_script('fau-teaser-grid-view', get_template_directory_uri() . '/build/blocks/fau-teaser-grid/view.js', [], '1.0.0', true);
-            wp_localize_script('fau-teaser-grid-view', 'fauTeaserGrid', [
-                'ajaxUrl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('fau_load_more_nonce'),
-            ]);
+            // Only enqueue if not already enqueued
+            if (!wp_script_is('fau-teaser-grid-view', 'enqueued')) {
+                wp_enqueue_script('fau-teaser-grid-view', get_template_directory_uri() . '/build/blocks/fau-teaser-grid/view.js', [], '1.0.0', true);
+                wp_localize_script('fau-teaser-grid-view', 'fauTeaserGrid', [
+                    'ajaxUrl' => admin_url('admin-ajax.php'),
+                    'nonce' => wp_create_nonce('fau_load_more_nonce'),
+                ]);
+            }
         }
 
         return $output;
