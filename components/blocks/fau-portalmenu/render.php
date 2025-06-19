@@ -58,3 +58,5 @@ function render_block_fau_portalmenu($attributes, $content, $block) {
     // Add wrapper div with class names
     return '<div class="wp-block-fau-elemental-portalmenu">' . $output . '</div>';
 }
+
+echo render_block_fau_portalmenu($attributes, $content, $block);
