@@ -34,6 +34,20 @@ function fau_elemental_add_image_fullscreen($block_content, $block) {
         // Wrap the img tag in a div
         $block_content = preg_replace('/(<img[^>]+>)/', '<div class="image-wrapper">$1</div>', $block_content);
         
+        // Add gallery index display if it exists
+        if (isset($block['attrs']['galleryIndexText']) && !empty($block['attrs']['galleryIndexText'])) {
+            $index_display = '<span class="gallery-index-display">' . esc_html($block['attrs']['galleryIndexText']) . '</span>';
+            
+            // Check if there's a caption
+            if (strpos($block_content, '<figcaption') !== false) {
+                // Add to caption
+                $block_content = preg_replace('/(<figcaption[^>]*>.*?)(<\/figcaption>)/s', '$1' . $index_display . '$2', $block_content);
+            } else {
+                // Add to image wrapper
+                $block_content = preg_replace('/(<div class="image-wrapper">.*?)(<\/div>)/s', '$1' . $index_display . '$2', $block_content);
+            }
+        }
+        
         // Insert the button into the block content
         $pos = strpos($block_content, '</figure>');
         if ($pos === false) {

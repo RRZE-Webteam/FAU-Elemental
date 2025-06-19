@@ -1,0 +1,24 @@
+// Typography Variables
+:root {
+	// Font Family
+	--font-family-base: "Source Sans 3", sans-serif;
+
+	// Font Sizes
+	--DI-Display-1: 4.5rem;
+	--DI-Display-2: 4rem;
+	--H-Heading-1: 3rem;
+	--H-Heading-Big-Teaser: 2.5rem;
+	--H-Heading-2: 2rem;
+	--H-Heading-3: 1.5rem;
+	--H-Heading-4: 1.25rem;
+	--H-Heading-5: 1.15rem;
+	--H-Heading-6: 1rem;
+	--P-Intro-Text: 1.25rem;
+	--P-Body-Text: 1.125rem;
+	--P-Body-Text-Small: 1rem;
+	--P-Caption: 0.85rem;
+
+	// Font Letter Spacing
+	--letter-spacing-big: 0.02rem;
+	--letter-spacing-small: 0.01rem;
+}

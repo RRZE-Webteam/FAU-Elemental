@@ -1,0 +1,31 @@
+// ============================================================================
+// GLOBAL WORDPRESS STYLES
+// ============================================================================
+// Global styles that apply across the entire theme but don't belong to
+// specific components
+
+// Global content container styles
+.site-content {
+	min-height: 100vh;
+}
+
+// WordPress core alignment classes
+.alignwide {
+	max-width: var(--wide-max-width);
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.alignfull {
+	width: 100vw;
+	margin-left: calc(50% - 50vw);
+}
+
+// Screen reader text utility
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+}

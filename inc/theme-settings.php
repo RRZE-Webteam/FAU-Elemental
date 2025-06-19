@@ -15,9 +15,30 @@ if (!defined('ABSPATH')) {
 function faue_customize_register($wp_customize) {
     // Add FAU Elemental section
     $wp_customize->add_section('faue_theme_settings', array(
-        'title'    => __('FAU Elemental Settings', 'fau-elemental'),
+        'title'    => __('Theme Settings', 'fau-elemental'),
         'priority' => 30,
     ));
+
+    // Add Header Settings section
+    $wp_customize->add_section('faue_header_settings', array(
+        'title'    => __('Header Settings', 'fau-elemental'),
+        'priority' => 25,
+    ));
+
+    // Breadcrumb Mode Setting (stores boolean, convert to 'dark'/'light' when using)
+    $wp_customize->add_setting('faue_breadcrumb_mode', [
+        'default' => false,
+        'transport' => 'refresh',
+        'sanitize_callback' => 'faue_sanitize_breadcrumb_mode',
+    ]);
+    
+    $wp_customize->add_control('faue_breadcrumb_mode', [
+        'label' => __('Breadcrumb Dark Mode', 'fau-elemental'),
+        'description' => __('Apply dark styling to the breadcrumbs', 'fau-elemental'),
+        'section' => 'faue_header_settings',
+        'type' => 'checkbox',
+        'priority' => 15,
+    ]);
 
     // Website Type Setting
     $wp_customize->add_setting('faue_website_type', array(
@@ -31,10 +52,10 @@ function faue_customize_register($wp_customize) {
         'type'     => 'select',
         'choices'  => array(
             'fau'          => __('FAU.de', 'fau-elemental'),
-            'faculty'      => __('Fakultät', 'fau-elemental'),
-            'chair'        => __('Lehrstuhl', 'fau-elemental'),
-            'other'        => __('Sonstige', 'fau-elemental'),
-            'cooperation'  => __('Kooperation', 'fau-elemental'),
+            'faculty'      => __('Faculty', 'fau-elemental'),
+            'chair'        => __('Chair', 'fau-elemental'),
+            'other'        => __('Other', 'fau-elemental'),
+            'cooperation'  => __('Cooperation', 'fau-elemental'),
         ),
     ));
 
@@ -49,11 +70,11 @@ function faue_customize_register($wp_customize) {
         'section'         => 'faue_theme_settings',
         'type'            => 'select',
         'choices'         => array(
-            'phil' => __('Philosophische Fakultät', 'fau-elemental'),
-            'nat'  => __('Naturwissenschaftliche Fakultät', 'fau-elemental'),
-            'med'  => __('Medizinische Fakultät', 'fau-elemental'),
-            'rw'   => __('Rechtswissenschaftliche Fakultät', 'fau-elemental'),
-            'tf'   => __('Technische Fakultät', 'fau-elemental'),
+            'phil' => __('Philosophical Faculty', 'fau-elemental'),
+            'nat'  => __('Natural Sciences Faculty', 'fau-elemental'),
+            'med'  => __('Medical Faculty', 'fau-elemental'),
+            'rw'   => __('Law Faculty', 'fau-elemental'),
+            'tf'   => __('Technical Faculty', 'fau-elemental'),
         ),
         'active_callback' => 'faue_is_faculty_website',
     ));
@@ -99,20 +120,6 @@ function faue_sanitize_website_type($input) {
 
     return $input;
 }
-
-/**
- * Sanitize faculty input
- */
-function faue_sanitize_faculty($input) {
-    $valid_faculties = array('phil', 'nat', 'med', 'rw', 'tf', '');
-
-    if (!in_array($input, $valid_faculties)) {
-        return '';
-    }
-
-    return $input;
-}
-
 /**
  * Sanitize copyright info priority input
  */
@@ -124,4 +131,80 @@ function faue_sanitize_copyright_info_priority($input) {
     }
 
     return $input;
+}
+
+
+
+/**
+ * Restrict specific blocks to certain post types
+ * 
+ * This function restricts the FAU Teaser Grid block to pages only
+ */
+function restrict_blocks_by_post_type($allowed_blocks, $editor_context) {
+    if (empty($editor_context->post)) {
+        return $allowed_blocks;
+    }
+
+    $post_type = $editor_context->post->post_type;
+    $block_to_remove = 'fau-elemental/fau-teaser-grid';
+
+    if ($post_type === 'post') {
+        // If $allowed_blocks is true or null, we need to get all registered blocks
+        if ($allowed_blocks === true || is_null($allowed_blocks)) {
+            // Make sure WP_Block_Type_Registry class exists
+            if (class_exists('WP_Block_Type_Registry')) {
+                $registry = WP_Block_Type_Registry::get_instance();
+                $allowed_blocks = array_keys($registry->get_all_registered());
+            } else {
+                // If the registry class doesn't exist, we can't reliably filter blocks
+                return $allowed_blocks;
+            }
+        }
+
+        // Now that we've ensured $allowed_blocks is an array, we can safely filter it
+        if (is_array($allowed_blocks)) {
+            $allowed_blocks = array_diff($allowed_blocks, [$block_to_remove]);
+        }
+    }
+
+    return $allowed_blocks;
+}
+add_filter('allowed_block_types_all', 'restrict_blocks_by_post_type', 10, 2);
+
+function hide_teaser_grid_block_for_posts() {
+    global $post;
+
+    if (!is_admin() || get_post_type($post) !== 'post') {
+        return;
+    }
+
+    ?>
+    <script type="text/javascript">
+        wp.domReady(() => {
+            wp.blocks.unregisterBlockType('fau-elemental/fau-teaser-grid');
+        });
+    </script>
+    <?php
+}
+add_action('admin_footer', 'hide_teaser_grid_block_for_posts');
+
+
+/**
+ * Sanitize faculty input
+ */
+function faue_sanitize_faculty($input) {
+    $valid_faculties = array('phil', 'nat', 'med', 'rw', 'tf');
+
+    if (!in_array($input, $valid_faculties)) {
+        return 'phil';
+    }
+
+    return $input;
+}
+
+/**
+ * Sanitize breadcrumb mode input
+ */
+function faue_sanitize_breadcrumb_mode($input) {
+    return (bool) $input;
 }
