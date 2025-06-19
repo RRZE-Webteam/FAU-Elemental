@@ -14,7 +14,6 @@ import {
 	ButtonGroup,
 } from '@wordpress/components';
 import { useState } from '@wordpress/element';
-import './editor.scss';
 
 export default function Edit( { attributes, setAttributes } ) {
 	const { facts } = attributes;
