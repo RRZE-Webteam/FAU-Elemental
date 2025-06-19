@@ -770,6 +770,4 @@
 	$( document ).ready( function () {
 		new MenuModal();
 	} );
-
-
 } )( jQuery );
