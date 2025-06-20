@@ -57,7 +57,11 @@ export default function FactsGridContent( {
 									'fau-elemental'
 								) }
 								preserveWhiteSpace={ true }
-								allowedFormats={ [ 'core/bold', 'core/italic', 'core/link' ] }
+								allowedFormats={ [
+									'core/bold',
+									'core/italic',
+									'core/link',
+								] }
 								multiline={ false }
 							/>
 							{ fact.link && fact.showLink && (

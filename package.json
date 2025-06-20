@@ -23,6 +23,7 @@
 		"@wordpress/create-block": "^4.59.0",
 		"@wordpress/env": "^10.15.0",
 		"@wordpress/i18n": "^4.54.0",
+		"@wordpress/icons": "^10.15.0",
 		"@wordpress/scripts": "^30.9.0",
 		"@wordpress/stylelint-config": "^23.17.0",
 		"copy-webpack-plugin": "^13.0.0",
