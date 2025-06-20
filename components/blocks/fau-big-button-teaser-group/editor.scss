@@ -62,6 +62,183 @@
 	}
 }
 
+// Individual button faculty colors for faculty showcase mode in editor
+.block-editor .fau-big-button-teaser-group.fau-big-button-teaser-group--faculty-showcase {
+
+	.fau-big-button-teaser-group__buttons {
+
+		// Individual button faculty colors
+		@each $faculty, $color in (
+			"phil": var(--FAU-Col-Phil-Gelb-100),
+			"nat": var(--FAU-Col-Nat-Gruen-100),
+			"med": var(--FAU-Col-Med-Blau-100),
+			"rw": var(--FAU-Col-RW-Rot-100),
+			"tf": var(--FAU-Col-TF-Metallic-100)
+		) {
+			.fau-big-button-teaser-group__button--#{$faculty} a {
+				background-color: $color !important;
+
+				h3 {
+					color: var(--FAU-Col-FAU-Blau-100) !important;
+				}
+
+				p {
+					color: var(--FAU-Col-FAU-Schwarz-90) !important;
+				}
+
+				.arrow-link {
+					background-color: var(--FAU-Col-FAU-Weiss-100) !important;
+
+					&::before {
+						background-image: var(--icon-arrow-fau-blau) !important;
+					}
+				}
+			}
+		}
+
+		// Special handling for RW faculty buttons
+		.fau-big-button-teaser-group__button--rw a {
+
+			h3,
+			p {
+				color: var(--FAU-Col-FAU-Weiss-100) !important;
+			}
+
+			.arrow-link {
+				background-color: var(--FAU-Col-FAU-Blau-100) !important;
+				right: 0;
+
+				&::before {
+					background-image: var(--icon-arrow-weiss) !important;
+				}
+			}
+		}
+	}
+
+	// Outline variation for individual buttons in editor
+	&.fau-big-button-teaser-group--outline {
+
+		.fau-big-button-teaser-group__buttons {
+
+			@each $faculty, $color in (
+				"phil": var(--FAU-Col-Phil-Gelb-100),
+				"nat": var(--FAU-Col-Nat-Gruen-100),
+				"med": var(--FAU-Col-Med-Blau-100),
+				"rw": var(--FAU-Col-RW-Rot-100),
+				"tf": var(--FAU-Col-TF-Metallic-100)
+			) {
+				.fau-big-button-teaser-group__button--#{$faculty} a {
+					background-color: var(--FAU-Col-FAU-Weiss-100) !important;
+					border: 1px solid $color !important;
+
+					h3 {
+						color: var(--FAU-Col-FAU-Blau-100) !important;
+					}
+
+					p {
+						color: var(--FAU-Col-FAU-Schwarz-90) !important;
+					}
+
+					.arrow-link {
+						background-color: $color !important;
+
+						&::before {
+							background-image: var(--icon-arrow-fau-blau) !important;
+						}
+					}
+				}
+			}
+
+			// Special handling for RW faculty outline buttons
+			.fau-big-button-teaser-group__button--rw a {
+
+				.arrow-link {
+					right: -1px;
+
+					&::before {
+						background-image: var(--icon-arrow-weiss) !important;
+					}
+				}
+			}
+		}
+	}
+
+	// Dark mode for individual faculty buttons in editor
+	&.is-style-dark {
+
+		.fau-big-button-teaser-group__buttons {
+
+			@each $faculty, $color in (
+				"phil": var(--FAU-Col-Phil-Gelb-100),
+				"nat": var(--FAU-Col-Nat-Gruen-100),
+				"med": var(--FAU-Col-Med-Blau-100),
+				"rw": var(--FAU-Col-RW-Rot-100),
+				"tf": var(--FAU-Col-TF-Metallic-100)
+			) {
+				.fau-big-button-teaser-group__button--#{$faculty} a {
+					border: 1px solid var(--FAU-Col-FAU-Weiss-100) !important;
+
+					h3,
+					p {
+						color: var(--FAU-Col-FAU-Weiss-100) !important;
+					}
+				}
+			}
+		}
+
+		// Outline variation for dark mode in editor
+		&.fau-big-button-teaser-group--outline {
+
+			.fau-big-button-teaser-group__buttons {
+
+				@each $faculty, $color in (
+					"phil": var(--FAU-Col-Phil-Gelb-100),
+					"nat": var(--FAU-Col-Nat-Gruen-100),
+					"med": var(--FAU-Col-Med-Blau-100),
+					"rw": var(--FAU-Col-RW-Rot-100),
+					"tf": var(--FAU-Col-TF-Metallic-100)
+				) {
+					.fau-big-button-teaser-group__button--#{$faculty} a {
+						background-color: $color !important;
+						border: 1px solid var(--FAU-Col-FAU-Weiss-100) !important;
+
+						h3,
+						p {
+							color: var(--FAU-Col-FAU-Weiss-100) !important;
+						}
+
+						.arrow-link {
+							background-color: var(--FAU-Col-FAU-Weiss-100) !important;
+
+							&::before {
+								background-image: var(--icon-arrow-fau-blau) !important;
+							}
+						}
+					}
+				}
+
+				// Special handling for RW faculty in dark mode outline
+				.fau-big-button-teaser-group__button--rw a {
+
+					h3,
+					p {
+						color: var(--FAU-Col-FAU-Weiss-100) !important;
+					}
+
+					.arrow-link {
+						background-color: var(--FAU-Col-FAU-Weiss-100) !important;
+						right: -1px;
+
+						&::before {
+							background-image: var(--icon-arrow-fau-blau) !important;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 // Editor-specific styles for placeholder buttons
 .fau-big-button-teaser-group__button--placeholder {
 	opacity: 0.6;

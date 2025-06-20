@@ -17,14 +17,6 @@
 	"style": "file:./style-index.css",
 	"render": "file:./render.php",
 	"attributes": {
-		"roofLine": {
-			"type": "string",
-			"default": ""
-		},
-		"showRoofLine": {
-			"type": "boolean",
-			"default": false
-		},
 		"headline": {
 			"type": "string",
 			"default": ""
@@ -68,12 +60,39 @@
 		"showAllPages": {
 			"type": "boolean",
 			"default": false
+		},
+		"showFaculties": {
+			"type": "boolean",
+			"default": false
+		},
+		"facultyItems": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"url": {
+						"type": "string"
+					},
+					"facultyColor": {
+						"type": "string",
+						"enum": [ "default", "phil", "rw", "med", "nat", "tf" ]
+					}
+				}
+			}
 		}
 	},
 	"example": {
 		"attributes": {
-			"roofLine": "Featured Services",
-			"showRoofLine": true,
 			"headline": "Discover Our Services",
 			"showHeadline": true,
 			"teaserText": "Explore the various services and resources available to you.",
@@ -83,7 +102,9 @@
 			"variant": "filled",
 			"numberOfButtons": 3,
 			"selectedPages": [],
-			"showAllPages": false
+			"showAllPages": false,
+			"showFaculties": false,
+			"facultyItems": []
 		}
 	}
 }
