@@ -56,6 +56,9 @@ export default function FactsGridContent( {
 									'Enter fact text…',
 									'fau-elemental'
 								) }
+								preserveWhiteSpace={ true }
+								allowedFormats={ [ 'core/bold', 'core/italic', 'core/link' ] }
+								multiline={ false }
 							/>
 							{ fact.link && fact.showLink && (
 								<div className="wp-block-buttons">
@@ -78,7 +81,7 @@ export default function FactsGridContent( {
 				<div className="fau-facts-grid-empty-state">
 					<p>
 						{ __(
-							'No facts added yet. Use the "Add New Fact" button in the sidebar to get started.',
+							'No facts added yet. Use the "+" button in the block toolbar to get started.',
 							'fau-elemental'
 						) }
 					</p>

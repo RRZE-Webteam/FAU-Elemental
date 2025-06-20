@@ -20,7 +20,15 @@
 	"attributes": {
 		"facts": {
 			"type": "array",
-			"default": []
+			"default": [
+				{
+					"text": "",
+					"iconUrl": "",
+					"iconId": null,
+					"link": "",
+					"showLink": false
+				}
+			]
 		}
 	}
 }
