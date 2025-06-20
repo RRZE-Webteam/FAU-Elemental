@@ -41,6 +41,7 @@
 			padding-bottom: var(--Spacing-14x);
 
 			.instance-info p {
+				font-size: 1rem;
 				max-width: 66%;
 			}
 		}
@@ -162,24 +163,25 @@
 
 		.fau-info-toggle {
 			position: relative;
-			background: #04316a;
+			background-color: var(--FAU-Col-FAU-Blau-100);
 			border: 0;
-			padding: 20px 1.5rem;
+			padding: 1.25rem 1.5rem;
+			font-family: var(--font-family-base);
 			color: var(--FAU-Col-FAU-Weiss-100);
 			font-size: 1rem;
 			font-weight: 600;
 			line-height: 1;
 			letter-spacing: var(--letter-spacing-big);
-			margin-right: 56px;
+			margin-right: var(--Spacing-14x);
 			cursor: pointer;
 
 			&::before {
 				content: "";
-				background-color: #fff; // TODO Maybe use a custom property
-				width: 56px;
-				height: 56px;
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+				width: 3.5rem;
+				height: 3.5rem;
 				position: absolute;
-				right: -56px;
+				right: calc(-1 * var(--Spacing-14x));
 				top: 0;
 			}
 
@@ -189,10 +191,10 @@
 				background-repeat: no-repeat;
 				transform: rotate(90deg);
 				position: absolute;
-				right: -32px;
-				top: 22px;
-				width: 8px;
-				height: 14px;
+				right: -2rem;
+				top: 1.375rem;
+				width: 0.5rem;
+				height: 0.875rem;
 				transition: var(--basic-animation);
 			}
 
@@ -200,7 +202,7 @@
 			&:focus-visible {
 
 				&::after {
-					top: 26px;
+					top: 1.625rem;
 				}
 			}
 
@@ -331,11 +333,6 @@
 			flex-basis: unset;
 		}
 	}
-}
-
-@media screen and (max-width: 499px) {
-
-	// No target groups specific rules needed - using shared big button styling
 }
 
 @include respond-to("x-small") {
