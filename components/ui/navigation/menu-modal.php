@@ -271,18 +271,15 @@ class Menu_Modal {
                 <div class="<?php echo esc_attr($modal_class); ?>__header">
                     <?php if ($show_back_button): ?>
                         <button class="<?php echo esc_attr($modal_class); ?>__back-btn" aria-label="<?php esc_attr_e('Back to main menu', 'fau-elemental'); ?>" style="display: none;">
-                            <svg class="<?php echo esc_attr($modal_class); ?>__back-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span class="<?php echo esc_attr($modal_class); ?>__back-text"><?php esc_html_e('Back', 'fau-elemental'); ?></span>
+                            <span class="<?php echo esc_attr($modal_class); ?>__back-icon"></span>
+                            <span class="<?php echo esc_attr($modal_class); ?>__back-text"><?php esc_html_e('Zurück', 'fau-elemental'); ?></span>
                         </button>
                     <?php endif; ?>
                     
                     <?php if ($show_close_button): ?>
                         <button class="<?php echo esc_attr($modal_class); ?>__close-btn" aria-label="<?php esc_attr_e('Close menu', 'fau-elemental'); ?>">
-                            <svg class="<?php echo esc_attr($modal_class); ?>__close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            Schließen
+                            <span class="<?php echo esc_attr($modal_class); ?>__close-icon"></span>
                         </button>
                     <?php endif; ?>
                 </div>
@@ -342,7 +339,7 @@ class Menu_Modal_Walker extends Walker_Nav_Menu {
             
             $output .= '<button class="' . esc_attr($button_classes) . '" aria-expanded="false" aria-label="' . esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $item->title)) . '" data-parent-url="' . esc_attr($item->url) . '" data-parent-title="' . esc_attr($item->title) . '">';
             $output .= '<span class="menu-modal__item-title">' . apply_filters('the_title', $item->title, $item->ID) . '</span>';
-            $output .= '<svg class="menu-modal__submenu-arrow" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 5L12 10L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+            $output .= '<span class="menu-modal__submenu-arrow"></span>';
             $output .= '</button>';
         } else {
             // For items without children, keep normal link

@@ -195,78 +195,168 @@
 	display: none;
 
 	&__container {
-		background: #fff;
+		background: var(--FAU-Col-FAU-Weiss-100);
+		min-width: 540px;
+		padding-top: 60px;
+		box-shadow: 0 0 34px 0 rgba(4, 49, 106, 0.58);
+	}
+
+	&__close-btn {
+		margin-left: auto;
+	}
+
+	&__close-btn,
+	&__back-btn,
+	.menu-meta-nav__modal__close-btn,
+	.menu-meta-nav__modal__back-btn {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		background: none;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		font-family: var(--font-family-base);
+		font-size: 1rem;
+		color: var(--FAU-Col-FAU-Blau-100);
+		font-weight: 600;
+		letter-spacing: var(--letter-spacing-small);
+
+		.menu-website-modal__close-icon,
+		.menu-meta-nav__modal__close-icon {
+			display: inline-block;
+			width: 10px;
+			height: 10px;
+			background-image: var(--icon-close);
+			background-repeat: no-repeat;
+		}
+
+		.menu-website-modal__back-icon,
+		.menu-meta-nav__modal__back-icon {
+			display: inline-block;
+			width: 10px;
+			height: 14px;
+			background-image: var(--icon-chevron-fau-blau);
+			background-repeat: no-repeat;
+			transform: rotate(180deg);
+			margin-bottom: 2px;
+		}
+	}
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		padding: 0 20px;
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	&__menu,
+	.menu-meta-nav__menu {
+		margin-top: 1rem;
+
+		li {
+			border-bottom: 1px solid var(--FAU-Col-FAU-Blau-25);
+
+			a {
+				text-decoration: none;
+				font-size: 1.125rem;
+				font-weight: 700;
+				letter-spacing: var(--letter-spacing-small);
+				padding: 1rem 20px 1rem 20px;
+				width: 100%;
+				display: inline-block;
+
+				&.active {
+					background-color: var(--FAU-Col-FAU-Blau-100);
+					color: var(--FAU-Col-FAU-Weiss-100);
+				}
+			}
+		}
+
+		> li:first-child {
+			border-top: 1px solid var(--FAU-Col-FAU-Blau-25);
+		}
+
+		.sub-menu {
+
+			li {
+
+				&:last-child {
+					border-bottom: none;
+				}
+			}
+		}
+
+		.menu-modal__level-heading {
+			font-size: 1.125rem;
+			font-weight: 700;
+			letter-spacing: var(--letter-spacing-small);
+			background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+			margin: 0;
+			padding: 20px;
+			position: relative;
+		}
+	}
+
+	&__menu--header-primary-menu {
+		margin-bottom: 3.5rem;
+	}
+
+	&__menu--header-menu-links {
+
+		li {
+			border: none;
+
+			a {
+				font-weight: 600;
+			}
+
+			&:first-child {
+				border: none;
+			}
+		}
+	}
+
+	&__submenu-toggle {
+		background: none;
+		border: none;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		padding: 1rem 20px;
+		cursor: pointer;
+
+		> span:first-child {
+			display: inline-block;
+			font-family: var(--font-family-base);
+			font-size: 1.125rem;
+			color: var(--FAU-Col-FAU-Blau-100);
+			font-weight: 700;
+			letter-spacing: var(--letter-spacing-small);
+			width: 100%;
+			text-align: left;
+		}
+
+		> span:last-child {
+			display: inline-block;
+			width: 10px;
+			height: 14px;
+			background-image: var(--icon-chevron-fau-blau);
+			background-repeat: no-repeat;
+		}
 	}
 
 	&.is-open {
 		display: flex;
 		position: fixed;
-		top: 0;
+		top: 56px;
 		right: 0;
 		width: auto;
 		height: 100%;
-	}
-
-	// Submenu row button styles
-	&__submenu-row {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		width: 100%;
-		padding: 12px 16px;
-		background: none;
-		border: none;
-		text-align: left;
-		cursor: pointer;
-		font-size: inherit;
-		font-family: inherit;
-		color: inherit;
-		transition: background-color 0.2s ease;
-
-		&:hover,
-		&:focus {
-			background-color: rgba(0, 0, 0, 0.05);
-		}
-	}
-
-	// Item title styles
-	&__item-title {
-		flex: 1;
-	}
-
-	// Submenu arrow styles
-	&__submenu-arrow {
-		flex-shrink: 0;
-		margin-left: 8px;
-	}
-
-	// Level heading styles
-	&__level-heading {
-		padding: 16px 16px 8px 16px;
-		margin: 0 0 8px 0;
-		font-size: 1.2em;
-		font-weight: 700;
-		color: #333;
-		border-bottom: 1px solid #eee;
-	}
-}
-
-// Body modal-open styles
-body.modal-open {
-	overflow: hidden;
-
-	@media (max-width: 768px) {
-		position: fixed;
-		width: 100%;
-	}
-}
-
-// Overview link special styling
-.menu-item-overview a {
-	font-weight: 600;
-	color: #06c;
-
-	&:hover {
-		color: #0052a3;
+		z-index: 999;
 	}
 }
