@@ -375,6 +375,78 @@ class Menu_Modal_Walker extends Walker_Nav_Menu {
     }
 }
 
+/**
+ * Hierarchy Menu Modal Walker - Shows full menu hierarchy expanded
+ * Used for structure menu to display all levels at once
+ */
+class Menu_Modal_Hierarchy_Walker extends Walker_Nav_Menu {
+    public function start_lvl(&$output, $depth = 0, $args = null) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "\n$indent<ul class=\"sub-menu sub-menu--level-$depth\">\n";
+    }
+
+    public function end_lvl(&$output, $depth = 0, $args = null) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "$indent</ul>\n";
+    }
+
+    public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+        $indent = ($depth) ? str_repeat("\t", $depth) : '';
+        
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $classes[] = 'menu-item';
+        $classes[] = 'menu-item-depth-' . $depth;
+        
+        if (in_array('menu-item-has-children', $classes)) {
+            $classes[] = 'has-children';
+            $classes[] = 'menu-item-expanded';
+        }
+
+        // Add current page class
+        $current_url = rtrim($_SERVER['REQUEST_URI'], '/');
+        $item_url = rtrim(parse_url($item->url, PHP_URL_PATH), '/');
+        if ($current_url === $item_url) {
+            $classes[] = 'current-menu-item';
+        }
+
+        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
+        $class_names = $class_names ? ' class="' . esc_attr($class_names) . '"' : '';
+
+        $id = apply_filters('nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args);
+        $id = $id ? ' id="' . esc_attr($id) . '"' : '';
+
+        $output .= $indent . '<li' . $id . $class_names . ' data-menu-url="' . esc_attr($item_url) . '" data-menu-item-id="' . esc_attr($item->ID) . '">';
+
+        // For hierarchy view, create toggle buttons for items with children to enable breadcrumb navigation
+        if (in_array('menu-item-has-children', $classes)) {
+            $button_classes = 'menu-modal__submenu-toggle menu-modal__submenu-row';
+            
+            $output .= '<button class="' . esc_attr($button_classes) . '" aria-expanded="false" aria-label="' . esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $item->title)) . '" data-parent-url="' . esc_attr($item->url) . '" data-parent-title="' . esc_attr($item->title) . '">';
+            $output .= '<span class="menu-modal__item-title">' . apply_filters('the_title', $item->title, $item->ID) . '</span>';
+            $output .= '<span class="menu-modal__submenu-arrow"></span>';
+            $output .= '</button>';
+        } else {
+            // For items without children, use regular links
+            $attributes = ! empty($item->attr_title) ? ' title="'  . esc_attr($item->attr_title) .'"' : '';
+            $attributes .= ! empty($item->target)     ? ' target="' . esc_attr($item->target     ) .'"' : '';
+            $attributes .= ! empty($item->xfn)        ? ' rel="'    . esc_attr($item->xfn        ) .'"' : '';
+            $attributes .= ! empty($item->url)        ? ' href="'   . esc_attr($item->url        ) .'"' : '';
+
+            $item_output = $args->before ?? '';
+            $item_output .= '<a' . $attributes . '>';
+            $item_output .= ($args->link_before ?? '') . apply_filters('the_title', $item->title, $item->ID) . ($args->link_after ?? '');
+            $item_output .= '</a>';
+            $item_output .= $args->after ?? '';
+
+            $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+        }
+    }
+
+    public function end_el(&$output, $item, $depth = 0, $args = null) {
+        $output .= "</li>\n";
+    }
+}
+
 // Initialize the unified component and make it globally accessible
 global $menu_modal;
 $menu_modal = new Menu_Modal(); 

@@ -39,10 +39,10 @@ $menu_modal->register_modal('structure', array(
     'theme_locations' => array('top_header_nav_structure'),
     'use_global_menu' => true,
     'modal_class' => 'menu-meta-nav__modal',
-    'menu_class' => 'menu-meta-nav__menu',
+    'menu_class' => 'menu-meta-nav__menu menu-meta-nav__menu--hierarchy',
     'aria_label' => __('Structure', 'fau-elemental'),
     'depth' => 0,
-    'walker' => 'Menu_Modal_Walker',
+    'walker' => 'Menu_Modal_Hierarchy_Walker',
     'show_back_button' => true,
     'show_close_button' => true,
 ));
