@@ -132,8 +132,8 @@ function fau_elemental_display_logo_title() {
         echo '</span>';
     }
 
-    // Only show text elements for non-cooperation websites
-    if ($website_type !== 'cooperation') {
+    // Only show text elements for non-cooperation websites and non-front pages
+    if ($website_type !== 'cooperation' && !is_front_page()) {
         echo '<span class="text">';
         if ($visible_toptitle) {
             echo '<span class="fau-title"' . ($visible_title ? ' aria-hidden="true"' : ' id="website-title"') . '>' . esc_html($visible_toptitle) . '</span> ';

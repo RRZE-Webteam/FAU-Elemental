@@ -6,6 +6,11 @@
 			background-color: var(--FAU-Col-FAU-Dunkelblau-100);
 			color: var(--FAU-Col-FAU-Weiss-100);
 			padding: 0.5rem 0;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			max-width: var(--wide-max-width);
+			margin: 0 auto;
 
 			&__container {
 				display: flex;
@@ -35,6 +40,11 @@
 				gap: 1rem;
 			}
 
+			.fau-nav-modals {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+			}
 
 			&__button {
 				background: none;

@@ -203,15 +203,15 @@ class Menu_Modal {
     /**
      * Render menu content for a specific modal
      *
-     * @param string $modal_id The modal ID
      * @param array $config The modal configuration
      */
-    private function render_menu_content($modal_id, $config) {
+    private function render_menu_content($config) {
         $theme_locations = $config['theme_locations'];
         $use_global_menu = $config['use_global_menu'];
         $menu_class = $config['menu_class'];
         $depth = $config['depth'];
         $walker_class = $config['walker'];
+        $modal_class = $config['modal_class'];
 
         $menus_rendered = false;
 
@@ -247,10 +247,33 @@ class Menu_Modal {
             }
         }
 
+        // Add language switcher for menu-website modal
+        if ($modal_class === 'menu-website-modal') {
+            $this->render_language_switcher();
+        }
+
         // If no menus were rendered, show a message (optional)
         if (!$menus_rendered) {
             echo '<p class="no-menu-message">' . esc_html__('No menu items found.', 'fau-elemental') . '</p>';
         }
+    }
+
+    /**
+     * Render language switcher for menu-website modal
+     */
+    private function render_language_switcher() {
+        ?>
+        <div class="menu-website-modal__language-switcher">
+            <button class="menu-website-modal__language-button" aria-label="Language" aria-expanded="false">
+                DE
+                <span class="menu-website-modal__language-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 10L12 15L17 10H7Z" fill="currentColor"/>
+                    </svg>
+                </span>
+            </button>
+        </div>
+        <?php
     }
 
     /**
@@ -284,7 +307,7 @@ class Menu_Modal {
                     <?php endif; ?>
                 </div>
                 <div class="<?php echo esc_attr($modal_class); ?>__content">
-                    <?php $this->render_menu_content($modal_id, $config); ?>
+                    <?php $this->render_menu_content($config); ?>
                 </div>
             </div>
         </div>
