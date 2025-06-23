@@ -228,6 +228,16 @@
 			display: none;
 		}
 
+		// Social media links focus styling for accessibility
+		.footer-social .social-links a {
+
+			&:focus-visible {
+				outline: 2px solid var(--FAU-Col-FAU-Weiss-100);
+				outline-offset: 2px;
+				border-radius: 2px;
+			}
+		}
+
 		// adapted visuals for claim only for instance (faculty)
 		#fau-info-section {
 

@@ -8,7 +8,7 @@
 
 // Ensure the shared rendering function is available
 if (!function_exists('render_big_button_teaser_group_html')) {
-    get_template_part('components/blocks/fau-big-button-teaser-group/render');
+    require_once get_theme_file_path('components/blocks/fau-big-button-teaser-group/render.php');
 }
 
 /**
