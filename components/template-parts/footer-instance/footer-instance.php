@@ -73,40 +73,43 @@
                                 <br><?php echo esc_html($country); ?>
                             <?php endif; ?>
 
-                            <?php 
-                            $phone = get_theme_mod('instance_phone', '');
-                            if (!empty($phone)) :
-                                // Sanitize phone number using the format_phone_number function
-                                if (function_exists('fau_elemental_format_phone_number')) {
-                                    $phone = fau_elemental_format_phone_number($phone);
-                                }
-                            ?>
-                                <p>
-                                    <?php esc_html_e('Phone', 'fau-elemental'); ?>:
-                                    <a href="tel:<?php echo esc_attr($phone); ?>">
-                                        <?php echo esc_html($phone); ?>
-                                    </a>
-                                </p>
-                            <?php endif; ?>
-                            <?php 
-                            $email = get_theme_mod('instance_email', '');
-                            if (!empty($email)) : ?>
-                                <p>
-                                    <?php esc_html_e('Mail', 'fau-elemental'); ?>:
-                                    <a href="mailto:<?php echo esc_attr($email); ?>">
-                                        <?php echo esc_html($email); ?>
-                                    </a>
-                                </p>
-                            <?php endif; ?>
-                            <?php 
-                            $directions_link = get_theme_mod('instance_directions_link', '');
-                            if (!empty($directions_link)) : ?>
-                                <p class="directions">
-                                    <a href="<?php echo esc_url($directions_link); ?>" class="directions-link">
-                                        <?php esc_html_e('Directions', 'fau-elemental'); ?>
-                                    </a>
-                                </p>
-                            <?php endif; ?>
+                            <div class="mail-tel-directions-container">
+                                <?php
+                                $phone = get_theme_mod('instance_phone', '');
+                                if (!empty($phone)) :
+                                    // Sanitize phone number using the format_phone_number function
+                                    if (function_exists('fau_elemental_format_phone_number')) {
+                                        $phone = fau_elemental_format_phone_number($phone);
+                                    }
+                                ?>
+                                    <p>
+                                        <?php esc_html_e('Phone', 'fau-elemental'); ?>:
+                                        <a href="tel:<?php echo esc_attr($phone); ?>">
+                                            <?php echo esc_html($phone); ?>
+                                        </a>
+                                    </p>
+                                <?php endif; ?>
+                                <?php 
+                                $email = get_theme_mod('instance_email', '');
+                                if (!empty($email)) : ?>
+                                    <p>
+                                        <?php esc_html_e('Mail', 'fau-elemental'); ?>:
+                                        <a href="mailto:<?php echo esc_attr($email); ?>">
+                                            <?php echo esc_html($email); ?>
+                                        </a>
+                                    </p>
+                                <?php endif; ?>
+                                <?php 
+                                $directions_link = get_theme_mod('instance_directions_link', '');
+                                if (!empty($directions_link)) : ?>
+                                    <p class="directions">
+                                        <a href="<?php echo esc_url($directions_link); ?>" class="directions-link">
+                                            <?php esc_html_e('Directions', 'fau-elemental'); ?>
+                                        </a>
+                                    </p>
+                                <?php endif; ?>
+                            </div>
+
                         </address>
                     <?php endif; ?>
                 </div>
@@ -187,7 +190,6 @@
                 <div class="toggle-container">
                     <button type="button" class="fau-info-toggle" aria-expanded="false" aria-controls="fau-info-section">
                         <?php echo esc_html(get_theme_mod('fau_info_toggle_text', __('Show more', 'fau-elemental'))); ?>
-                        <span class="toggle-icon" aria-hidden="true"></span>
                     </button>
                 </div>
             </div>

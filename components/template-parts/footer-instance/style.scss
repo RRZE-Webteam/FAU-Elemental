@@ -208,13 +208,17 @@
 				display: inline;
 			}
 
-			.toggle-icon {
-				margin-left: 0.5rem;
-			}
-
 			// Rotate chevron when expanded
 			&[aria-expanded="true"]::after {
 				transform: rotate(-90deg);
+			}
+
+			&:hover,
+			&:focus-visible {
+
+				&::after {
+					top: 1.625rem;
+				}
 			}
 		}
 

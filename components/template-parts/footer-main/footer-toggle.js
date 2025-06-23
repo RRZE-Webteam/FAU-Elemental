@@ -22,7 +22,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 		toggleButton.innerHTML =
 			'<span class="toggle-text">' +
 			initialText +
-			'</span> <span class="toggle-icon" aria-hidden="true"></span>';
+			'</span>';
 
 		toggleButton.addEventListener( 'click', function () {
 			fauInfoSection.hidden = ! fauInfoSection.hidden;
