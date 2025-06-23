@@ -310,7 +310,9 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 							fileDetails.title?.rendered ||
 							fileDetails.filename ||
 							fileDetails.source_url?.split( '/' ).pop(),
-						filesize: fileDetails.media_details?.filesize,
+						filesize:
+							fileDetails.media_details?.filesize ||
+							fileDetails.filesize,
 						mime_type: fileDetails.mime_type,
 					},
 				} );
