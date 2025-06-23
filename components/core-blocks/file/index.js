@@ -292,7 +292,11 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 		const fileDetails = useSelect(
 			( select ) => {
 				const { getMedia } = select( 'core' );
-				return attributes.id ? getMedia( attributes.id ) : null;
+				return attributes.id
+					? getMedia( attributes.id )
+					: attributes.fileDetails
+					? attributes.fileDetails
+					: null;
 			},
 			[ attributes.id ]
 		);
