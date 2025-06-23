@@ -16,6 +16,19 @@ $faue_defaults = array(
     'faue_breadcrumb_variant_blue' => true,
 );
 
+// Social Media Platforms Configuration
+$faue_social_platforms = array(
+    'instagram' => 'Instagram',
+    'facebook' => 'Facebook',
+    'xing' => 'Xing',
+    'linkedin' => 'LinkedIn',
+    'x' => 'X',
+    'mastodon' => 'Mastodon',
+    'bluesky' => 'Bluesky',
+    'youtube' => 'YouTube',
+    'tiktok' => 'TikTok'
+);
+
 // Helper function to get default values
 function faue_get_default($key, $subkey = null) {
     global $faue_defaults;
@@ -25,4 +38,10 @@ function faue_get_default($key, $subkey = null) {
     }
     
     return isset($faue_defaults[$key]) ? $faue_defaults[$key] : null;
+}
+
+// Helper function to get social platforms
+function faue_get_social_platforms() {
+    global $faue_social_platforms;
+    return $faue_social_platforms;
 } 

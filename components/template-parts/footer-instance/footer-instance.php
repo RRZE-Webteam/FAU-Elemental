@@ -1,13 +1,13 @@
-<footer class="footer-content footer-content--instance">
+<div class="footer-content footer-content--instance">
     <div class="footer-content--instance-wrapper">
 
         <!-- Row 1: Header and description (one column) -->
-        <header class="footer-instance-header">
+        <section class="footer-instance-header">
             <div class="instance-info">
                 <h2><?php echo esc_html(get_theme_mod('instance_title', get_bloginfo('name'))); ?></h2>
                 <p><?php echo wp_kses_post(get_theme_mod('instance_description', get_bloginfo('description'))); ?></p>
             </div>
-        </header>
+        </section>
 
         <!-- Row 2: Contact information (three columns) -->
         <section class="footer-instance-contact">
@@ -18,8 +18,8 @@
                 <div class="contact-address-and-tel-container">
                     <?php
                     // Check if we should display the address (default to true if not set)
-                    $display_address = get_theme_mod('display_footer_address', true);
-                    if (!isset($display_address)) {
+                    $display_address = get_theme_mod('display_footer_address', null);
+                    if (null === $display_address) {
                         $display_address = get_theme_mod('advanced_footer_display_address', true);
                     }
 
@@ -81,45 +81,43 @@
                             ?>
                                 <br><?php echo esc_html($country); ?>
                             <?php endif; ?>
+
+                            <?php 
+                            $phone = get_theme_mod('instance_phone', '');
+                            if (!empty($phone)) :
+                                // Sanitize phone number using the format_phone_number function
+                                if (function_exists('fau_elemental_format_phone_number')) {
+                                    $phone = fau_elemental_format_phone_number($phone);
+                                }
+                            ?>
+                                <p>
+                                    <?php esc_html_e('Phone', 'fau-elemental'); ?>:
+                                    <a href="tel:<?php echo esc_attr($phone); ?>">
+                                        <?php echo esc_html($phone); ?>
+                                    </a>
+                                </p>
+                            <?php endif; ?>
+                            <?php 
+                            $email = get_theme_mod('instance_email', '');
+                            if (!empty($email)) : ?>
+                                <p>
+                                    <?php esc_html_e('Mail', 'fau-elemental'); ?>:
+                                    <a href="mailto:<?php echo esc_attr($email); ?>">
+                                        <?php echo esc_html($email); ?>
+                                    </a>
+                                </p>
+                            <?php endif; ?>
+                            <?php 
+                            $directions_link = get_theme_mod('instance_directions_link', '');
+                            if (!empty($directions_link)) : ?>
+                                <p class="directions">
+                                    <a href="<?php echo esc_url($directions_link); ?>" class="directions-link">
+                                        <?php esc_html_e('Directions', 'fau-elemental'); ?>
+                                    </a>
+                                </p>
+                            <?php endif; ?>
                         </address>
                     <?php endif; ?>
-
-                    <div class="contact-details">
-                        <?php 
-                        $phone = get_theme_mod('instance_phone', '');
-                        if (!empty($phone)) :
-                            // Sanitize phone number using the format_phone_number function
-                            if (function_exists('fau_elemental_format_phone_number')) {
-                                $phone = fau_elemental_format_phone_number($phone);
-                            }
-                        ?>
-                            <p>
-                                <?php esc_html_e('Phone', 'fau-elemental'); ?>:
-                                <a href="tel:<?php echo esc_attr($phone); ?>">
-                                    <?php echo esc_html($phone); ?>
-                                </a>
-                            </p>
-                        <?php endif; ?>
-                        <?php 
-                        $email = get_theme_mod('instance_email', '');
-                        if (!empty($email)) : ?>
-                            <p>
-                                <?php esc_html_e('Mail', 'fau-elemental'); ?>:
-                                <a href="mailto:<?php echo esc_attr($email); ?>">
-                                    <?php echo esc_html($email); ?>
-                                </a>
-                            </p>
-                        <?php endif; ?>
-                        <?php 
-                        $directions_link = get_theme_mod('instance_directions_link', '');
-                        if (!empty($directions_link)) : ?>
-                            <p class="directions">
-                                <a href="<?php echo esc_url($directions_link); ?>" class="directions-link">
-                                    <?php esc_html_e('Directions', 'fau-elemental'); ?>
-                                </a>
-                            </p>
-                        <?php endif; ?>
-                    </div>
                 </div>
             </div>
 
@@ -154,37 +152,29 @@
 
             <!-- Column 2: Social Media Links -->
             <nav class="footer-social" aria-label="<?php echo esc_attr__('Social Media Links', 'fau-elemental'); ?>">
-                <div class="social-links">
+                <ul class="social-links">
                     <?php
-                    $social_platforms = array(
-                        'instagram' => 'Instagram',
-                        'facebook' => 'Facebook',
-                        'xing' => 'Xing',
-                        'linkedin' => 'LinkedIn',
-                        'x' => 'X',
-                        'mastodon' => 'Mastodon',
-                        'bluesky' => 'Bluesky',
-                        'youtube' => 'YouTube',
-                        'tiktok' => 'TikTok'
-                    );
+                    $social_platforms = faue_get_social_platforms();
 
                     foreach ($social_platforms as $platform => $label) :
                         $url = get_theme_mod("social_{$platform}");
                         if (!empty($url)) : ?>
-                            <a href="<?php echo esc_url($url); ?>" class="<?php echo esc_attr($platform); ?>" aria-label="<?php echo esc_attr($label); ?>" rel="noopener noreferrer">
-                                <span class="sr-only"><?php echo esc_html($label); ?></span>
-                            </a>
+                            <li>
+                                <a href="<?php echo esc_url($url); ?>" class="<?php echo esc_attr($platform); ?>">
+                                    <span class="sr-only"><?php echo esc_html($label); ?></span>
+                                </a>
+                            </li>
                         <?php endif;
                     endforeach; ?>
-                </div>
+                </ul>
             </nav>
         </section>
 
     </div>
-</footer>
+</div>
 
 <!-- Footer Bottom with FAU Info -->
-<footer class="footer-bottom">
+<section class="footer-bottom">
     <div class="footer-bottom-wrapper">
         <?php
         // Check if FAU info section should be hidden for cooperation websites
@@ -198,7 +188,7 @@
                         <?php
                         $logo_url = get_theme_mod('fau_footer_logo', get_theme_file_uri('assets/images/Logo-white.svg'));
                         if ($logo_url) : ?>
-                            <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr__('FAU Logo', 'fau-elemental'); ?>" loading="lazy" decoding="async">
+                            <img src="<?php echo $logo_url; ?>" alt="<?php echo esc_attr__('FAU Logo', 'fau-elemental'); ?>" loading="lazy" decoding="async">
                         <?php endif; ?>
                     </div>
                     <div class="footer-logo-tagline">
@@ -210,7 +200,7 @@
                 </div>
 
                 <div class="toggle-container">
-                    <button class="fau-info-toggle" aria-expanded="false" aria-controls="fau-info-section">
+                    <button type="button" class="fau-info-toggle" aria-expanded="false" aria-controls="fau-info-section">
                         <?php echo esc_html(get_theme_mod('fau_info_toggle_text', __('Show more', 'fau-elemental'))); ?>
                         <span class="toggle-icon" aria-hidden="true"></span>
                     </button>
@@ -265,4 +255,4 @@
             </div>
         </div>
     </div>
-</footer>
+</section>
