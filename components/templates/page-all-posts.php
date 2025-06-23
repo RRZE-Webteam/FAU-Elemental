@@ -30,7 +30,8 @@ get_header(); ?>
 
     <!-- List Filters Block -->
     <?php
-    echo do_blocks('<!-- wp:fau-elemental/fau-list-filters {"enableSearch":true,"searchPlaceholder":"Search posts...","enableFilters":true,"filterFields":[],"showMoreFiltersButton":true,"enableViewSwitcher":true,"availableViews":["cards","table"],"defaultView":"cards","enableSorting":true,"sortOptions":[{"value":"date","label":"Latest First"},{"value":"title","label":"Alphabetical"},{"value":"modified","label":"Recently Updated"}],"defaultSort":"date","showResultsCount":true,"resultsPerPage":12,"gridWidth":"12"} /-->');
+    $filter_block_id = 'fau-list-filters-all-posts-page';
+    echo do_blocks('<!-- wp:fau-elemental/fau-list-filters {"enableSearch":true,"searchPlaceholder":"Search posts...","enableFilters":true,"filterFields":[],"showMoreFiltersButton":true,"enableViewSwitcher":true,"availableViews":["cards","table"],"defaultView":"cards","enableSorting":true,"sortOptions":[{"value":"date","label":"Latest First"},{"value":"title","label":"Alphabetical"},{"value":"modified","label":"Recently Updated"}],"defaultSort":"date","showResultsCount":true,"resultsPerPage":50,"gridWidth":"12","customBlockId":"' . $filter_block_id . '"} /-->');
     ?>
 
     <!-- Spacer -->
@@ -38,7 +39,7 @@ get_header(); ?>
 
     <!-- Teaser Grid Block -->
     <?php
-    echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":12,"selectedCategory":0,"orderBy":"date","order":"DESC","headingLevel":"h3","showLoadMore":true} /-->');
+    echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":-1,"selectedCategory":0,"orderBy":"date","order":"DESC","headingLevel":"h3","showLoadMore":false,"filterBlockId":"' . $filter_block_id . '"} /-->');
     ?>
 
 </main>

@@ -78,6 +78,10 @@
 		"headingLevel": {
 			"type": "string",
 			"default": "h4"
+		},
+		"filterBlockId": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"example": {

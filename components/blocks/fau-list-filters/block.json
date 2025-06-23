@@ -78,6 +78,10 @@
 			"type": "string",
 			"default": "12",
 			"enum": [ "8", "10", "12" ]
+		},
+		"customBlockId": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"example": {

@@ -30,6 +30,13 @@ function initializeFilterBlock( blockElement ) {
 
 	// Find associated teaser grid
 	const associatedGrid = findAssociatedGrid( blockId );
+	
+	// Debug: Check if grid was found
+	if ( associatedGrid ) {
+		console.log( 'DEBUG: Filter initialized with grid:', associatedGrid.className );
+	} else {
+		console.log( 'ERROR: Filter initialized but no grid found!' );
+	}
 
 	// State
 	let currentFilters = {};
@@ -41,9 +48,10 @@ function initializeFilterBlock( blockElement ) {
 	let resultsPerPage =
 		parseInt( blockElement.getAttribute( 'data-results-per-page' ) ) || 15;
 	let filtersExpanded = false;
+	let isInitialized = false;
 
-	// Initialize
-	updateResultsDisplay();
+	// Initialize - Load actual data instead of simulating
+	loadInitialData();
 
 	// Search functionality
 	if ( searchInput ) {
@@ -85,19 +93,142 @@ function initializeFilterBlock( blockElement ) {
 		sortSelect.addEventListener( 'change', handleSortChange );
 	}
 
+	// Load initial data from the server
+	function loadInitialData() {
+		if ( ! associatedGrid ) {
+			// If no associated grid is found, show a default message
+			if ( resultsCountElement ) {
+				resultsCountElement.textContent = 'No content to filter';
+			}
+			return;
+		}
+
+		// First, populate filters based on grid content
+		populateFiltersFromGrid();
+
+		// Then load the filtered data
+		performSearch( true );
+	}
+
+	// Populate filter options based on content in the associated grid
+	function populateFiltersFromGrid() {
+		console.log( 'DEBUG: Populating filters from grid content' );
+		
+		if ( ! associatedGrid ) {
+			return;
+		}
+
+		// Get all existing teaser items in the grid
+		const existingTeaserItems = associatedGrid.querySelectorAll( '.teaser-item' );
+		console.log( 'DEBUG: Found', existingTeaserItems.length, 'items to analyze for filters' );
+
+		// Extract categories, tags, authors, etc. from existing items
+		const availableOptions = {
+			categories: new Set(),
+			tags: new Set(), 
+			authors: new Set(),
+			years: new Set()
+		};
+
+		existingTeaserItems.forEach( ( item ) => {
+			// Extract categories from category spans
+			const categoryElements = item.querySelectorAll( '.category' );
+			categoryElements.forEach( ( catEl ) => {
+				const categoryName = catEl.textContent.trim();
+				if ( categoryName ) {
+					availableOptions.categories.add( categoryName );
+				}
+			} );
+
+			// Extract years from date elements
+			const timeElements = item.querySelectorAll( 'time' );
+			timeElements.forEach( ( timeEl ) => {
+				const datetime = timeEl.getAttribute( 'datetime' );
+				if ( datetime ) {
+					const year = new Date( datetime ).getFullYear();
+					if ( year && !isNaN( year ) ) {
+						availableOptions.years.add( year.toString() );
+					}
+				}
+			} );
+
+			// Extract authors from author elements (if they exist)
+			const authorElements = item.querySelectorAll( '.author, .post-author' );
+			authorElements.forEach( ( authorEl ) => {
+				const authorName = authorEl.textContent.trim();
+				if ( authorName ) {
+					availableOptions.authors.add( authorName );
+				}
+			} );
+		} );
+
+		console.log( 'DEBUG: Available filter options from grid:', {
+			categories: Array.from( availableOptions.categories ),
+			years: Array.from( availableOptions.years ),
+			authors: Array.from( availableOptions.authors )
+		} );
+
+		// Update dynamic filter options
+		updateDynamicFilterOptions( availableOptions );
+	}
+
+	// Update the dynamic filter options based on grid content
+	function updateDynamicFilterOptions( availableOptions ) {
+		// Update the show more filters button data
+		if ( showMoreButton ) {
+			const dynamicFilterData = {
+				categories: {
+					label: 'Categories',
+					options: Array.from( availableOptions.categories ).map( cat => ({
+						value: cat.toLowerCase().replace( /\s+/g, '-' ),
+						label: cat
+					}) )
+				},
+				years: {
+					label: 'Year',
+					options: Array.from( availableOptions.years ).sort( ( a, b ) => b - a ).map( year => ({
+						value: year,
+						label: year
+					}) )
+				}
+			};
+
+			// Only include categories with options
+			const filteredData = {};
+			Object.entries( dynamicFilterData ).forEach( ( [ key, data ] ) => {
+				if ( data.options.length > 0 ) {
+					filteredData[ key ] = data;
+				}
+			} );
+
+			console.log( 'DEBUG: Setting dynamic filter data:', filteredData );
+			showMoreButton.setAttribute( 'data-available-filters', JSON.stringify( filteredData ) );
+		}
+	}
+
 	// Helper function to find associated grid
 	function findAssociatedGrid( filterId ) {
-		// Look for a grid with matching filter-block-id
+		console.log( 'DEBUG: Looking for grid with filter ID:', filterId );
+		
+		// Method 1: Look for a grid with matching filter-block-id
 		const grids = document.querySelectorAll(
 			'.filterable-grid, .fau-teaser-grid'
 		);
+		
+		console.log( 'DEBUG: Found', grids.length, 'grids on page' );
+		
 		for ( let grid of grids ) {
-			if ( grid.getAttribute( 'data-filter-block-id' ) === filterId ) {
+			const gridFilterId = grid.getAttribute( 'data-filter-block-id' );
+			console.log( 'DEBUG: Grid has filter-block-id:', gridFilterId );
+			
+			if ( gridFilterId === filterId ) {
+				console.log( 'DEBUG: Found matching grid with ID:', filterId );
 				return grid;
 			}
 		}
-
-		// Fallback: look for the closest grid after this filter block
+		
+		// Method 2: If no exact match, find the closest grid after this filter block
+		console.log( 'DEBUG: No exact ID match, looking for closest grid...' );
 		let nextElement = blockElement.nextElementSibling;
 		while ( nextElement ) {
 			if (
@@ -107,15 +238,23 @@ function initializeFilterBlock( blockElement ) {
 					'.fau-teaser-grid, .filterable-grid'
 				)
 			) {
-				return (
-					nextElement.querySelector(
-						'.fau-teaser-grid, .filterable-grid'
-					) || nextElement
-				);
+				const foundGrid = nextElement.querySelector(
+					'.fau-teaser-grid, .filterable-grid'
+				) || nextElement;
+				
+				console.log( 'DEBUG: Found closest grid via DOM traversal' );
+				return foundGrid;
 			}
 			nextElement = nextElement.nextElementSibling;
 		}
-
+		
+		// Method 3: If still no grid found, look for any grid on the page
+		if ( grids.length > 0 ) {
+			console.log( 'DEBUG: Using first available grid as fallback' );
+			return grids[0];
+		}
+		
+		console.log( 'ERROR: No grid found at all!' );
 		return null;
 	}
 
@@ -198,50 +337,50 @@ function initializeFilterBlock( blockElement ) {
 					const chip = createFilterChip(
 						filterName,
 						filterData.label,
-						'filter',
+						filterData.type,
 						filterName
 					);
 					filterChipsContainer.appendChild( chip );
 				}
 			);
 
-			// Show/hide clear all button
-			const totalActiveFilters =
-				Object.keys( currentFilters ).length + ( hasSearch ? 1 : 0 );
-			if ( totalActiveFilters > 1 ) {
-				clearAllButton.style.display = 'inline-block';
-			} else {
-				clearAllButton.style.display = 'none';
+			// Show clear all button
+			if ( clearAllButton ) {
+				clearAllButton.style.display = 'block';
 			}
 		} else {
 			activeFiltersContainer.style.display = 'none';
+			if ( clearAllButton ) {
+				clearAllButton.style.display = 'none';
+			}
 		}
 	}
 
 	function createFilterChip( name, value, type, filterKey = null ) {
 		const chip = document.createElement( 'div' );
 		chip.className = 'filter-chip';
-
-		// Clean up the display value (remove count numbers in parentheses)
-		const displayValue = value.replace( /\s*\(\d+\)$/, '' );
+		chip.setAttribute( 'data-type', type );
+		if ( filterKey ) {
+			chip.setAttribute( 'data-filter-key', filterKey );
+		}
 
 		chip.innerHTML = `
-            <span class="chip-content">
-                <span class="chip-name">${ escapeHtml( name ) }:</span>
-                <span class="chip-value">${ escapeHtml( displayValue ) }</span>
-            </span>
-            <button type="button" class="chip-remove" aria-label="Remove ${ escapeHtml(
+			<span class="chip-label">${ escapeHtml( name ) }: ${ escapeHtml(
+			value
+		) }</span>
+			<button type="button" class="chip-remove" aria-label="Remove ${ escapeHtml(
 				name
-			) } filter" title="Remove ${ escapeHtml( name ) } filter">
-                <span class="chip-remove-icon" aria-hidden="true">×</span>
-            </button>
-        `;
+			) } filter">
+				<span aria-hidden="true">×</span>
+			</button>
+		`;
 
+		// Add remove functionality
 		const removeButton = chip.querySelector( '.chip-remove' );
-		removeButton.addEventListener( 'click', () => {
+		removeButton.addEventListener( 'click', function () {
 			if ( type === 'search' ) {
 				clearSearch();
-			} else if ( type === 'filter' && filterKey ) {
+			} else if ( filterKey ) {
 				removeFilter( filterKey );
 			}
 		} );
@@ -250,16 +389,16 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function removeFilter( filterKey ) {
+		// Remove from current filters
 		delete currentFilters[ filterKey ];
 
-		// Reset the corresponding select element
-		const correspondingSelect = Array.from( filterSelects ).find(
-			( select ) =>
-				select.getAttribute( 'data-filter-name' ) === filterKey
+		// Reset corresponding select element
+		const select = blockElement.querySelector(
+			`[data-filter-name="${ filterKey }"]`
 		);
-		if ( correspondingSelect ) {
-			correspondingSelect.value = '';
-			correspondingSelect.classList.remove( 'has-selection' );
+		if ( select ) {
+			select.value = '';
+			select.classList.remove( 'has-selection' );
 		}
 
 		updateFilterChips();
@@ -269,119 +408,96 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function updateFilterLabels() {
+		// Update filter labels to reflect current selections
 		filterSelects.forEach( ( select ) => {
-			const filterName = select.getAttribute( 'data-filter-name' );
-			const hasSelection = currentFilters[ filterName ];
-			const label = select.previousElementSibling;
-
-			if ( label && label.classList.contains( 'filter-label' ) ) {
-				if ( hasSelection ) {
-					const selectedCount = 1; // Could be enhanced to show multiple selections
-					label.textContent = `${ selectedCount } Filter selected`;
-					label.classList.add( 'has-selection' );
-				} else {
-					// Reset to original text
-					const originalText = filterName;
-					label.textContent = originalText;
-					label.classList.remove( 'has-selection' );
-				}
-			}
+			const hasSelection = select.value !== '';
+			select.classList.toggle( 'has-selection', hasSelection );
 		} );
 	}
 
 	function toggleMoreFilters() {
-		const hiddenFilterFields = blockElement.querySelectorAll(
-			'.filter-field.hidden'
-		);
-		const dynamicContainer = blockElement.querySelector(
-			'.dynamic-filters-container'
-		);
+		filtersExpanded = ! filtersExpanded;
+
+		// Toggle hidden filters
+		hiddenFilters.forEach( ( filter ) => {
+			if ( filtersExpanded ) {
+				filter.classList.remove( 'hidden' );
+			} else {
+				filter.classList.add( 'hidden' );
+			}
+		} );
+
+		// Update button text and state
 		const showMoreText = showMoreButton.querySelector( '.show-more-text' );
 		const showLessText = showMoreButton.querySelector( '.show-less-text' );
 
-		filtersExpanded = ! filtersExpanded;
-
 		if ( filtersExpanded ) {
-			// Show hidden configured filters
-			hiddenFilterFields.forEach( ( field ) => {
-				field.classList.remove( 'hidden' );
-				field.classList.add( 'revealed' );
-			} );
-
-			// Show dynamic filter addition interface
-			if ( dynamicContainer ) {
-				dynamicContainer.style.display = 'block';
-				createDynamicFilterInterface();
-			}
-
-			// Update button text
-			showMoreText.style.display = 'none';
-			showLessText.style.display = 'inline';
+			if ( showMoreText ) showMoreText.style.display = 'none';
+			if ( showLessText ) showLessText.style.display = 'inline';
+			showMoreButton.setAttribute( 'aria-expanded', 'true' );
 		} else {
-			// Hide filters
-			hiddenFilterFields.forEach( ( field ) => {
-				field.classList.add( 'hidden' );
-				field.classList.remove( 'revealed' );
-			} );
+			if ( showMoreText ) showMoreText.style.display = 'inline';
+			if ( showLessText ) showLessText.style.display = 'none';
+			showMoreButton.setAttribute( 'aria-expanded', 'false' );
+		}
 
-			// Hide dynamic filters
+		// Handle dynamic filters
+		if ( filtersExpanded ) {
+			createDynamicFilterInterface();
+		} else {
+			// Hide dynamic filters container
+			const dynamicContainer = blockElement.querySelector(
+				'.dynamic-filters-container'
+			);
 			if ( dynamicContainer ) {
 				dynamicContainer.style.display = 'none';
 			}
-
-			// Update button text
-			showMoreText.style.display = 'inline';
-			showLessText.style.display = 'none';
 		}
-
-		// Update button aria-expanded
-		showMoreButton.setAttribute(
-			'aria-expanded',
-			filtersExpanded.toString()
-		);
 	}
 
 	function createDynamicFilterInterface() {
 		const dynamicContainer = blockElement.querySelector(
 			'.dynamic-filters-container'
 		);
-		const availableFiltersData = showMoreButton
-			? showMoreButton.getAttribute( 'data-available-filters' )
-			: null;
+		if ( ! dynamicContainer ) return;
 
-		if ( ! dynamicContainer || ! availableFiltersData ) return;
+		dynamicContainer.style.display = 'block';
+
+		// Get available filters from the show more button
+		const availableFiltersData = showMoreButton.getAttribute(
+			'data-available-filters'
+		);
+		let availableFilters = {};
+
+		try {
+			availableFilters = JSON.parse( availableFiltersData );
+		} catch ( e ) {
+			console.error( 'Error parsing available filters:', e );
+			return;
+		}
 
 		// Clear existing content
 		dynamicContainer.innerHTML = '';
 
-		try {
-			const availableFilters = JSON.parse( availableFiltersData );
+		// Create container for available filter buttons
+		const availableFiltersContainer = document.createElement( 'div' );
+		availableFiltersContainer.className = 'available-filters';
+		availableFiltersContainer.innerHTML =
+			'<h4>Add filters:</h4><div class="filter-buttons-container"></div>';
 
-			// Create header for dynamic filters section
-			const dynamicHeader = document.createElement( 'div' );
-			dynamicHeader.className = 'dynamic-filters-header';
-			dynamicHeader.innerHTML = '<h4>Zusätzliche Filter</h4>';
-			dynamicContainer.appendChild( dynamicHeader );
+		// Create container for added filters
+		const addedFiltersContainer = document.createElement( 'div' );
+		addedFiltersContainer.className = 'added-filters';
 
-			// Create container for available filter buttons
-			const availableFiltersContainer = document.createElement( 'div' );
-			availableFiltersContainer.className = 'available-filters-container';
-			dynamicContainer.appendChild( availableFiltersContainer );
+		dynamicContainer.appendChild( availableFiltersContainer );
+		dynamicContainer.appendChild( addedFiltersContainer );
 
-			// Container for added dynamic filters
-			const addedFiltersContainer = document.createElement( 'div' );
-			addedFiltersContainer.className = 'added-dynamic-filters';
-			dynamicContainer.appendChild( addedFiltersContainer );
-
-			// Create buttons for each available filter type
-			updateAvailableFilterButtons(
-				availableFilters,
-				availableFiltersContainer,
-				addedFiltersContainer
-			);
-		} catch ( error ) {
-			console.error( 'Error parsing available filters:', error );
-		}
+		// Update available filter buttons
+		updateAvailableFilterButtons(
+			availableFilters,
+			availableFiltersContainer,
+			addedFiltersContainer
+		);
 	}
 
 	function updateAvailableFilterButtons(
@@ -389,226 +505,194 @@ function initializeFilterBlock( blockElement ) {
 		availableFiltersContainer,
 		addedFiltersContainer
 	) {
+		const buttonsContainer = availableFiltersContainer.querySelector(
+			'.filter-buttons-container'
+		);
+		if ( ! buttonsContainer ) return;
+
 		// Clear existing buttons
-		availableFiltersContainer.innerHTML = '';
+		buttonsContainer.innerHTML = '';
 
-		// Get currently added filter types
-		const addedFilterTypes = Array.from(
-			addedFiltersContainer.querySelectorAll( '.filter-field--dynamic' )
-		).map( ( field ) => field.getAttribute( 'data-filter-key' ) );
+		// Get currently configured filter types
+		const configuredFilterTypes = Array.from( filterSelects ).map(
+			( select ) => select.getAttribute( 'data-filter-type' )
+		);
 
-		// Get configured filter types
-		const configuredFilterTypes = Array.from( filterSelects )
-			.map( ( select ) => select.getAttribute( 'data-filter-type' ) )
-			.filter( ( type ) => type !== 'configured' );
+		// Get currently added dynamic filter types
+		const addedDynamicTypes = Array.from(
+			addedFiltersContainer.querySelectorAll( '.filter-select' )
+		).map( ( select ) => select.getAttribute( 'data-filter-type' ) );
 
-		// Create buttons for available filters
+		// Create buttons for available filters that aren't already used
 		Object.entries( availableFilters ).forEach(
 			( [ filterKey, filterData ] ) => {
-				// Skip if filter is already configured or already added
 				if (
-					configuredFilterTypes.includes( filterKey ) ||
-					addedFilterTypes.includes( filterKey )
+					! configuredFilterTypes.includes( filterKey ) &&
+					! addedDynamicTypes.includes( filterKey )
 				) {
-					return;
+					const filterButton = document.createElement( 'button' );
+					filterButton.type = 'button';
+					filterButton.className = 'filter-add-button';
+					filterButton.textContent = filterData.label;
+					filterButton.setAttribute( 'data-filter-key', filterKey );
+
+					filterButton.addEventListener( 'click', function () {
+						addDynamicFilter( filterKey, filterData );
+						updateAvailableFilterButtons(
+							availableFilters,
+							availableFiltersContainer,
+							addedFiltersContainer
+						);
+					} );
+
+					buttonsContainer.appendChild( filterButton );
 				}
-
-				// Skip if no options available
-				if ( ! filterData.options || filterData.options.length === 0 ) {
-					return;
-				}
-
-				// Create add filter button
-				const addButton = document.createElement( 'button' );
-				addButton.type = 'button';
-				addButton.className = 'add-filter-button';
-				addButton.innerHTML = `
-				<span class="add-filter-icon">+</span>
-				<span class="add-filter-text">${ filterData.label }</span>
-				<span class="add-filter-count">(${ filterData.options.length })</span>
-			`;
-				addButton.title = `${ filterData.label } Filter hinzufügen`;
-
-				// Add click handler
-				addButton.addEventListener( 'click', function () {
-					addDynamicFilter( filterKey, filterData );
-					// Update available buttons after adding a filter
-					updateAvailableFilterButtons(
-						availableFilters,
-						availableFiltersContainer,
-						addedFiltersContainer
-					);
-				} );
-
-				availableFiltersContainer.appendChild( addButton );
 			}
 		);
 
-		// Show message if no more filters available
-		if ( availableFiltersContainer.children.length === 0 ) {
-			const noFiltersMessage = document.createElement( 'p' );
-			noFiltersMessage.className = 'no-more-filters-message';
-			noFiltersMessage.textContent =
-				'Alle verfügbaren Filter wurden bereits hinzugefügt.';
-			availableFiltersContainer.appendChild( noFiltersMessage );
+		// Hide the section if no filters are available
+		if ( buttonsContainer.children.length === 0 ) {
+			availableFiltersContainer.style.display = 'none';
+		} else {
+			availableFiltersContainer.style.display = 'block';
 		}
 	}
 
 	function addDynamicFilter( filterKey, filterData ) {
 		const addedFiltersContainer = blockElement.querySelector(
-			'.added-dynamic-filters'
+			'.added-filters'
 		);
 		if ( ! addedFiltersContainer ) return;
 
-		const filterId = blockId + '-dynamic-filter-' + filterKey;
-
-		// Check if filter already exists
-		if ( blockElement.querySelector( `#${ filterId }` ) ) {
-			return; // Filter already added
-		}
-
-		// Create filter field
 		const filterField = document.createElement( 'div' );
 		filterField.className = 'filter-field filter-field--dynamic';
 		filterField.setAttribute( 'data-filter-key', filterKey );
 
-		// Create label
-		const label = document.createElement( 'label' );
-		label.setAttribute( 'for', filterId );
-		label.className = 'filter-label';
-		label.textContent = filterData.label;
+		const filterId = blockId + '-dynamic-filter-' + filterKey;
 
-		// Create select element
-		const select = document.createElement( 'select' );
-		select.id = filterId;
-		select.className = 'filter-select';
-		select.setAttribute( 'data-filter-name', filterData.label );
-		select.setAttribute( 'data-filter-type', filterKey );
+		let filterHTML = `
+			<label for="${ filterId }" class="filter-label">${ escapeHtml(
+			filterData.label
+		) }</label>
+			<div class="filter-control-wrapper">
+				<select id="${ filterId }" class="filter-select" data-filter-name="${ escapeHtml(
+			filterData.label
+		) }" data-filter-type="${ filterKey }">
+					<option value="">All ${ escapeHtml(
+						filterData.label
+					) }</option>
+		`;
 
-		// Add default option
-		const defaultOption = document.createElement( 'option' );
-		defaultOption.value = '';
-		defaultOption.textContent = `Alle ${ filterData.label }`;
-		select.appendChild( defaultOption );
-
-		// Add filter options
 		filterData.options.forEach( ( option ) => {
-			const optionElement = document.createElement( 'option' );
-			optionElement.value = option.value;
-			const countDisplay = option.count ? ` (${ option.count })` : '';
-			optionElement.textContent = option.label + countDisplay;
-			select.appendChild( optionElement );
+			filterHTML += `<option value="${ escapeHtml(
+				option.value
+			) }">${ escapeHtml( option.label ) }</option>`;
 		} );
 
-		// Create remove button
-		const removeButton = document.createElement( 'button' );
-		removeButton.type = 'button';
-		removeButton.className = 'remove-dynamic-filter';
-		removeButton.innerHTML = '×';
-		removeButton.title = `${ filterData.label } entfernen`;
-		removeButton.setAttribute(
-			'aria-label',
-			`Remove ${ filterData.label } filter`
-		);
+		filterHTML += `
+				</select>
+				<button type="button" class="filter-remove-button" aria-label="Remove ${ escapeHtml(
+					filterData.label
+				) } filter">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+		`;
+
+		filterField.innerHTML = filterHTML;
 
 		// Add event listeners
+		const select = filterField.querySelector( '.filter-select' );
+		const removeButton = filterField.querySelector(
+			'.filter-remove-button'
+		);
+
 		select.addEventListener( 'change', handleFilterChange );
 		removeButton.addEventListener( 'click', function () {
 			removeDynamicFilter( filterField, filterKey );
 		} );
 
-		// Assemble filter field
-		filterField.appendChild( label );
-		filterField.appendChild( select );
-		filterField.appendChild( removeButton );
 		addedFiltersContainer.appendChild( filterField );
 
-		// Update filterSelects NodeList
+		// Update the filter selects list
 		updateFilterSelectsList();
 	}
 
 	function removeDynamicFilter( filterField, filterKey ) {
-		const filterName =
-			filterField.querySelector( '.filter-label' ).textContent;
-
 		// Remove from current filters if it was selected
+		const filterName = filterField
+			.querySelector( '.filter-select' )
+			.getAttribute( 'data-filter-name' );
 		if ( currentFilters[ filterName ] ) {
 			delete currentFilters[ filterName ];
 			updateFilterChips();
+			updateFilterLabels();
+			currentPage = 1;
 			performSearch();
 		}
 
 		// Remove the filter field
 		filterField.remove();
 
-		// Update filterSelects NodeList
+		// Update the filter selects list
 		updateFilterSelectsList();
 
-		// Refresh available filter buttons to show the removed filter as available again
-		const dynamicContainer = blockElement.querySelector(
-			'.dynamic-filters-container'
+		// Update available filter buttons
+		const availableFiltersContainer = blockElement.querySelector(
+			'.available-filters'
 		);
-		if ( dynamicContainer ) {
-			const availableFiltersContainer = dynamicContainer.querySelector(
-				'.available-filters-container'
-			);
-			const addedFiltersContainer = dynamicContainer.querySelector(
-				'.added-dynamic-filters'
-			);
-			const availableFiltersData = showMoreButton
-				? showMoreButton.getAttribute( 'data-available-filters' )
-				: null;
+		const addedFiltersContainer = blockElement.querySelector(
+			'.added-filters'
+		);
 
-			if (
-				availableFiltersContainer &&
-				addedFiltersContainer &&
-				availableFiltersData
-			) {
-				try {
-					const availableFilters = JSON.parse( availableFiltersData );
-					updateAvailableFilterButtons(
-						availableFilters,
-						availableFiltersContainer,
-						addedFiltersContainer
-					);
-				} catch ( error ) {
-					console.error(
-						'Error refreshing available filters:',
-						error
-					);
-				}
+		if ( availableFiltersContainer && addedFiltersContainer ) {
+			const availableFiltersData = showMoreButton.getAttribute(
+				'data-available-filters'
+			);
+			let availableFilters = {};
+
+			try {
+				availableFilters = JSON.parse( availableFiltersData );
+				updateAvailableFilterButtons(
+					availableFilters,
+					availableFiltersContainer,
+					addedFiltersContainer
+				);
+			} catch ( e ) {
+				console.error( 'Error parsing available filters:', e );
 			}
 		}
 	}
 
 	function updateFilterSelectsList() {
-		// Update the filterSelects NodeList to include newly added dynamic filters
-		const newFilterSelects =
-			blockElement.querySelectorAll( '.filter-select' );
-
-		// Remove old event listeners and add new ones
-		newFilterSelects.forEach( ( select ) => {
-			// Check if listener already exists by checking for a custom property
-			if ( ! select.hasFilterListener ) {
-				select.addEventListener( 'change', handleFilterChange );
-				select.hasFilterListener = true;
-			}
-		} );
+		// Update the filterSelects NodeList to include new dynamic filters
+		const updatedFilterSelects = blockElement.querySelectorAll(
+			'.filter-select'
+		);
+		// Note: We can't reassign the NodeList, but we can work with the updated one
+		// This is mainly for reference - the event listeners are already attached individually
 	}
 
 	function clearAllFilters() {
+		console.log( 'DEBUG: clearAllFilters() called' );
+		
 		// Clear all filter selections
 		currentFilters = {};
 		currentSearch = '';
 
 		// Reset all select elements
-		filterSelects.forEach( ( select ) => {
+		const allSelects = blockElement.querySelectorAll( '.filter-select' );
+		console.log( 'DEBUG: Found', allSelects.length, 'filter selects to reset' );
+		
+		allSelects.forEach( ( select ) => {
+			console.log( 'DEBUG: Resetting select with value:', select.value, 'to empty' );
 			select.value = '';
 			select.classList.remove( 'has-selection' );
 		} );
 
 		// Reset search input
 		if ( searchInput ) {
+			console.log( 'DEBUG: Resetting search input from:', searchInput.value, 'to empty' );
 			searchInput.value = '';
 			searchInput.classList.remove( 'has-value' );
 			if ( searchClear ) {
@@ -616,9 +700,11 @@ function initializeFilterBlock( blockElement ) {
 			}
 		}
 
+		console.log( 'DEBUG: About to update filter chips and perform search' );
 		updateFilterChips();
 		updateFilterLabels();
 		currentPage = 1;
+		// This will reload the original unfiltered data
 		performSearch();
 	}
 
@@ -678,235 +764,262 @@ function initializeFilterBlock( blockElement ) {
 		performSearch();
 	}
 
-	function performSearch() {
-		if ( ! associatedGrid ) {
-			// No associated grid found, just update results display
-			updateResultsDisplay();
+	function performSearch( isInitial = false ) {
+		if ( !associatedGrid ) {
+			console.log( 'DEBUG: No grid available for search' );
 			return;
 		}
 
-		showLoadingState();
+		console.log( 'DEBUG: Starting search, isInitial:', isInitial );
 
-		// Get teaser grid configuration
-		const gridVariant =
-			associatedGrid.getAttribute( 'data-variant' ) || 'post';
-		const gridCategory =
-			associatedGrid.getAttribute( 'data-category' ) || '0';
+		// Read grid attributes to respect its settings
+		const gridPostsPerPage = associatedGrid.getAttribute( 'data-posts-per-page' ) || '15';
+		const gridVariant = associatedGrid.getAttribute( 'data-variant' ) || 'post';
+		const gridCategory = associatedGrid.getAttribute( 'data-category' ) || '0';
 
-		// Prepare search parameters
-		const searchParams = {
+		console.log( 'DEBUG: Grid settings - postsPerPage:', gridPostsPerPage, 'variant:', gridVariant, 'category:', gridCategory );
+
+		// Get list of post IDs currently in the grid to limit filtering scope
+		const existingTeaserItems = associatedGrid.querySelectorAll( '.teaser-item' );
+		const gridPostIds = [];
+		
+		existingTeaserItems.forEach( ( item ) => {
+			let postId = item.getAttribute( 'data-post-id' );
+			
+			// If no data-post-id, try to extract from teaser-title-{ID} pattern
+			if ( !postId ) {
+				const titleElement = item.querySelector( '[id^="teaser-title-"]' );
+				if ( titleElement ) {
+					postId = titleElement.id.replace( 'teaser-title-', '' );
+				}
+			}
+			
+			if ( postId ) {
+				gridPostIds.push( postId );
+			}
+		} );
+
+		console.log( 'DEBUG: Grid contains post IDs:', gridPostIds );
+
+		// Collect current filter values
+		const searchValue = searchInput ? searchInput.value.trim() : '';
+		const sortValue = sortSelect ? sortSelect.value : 'date';
+		const activeFilters = {};
+
+		// Collect configured filter values
+		const configuredFilters = blockElement.querySelectorAll(
+			'.filter-field--configured .filter-select'
+		);
+		configuredFilters.forEach( ( select ) => {
+			if ( select.value ) {
+				const filterName = select.getAttribute( 'data-filter-name' );
+				activeFilters[filterName] = {
+					type: 'configured',
+					value: select.value,
+				};
+			}
+		} );
+
+		// Collect dynamic filter values
+		const dynamicFilters = blockElement.querySelectorAll(
+			'.dynamic-filters-container .filter-select'
+		);
+		dynamicFilters.forEach( ( select ) => {
+			if ( select.value ) {
+				const filterType = select.getAttribute( 'data-filter-type' );
+				const filterName = select.getAttribute( 'data-filter-name' );
+				activeFilters[filterName] = {
+					type: filterType,
+					value: select.value,
+				};
+			}
+		} );
+
+		console.log( 'DEBUG: Making AJAX request for', gridVariant, gridVariant + 's' );
+		console.log( 'DEBUG: Request params - search:', searchValue, 'filters:', activeFilters, 'sort:', sortValue );
+
+		// Show loading state
+		updateLoadingState( true );
+
+		// Prepare AJAX data using grid attributes and limiting to grid post IDs
+		const ajaxData = {
 			action: 'fau_filter_teaser_grid',
-			nonce: fauListFilters?.nonce || '',
-			search: currentSearch,
-			sort: currentSort,
-			page: currentPage,
-			per_page: resultsPerPage,
-			post_type: gridVariant,
-			category: parseInt( gridCategory ),
+			nonce: fauListFilters.nonce,
+			search: searchValue,
+			filters: JSON.stringify(activeFilters), // Convert to JSON string
+			sort: sortValue,
+			page: 1,
+			per_page: parseInt( gridPostsPerPage ), // Use grid's posts per page setting
+			post_type: gridVariant, // Use grid's variant (post type)
+			category: parseInt( gridCategory ), // Use grid's category setting
+			grid_post_ids: JSON.stringify(gridPostIds), // Convert to JSON string
 		};
 
-		// Add filters - need to serialize them properly for PHP
-		Object.entries( currentFilters ).forEach(
-			( [ filterName, filterData ], index ) => {
-				searchParams[ `filters[${ filterName }][value]` ] =
-					filterData.value;
-				searchParams[ `filters[${ filterName }][label]` ] =
-					filterData.label;
-				searchParams[ `filters[${ filterName }][type]` ] =
-					filterData.type;
-			}
-		);
-
-		// Debug logging - show what we're sending
-		console.log( 'AJAX Request Parameters:' );
-		console.log( '- Search:', currentSearch );
-		console.log( '- Filters:', currentFilters );
-		console.log( '- Filters JSON:', JSON.stringify( currentFilters ) );
-		console.log( '- Sort:', currentSort );
-		console.log( '- Page:', currentPage );
-		console.log( '- Per Page:', resultsPerPage );
-		console.log( '- Post Type:', gridVariant );
-		console.log( '- Category:', parseInt( gridCategory ) );
-		console.log( 'Full searchParams object:', searchParams );
-
-		// Also log the serialized body to see exactly what's being sent
-		const serializedBody = new URLSearchParams( searchParams ).toString();
-		console.log( 'Serialized request body:', serializedBody );
+		console.log( 'DEBUG: AJAX data being sent:', ajaxData );
 
 		// Make AJAX request
-		fetch( fauListFilters?.ajaxUrl || '/wp-admin/admin-ajax.php', {
+		fetch( fauListFilters.ajaxUrl, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			body: new URLSearchParams( searchParams ).toString(),
+			body: new URLSearchParams( ajaxData ),
 		} )
 			.then( ( response ) => response.json() )
 			.then( ( data ) => {
-				console.log( 'Filter response:', data ); // Debug log
-				console.log( 'Posts array:', data.posts ); // Debug posts specifically
-				console.log(
-					'Posts length:',
-					data.posts ? data.posts.length : 'undefined'
-				); // Debug posts length
-				console.log( 'Debug args from server:', data.debug_args ); // Show server query args
-				if ( data.success ) {
-					updateGridContent( data );
+				console.log( 'DEBUG: Received', data.posts ? data.posts.length : 0, 'posts from server' );
+				updateLoadingState( false );
+
+				if ( data.success && data.posts ) {
+					updateGrid( data.posts );
+					updateResultsCount( data.total || data.posts.length );
+					isInitialized = true;
 				} else {
-					console.error( 'Filter request failed:', data );
-					// Fallback to simulation if AJAX fails
-					const simulatedResults = simulateResults();
-					updateGridContent( simulatedResults );
+					console.error( 'Filter error:', data );
+					showError();
 				}
-				hideLoadingState();
 			} )
 			.catch( ( error ) => {
-				console.error( 'Filter request error:', error );
-				// Fallback to simulation on error
-				const simulatedResults = simulateResults();
-				updateGridContent( simulatedResults );
-				hideLoadingState();
+				console.error( 'Filter error:', error );
+				updateLoadingState( false );
+				showError();
 			} );
 	}
 
-	function showLoadingState() {
+	function updateLoadingState( isLoading ) {
 		if ( associatedGrid ) {
-			associatedGrid.classList.add( 'loading' );
-
-			// Add loading overlay if it doesn't exist
-			let loadingOverlay =
-				associatedGrid.querySelector( '.loading-overlay' );
-			if ( ! loadingOverlay ) {
-				loadingOverlay = document.createElement( 'div' );
-				loadingOverlay.className = 'loading-overlay';
-				loadingOverlay.innerHTML =
-					'<div class="loading-spinner"></div>';
-				associatedGrid.appendChild( loadingOverlay );
+			if ( isLoading ) {
+				associatedGrid.classList.add( 'loading' );
+			} else {
+				associatedGrid.classList.remove( 'loading' );
 			}
-			loadingOverlay.style.display = 'flex';
 		}
 
 		if ( resultsCountElement ) {
-			resultsCountElement.textContent = 'Loading results...';
-		}
-	}
-
-	function hideLoadingState() {
-		if ( associatedGrid ) {
-			associatedGrid.classList.remove( 'loading' );
-			const loadingOverlay =
-				associatedGrid.querySelector( '.loading-overlay' );
-			if ( loadingOverlay ) {
-				loadingOverlay.style.display = 'none';
+			if ( isLoading ) {
+				resultsCountElement.textContent = 'Loading results...';
+			} else {
+				resultsCountElement.textContent = 'Results loaded';
 			}
 		}
 	}
 
-	function updateGridContent( data ) {
-		console.log( 'updateGridContent called with:', data );
+	function showError() {
+		if ( resultsCountElement ) {
+			resultsCountElement.textContent = 'An error occurred';
+		}
+	}
+
+	function updateGrid( posts ) {
+		console.log( 'DEBUG: Filtering existing grid items based on', posts.length, 'results' );
 
 		if ( ! associatedGrid ) {
-			console.log( 'No associated grid found!' );
+			console.log( 'ERROR: No associated grid found!' );
 			return;
 		}
 
 		// Update total results for count display
-		totalResults = data.total || 0;
-		updateResultsCount( data );
+		totalResults = posts.length;
+		updateResultsCount( totalResults );
 
-		// Get the grid container (look for the actual content container)
-		const gridContainer =
-			associatedGrid.querySelector( '.fau-teaser-grid' ) ||
-			associatedGrid;
+		// Get all existing teaser items in the grid
+		const existingTeaserItems = associatedGrid.querySelectorAll( '.teaser-item' );
+		console.log( 'DEBUG: Found', existingTeaserItems.length, 'existing teaser items' );
 
-		if ( ! gridContainer ) {
-			console.log( 'No grid container found!' );
+		if ( existingTeaserItems.length === 0 ) {
+			console.log( 'ERROR: No existing teaser items found to filter!' );
 			return;
 		}
 
-		console.log( 'Grid container found:', gridContainer );
+		// Create a set of post IDs that should be visible
+		const visiblePostIds = new Set( posts.map( post => String( post.id ) ) );
+		console.log( 'DEBUG: Post IDs that should be visible:', Array.from( visiblePostIds ) );
 
-		// Get the current layout from the grid classes
-		const currentLayout = getCurrentTeaserLayout( gridContainer );
-		console.log( 'Current layout:', currentLayout );
+		let visibleCount = 0;
+		let hiddenCount = 0;
 
-		// Clear existing content
-		gridContainer.innerHTML = '';
-
-		// Check if we have posts to display
-		if ( data.posts && data.posts.length > 0 ) {
-			console.log(
-				'Creating teaser items for',
-				data.posts.length,
-				'posts'
-			);
-
-			// Create teaser items
-			const teaserItems = data.posts.map( ( post, index ) => {
-				console.log(
-					'Creating teaser item for post',
-					index,
-					':',
-					post
-				);
-				return createTeaserItem( post );
-			} );
-
-			console.log( 'Created', teaserItems.length, 'teaser items' );
-
-			// Apply layout wrapping if needed
-			if ( currentLayout && [ 'l2s', '2sl' ].includes( currentLayout ) ) {
-				console.log( 'Applying layout wrapping for', currentLayout );
-				// Wrap items in groups of 3 for these layouts
-				for ( let i = 0; i < teaserItems.length; i += 3 ) {
-					const groupItems = teaserItems.slice( i, i + 3 );
-					if ( groupItems.length > 0 ) {
-						const groupDiv = document.createElement( 'div' );
-						groupDiv.className = 'teaser-group';
-						groupItems.forEach( ( item ) =>
-							groupDiv.appendChild( item )
-						);
-						gridContainer.appendChild( groupDiv );
-					}
+		// Show/hide existing teaser items based on filter results
+		existingTeaserItems.forEach( ( item ) => {
+			// Try to get post ID from various possible attributes and patterns
+			let postId = item.getAttribute( 'data-post-id' );
+			
+			// If no data-post-id, try to extract from teaser-title-{ID} pattern
+			if ( !postId ) {
+				const titleElement = item.querySelector( '[id^="teaser-title-"]' );
+				if ( titleElement ) {
+					postId = titleElement.id.replace( 'teaser-title-', '' );
 				}
-			} else {
-				console.log( 'Applying direct layout for', currentLayout );
-				// For other layouts, just append items directly
-				teaserItems.forEach( ( item, index ) => {
-					console.log( 'Appending item', index, 'to grid' );
-					gridContainer.appendChild( item );
-				} );
+			}
+			
+			// Also try other possible attributes as fallback
+			if ( !postId ) {
+				postId = item.getAttribute( 'data-id' ) || 
+						 item.id?.replace( 'post-', '' );
 			}
 
-			console.log(
-				'Grid container after adding items:',
-				gridContainer.innerHTML.length,
-				'characters'
-			);
+			console.log( 'DEBUG: Checking teaser item with post ID:', postId );
+
+			if ( postId && visiblePostIds.has( String( postId ) ) ) {
+				// Show this item
+				item.style.display = '';
+				item.removeAttribute( 'hidden' );
+				item.classList.remove( 'filtered-out' );
+				visibleCount++;
+				console.log( 'DEBUG: Showing post ID:', postId );
+			} else if ( postId ) {
+				// Hide this item (only if we found a valid post ID)
+				item.style.display = 'none';
+				item.setAttribute( 'hidden', 'hidden' );
+				item.classList.add( 'filtered-out' );
+				hiddenCount++;
+				console.log( 'DEBUG: Hiding post ID:', postId );
+			} else {
+				// No post ID found - leave item as is and log warning
+				console.log( 'DEBUG: No post ID found for teaser item:', item );
+			}
+		} );
+
+		console.log( 'DEBUG: Filter complete - visible:', visibleCount, 'hidden:', hiddenCount );
+
+		// Show "no results" message if no items are visible
+		let noResultsMessage = associatedGrid.querySelector( '.no-results-message' );
+		
+		if ( visibleCount === 0 ) {
+			if ( ! noResultsMessage ) {
+				noResultsMessage = document.createElement( 'p' );
+				noResultsMessage.className = 'no-results-message';
+				noResultsMessage.setAttribute( 'role', 'status' );
+				noResultsMessage.textContent = 'No items found matching your filters.';
+				
+				// Insert after the grid
+				const teaserContainer = associatedGrid.querySelector( '.fau-teaser-grid' ) || associatedGrid;
+				teaserContainer.appendChild( noResultsMessage );
+			}
+			noResultsMessage.style.display = 'block';
 		} else {
-			console.log( 'No posts to display, showing no results message' );
-			// Show no results message
-			const noResultsMessage = document.createElement( 'p' );
-			noResultsMessage.className = 'no-results-message';
-			noResultsMessage.setAttribute( 'role', 'status' );
-			noResultsMessage.textContent =
-				'No items found matching your filters.';
-			gridContainer.appendChild( noResultsMessage );
+			if ( noResultsMessage ) {
+				noResultsMessage.style.display = 'none';
+			}
 		}
 
-		// Apply current view class
+		// Apply current view class (preserve any view settings)
 		if ( currentView ) {
 			updateGridView( currentView );
 		}
+
+		// Hide loading state after filtering is complete
+		updateLoadingState( false );
 
 		// Trigger custom event for other components
 		const contentUpdateEvent = new CustomEvent(
 			'fauListFiltersContentUpdated',
 			{
 				detail: {
-					data: data,
+					data: { total: totalResults, posts: posts },
 					grid: associatedGrid,
 					blockId: blockId,
+					visibleCount: visibleCount,
+					hiddenCount: hiddenCount
 				},
 			}
 		);
@@ -928,11 +1041,16 @@ function initializeFilterBlock( blockElement ) {
 		// Safely extract post data with defaults
 		const postId = post.id || 0;
 		const postTitle = post.title || 'Untitled';
-		const postExcerpt = post.excerpt || '';
+		let postExcerpt = post.excerpt || '';
 		const postPermalink = post.permalink || '#';
 		const postFeaturedImage = post.featured_image || '';
 		const postDate = post.date || new Date().toISOString();
 		const postCategories = post.categories || [];
+
+		// Handle empty excerpt with a fallback
+		if (!postExcerpt || postExcerpt.trim() === '') {
+			postExcerpt = `Read more about ${postTitle}...`;
+		}
 
 		const article = document.createElement( 'article' );
 		article.className = 'teaser-item post-teaser';
@@ -994,15 +1112,13 @@ function initializeFilterBlock( blockElement ) {
 			</h4>
 		`;
 
-		// Add excerpt
-		if ( postExcerpt ) {
-			teaserHTML += `
-				<div class="excerpt clamp-3">
-					<span class="visually-hidden">${ escapeHtml( postExcerpt ) }</span>
-					<span aria-hidden="true">${ escapeHtml( postExcerpt ) }</span>
-				</div>
-			`;
-		}
+		// Always add excerpt section, even if empty (with fallback)
+		teaserHTML += `
+			<div class="excerpt clamp-3">
+				<span class="visually-hidden">${ escapeHtml( postExcerpt ) }</span>
+				<span aria-hidden="true">${ escapeHtml( postExcerpt ) }</span>
+			</div>
+		`;
 
 		teaserHTML += `
 					</div>
@@ -1036,17 +1152,13 @@ function initializeFilterBlock( blockElement ) {
 		return article;
 	}
 
-	function updateResultsCount( data ) {
+	function updateResultsCount( total ) {
 		if ( ! resultsCountElement ) return;
-
-		const total = data.total || 0;
-		const start = total > 0 ? ( currentPage - 1 ) * resultsPerPage + 1 : 0;
-		const end = Math.min( currentPage * resultsPerPage, total );
 
 		if ( total === 0 ) {
 			resultsCountElement.textContent = 'No results found';
 		} else {
-			resultsCountElement.textContent = `${ start } to ${ end } from ${ total } records`;
+			resultsCountElement.textContent = `Total results: ${ total }`;
 		}
 	}
 
@@ -1070,7 +1182,7 @@ function initializeFilterBlock( blockElement ) {
 
 	function updateResultsDisplay() {
 		const simulatedResults = simulateResults();
-		updateResultsCount( simulatedResults );
+		updateResultsCount( simulatedResults.total );
 	}
 
 	function debounce( func, wait ) {

@@ -32,6 +32,11 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $order = $attributes['order'] ?? 'DESC';
         $heading_level = $attributes['headingLevel'] ?? 'h4';
         $show_load_more = $attributes['showLoadMore'] ?? false;
+        $filter_block_id = $attributes['filterBlockId'] ?? '';
+        
+        // Debug: Log what we received
+        error_log('Teaser Grid Debug - filterBlockId received: ' . var_export($filter_block_id, true));
+        error_log('Teaser Grid Debug - all attributes: ' . var_export($attributes, true));
         
         // Generate unique ID for this grid instance
         $grid_id = 'fau-teaser-grid-' . uniqid();
@@ -64,7 +69,8 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             'data-heading-level' => $heading_level,
             'data-show-load-more' => $show_load_more ? 'true' : 'false',
             'data-nonce' => wp_create_nonce('fau_load_more_nonce'),
-            'data-filterable' => 'true'
+            'data-filterable' => 'true',
+            'data-filter-block-id' => $filter_block_id
         ]);
 
         $grid_classes = ['fau-teaser-grid', $display_style];
@@ -83,10 +89,11 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $output = sprintf('<section %s>', $wrapper_attributes);
         
         $output .= sprintf(
-            '<div class="%s" aria-label="%s" data-variant="%s">', 
+            '<div class="%s" aria-label="%s" data-variant="%s" data-filter-block-id="%s">', 
             esc_attr(implode(' ', $grid_classes)),
             esc_attr__('Content items', 'fau-elemental'),
-            esc_attr($variant)
+            esc_attr($variant),
+            esc_attr($filter_block_id)
         );
 
         if ($selection_mode === 'manual' && !empty($selected_posts)) {
@@ -185,10 +192,11 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
         $output = sprintf(
-            '<article class="teaser-item %s-teaser" data-variant="%s" data-href="%s" tabindex="0" role="button" aria-labelledby="teaser-title-%d">',
+            '<article class="teaser-item %s-teaser" data-variant="%s" data-href="%s" data-post-id="%d" tabindex="0" role="button" aria-labelledby="teaser-title-%d">',
             esc_attr($variant),
             esc_attr($variant),
             esc_url($link),
+            $post->ID,
             $post->ID
         );
         
