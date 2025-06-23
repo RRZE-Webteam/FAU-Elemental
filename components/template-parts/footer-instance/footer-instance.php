@@ -1,7 +1,6 @@
 <div class="footer-content footer-content--instance">
     <div class="footer-content--instance-wrapper">
 
-        <!-- Row 1: Header and description (one column) -->
         <section class="footer-instance-header">
             <div class="instance-info">
                 <h2><?php echo esc_html(get_theme_mod('instance_title', get_bloginfo('name'))); ?></h2>
@@ -9,15 +8,12 @@
             </div>
         </section>
 
-        <!-- Row 2: Contact information (three columns) -->
         <section class="footer-instance-contact">
-            <!-- Column 1: Address -->
             <div class="contact-address">
                 <h3><?php esc_html_e('Contact and Directions', 'fau-elemental'); ?></h3>
 
                 <div class="contact-address-and-tel-container">
                     <?php
-                    // Check if we should display the address (default to true if not set)
                     $display_address = get_theme_mod('display_footer_address', null);
                     if (null === $display_address) {
                         $display_address = get_theme_mod('advanced_footer_display_address', true);
@@ -27,11 +23,9 @@
                     ?>
                         <address>
                             <?php
-                            // University name
                             echo esc_html(get_theme_mod('instance_university_name', __('Friedrich-Alexander-Universität Erlangen-Nürnberg', 'fau-elemental')));
                             ?><br>
                             <?php
-                            // Faculty name - check new field first, then fallback to old fields
                             $faculty_name = get_theme_mod('instance_faculty_name', '');
                             if (empty($faculty_name)) {
                                 $address_name = get_theme_mod('contact_address_name', '');
@@ -48,7 +42,6 @@
                             if (!empty($faculty_name) || !empty($address_name)) echo '<br>';
                             ?>
                             <?php
-                            // Street address - check new field first, then fallback to old field
                             $street = get_theme_mod('instance_street', '');
                             if (empty($street)) {
                                 $street = get_theme_mod('contact_address_street', '');
@@ -58,7 +51,6 @@
                             }
                             ?>
                             <?php
-                            // City - check new field first, then construct from old fields
                             $city = get_theme_mod('instance_city', '');
                             if (empty($city)) {
                                 $plz = get_theme_mod('contact_address_plz', '');
@@ -72,7 +64,6 @@
                             }
                             ?>
                             <?php
-                            // Country - check both field names
                             $country = get_theme_mod('instance_country', '');
                             if (empty($country)) {
                                 $country = get_theme_mod('contact_address_country', '');
@@ -121,7 +112,6 @@
                 </div>
             </div>
 
-            <!-- Column 3: Important links -->
             <nav class="footer-important-links">
                 <h3><?php esc_html_e('Important Links', 'fau-elemental'); ?></h3>
                 <?php
@@ -135,7 +125,6 @@
             </nav>
         </section>
 
-        <!-- Row 3: Footer menu and social links (two columns) -->
         <section class="footer-instance-menu">
             <!-- Column 1: Footer Menu -->
             <nav class="footer-meta-nav">
@@ -150,7 +139,6 @@
                 ?>
             </nav>
 
-            <!-- Column 2: Social Media Links -->
             <nav class="footer-social" aria-label="<?php echo esc_attr__('Social Media Links', 'fau-elemental'); ?>">
                 <ul class="social-links">
                     <?php
@@ -173,15 +161,12 @@
     </div>
 </div>
 
-<!-- Footer Bottom with FAU Info -->
 <section class="footer-bottom">
     <div class="footer-bottom-wrapper">
         <?php
-        // Check if FAU info section should be hidden for cooperation websites
         $hide_fau_info = get_theme_mod('hide_fau_info_section', false);
 
         if (!$hide_fau_info) : ?>
-            <!-- Row 1: Logo and Toggle Button -->
             <div class="footer-bottom-row footer-controls">
                 <div class="footer-logo-container">
                     <div class="footer-logo">
@@ -207,18 +192,15 @@
                 </div>
             </div>
 
-            <!-- Row 2: Collapsible Target Groups (4 columns) -->
-            <div id="fau-info-section" class="footer-bottom-row fau-info-section" hidden>
+            <div id="fau-info-section" class="footer-bottom-row fau-info-section">
                 <section class="fau-claim">
                     <h3><?php echo esc_html(get_theme_mod('fau_footer_title', __('FAU - Knowledge in Motion', 'fau-elemental'))); ?></h3>
                     <p><?php echo wp_kses_post(get_theme_mod('fau_footer_description', __('FAU is Germany\'s most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research.', 'fau-elemental'))); ?></p>
                 </section>
 
                 <?php
-                // Include the footer target groups component
                 require_once get_theme_file_path('components/template-parts/footer-instance/footer-target-groups.php');
                 
-                // Get target groups from customizer
                 $target_groups = array(
                     array(
                         'title' => get_theme_mod('target_section1_title', __('Target Group Section 1', 'fau-elemental')),
@@ -242,13 +224,11 @@
                     )
                 );
 
-                // Render the target groups using the footer component with outline variant
                 echo render_footer_target_groups($target_groups, 'outline', 'small');
                 ?>
             </div>
         <?php endif; ?>
 
-        <!-- Row 3: Image Credits handled by fau-copyright-info block -->
         <div class="footer-bottom-row">
             <div class="footer-left">
                 <?php echo do_blocks('<!-- wp:fau-elemental/fau-copyright-info /-->'); ?>

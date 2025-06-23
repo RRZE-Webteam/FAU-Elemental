@@ -7,10 +7,8 @@
 
         <section class="target-groups">
             <?php
-            // Include the footer target groups component
             require_once get_theme_file_path('components/template-parts/footer-instance/footer-target-groups.php');
             
-            // Get target groups from customizer
             $target_groups = array(
                 array(
                     'title' => get_theme_mod('target_section1_title', __('Target Group Section 1', 'fau-elemental')),
@@ -34,7 +32,6 @@
                 )
             );
 
-            // Render the target groups using the footer component with outline variant
             echo render_footer_target_groups($target_groups, 'outline', 'small');
             ?>
         </section>

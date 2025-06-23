@@ -1,34 +1,38 @@
 /**
  * Footer toggle functionality
  * Handles collapsible FAU info section in footer
+ * Implements proper accessibility with progressive enhancement
  */
 document.addEventListener( 'DOMContentLoaded', function () {
+	document.documentElement.classList.add('js');
+	
 	const toggleButton = document.querySelector( '.fau-info-toggle' );
 	const fauInfoSection = document.querySelector( '.fau-info-section' );
 
-	// Only initialize toggle functionality if elements exist (FAU info section is not hidden)
 	if ( toggleButton && fauInfoSection ) {
-		// Get localized strings from wp_localize_script
 		const strings = window.fauFooterStrings || {
 			showMore: 'Mehr anzeigen',
 			showLess: 'Weniger anzeigen',
 		};
 
+		fauInfoSection.hidden = true;
+		toggleButton.setAttribute( 'aria-expanded', 'false' );
+		
+		const initialText = toggleButton.textContent.trim();
+		toggleButton.innerHTML = '<span class="toggle-text">' + initialText + '</span> <span class="toggle-icon" aria-hidden="true"></span>';
+
 		toggleButton.addEventListener( 'click', function () {
-			const isExpanded =
-				toggleButton.getAttribute( 'aria-expanded' ) === 'true';
-			toggleButton.setAttribute( 'aria-expanded', ! isExpanded );
-			fauInfoSection.hidden = isExpanded;
+			fauInfoSection.hidden = !fauInfoSection.hidden;
+			
+			const isExpanded = !fauInfoSection.hidden;
+			toggleButton.setAttribute( 'aria-expanded', isExpanded.toString() );
 
-			// Update button text based on state
-			const currentText = isExpanded
-				? strings.showMore
-				: strings.showLess;
-
-			// Update button text while preserving the icon
-			toggleButton.innerHTML =
-				currentText +
-				'<span class="toggle-icon" aria-hidden="true"></span>';
+			const toggleTextElement = toggleButton.querySelector('.toggle-text');
+			const toggleIconElement = toggleButton.querySelector('.toggle-icon');
+			
+			if (toggleTextElement) {
+				toggleTextElement.textContent = isExpanded ? strings.showLess : strings.showMore;
+			}
 		} );
 	}
 } );

@@ -7,7 +7,7 @@
 $faue_website_type = get_theme_mod('faue_website_type');
 ?>
 
-    </div><!-- #content -->
+   
 
     <footer id="colophon" class="site-footer">
         <?php if ($faue_website_type === 'fau') : ?>
@@ -17,8 +17,6 @@ $faue_website_type = get_theme_mod('faue_website_type');
         <?php endif; ?>
     </footer>
 
-</div><!-- #page -->
+
 
 <?php wp_footer(); ?>
-</body>
-</html>

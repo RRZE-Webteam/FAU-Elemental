@@ -24,7 +24,6 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
         return '';
     }
 
-    // Convert target groups to the format expected by the shared function
     $items = [];
     foreach ($target_groups as $group) {
         if (!empty($group['title'])) {
@@ -36,7 +35,6 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
         }
     }
 
-    // Prepare options for the shared rendering function
     $options = [
         'variant' => $variant,
         'teaser_size' => $size,
@@ -44,6 +42,5 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
         'max_items' => count($items)
     ];
 
-    // Use the shared rendering function
     return render_big_button_teaser_group_html($items, $options);
 } 

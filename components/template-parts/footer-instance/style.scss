@@ -198,21 +198,34 @@
 				transition: var(--basic-animation);
 			}
 
-			&:hover,
-			&:focus-visible {
-
-				&::after {
-					top: 1.625rem;
-				}
+			// Progressive enhancement: Show button only when JavaScript is available
+			.no-js & {
+				display: none;
 			}
 
-			&[aria-expanded="true"] {
-
-				&::after {
-					transform: rotate(-90deg);
-					transition: var(--basic-animation);
-				}
+			// Button text and icon structure
+			.toggle-text {
+				display: inline;
 			}
+
+			.toggle-icon {
+				margin-left: 0.5rem;
+			}
+
+			// Rotate chevron when expanded
+			&[aria-expanded="true"]::after {
+				transform: rotate(-90deg);
+			}
+		}
+
+		// Progressive enhancement: Ensure content is visible without JavaScript
+		.no-js .fau-info-section {
+			display: block !important;
+		}
+
+		// Hide section initially when JavaScript is available (handled by JS)
+		.js .fau-info-section[hidden] {
+			display: none;
 		}
 
 		// adapted visuals for claim only for instance (faculty)
