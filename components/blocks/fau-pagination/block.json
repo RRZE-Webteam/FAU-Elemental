@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "fau-elemental/fau-pagination",
+	"version": "0.1.0",
+	"title": "FAU Pagination",
+	"category": "fau-elemental/FAU",
+	"icon": "arrow-down-alt2",
+	"description": "A reusable pagination component with basic and load-more variants",
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"textdomain": "fau-elemental",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php",
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"default": "basic"
+		},
+		"currentPage": {
+			"type": "number",
+			"default": 1
+		},
+		"totalPages": {
+			"type": "number",
+			"default": 1
+		},
+		"baseUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"pageParam": {
+			"type": "string",
+			"default": "paged"
+		},
+		"gridBlockId": {
+			"type": "string",
+			"default": ""
+		},
+		"filterBlockId": {
+			"type": "string",
+			"default": ""
+		}
+	}
+} 
