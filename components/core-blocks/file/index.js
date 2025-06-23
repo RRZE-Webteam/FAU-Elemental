@@ -445,8 +445,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 										</dt>
 										<dd className="file-info-definition">
 											{ formatFileSize(
-												fileDetails.media_details
-													?.filesize
+												fileDetails.filesize
 											) }
 										</dd>
 									</div>
