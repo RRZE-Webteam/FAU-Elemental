@@ -20,9 +20,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 
 		const initialText = toggleButton.textContent.trim();
 		toggleButton.innerHTML =
-			'<span class="toggle-text">' +
-			initialText +
-			'</span>';
+			'<span class="toggle-text">' + initialText + '</span>';
 
 		toggleButton.addEventListener( 'click', function () {
 			fauInfoSection.hidden = ! fauInfoSection.hidden;
