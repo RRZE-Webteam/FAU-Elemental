@@ -151,7 +151,7 @@ function fau_elemental_check_old_portal_menu_settings() {
                 }
                 
                 // Ensure the page uses the portal page template
-                update_post_meta($post_id, '_wp_page_template', 'templates/portal-page.php');
+                update_post_meta($post_id, '_wp_page_template', 'portal-page.php');
                 
                 // Log the migration for debugging
                 error_log("Migrated portal menu settings for post $post_id with menu {$menu_obj->name}");
@@ -615,8 +615,8 @@ function fau_elemental_migrate_portal_menu_settings($post_id) {
         
         // Only set template if not already set to something other than default
         if (empty($template) || $template === 'default') {
-            update_post_meta($post_id, '_wp_page_template', 'templates/portal-page.php');
-            error_log("Portal menu migration: Set template for post $post_id to templates/portal-page.php");
+            update_post_meta($post_id, '_wp_page_template', 'portal-page.php');
+            error_log("Portal menu migration: Set template for post $post_id to portal-page.php");
         } else {
             error_log("Portal menu migration: Post $post_id already using template: $template - not changing");
         }
