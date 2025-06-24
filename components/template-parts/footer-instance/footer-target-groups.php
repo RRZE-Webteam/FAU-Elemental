@@ -7,9 +7,7 @@
  */
 
 // Ensure the shared rendering function is available
-if (!function_exists('render_big_button_teaser_group_html')) {
-    require_once get_template_directory() . '/components/blocks/fau-big-button-teaser-group/render.php';
-}
+require_once get_template_directory() . '/components/blocks/fau-big-button/big-button.php';
 
 /**
  * Render footer target groups with big button styling
@@ -45,5 +43,5 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
     ];
 
     // Use the shared rendering function
-    return render_big_button_teaser_group_html($items, $options);
+    return render_big_button_html($items, $options);
 } 
