@@ -11,6 +11,7 @@ import {
 	Button,
 } from '@wordpress/components';
 import { useEffect, useCallback, useMemo } from '@wordpress/element';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Helper function to trim text by characters while respecting word boundaries
@@ -44,14 +45,7 @@ function trimTextSmart( text, maxChars = 80, more = '...' ) {
 	return result + more;
 }
 
-/**
- * Generate a unique ID for items
- *
- * @return {number} Unique ID
- */
-function generateUniqueId() {
-	return Date.now() + Math.random();
-}
+
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -88,7 +82,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		window.fauElemental.facultyType;
 
 	// Create a unique identifier for the block to force re-renders
-	const blockId = useMemo( () => generateUniqueId(), [] );
+	const blockId = useMemo( () => uuidv4(), [] );
 
 	const blockProps = useBlockProps( {
 		className: `fau-big-button-teaser-group fau-big-button-teaser-group--${ teaserSize } fau-big-button-teaser-group--${ variant } fau-big-button-teaser-group--faculty-showcase`,
@@ -98,7 +92,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	// Items Management
 	const addItem = useCallback( () => {
 		const newItem = {
-			id: generateUniqueId(),
+			id: uuidv4(),
 			title: '',
 			description: '',
 			url: '',
@@ -148,7 +142,7 @@ export default function Edit( { attributes, setAttributes } ) {
 		if ( updatedItems.length === 0 ) {
 			updatedItems = [
 				{
-					id: generateUniqueId(),
+					id: uuidv4(),
 					title: '',
 					description: '',
 					url: '',
@@ -164,7 +158,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				needsUpdate = true;
 				return {
 					...item,
-					id: generateUniqueId(),
+					id: uuidv4(),
 				};
 			}
 			return item;

@@ -14,72 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-// Ensure WordPress functions are available
-if ( ! function_exists( 'wp_strip_all_tags' ) ) {
-    function wp_strip_all_tags( $string ) {
-        return strip_tags( $string );
-    }
-}
-
-if ( ! function_exists( 'wp_parse_args' ) ) {
-    function wp_parse_args( $args, $defaults = array() ) {
-        return is_array( $args ) ? array_merge( $defaults, $args ) : $defaults;
-    }
-}
-
-if ( ! function_exists( 'get_theme_mod' ) ) {
-    function get_theme_mod( $name, $default = false ) {
-        return $default;
-    }
-}
-
-if ( ! function_exists( 'esc_html' ) ) {
-    function esc_html( $text ) {
-        return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
-    }
-}
-
-if ( ! function_exists( 'esc_url' ) ) {
-    function esc_url( $url ) {
-        return filter_var( $url, FILTER_VALIDATE_URL ) ? $url : '';
-    }
-}
-
-if ( ! function_exists( 'esc_url_raw' ) ) {
-    function esc_url_raw( $url ) {
-        return filter_var( $url, FILTER_VALIDATE_URL ) ? $url : '';
-    }
-}
-
-if ( ! function_exists( 'sanitize_text_field' ) ) {
-    function sanitize_text_field( $str ) {
-        return trim( strip_tags( $str ) );
-    }
-}
-
-if ( ! function_exists( 'sanitize_textarea_field' ) ) {
-    function sanitize_textarea_field( $str ) {
-        return trim( strip_tags( $str ) );
-    }
-}
-
-if ( ! function_exists( 'get_block_wrapper_attributes' ) ) {
-    function get_block_wrapper_attributes( $extra_attributes = array() ) {
-        $attributes = '';
-        foreach ( $extra_attributes as $key => $value ) {
-            $attributes .= sprintf( ' %s="%s"', esc_attr( $key ), esc_attr( $value ) );
-        }
-        return trim( $attributes );
-    }
-}
-
-if ( ! function_exists( 'esc_attr' ) ) {
-    function esc_attr( $text ) {
-        return htmlspecialchars( $text, ENT_QUOTES, 'UTF-8' );
-    }
-}
-
-if ( ! function_exists( 'trim_text_smart' ) ) {
+if ( ! function_exists( 'fau_trim_text_big_button' ) ) {
     /**
      * Trim text by characters while respecting word boundaries
      *
@@ -88,7 +23,7 @@ if ( ! function_exists( 'trim_text_smart' ) ) {
      * @param string $more Trailing text
      * @return string Trimmed text
      */
-    function trim_text_smart($text, $max_chars = 80, $more = '...') {
+    function fau_trim_text_big_button($text, $max_chars = 80, $more = '...') {
         if (empty($text) || !is_string($text)) {
             return '';
         }
@@ -195,7 +130,7 @@ if ( ! function_exists( 'render_big_button_html' ) ) {
                         </h3>
                         <?php if (!empty($excerpt)) : ?>
                             <p>
-                                <?php echo esc_html(trim_text_smart($excerpt, 80, '...')); ?>
+                                <?php echo esc_html(fau_trim_text_big_button($excerpt, 80, '...')); ?>
                             </p>
                         <?php endif; ?>
                         <span class="arrow-link"></span>
