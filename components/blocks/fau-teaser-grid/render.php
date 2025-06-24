@@ -33,9 +33,11 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $heading_level = $attributes['headingLevel'] ?? 'h4';
         $show_load_more = $attributes['showLoadMore'] ?? false;
         $filter_block_id = $attributes['filterBlockId'] ?? '';
+        $pagination_block_id = $attributes['paginationBlockId'] ?? '';
         
         // Debug: Log what we received
         error_log('Teaser Grid Debug - filterBlockId received: ' . var_export($filter_block_id, true));
+        error_log('Teaser Grid Debug - paginationBlockId received: ' . var_export($pagination_block_id, true));
         error_log('Teaser Grid Debug - all attributes: ' . var_export($attributes, true));
         
         // Generate unique ID for this grid instance
@@ -70,7 +72,8 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             'data-show-load-more' => $show_load_more ? 'true' : 'false',
             'data-nonce' => wp_create_nonce('fau_load_more_nonce'),
             'data-filterable' => 'true',
-            'data-filter-block-id' => $filter_block_id
+            'data-filter-block-id' => $filter_block_id,
+            'data-pagination-block-id' => $pagination_block_id
         ]);
 
         $grid_classes = ['fau-teaser-grid', $display_style];
@@ -89,11 +92,12 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $output = sprintf('<section %s>', $wrapper_attributes);
         
         $output .= sprintf(
-            '<div class="%s" aria-label="%s" data-variant="%s" data-filter-block-id="%s">', 
+            '<div class="%s" aria-label="%s" data-variant="%s" data-filter-block-id="%s" data-pagination-block-id="%s">', 
             esc_attr(implode(' ', $grid_classes)),
             esc_attr__('Content items', 'fau-elemental'),
             esc_attr($variant),
-            esc_attr($filter_block_id)
+            esc_attr($filter_block_id),
+            esc_attr($pagination_block_id)
         );
 
         if ($selection_mode === 'manual' && !empty($selected_posts)) {

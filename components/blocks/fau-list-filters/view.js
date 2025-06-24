@@ -45,10 +45,37 @@ function initializeFilterBlock( blockElement ) {
 	let currentView = getCurrentView();
 	let currentPage = 1;
 	let totalResults = 0;
+	let totalPages = 1;
 	let resultsPerPage =
 		parseInt( blockElement.getAttribute( 'data-results-per-page' ) ) || 15;
 	let filtersExpanded = false;
 	let isInitialized = false;
+	let paginationEnabled = false;
+	let associatedPagination = null;
+
+	// Find associated pagination block
+	const paginationBlockId = associatedGrid?.getAttribute('data-pagination-block-id');
+	console.log('DEBUG: Looking for pagination with ID:', paginationBlockId);
+	console.log('DEBUG: Associated grid:', associatedGrid);
+	
+	if (paginationBlockId) {
+		associatedPagination = document.querySelector(`[data-block-id="${paginationBlockId}"]`);
+		if (associatedPagination) {
+			paginationEnabled = true;
+			console.log('DEBUG: Found associated pagination block:', paginationBlockId, associatedPagination);
+		} else {
+			console.log('DEBUG: Pagination block ID found but element not found:', paginationBlockId);
+			// Try alternative selectors
+			const altPagination = document.querySelector(`#${paginationBlockId}`);
+			if (altPagination) {
+				associatedPagination = altPagination;
+				paginationEnabled = true;
+				console.log('DEBUG: Found pagination using ID selector:', altPagination);
+			}
+		}
+	} else {
+		console.log('DEBUG: No pagination block ID found on grid');
+	}
 
 	// Initialize - Load actual data instead of simulating
 	loadInitialData();
@@ -674,38 +701,34 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function clearAllFilters() {
-		console.log( 'DEBUG: clearAllFilters() called' );
-		
-		// Clear all filter selections
-		currentFilters = {};
-		currentSearch = '';
+		console.log( 'DEBUG: Clearing all filters' );
 
-		// Reset all select elements
-		const allSelects = blockElement.querySelectorAll( '.filter-select' );
-		console.log( 'DEBUG: Found', allSelects.length, 'filter selects to reset' );
-		
-		allSelects.forEach( ( select ) => {
-			console.log( 'DEBUG: Resetting select with value:', select.value, 'to empty' );
-			select.value = '';
-			select.classList.remove( 'has-selection' );
-		} );
-
-		// Reset search input
+		// Clear search
 		if ( searchInput ) {
-			console.log( 'DEBUG: Resetting search input from:', searchInput.value, 'to empty' );
 			searchInput.value = '';
-			searchInput.classList.remove( 'has-value' );
-			if ( searchClear ) {
-				searchClear.style.display = 'none';
-			}
 		}
 
-		console.log( 'DEBUG: About to update filter chips and perform search' );
-		updateFilterChips();
-		updateFilterLabels();
+		// Clear all filter selects
+		const allFilterSelects = blockElement.querySelectorAll( '.filter-select' );
+		allFilterSelects.forEach( ( select ) => {
+			select.value = '';
+		} );
+
+		// Hide active filters
+		if ( activeFiltersContainer ) {
+			activeFiltersContainer.style.display = 'none';
+		}
+
+		// Clear filter chips
+		if ( filterChipsContainer ) {
+			filterChipsContainer.innerHTML = '';
+		}
+
+		// Reset current page to 1
 		currentPage = 1;
-		// This will reload the original unfiltered data
-		performSearch();
+
+		// Perform search with cleared filters and reset pagination
+		performSearch( false, 1 );
 	}
 
 	function getCurrentView() {
@@ -764,13 +787,16 @@ function initializeFilterBlock( blockElement ) {
 		performSearch();
 	}
 
-	function performSearch( isInitial = false ) {
+	function performSearch( isInitial = false, page = 1 ) {
 		if ( !associatedGrid ) {
 			console.log( 'DEBUG: No grid available for search' );
 			return;
 		}
 
-		console.log( 'DEBUG: Starting search, isInitial:', isInitial );
+		console.log( 'DEBUG: Starting search, isInitial:', isInitial, 'page:', page );
+
+		// Update current page
+		currentPage = page;
 
 		// Read grid attributes to respect its settings
 		const gridPostsPerPage = associatedGrid.getAttribute( 'data-posts-per-page' ) || '15';
@@ -836,7 +862,7 @@ function initializeFilterBlock( blockElement ) {
 		} );
 
 		console.log( 'DEBUG: Making AJAX request for', gridVariant, gridVariant + 's' );
-		console.log( 'DEBUG: Request params - search:', searchValue, 'filters:', activeFilters, 'sort:', sortValue );
+		console.log( 'DEBUG: Request params - search:', searchValue, 'filters:', activeFilters, 'sort:', sortValue, 'page:', page );
 
 		// Show loading state
 		updateLoadingState( true );
@@ -848,11 +874,12 @@ function initializeFilterBlock( blockElement ) {
 			search: searchValue,
 			filters: JSON.stringify(activeFilters), // Convert to JSON string
 			sort: sortValue,
-			page: 1,
+			page: page,
 			per_page: parseInt( gridPostsPerPage ), // Use grid's posts per page setting
 			post_type: gridVariant, // Use grid's variant (post type)
 			category: parseInt( gridCategory ), // Use grid's category setting
 			grid_post_ids: JSON.stringify(gridPostIds), // Convert to JSON string
+			pagination_enabled: paginationEnabled,
 		};
 
 		console.log( 'DEBUG: AJAX data being sent:', ajaxData );
@@ -868,10 +895,21 @@ function initializeFilterBlock( blockElement ) {
 			.then( ( response ) => response.json() )
 			.then( ( data ) => {
 				console.log( 'DEBUG: Received', data.posts ? data.posts.length : 0, 'posts from server' );
+				console.log( 'DEBUG: Pagination info - current page:', data.current_page, 'total pages:', data.pages );
 				updateLoadingState( false );
 
 				if ( data.success && data.posts ) {
-					updateGrid( data.posts );
+					// Update pagination info
+					totalPages = data.pages || 1;
+					totalResults = data.total || data.posts.length;
+					
+					if (paginationEnabled) {
+						updateGrid( data.posts );
+						updatePagination( data.current_page, data.pages );
+					} else {
+						updateGrid( data.posts );
+					}
+					
 					updateResultsCount( data.total || data.posts.length );
 					isInitialized = true;
 				} else {
@@ -884,6 +922,126 @@ function initializeFilterBlock( blockElement ) {
 				updateLoadingState( false );
 				showError();
 			} );
+	}
+
+	function updatePagination( currentPage, totalPages ) {
+		console.log( 'DEBUG: updatePagination called with:', { currentPage, totalPages, associatedPagination, paginationEnabled } );
+		
+		if ( !associatedPagination ) {
+			console.log( 'DEBUG: No pagination block found to update' );
+			return;
+		}
+
+		console.log( 'DEBUG: Updating pagination - current:', currentPage, 'total:', totalPages );
+
+		// Update pagination block attributes
+		associatedPagination.setAttribute( 'data-current-page', currentPage );
+		associatedPagination.setAttribute( 'data-total-pages', totalPages );
+
+		// Find pagination controls
+		const paginationControls = associatedPagination.querySelector( '.pagination-controls' );
+		console.log( 'DEBUG: Found pagination controls:', paginationControls );
+		
+		if ( !paginationControls ) {
+			console.log( 'DEBUG: No pagination controls found' );
+			return;
+		}
+
+		// Generate pagination HTML
+		const paginationHTML = generatePaginationHTML( currentPage, totalPages );
+		console.log( 'DEBUG: Generated pagination HTML:', paginationHTML );
+		paginationControls.innerHTML = paginationHTML;
+
+		// Add event listeners to pagination buttons
+		const pageButtons = paginationControls.querySelectorAll( '.page-number, .page-nav' );
+		console.log( 'DEBUG: Found page buttons:', pageButtons.length );
+		pageButtons.forEach( button => {
+			button.addEventListener( 'click', handlePaginationClick );
+		} );
+	}
+
+	function generatePaginationHTML( currentPage, totalPages ) {
+		if ( totalPages <= 1 ) {
+			return '<div class="no-pagination">All results shown</div>';
+		}
+
+		let html = '';
+		const maxVisiblePages = 5;
+		const halfVisible = Math.floor( maxVisiblePages / 2 );
+
+		// Previous button
+		const prevDisabled = currentPage === 1 ? ' disabled' : '';
+		html += `<button class="page-nav prev${prevDisabled}" data-page="${currentPage - 1}" ${prevDisabled ? 'disabled' : ''}>
+			<span>Previous</span>
+		</button>`;
+
+		// Page numbers
+		html += '<div class="page-numbers">';
+		
+		let startPage = Math.max( 1, currentPage - halfVisible );
+		let endPage = Math.min( totalPages, currentPage + halfVisible );
+
+		// Adjust if we're near the beginning or end
+		if ( endPage - startPage < maxVisiblePages - 1 ) {
+			if ( startPage === 1 ) {
+				endPage = Math.min( totalPages, startPage + maxVisiblePages - 1 );
+			} else {
+				startPage = Math.max( 1, endPage - maxVisiblePages + 1 );
+			}
+		}
+
+		// First page + ellipsis
+		if ( startPage > 1 ) {
+			html += `<button class="page-number" data-page="1">1</button>`;
+			if ( startPage > 2 ) {
+				html += '<span class="page-ellipsis">...</span>';
+			}
+		}
+
+		// Page numbers
+		for ( let i = startPage; i <= endPage; i++ ) {
+			const currentClass = i === currentPage ? ' current' : '';
+			html += `<button class="page-number${currentClass}" data-page="${i}">${i}</button>`;
+		}
+
+		// Last page + ellipsis
+		if ( endPage < totalPages ) {
+			if ( endPage < totalPages - 1 ) {
+				html += '<span class="page-ellipsis">...</span>';
+			}
+			html += `<button class="page-number" data-page="${totalPages}">${totalPages}</button>`;
+		}
+
+		html += '</div>';
+
+		// Next button
+		const nextDisabled = currentPage === totalPages ? ' disabled' : '';
+		html += `<button class="page-nav next${nextDisabled}" data-page="${currentPage + 1}" ${nextDisabled ? 'disabled' : ''}>
+			<span>Next</span>
+		</button>`;
+
+		return html;
+	}
+
+	function handlePaginationClick( e ) {
+		e.preventDefault();
+		
+		const button = e.currentTarget;
+		const page = parseInt( button.getAttribute( 'data-page' ) );
+		
+		if ( !page || button.disabled || button.classList.contains( 'disabled' ) ) {
+			return;
+		}
+
+		console.log( 'DEBUG: Pagination clicked - going to page:', page );
+		
+		// Scroll to top of grid
+		if ( associatedGrid ) {
+			associatedGrid.scrollIntoView( { behavior: 'smooth', block: 'start' } );
+		}
+
+		// Perform search for the new page
+		performSearch( false, page );
 	}
 
 	function updateLoadingState( isLoading ) {

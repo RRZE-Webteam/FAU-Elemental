@@ -48,15 +48,21 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
         $post_type = sanitize_text_field($_POST['post_type'] ?? 'post');
         $category = intval($_POST['category'] ?? 0);
         $grid_post_ids = $_POST['grid_post_ids'] ?? '[]';
+        $pagination_enabled = filter_var($_POST['pagination_enabled'] ?? false, FILTER_VALIDATE_BOOLEAN);
+        $total_posts_override = intval($_POST['total_posts_override'] ?? 0);
 
         // Debug: Log incoming parameters
         error_log('FAU Filter Debug - Incoming Parameters:');
         error_log('  search: ' . $search);
         error_log('  filters (raw): ' . $filters);
         error_log('  sort: ' . $sort);
+        error_log('  page: ' . $page);
+        error_log('  per_page: ' . $per_page);
         error_log('  post_type: ' . $post_type);
         error_log('  category: ' . $category);
         error_log('  grid_post_ids (raw): ' . $grid_post_ids);
+        error_log('  pagination_enabled: ' . ($pagination_enabled ? 'true' : 'false'));
+        error_log('  total_posts_override: ' . $total_posts_override);
 
         // Decode JSON strings - handle escaped quotes from URLSearchParams
         $filters = stripslashes($filters);
@@ -83,10 +89,18 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
             'paged' => $page,
         ];
 
-        // If we have grid post IDs, limit the query to only those posts
-        if (!empty($grid_post_ids)) {
+        // IMPORTANT: When filters are active, search ALL content, not just grid content
+        // This allows filters to find content across all pages
+        $has_active_filters = !empty($search) || !empty(array_filter($filters)) || $category > 0;
+        
+        if (!$has_active_filters && !empty($grid_post_ids)) {
+            // No filters active - limit to grid content for pagination
             $args['post__in'] = array_map('intval', $grid_post_ids);
-            error_log('FAU Filter Debug - Limiting query to grid post IDs: ' . implode(', ', $args['post__in']));
+            error_log('FAU Filter Debug - No filters: Limiting query to grid post IDs: ' . implode(', ', $args['post__in']));
+        } else if ($has_active_filters) {
+            // Filters are active - search ALL content, ignore grid limitations
+            error_log('FAU Filter Debug - Filters active: Searching ALL content');
+            // Don't set post__in when filters are active - we want to search everything
         }
 
         // Add search

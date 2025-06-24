@@ -1,0 +1,302 @@
+@use "../../ui/mixins/mixins" as *;
+
+.wp-block-fau-elemental-fau-pagination {
+    .pagination-controls {
+        display: flex;
+        align-items: center;
+        gap: var(--Spacing-2x);
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .page-numbers {
+        display: flex;
+        align-items: center;
+        gap: var(--Spacing-1x);
+        margin: 0 var(--Spacing-2x);
+    }
+
+    // Individual page number buttons
+    .page-number {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        min-height: 40px;
+        padding: 0 var(--Spacing-2x, 0.5rem);
+        background-color: var(--FAU-Col-FAU-Weiss-100, white);
+        border: 1px solid var(--FAU-Col-FAU-Blau-100, #0054a5);
+        color: var(--FAU-Col-FAU-Blau-100, #0054a5);
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1;
+        transition: all 0.2s linear;
+        cursor: pointer;
+        
+        &:hover,
+        &:focus {
+            background-color: var(--FAU-Col-FAU-Blau-100, #0054a5);
+            color: var(--FAU-Col-FAU-Weiss-100, white);
+            outline: none;
+        }
+        
+        &.current {
+            background-color: var(--FAU-Col-FAU-Blau-100, #0054a5);
+            color: var(--FAU-Col-FAU-Weiss-100, white);
+            cursor: default;
+        }
+    }
+    // Previous/Next navigation buttons
+    .page-nav {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        min-height: 40px;
+        padding: 0 var(--Spacing-4x, 1rem);
+        background-color: var(--FAU-Col-FAU-Weiss-100, white);
+        border: 1px solid var(--FAU-Col-FAU-Blau-100, #0054a5);
+        color: var(--FAU-Col-FAU-Blau-100, #0054a5);
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1;
+        transition: all 0.2s linear;
+        cursor: pointer;
+        
+        &:hover,
+        &:focus {
+            background-color: var(--FAU-Col-FAU-Blau-100, #0054a5);
+            color: var(--FAU-Col-FAU-Weiss-100, white);
+            outline: none;
+        }
+        
+        &.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    }
+    
+    // Ellipsis (dots)
+    .page-ellipsis {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        min-height: 40px;
+        border: none;
+        background: none;
+        color: var(--FAU-Col-FAU-Schwarz-90);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: default;
+        padding: 0 var(--Spacing-2x);
+    }
+    .load-more-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: var(--Spacing-2x) var(--Spacing-4x);
+        background-color: var(--FAU-Col-FAU-Weiss-100);
+        border: 1px solid var(--FAU-Col-FAU-Blau-100);
+        color: var(--FAU-Col-FAU-Blau-100);
+        font-size: 1rem;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s linear;
+        min-height: 48px;
+        
+        &:hover,
+        &:focus {
+            background-color: var(--FAU-Col-FAU-Blau-100);
+            color: var(--FAU-Col-FAU-Weiss-100);
+            outline: none;
+        }
+        
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            
+            &:hover {
+                background-color: var(--FAU-Col-FAU-Weiss-100);
+                color: var(--FAU-Col-FAU-Blau-100);
+            }
+        }
+        
+        &::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-left: var(--Spacing-2x);
+            background-image: var(--icon-arrow-down);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+        
+        // Loading state
+        &.loading {
+            position: relative;
+            color: transparent;
+            
+            &::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 20px;
+                height: 20px;
+                margin: -10px 0 0 -10px;
+                border: 2px solid transparent;
+                border-top: 2px solid currentColor;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                background-image: none;
+            }
+        }
+    }
+}
+
+
+// Loading animation
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+// Responsive adjustments
+@include respond-to("medium") {
+    .wp-block-fau-elemental-fau-pagination {
+        .pagination.basic {
+            .pagination-controls {
+                gap: var(--Spacing-1x);
+            }
+            
+            .page-numbers {
+                gap: 2px;
+                margin: 0 var(--Spacing-1x);
+            }
+            
+            .page-number {
+                min-width: 36px;
+                min-height: 36px;
+                padding: 0 var(--Spacing-1x);
+                font-size: 0.875rem;
+            }
+            
+            .page-nav {
+                min-width: 36px;
+                min-height: 36px;
+                padding: 0 var(--Spacing-3x);
+                font-size: 0.875rem;
+            }
+            
+            .page-ellipsis {
+                min-width: 36px;
+                min-height: 36px;
+                padding: 0 var(--Spacing-1x);
+            }
+        }
+        
+        .pagination.load-more {
+            .load-more-button {
+                width: 100%;
+                font-size: 0.875rem;
+                padding: var(--Spacing-2x) var(--Spacing-3x);
+            }
+        }
+    }
+}
+
+@include respond-to("small") {
+    .wp-block-fau-elemental-fau-pagination {
+        .pagination.basic {
+            .pagination-controls {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .page-numbers {
+                order: 2;
+                width: 100%;
+                justify-content: center;
+                margin: var(--Spacing-2x) 0 0 0;
+            }
+            
+            .page-nav {
+                min-width: 80px;
+                font-size: 0.875rem;
+                
+                &.prev {
+                    order: 1;
+                }
+                
+                &.next {
+                    order: 3;
+                }
+            }
+        }
+    }
+}
+
+// Dark mode support
+.is-style-dark {
+    .wp-block-fau-elemental-fau-pagination {
+        .page-number,
+        .page-nav,
+        .load-more-button {
+            background-color: var(--FAU-Col-FAU-Blau-100);
+            color: var(--FAU-Col-FAU-Weiss-100);
+            border-color: var(--FAU-Col-FAU-Weiss-100);
+            
+            &:hover,
+            &:focus {
+                background-color: var(--FAU-Col-FAU-Weiss-100);
+                color: var(--FAU-Col-FAU-Blau-100);
+            }
+            
+            &.current {
+                background-color: var(--FAU-Col-FAU-Weiss-100);
+                color: var(--FAU-Col-FAU-Blau-100);
+            }
+        }
+        
+        .page-ellipsis {
+            color: var(--FAU-Col-FAU-Weiss-100);
+        }
+    }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+    .wp-block-fau-elemental-fau-pagination {
+        .page-number,
+        .page-nav,
+        .load-more-button {
+            border-width: 2px;
+            
+            &:focus {
+                outline: 2px solid currentColor;
+                outline-offset: 2px;
+            }
+        }
+    }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+    .wp-block-fau-elemental-fau-pagination {
+        .page-number,
+        .page-nav,
+        .load-more-button {
+            transition: none;
+        }
+        
+        .load-more-button.loading::after {
+            animation: none;
+        }
+    }
+}

@@ -2,7 +2,7 @@
 /**
  * Template Name: All Posts
  * 
- * A template for displaying all posts with filtering and search functionality.
+ * A template for displaying all posts with filtering, search functionality, and pagination.
  * 
  * @package FAU-Elemental
  */
@@ -21,7 +21,7 @@ get_header(); ?>
             <?php 
             $page_description = get_post_meta(get_the_ID(), 'page_description', true);
             if (empty($page_description)) {
-                $page_description = __('Browse and filter through all our posts using the options below.', 'fau-elemental');
+                $page_description = __('Browse and filter through all our posts using the options below. Use pagination to navigate through multiple pages.', 'fau-elemental');
             }
             echo esc_html($page_description);
             ?>
@@ -31,7 +31,10 @@ get_header(); ?>
     <!-- List Filters Block -->
     <?php
     $filter_block_id = 'fau-list-filters-all-posts-page';
-    echo do_blocks('<!-- wp:fau-elemental/fau-list-filters {"enableSearch":true,"searchPlaceholder":"Search posts...","enableFilters":true,"filterFields":[],"showMoreFiltersButton":true,"enableViewSwitcher":true,"availableViews":["cards","table"],"defaultView":"cards","enableSorting":true,"sortOptions":[{"value":"date","label":"Latest First"},{"value":"title","label":"Alphabetical"},{"value":"modified","label":"Recently Updated"}],"defaultSort":"date","showResultsCount":true,"resultsPerPage":50,"gridWidth":"12","customBlockId":"' . $filter_block_id . '"} /-->');
+    $grid_block_id = 'fau-teaser-grid-all-posts-page';
+    $pagination_block_id = 'fau-pagination-all-posts-page';
+    
+    echo do_blocks('<!-- wp:fau-elemental/fau-list-filters {"enableSearch":true,"searchPlaceholder":"Search posts...","enableFilters":true,"filterFields":[],"showMoreFiltersButton":true,"enableViewSwitcher":true,"availableViews":["cards","table"],"defaultView":"cards","enableSorting":true,"sortOptions":[{"value":"date","label":"Latest First"},{"value":"title","label":"Alphabetical"},{"value":"modified","label":"Recently Updated"}],"defaultSort":"date","showResultsCount":true,"resultsPerPage":6,"gridWidth":"12","customBlockId":"' . $filter_block_id . '"} /-->');
     ?>
 
     <!-- Spacer -->
@@ -39,7 +42,15 @@ get_header(); ?>
 
     <!-- Teaser Grid Block -->
     <?php
-    echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":-1,"selectedCategory":0,"orderBy":"date","order":"DESC","headingLevel":"h3","showLoadMore":false,"filterBlockId":"' . $filter_block_id . '"} /-->');
+    echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":6,"selectedCategory":0,"orderBy":"date","order":"DESC","headingLevel":"h3","showLoadMore":false,"showPagination":true,"filterBlockId":"' . $filter_block_id . '","paginationBlockId":"' . $pagination_block_id . '"} /-->');
+    ?>
+
+    <!-- Spacer -->
+    <div style="height:2rem" aria-hidden="true" class="wp-block-spacer"></div>
+
+    <!-- Pagination Block -->
+    <?php
+    echo do_blocks('<!-- wp:fau-elemental/fau-pagination {"variant":"basic","currentPage":1,"totalPages":1,"gridBlockId":"' . $grid_block_id . '","filterBlockId":"' . $filter_block_id . '"} /-->');
     ?>
 
 </main>
