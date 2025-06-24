@@ -35,20 +35,6 @@
 			transform: none;
 			box-shadow: none;
 		}
-
-		// Add editor label
-		&::before {
-			content: "FAU Big Button Teaser Group";
-			display: block;
-			font-size: 0.75rem;
-			font-weight: 600;
-			color: #666;
-			text-transform: uppercase;
-			letter-spacing: 0.05em;
-			margin-bottom: 0.5rem;
-			padding-bottom: 0.5rem;
-			border-bottom: 1px solid #eee;
-		}
 	}
 
 	// Selected state in editor
@@ -272,4 +258,23 @@
 			background: #f0f1f2;
 		}
 	}
+}
+
+.fau-big-button-faculty-info {
+	font-style: italic;
+	color: #666;
+	font-size: 12px;
+}
+
+.fau-big-button-empty-info {
+	font-style: italic;
+	color: #666;
+}
+
+.fau-big-button-title-placeholder {
+	color: #999;
+}
+
+.fau-big-button-text-placeholder {
+	color: #999;
 }
