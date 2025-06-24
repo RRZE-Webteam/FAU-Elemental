@@ -25,7 +25,6 @@ function faue_enqueue_styles() {
 
     // Note: Pattern styles are already included in the main theme bundle above
     // No need to load them separately anymore since they're compiled into css/theme.css
-    // Plugin styles (like RRZE Calendar) are also included in the main theme bundle
 }
 add_action('wp_enqueue_scripts', 'faue_enqueue_styles');
 
@@ -55,7 +54,6 @@ function faue_enqueue_editor_assets() {
         );
     }
 
-    // Note: Plugin editor styles (like RRZE Calendar) are included in the main editor bundle above
 }
 add_action('enqueue_block_editor_assets', 'faue_enqueue_editor_assets');
 
