@@ -9,11 +9,6 @@
  * @return string Rendered block HTML.
  */
 function render_block_fau_portalmenu($attributes, $content, $block) {
-    // Load configuration
-    if (!class_exists('FAU_Elemental_Portal_Menu_Config')) {
-        require_once get_template_directory() . '/inc/portal-menu-config.php';
-    }
-    
     // Ensure Walker_Content_Menu class is loaded
     if (!class_exists('Walker_Content_Menu')) {
         require_once get_template_directory() . '/inc/class-walker-content-menu.php';
@@ -125,3 +120,5 @@ function render_block_fau_portalmenu($attributes, $content, $block) {
     
     return ob_get_clean();
 }
+
+echo render_block_fau_portalmenu($attributes, $content, $block);
