@@ -75,7 +75,8 @@ function fau_sanitize_phone_number($phone) {
 }
 
 function fau_customizer_settings($wp_customize) {
-    // Get the faculty for default values
+    // Get the website type from theme settings
+    $faue_website_type = get_theme_mod('faue_website_type');
     $faculty = get_theme_mod('faue_faculty', 'phil');
     
     // Main Footer Panel
@@ -94,22 +95,21 @@ function fau_customizer_settings($wp_customize) {
     ]);
     
     // Dark Theme Toggle (Priority 15 - only for FAU main site)
-    $wp_customize->add_setting('footer_dark_style', [
-        'default' => false,
-        'transport' => 'refresh',
-        'sanitize_callback' => 'fau_sanitize_checkbox',
-    ]);
-    
-    $wp_customize->add_control('footer_dark_style', [
-        'label' => __('Dark Theme Toggle', 'fau-elemental'),
-        'description' => __('Apply dark styling to the footer', 'fau-elemental'),
-        'section' => 'footer_claim',
-        'type' => 'checkbox',
-        'priority' => 15,
-        'active_callback' => function() {
-            return get_theme_mod('faue_website_type', 'faculty') === 'fau';
-        },
-    ]);
+    if ($faue_website_type === 'fau') {
+        $wp_customize->add_setting('footer_dark_style', [
+            'default' => false,
+            'transport' => 'refresh',
+            'sanitize_callback' => 'fau_sanitize_checkbox',
+        ]);
+        
+        $wp_customize->add_control('footer_dark_style', [
+            'label' => __('Dark Theme Toggle', 'fau-elemental'),
+            'description' => __('Apply dark styling to the footer', 'fau-elemental'),
+            'section' => 'footer_claim',
+            'type' => 'checkbox',
+            'priority' => 15,
+        ]);
+    }
     
     // Überschrift (was FAU Claim Title)
     $wp_customize->add_setting('fau_footer_title', [
@@ -136,172 +136,170 @@ function fau_customizer_settings($wp_customize) {
     ]);
     
     // ======= 2. BESCHREIBUNG SECTION (Faculty Information) =======
-    $wp_customize->add_section('footer_beschreibung', [
-        'title' => __('Description', 'fau-elemental'),
-        'panel' => 'fau_footer_panel',
-        'priority' => 20,
-        'description' => __('Configure faculty information', 'fau-elemental'),
-        'active_callback' => function() {
-            return get_theme_mod('faue_website_type', 'faculty') !== 'fau';
-        },
-    ]);
-    
-    // Überschrift (was Faculty Title)
-    $wp_customize->add_setting('instance_title', [
-        'default' => get_bloginfo('name')
-    ]);
-    $wp_customize->add_control('instance_title', [
-        'label' => __('Heading', 'fau-elemental'),
-        'description' => __('Main heading for the faculty section', 'fau-elemental'),
-        'section' => 'footer_beschreibung',
-        'type' => 'text',
-        'priority' => 10,
-    ]);
-    
-    // Beschreibung (was Faculty Description)
-    $wp_customize->add_setting('instance_description', [
-        'default' => get_bloginfo('description')
-    ]);
-    $wp_customize->add_control('instance_description', [
-        'label' => __('Description', 'fau-elemental'),
-        'description' => __('Descriptive text for the faculty section', 'fau-elemental'),
-        'section' => 'footer_beschreibung',
-        'type' => 'textarea',
-        'priority' => 20,
-    ]);
-    
-    // ======= 3. KONTAKTINFORMATION SECTION =======
-    $wp_customize->add_section('footer_kontaktinformation', [
-        'title' => __('Contact Information', 'fau-elemental'),
-        'panel' => 'fau_footer_panel',
-        'priority' => 30,
-        'description' => __('Configure contact information', 'fau-elemental'),
-        'active_callback' => function() {
-            return get_theme_mod('faue_website_type', 'faculty') !== 'fau';
-        },
-    ]);
-    
-    // Get faculty-specific default values
-    $defaults = [
-        'phil' => [
-            'name' => __('Philosophical Faculty', 'fau-elemental'),
-            'street' => 'Bismarckstraße 1',
-            'city' => '91054 Erlangen',
-            'phone' => '+49 9131 85 22345',
-            'email' => 'dekanat-phil@fau.de'
-        ],
-        'nat' => [
-            'name' => __('Natural Sciences Faculty', 'fau-elemental'),
-            'street' => 'Naturwissenschaftliche Fakultät',
-            'city' => '91058 Erlangen',
-            'phone' => '+49 9131 85 27032',
-            'email' => 'dekanat-nat@fau.de'
-        ],
-        'med' => [
-            'name' => __('Medical Faculty', 'fau-elemental'),
-            'street' => 'Krankenhausstraße 12',
-            'city' => '91054 Erlangen',
-            'phone' => '+49 9131 85 26730',
-            'email' => 'med-dekanat@fau.de'
-        ],
-        'rw' => [
-            'name' => __('Law Faculty', 'fau-elemental'),
-            'street' => 'Schillerstraße 1',
-            'city' => '91054 Erlangen',
-            'phone' => '+49 9131 85 22260',
-            'email' => 'dekanat-rw@fau.de'
-        ],
-        'tf' => [
-            'name' => __('Technical Faculty', 'fau-elemental'),
-            'street' => 'Martensstraße 5a',
-            'city' => '91058 Erlangen',
-            'phone' => '+49 9131 85 27130',
-            'email' => 'tf-dekanat@fau.de'
-        ]
-    ];
-    
-    // Set defaults based on selected faculty
-    $faculty_defaults = isset($defaults[$faculty]) ? $defaults[$faculty] : $defaults['phil'];
-    
-    // Display toggle for address information
-    $wp_customize->add_setting('display_footer_address', [
-        'default' => true,
-        'transport' => 'refresh',
-        'sanitize_callback' => 'fau_sanitize_checkbox',
-    ]);
-    
-    $wp_customize->add_control('display_footer_address', [
-        'label' => __('Display Address Information', 'fau-elemental'),
-        'description' => __('Display address information in the footer', 'fau-elemental'),
-        'section' => 'footer_kontaktinformation',
-        'type' => 'checkbox',
-        'priority' => 5,
-    ]);
-    
-    $contact_fields = [
-        'instance_university_name' => [
-            'label' => __('Name of the University', 'fau-elemental'),
-            'default' => ''
-        ],
-        'instance_faculty_name' => [
-            'label' => __('Name of the Faculty', 'fau-elemental'),
-            'default' => ''
-        ],
-        'instance_street' => [
-            'label' => __('Street', 'fau-elemental'),
-            'default' => ''
-        ],
-        'instance_city' => [
-            'label' => __('Postal Code and City', 'fau-elemental'),
-            'default' => ''
-        ],
-        'instance_phone' => [
-            'label' => __('Phone Number', 'fau-elemental'),
-            'default' => ''
-        ],
-        'instance_email' => [
-            'label' => __('E-Mail Address', 'fau-elemental'),
-            'default' => ''
-        ],
-        'instance_directions_link' => [
-            'label' => __('Directions Link', 'fau-elemental'),
-            'default' => ''
-        ]
-    ];
-
-    foreach ($contact_fields as $setting => $config) {
-        $sanitize_callback = 'sanitize_text_field';
-        
-        // Use phone sanitizer for phone number fields
-        if ($setting === 'instance_phone') {
-            $sanitize_callback = 'fau_elemental_format_phone_number';
-        }
-        
-        $wp_customize->add_setting($setting, [
-            'default' => $config['default'],
-            'sanitize_callback' => $sanitize_callback,
+    if ($faue_website_type !== 'fau') {
+        $wp_customize->add_section('footer_beschreibung', [
+            'title' => __('Description', 'fau-elemental'),
+            'panel' => 'fau_footer_panel',
+            'priority' => 20,
+            'description' => __('Configure faculty information', 'fau-elemental'),
         ]);
-
-        $wp_customize->add_control($setting, [
-            'label' => $config['label'],
-            'section' => 'footer_kontaktinformation',
+        
+        // Überschrift (was Faculty Title)
+        $wp_customize->add_setting('instance_title', [
+            'default' => get_bloginfo('name')
+        ]);
+        $wp_customize->add_control('instance_title', [
+            'label' => __('Heading', 'fau-elemental'),
+            'description' => __('Main heading for the faculty section', 'fau-elemental'),
+            'section' => 'footer_beschreibung',
             'type' => 'text',
+            'priority' => 10,
+        ]);
+        
+        // Beschreibung (was Faculty Description)
+        $wp_customize->add_setting('instance_description', [
+            'default' => get_bloginfo('description')
+        ]);
+        $wp_customize->add_control('instance_description', [
+            'label' => __('Description', 'fau-elemental'),
+            'description' => __('Descriptive text for the faculty section', 'fau-elemental'),
+            'section' => 'footer_beschreibung',
+            'type' => 'textarea',
+            'priority' => 20,
         ]);
     }
     
-    // Country field for backward compatibility
-    $wp_customize->add_setting('instance_country', [
-        'default' => '',
-        'transport' => 'refresh',
-        'sanitize_callback' => 'sanitize_text_field',
-    ]);
-    
-    $wp_customize->add_control('instance_country', [
-        'label' => __('Country', 'fau-elemental'),
-        'section' => 'footer_kontaktinformation',
-        'type' => 'text',
-        'priority' => 65,
-    ]);
+    // ======= 3. KONTAKTINFORMATION SECTION =======
+    if ($faue_website_type !== 'fau') {
+        $wp_customize->add_section('footer_kontaktinformation', [
+            'title' => __('Contact Information', 'fau-elemental'),
+            'panel' => 'fau_footer_panel',
+            'priority' => 30,
+            'description' => __('Configure contact information', 'fau-elemental'),
+        ]);
+        
+        // Get faculty-specific default values
+        $defaults = [
+            'phil' => [
+                'name' => __('Philosophical Faculty', 'fau-elemental'),
+                'street' => 'Bismarckstraße 1',
+                'city' => '91054 Erlangen',
+                'phone' => '+49 9131 85 22345',
+                'email' => 'dekanat-phil@fau.de'
+            ],
+            'nat' => [
+                'name' => __('Natural Sciences Faculty', 'fau-elemental'),
+                'street' => 'Naturwissenschaftliche Fakultät',
+                'city' => '91058 Erlangen',
+                'phone' => '+49 9131 85 27032',
+                'email' => 'dekanat-nat@fau.de'
+            ],
+            'med' => [
+                'name' => __('Medical Faculty', 'fau-elemental'),
+                'street' => 'Krankenhausstraße 12',
+                'city' => '91054 Erlangen',
+                'phone' => '+49 9131 85 26730',
+                'email' => 'med-dekanat@fau.de'
+            ],
+            'rw' => [
+                'name' => __('Law Faculty', 'fau-elemental'),
+                'street' => 'Schillerstraße 1',
+                'city' => '91054 Erlangen',
+                'phone' => '+49 9131 85 22260',
+                'email' => 'dekanat-rw@fau.de'
+            ],
+            'tf' => [
+                'name' => __('Technical Faculty', 'fau-elemental'),
+                'street' => 'Martensstraße 5a',
+                'city' => '91058 Erlangen',
+                'phone' => '+49 9131 85 27130',
+                'email' => 'tf-dekanat@fau.de'
+            ]
+        ];
+        
+        // Set defaults based on selected faculty
+        $faculty_defaults = isset($defaults[$faculty]) ? $defaults[$faculty] : $defaults['phil'];
+        
+        // Display toggle for address information
+        $wp_customize->add_setting('display_footer_address', [
+            'default' => true,
+            'transport' => 'refresh',
+            'sanitize_callback' => 'fau_sanitize_checkbox',
+        ]);
+        
+        $wp_customize->add_control('display_footer_address', [
+            'label' => __('Display Address Information', 'fau-elemental'),
+            'description' => __('Display address information in the footer', 'fau-elemental'),
+            'section' => 'footer_kontaktinformation',
+            'type' => 'checkbox',
+            'priority' => 5,
+        ]);
+        
+        $contact_fields = [
+            'instance_university_name' => [
+                'label' => __('Name of the University', 'fau-elemental'),
+                'default' => ''
+            ],
+            'instance_faculty_name' => [
+                'label' => __('Name of the Faculty', 'fau-elemental'),
+                'default' => ''
+            ],
+            'instance_street' => [
+                'label' => __('Street', 'fau-elemental'),
+                'default' => ''
+            ],
+            'instance_city' => [
+                'label' => __('Postal Code and City', 'fau-elemental'),
+                'default' => ''
+            ],
+            'instance_phone' => [
+                'label' => __('Phone Number', 'fau-elemental'),
+                'default' => ''
+            ],
+            'instance_email' => [
+                'label' => __('E-Mail Address', 'fau-elemental'),
+                'default' => ''
+            ],
+            'instance_directions_link' => [
+                'label' => __('Directions Link', 'fau-elemental'),
+                'default' => ''
+            ]
+        ];
+
+        foreach ($contact_fields as $setting => $config) {
+            $sanitize_callback = 'sanitize_text_field';
+            
+            // Use phone sanitizer for phone number fields
+            if ($setting === 'instance_phone') {
+                $sanitize_callback = 'fau_elemental_format_phone_number';
+            }
+            
+            $wp_customize->add_setting($setting, [
+                'default' => $config['default'],
+                'sanitize_callback' => $sanitize_callback,
+            ]);
+
+            $wp_customize->add_control($setting, [
+                'label' => $config['label'],
+                'section' => 'footer_kontaktinformation',
+                'type' => 'text',
+            ]);
+        }
+        
+        // Country field for backward compatibility
+        $wp_customize->add_setting('instance_country', [
+            'default' => '',
+            'transport' => 'refresh',
+            'sanitize_callback' => 'sanitize_text_field',
+        ]);
+        
+        $wp_customize->add_control('instance_country', [
+            'label' => __('Country', 'fau-elemental'),
+            'section' => 'footer_kontaktinformation',
+            'type' => 'text',
+            'priority' => 65,
+        ]);
+    }
     
     // ======= 4. ZIELGRUPPEN-LINKS SECTION =======
     $wp_customize->add_section('footer_zielgruppen', [
@@ -312,22 +310,21 @@ function fau_customizer_settings($wp_customize) {
     ]);
     
     // Hide FAU info section for cooperation websites (only for non-FAU sites)
-    $wp_customize->add_setting('hide_fau_info_section', [
-        'default' => false,
-        'transport' => 'refresh',
-        'sanitize_callback' => 'fau_sanitize_checkbox',
-    ]);
-                
-    $wp_customize->add_control('hide_fau_info_section', [
-        'label' => __('Hide FAU section', 'fau-elemental'),
-        'description' => __('Hide FAU section (only show copyright information). Recommended for external cooperation websites.', 'fau-elemental'),
-        'section' => 'footer_zielgruppen',
-        'type' => 'checkbox',
-        'priority' => 5,
-        'active_callback' => function() {
-            return get_theme_mod('faue_website_type', 'faculty') === 'cooperation';
-        },
-    ]);
+    if ($faue_website_type !== 'fau') {
+        $wp_customize->add_setting('hide_fau_info_section', [
+            'default' => false,
+            'transport' => 'refresh',
+            'sanitize_callback' => 'fau_sanitize_checkbox',
+        ]);
+                    
+        $wp_customize->add_control('hide_fau_info_section', [
+            'label' => __('Hide FAU section', 'fau-elemental'),
+            'description' => __('Hide FAU section (only show copyright information). Recommended for external cooperation websites.', 'fau-elemental'),
+            'section' => 'footer_zielgruppen',
+            'type' => 'checkbox',
+            'priority' => 5,
+        ]);
+    }
     
     $target_groups = [
         'section1' => __('Section 1', 'fau-elemental'),
