@@ -80,25 +80,23 @@ $search_config = array(
                             <?php printf(__('Search Result %d', 'fau-elemental'), $result_counter); ?>
                         </h3>
                         <header class="result-header">
-                            <div class="result-date-info">
-                                <time class="result-date" 
-                                      datetime="<?php echo get_the_date('c'); ?>" 
-                                      itemprop="datePublished">
-                                    <?php echo get_the_date('d.m.Y'); ?>
-                                </time>
+                            <time class="result-date" 
+                                  datetime="<?php echo get_the_date('c'); ?>" 
+                                  itemprop="datePublished">
+                                <?php echo get_the_date('d.m.Y'); ?>
+                            </time>
+                            <span class="result-separator" aria-hidden="true"><?php echo $search_config['separator']; ?></span>
+                            <span class="result-content-type">
+                                <?php echo esc_html(get_post_type_object(get_post_type())->labels->singular_name); ?>
+                            </span>
+                            <?php 
+                            $categories = get_the_category();
+                            if (!empty($categories)) : ?>
                                 <span class="result-separator" aria-hidden="true"><?php echo $search_config['separator']; ?></span>
-                                <span class="result-content-type">
-                                    <?php echo esc_html(get_post_type_object(get_post_type())->labels->singular_name); ?>
+                                <span class="result-category" itemprop="articleSection">
+                                    <?php echo esc_html($categories[0]->name); ?>
                                 </span>
-                                <?php 
-                                $categories = get_the_category();
-                                if (!empty($categories)) : ?>
-                                    <span class="result-separator" aria-hidden="true"><?php echo $search_config['separator']; ?></span>
-                                    <span class="result-category" itemprop="articleSection">
-                                        <?php echo esc_html($categories[0]->name); ?>
-                                    </span>
-                                <?php endif; ?>
-                            </div>
+                            <?php endif; ?>
                         </header>
                         
                         <div class="result-content">
@@ -146,7 +144,7 @@ $search_config = array(
                             </div>
                         </div>
 
-                        <!-- Hidden structured data -->
+            
                         <meta itemprop="author" content="<?php echo esc_attr(get_the_author()); ?>" />
                         <meta itemprop="dateModified" content="<?php echo get_the_modified_date('c'); ?>" />
                     </article>
