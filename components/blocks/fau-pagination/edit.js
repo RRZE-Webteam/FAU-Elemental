@@ -1,10 +1,46 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
+import { useEffect } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 
-export default function Edit({ attributes, setAttributes }) {
-    const { variant, currentPage, totalPages } = attributes;
+export default function Edit({ attributes, setAttributes, clientId }) {
+    const { variant, currentPage, totalPages, customBlockId, gridBlockId } = attributes;
     const blockProps = useBlockProps();
+
+    // Generate and set customBlockId if it doesn't exist
+    useEffect( () => {
+        if ( ! customBlockId ) {
+            // Use clientId to create a unique block ID
+            const newBlockId = `fau-pagination-${ clientId.substring( 0, 8 ) }`;
+            setAttributes( { customBlockId: newBlockId } );
+            console.log( 'Pagination Block: Generated customBlockId:', newBlockId );
+        }
+    }, [ customBlockId, clientId, setAttributes ] );
+
+    // Detect teaser grid block
+    const { nearbyGrid } = useSelect( 
+        ( select ) => {
+            const { getBlocks } = select( 'core/block-editor' );
+            const allBlocks = getBlocks();
+            
+            // Find teaser grid block
+            const gridBlock = allBlocks.find( block => block.name === 'fau-elemental/fau-teaser-grid' );
+            
+            return {
+                nearbyGrid: gridBlock,
+            };
+        },
+        []
+    );
+
+    // Update grid block ID when detected
+    useEffect( () => {
+        if ( nearbyGrid && nearbyGrid.attributes.customBlockId && gridBlockId !== nearbyGrid.attributes.customBlockId ) {
+            setAttributes( { gridBlockId: nearbyGrid.attributes.customBlockId } );
+            console.log( 'Pagination Block: Detected grid block:', nearbyGrid.attributes.customBlockId );
+        }
+    }, [ nearbyGrid, gridBlockId, setAttributes ] );
 
     return (
         <>

@@ -1096,6 +1096,11 @@ function initializeFilterBlock( blockElement ) {
 		let visibleCount = 0;
 		let hiddenCount = 0;
 
+		// Check if grid uses JavaScript pagination
+		const teaserGrid = associatedGrid.querySelector('.fau-teaser-grid');
+		const isJsPagination = teaserGrid && teaserGrid.getAttribute('data-js-pagination') === 'true';
+		const customBlockId = associatedGrid.getAttribute('data-custom-block-id');
+
 		// Show/hide existing teaser items based on filter results
 		existingTeaserItems.forEach( ( item ) => {
 			// Try to get post ID from various possible attributes and patterns
@@ -1118,19 +1123,27 @@ function initializeFilterBlock( blockElement ) {
 			console.log( 'DEBUG: Checking teaser item with post ID:', postId );
 
 			if ( postId && visiblePostIds.has( String( postId ) ) ) {
-				// Show this item
-				item.style.display = '';
-				item.removeAttribute( 'hidden' );
+				// Mark as not filtered out
 				item.classList.remove( 'filtered-out' );
 				visibleCount++;
 				console.log( 'DEBUG: Showing post ID:', postId );
+				
+				// If NOT using JS pagination, directly show the item
+				if (!isJsPagination) {
+					item.style.display = '';
+					item.removeAttribute( 'hidden' );
+				}
 			} else if ( postId ) {
-				// Hide this item (only if we found a valid post ID)
-				item.style.display = 'none';
-				item.setAttribute( 'hidden', 'hidden' );
+				// Mark as filtered out
 				item.classList.add( 'filtered-out' );
 				hiddenCount++;
 				console.log( 'DEBUG: Hiding post ID:', postId );
+				
+				// If NOT using JS pagination, directly hide the item
+				if (!isJsPagination) {
+					item.style.display = 'none';
+					item.setAttribute( 'hidden', 'hidden' );
+				}
 			} else {
 				// No post ID found - leave item as is and log warning
 				console.log( 'DEBUG: No post ID found for teaser item:', item );
@@ -1138,6 +1151,31 @@ function initializeFilterBlock( blockElement ) {
 		} );
 
 		console.log( 'DEBUG: Filter complete - visible:', visibleCount, 'hidden:', hiddenCount );
+
+		// If using JavaScript pagination, trigger update event
+		if (isJsPagination && customBlockId) {
+			console.log( 'DEBUG: Triggering filter update event for JS pagination' );
+			
+			// Reset to page 1 after filtering
+			currentPage = 1;
+			
+			// Emit filter update event
+			document.dispatchEvent(new CustomEvent('fau-filter-update', {
+				detail: {
+					gridId: customBlockId,
+					visibleCount: visibleCount,
+					totalCount: existingTeaserItems.length
+				}
+			}));
+			
+			// Also update pagination if we have it
+			if (paginationEnabled && associatedPagination) {
+				// Calculate new total pages based on visible items
+				const gridPostsPerPage = parseInt(associatedGrid.getAttribute('data-posts-per-page')) || 6;
+				const newTotalPages = Math.ceil(visibleCount / gridPostsPerPage);
+				updatePagination(1, newTotalPages);
+			}
+		}
 
 		// Show "no results" message if no items are visible
 		let noResultsMessage = associatedGrid.querySelector( '.no-results-message' );

@@ -10,6 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// Debug: Log that this file is being loaded
+error_log('FAU Pagination render.php loaded');
+
 // Add AJAX handler for load more functionality
 add_action('wp_ajax_fau_load_more_content', 'fau_elemental_ajax_load_more_content');
 add_action('wp_ajax_nopriv_fau_load_more_content', 'fau_elemental_ajax_load_more_content');
@@ -143,6 +146,10 @@ if ( ! function_exists( 'render_block_fau_pagination' ) ) {
      * @return string Returns the pagination HTML.
      */
     function render_block_fau_pagination( $attributes, $content, $block ) {
+        // Debug: Log that render function is called
+        error_log('FAU Pagination render function called');
+        error_log('FAU Pagination attributes: ' . var_export($attributes, true));
+        
         $variant = $attributes['variant'] ?? 'basic';
         $current_page = $attributes['currentPage'] ?? 1;
         $total_pages = $attributes['totalPages'] ?? 1;
@@ -454,4 +461,7 @@ if ( ! function_exists( 'fau_elemental_generate_page_link' ) ) {
             );
         }
     }
-} 
+}
+
+// Actually render the block
+echo render_block_fau_pagination($attributes, $content, $block); 

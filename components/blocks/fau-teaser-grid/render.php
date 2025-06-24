@@ -26,7 +26,7 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $display_style = $attributes['displayStyle'] ?? 'teaser-grid';
         $teaser_layout = $attributes['teaserLayout'] ?? '3m';
         $current_page = $attributes['currentPage'] ?? 1;
-        $posts_per_page = $attributes['postsPerPage'] ?? 15;
+        $posts_per_page = $attributes['postsPerPage'] ?? 6;
         $selected_category = $attributes['selectedCategory'] ?? 0;
         $order_by = $attributes['orderBy'] ?? 'date';
         $order = $attributes['order'] ?? 'DESC';
@@ -34,14 +34,34 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $show_load_more = $attributes['showLoadMore'] ?? false;
         $filter_block_id = $attributes['filterBlockId'] ?? '';
         $pagination_block_id = $attributes['paginationBlockId'] ?? '';
+        $custom_block_id = $attributes['customBlockId'] ?? '';
         
         // Debug: Log what we received
         error_log('Teaser Grid Debug - filterBlockId received: ' . var_export($filter_block_id, true));
         error_log('Teaser Grid Debug - paginationBlockId received: ' . var_export($pagination_block_id, true));
+        error_log('Teaser Grid Debug - customBlockId received: ' . var_export($custom_block_id, true));
+        error_log('Teaser Grid Debug - postsPerPage received: ' . var_export($posts_per_page, true));
         error_log('Teaser Grid Debug - all attributes: ' . var_export($attributes, true));
         
-        // Generate unique ID for this grid instance
-        $grid_id = 'fau-teaser-grid-' . uniqid();
+        // Fallback detection: Check if we're in a template that should use JavaScript pagination
+        $template_file = get_page_template_slug();
+        $is_all_posts_template = (strpos($template_file, 'page-all-posts') !== false) || 
+                                (is_page() && get_page_template_slug() === 'page-all-posts.php');
+        
+        error_log('Teaser Grid Debug - template_file: ' . var_export($template_file, true));
+        error_log('Teaser Grid Debug - is_all_posts_template: ' . var_export($is_all_posts_template, true));
+        
+        // Generate unique ID for this grid instance, or use custom ID if provided
+        $grid_id = !empty($custom_block_id) ? $custom_block_id : 'fau-teaser-grid-' . uniqid();
+        
+        // Determine if we should use JavaScript-based pagination/filtering
+        $has_filter_integration = !empty($filter_block_id);
+        $has_pagination_integration = !empty($pagination_block_id);
+        // Also enable JS pagination if we're in the all-posts template (fallback)
+        $use_js_pagination = $has_filter_integration || $has_pagination_integration || $is_all_posts_template;
+        
+        error_log('Teaser Grid Debug - use_js_pagination: ' . var_export($use_js_pagination, true));
+        error_log('Teaser Grid Debug - Reason: filter=' . var_export($has_filter_integration, true) . ', pagination=' . var_export($has_pagination_integration, true) . ', template=' . var_export($is_all_posts_template, true));
         
         // Ensure it's a valid heading tag
         $allowed_headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
@@ -61,6 +81,7 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             'aria-label' => __('Content grid', 'fau-elemental'),
             'id' => $grid_id,
             'data-grid-id' => $grid_id,
+            'data-custom-block-id' => $custom_block_id,
             'data-variant' => $variant,
             'data-category' => $selected_category,
             'data-posts-per-page' => $posts_per_page,
@@ -92,13 +113,44 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         $output = sprintf('<section %s>', $wrapper_attributes);
         
         $output .= sprintf(
-            '<div class="%s" aria-label="%s" data-variant="%s" data-filter-block-id="%s" data-pagination-block-id="%s">', 
+            '<div class="%s" aria-label="%s" data-variant="%s" data-filter-block-id="%s" data-pagination-block-id="%s" data-js-pagination="%s">', 
             esc_attr(implode(' ', $grid_classes)),
             esc_attr__('Content items', 'fau-elemental'),
             esc_attr($variant),
             esc_attr($filter_block_id),
-            esc_attr($pagination_block_id)
+            esc_attr($pagination_block_id),
+            esc_attr($use_js_pagination ? 'true' : 'false')
         );
+
+        // Add CSS for JavaScript pagination if needed
+        if ($use_js_pagination) {
+            $output .= '<style>
+                .fau-teaser-grid .js-paginated-item.hidden {
+                    display: none !important;
+                }
+                .fau-teaser-grid .js-paginated-item {
+                    transition: opacity 0.3s ease-in-out;
+                }
+                .fau-teaser-grid .js-paginated-hidden {
+                    display: none !important;
+                }
+            </style>';
+            
+            // Generate fallback IDs if they're empty
+            if (empty($custom_block_id)) {
+                $custom_block_id = 'fau-teaser-grid-' . uniqid();
+                $grid_id = $custom_block_id;
+                error_log('Teaser Grid Debug - Generated fallback customBlockId: ' . $custom_block_id);
+            }
+            if (empty($filter_block_id)) {
+                $filter_block_id = 'fau-list-filters-' . uniqid();
+                error_log('Teaser Grid Debug - Generated fallback filterBlockId: ' . $filter_block_id);
+            }
+            if (empty($pagination_block_id)) {
+                $pagination_block_id = 'fau-pagination-' . uniqid();
+                error_log('Teaser Grid Debug - Generated fallback paginationBlockId: ' . $pagination_block_id);
+            }
+        }
 
         if ($selection_mode === 'manual' && !empty($selected_posts)) {
             // Handle manually selected posts
@@ -106,19 +158,40 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
             foreach ($selected_posts as $selected_post) {
                 $post = get_post($selected_post['id']);
                 if ($post) {
-                    $teaser_items[] = fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level);
+                    $teaser_items[] = fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level, []);
                 }
             }
             $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
         } else {
             // Handle automatic posts
-            $args = [
-                'post_type' => $variant,
-                'posts_per_page' => $posts_per_page,
-                'paged' => 1, // Always start with page 1 for load more
-                'orderby' => $order_by,
-                'order' => $order,
-            ];
+            // When integrated with filters or pagination blocks, load ALL posts and let JavaScript handle pagination
+            if ($use_js_pagination) {
+                // Load ALL posts for JavaScript-based filtering and pagination
+                $args = [
+                    'post_type' => $variant,
+                    'posts_per_page' => -1, // Load all posts
+                    'orderby' => $order_by,
+                    'order' => $order,
+                ];
+                
+                error_log('Teaser Grid Debug - Loading ALL posts for JS pagination/filtering');
+            } else {
+                // Use traditional server-side pagination
+                $paged = $current_page;
+                if ($paged <= 1) {
+                    $paged = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+                }
+                
+                $args = [
+                    'post_type' => $variant,
+                    'posts_per_page' => $posts_per_page,
+                    'paged' => $paged,
+                    'orderby' => $order_by,
+                    'order' => $order,
+                ];
+                
+                error_log('Teaser Grid Debug - Using server-side pagination, page: ' . $paged);
+            }
 
             if ($selected_category) {
                 $args['cat'] = $selected_category;
@@ -128,12 +201,21 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
 
             if ($query->have_posts()) {
                 $teaser_items = [];
+                $item_index = 0;
                 while ($query->have_posts()) {
                     $query->the_post();
-                    $teaser_items[] = fau_elemental_render_teaser_item(get_post(), $variant, $grid_classes, $heading_level);
+                    $item_classes = [];
+                    
+                    // When using JavaScript pagination, don't add any pagination classes here
+                    // The JavaScript will handle showing/hiding items based on filters and pagination
+                    
+                    $teaser_items[] = fau_elemental_render_teaser_item(get_post(), $variant, $grid_classes, $heading_level, $item_classes);
+                    $item_index++;
                 }
                 wp_reset_postdata();
                 $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
+                
+                error_log('Teaser Grid Debug - Loaded ' . count($teaser_items) . ' posts total');
             } else {
                 $output .= sprintf(
                     '<p role="status" class="no-items-found">%s</p>',
@@ -162,8 +244,8 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         
         $output .= '</section>'; // Close fau-list-item section
 
-        // Enqueue and localize script for load more functionality
-        if ($show_load_more) {
+        // Enqueue script for JavaScript pagination and load more functionality
+        if ($use_js_pagination || $show_load_more) {
             // Only enqueue if not already enqueued
             if (!wp_script_is('fau-teaser-grid-view', 'enqueued')) {
                 wp_enqueue_script('fau-teaser-grid-view', get_template_directory_uri() . '/build/blocks/fau-teaser-grid/view.js', [], '1.0.0', true);
@@ -186,9 +268,10 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
      * @param string  $variant The variant type (post or page).
      * @param array   $grid_classes The grid classes.
      * @param string  $heading_level The heading level to use (h1-h6).
+     * @param array   $item_classes Additional item classes.
      * @return string The rendered teaser item HTML.
      */
-    function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level = 'h4') {
+    function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level = 'h4', $item_classes = []) {
         $image = get_the_post_thumbnail_url($post->ID, 'full') ?: get_template_directory_uri() . '/assets/images/logo.svg';
         $title = get_the_title($post);
         $excerpt = get_the_excerpt($post);
@@ -196,8 +279,9 @@ if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
         $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
         $output = sprintf(
-            '<article class="teaser-item %s-teaser" data-variant="%s" data-href="%s" data-post-id="%d" tabindex="0" role="button" aria-labelledby="teaser-title-%d">',
+            '<article class="teaser-item %s-teaser %s" data-variant="%s" data-href="%s" data-post-id="%d" tabindex="0" role="button" aria-labelledby="teaser-title-%d">',
             esc_attr($variant),
+            implode(' ', $item_classes),
             esc_attr($variant),
             esc_url($link),
             $post->ID,

@@ -33,7 +33,18 @@ const Edit = ( props ) => {
 		showResultsCount,
 		resultsPerPage,
 		gridWidth,
+		customBlockId,
 	} = attributes;
+
+	// Generate and set customBlockId if it doesn't exist
+	useEffect( () => {
+		if ( ! customBlockId ) {
+			// Use clientId to create a unique block ID
+			const newBlockId = `fau-list-filters-${ clientId.substring( 0, 8 ) }`;
+			setAttributes( { customBlockId: newBlockId } );
+			console.log( 'Filter Block: Generated customBlockId:', newBlockId );
+		}
+	}, [ customBlockId, clientId, setAttributes ] );
 
 	const [ newFilterName, setNewFilterName ] = useState( '' );
 	const [ newFilterOptions, setNewFilterOptions ] = useState( '' );

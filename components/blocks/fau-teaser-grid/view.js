@@ -1,230 +1,158 @@
 /**
- * Makes teaser cards clickable and handles load more functionality.
- *
- * Accessibility features:
- * - Keyboard navigation support
- * - Preserves actual link behavior when links are clicked
- * - Adds proper ARIA attributes for screen readers
+ * Frontend JavaScript for FAU Teaser Grid block
+ * Handles client-side pagination when integrated with filter/pagination blocks
  */
 
-// Prevent multiple initializations
-if ( typeof window.fauTeaserGridInitialized === 'undefined' ) {
-	window.fauTeaserGridInitialized = true;
+document.addEventListener('DOMContentLoaded', function() {
+	// Initialize all FAU Teaser Grid blocks on the page
+	const teaserGrids = document.querySelectorAll('.wp-block-fau-elemental-fau-teaser-grid');
+	
+	teaserGrids.forEach(initializeTeaserGrid);
+});
 
-	document.addEventListener( 'DOMContentLoaded', function () {
-		// Initialize teaser card clickability
-		initializeTeaserCards();
-
-		// Initialize load more functionality
-		initializeLoadMoreButtons();
-	} );
-
-	function initializeTeaserCards() {
-		// Find all teaser items with data-href attribute that haven't been initialized
-		const teaserItems = document.querySelectorAll(
-			'.teaser-item[data-href]:not([data-teaser-initialized])'
-		);
-
-		teaserItems.forEach( function ( item ) {
-			item.setAttribute( 'data-teaser-initialized', 'true' );
-
-			const href = item.getAttribute( 'data-href' );
-
-			// Set cursor to pointer to indicate clickability
-			item.style.cursor = 'pointer';
-
-			// Add visual feedback on focus for accessibility
-			item.addEventListener( 'focus', function () {
-				this.classList.add( 'is-focused' );
-			} );
-
-			item.addEventListener( 'blur', function () {
-				this.classList.remove( 'is-focused' );
-			} );
-
-			// Make the whole card clickable
-			item.addEventListener( 'click', function ( e ) {
-				// Prevent card click if user clicked on an actual link inside the card
-				if (
-					e.target.tagName.toLowerCase() === 'a' ||
-					e.target.closest( 'a' )
-				) {
-					return;
-				}
-
-				// Navigate to the post/page
-				window.location.href = href;
-			} );
-
-			// Handle keyboard navigation
-			item.addEventListener( 'keydown', function ( e ) {
-				// Navigate on Enter key or Space key (for button role)
-				if (
-					e.key === 'Enter' ||
-					e.key === ' ' ||
-					e.keyCode === 13 ||
-					e.keyCode === 32
-				) {
-					e.preventDefault(); // Prevent page scroll on space
-					window.location.href = href;
-				}
-			} );
-		} );
+function initializeTeaserGrid(gridContainer) {
+	const teaserGrid = gridContainer.querySelector('.fau-teaser-grid');
+	
+	if (!teaserGrid) {
+		return;
 	}
-
-	function initializeLoadMoreButtons() {
-		// Handle Load More functionality
-		const loadMoreButtons = document.querySelectorAll(
-			'.fau-teaser-grid__load-more-button:not([data-loadmore-initialized])'
-		);
-
-		loadMoreButtons.forEach( function ( button ) {
-			button.setAttribute( 'data-loadmore-initialized', 'true' );
-
-			button.addEventListener( 'click', function ( event ) {
-				event.preventDefault();
-
-				// Prevent multiple clicks while loading
-				if (
-					button.disabled ||
-					button.classList.contains( 'loading' )
-				) {
-					return;
-				}
-
-				// Get the grid container
-				const gridContainer = button.closest( '[data-grid-id]' );
-				if ( ! gridContainer ) {
-					console.error( 'Grid container not found' );
-					return;
-				}
-
-				// Check if fauTeaserGrid is available
-				if ( typeof window.fauTeaserGrid === 'undefined' ) {
-					console.error( 'fauTeaserGrid object not found' );
-					return;
-				}
-
-				// Get data attributes
-				const variant = gridContainer.getAttribute( 'data-variant' );
-				const category = gridContainer.getAttribute( 'data-category' );
-				const postsPerPage = gridContainer.getAttribute(
-					'data-posts-per-page'
-				);
-				const displayStyle =
-					gridContainer.getAttribute( 'data-display-style' );
-				const teaserLayout =
-					gridContainer.getAttribute( 'data-teaser-layout' );
-				const orderBy = gridContainer.getAttribute( 'data-order-by' );
-				const order = gridContainer.getAttribute( 'data-order' );
-				const headingLevel =
-					gridContainer.getAttribute( 'data-heading-level' );
-				const nonce = gridContainer.getAttribute( 'data-nonce' );
-
-				// Get current page from button
-				const currentPage =
-					parseInt( button.getAttribute( 'data-page' ) ) || 1;
-				const nextPage = currentPage + 1;
-
-				// Show loading state
-				const spinner =
-					button.parentNode.querySelector( '.load-more-spinner' );
-				button.disabled = true;
-				button.classList.add( 'loading' );
-				button.style.display = 'none';
-				if ( spinner ) {
-					spinner.classList.add( 'loading' );
-				}
-
-				// Prepare AJAX data
-				const formData = new FormData();
-				formData.append( 'action', 'fau_load_more_posts' );
-				formData.append( 'nonce', nonce );
-				formData.append( 'variant', variant );
-				formData.append( 'category', category );
-				formData.append( 'posts_per_page', postsPerPage );
-				formData.append( 'page', nextPage );
-				formData.append( 'display_style', displayStyle );
-				formData.append( 'teaser_layout', teaserLayout );
-				formData.append( 'order_by', orderBy );
-				formData.append( 'order', order );
-				formData.append( 'heading_level', headingLevel );
-
-				// Make AJAX request
-				fetch( window.fauTeaserGrid.ajaxUrl, {
-					method: 'POST',
-					body: formData,
-					credentials: 'same-origin',
-				} )
-					.then( function ( response ) {
-						if ( ! response.ok ) {
-							throw new Error(
-								'Network response was not ok: ' +
-									response.status
-							);
-						}
-						return response.json();
-					} )
-					.then( function ( data ) {
-						if ( data.success && data.data && data.data.html ) {
-							// Find the teaser grid
-							const teaserGrid =
-								gridContainer.querySelector(
-									'.fau-teaser-grid'
-								);
-							if ( teaserGrid ) {
-								// Create a temporary container to parse the HTML
-								const tempDiv = document.createElement( 'div' );
-								tempDiv.innerHTML = data.data.html;
-
-								// Append new items to the grid
-								while ( tempDiv.firstChild ) {
-									teaserGrid.appendChild(
-										tempDiv.firstChild
-									);
-								}
-
-								// Initialize clickable behavior for new items
-								initializeTeaserCards();
-							}
-
-							// Update button state
-							if ( data.data.has_more ) {
-								button.setAttribute( 'data-page', nextPage );
-								button.disabled = false;
-								button.classList.remove( 'loading' );
-								button.style.display = 'block';
-							} else {
-								// No more posts, hide the button wrapper
-								const buttonWrapper = button.closest(
-									'.fau-teaser-grid__load-more-wrapper'
-								);
-								if ( buttonWrapper ) {
-									buttonWrapper.style.display = 'none';
-								}
-							}
-						} else {
-							button.disabled = false;
-							button.classList.remove( 'loading' );
-							button.style.display = 'block';
-						}
-
-						// Hide loading spinner
-						if ( spinner ) {
-							spinner.classList.remove( 'loading' );
-						}
-					} )
-					.catch( function () {
-						button.disabled = false;
-						button.classList.remove( 'loading' );
-						button.style.display = 'block';
-
-						// Hide loading spinner
-						if ( spinner ) {
-							spinner.classList.remove( 'loading' );
-						}
-					} );
-			} );
-		} );
+	
+	const isJsPagination = teaserGrid.getAttribute('data-js-pagination') === 'true';
+	// Read posts per page from the wrapper container (where it's stored)
+	const postsPerPage = parseInt(gridContainer.getAttribute('data-posts-per-page')) || 6;
+	const customBlockId = gridContainer.getAttribute('data-custom-block-id');
+	
+	console.log('DEBUG: Teaser Grid Initialization');
+	console.log('DEBUG: - isJsPagination:', isJsPagination);
+	console.log('DEBUG: - postsPerPage:', postsPerPage);
+	console.log('DEBUG: - customBlockId:', customBlockId);
+	console.log('DEBUG: - filterBlockId:', gridContainer.getAttribute('data-filter-block-id'));
+	console.log('DEBUG: - paginationBlockId:', gridContainer.getAttribute('data-pagination-block-id'));
+	
+	if (!isJsPagination) {
+		console.log('DEBUG: Grid uses server-side pagination, skipping JS pagination setup');
+		return; // This grid uses server-side pagination
+	}
+	
+	console.log('DEBUG: Initializing JS pagination for grid:', customBlockId);
+	
+	// Store pagination data on the grid element
+	teaserGrid.jsPaginationData = {
+		postsPerPage: postsPerPage,
+		currentPage: 1,
+		totalItems: 0
+	};
+	
+	// Count initial items
+	updatePaginationDisplay(teaserGrid);
+	
+	// Listen for pagination events
+	if (customBlockId) {
+		// Listen for pagination clicks from associated pagination blocks
+		document.addEventListener('fau-pagination-change', function(e) {
+			if (e.detail.gridId === customBlockId) {
+				console.log('DEBUG: Received pagination change event for page:', e.detail.page);
+				showPage(teaserGrid, e.detail.page);
+			}
+		});
+		
+		// Listen for filter changes that might affect pagination
+		document.addEventListener('fau-filter-update', function(e) {
+			if (e.detail.gridId === customBlockId) {
+				console.log('DEBUG: Received filter update event, resetting to page 1');
+				console.log('DEBUG: Visible items after filter:', e.detail.visibleCount);
+				
+				// Reset to page 1 when filters change
+				teaserGrid.jsPaginationData.currentPage = 1;
+				
+				// Update pagination display to reflect filtered items
+				updatePaginationDisplay(teaserGrid);
+			}
+		});
 	}
 }
+
+function showPage(teaserGrid, pageNumber) {
+	const paginationData = teaserGrid.jsPaginationData;
+	if (!paginationData) {
+		return;
+	}
+	
+	const postsPerPage = paginationData.postsPerPage;
+	const startIndex = (pageNumber - 1) * postsPerPage;
+	const endIndex = startIndex + postsPerPage;
+	
+	// Get all visible teaser items (not filtered out)
+	const allItems = Array.from(teaserGrid.querySelectorAll('.teaser-item:not(.filtered-out)'));
+	
+	console.log(`DEBUG: Showing page ${pageNumber}, items ${startIndex} to ${endIndex - 1} of ${allItems.length} visible items`);
+	
+	// First, hide ALL items (including filtered ones)
+	const allTeaserItems = teaserGrid.querySelectorAll('.teaser-item');
+	allTeaserItems.forEach(item => {
+		item.classList.add('js-paginated-hidden');
+		item.style.display = 'none';
+	});
+	
+	// Then show only the items for the current page (from visible items only)
+	allItems.forEach((item, index) => {
+		if (index >= startIndex && index < endIndex) {
+			// Show this item
+			item.classList.remove('js-paginated-hidden');
+			item.style.display = '';
+		}
+	});
+	
+	// Update current page
+	paginationData.currentPage = pageNumber;
+	
+	// Emit event for pagination blocks to update
+	const customBlockId = teaserGrid.closest('.wp-block-fau-elemental-fau-teaser-grid').getAttribute('data-custom-block-id');
+	if (customBlockId) {
+		document.dispatchEvent(new CustomEvent('fau-grid-page-change', {
+			detail: {
+				gridId: customBlockId,
+				currentPage: pageNumber,
+				totalPages: Math.ceil(allItems.length / postsPerPage)
+			}
+		}));
+	}
+}
+
+function updatePaginationDisplay(teaserGrid) {
+	const paginationData = teaserGrid.jsPaginationData;
+	if (!paginationData) {
+		return;
+	}
+	
+	// Count visible items (not filtered out)
+	const visibleItems = teaserGrid.querySelectorAll('.teaser-item:not(.filtered-out)');
+	const totalPages = Math.ceil(visibleItems.length / paginationData.postsPerPage);
+	
+	paginationData.totalItems = visibleItems.length;
+	
+	console.log(`DEBUG: Grid has ${visibleItems.length} visible items, ${totalPages} total pages`);
+	
+	// Show the first page by default
+	showPage(teaserGrid, paginationData.currentPage);
+	
+	// Emit event for pagination blocks to update
+	const customBlockId = teaserGrid.closest('.wp-block-fau-elemental-fau-teaser-grid').getAttribute('data-custom-block-id');
+	if (customBlockId) {
+		document.dispatchEvent(new CustomEvent('fau-grid-pagination-ready', {
+			detail: {
+				gridId: customBlockId,
+				totalPages: totalPages,
+				currentPage: paginationData.currentPage,
+				totalItems: visibleItems.length
+			}
+		}));
+	}
+}
+
+// Export functions for use by other scripts
+window.fauTeaserGrid = {
+	initializeTeaserGrid,
+	showPage,
+	updatePaginationDisplay
+};

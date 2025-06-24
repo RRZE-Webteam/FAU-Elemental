@@ -25,7 +25,7 @@
 		},
 		"postsPerPage": {
 			"type": "number",
-			"default": 3
+			"default": 6
 		},
 		"showLoadMore": {
 			"type": "boolean",
@@ -88,6 +88,10 @@
 			"default": "h4"
 		},
 		"filterBlockId": {
+			"type": "string",
+			"default": ""
+		},
+		"customBlockId": {
 			"type": "string",
 			"default": ""
 		}

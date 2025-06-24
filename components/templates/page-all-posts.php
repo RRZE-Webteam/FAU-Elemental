@@ -34,6 +34,15 @@ get_header(); ?>
     $grid_block_id = 'fau-teaser-grid-all-posts-page';
     $pagination_block_id = 'fau-pagination-all-posts-page';
     
+    // Get current page from URL parameters (simple approach)
+    $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+    
+    // Debug: Output what we're trying to pass
+    error_log('Template Debug - Block IDs:');
+    error_log('Template Debug - filter_block_id: ' . $filter_block_id);
+    error_log('Template Debug - grid_block_id: ' . $grid_block_id);
+    error_log('Template Debug - pagination_block_id: ' . $pagination_block_id);
+    
     echo do_blocks('<!-- wp:fau-elemental/fau-list-filters {"enableSearch":true,"searchPlaceholder":"Search posts...","enableFilters":true,"filterFields":[],"showMoreFiltersButton":true,"enableViewSwitcher":true,"availableViews":["cards","table"],"defaultView":"cards","enableSorting":true,"sortOptions":[{"value":"date","label":"Latest First"},{"value":"title","label":"Alphabetical"},{"value":"modified","label":"Recently Updated"}],"defaultSort":"date","showResultsCount":true,"resultsPerPage":6,"gridWidth":"12","customBlockId":"' . $filter_block_id . '"} /-->');
     ?>
 
@@ -42,7 +51,7 @@ get_header(); ?>
 
     <!-- Teaser Grid Block -->
     <?php
-    echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":6,"selectedCategory":0,"orderBy":"date","order":"DESC","headingLevel":"h3","showLoadMore":false,"showPagination":true,"filterBlockId":"' . $filter_block_id . '","paginationBlockId":"' . $pagination_block_id . '"} /-->');
+    echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":6,"selectedCategory":0,"orderBy":"date","order":"DESC","headingLevel":"h3","showLoadMore":false,"showPagination":true,"currentPage":' . $current_page . ',"customBlockId":"' . $grid_block_id . '","filterBlockId":"' . $filter_block_id . '","paginationBlockId":"' . $pagination_block_id . '"} /-->');
     ?>
 
     <!-- Spacer -->
@@ -50,7 +59,19 @@ get_header(); ?>
 
     <!-- Pagination Block -->
     <?php
-    echo do_blocks('<!-- wp:fau-elemental/fau-pagination {"variant":"basic","currentPage":1,"totalPages":1,"gridBlockId":"' . $grid_block_id . '","filterBlockId":"' . $filter_block_id . '"} /-->');
+    // Calculate total pages using WP_Query for better compatibility
+    $posts_per_page = 6;
+    $count_query = new WP_Query([
+        'post_type' => 'post',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'fields' => 'ids'
+    ]);
+    $total_posts = $count_query->found_posts; 
+    wp_reset_postdata();
+    $total_pages = max(1, ceil($total_posts / $posts_per_page));
+    
+    echo do_blocks('<!-- wp:fau-elemental/fau-pagination {"variant":"basic","currentPage":' . $current_page . ',"totalPages":' . $total_pages . ',"customBlockId":"' . $pagination_block_id . '","gridBlockId":"' . $grid_block_id . '","filterBlockId":"' . $filter_block_id . '"} /-->');
     ?>
 
 </main>
