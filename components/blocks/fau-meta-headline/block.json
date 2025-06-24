@@ -11,6 +11,9 @@
 	"attributes": {
 		"headline": {
 			"type": "string"
+		},
+		"id": {
+			"type": "string"
 		}
 	},
 	"textdomain": "fau-elemental",
