@@ -53,7 +53,6 @@ function faue_enqueue_editor_assets() {
             $wrapper_asset['version']
         );
     }
-
 }
 add_action('enqueue_block_editor_assets', 'faue_enqueue_editor_assets');
 
