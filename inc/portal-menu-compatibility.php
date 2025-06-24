@@ -427,7 +427,7 @@ function fau_elemental_portalmenu_shortcode($atts) {
     // If no menu was found, return accessible error message
     if (!$menu_id) {
         return '<div role="alert" aria-live="polite" class="portal-menu-error">' . 
-               esc_html(FAU_Elemental_Portal_Menu_Config::get_text('no_menu_found')) . 
+               esc_html__('No menu could be found with the specified identifier.', 'fau-elemental') . 
                '</div>';
     }
     
@@ -490,7 +490,7 @@ function fau_elemental_portalmenu_shortcode($atts) {
         echo '</h2>';
     }
     
-    echo '<nav class="' . esc_attr($menu_classes) . '" role="navigation" aria-label="' . esc_attr(FAU_Elemental_Portal_Menu_Config::get_text('portal_menu')) . '">';
+    echo '<nav class="' . esc_attr($menu_classes) . '" role="navigation" aria-label="' . esc_attr__('Portal Menu', 'fau-elemental') . '">';
     
     wp_nav_menu([
         'menu' => $menu_id,

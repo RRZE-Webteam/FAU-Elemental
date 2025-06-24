@@ -23,7 +23,7 @@ if (!empty($attributes['menuId'])) {
 
 if (empty($menu)) {
     echo '<div class="wp-block-fau-elemental-portalmenu-error" role="alert" aria-live="polite">' . 
-           FAU_Elemental_Portal_Menu_Config::get_text('no_menu_selected') . 
+           esc_html__('Please select a menu to display.', 'fau-elemental') . 
            '</div>';
     return;
 }
@@ -101,7 +101,7 @@ if ($menu_obj) {
     echo '</h2>';
 }
 
-echo '<nav class="' . esc_attr($menu_classes) . '" role="navigation" aria-label="' . esc_attr(FAU_Elemental_Portal_Menu_Config::get_text('portal_menu')) . '">';
+echo '<nav class="' . esc_attr($menu_classes) . '" role="navigation" aria-label="' . esc_attr__('Portal Menu', 'fau-elemental') . '">';
 
 // Render the menu
 wp_nav_menu([
