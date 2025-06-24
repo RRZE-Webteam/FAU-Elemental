@@ -233,16 +233,21 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 			>
 				{ ! attributes.noThumbs && (
 					<div className={ CSS_CLASSES.portal_thumbnail }>
-						<button
-							type="button"
+						<div
 							onClick={ ( e ) => e.preventDefault() }
 							className={ CSS_CLASSES.image_link }
+							role="link"
 							aria-label={ sprintf(
 								// translators: %s: Menu item title
 								__( 'Go to %s', 'fau-elemental' ),
 								itemTitle
 							) }
 							tabIndex="0"
+							onKeyDown={ ( e ) => {
+								if ( e.key === 'Enter' || e.key === ' ' ) {
+									e.preventDefault();
+								}
+							} }
 						>
 							{ itemImage ? (
 								<img
@@ -275,25 +280,30 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 									</span>
 								</div>
 							) }
-						</button>
+						</div>
 					</div>
 				) }
 
 				<div className={ CSS_CLASSES.portal_content }>
 					<h3 className={ CSS_CLASSES.portal_title }>
-						<button
-							type="button"
+						<div
 							onClick={ ( e ) => e.preventDefault() }
 							className={ CSS_CLASSES.portal_main_link }
+							role="link"
 							aria-label={ sprintf(
 								// translators: %s: Menu item title
 								__( 'Go to main page: %s', 'fau-elemental' ),
 								itemTitle
 							) }
 							tabIndex="0"
+							onKeyDown={ ( e ) => {
+								if ( e.key === 'Enter' || e.key === ' ' ) {
+									e.preventDefault();
+								}
+							} }
 						>
 							{ itemTitle }
-						</button>
+						</div>
 					</h3>
 
 					{ showSubs && (
@@ -315,14 +325,14 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 											}
 											role="listitem"
 										>
-											<button
-												type="button"
+											<div
 												onClick={ ( e ) =>
 													e.preventDefault()
 												}
 												className={
 													CSS_CLASSES.portal_sublink
 												}
+												role="link"
 												aria-label={ sprintf(
 													// translators: %s: Submenu item title
 													__(
@@ -332,6 +342,14 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 													childTitle
 												) }
 												tabIndex="0"
+												onKeyDown={ ( e ) => {
+													if (
+														e.key === 'Enter' ||
+														e.key === ' '
+													) {
+														e.preventDefault();
+													}
+												} }
 											>
 												<span className="portal-link-text">
 													{ childTitle }
@@ -340,7 +358,7 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 													className="portal-link-button"
 													aria-hidden="true"
 												></span>
-											</button>
+											</div>
 										</div>
 									);
 								} ) }
