@@ -44,9 +44,9 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         error_log('Teaser Grid Debug - all attributes: ' . var_export($attributes, true));
         
         // Fallback detection: Check if we're in a template that should use JavaScript pagination
-        $template_file = get_page_template_slug();
+        $template_file = function_exists('get_page_template_slug') ? get_page_template_slug() : ''; // phpcs:ignore
         $is_all_posts_template = (strpos($template_file, 'page-all-posts') !== false) || 
-                                (is_page() && get_page_template_slug() === 'page-all-posts.php');
+                                (function_exists('is_page') && is_page() && function_exists('get_page_template_slug') && get_page_template_slug() === 'page-all-posts.php'); // phpcs:ignore
         
         error_log('Teaser Grid Debug - template_file: ' . var_export($template_file, true));
         error_log('Teaser Grid Debug - is_all_posts_template: ' . var_export($is_all_posts_template, true));
@@ -57,6 +57,32 @@ if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
         // Determine if we should use JavaScript-based pagination/filtering
         $has_filter_integration = !empty($filter_block_id);
         $has_pagination_integration = !empty($pagination_block_id);
+        
+        // Also check if filter or pagination blocks exist on the same page/post
+        // This helps when blocks are manually added in the editor
+        if (!$has_filter_integration || !$has_pagination_integration) {
+            global $post;
+            if ($post && function_exists('has_blocks') && has_blocks($post->post_content)) { // phpcs:ignore
+                $blocks = function_exists('parse_blocks') ? parse_blocks($post->post_content) : []; // phpcs:ignore
+                foreach ($blocks as $block) {
+                    if (!$has_filter_integration && $block['blockName'] === 'fau-elemental/fau-list-filters') {
+                        $has_filter_integration = true;
+                        // Try to get the filter block's ID if available
+                        if (empty($filter_block_id) && !empty($block['attrs']['customBlockId'])) {
+                            $filter_block_id = $block['attrs']['customBlockId'];
+                        }
+                    }
+                    if (!$has_pagination_integration && $block['blockName'] === 'fau-elemental/fau-pagination') {
+                        $has_pagination_integration = true;
+                        // Try to get the pagination block's ID if available
+                        if (empty($pagination_block_id) && !empty($block['attrs']['customBlockId'])) {
+                            $pagination_block_id = $block['attrs']['customBlockId'];
+                        }
+                    }
+                }
+            }
+        }
+        
         // Also enable JS pagination if we're in the all-posts template (fallback)
         $use_js_pagination = $has_filter_integration || $has_pagination_integration || $is_all_posts_template;
         

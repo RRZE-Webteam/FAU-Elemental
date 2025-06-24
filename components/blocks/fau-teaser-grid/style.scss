@@ -529,6 +529,15 @@
 			}
 		}
 	}
+
+	// JavaScript pagination styles
+	.js-paginated-hidden {
+		display: none !important;
+	}
+	
+	.filtered-out {
+		display: none !important;
+	}
 }
 
 // Dark mode

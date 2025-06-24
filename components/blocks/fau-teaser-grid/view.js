@@ -62,10 +62,32 @@ function initializeTeaserGrid(gridContainer) {
 				console.log('DEBUG: Received filter update event, resetting to page 1');
 				console.log('DEBUG: Visible items after filter:', e.detail.visibleCount);
 				
-				// Reset to page 1 when filters change
-				teaserGrid.jsPaginationData.currentPage = 1;
+				// Reset to page 1 when filters change (if requested)
+				if (e.detail.resetToPage1) {
+					teaserGrid.jsPaginationData.currentPage = 1;
+				}
 				
 				// Update pagination display to reflect filtered items
+				updatePaginationDisplay(teaserGrid);
+			}
+		});
+		
+		// Listen for filter clear event
+		document.addEventListener('fau-filter-clear', function(e) {
+			if (e.detail.gridId === customBlockId) {
+				console.log('DEBUG: Received filter clear event, resetting to page 1');
+				
+				// Reset to page 1
+				teaserGrid.jsPaginationData.currentPage = 1;
+				
+				// Remove filtered-out class from all items
+				const allItems = teaserGrid.querySelectorAll('.teaser-item');
+				allItems.forEach(item => {
+					item.classList.remove('filtered-out');
+					item.style.display = '';
+				});
+				
+				// Update pagination display
 				updatePaginationDisplay(teaserGrid);
 			}
 		});

@@ -25,15 +25,44 @@ function initializePaginationBlock(paginationElement) {
     
     console.log('DEBUG: Pagination initialized with grid:', gridBlockId);
     
-    // Add click handlers to all pagination links
-    const paginationLinks = paginationElement.querySelectorAll('.page-nav, .page-numbers a, .page-numbers button');
-    
-    paginationLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            handlePaginationClick(e, associatedGrid, paginationElement);
+    // Function to attach click handlers to pagination controls
+    function attachClickHandlers() {
+        // Remove any existing handlers first
+        const existingHandlers = paginationElement.querySelectorAll('[data-pagination-handler]');
+        existingHandlers.forEach(el => {
+            el.removeAttribute('data-pagination-handler');
         });
-    });
+        
+        // Add click handlers to ALL pagination elements (including spans)
+        const paginationControls = paginationElement.querySelectorAll('.page-nav, .page-numbers a, .page-numbers span.page-number, .page-numbers button');
+        
+        paginationControls.forEach(control => {
+            // Skip if it's a disabled element or ellipsis
+            if (control.classList.contains('disabled') || control.classList.contains('page-ellipsis')) {
+                return;
+            }
+            
+            // Mark as having handler
+            control.setAttribute('data-pagination-handler', 'true');
+            
+            // Make spans clickable by adding pointer cursor
+            if (control.tagName === 'SPAN' && control.classList.contains('page-number')) {
+                control.style.cursor = 'pointer';
+            }
+            
+            control.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                handlePaginationClick(e, associatedGrid, paginationElement);
+            });
+        });
+    }
+    
+    // Initial attachment
+    attachClickHandlers();
+    
+    // Re-attach handlers when pagination is updated
+    paginationElement.addEventListener('pagination-updated', attachClickHandlers);
     
     // Handle pagination navigation via keyboard
     paginationElement.addEventListener('keydown', function(e) {
@@ -78,21 +107,25 @@ function findAssociatedGrid(gridBlockId) {
 }
 
 function handlePaginationClick(e, gridContainer, paginationContainer) {
-    const clickedElement = e.target.closest('a, button');
+    const clickedElement = e.target.closest('a, button, span.page-number, .page-nav');
     
     if (!clickedElement) {
         return;
     }
     
+    // Skip if disabled or ellipsis
+    if (clickedElement.classList.contains('disabled') || clickedElement.classList.contains('page-ellipsis')) {
+        return;
+    }
+    
     // Get page number from the clicked element
     let targetPage = 1;
+    const currentPage = parseInt(paginationContainer.getAttribute('data-current-page')) || 1;
+    const totalPages = parseInt(paginationContainer.getAttribute('data-total-pages')) || 1;
     
     if (clickedElement.classList.contains('prev')) {
-        const currentPage = parseInt(paginationContainer.getAttribute('data-current-page')) || 1;
         targetPage = Math.max(1, currentPage - 1);
     } else if (clickedElement.classList.contains('next')) {
-        const currentPage = parseInt(paginationContainer.getAttribute('data-current-page')) || 1;
-        const totalPages = parseInt(paginationContainer.getAttribute('data-total-pages')) || 1;
         targetPage = Math.min(totalPages, currentPage + 1);
     } else {
         // Direct page number click
@@ -102,6 +135,14 @@ function handlePaginationClick(e, gridContainer, paginationContainer) {
             targetPage = pageNum;
         }
     }
+    
+    // Don't do anything if we're already on this page
+    if (targetPage === currentPage) {
+        console.log('DEBUG: Already on page', targetPage);
+        return;
+    }
+    
+    console.log('DEBUG: Navigating from page', currentPage, 'to page', targetPage);
     
     // Check if this is a JavaScript pagination grid
     const isJsPagination = gridContainer.querySelector('[data-js-pagination="true"]');
@@ -213,36 +254,123 @@ function updatePaginationState(paginationContainer, currentPage) {
     // Update current page data attribute
     paginationContainer.setAttribute('data-current-page', currentPage);
     
-    // Update active state of pagination links
-    const pageNumbers = paginationContainer.querySelectorAll('.page-numbers a, .page-numbers button');
-    pageNumbers.forEach(link => {
-        link.classList.remove('current', 'active');
-        const linkPage = parseInt(link.textContent.trim());
-        if (linkPage === currentPage) {
-            link.classList.add('current', 'active');
-        }
-    });
+    // Get total pages
+    const totalPages = parseInt(paginationContainer.getAttribute('data-total-pages')) || 1;
+    
+    // Find the page numbers container or placeholder
+    const pageNumbersContainer = paginationContainer.querySelector('.page-numbers');
+    const placeholderContainer = paginationContainer.querySelector('.pagination-placeholder');
+    const controlsContainer = paginationContainer.querySelector('.pagination-controls');
+    
+    // If we have a placeholder and need to create the pagination structure
+    if (placeholderContainer && totalPages > 1) {
+        // Create the full pagination structure
+        const paginationHTML = generateFullPaginationHTML(currentPage, totalPages);
+        controlsContainer.innerHTML = paginationHTML;
+    } else if (pageNumbersContainer) {
+        // Update existing pagination
+        const paginationHTML = generatePaginationHTML(currentPage, totalPages);
+        pageNumbersContainer.innerHTML = paginationHTML;
+    }
     
     // Update prev/next button states
-    const totalPages = parseInt(paginationContainer.getAttribute('data-total-pages')) || 1;
     const prevButton = paginationContainer.querySelector('.page-nav.prev');
     const nextButton = paginationContainer.querySelector('.page-nav.next');
     
     if (prevButton) {
         if (currentPage <= 1) {
             prevButton.classList.add('disabled');
+            prevButton.setAttribute('aria-disabled', 'true');
         } else {
             prevButton.classList.remove('disabled');
+            prevButton.removeAttribute('aria-disabled');
         }
     }
     
     if (nextButton) {
         if (currentPage >= totalPages) {
             nextButton.classList.add('disabled');
+            nextButton.setAttribute('aria-disabled', 'true');
         } else {
             nextButton.classList.remove('disabled');
+            nextButton.removeAttribute('aria-disabled');
         }
     }
+    
+    // Dispatch event to re-attach click handlers
+    paginationContainer.dispatchEvent(new Event('pagination-updated'));
+}
+
+// Helper function to generate full pagination structure (including prev/next)
+function generateFullPaginationHTML(currentPage, totalPages) {
+    let html = '';
+    
+    // Previous button
+    if (currentPage > 1) {
+        html += '<span class="page-nav prev" aria-label="Previous page"><span aria-hidden="true">‹</span></span>';
+    } else {
+        html += '<span class="page-nav prev disabled" aria-disabled="true"><span aria-hidden="true">‹</span></span>';
+    }
+    
+    // Page numbers container
+    html += '<div class="page-numbers">';
+    html += generatePaginationHTML(currentPage, totalPages);
+    html += '</div>';
+    
+    // Next button
+    if (currentPage < totalPages) {
+        html += '<span class="page-nav next" aria-label="Next page"><span aria-hidden="true">›</span></span>';
+    } else {
+        html += '<span class="page-nav next disabled" aria-disabled="true"><span aria-hidden="true">›</span></span>';
+    }
+    
+    return html;
+}
+
+// Helper function to generate pagination HTML
+function generatePaginationHTML(currentPage, totalPages) {
+    let html = '';
+    
+    if (totalPages <= 6) {
+        // Show all pages if 6 or fewer
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === currentPage) {
+                html += `<span class="page-number current" aria-current="page">${i}</span>`;
+            } else {
+                html += `<span class="page-number">${i}</span>`;
+            }
+        }
+    } else {
+        // Sliding window pagination logic
+        let pages = [];
+        
+        if (currentPage <= 2) {
+            // Pages 1-2: Show 1,2,3 ... last-2,last-1,last
+            pages = [1, 2, 3, '...', totalPages - 2, totalPages - 1, totalPages];
+        } else if (currentPage === 3) {
+            // Page 3: Show ..., 2,3,4, ..., last-2,last-1,last
+            pages = ['...', 2, 3, 4, '...', totalPages - 2, totalPages - 1, totalPages];
+        } else if (currentPage >= totalPages - 2) {
+            // Last 3 pages: Show 1,2,3, ..., last-2,last-1,last
+            pages = [1, 2, 3, '...', totalPages - 2, totalPages - 1, totalPages];
+        } else {
+            // Middle pages: Show 1, ..., current-1, current, current+1, ..., last
+            pages = [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+        }
+        
+        // Generate HTML for pages
+        pages.forEach(page => {
+            if (page === '...') {
+                html += '<span class="page-ellipsis" aria-hidden="true">…</span>';
+            } else if (page === currentPage) {
+                html += `<span class="page-number current" aria-current="page">${page}</span>`;
+            } else {
+                html += `<span class="page-number">${page}</span>`;
+            }
+        });
+    }
+    
+    return html;
 }
 
 function showLoadingState(container, isLoading) {
@@ -263,12 +391,17 @@ document.addEventListener('fau-grid-pagination-ready', function(e) {
     const totalPages = e.detail.totalPages;
     const currentPage = e.detail.currentPage;
     
+    console.log('DEBUG: Pagination received grid ready event:', e.detail);
+    
     // Find associated pagination block
     const paginationBlocks = document.querySelectorAll('[data-grid-block-id="' + gridId + '"]');
     paginationBlocks.forEach(paginationBlock => {
         paginationBlock.setAttribute('data-total-pages', totalPages);
         paginationBlock.setAttribute('data-current-page', currentPage);
         updatePaginationState(paginationBlock, currentPage);
+        
+        // Re-initialize to attach event handlers to new elements
+        initializePaginationBlock(paginationBlock);
     });
 });
 

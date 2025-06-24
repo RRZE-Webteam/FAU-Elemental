@@ -706,13 +706,20 @@ function initializeFilterBlock( blockElement ) {
 		// Clear search
 		if ( searchInput ) {
 			searchInput.value = '';
+			currentSearch = '';
+			searchClear.style.display = 'none';
+			searchInput.classList.remove( 'has-value' );
 		}
 
 		// Clear all filter selects
 		const allFilterSelects = blockElement.querySelectorAll( '.filter-select' );
 		allFilterSelects.forEach( ( select ) => {
 			select.value = '';
+			select.classList.remove( 'has-selection' );
 		} );
+
+		// Clear currentFilters object
+		currentFilters = {};
 
 		// Hide active filters
 		if ( activeFiltersContainer ) {
@@ -722,6 +729,11 @@ function initializeFilterBlock( blockElement ) {
 		// Clear filter chips
 		if ( filterChipsContainer ) {
 			filterChipsContainer.innerHTML = '';
+		}
+
+		// Hide clear all button
+		if ( clearAllButton ) {
+			clearAllButton.style.display = 'none';
 		}
 
 		// Reset current page to 1
@@ -798,6 +810,17 @@ function initializeFilterBlock( blockElement ) {
 		// Update current page
 		currentPage = page;
 
+		// Check if grid uses JavaScript pagination
+		const teaserGrid = associatedGrid.querySelector('.fau-teaser-grid');
+		const isJsPagination = teaserGrid && teaserGrid.getAttribute('data-js-pagination') === 'true';
+		
+		if (isJsPagination) {
+			console.log( 'DEBUG: Using client-side filtering for JS pagination grid' );
+			performClientSideFilter();
+			return;
+		}
+
+		// Original server-side filtering code continues below...
 		// Read grid attributes to respect its settings
 		const gridPostsPerPage = associatedGrid.getAttribute( 'data-posts-per-page' ) || '15';
 		const gridVariant = associatedGrid.getAttribute( 'data-variant' ) || 'post';
@@ -1412,5 +1435,126 @@ function initializeFilterBlock( blockElement ) {
 		return str.replace( /[&<>"']/g, function ( m ) {
 			return map[ m ];
 		} );
+	}
+
+	// Function to perform client-side filtering
+	function performClientSideFilter(filterBlock, filterData) {
+		const gridBlockId = filterBlock.getAttribute('data-grid-block-id');
+		if (!gridBlockId) {
+			console.log('No grid block ID found for client-side filtering');
+			return;
+		}
+		
+		// Find the associated teaser grid
+		let teaserGrid = document.querySelector(`[data-custom-block-id="${gridBlockId}"] .fau-teaser-grid`);
+		
+		if (!teaserGrid) {
+			console.log('No teaser grid found with custom block ID:', gridBlockId);
+			return;
+		}
+		
+		console.log('Performing client-side filtering with data:', filterData);
+		
+		// Get all teaser items
+		const teaserItems = teaserGrid.querySelectorAll('.teaser-item');
+		let visibleCount = 0;
+		
+		teaserItems.forEach(item => {
+			let shouldShow = true;
+			
+			// Check each filter
+			if (filterData.searchTerm) {
+				const searchLower = filterData.searchTerm.toLowerCase();
+				const title = item.querySelector('h2, h3, h4, h5, h6')?.textContent?.toLowerCase() || '';
+				const excerpt = item.querySelector('.teaser-item__excerpt')?.textContent?.toLowerCase() || '';
+				const content = item.textContent?.toLowerCase() || '';
+				
+				if (!title.includes(searchLower) && 
+					!excerpt.includes(searchLower) && 
+					!content.includes(searchLower)) {
+					shouldShow = false;
+				}
+			}
+			
+			if (filterData.category && filterData.category !== '') {
+				const itemCategories = item.getAttribute('data-categories')?.split(',') || [];
+				if (!itemCategories.includes(filterData.category)) {
+					shouldShow = false;
+				}
+			}
+			
+			if (filterData.tags && filterData.tags.length > 0) {
+				const itemTags = item.getAttribute('data-tags')?.split(',') || [];
+				const hasMatchingTag = filterData.tags.some(tag => itemTags.includes(tag));
+				if (!hasMatchingTag) {
+					shouldShow = false;
+				}
+			}
+			
+			if (filterData.year && filterData.year !== '') {
+				const itemYear = item.getAttribute('data-year');
+				if (itemYear !== filterData.year) {
+					shouldShow = false;
+				}
+			}
+			
+			if (filterData.author && filterData.author !== '') {
+				const itemAuthor = item.getAttribute('data-author');
+				if (itemAuthor !== filterData.author) {
+					shouldShow = false;
+				}
+			}
+			
+			// Apply visibility
+			if (shouldShow) {
+				item.classList.remove('filtered-out');
+				item.style.display = '';
+				visibleCount++;
+			} else {
+				item.classList.add('filtered-out');
+				item.style.display = 'none';
+			}
+		});
+		
+		console.log(`Client-side filtering complete. ${visibleCount} items visible out of ${teaserItems.length}`);
+		
+		// Emit event for teaser grid to update pagination and reset to page 1
+		document.dispatchEvent(new CustomEvent('fau-filter-update', {
+			detail: {
+				gridId: gridBlockId,
+				visibleCount: visibleCount,
+				resetToPage1: true // Add flag to indicate page reset
+			}
+		}));
+	}
+
+	// Clear all filters
+	function clearAllFilters(filterBlock) {
+		const searchInput = filterBlock.querySelector('.fau-list-filters__search input');
+		const categorySelect = filterBlock.querySelector('.fau-list-filters__category select');
+		const tagCheckboxes = filterBlock.querySelectorAll('.fau-list-filters__tags input[type="checkbox"]');
+		const yearSelect = filterBlock.querySelector('.fau-list-filters__year select');
+		const authorSelect = filterBlock.querySelector('.fau-list-filters__author select');
+		
+		// Clear all filter values
+		if (searchInput) searchInput.value = '';
+		if (categorySelect) categorySelect.value = '';
+		if (yearSelect) yearSelect.value = '';
+		if (authorSelect) authorSelect.value = '';
+		tagCheckboxes.forEach(cb => cb.checked = false);
+		
+		// Emit clear event with resetToPage1 flag
+		const gridBlockId = filterBlock.getAttribute('data-grid-block-id');
+		if (gridBlockId) {
+			document.dispatchEvent(new CustomEvent('fau-filter-clear', {
+				detail: {
+					gridId: gridBlockId,
+					resetToPage1: true
+				}
+			}));
+		}
+		
+		// Perform the search with cleared filters
+		performSearch(filterBlock);
 	}
 }
