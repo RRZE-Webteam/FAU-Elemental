@@ -21,7 +21,7 @@ export default function FactsGridContent( {
 						} ${ fact.link && fact.showLink ? 'has-link' : '' }` }
 						onClick={ () => setSelectedFactIndex( index ) }
 						onKeyDown={ ( event ) => {
-							if ( event.key === 'Enter' || event.key === ' ' ) {
+							if ( event.key === 'Enter' ) {
 								event.preventDefault();
 								setSelectedFactIndex( index );
 							}
@@ -39,7 +39,7 @@ export default function FactsGridContent( {
 								<img src={ fact.iconUrl } alt="" />
 							) : (
 								<img
-									src={ `${ window.location.origin }/wp-content/themes/FAU-Elemental/assets/images/fact-icon.png` }
+									src={ `${window.fauElemental?.themeUrl}/assets/images/fact-icon.png` }
 									alt=""
 								/>
 							) }
@@ -67,12 +67,9 @@ export default function FactsGridContent( {
 							{ fact.link && fact.showLink && (
 								<div className="wp-block-buttons">
 									<div className="wp-block-button is-style-tertiary">
-										<a
-											className="wp-block-button__link"
-											href={ fact.link }
-										>
+										<span className="wp-block-button__link">
 											{ __( 'More', 'fau-elemental' ) }
-										</a>
+										</span>
 									</div>
 								</div>
 							) }

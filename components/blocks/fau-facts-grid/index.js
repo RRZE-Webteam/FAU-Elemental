@@ -42,7 +42,7 @@ function Save( { attributes } ) {
 											<img src={ iconUrl } alt="" />
 										) : (
 											<img
-												src="/wp-content/themes/fau-elemental/assets/images/fact-icon.png"
+												src={ `${window.fauElemental?.themeUrl}/assets/images/fact-icon.png` }
 												alt=""
 											/>
 										) }

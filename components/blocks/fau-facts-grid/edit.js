@@ -1,7 +1,6 @@
 import { useBlockProps, BlockControls } from '@wordpress/block-editor';
 import { useState } from '@wordpress/element';
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
-import { plus } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import FactsInspectorControls from './components/FactsInspectorControls';
 import FactsGridContent from './components/FactsGridContent';
@@ -49,7 +48,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
-						icon={ plus }
+						icon= "plus" 
 						label={ __( 'Add New Fact', 'fau-elemental' ) }
 						onClick={ addFact }
 					/>
