@@ -58,12 +58,8 @@ class FAU_Navigation {
                         data-modal-target="services-modal"
                         aria-label="Services"
                         aria-expanded="false">
-                        <span class="fau-navigation__icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
-                            </svg>
-                        </span>
                         Services
+                        <span class="fau-navigation__services-icon"></span>
                     </button>
                 <?php endif; ?>
                 <?php if ($has_structure): ?>
@@ -71,21 +67,13 @@ class FAU_Navigation {
                         data-modal-target="structure-modal"
                         aria-label="Structure"
                         aria-expanded="false">
-                        <span class="fau-navigation__icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M4 11H9V5H4V11ZM4 18H9V12H4V18ZM10 18H15V12H10V18ZM16 18H21V12H16V18ZM10 11H15V5H10V11ZM16 5V11H21V5H16Z" fill="currentColor"/>
-                            </svg>
-                        </span>
                         Structure
+                        <span class="fau-navigation__structure-icon"></span>
                     </button>
                 <?php endif; ?>
                     <button class="fau-navigation__button" aria-label="Search" aria-expanded="false">
-                        <span class="fau-navigation__icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M15.5 14H14.71L14.43 13.73C15.41 12.59 16 11.11 16 9.5C16 5.91 13.09 3 9.5 3C5.91 3 3 5.91 3 9.5C3 13.09 5.91 16 9.5 16C11.11 16 12.59 15.41 13.73 14.43L14 14.71V15.5L19 20.49L20.49 19L15.5 14ZM9.5 14C7.01 14 5 11.99 5 9.5C5 7.01 7.01 5 9.5 5C11.99 5 14 7.01 14 9.5C14 11.99 11.99 14 9.5 14Z" fill="currentColor"/>
-                            </svg>
-                        </span>
                         Search
+                        <span class="fau-navigation__search-icon"></span>
                     </button>
                 <?php
                 }
@@ -93,11 +81,7 @@ class FAU_Navigation {
             </div>
             <button class="language-switcher fau-navigation__button" aria-label="Language" aria-expanded="false">
                 DE
-                <span class="fau-navigation__icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 10L12 15L17 10H7Z" fill="currentColor"/>
-                    </svg>
-                </span>
+                <span class="fau-navigation__language-switcher-icon"></span>
             </button>
         </nav>
         <?php
