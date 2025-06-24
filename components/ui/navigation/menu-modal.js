@@ -147,6 +147,15 @@
 			this.currentModal = $modal;
 			this.resetModalState( $modal );
 
+			// Add active class to the corresponding button
+			const $triggerButton = $( `[data-modal-target="${ modalId }"]` );
+			if ( $triggerButton.length ) {
+				// Remove active class from all other modal trigger buttons
+				$( '.menu-modal__open-btn' ).removeClass( 'is-active' ).attr( 'aria-expanded', 'false' );
+				// Add active class to current button
+				$triggerButton.addClass( 'is-active' ).attr( 'aria-expanded', 'true' );
+			}
+
 			// Show modal
 			$modal.removeAttr( 'style' ).addClass( 'is-open' ).attr( 'aria-hidden', 'false' );
 
@@ -460,6 +469,9 @@
 			}
 			
 			this.resetModalState( $modal );
+
+			// Remove active class from all modal trigger buttons
+			$( '.menu-modal__open-btn' ).removeClass( 'is-active' ).attr( 'aria-expanded', 'false' );
 
 			// Hide modal
 			$modal.removeClass( 'is-open' ).attr( 'aria-hidden', 'true' );
