@@ -102,28 +102,6 @@ class FAU_Elemental_Portal_Menu_Config {
     ];
     
     /**
-     * Translatable text strings
-     */
-    const TEXT_STRINGS = [
-        'no_menu_selected' => 'Please select a menu to display.',
-        'no_menu_found' => 'No menu could be found with the specified identifier.',
-        'visit_page' => 'Visit page',
-        'submenu_available' => 'Submenu available',
-        'portal_menu' => 'Portal Menu',
-        'menu_settings' => 'Menu Settings',
-        'display_type' => 'Display Type',
-        'columns' => 'Columns',
-        'hide_submenus' => 'Hide Submenus',
-        'list_view' => 'List View',
-        'hide_thumbnails' => 'Hide Thumbnails',
-        'no_fallback_image' => 'No Fallback Image',
-        'hover_effects' => 'Hover Effects',
-        'zoom' => 'Zoom',
-        'blur' => 'Blur',
-        'dark_style' => 'Dark Style'
-    ];
-    
-    /**
      * Meta field names
      */
     const META_FIELDS = [
@@ -180,14 +158,40 @@ class FAU_Elemental_Portal_Menu_Config {
     }
     
     /**
+     * Get all translatable text strings
+     *
+     * @return array Array of translatable strings
+     */
+    private static function get_text_strings() {
+        return [
+            'no_menu_selected' => __('Please select a menu to display.', 'fau-elemental'),
+            'no_menu_found' => __('No menu could be found with the specified identifier.', 'fau-elemental'),
+            'visit_page' => __('Visit page', 'fau-elemental'),
+            'submenu_available' => __('Submenu available', 'fau-elemental'),
+            'portal_menu' => __('Portal Menu', 'fau-elemental'),
+            'menu_settings' => __('Menu Settings', 'fau-elemental'),
+            'display_type' => __('Display Type', 'fau-elemental'),
+            'columns' => __('Columns', 'fau-elemental'),
+            'hide_submenus' => __('Hide Submenus', 'fau-elemental'),
+            'list_view' => __('List View', 'fau-elemental'),
+            'hide_thumbnails' => __('Hide Thumbnails', 'fau-elemental'),
+            'no_fallback_image' => __('No Fallback Image', 'fau-elemental'),
+            'hover_effects' => __('Hover Effects', 'fau-elemental'),
+            'zoom' => __('Zoom', 'fau-elemental'),
+            'blur' => __('Blur', 'fau-elemental'),
+            'dark_style' => __('Dark Style', 'fau-elemental'),
+        ];
+    }
+    
+    /**
      * Get translatable text
      *
      * @param string $key The text key
      * @return string The translated text
      */
     public static function get_text($key) {
-        $text = self::TEXT_STRINGS[$key] ?? $key;
-        return __($text, 'fau-elemental');
+        $texts = self::get_text_strings();
+        return isset($texts[$key]) ? $texts[$key] : $key;
     }
     
     /**
