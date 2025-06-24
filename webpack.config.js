@@ -58,7 +58,7 @@ const customBlockEntries = customBlockFolders.reduce( ( entries, folder ) => {
 			: {} ),
 		...( hasStyleScss
 			? {
-					[ `${ outputPrefix }/style` ]: path.resolve(
+					[ `${ outputPrefix }/theme` ]: path.resolve(
 						folderPath,
 						'style.scss'
 					),
