@@ -13,7 +13,7 @@
         <section class="footer-instance-contact">
             <!-- Column 1: Address -->
             <div class="contact-address">
-                <h3><?php esc_html_e('Kontakt und Anfahrt', 'fau-elemental'); ?></h3>
+                <h3><?php esc_html_e('Contact and Directions', 'fau-elemental'); ?></h3>
 
                 <div class="contact-address-and-tel-container">
                     <?php
@@ -94,7 +94,7 @@
                             }
                         ?>
                             <p>
-                                <?php esc_html_e('Telefon', 'fau-elemental'); ?>:
+                                <?php esc_html_e('Phone', 'fau-elemental'); ?>:
                                 <a href="tel:<?php echo esc_attr($phone); ?>">
                                     <?php echo esc_html($phone); ?>
                                 </a>
@@ -115,7 +115,7 @@
                         if (!empty($directions_link)) : ?>
                             <p class="directions">
                                 <a href="<?php echo esc_url($directions_link); ?>" class="directions-link">
-                                    <?php esc_html_e('Anfahrt', 'fau-elemental'); ?>
+                                    <?php esc_html_e('Directions', 'fau-elemental'); ?>
                                 </a>
                             </p>
                         <?php endif; ?>
@@ -125,7 +125,7 @@
 
             <!-- Column 3: Important links -->
             <nav class="footer-important-links">
-                <h3><?php esc_html_e('Wichtige Links', 'fau-elemental'); ?></h3>
+                <h3><?php esc_html_e('Important Links', 'fau-elemental'); ?></h3>
                 <?php
                 wp_nav_menu(array(
                     'theme_location' => 'footer-wichtige-links',
@@ -211,7 +211,7 @@
 
                 <div class="toggle-container">
                     <button class="fau-info-toggle" aria-expanded="false" aria-controls="fau-info-section">
-                        <?php echo esc_html(get_theme_mod('fau_info_toggle_text', __('Mehr anzeigen', 'fau-elemental'))); ?>
+                        <?php echo esc_html(get_theme_mod('fau_info_toggle_text', __('Show more', 'fau-elemental'))); ?>
                         <span class="toggle-icon" aria-hidden="true"></span>
                     </button>
                 </div>

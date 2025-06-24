@@ -49,9 +49,8 @@ export function createPagination( currentPage, totalPages, onPageChange ) {
 
 	// Previous button
 	pages.push(
-		<a
+		<button
 			key="prev"
-			href="#"
 			className={ `page-numbers prev ${
 				currentPage === 1 ? 'disabled' : ''
 			}` }
@@ -63,7 +62,7 @@ export function createPagination( currentPage, totalPages, onPageChange ) {
 			} }
 		>
 			{ __( 'Prev', 'fau-elemental' ) }
-		</a>
+		</button>
 	);
 
 	// Page numbers
@@ -74,9 +73,8 @@ export function createPagination( currentPage, totalPages, onPageChange ) {
 			( i >= currentPage - halfVisible && i <= currentPage + halfVisible ) // Pages around current
 		) {
 			pages.push(
-				<a
+				<button
 					key={ i }
-					href="#"
 					className={ `page-numbers ${
 						currentPage === i ? 'current' : ''
 					}` }
@@ -86,7 +84,7 @@ export function createPagination( currentPage, totalPages, onPageChange ) {
 					} }
 				>
 					{ i }
-				</a>
+				</button>
 			);
 		} else if (
 			i === currentPage - halfVisible - 1 ||
@@ -102,9 +100,8 @@ export function createPagination( currentPage, totalPages, onPageChange ) {
 
 	// Next button
 	pages.push(
-		<a
+		<button
 			key="next"
-			href="#"
 			className={ `page-numbers next ${
 				currentPage === totalPages ? 'disabled' : ''
 			}` }
@@ -116,7 +113,7 @@ export function createPagination( currentPage, totalPages, onPageChange ) {
 			} }
 		>
 			{ __( 'Next', 'fau-elemental' ) }
-		</a>
+		</button>
 	);
 
 	return <div className="pagination">{ pages }</div>;

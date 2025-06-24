@@ -29,3 +29,11 @@ html :where(.editor-styles-wrapper) {
 .wp-block-file__content-wrapper > .wp-block-file > .wp-block-file {
 	margin-bottom: var(--Spacing-4x);
 }
+
+.editor-styles-wrapper .wp-block {
+	margin-bottom: 0;
+}
+
+:root :where(.editor-styles-wrapper) :where(.is-layout-flow) > .wp-block {
+	margin-block-start: 0;
+}

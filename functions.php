@@ -286,10 +286,10 @@ function fau_elemental_enqueue_footer_scripts() {
         return;
     }
     
-    $website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
+    $faue_website_type = get_theme_mod('faue_website_type');
     
     // Enqueue footer toggle script for instance sites (where the toggle is used)
-    if ($website_type !== 'fau') {
+    if ($faue_website_type !== 'fau') {
         wp_enqueue_script(
             'fau-footer-toggle',
             get_theme_file_uri('components/template-parts/footer-main/footer-toggle.js'),
@@ -300,8 +300,8 @@ function fau_elemental_enqueue_footer_scripts() {
         
         // Localize strings for the footer toggle functionality
         wp_localize_script('fau-footer-toggle', 'fauFooterStrings', [
-            'showMore' => __('Mehr anzeigen', 'fau-elemental'),
-            'showLess' => __('Weniger anzeigen', 'fau-elemental')
+            'showMore' => __('Show more', 'fau-elemental'),
+            'showLess' => __('Show less', 'fau-elemental')
         ]);
     }
 }

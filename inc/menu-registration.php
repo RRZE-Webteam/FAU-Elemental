@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
  * Register all navigation menus for the theme
  */
 function fau_elemental_register_all_menus() {
-    $website_type = get_theme_mod('faue_website_type', 'fau');
+    $faue_website_type = get_theme_mod('faue_website_type', 'fau');
     
     // Core menus that are always registered
     $menus = array(
@@ -22,7 +22,7 @@ function fau_elemental_register_all_menus() {
     );
     
     // Add menus based on website type
-    if ($website_type === 'fau') {
+    if ($faue_website_type === 'fau') {
         // Main FAU site gets the footer lists menu
         $menus['footer-lists-menu'] = __('Footer Lists Menu', 'fau-elemental');
     } else {
