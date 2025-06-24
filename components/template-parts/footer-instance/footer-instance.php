@@ -9,18 +9,15 @@
         </section>
 
         <section class="footer-instance-contact">
+            <?php
+            $display_address = get_theme_mod('display_footer_address');
+
+            if ($display_address):
+            ?>
             <div class="contact-address">
                 <h3><?php esc_html_e('Contact and Directions', 'fau-elemental'); ?></h3>
 
                 <div class="contact-address-and-tel-container">
-                    <?php
-                    $display_address = get_theme_mod('display_footer_address', null);
-                    if (null === $display_address) {
-                        $display_address = get_theme_mod('advanced_footer_display_address', true);
-                    }
-
-                    if ($display_address):
-                    ?>
                         <address>
                             <?php
                             echo esc_html(get_theme_mod('instance_university_name', __('Friedrich-Alexander-Universität Erlangen-Nürnberg', 'fau-elemental')));
@@ -111,9 +108,9 @@
                             </div>
 
                         </address>
-                    <?php endif; ?>
                 </div>
             </div>
+            <?php endif; ?>
 
             <nav class="footer-important-links">
                 <h3><?php esc_html_e('Important Links', 'fau-elemental'); ?></h3>

@@ -225,7 +225,7 @@ function fau_customizer_settings($wp_customize) {
     
     // Display toggle for address information
     $wp_customize->add_setting('display_footer_address', [
-        'default' => true,
+        'default' => faue_get_default('display_footer_address'),
         'transport' => 'refresh',
         'sanitize_callback' => 'fau_sanitize_checkbox',
     ]);

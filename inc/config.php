@@ -14,6 +14,8 @@ $faue_defaults = array(
     'faue_website_type' => 'fau',
     // Breadcrumb Mode
     'faue_breadcrumb_variant_blue' => true,
+    // Display Footer Address
+    'display_footer_address' => true,
 );
 
 // Social Media Platforms Configuration
