@@ -8,11 +8,11 @@
 
 get_header();
 
-// Configuration values - should ideally come from theme config
+// Configuration values from theme config
 $search_config = array(
-    'excerpt_length' => 30,
-    'separator' => '|',
-    'arrow' => '→'
+    'excerpt_length' => faue_get_default('faue_search_excerpt_length'),
+    'separator' => faue_get_default('faue_search_separator'),
+    'arrow' => faue_get_default('faue_search_arrow')
 );
 ?>
 
@@ -70,10 +70,16 @@ $search_config = array(
                 ?></p>
             </div>
 
+            <h2 class="screen-reader-text"><?php _e('Search Results List', 'fau-elemental'); ?></h2>
             <div class="search-results-list">
-                <?php while (have_posts()) : the_post(); ?>
+                <?php 
+                $result_counter = 1;
+                while (have_posts()) : the_post(); ?>
                     <article class="search-result-item" itemscope itemtype="https://schema.org/Article">
-                        <div class="result-header">
+                        <h3 class="screen-reader-text">
+                            <?php printf(__('Search Result %d', 'fau-elemental'), $result_counter); ?>
+                        </h3>
+                        <header class="result-header">
                             <div class="result-date-info">
                                 <time class="result-date" 
                                       datetime="<?php echo get_the_date('c'); ?>" 
@@ -93,17 +99,20 @@ $search_config = array(
                                     </span>
                                 <?php endif; ?>
                             </div>
-                        </div>
+                        </header>
                         
                         <div class="result-content">
                             <?php if (has_post_thumbnail()) : ?>
-                                <div class="result-image" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
-                                    <a href="<?php the_permalink(); ?>" aria-label="<?php printf(__('View article: %s', 'fau-elemental'), get_the_title()); ?>">
+                                <div class="result-image">
+                                    <a href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
                                         <?php 
+                                        $thumbnail_alt = get_post_meta(get_post_thumbnail_id(), '_wp_attachment_image_alt', true);
+                                        $alt_text = !empty($thumbnail_alt) ? $thumbnail_alt : sprintf(__('Featured image for %s', 'fau-elemental'), get_the_title());
+                                        
                                         the_post_thumbnail('medium', array(
                                             'class' => 'result-thumbnail',
-                                            'itemprop' => 'url',
-                                            'alt' => get_the_title()
+                                            'itemprop' => 'image',
+                                            'alt' => $alt_text
                                         )); 
                                         ?>
                                     </a>
@@ -111,14 +120,13 @@ $search_config = array(
                             <?php endif; ?>
                             
                             <div class="result-text">
-                                <h2 class="result-title" itemprop="headline">
+                                <h4 class="result-title" itemprop="headline">
                                     <a href="<?php the_permalink(); ?>" 
                                        class="result-link" 
-                                       itemprop="url"
-                                       aria-label="<?php printf(__('Read full article: %s', 'fau-elemental'), get_the_title()); ?>">
+                                       itemprop="url">
                                         <?php the_title(); ?>
                                     </a>
-                                </h2>
+                                </h4>
                                 
                                 <div class="result-excerpt" itemprop="description">
                                     <?php 
@@ -131,10 +139,9 @@ $search_config = array(
                                 </div>
                                 
                                 <a href="<?php the_permalink(); ?>" 
-                                   class="result-read-more"
-                                   aria-label="<?php printf(__('Read more about: %s', 'fau-elemental'), get_the_title()); ?>">
-                                    <?php _e('Read more', 'fau-elemental'); ?> 
-                                    <span aria-hidden="true"><?php echo $search_config['arrow']; ?></span>
+                                   class="result-read-more">
+                                    <span class="screen-reader-text"><?php printf(__('Read more about %s', 'fau-elemental'), get_the_title()); ?></span>
+                                    <span aria-hidden="true"><?php _e('Read more', 'fau-elemental'); ?> <?php echo $search_config['arrow']; ?></span>
                                 </a>
                             </div>
                         </div>
@@ -143,19 +150,28 @@ $search_config = array(
                         <meta itemprop="author" content="<?php echo esc_attr(get_the_author()); ?>" />
                         <meta itemprop="dateModified" content="<?php echo get_the_modified_date('c'); ?>" />
                     </article>
-                <?php endwhile; ?>
+                <?php 
+                $result_counter++;
+                endwhile; ?>
             </div>
             
             <?php 
             // Pagination
-            the_posts_pagination(array(
+            $pagination_args = array(
                 'mid_size' => 2,
                 'prev_text' => __('&laquo; Previous', 'fau-elemental'),
                 'next_text' => __('Next &raquo;', 'fau-elemental'),
                 'class' => 'search-pagination',
                 'screen_reader_text' => __('Search results navigation', 'fau-elemental')
-            )); 
-            ?>
+            );
+            
+            $pagination = get_the_posts_pagination($pagination_args);
+            if (!empty($pagination)) : ?>
+                <nav class="search-pagination-nav" aria-labelledby="search-pagination-heading">
+                    <h2 id="search-pagination-heading" class="screen-reader-text"><?php _e('Search Results Pages', 'fau-elemental'); ?></h2>
+                    <?php the_posts_pagination($pagination_args); ?>
+                </nav>
+            <?php endif; ?>
         </div>
 
     <?php else : ?>
