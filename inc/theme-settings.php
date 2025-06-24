@@ -26,15 +26,15 @@ function faue_customize_register($wp_customize) {
     ));
 
     // Breadcrumb Mode Setting (stores boolean, convert to 'dark'/'light' when using)
-    $wp_customize->add_setting('faue_breadcrumb_mode', [
-        'default' => false,
+    $wp_customize->add_setting('faue_breadcrumb_variant_blue', [
+        'default' => faue_get_default('faue_breadcrumb_variant_blue'),
         'transport' => 'refresh',
         'sanitize_callback' => 'faue_sanitize_breadcrumb_mode',
     ]);
     
-    $wp_customize->add_control('faue_breadcrumb_mode', [
-        'label' => __('Breadcrumb Dark Mode', 'fau-elemental'),
-        'description' => __('Apply dark styling to the breadcrumbs', 'fau-elemental'),
+    $wp_customize->add_control('faue_breadcrumb_variant_blue', [
+        'label' => __('Breadcrumb variant: Blue', 'fau-elemental'),
+        'description' => __('Setting for the blue breadcrumb variant', 'fau-elemental'),
         'section' => 'faue_header_settings',
         'type' => 'checkbox',
         'priority' => 15,
@@ -42,7 +42,7 @@ function faue_customize_register($wp_customize) {
 
     // Website Type Setting
     $wp_customize->add_setting('faue_website_type', array(
-        'default'           => 'fau',
+        'default'           => faue_get_default('faue_website_type'),
         'sanitize_callback' => 'faue_sanitize_website_type',
     ));
 
