@@ -9,7 +9,7 @@ registerBlockType( 'fau-elemental/fau-meta-headline', {
 		return (
 			<RichText
 				{ ...blockProps }
-				tagName="header"
+				tagName="div"
 				value={ attributes.headline }
 				onChange={ ( content ) =>
 					setAttributes( { headline: content } )
@@ -24,7 +24,7 @@ registerBlockType( 'fau-elemental/fau-meta-headline', {
 		return (
 			<RichText.Content
 				{ ...blockProps }
-				tagName="header"
+				tagName="div"
 				value={ attributes.headline }
 			/>
 		);
