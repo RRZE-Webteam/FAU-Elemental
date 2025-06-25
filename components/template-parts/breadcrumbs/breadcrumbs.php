@@ -14,7 +14,9 @@ if (!defined('ABSPATH')) {
 /**
  * Maximum length for breadcrumb titles before truncation
  */
-const FAUE_BREADCRUMB_TITLE_MAX_LENGTH = 50;
+if (!defined('FAUE_BREADCRUMB_TITLE_MAX_LENGTH')) {
+    define('FAUE_BREADCRUMB_TITLE_MAX_LENGTH', 50);
+}
 
 /**
  * Add dark mode class to the parent block group
