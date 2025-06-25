@@ -103,7 +103,6 @@
 					flex-direction: column;
 					gap: var(--Spacing-3x);
 					margin: 0;
-					list-style: none;
 
 					li {
 
@@ -118,6 +117,10 @@
 							display: none; // no list style
 						}
 					}
+				}
+
+				ul {
+					list-style: none;
 				}
 			}
 		}
