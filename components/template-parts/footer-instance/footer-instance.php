@@ -19,58 +19,60 @@
 
                 <div class="contact-address-and-tel-container">
                         <address>
-                            <?php
-                            echo esc_html(get_theme_mod('instance_university_name', __('Friedrich-Alexander-Universität Erlangen-Nürnberg', 'fau-elemental')));
-                            ?><br>
-                            <?php
-                            $faculty_name = get_theme_mod('instance_faculty_name', '');
-                            if (empty($faculty_name)) {
-                                $address_name = get_theme_mod('contact_address_name', '');
-                                $address_name2 = get_theme_mod('contact_address_name2', '');
-                                if (!empty($address_name)) {
-                                    echo esc_html($address_name);
-                                    if (!empty($address_name2)) {
-                                        echo '<br>' . esc_html($address_name2);
+                            <div>
+                                <?php
+                                echo esc_html(get_theme_mod('instance_university_name', __('Friedrich-Alexander-Universität Erlangen-Nürnberg', 'fau-elemental')));
+                                ?><br>
+                                <?php
+                                $faculty_name = get_theme_mod('instance_faculty_name', '');
+                                if (empty($faculty_name)) {
+                                    $address_name = get_theme_mod('contact_address_name', '');
+                                    $address_name2 = get_theme_mod('contact_address_name2', '');
+                                    if (!empty($address_name)) {
+                                        echo esc_html($address_name);
+                                        if (!empty($address_name2)) {
+                                            echo '<br>' . esc_html($address_name2);
+                                        }
+                                    }
+                                } else {
+                                    echo esc_html($faculty_name);
+                                }
+                                if (!empty($faculty_name) || !empty($address_name)) echo '<br>';
+                                ?>
+                                <?php
+                                $street = get_theme_mod('instance_street', '');
+                                if (empty($street)) {
+                                    $street = get_theme_mod('contact_address_street', '');
+                                }
+                                if (!empty($street)) {
+                                    echo esc_html($street) . '<br>';
+                                }
+                                ?>
+                                <?php
+                                $city = get_theme_mod('instance_city', '');
+                                if (empty($city)) {
+                                    $plz = get_theme_mod('contact_address_plz', '');
+                                    $ort = get_theme_mod('contact_address_ort', '');
+                                    if (!empty($plz) || !empty($ort)) {
+                                        $city = trim($plz . ' ' . $ort);
                                     }
                                 }
-                            } else {
-                                echo esc_html($faculty_name);
-                            }
-                            if (!empty($faculty_name) || !empty($address_name)) echo '<br>';
-                            ?>
-                            <?php
-                            $street = get_theme_mod('instance_street', '');
-                            if (empty($street)) {
-                                $street = get_theme_mod('contact_address_street', '');
-                            }
-                            if (!empty($street)) {
-                                echo esc_html($street) . '<br>';
-                            }
-                            ?>
-                            <?php
-                            $city = get_theme_mod('instance_city', '');
-                            if (empty($city)) {
-                                $plz = get_theme_mod('contact_address_plz', '');
-                                $ort = get_theme_mod('contact_address_ort', '');
-                                if (!empty($plz) || !empty($ort)) {
-                                    $city = trim($plz . ' ' . $ort);
+                                if (!empty($city)) {
+                                    echo esc_html($city);
                                 }
-                            }
-                            if (!empty($city)) {
-                                echo esc_html($city);
-                            }
-                            ?>
-                            <?php
-                            $country = get_theme_mod('instance_country', '');
-                            if (empty($country)) {
-                                $country = get_theme_mod('contact_address_country', '');
-                            }
-                            if (!empty($country)):
-                            ?>
-                                <br><?php echo esc_html($country); ?>
-                            <?php endif; ?>
+                                ?>
+                                <?php
+                                $country = get_theme_mod('instance_country', '');
+                                if (empty($country)) {
+                                    $country = get_theme_mod('contact_address_country', '');
+                                }
+                                if (!empty($country)):
+                                ?>
+                                    <br><?php echo esc_html($country); ?>
+                                <?php endif; ?>
+                            </div>
 
-                            <div class="mail-tel-directions-container">
+                            <div>
                                 <?php
                                 $phone = get_theme_mod('instance_phone', '');
                                 if (!empty($phone)) :
@@ -79,31 +81,31 @@
                                         $phone = fau_elemental_format_phone_number($phone);
                                     }
                                 ?>
-                                    <p>
+                                    <span>
                                         <?php esc_html_e('Phone', 'fau-elemental'); ?>:
                                         <a href="tel:<?php echo esc_attr($phone); ?>">
                                             <?php echo esc_html($phone); ?>
                                         </a>
-                                    </p>
+                                    </span>
                                 <?php endif; ?>
                                 <?php 
                                 $email = get_theme_mod('instance_email', '');
                                 if (!empty($email)) : ?>
-                                    <p>
+                                    <span>
                                         <?php esc_html_e('Mail', 'fau-elemental'); ?>:
                                         <a href="mailto:<?php echo esc_attr($email); ?>">
                                             <?php echo esc_html($email); ?>
                                         </a>
-                                    </p>
+                                    </span>
                                 <?php endif; ?>
                                 <?php 
                                 $directions_link = get_theme_mod('instance_directions_link', '');
                                 if (!empty($directions_link)) : ?>
-                                    <p class="directions">
+                                    <span class="directions">
                                         <a href="<?php echo esc_url($directions_link); ?>" class="directions-link">
                                             <?php esc_html_e('Directions', 'fau-elemental'); ?>
                                         </a>
-                                    </p>
+                                    </span>
                                 <?php endif; ?>
                             </div>
 
