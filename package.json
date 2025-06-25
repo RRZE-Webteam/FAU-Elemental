@@ -16,7 +16,7 @@
 		"pr-check": "npm run format && npm run lint:js && npm run lint:css && npm run build -- --fail-on-warnings && echo \">>>>> Ready to PR!\"",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"makepot": "wp i18n make-pot . languages/fau-elemental.pot --include=template-parts --exclude=node_modules,vendor,build",
+		"makepot": "wp i18n make-pot . languages/fau-elemental.pot --exclude=.git,node_modules,vendor,build,.github,.vscode",
 		"makejson": "wp i18n make-json languages --pretty-print"
 	},
 	"devDependencies": {

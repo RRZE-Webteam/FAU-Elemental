@@ -1,16 +1,15 @@
-# Copyright (C) 2025 TBD - theme author
-# This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.2.3\n"
+"Project-Id-Version: FAU-Elemental 0.2.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/project\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-25T08:30:59+00:00\n"
+"POT-Creation-Date: 2025-06-25T08:00:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Language: \n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
 
@@ -42,7 +41,7 @@ msgstr ""
 #: 404.php:13
 #: components/template-parts/breadcrumbs/breadcrumbs.php:144
 msgid "404 - Page Not Found"
-msgstr ""
+msgstr "404 - Seite nicht gefunden"
 
 #: 404.php:14
 msgid "The page you were looking for could not be found."
@@ -647,296 +646,15 @@ msgstr ""
 msgid "Search Results for: %s"
 msgstr ""
 
-#: search.php:35
-msgid "Search for:"
-msgstr ""
-
-#: search.php:39
-msgid "Enter search term..."
-msgstr ""
-
-#: search.php:43
-msgid "Submit search"
-msgstr ""
-
-#: search.php:44
-msgid "Search"
-msgstr ""
-
-#: search.php:48
-msgid "Press Enter to search or use the search button to submit your query"
-msgstr ""
-
-#: search.php:61
-msgctxt "search results count"
-msgid "%s result found"
-msgid_plural "%s results found"
-msgstr[0] ""
-msgstr[1] ""
-
-#: search.php:73
-msgid "Search Results List"
-msgstr ""
-
-#: search.php:80
-msgid "Search Result %d"
-msgstr ""
-
-#: search.php:108
-msgid "Featured image for %s"
-msgstr ""
-
-#: search.php:141
-msgid "Read more about %s"
-msgstr ""
-
-#: search.php:142
-#: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:120
-#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:155
-msgid "Read more"
-msgstr ""
-
-#: search.php:160
-msgid "&laquo; Previous"
-msgstr ""
-
-#: search.php:161
-msgid "Next &raquo;"
-msgstr ""
-
-#: search.php:163
-msgid "Search results navigation"
-msgstr ""
-
-#: search.php:169
-msgid "Search Results Pages"
-msgstr ""
-
-#: search.php:177
-msgid "No Search Results"
-msgstr ""
-
-#: search.php:179
-msgid "No results were found."
-msgstr ""
-
-#: search.php:182
-msgid "Try:"
-msgstr ""
-
-#: search.php:184
-msgid "Check the spelling of your search terms."
-msgstr ""
-
-#: search.php:185
-msgid "Use more general search terms."
-msgstr ""
-
-#: search.php:186
-msgid "Use fewer search terms."
-msgstr ""
-
 #: components/blocks/fau-big-button-teaser-group/edit.js:147
 #: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:26
 msgid "Content Settings"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:151
-msgid "Show Roof Line"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:159
-msgid "Roof Line"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:168
-msgid "Show Headline"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:176
-msgid "Headline"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:185
-msgid "Show Teaser Text"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:193
-msgid "Teaser Text"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:203
-msgid "Appearance Settings"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:207
-msgid "Faculty Color"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:211
-msgid "Default"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:215
-msgid "Philosophy"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:219
-msgid "Law & Economics"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:223
-msgid "Medicine"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:227
-msgid "Sciences"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:231
-msgid "Technology"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:241
-msgid "Teaser Size"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:245
-msgid "Small"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:249
-#: components/core-blocks/image/index.js:27
-msgid "Large"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:259
-msgid "Variant"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:263
-msgid "Filled"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:267
-msgid "Outline"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:277
-msgid "Number of Buttons"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:283
-#: components/blocks/fau-big-button-teaser-group/edit.js:344
-msgid "Maximum number of pages selected for current button count."
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:287
-msgid "Select the number of buttons to display."
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:296
-msgid "Page Selection"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:300
-msgid "Show All Pages"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:307
-msgid "All published pages will be displayed as buttons."
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:311
-msgid "Manually select specific pages to display as buttons."
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:321
-#: components/blocks/fau-big-button-teaser-group/edit.js:336
-msgid "Search and select pages"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:348
-msgid "Type to search for pages to add as button teasers."
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:369
-msgid "Button"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:388
-msgid "Remove page"
 msgstr ""
 
 #: components/blocks/fau-big-button-teaser-group/edit.js:396
 #: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:108
 #: components/core-blocks/quote/index.js:574
 msgid "Remove"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:408
-msgid "Displaying all pages:"
-msgstr ""
-
-#. translators: %s: number of pages
-#: components/blocks/fau-big-button-teaser-group/edit.js:451
-msgid "Note: Only the first %s pages will be displayed based on your \"Number of Buttons\" setting."
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:537
-msgid "Select a page…"
-msgstr ""
-
-#: components/blocks/fau-big-button-teaser-group/edit.js:540
-msgid "Use the Page Selection panel to choose pages for your button teasers."
-msgstr ""
-
-#: components/blocks/fau-copyright-info/index.js:12
-msgid "Copyright Information"
-msgstr ""
-
-#: components/blocks/fau-copyright-info/index.js:14
-msgid "This block will display copyright information from images and other sources in the frontend."
-msgstr ""
-
-#: components/blocks/fau-meta-headline/index.js:22
-msgid "Enter meta headline…"
-msgstr ""
-
-#: components/blocks/fau-portalmenu/edit.js:39
-msgid "Select a menu"
-msgstr ""
-
-#: components/blocks/fau-portalmenu/edit.js:70
-msgid "Menu Settings"
-msgstr ""
-
-#: components/blocks/fau-portalmenu/edit.js:90
-msgid "Show Submenus"
-msgstr ""
-
-#: components/blocks/fau-portalmenu/edit.js:98
-msgid "Mega Navigation"
-msgstr ""
-
-#: components/blocks/fau-portalmenu/edit.js:122
-msgid "No Fallback Images"
-msgstr ""
-
-#: components/blocks/fau-portalmenu/edit.js:130
-msgid "Hover Zoom Effect"
-msgstr ""
-
-#: components/blocks/fau-portalmenu/edit.js:138
-msgid "Hover Blur Effect"
-msgstr ""
-
-#: components/blocks/fau-portalmenu/edit.js:162
-msgid "FAU Portal Menu"
-msgstr ""
-
-#: components/blocks/fau-portalmenu/edit.js:163
-msgid "Please select a menu in the block settings panel."
 msgstr ""
 
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:68
@@ -1094,253 +812,10 @@ msgstr ""
 msgid "Remove post"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:113
-msgid "All Categories"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:165
-msgid "Teaser Grid Block"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:208
-msgid "Load More Settings"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:211
-msgid "Show Load More Button"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:219
-msgid "Display a \"Load More\" button to load additional posts dynamically."
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:227
-msgid "Accessibility"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:229
-msgid "To ensure good accessibility and SEO, please make sure that there is only one H1 heading on the page. If you already have an H1 heading, use a different heading level for the teasers in this block."
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:240
-msgid "Change heading level"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:243
-msgid "Heading 2"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:249
-msgid "Heading 3"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:255
-msgid "Heading 4"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:261
-msgid "Heading 5"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:267
-msgid "Heading 6"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:329
-msgid "No posts selected"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:360
-msgid "Loading…"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:371
-msgid "Pagination"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/utils/helpers.js:64
-msgid "Prev"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/utils/helpers.js:115
-msgid "Next"
-msgstr ""
-
-#: components/core-blocks/button/index.js:9
-msgid "Primary"
-msgstr ""
-
-#: components/core-blocks/button/index.js:14
-msgid "Secondary"
-msgstr ""
-
-#: components/core-blocks/button/index.js:19
-msgid "Tertiary"
-msgstr ""
-
-#: components/core-blocks/file/index.js:211
-#: components/core-blocks/file/index.js:234
-msgid "Download"
-msgstr ""
-
-#: components/core-blocks/file/index.js:255
-#: components/core-blocks/file/index.js:413
-msgid "Cover image for file"
-msgstr ""
-
-#: components/core-blocks/group/index.js:8
-msgid "Dark"
-msgstr ""
-
-#: components/core-blocks/image/index.js:33
-msgid "Medium"
-msgstr ""
-
-#: components/core-blocks/image/index.js:253
-#: components/core-blocks/media-text/index.js:73
-msgid "Additional Settings"
-msgstr ""
-
-#: components/core-blocks/image/index.js:259
-#: components/core-blocks/media-text/index.js:79
-msgid "Copyright Info"
-msgstr ""
-
-#: components/core-blocks/image/index.js:270
-msgid "Add Overlay"
-msgstr ""
-
-#: components/core-blocks/list/index.js:45
-msgid "List Style Settings"
-msgstr ""
-
-#: components/core-blocks/list/index.js:51
-msgid "List Style"
-msgstr ""
-
-#: components/core-blocks/list/index.js:64
-msgid "Line"
-msgstr ""
-
-#: components/core-blocks/list/index.js:71
-msgid "Icons"
-msgstr ""
-
-#: components/core-blocks/media-text/index.js:9
-msgid "Media & Text"
-msgstr ""
-
-#: components/core-blocks/media-text/index.js:10
-msgid "Set media and words side-by-side for a richer layout."
-msgstr ""
-
-#: components/core-blocks/media-text/index.js:24
-msgid "Content"
-msgstr ""
-
-#: components/core-blocks/paragraph/index.js:16
-msgid "Intro Text"
-msgstr ""
-
-#: components/core-blocks/paragraph/index.js:22
-msgid "Small Text"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:195
-msgid "Enter quote text…"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:207
-msgid "Enter citation…"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:263
-#: components/core-blocks/quote/index.js:477
-msgid "Add New Quote"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:268
-#: components/core-blocks/quote/index.js:411
-msgid "Move quote up"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:276
-#: components/core-blocks/quote/index.js:427
-msgid "Move quote down"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:285
-msgid "More"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:305
-#: components/core-blocks/quote/index.js:525
-msgid "Add Image"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:309
-msgid "Replace Image"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:330
-msgid "Remove image"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:351
-#: components/core-blocks/quote/index.js:445
-msgid "Cannot remove the last quote"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:355
-#: components/core-blocks/quote/index.js:449
-msgid "Remove this quote"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:396
-msgid "Empty quote"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:490
-msgid "Quote Image"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:491
-msgid "Add an image to accompany this quote"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:558
-msgid "Replace"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:692
-#: components/core-blocks/quote/index.js:773
-msgid "Previous slide"
-msgstr ""
-
-#: components/core-blocks/quote/index.js:699
-#: components/core-blocks/quote/index.js:796
-msgid "Next slide"
-msgstr ""
-
-#. translators: %s: slide index
-#: components/core-blocks/quote/index.js:787
-msgid "Go to slide %s"
-msgstr ""
-
-#: components/core-blocks/spacer/index.js:97
-msgid "FAU Spacing"
-msgstr ""
-
-#: components/core-blocks/spacer/index.js:101
-msgid "Spacing Height"
-msgstr ""
-
-#: components/core-blocks/spacer/index.js:110
-msgid "Select from predefined spacing values"
-msgstr ""
-
-#: components/core-blocks/spacer/index.js:122
-msgid "Current:"
+#: search.php:142
+#: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:120
+#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:155
+msgid "Read more"
 msgstr ""
 
 #: components/blocks/fau-big-button-teaser-group/block.json
@@ -1401,4 +876,87 @@ msgstr ""
 #: theme.json
 msgctxt "Style variation description"
 msgid "Fau Elemental"
+msgstr ""
+
+#: search.php:35
+msgid "Search for:"
+msgstr ""
+
+#: search.php:39
+msgid "Enter search term..."
+msgstr ""
+
+#: search.php:43
+msgid "Submit search"
+msgstr ""
+
+#: search.php:44
+msgid "Search"
+msgstr ""
+
+#: search.php:48
+msgid "Press Enter to search or use the search button to submit your query"
+msgstr ""
+
+#: search.php:61
+msgctxt "search results count"
+msgid "%s result found"
+msgid_plural "%s results found"
+msgstr[0] ""
+msgstr[1] ""
+
+#: search.php:73
+msgid "Search Results List"
+msgstr ""
+
+#: search.php:80
+msgid "Search Result %d"
+msgstr ""
+
+#: search.php:108
+msgid "Featured image for %s"
+msgstr ""
+
+#: search.php:141
+msgid "Read more about %s"
+msgstr ""
+
+#: search.php:160
+msgid "&laquo; Previous"
+msgstr ""
+
+#: search.php:161
+msgid "Next &raquo;"
+msgstr ""
+
+#: search.php:163
+msgid "Search results navigation"
+msgstr ""
+
+#: search.php:169
+msgid "Search Results Pages"
+msgstr ""
+
+#: search.php:177
+msgid "No Search Results"
+msgstr ""
+
+#: search.php:179
+msgid "No results were found."
+msgstr ""
+
+#: search.php:182
+msgid "Try:"
+msgstr ""
+
+#: search.php:184
+msgid "Check the spelling of your search terms."
+msgstr ""
+
+#: search.php:185
+msgid "Use more general search terms."
+msgstr ""
+
+#: search.php:186
+msgid "Use fewer search terms."
 msgstr ""

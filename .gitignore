@@ -68,3 +68,6 @@ cursor.rules
 
 # Ignore build directory
 build/
+
+# Ignore compiled I18n .mo files
+languages/*.mo
