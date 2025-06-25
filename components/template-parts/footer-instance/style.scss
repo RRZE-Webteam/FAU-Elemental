@@ -51,22 +51,34 @@
 			padding-bottom: var(--Spacing-12x);
 
 			.contact-address {
-				flex-basis: 33%;
-
-				&:has(address) {
-					flex-basis: 66%;
-				}
+				flex-basis: 66%;
 
 				.contact-address-and-tel-container {
-					display: flex;
-					gap: var(--Spacing-8x);
 
 					address {
-						flex-basis: 50%;
+						display: flex;
+						gap: var(--Spacing-16x);
 						font-style: unset;
 						font-size: 1rem;
 						font-weight: 400;
 						line-height: 1.5;
+
+						> div {
+							flex-basis: 50%;
+
+							&:last-child {
+								padding-right: var(--Spacing-8x);
+								box-sizing: border-box;
+							}
+						}
+
+						span {
+							display: block;
+
+							+ .directions {
+								margin-top: var(--Spacing-8x);
+							}
+						}
 					}
 
 					.contact-details {
@@ -79,10 +91,6 @@
 								margin-top: var(--Spacing-5x);
 							}
 						}
-					}
-
-					&:has(address) .contact-details {
-						flex-basis: 50%;
 					}
 				}
 			}
@@ -165,7 +173,7 @@
 			position: relative;
 			background-color: var(--FAU-Col-FAU-Blau-100);
 			border: 0;
-			padding: 1.25rem 1.5rem;
+			padding: var(--Spacing-5x) var(--Spacing-6x);
 			font-family: var(--font-family-base);
 			color: var(--FAU-Col-FAU-Weiss-100);
 			font-size: 1rem;
@@ -198,6 +206,21 @@
 				transition: var(--basic-animation);
 			}
 
+			// Progressive enhancement: Show button only when JavaScript is available
+			.no-js & {
+				display: none;
+			}
+
+			// Button text and icon structure
+			.toggle-text {
+				display: inline;
+			}
+
+			// Rotate chevron when expanded
+			&[aria-expanded="true"]::after {
+				transform: rotate(-90deg);
+			}
+
 			&:hover,
 			&:focus-visible {
 
@@ -205,14 +228,16 @@
 					top: 1.625rem;
 				}
 			}
+		}
 
-			&[aria-expanded="true"] {
+		// Progressive enhancement: Ensure content is visible without JavaScript
+		.no-js .fau-info-section {
+			display: block !important;
+		}
 
-				&::after {
-					transform: rotate(-90deg);
-					transition: var(--basic-animation);
-				}
-			}
+		// Hide section initially when JavaScript is available (handled by JS)
+		.js .fau-info-section[hidden] {
+			display: none;
 		}
 
 		// adapted visuals for claim only for instance (faculty)
@@ -258,23 +283,13 @@
 
 	.site-footer {
 
-		.footer-content--instance .footer-instance-menu {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: var(--Spacing-10x);
-		}
-
-		.social-links {
-			justify-content: flex-start;
-		}
-	}
-}
-
-@include respond-to("small") {
-
-	.site-footer {
-
 		.footer-content--instance {
+
+			.footer-instance-menu {
+				flex-direction: column;
+				align-items: flex-start;
+				gap: var(--Spacing-10x);
+			}
 
 			.footer-instance-contact {
 				flex-wrap: wrap;
@@ -289,7 +304,6 @@
 				}
 
 				.contact-address,
-				.contact-address:has(address),
 				.footer-important-links {
 					flex-basis: 100%;
 				}
@@ -304,6 +318,16 @@
 				max-width: unset;
 			}
 		}
+
+		.social-links {
+			justify-content: flex-start;
+		}
+	}
+}
+
+@include respond-to("small") {
+
+	.site-footer {
 
 		.footer-bottom {
 
@@ -326,11 +350,14 @@
 @media screen and (max-width: 599px) {
 
 	.site-footer .footer-content--instance .footer-instance-contact .contact-address .contact-address-and-tel-container {
-		flex-direction: column;
 
-		address,
-		.contact-details {
-			flex-basis: unset;
+		address {
+			flex-direction: column;
+			gap: var(--Spacing-4x);
+
+			span + .directions {
+				margin-top: var(--Spacing-6x);
+			}
 		}
 	}
 }

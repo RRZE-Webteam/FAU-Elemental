@@ -22,7 +22,6 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
         return '';
     }
 
-    // Convert target groups to the format expected by the shared function
     $items = [];
     foreach ($target_groups as $group) {
         if (!empty($group['title'])) {
@@ -34,7 +33,6 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
         }
     }
 
-    // Prepare options for the shared rendering function
     $options = [
         'variant' => $variant,
         'teaser_size' => $size,

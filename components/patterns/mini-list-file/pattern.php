@@ -6,11 +6,13 @@
  * Categories: fau-elemental
  * Description: A list of files with a headline and a button to view more files.
  * Block Types: core/post-content
+ * Post Types: post, page
  */
+
 ?>
 
-<!-- wp:fau-elemental/fau-meta-headline -->
-<header class="wp-block-fau-elemental-fau-meta-headline">Dateien</header>
+<!-- wp:fau-elemental/fau-meta-headline {"headline":"Dateien","id":""} -->
+<div class="wp-block-fau-elemental-fau-meta-headline" id="headline-" >Dateien</div>
 <!-- /wp:fau-elemental/fau-meta-headline -->
 
 <!-- wp:spacer {"height":"40px","width":"0px","style":{"layout":[]}} -->

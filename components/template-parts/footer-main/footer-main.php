@@ -1,4 +1,4 @@
-<footer class="footer-content footer-content--main <?php echo get_theme_mod('footer_dark_style', false) ? 'is-style-dark' : ''; ?>">
+<div class="footer-content footer-content--main <?php echo get_theme_mod('footer_dark_style', false) ? 'is-style-dark' : ''; ?>">
     <div class="footer-main">
         <section class="fau-claim">
             <h2><?php echo esc_html(get_theme_mod('fau_footer_title', __('FAU - Knowledge in Motion', 'fau-elemental'))); ?></h2>
@@ -7,10 +7,8 @@
 
         <section class="target-groups">
             <?php
-            // Include the footer target groups component
             require_once get_theme_file_path('components/template-parts/footer-instance/footer-target-groups.php');
             
-            // Get target groups from customizer
             $target_groups = array(
                 array(
                     'title' => get_theme_mod('target_section1_title', __('Target Group Section 1', 'fau-elemental')),
@@ -34,7 +32,6 @@
                 )
             );
 
-            // Render the target groups using the footer component with outline variant
             echo render_footer_target_groups($target_groups, 'outline', 'small');
             ?>
         </section>
@@ -47,14 +44,14 @@
                 'container' => 'nav',
                 'container_class' => 'footer-lists-container',
                 'depth' => 2,
-                'fallback_cb' => false // Allow WordPress to show customize interface
+                'fallback_cb' => false
             ));
             ?>
         </section>
     </div>
-</footer>
+</div>
 
-<footer class="footer-bottom">
+<section class="footer-bottom">
     <div class="footer-bottom-wrapper">
         <div class="footer-bottom-top">
             <div class="footer-left">
@@ -63,7 +60,7 @@
                         <?php 
                         $logo_url = get_theme_mod('fau_footer_logo', get_theme_file_uri('assets/images/Logo-white.svg'));
                         if ($logo_url) : ?>
-                            <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr__('FAU Logo', 'fau-elemental'); ?>" loading="lazy" decoding="async">
+                            <img src="<?php echo $logo_url; ?>" alt="<?php echo esc_attr__('FAU Logo', 'fau-elemental'); ?>" loading="lazy" decoding="async">
                         <?php endif; ?>
                     </div>
                     <div class="footer-logo-tagline">
@@ -83,7 +80,7 @@
                         'menu_class' => 'footer-meta-menu',
                         'container' => false,
                         'depth' => 1,
-                        'fallback_cb' => false // Don't show fallback for meta menu
+                        'fallback_cb' => false
                     ));
                     ?>
                 </nav>
@@ -97,31 +94,23 @@
             
             <div class="footer-right">
                 <nav class="footer-social" aria-label="<?php echo esc_attr__('Social Media Links', 'fau-elemental'); ?>">
-                    <div class="social-links">
+                    <ul class="social-links">
                         <?php
-                        $social_platforms = array(
-                            'instagram' => 'Instagram',
-                            'facebook' => 'Facebook',
-                            'xing' => 'Xing',
-                            'linkedin' => 'LinkedIn',
-                            'x' => 'X',
-                            'mastodon' => 'Mastodon',
-                            'bluesky' => 'Bluesky',
-                            'youtube' => 'YouTube',
-                            'tiktok' => 'TikTok'
-                        );
+                        $social_platforms = faue_get_social_platforms();
 
                         foreach ($social_platforms as $platform => $label) :
                             $url = get_theme_mod("social_{$platform}");
                             if (!empty($url)) : ?>
-                                <a href="<?php echo esc_url($url); ?>" class="<?php echo esc_attr($platform); ?>" aria-label="<?php echo esc_attr($label); ?>" rel="noopener noreferrer">
-                                    <span class="sr-only"><?php echo esc_html($label); ?></span>
-                                </a>
+                                <li>
+                                    <a href="<?php echo esc_url($url); ?>" class="<?php echo esc_attr($platform); ?>">
+                                        <span class="sr-only"><?php echo esc_html($label); ?></span>
+                                    </a>
+                                </li>
                             <?php endif;
                         endforeach; ?>
-                    </div>
+                    </ul>
                 </nav>
             </div>
         </div>
     </div>
-</footer>
+</section>
