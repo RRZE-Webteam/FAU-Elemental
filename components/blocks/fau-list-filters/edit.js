@@ -11,13 +11,12 @@ import {
 	CheckboxControl,
 	__experimentalText as Text,
 	__experimentalSpacer as Spacer,
-	Notice,
 } from '@wordpress/components';
 import { useState, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
 const Edit = ( props ) => {
-	const { attributes, setAttributes, clientId } = props;
+	const { attributes, setAttributes } = props;
 	const {
 		enableSearch,
 		searchPlaceholder,
@@ -36,134 +35,71 @@ const Edit = ( props ) => {
 		customBlockId,
 	} = attributes;
 
-	// Generate and set customBlockId if it doesn't exist
-	useEffect( () => {
-		if ( ! customBlockId ) {
-			// Use clientId to create a unique block ID
-			const newBlockId = `fau-list-filters-${ clientId.substring( 0, 8 ) }`;
-			setAttributes( { customBlockId: newBlockId } );
-			console.log( 'Filter Block: Generated customBlockId:', newBlockId );
-		}
-	}, [ customBlockId, clientId, setAttributes ] );
-
-	const [ newFilterName, setNewFilterName ] = useState( '' );
-	const [ newFilterOptions, setNewFilterOptions ] = useState( '' );
-	const [ availableFilterOptions, setAvailableFilterOptions ] = useState(
-		{}
+	const [ filterFieldsState, setFilterFieldsState ] = useState(
+		filterFields || []
 	);
-
-	// Get WordPress data for dynamic filters
-	const { categories, tags, postTypes, authors } = useSelect( ( select ) => {
-		const { getEntityRecords, getPostTypes, getUsers } = select( 'core' );
-
-		return {
-			categories:
-				getEntityRecords( 'taxonomy', 'category', { per_page: -1 } ) ||
-				[],
-			tags:
-				getEntityRecords( 'taxonomy', 'post_tag', { per_page: -1 } ) ||
-				[],
-			postTypes: getPostTypes( { per_page: -1 } ) || [],
-			authors: getUsers( { who: 'authors', per_page: -1 } ) || [],
-		};
-	}, [] );
-
-	// Set up available filter options when WordPress data loads
-	useEffect( () => {
-		const options = {
-			categories: {
-				label: __( 'Categories', 'fau-elemental' ),
-				options: categories.map( ( cat ) => ( {
-					value: cat.slug,
-					label: `${ cat.name } (${ cat.count })`,
-				} ) ),
-			},
-			tags: {
-				label: __( 'Tags', 'fau-elemental' ),
-				options: tags.map( ( tag ) => ( {
-					value: tag.slug,
-					label: `${ tag.name } (${ tag.count })`,
-				} ) ),
-			},
-			post_types: {
-				label: __( 'Content Types', 'fau-elemental' ),
-				options: Object.values( postTypes )
-					.filter(
-						( type ) => type.viewable && type.name !== 'attachment'
-					)
-					.map( ( type ) => ( {
-						value: type.name,
-						label: type.labels.name,
-					} ) ),
-			},
-			authors: {
-				label: __( 'Authors', 'fau-elemental' ),
-				options: authors.map( ( author ) => ( {
-					value: author.slug,
-					label: author.name,
-				} ) ),
-			},
-		};
-		setAvailableFilterOptions( options );
-	}, [ categories, tags, postTypes, authors ] );
 
 	const blockProps = useBlockProps( {
 		className: `fau-list-filters grid-width-${ gridWidth }`,
 	} );
 
-	const addFilterField = () => {
-		if ( ! newFilterName.trim() ) return;
-
-		const options = newFilterOptions
-			.split( '\n' )
-			.filter( ( option ) => option.trim() )
-			.map( ( option ) => {
-				const [ value, label ] = option.split( '|' );
-				return {
-					value: value?.trim() || option.trim(),
-					label: label?.trim() || option.trim(),
-				};
-			} );
-
-		const newField = {
-			name: newFilterName.trim(),
-			options: options,
-			type: 'custom',
-		};
-
-		setAttributes( {
-			filterFields: [ ...filterFields, newField ],
+	const categories = useSelect( ( select ) => {
+		return select( 'core' ).getEntityRecords( 'taxonomy', 'category', {
+			per_page: -1,
 		} );
+	}, [] );
 
-		setNewFilterName( '' );
-		setNewFilterOptions( '' );
+	const tags = useSelect( ( select ) => {
+		return select( 'core' ).getEntityRecords( 'taxonomy', 'post_tag', {
+			per_page: -1,
+		} );
+	}, [] );
+
+	const authors = useSelect( ( select ) => {
+		return select( 'core' ).getUsers( { who: 'authors' } );
+	}, [] );
+
+	useEffect( () => {
+		if ( ! customBlockId ) {
+			const blockId = `fau-list-filters-${ Date.now() }`;
+			setAttributes( { customBlockId: blockId } );
+		}
+	}, [ customBlockId, setAttributes ] );
+
+	const addFilterField = () => {
+		const newField = {
+			name: `filter_${ filterFieldsState.length + 1 }`,
+			label: __( 'New Filter', 'fau-elemental' ),
+			type: 'taxonomy',
+			taxonomy: 'category',
+		};
+		const updatedFields = [ ...filterFieldsState, newField ];
+		setFilterFieldsState( updatedFields );
+		setAttributes( { filterFields: updatedFields } );
 	};
 
-	const addWordPressFilter = ( filterType ) => {
-		const filterData = availableFilterOptions[ filterType ];
-		if ( ! filterData || filterData.options.length === 0 ) return;
-
-		const newField = {
-			name: filterData.label,
-			options: filterData.options,
-			type: filterType,
-		};
-
-		setAttributes( {
-			filterFields: [ ...filterFields, newField ],
-		} );
+	const updateFilterField = ( index, field, value ) => {
+		const updatedFields = [ ...filterFieldsState ];
+		updatedFields[ index ][ field ] = value;
+		setFilterFieldsState( updatedFields );
+		setAttributes( { filterFields: updatedFields } );
 	};
 
 	const removeFilterField = ( index ) => {
-		const updatedFields = filterFields.filter( ( _, i ) => i !== index );
+		const updatedFields = filterFieldsState.filter(
+			( _, i ) => i !== index
+		);
+		setFilterFieldsState( updatedFields );
 		setAttributes( { filterFields: updatedFields } );
 	};
 
 	const addSortOption = () => {
-		const newOption = { value: '', label: '' };
-		setAttributes( {
-			sortOptions: [ ...sortOptions, newOption ],
-		} );
+		const newOption = {
+			value: 'date',
+			label: __( 'Date', 'fau-elemental' ),
+		};
+		const updatedOptions = [ ...sortOptions, newOption ];
+		setAttributes( { sortOptions: updatedOptions } );
 	};
 
 	const updateSortOption = ( index, field, value ) => {
@@ -177,20 +113,10 @@ const Edit = ( props ) => {
 		setAttributes( { sortOptions: updatedOptions } );
 	};
 
-	const updateAvailableViews = ( view, isChecked ) => {
-		let newViews;
-		if ( isChecked ) {
-			newViews = [ ...availableViews, view ];
-		} else {
-			newViews = availableViews.filter( ( v ) => v !== view );
-		}
-
-		setAttributes( { availableViews: newViews } );
-
-		// Update default view if current default is no longer available
-		if ( ! newViews.includes( defaultView ) && newViews.length > 0 ) {
-			setAttributes( { defaultView: newViews[ 0 ] } );
-		}
+	const updateAvailableView = ( index, value ) => {
+		const updatedViews = [ ...availableViews ];
+		updatedViews[ index ] = value;
+		setAttributes( { availableViews: updatedViews } );
 	};
 
 	const renderPreview = () => {
@@ -219,19 +145,23 @@ const Edit = ( props ) => {
 				{ enableFilters && (
 					<div className="fau-list-filters__filter-section">
 						<div className="filter-controls">
-							{ filterFields
+							{ filterFieldsState
 								.slice(
 									0,
 									showMoreFiltersButton
 										? 3
-										: filterFields.length
+										: filterFieldsState.length
 								)
 								.map( ( field, index ) => (
 									<div key={ index } className="filter-field">
-										<label className="filter-label">
+										<label
+											className="filter-label"
+											htmlFor={ `filter-field-${ index }` }
+										>
 											{ field.name }
 										</label>
 										<select
+											id={ `filter-field-${ index }` }
 											className="filter-select"
 											disabled
 										>
@@ -261,76 +191,79 @@ const Edit = ( props ) => {
 								) ) }
 
 							{ /* Show available WordPress filters that aren't configured */ }
-							{ Object.entries( availableFilterOptions ).map(
-								( [ filterKey, filterData ] ) => {
-									const isAlreadyAdded = filterFields.some(
-										( field ) => field.type === filterKey
-									);
-									if (
-										isAlreadyAdded ||
-										filterData.options.length === 0
-									)
-										return null;
-
-									const shouldShow =
-										! showMoreFiltersButton ||
-										filterFields.length < 3;
-									if ( ! shouldShow ) return null;
-
-									return (
-										<div
-											key={ filterKey }
-											className="filter-field filter-field--available"
-										>
-											<label className="filter-label">
-												{ filterData.label }
-											</label>
-											<select
-												className="filter-select"
-												disabled
-											>
-												<option>
-													{ __(
-														'All',
-														'fau-elemental'
-													) }{ ' ' }
-													{ filterData.label }
-												</option>
-												{ filterData.options
-													.slice( 0, 3 )
-													.map(
-														(
-															option,
-															optIndex
-														) => (
-															<option
-																key={ optIndex }
-																value={
-																	option.value
-																}
-															>
-																{ option.label }
-															</option>
-														)
-													) }
-												{ filterData.options.length >
-													3 && (
-													<option disabled>
-														...and{ ' ' }
-														{ filterData.options
-															.length - 3 }{ ' ' }
-														more
-													</option>
-												) }
-											</select>
-										</div>
-									);
+							{ Object.entries( {
+								categories,
+								tags,
+								authors,
+							} ).map( ( [ filterKey, filterData ] ) => {
+								const isAlreadyAdded = filterFieldsState.some(
+									( field ) => field.type === filterKey
+								);
+								if (
+									isAlreadyAdded ||
+									filterData.length === 0
+								) {
+									return null;
 								}
-							) }
+
+								const shouldShow =
+									! showMoreFiltersButton ||
+									filterFieldsState.length < 3;
+								if ( ! shouldShow ) {
+									return null;
+								}
+
+								return (
+									<div
+										key={ filterKey }
+										className="filter-field filter-field--available"
+									>
+										<label
+											className="filter-label"
+											htmlFor={ `filter-available-${ filterKey }` }
+										>
+											{ filterKey
+												.charAt( 0 )
+												.toUpperCase() +
+												filterKey.slice( 1 ) }
+										</label>
+										<select
+											id={ `filter-available-${ filterKey }` }
+											className="filter-select"
+											disabled
+										>
+											<option>
+												{ __( 'All', 'fau-elemental' ) }{ ' ' }
+												{ filterKey
+													.charAt( 0 )
+													.toUpperCase() +
+													filterKey.slice( 1 ) }
+											</option>
+											{ filterData
+												.slice( 0, 3 )
+												.map( ( option, optIndex ) => (
+													<option
+														key={ optIndex }
+														value={ option.value }
+													>
+														{ option.label }
+													</option>
+												) ) }
+											{ filterData.length > 3 && (
+												<option disabled>
+													...and{ ' ' }
+													{ filterData.length - 3 }{ ' ' }
+													more
+												</option>
+											) }
+										</select>
+									</div>
+								);
+							} ) }
 
 							{ showMoreFiltersButton &&
-								( filterFields.length > 3 ||
-									Object.keys( availableFilterOptions )
+								( filterFieldsState.length > 3 ||
+									Object.keys( { categories, tags, authors } )
 										.length > 0 ) && (
 									<button
 										type="button"
@@ -401,9 +334,9 @@ const Edit = ( props ) => {
 					<div className="sort-controls">
 						{ enableViewSwitcher && availableViews.length > 1 && (
 							<div className="view-switcher">
-								{ availableViews.map( ( view ) => (
+								{ availableViews.map( ( view, index ) => (
 									<button
-										key={ view }
+										key={ index }
 										type="button"
 										className={ `view-button ${
 											view === defaultView ? 'active' : ''
@@ -428,10 +361,17 @@ const Edit = ( props ) => {
 
 						{ enableSorting && sortOptions.length > 0 && (
 							<div className="sort-dropdown">
-								<label className="sort-label">
+								<label
+									className="sort-label"
+									htmlFor="sort-preview-select"
+								>
 									{ __( 'Sort by:', 'fau-elemental' ) }
 								</label>
-								<select className="sort-select" disabled>
+								<select
+									id="sort-preview-select"
+									className="sort-select"
+									disabled
+								>
 									{ sortOptions.map( ( option, index ) => (
 										<option
 											key={ index }
@@ -533,87 +473,85 @@ const Edit = ( props ) => {
 									) }
 								</Text>
 
-								{ Object.entries( availableFilterOptions ).map(
-									( [ filterKey, filterData ] ) => {
-										const isAlreadyAdded =
-											filterFields.some(
-												( field ) =>
-													field.type === filterKey
-											);
-										const hasOptions =
-											filterData.options &&
-											filterData.options.length > 0;
+								{ Object.entries( {
+									categories,
+									tags,
+									authors,
+								} ).map( ( [ filterKey, filterData ] ) => {
+									const isAlreadyAdded =
+										filterFieldsState.some(
+											( field ) =>
+												field.type === filterKey
+										);
+									const hasOptions =
+										filterData && filterData.length > 0;
 
-										return (
-											<div
-												key={ filterKey }
-												style={ {
-													display: 'flex',
-													justifyContent:
-														'space-between',
-													alignItems: 'center',
-													marginBottom: '10px',
-													padding: '10px',
-													border: '1px solid #ddd',
-													borderRadius: '4px',
-													backgroundColor:
-														isAlreadyAdded
-															? '#f0f0f0'
-															: 'transparent',
-												} }
-											>
-												<div>
-													<strong>
-														{ filterData.label }
-													</strong>
-													<div
-														style={ {
-															fontSize: '12px',
-															color: '#666',
-														} }
-													>
-														{ hasOptions
-															? `${
-																	filterData
-																		.options
-																		.length
-															  } ${ __(
-																	'options available',
-																	'fau-elemental'
-															  ) }`
-															: __(
-																	'No options available',
-																	'fau-elemental'
-															  ) }
-													</div>
-												</div>
-												<Button
-													isSecondary
-													isSmall
-													onClick={ () =>
-														addWordPressFilter(
-															filterKey
-														)
-													}
-													disabled={
-														isAlreadyAdded ||
-														! hasOptions
-													}
+									return (
+										<div
+											key={ filterKey }
+											style={ {
+												display: 'flex',
+												justifyContent: 'space-between',
+												alignItems: 'center',
+												marginBottom: '10px',
+												padding: '10px',
+												border: '1px solid #ddd',
+												borderRadius: '4px',
+												backgroundColor: isAlreadyAdded
+													? '#f0f0f0'
+													: 'transparent',
+											} }
+										>
+											<div>
+												<strong>
+													{ filterKey
+														.charAt( 0 )
+														.toUpperCase() +
+														filterKey.slice( 1 ) }
+												</strong>
+												<div
+													style={ {
+														fontSize: '12px',
+														color: '#666',
+													} }
 												>
-													{ isAlreadyAdded
-														? __(
-																'Added',
+													{ hasOptions
+														? `${
+																filterData.length
+														  } ${ __(
+																'options available',
 																'fau-elemental'
-														  )
+														  ) }`
 														: __(
-																'Add Filter',
+																'No options available',
 																'fau-elemental'
 														  ) }
-												</Button>
+												</div>
 											</div>
-										);
-									}
-								) }
+											<Button
+												isSecondary
+												isSmall
+												onClick={ () =>
+													addFilterField()
+												}
+												disabled={
+													isAlreadyAdded ||
+													! hasOptions
+												}
+											>
+												{ isAlreadyAdded
+													? __(
+															'Added',
+															'fau-elemental'
+													  )
+													: __(
+															'Add Filter',
+															'fau-elemental'
+													  ) }
+											</Button>
+										</div>
+									);
+								} ) }
 							</div>
 
 							<Spacer marginTop={ 4 } marginBottom={ 4 } />
@@ -640,16 +578,41 @@ const Edit = ( props ) => {
 										'Filter Name',
 										'fau-elemental'
 									) }
-									value={ newFilterName }
-									onChange={ setNewFilterName }
+									value={
+										filterFieldsState[
+											filterFieldsState.length - 1
+										].name
+									}
+									onChange={ ( value ) =>
+										updateFilterField(
+											filterFieldsState.length - 1,
+											'name',
+											value
+										)
+									}
 								/>
 								<TextareaControl
 									label={ __(
 										'Filter Options',
 										'fau-elemental'
 									) }
-									value={ newFilterOptions }
-									onChange={ setNewFilterOptions }
+									value={ filterFieldsState[
+										filterFieldsState.length - 1
+									].options
+										.map( ( option ) => option.label )
+										.join( '\n' ) }
+									onChange={ ( value ) =>
+										updateFilterField(
+											filterFieldsState.length - 1,
+											'options',
+											value
+												.split( '\n' )
+												.map( ( label ) => ( {
+													label,
+													value: label.trim(),
+												} ) )
+										)
+									}
 									help={ __(
 										'Enter one option per line. Use format: value|label (e.g., "news|News Articles")',
 										'fau-elemental'
@@ -659,7 +622,11 @@ const Edit = ( props ) => {
 								<Button
 									isPrimary
 									onClick={ addFilterField }
-									disabled={ ! newFilterName.trim() }
+									disabled={
+										! filterFieldsState[
+											filterFieldsState.length - 1
+										].name.trim()
+									}
 								>
 									{ __(
 										'Add Custom Filter',
@@ -668,7 +635,7 @@ const Edit = ( props ) => {
 								</Button>
 							</div>
 
-							{ filterFields.length > 0 && (
+							{ filterFieldsState.length > 0 && (
 								<div style={ { marginTop: '20px' } }>
 									<Text style={ { fontWeight: 'bold' } }>
 										{ __(
@@ -676,69 +643,75 @@ const Edit = ( props ) => {
 											'fau-elemental'
 										) }
 									</Text>
-									{ filterFields.map( ( field, index ) => (
-										<div
-											key={ index }
-											style={ {
-												border: '1px solid #ddd',
-												padding: '10px',
-												marginBottom: '10px',
-												borderRadius: '4px',
-											} }
-										>
+									{ filterFieldsState.map(
+										( field, index ) => (
 											<div
+												key={ index }
 												style={ {
-													display: 'flex',
-													justifyContent:
-														'space-between',
-													alignItems: 'center',
+													border: '1px solid #ddd',
+													padding: '10px',
+													marginBottom: '10px',
+													borderRadius: '4px',
 												} }
 											>
-												<div>
-													<strong>
-														{ field.name }
-													</strong>
-													<div
-														style={ {
-															fontSize: '12px',
-															color: '#666',
-														} }
+												<div
+													style={ {
+														display: 'flex',
+														justifyContent:
+															'space-between',
+														alignItems: 'center',
+													} }
+												>
+													<div>
+														<strong>
+															{ field.name }
+														</strong>
+														<div
+															style={ {
+																fontSize:
+																	'12px',
+																color: '#666',
+															} }
+														>
+															{ field.type ===
+															'custom'
+																? __(
+																		'Custom filter',
+																		'fau-elemental'
+																  )
+																: __(
+																		'WordPress filter',
+																		'fau-elemental'
+																  ) }{ ' ' }
+															•
+															{
+																field.options
+																	.length
+															}{ ' ' }
+															{ __(
+																'options',
+																'fau-elemental'
+															) }
+														</div>
+													</div>
+													<Button
+														isDestructive
+														isSmall
+														onClick={ () =>
+															removeFilterField(
+																index
+															)
+														}
 													>
-														{ field.type ===
-														'custom'
-															? __(
-																	'Custom filter',
-																	'fau-elemental'
-															  )
-															: __(
-																	'WordPress filter',
-																	'fau-elemental'
-															  ) }{ ' ' }
-														•
-														{ field.options.length }{ ' ' }
 														{ __(
-															'options',
+															'Remove',
 															'fau-elemental'
 														) }
-													</div>
+													</Button>
 												</div>
-												<Button
-													isDestructive
-													isSmall
-													onClick={ () =>
-														removeFilterField(
-															index
-														)
-													}
-												>
-													{ __(
-														'Remove',
-														'fau-elemental'
-													) }
-												</Button>
 											</div>
-										</div>
-									) ) }
+										)
+									) }
 								</div>
 							) }
 						</>
@@ -781,18 +754,15 @@ const Edit = ( props ) => {
 									value: 'list',
 									label: __( 'List', 'fau-elemental' ),
 								},
-							].map( ( view ) => (
+							].map( ( view, index ) => (
 								<CheckboxControl
 									key={ view.value }
 									label={ view.label }
 									checked={ availableViews.includes(
 										view.value
 									) }
-									onChange={ ( isChecked ) =>
-										updateAvailableViews(
-											view.value,
-											isChecked
-										)
+									onChange={ () =>
+										updateAvailableView( index, view.value )
 									}
 								/>
 							) ) }

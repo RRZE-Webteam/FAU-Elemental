@@ -34,8 +34,11 @@ const customBlockFolders = fs.existsSync(
 const templateFiles = fs.existsSync(
 	path.resolve( process.cwd(), 'components/templates' )
 )
-	? fs
-			.readdirSync( path.resolve( process.cwd(), 'components/templates' ) )
+
+? fs
+			.readdirSync(
+				path.resolve( process.cwd(), 'components/templates' )
+			)
 			.filter(
 				( file ) =>
 					fs

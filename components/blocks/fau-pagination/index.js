@@ -8,4 +8,4 @@ registerBlockType( metadata.name, {
 	...metadata,
 	edit: Edit,
 	save: () => null,
-} ); 
+} );

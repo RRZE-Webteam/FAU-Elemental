@@ -73,47 +73,59 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	useEffect( () => {
 		if ( ! customBlockId ) {
 			// Use clientId to create a unique block ID
-			const newBlockId = `fau-teaser-grid-${ clientId.substring( 0, 8 ) }`;
+			const newBlockId = `fau-teaser-grid-${ clientId.substring(
+				0,
+				8
+			) }`;
 			setAttributes( { customBlockId: newBlockId } );
-			console.log( 'Teaser Grid: Generated customBlockId:', newBlockId );
 		}
 	}, [ customBlockId, clientId, setAttributes ] );
 
 	// Detect filter and pagination blocks
-	const { nearbyBlocks } = useSelect( 
-		( select ) => {
-			const { getBlocks } = select( 'core/block-editor' );
-			const allBlocks = getBlocks();
-			
-			// Find filter and pagination blocks
-			const filterBlock = allBlocks.find( block => block.name === 'fau-elemental/fau-list-filters' );
-			const paginationBlock = allBlocks.find( block => block.name === 'fau-elemental/fau-pagination' );
-			
-			return {
-				nearbyBlocks: {
-					filter: filterBlock,
-					pagination: paginationBlock,
-				}
-			};
-		},
-		[]
-	);
+	const { nearbyBlocks } = useSelect( ( select ) => {
+		const { getBlocks } = select( 'core/block-editor' );
+		const allBlocks = getBlocks();
+
+		// Find filter and pagination blocks
+		const filterBlock = allBlocks.find(
+			( block ) => block.name === 'fau-elemental/fau-list-filters'
+		);
+		const paginationBlock = allBlocks.find(
+			( block ) => block.name === 'fau-elemental/fau-pagination'
+		);
+
+		return {
+			nearbyBlocks: {
+				filter: filterBlock,
+				pagination: paginationBlock,
+			},
+		};
+	}, [] );
 
 	// Update filter and pagination block IDs when detected
 	useEffect( () => {
 		let hasChanges = false;
 		const updates = {};
 
-		if ( nearbyBlocks.filter && nearbyBlocks.filter.attributes.customBlockId && filterBlockId !== nearbyBlocks.filter.attributes.customBlockId ) {
-			updates.filterBlockId = nearbyBlocks.filter.attributes.customBlockId;
+		if (
+			nearbyBlocks.filter &&
+			nearbyBlocks.filter.attributes.customBlockId &&
+			filterBlockId !== nearbyBlocks.filter.attributes.customBlockId
+		) {
+			updates.filterBlockId =
+				nearbyBlocks.filter.attributes.customBlockId;
 			hasChanges = true;
-			console.log( 'Teaser Grid: Detected filter block:', nearbyBlocks.filter.attributes.customBlockId );
 		}
 
-		if ( nearbyBlocks.pagination && nearbyBlocks.pagination.attributes.customBlockId && paginationBlockId !== nearbyBlocks.pagination.attributes.customBlockId ) {
-			updates.paginationBlockId = nearbyBlocks.pagination.attributes.customBlockId;
+		if (
+			nearbyBlocks.pagination &&
+			nearbyBlocks.pagination.attributes.customBlockId &&
+			paginationBlockId !==
+				nearbyBlocks.pagination.attributes.customBlockId
+		) {
+			updates.paginationBlockId =
+				nearbyBlocks.pagination.attributes.customBlockId;
 			hasChanges = true;
-			console.log( 'Teaser Grid: Detected pagination block:', nearbyBlocks.pagination.attributes.customBlockId );
 		}
 
 		if ( hasChanges ) {
