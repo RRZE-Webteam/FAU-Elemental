@@ -9,6 +9,7 @@ import {
 	Placeholder,
 	Spinner,
 	DropdownMenu,
+	ToggleControl,
 } from '@wordpress/components';
 import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
 
@@ -55,13 +56,13 @@ export default function Edit( { attributes, setAttributes } ) {
 		postsPerPage,
 		selectedCategory,
 		currentPage,
-		showPagination,
 		totalPosts,
 		orderBy,
 		order,
 		selectedPosts,
 		selectionMode,
 		headingLevel,
+		showLoadMore,
 	} = attributes;
 
 	const gridRef = useRef( null );
@@ -193,7 +194,6 @@ export default function Edit( { attributes, setAttributes } ) {
 						variant={ variant }
 						selectedCategory={ selectedCategory }
 						postsPerPage={ postsPerPage }
-						showPagination={ showPagination }
 						orderBy={ orderBy }
 						order={ order }
 						setAttributes={ setAttributes }
@@ -201,6 +201,27 @@ export default function Edit( { attributes, setAttributes } ) {
 						categoryOptions={ categoryOptions }
 						categories={ categories }
 					/>
+				) }
+
+				{ selectionMode === 'auto' && (
+					<PanelBody
+						title={ __( 'Load More Settings', 'fau-elemental' ) }
+					>
+						<ToggleControl
+							label={ __(
+								'Show Load More Button',
+								'fau-elemental'
+							) }
+							checked={ showLoadMore }
+							onChange={ ( value ) =>
+								setAttributes( { showLoadMore: value } )
+							}
+							help={ __(
+								'Display a "Load More" button to load additional posts dynamically.',
+								'fau-elemental'
+							) }
+						/>
+					</PanelBody>
 				) }
 
 				<PanelBody title={ __( 'Accessibility', 'fau-elemental' ) }>
@@ -342,9 +363,9 @@ export default function Edit( { attributes, setAttributes } ) {
 				) }
 			</div>
 
-			{ showPagination &&
-				calculatedTotalPages > 1 &&
-				selectionMode === 'auto' && (
+			{ calculatedTotalPages > 1 &&
+				selectionMode === 'auto' &&
+				! showLoadMore && (
 					<nav
 						role="navigation"
 						aria-label={ __( 'Pagination', 'fau-elemental' ) }

@@ -10,9 +10,10 @@
 	"supports": {},
 	"attributes": {
 		"headline": {
-			"source": "rich-text",
-			"type": "rich-text",
-			"selector": "header"
+			"type": "string"
+		},
+		"id": {
+			"type": "string"
 		}
 	},
 	"textdomain": "fau-elemental",
