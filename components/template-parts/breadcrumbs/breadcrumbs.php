@@ -19,7 +19,11 @@ if (!defined('FAUE_BREADCRUMB_TITLE_MAX_LENGTH')) {
 }
 
 /**
- * Add dark mode class to the parent block group
+ * Add dark mode class to the parent block group containing breadcrumbs
+ *
+ * @param string $block_content The block content being rendered
+ * @param array  $block         The block data
+ * @return string Modified block content with dark mode class if applicable
  */
 function faue_breadcrumbs_block_class($block_content, $block): string {
     if ($block['blockName'] === 'core/group' && 
@@ -35,37 +39,35 @@ function faue_breadcrumbs_block_class($block_content, $block): string {
 add_filter('render_block', 'faue_breadcrumbs_block_class', 10, 2);
 
 /**
- * Display breadcrumb navigation
+ * Display breadcrumb navigation with responsive mobile/desktop versions
+ *
+ * Renders breadcrumbs using server-side conditional logic to avoid duplicate DOM elements.
+ * Mobile version shows only the immediate parent, desktop shows full hierarchy.
+ * Supports both pages (with page hierarchy) and posts (with category hierarchy).
+ *
+ * @return void
  */
 function faue_breadcrumbs(): void {
     if (is_front_page()) {
         return;
     }
 
-    // Get the current page's ancestors
     $ancestors = array();
     if (is_page()) {
         $ancestors = get_post_ancestors(get_the_ID());
-        // Reverse the array to get ancestors in correct order (furthest parent first)
         $ancestors = array_reverse($ancestors);
     } elseif (is_single()) {
         $terms = get_the_terms(get_the_ID(), 'category');
         if ($terms && !is_wp_error($terms)) {
-            // Use wp_list_filter to find the primary/parent category
-            // Find categories that have parent categories (more specific)
             $child_categories = wp_list_filter($terms, array('parent' => 0), 'NOT');
             
-            // If we have child categories, prefer them over parent categories
             $primary_category = null;
             if (!empty($child_categories)) {
-                // Use the first child category (most specific)
                 $primary_category = reset($child_categories);
             } else {
-                // No child categories, use the first parent category
                 $primary_category = reset($terms);
             }
             
-            // Build ancestor chain for the selected category
             $category_ancestors = get_ancestors($primary_category->term_id, 'category');
             $category_ancestors = array_reverse($category_ancestors);
             $category_ancestors[] = $primary_category->term_id;
@@ -73,14 +75,11 @@ function faue_breadcrumbs(): void {
         }
     }
 
-    // Get breadcrumb mode from customizer
     $mode = get_theme_mod('faue_breadcrumb_variant_blue');
     
-    // Determine if we should render mobile or desktop version
     // @phpstan-ignore-next-line - wp_is_mobile() is a valid WordPress function
     $is_mobile = function_exists('wp_is_mobile') ? wp_is_mobile() : false;
 
-    // Start breadcrumb navigation
     $wrapper_classes = array('breadcrumbs-wrapper');
     if ($mode) {
         $wrapper_classes[] = 'is-style-dark';
@@ -91,12 +90,11 @@ function faue_breadcrumbs(): void {
     echo '<ol class="breadcrumbs__list" itemscope itemtype="https://schema.org/BreadcrumbList">';
 
     $position = 1;
-    $total_items = count($ancestors) + 1; // +1 for current page
+    $total_items = count($ancestors) + 1;
 
     if ($is_mobile) {
-        // MOBILE VERSION: Show only parent (or Start if no parent)
         if (!empty($ancestors)) {
-            $parent = $ancestors[count($ancestors) - 1]; // Get the last ancestor (closest parent)
+            $parent = $ancestors[count($ancestors) - 1];
             if (is_page()) {
                 $parent_post = get_post($parent);
                 $parent_title = $parent_post->post_title;
@@ -107,7 +105,6 @@ function faue_breadcrumbs(): void {
                 $parent_url = get_category_link($parent_category->term_id);
             }
 
-            // Truncate parent title
             $truncated_parent = strlen($parent_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($parent_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $parent_title;
 
             echo '<li class="breadcrumbs__item breadcrumbs__item--mobile" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
@@ -118,7 +115,6 @@ function faue_breadcrumbs(): void {
             echo '<meta itemprop="position" content="' . ($total_items - 1) . '" />';
             echo '</li>';
         } else {
-            // No ancestors: show Start link in mobile with chevron
             echo '<li class="breadcrumbs__item breadcrumbs__item--mobile" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
             echo '<span class="breadcrumbs__chevron"></span>';
             echo '<a href="' . esc_url(home_url('/')) . '" class="breadcrumbs__link" itemprop="item">';
@@ -128,9 +124,6 @@ function faue_breadcrumbs(): void {
             echo '</li>';
         }
     } else {
-        // DESKTOP VERSION: Show full hierarchy
-        
-        // Home link
         echo '<li class="breadcrumbs__item breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
         echo '<a href="' . esc_url(home_url('/')) . '" class="breadcrumbs__link" itemprop="item">';
         echo '<span itemprop="name">' . esc_html__('Start', 'fau-elemental') . '</span>';
@@ -140,7 +133,6 @@ function faue_breadcrumbs(): void {
         
         $position = 2;
 
-        // Show all ancestors
         foreach ($ancestors as $ancestor) {
             if (is_page()) {
                 $title = get_the_title($ancestor);
@@ -151,7 +143,6 @@ function faue_breadcrumbs(): void {
                 $url = get_category_link($category->term_id);
             }
 
-            // Truncate long titles
             $truncated_title = strlen($title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $title;
 
             echo '<li class="breadcrumbs__item breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
@@ -163,7 +154,6 @@ function faue_breadcrumbs(): void {
             $position++;
         }
 
-        // Current page
         $current_title = '';
         if (is_category()) {
             $current_title = single_cat_title('', false);
@@ -177,7 +167,6 @@ function faue_breadcrumbs(): void {
             $current_title = esc_html__('404 - Page Not Found', 'fau-elemental');
         }
 
-        // Truncate current page title if needed
         $truncated_current = strlen($current_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($current_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $current_title;
 
         echo '<li class="breadcrumbs__item breadcrumbs__item--current breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">';
