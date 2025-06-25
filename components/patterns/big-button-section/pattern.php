@@ -3,11 +3,11 @@
  * Title: Big Button Section
  * Slug: fau-elemental/big-button-section
  * Categories: fau-elemental
- * Viewport Width: 1200
- * Block Types: core/post-content
- * Post Types: page
  * Description: A section with meta headline, main heading, teaser text, and big button group
+ * Block Types: core/post-content
+ * Post Types: post, page
  * Keywords: buttons, section, headline, teaser
+ * Viewport Width: 1200
  * Inserter: true
  */
 
@@ -27,10 +27,8 @@
 <!-- wp:group {"className":"big-button-section","style":{"spacing":{"padding":{"top":"var:preset|spacing|large","bottom":"var:preset|spacing|large"}}}} -->
 <div class="wp-block-group big-button-section" style="padding-top:var(--wp--preset--spacing--large);padding-bottom:var(--wp--preset--spacing--large)">
     
-    <!-- wp:fau-elemental/fau-meta-headline -->
-    <header class="wp-block-fau-elemental-fau-meta-headline">
-        <p>Fakultäten</p>
-    </header>
+    <!-- wp:fau-elemental/fau-meta-headline {"headline":"Fakultäten", "id":""} -->
+    <div class="wp-block-fau-elemental-fau-meta-headline" id="headline-">Fakultäten</div>
     <!-- /wp:fau-elemental/fau-meta-headline -->
 
     <!-- wp:heading {"level":1,"align":"left"} -->
