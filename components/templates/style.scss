@@ -3,3 +3,15 @@
 // ============================================================================
 // Placeholder for template styles (page-all-posts, page-all-pages, archive, etc.)
 // Add your custom styles here when ready 
+
+// Templates Styles
+// =============================================================================
+
+// Page Templates Base Styles
+.all-posts-page,
+.all-pages-page,
+.archive-page,
+.category-archive {
+  padding-top: var(--wp--preset--spacing--50);
+  padding-bottom: var(--wp--preset--spacing--50);
+}
