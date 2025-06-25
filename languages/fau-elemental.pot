@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-06-25T08:30:59+00:00\n"
+"POT-Creation-Date: 2025-06-25T15:04:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -74,11 +74,12 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/ajax.php:203
-msgid "%d to %d from %d records"
+#. translators: 1:start index 2:end index 3:total number
+#: components/blocks/fau-teaser-grid/ajax.php:204
+msgid "%1$d to %2$d from %3$d records"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/ajax.php:222
+#: components/blocks/fau-teaser-grid/ajax.php:223
 #: components/blocks/fau-teaser-grid/render.php:130
 #: components/blocks/fau-teaser-grid/edit.js:353
 msgid "No items found"
@@ -119,98 +120,98 @@ msgid "Start"
 msgstr ""
 
 #: components/template-parts/breadcrumbs/breadcrumbs.php:142
-#: search.php:26
+#: search.php:27
 msgid "Search Results"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:16
+#: components/template-parts/footer-instance/footer-instance.php:18
 msgid "Contact and Directions"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:31
+#: components/template-parts/footer-instance/footer-instance.php:24
 msgid "Friedrich-Alexander-Universität Erlangen-Nürnberg"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:97
+#: components/template-parts/footer-instance/footer-instance.php:85
 msgid "Phone"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:107
+#: components/template-parts/footer-instance/footer-instance.php:95
 msgid "Mail"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:118
+#: components/template-parts/footer-instance/footer-instance.php:106
 msgid "Directions"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:128
+#: components/template-parts/footer-instance/footer-instance.php:118
 msgid "Important Links"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:156
-#: components/template-parts/footer-main/footer-main.php:101
-#: inc/customizer.php:397
+#: components/template-parts/footer-instance/footer-instance.php:144
+#: components/template-parts/footer-main/footer-main.php:96
+#: inc/customizer.php:400
 msgid "Social Media Links"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:201
-#: components/template-parts/footer-main/footer-main.php:68
+#: components/template-parts/footer-instance/footer-instance.php:178
+#: components/template-parts/footer-main/footer-main.php:63
 msgid "FAU Logo"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:206
-#: components/template-parts/footer-main/footer-main.php:73
+#: components/template-parts/footer-instance/footer-instance.php:183
+#: components/template-parts/footer-main/footer-main.php:68
 msgid ""
 "Friedrich-Alexander-Universität\n"
 "Erlangen-Nürnberg"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:214
+#: components/template-parts/footer-instance/footer-instance.php:191
 #: functions.php:303
 msgid "Show more"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:223
+#: components/template-parts/footer-instance/footer-instance.php:198
 #: components/template-parts/footer-main/footer-main.php:4
 msgid "FAU - Knowledge in Motion"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:224
+#: components/template-parts/footer-instance/footer-instance.php:199
 #: components/template-parts/footer-main/footer-main.php:5
 msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:234
-#: components/template-parts/footer-main/footer-main.php:16
+#: components/template-parts/footer-instance/footer-instance.php:207
+#: components/template-parts/footer-main/footer-main.php:14
 msgid "Target Group Section 1"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:235
-#: components/template-parts/footer-main/footer-main.php:17
+#: components/template-parts/footer-instance/footer-instance.php:208
+#: components/template-parts/footer-main/footer-main.php:15
 msgid "History, features, data, structure and more"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:239
-#: components/template-parts/footer-main/footer-main.php:21
+#: components/template-parts/footer-instance/footer-instance.php:212
+#: components/template-parts/footer-main/footer-main.php:19
 msgid "Target Group Section 2"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:240
-#: components/template-parts/footer-instance/footer-instance.php:245
-#: components/template-parts/footer-instance/footer-instance.php:250
-#: components/template-parts/footer-main/footer-main.php:22
-#: components/template-parts/footer-main/footer-main.php:27
-#: components/template-parts/footer-main/footer-main.php:32
+#: components/template-parts/footer-instance/footer-instance.php:213
+#: components/template-parts/footer-instance/footer-instance.php:218
+#: components/template-parts/footer-instance/footer-instance.php:223
+#: components/template-parts/footer-main/footer-main.php:20
+#: components/template-parts/footer-main/footer-main.php:25
+#: components/template-parts/footer-main/footer-main.php:30
 msgid "Focus areas, mission, reputation, achievements and more"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:244
-#: components/template-parts/footer-main/footer-main.php:26
+#: components/template-parts/footer-instance/footer-instance.php:217
+#: components/template-parts/footer-main/footer-main.php:24
 msgid "Target Group Section 3"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:249
-#: components/template-parts/footer-main/footer-main.php:31
+#: components/template-parts/footer-instance/footer-instance.php:222
+#: components/template-parts/footer-main/footer-main.php:29
 msgid "Target Group Section 4"
 msgstr ""
 
@@ -240,33 +241,33 @@ msgstr ""
 msgid "Go to"
 msgstr ""
 
-#: inc/customizer.php:84
+#: inc/customizer.php:83
 msgid "Footer Settings"
 msgstr ""
 
-#: inc/customizer.php:86
+#: inc/customizer.php:85
 msgid "Settings for the footer"
 msgstr ""
 
-#: inc/customizer.php:91
+#: inc/customizer.php:90
 msgid "Claim"
 msgstr ""
 
-#: inc/customizer.php:94
+#: inc/customizer.php:93
 msgid "Configure the main claim section"
 msgstr ""
 
-#: inc/customizer.php:106
+#: inc/customizer.php:104
 msgid "Dark Theme Toggle"
 msgstr ""
 
-#: inc/customizer.php:107
+#: inc/customizer.php:105
 msgid "Apply dark styling to the footer"
 msgstr ""
 
 #: inc/customizer.php:119
-#: inc/customizer.php:152
-#: inc/customizer.php:353
+#: inc/customizer.php:154
+#: inc/customizer.php:356
 #: components/core-blocks/media-text/index.js:22
 msgid "Heading"
 msgstr ""
@@ -287,21 +288,21 @@ msgstr ""
 msgid "Descriptive text for the claim section"
 msgstr ""
 
-#: inc/customizer.php:141
-#: inc/customizer.php:164
-#: inc/customizer.php:368
+#: inc/customizer.php:140
+#: inc/customizer.php:166
+#: inc/customizer.php:371
 msgid "Description"
 msgstr ""
 
-#: inc/customizer.php:144
+#: inc/customizer.php:143
 msgid "Configure faculty information"
 msgstr ""
 
-#: inc/customizer.php:153
+#: inc/customizer.php:155
 msgid "Main heading for the faculty section"
 msgstr ""
 
-#: inc/customizer.php:165
+#: inc/customizer.php:167
 msgid "Descriptive text for the faculty section"
 msgstr ""
 
@@ -313,168 +314,165 @@ msgstr ""
 msgid "Configure contact information"
 msgstr ""
 
-#: inc/customizer.php:184
-#: inc/theme-settings.php:73
+#: inc/customizer.php:187
+#: inc/theme-settings.php:75
 msgid "Philosophical Faculty"
 msgstr ""
 
-#: inc/customizer.php:191
-#: inc/theme-settings.php:74
+#: inc/customizer.php:194
+#: inc/theme-settings.php:76
 msgid "Natural Sciences Faculty"
 msgstr ""
 
-#: inc/customizer.php:198
-#: inc/theme-settings.php:75
+#: inc/customizer.php:201
+#: inc/theme-settings.php:77
 msgid "Medical Faculty"
 msgstr ""
 
-#: inc/customizer.php:205
-#: inc/theme-settings.php:76
+#: inc/customizer.php:208
+#: inc/theme-settings.php:78
 msgid "Law Faculty"
 msgstr ""
 
-#: inc/customizer.php:212
-#: inc/theme-settings.php:77
+#: inc/customizer.php:215
+#: inc/theme-settings.php:79
 msgid "Technical Faculty"
 msgstr ""
 
-#: inc/customizer.php:231
+#: inc/customizer.php:234
 msgid "Display Address Information"
 msgstr ""
 
-#: inc/customizer.php:232
+#: inc/customizer.php:235
 msgid "Display address information in the footer"
 msgstr ""
 
-#: inc/customizer.php:240
+#: inc/customizer.php:243
 msgid "Name of the University"
 msgstr ""
 
-#: inc/customizer.php:244
+#: inc/customizer.php:247
 msgid "Name of the Faculty"
 msgstr ""
 
-#: inc/customizer.php:248
+#: inc/customizer.php:251
 msgid "Street"
 msgstr ""
 
-#: inc/customizer.php:252
+#: inc/customizer.php:255
 msgid "Postal Code and City"
 msgstr ""
 
-#: inc/customizer.php:256
+#: inc/customizer.php:259
 msgid "Phone Number"
 msgstr ""
 
-#: inc/customizer.php:260
+#: inc/customizer.php:263
 msgid "E-Mail Address"
 msgstr ""
 
-#: inc/customizer.php:264
+#: inc/customizer.php:267
 msgid "Directions Link"
 msgstr ""
 
-#: inc/customizer.php:297
+#: inc/customizer.php:300
 msgid "Country"
 msgstr ""
 
-#: inc/customizer.php:306
+#: inc/customizer.php:308
 msgid "Target Group Links"
 msgstr ""
 
-#: inc/customizer.php:309
+#: inc/customizer.php:311
 msgid "Configure the target group sections"
 msgstr ""
 
-#: inc/customizer.php:321
+#: inc/customizer.php:322
 msgid "Hide FAU section"
 msgstr ""
 
-#: inc/customizer.php:322
+#: inc/customizer.php:323
 msgid "Hide FAU section (only show copyright information). Recommended for external cooperation websites."
 msgstr ""
 
-#: inc/customizer.php:330
+#: inc/customizer.php:333
 msgid "Section 1"
 msgstr ""
 
-#: inc/customizer.php:331
+#: inc/customizer.php:334
 msgid "Section 2"
 msgstr ""
 
-#: inc/customizer.php:332
+#: inc/customizer.php:335
 msgid "Section 3"
 msgstr ""
 
-#: inc/customizer.php:333
+#: inc/customizer.php:336
 msgid "Section 4"
 msgstr ""
 
-#: inc/customizer.php:342
-msgid "%s"
-msgstr ""
-
-#: inc/customizer.php:359
+#: inc/customizer.php:362
 msgid "Focus, Mission, Reputation, Successes, etc."
 msgstr ""
 
-#: inc/customizer.php:361
+#: inc/customizer.php:364
 msgid "History, Specialties, Data, Structure, etc."
 msgstr ""
 
-#: inc/customizer.php:378
+#: inc/customizer.php:381
 msgid "Link URL"
 msgstr ""
 
-#: inc/customizer.php:400
+#: inc/customizer.php:403
 msgid "Configure social media links"
 msgstr ""
 
-#: inc/customizer.php:419
+#. translators: social media platform
+#: inc/customizer.php:423
 msgid "Enter the %s URL"
 msgstr ""
 
-#: inc/customizer.php:427
+#: inc/customizer.php:431
 msgid "Post Settings"
 msgstr ""
 
-#: inc/customizer.php:440
+#: inc/customizer.php:444
 msgid "Show post metadata"
 msgstr ""
 
-#: inc/customizer.php:455
+#: inc/customizer.php:459
 msgid "Show post metadata in dark theme"
 msgstr ""
 
-#: inc/customizer.php:597
+#: inc/customizer.php:601
 msgid "Land"
 msgstr ""
 
-#: inc/customizer.php:644
+#: inc/customizer.php:648
 msgid "FAU-Elemental detected address settings from the FAU-Einrichtungen theme that can be migrated."
 msgstr ""
 
-#: inc/customizer.php:647
+#: inc/customizer.php:651
 msgid "Migrate Address Settings"
 msgstr ""
 
-#: inc/customizer.php:688
+#: inc/customizer.php:692
 msgid "Address settings were successfully migrated from FAU-Einrichtungen theme!"
 msgstr ""
 
-#: inc/customizer.php:695
+#: inc/customizer.php:699
 msgid "No address settings from FAU-Einrichtungen theme were found to migrate."
 msgstr ""
 
-#: inc/customizer.php:737
+#: inc/customizer.php:741
 msgid "Hero Settings"
 msgstr ""
 
-#: inc/customizer.php:743
+#: inc/customizer.php:747
 msgid "Mobile Display Options"
 msgstr ""
 
-#: inc/customizer.php:752
+#: inc/customizer.php:756
 msgid "Show Description Text and Link on Mobile"
 msgstr ""
 
@@ -482,11 +480,11 @@ msgstr ""
 msgid "Footer Menu"
 msgstr ""
 
-#: inc/menu-registration.php:27
+#: inc/menu-registration.php:22
 msgid "Footer Lists Menu"
 msgstr ""
 
-#: inc/menu-registration.php:30
+#: inc/menu-registration.php:23
 msgid "Footer Important Links"
 msgstr ""
 
@@ -606,133 +604,138 @@ msgstr ""
 msgid "Setting for the blue breadcrumb variant"
 msgstr ""
 
-#: inc/theme-settings.php:50
+#: inc/theme-settings.php:51
 msgid "Website Type"
 msgstr ""
 
-#: inc/theme-settings.php:54
+#: inc/theme-settings.php:55
 msgid "FAU.de"
 msgstr ""
 
-#: inc/theme-settings.php:55
-#: inc/theme-settings.php:69
+#: inc/theme-settings.php:56
+#: inc/theme-settings.php:71
 msgid "Faculty"
 msgstr ""
 
-#: inc/theme-settings.php:56
+#: inc/theme-settings.php:57
 msgid "Chair"
 msgstr ""
 
-#: inc/theme-settings.php:57
+#: inc/theme-settings.php:58
 msgid "Other"
 msgstr ""
 
-#: inc/theme-settings.php:58
+#: inc/theme-settings.php:59
 msgid "Cooperation"
 msgstr ""
 
-#: inc/theme-settings.php:89
+#: inc/theme-settings.php:91
 msgid "Copyright Info Priority"
 msgstr ""
 
-#: inc/theme-settings.php:93
+#: inc/theme-settings.php:95
 msgid "Copyright Field"
 msgstr ""
 
-#: inc/theme-settings.php:94
+#: inc/theme-settings.php:96
 msgid "IPTC Image Metadata"
 msgstr ""
 
-#: search.php:24
+#. translators: search query
+#: search.php:25
 msgid "Search Results for: %s"
 msgstr ""
 
-#: search.php:35
+#: search.php:36
 msgid "Search for:"
 msgstr ""
 
-#: search.php:39
+#: search.php:40
 msgid "Enter search term..."
 msgstr ""
 
-#: search.php:43
+#: search.php:44
 msgid "Submit search"
 msgstr ""
 
-#: search.php:44
+#: search.php:45
 msgid "Search"
 msgstr ""
 
-#: search.php:48
+#: search.php:49
 msgid "Press Enter to search or use the search button to submit your query"
 msgstr ""
 
-#: search.php:61
+#. translators: number of results
+#: search.php:63
 msgctxt "search results count"
 msgid "%s result found"
 msgid_plural "%s results found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: search.php:73
+#: search.php:75
 msgid "Search Results List"
 msgstr ""
 
-#: search.php:80
+#. translators: result index
+#: search.php:84
 msgid "Search Result %d"
 msgstr ""
 
-#: search.php:108
+#. translators: search result title
+#: search.php:114
 msgid "Featured image for %s"
 msgstr ""
 
-#: search.php:141
+#. translators: search result title
+#: search.php:150
 msgid "Read more about %s"
 msgstr ""
 
-#: search.php:142
+#: search.php:153
 #: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:120
 #: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:155
 msgid "Read more"
 msgstr ""
 
-#: search.php:160
+#: search.php:171
 msgid "&laquo; Previous"
 msgstr ""
 
-#: search.php:161
+#: search.php:172
 msgid "Next &raquo;"
 msgstr ""
 
-#: search.php:163
+#: search.php:174
 msgid "Search results navigation"
 msgstr ""
 
-#: search.php:169
+#: search.php:180
 msgid "Search Results Pages"
 msgstr ""
 
-#: search.php:177
+#: search.php:188
 msgid "No Search Results"
 msgstr ""
 
-#: search.php:179
+#: search.php:190
 msgid "No results were found."
 msgstr ""
 
-#: search.php:182
+#: search.php:193
 msgid "Try:"
 msgstr ""
 
-#: search.php:184
+#: search.php:195
 msgid "Check the spelling of your search terms."
 msgstr ""
 
-#: search.php:185
+#: search.php:196
 msgid "Use more general search terms."
 msgstr ""
 
-#: search.php:186
+#: search.php:197
 msgid "Use fewer search terms."
 msgstr ""
 

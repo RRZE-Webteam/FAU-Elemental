@@ -377,7 +377,7 @@ function fau_customizer_settings($wp_customize) {
             'default' => $label
         ]);
         $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'target_group_heading_' . $key, [
-            'label' => sprintf(__('%s', 'fau-elemental'), $label),
+            'label' => $label,
             'section' => 'footer_zielgruppen',
             'settings' => 'target_group_heading_' . $key,
             'type' => 'hidden'
@@ -463,6 +463,7 @@ function fau_customizer_settings($wp_customize) {
         $wp_customize->add_setting('social_' . $key);
         $wp_customize->add_control('social_' . $key, [
             'label' => $label,
+            /* translators: social media platform */
             'description' => sprintf(__('Enter the %s URL', 'fau-elemental'), $label),
             'section' => 'footer_social_media',
             'type' => 'url'
