@@ -1,6 +1,7 @@
 /**
  * Frontend JavaScript for FAU Teaser Grid block
- * Handles client-side pagination when integrated with filter/pagination blocks
+ * Handles client-side pagination when integrated with filter/pagination
+ * blocks
  */
 
 document.addEventListener( 'DOMContentLoaded', function () {
