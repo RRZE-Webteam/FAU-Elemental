@@ -17,7 +17,7 @@ const FAUE_BREADCRUMB_TITLE_MAX_LENGTH = 50;
 /**
  * Add dark mode class to the parent block group
  */
-function faue_breadcrumbs_block_class($block_content, $block) {
+function faue_breadcrumbs_block_class($block_content, $block): string {
     if ($block['blockName'] === 'core/group' && 
         isset($block['attrs']['className']) && 
         str_contains($block['attrs']['className'], 'breadcrumbs')) {
@@ -33,7 +33,7 @@ add_filter('render_block', 'faue_breadcrumbs_block_class', 10, 2);
 /**
  * Display breadcrumb navigation
  */
-function faue_breadcrumbs() {
+function faue_breadcrumbs(): void {
     if (is_front_page()) {
         return;
     }
