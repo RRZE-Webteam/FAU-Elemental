@@ -22,7 +22,6 @@ export default function Edit( { attributes, setAttributes } ) {
 				iconUrl: '',
 				iconId: null,
 				link: '',
-				showLink: false,
 			},
 		];
 		setAttributes( { facts: newFacts } );

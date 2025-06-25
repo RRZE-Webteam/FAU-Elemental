@@ -6,7 +6,6 @@ import {
 } from '@wordpress/block-editor';
 import {
 	PanelBody,
-	ToggleControl,
 	TextControl,
 	TextareaControl,
 	Button,
@@ -175,25 +174,10 @@ export default function FactsInspectorControls( {
 							'https://example.com',
 							'fau-elemental'
 						) }
-					/>
-
-					<ToggleControl
-						label={ __( 'Show Link Button', 'fau-elemental' ) }
-						checked={ selectedFact.showLink }
-						onChange={ ( value ) =>
-							updateFact( selectedFactIndex, 'showLink', value )
-						}
-						help={
-							selectedFact.link
-								? __(
-										'Toggle to show/hide the link button',
-										'fau-elemental'
-								  )
-								: __(
-										'Add a link URL above to enable this option',
-										'fau-elemental'
-								  )
-						}
+						help={ __(
+							'A link button will automatically appear when you enter a URL.',
+							'fau-elemental'
+						) }
 					/>
 				</PanelBody>
 			) }

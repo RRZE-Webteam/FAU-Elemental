@@ -18,7 +18,7 @@ export default function FactsGridContent( {
 						key={ index }
 						className={ `fau-facts-grid-item ${
 							selectedFactIndex === index ? 'is-active' : ''
-						} ${ fact.link && fact.showLink ? 'has-link' : '' }` }
+						} ${ fact.link ? 'has-link' : '' }` }
 						onClick={ () => setSelectedFactIndex( index ) }
 						onKeyDown={ ( event ) => {
 							if ( event.key === 'Enter' ) {
@@ -64,7 +64,7 @@ export default function FactsGridContent( {
 								] }
 								multiline={ false }
 							/>
-							{ fact.link && fact.showLink && (
+							{ fact.link && (
 								<div className="wp-block-buttons">
 									<div className="wp-block-button is-style-tertiary">
 										<span className="wp-block-button__link">
