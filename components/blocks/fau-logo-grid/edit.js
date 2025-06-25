@@ -2,10 +2,16 @@ import { __ } from '@wordpress/i18n';
 import {
 	useBlockProps,
 	InspectorControls,
+	BlockControls,
 	MediaUpload,
 	MediaUploadCheck,
 } from '@wordpress/block-editor';
-import { PanelBody, TextControl, Button } from '@wordpress/components';
+import {
+	PanelBody,
+	TextControl,
+	Button,
+	ToolbarGroup,
+} from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 
 export default function Edit( { attributes, setAttributes } ) {
@@ -13,9 +19,55 @@ export default function Edit( { attributes, setAttributes } ) {
 	const { logos = [], selectedLogoIndex = null } = attributes;
 
 	useEffect( () => {
-		// Ensure logos array is initialized
-		if ( ! Array.isArray( logos ) ) {
-			setAttributes( { logos: [] } );
+		// First check if there are migrated image links to populate
+		if ( ! Array.isArray( logos ) || logos.length === 0 ) {
+			// Check if there are migrated image links available
+			wp.apiFetch( { path: '/wp/v2/settings' } )
+				.then( ( settings ) => {
+					const migratedLinks =
+						settings.fau_elemental_migrated_image_links;
+					if (
+						migratedLinks &&
+						Array.isArray( migratedLinks ) &&
+						migratedLinks.length > 0
+					) {
+						// Convert migrated links to logo format
+						const convertedLogos = migratedLinks.map(
+							( link ) => ( {
+								imageId: link.imageId || 0,
+								imageUrl: link.imageUrl || '',
+								link: link.link || '',
+								category: link.category || '',
+							} )
+						);
+						setAttributes( { logos: convertedLogos } );
+					} else {
+						// No migrated links, use default empty logo
+						setAttributes( {
+							logos: [
+								{
+									imageId: 0,
+									imageUrl: '',
+									link: '',
+									category: '',
+								},
+							],
+						} );
+					}
+				} )
+				.catch( () => {
+					// Fallback if API call fails
+					setAttributes( {
+						logos: [
+							{
+								imageId: 0,
+								imageUrl: '',
+								link: '',
+								category: '',
+							},
+						],
+					} );
+				} );
 		}
 	}, [] );
 
@@ -43,7 +95,10 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const addLogo = () => {
 		setAttributes( {
-			logos: [ ...logos, { imageId: 0, imageUrl: '', link: '' } ],
+			logos: [
+				...logos,
+				{ imageId: 0, imageUrl: '', link: '', category: '' },
+			],
 			selectedLogoIndex: logos.length, // select the new logo
 		} );
 	};
@@ -76,6 +131,16 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	return (
 		<>
+			<BlockControls>
+				<ToolbarGroup>
+					<Button
+						icon="plus"
+						label={ __( 'Add Logo', 'fau-elemental' ) }
+						onClick={ addLogo }
+					/>
+				</ToolbarGroup>
+			</BlockControls>
+
 			<InspectorControls>
 				{ selectedLogoIndex !== null && logos[ selectedLogoIndex ] && (
 					<PanelBody
@@ -85,11 +150,90 @@ export default function Edit( { attributes, setAttributes } ) {
 						) }
 						initialOpen={ true }
 					>
+						<MediaUploadCheck>
+							<MediaUpload
+								onSelect={ ( media ) =>
+									onSelectImage( selectedLogoIndex, media )
+								}
+								allowedTypes={ [ 'image' ] }
+								value={ logos[ selectedLogoIndex ].imageId }
+								render={ ( { open } ) => (
+									<>
+										<Button
+											onClick={ open }
+											isSecondary
+											style={ { marginBottom: '16px' } }
+										>
+											{ logos[ selectedLogoIndex ]
+												.imageUrl
+												? __(
+														'Replace Image',
+														'fau-elemental'
+												  )
+												: __(
+														'Set Image',
+														'fau-elemental'
+												  ) }
+										</Button>
+										{ logos[ selectedLogoIndex ]
+											.imageUrl && (
+											<div
+												style={ {
+													marginBottom: '16px',
+												} }
+											>
+												<img
+													src={
+														logos[
+															selectedLogoIndex
+														].imageUrl
+													}
+													alt=""
+													style={ {
+														maxWidth: '100%',
+														height: 'auto',
+														border: '1px solid #ccc',
+													} }
+												/>
+											</div>
+										) }
+									</>
+								) }
+							/>
+						</MediaUploadCheck>
+
 						<TextControl
 							label={ __( 'Logo Link', 'fau-elemental' ) }
 							value={ logos[ selectedLogoIndex ].link || '' }
 							onChange={ updateLogoLink }
 						/>
+
+						{ logos[ selectedLogoIndex ].category && (
+							<div
+								style={ {
+									marginTop: '16px',
+									padding: '12px',
+									backgroundColor: '#f6f7f7',
+									borderRadius: '4px',
+								} }
+							>
+								<strong>
+									{ __(
+										'Original Category:',
+										'fau-elemental'
+									) }
+								</strong>{ ' ' }
+								{ logos[ selectedLogoIndex ].category }
+								<br />
+								<small>
+									{ __(
+										'This logo was migrated from the previous theme.',
+										'fau-elemental'
+									) }
+								</small>
+							</div>
+						) }
+
 						<Button
 							isDestructive
 							onClick={ () => removeLogo( selectedLogoIndex ) }
@@ -161,10 +305,6 @@ export default function Edit( { attributes, setAttributes } ) {
 							</div>
 						) ) }
 				</div>
-
-				<Button isPrimary onClick={ addLogo }>
-					{ __( 'Add Logo', 'fau-elemental' ) }
-				</Button>
 			</div>
 		</>
 	);
