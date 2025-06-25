@@ -9,8 +9,8 @@
  */
 ?>
 
-<!-- wp:fau-elemental/fau-meta-headline -->
-<header class="wp-block-fau-elemental-fau-meta-headline">Dateien</header>
+<!-- wp:fau-elemental/fau-meta-headline {"headline":"Dateien","id":"1edd3eeb-d676-417b-a00b-4d1f4f5b8de8"} -->
+<div class="wp-block-fau-elemental-fau-meta-headline" id="headline-1edd3eeb-d676-417b-a00b-4d1f4f5b8de8">Dateien</div>
 <!-- /wp:fau-elemental/fau-meta-headline -->
 
 <!-- wp:spacer {"height":"40px","width":"0px","style":{"layout":[]}} -->
