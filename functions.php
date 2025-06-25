@@ -293,10 +293,10 @@ function fau_elemental_enqueue_footer_scripts() {
         return;
     }
     
-    $website_type = get_theme_mod('faue_website_type', faue_get_default('website_type'));
+    $faue_website_type = get_theme_mod('faue_website_type');
     
     // Enqueue footer toggle script for instance sites (where the toggle is used)
-    if ($website_type !== 'fau') {
+    if ($faue_website_type !== 'fau') {
         wp_enqueue_script(
             'fau-footer-toggle',
             get_theme_file_uri('components/template-parts/footer-main/footer-toggle.js'),
@@ -313,3 +313,16 @@ function fau_elemental_enqueue_footer_scripts() {
     }
 }
 add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_footer_scripts');
+
+// ============================================================================
+// FAU TEASER GRID AJAX HANDLERS
+// ============================================================================
+
+/**
+ * Include and register AJAX handlers for FAU Teaser Grid
+ */
+function fau_elemental_register_teaser_grid_ajax() {
+    // Include the AJAX handler file
+    require_once get_template_directory() . '/components/blocks/fau-teaser-grid/ajax.php';
+}
+add_action('init', 'fau_elemental_register_teaser_grid_ajax');

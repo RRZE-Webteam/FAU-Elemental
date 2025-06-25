@@ -19,6 +19,21 @@
 	cursor: default;
 }
 
+// Load More Preview Styles
+.fau-teaser-grid__load-more-wrapper--preview {
+
+	.wp-block-button__link {
+		opacity: 0.7;
+		cursor: not-allowed;
+	}
+
+	.load-more-preview-text {
+		font-size: 0.75rem;
+		color: #666;
+		margin: 0 0 0 var(--Spacing-2x);
+	}
+}
+
 // Styles for the panel UI
 .components-panel {
 
