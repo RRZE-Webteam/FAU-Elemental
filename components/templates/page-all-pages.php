@@ -43,7 +43,7 @@ get_header(); ?>
     error_log('Template Debug - grid_block_id: ' . $grid_block_id);
     error_log('Template Debug - pagination_block_id: ' . $pagination_block_id);
     
-    echo do_blocks('<!-- wp:fau-elemental/fau-list-filters {"enableSearch":true,"searchPlaceholder":"Search pages...","enableFilters":true,"filterFields":[],"showMoreFiltersButton":true,"enableViewSwitcher":true,"availableViews":["cards","table"],"defaultView":"cards","enableSorting":true,"sortOptions":[{"value":"date","label":"Latest First"},{"value":"title","label":"Alphabetical"},{"value":"modified","label":"Recently Updated"}],"defaultSort":"title","showResultsCount":true,"resultsPerPage":12,"gridWidth":"12","customBlockId":"' . $filter_block_id . '"} /-->');
+    echo do_blocks('<!-- wp:fau-elemental/fau-list-filters {"enableSearch":true,"searchPlaceholder":"' . esc_attr__('Search pages...', 'fau-elemental') . '","enableFilters":true,"filterFields":[{"name":"page_template","label":"' . esc_attr__('All Templates', 'fau-elemental') . '","type":"meta","meta_key":"_wp_page_template"},{"name":"parent_page","label":"' . esc_attr__('All Parent Pages', 'fau-elemental') . '","type":"hierarchy"}],"showMoreFiltersButton":false,"enableViewSwitcher":true,"availableViews":["cards","table"],"defaultView":"cards","enableSorting":true,"sortOptions":[{"value":"title","label":"' . esc_attr__('Alphabetical', 'fau-elemental') . '"},{"value":"date","label":"' . esc_attr__('Latest First', 'fau-elemental') . '"},{"value":"modified","label":"' . esc_attr__('Recently Updated', 'fau-elemental') . '"}],"defaultSort":"title","showResultsCount":true,"resultsPerPage":12,"gridWidth":"12","customBlockId":"' . $filter_block_id . '"} /-->');
     ?>
 
     <!-- Spacer -->

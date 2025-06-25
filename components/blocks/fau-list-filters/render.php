@@ -236,8 +236,46 @@ if ( ! function_exists( 'fau_list_filters_render_filter_section' ) ) {
         foreach ($filter_fields as $index => $field) {
             $filter_id = $block_id . '-filter-' . $index;
             $field_name = $field['name'] ?? 'Filter ' . ($index + 1);
-            $field_options = $field['options'] ?? [];
+            $field_label = $field['label'] ?? $field_name;
+            $field_type = $field['type'] ?? 'taxonomy';
             $is_hidden = $show_more_filters && $index >= 3; // Hide filters after the 3rd one initially
+            
+            // Get options based on field type and configuration
+            $field_options = [];
+            if ($field_type === 'taxonomy' && isset($field['taxonomy'])) {
+                $taxonomy = $field['taxonomy'];
+                if ($taxonomy === 'category' && isset($available_options['categories'])) {
+                    $field_options = $available_options['categories']['options'];
+                } elseif ($taxonomy === 'post_tag' && isset($available_options['tags'])) {
+                    $field_options = $available_options['tags']['options'];
+                }
+            } elseif ($field_type === 'author' && isset($available_options['authors'])) {
+                $field_options = $available_options['authors']['options'];
+            } elseif ($field_type === 'date' && isset($available_options['years'])) {
+                $field_options = $available_options['years']['options'];
+            } elseif ($field_type === 'meta' && isset($field['meta_key'])) {
+                // Handle custom meta fields like page templates
+                if ($field['meta_key'] === '_wp_page_template') {
+                    $templates = get_page_templates();
+                    foreach ($templates as $template_name => $template_file) {
+                        $field_options[] = [
+                            'value' => $template_file,
+                            'label' => $template_name,
+                            'count' => 0 // Could be calculated if needed
+                        ];
+                    }
+                }
+            } elseif ($field_type === 'hierarchy') {
+                // Handle page hierarchy
+                $pages = get_pages(['parent' => 0, 'post_status' => 'publish']);
+                foreach ($pages as $page) {
+                    $field_options[] = [
+                        'value' => $page->ID,
+                        'label' => $page->post_title,
+                        'count' => 0 // Could be calculated if needed
+                    ];
+                }
+            }
             
             $filter_class = 'filter-field filter-field--configured';
             if ($is_hidden) {
@@ -248,23 +286,27 @@ if ( ! function_exists( 'fau_list_filters_render_filter_section' ) ) {
             $output .= sprintf(
                 '<label for="%s" class="filter-label">%s</label>',
                 esc_attr($filter_id),
-                esc_html($field_name)
+                esc_html($field_label)
             );
             $output .= sprintf(
-                '<select id="%s" class="filter-select" data-filter-name="%s" data-filter-type="configured">',
+                '<select id="%s" class="filter-select" data-filter-name="%s" data-filter-type="%s" data-taxonomy="%s">',
                 esc_attr($filter_id),
-                esc_attr($field_name)
+                esc_attr($field_name),
+                esc_attr($field_type),
+                esc_attr($field['taxonomy'] ?? '')
             );
             $output .= sprintf(
                 '<option value="">%s</option>',
-                esc_html(sprintf(__('All %s', 'fau-elemental'), $field_name))
+                esc_html($field_label)
             );
             
             foreach ($field_options as $option) {
+                $count_text = isset($option['count']) && $option['count'] > 0 ? ' (' . $option['count'] . ')' : '';
                 $output .= sprintf(
-                    '<option value="%s">%s</option>',
+                    '<option value="%s">%s%s</option>',
                     esc_attr($option['value']),
-                    esc_html($option['label'])
+                    esc_html($option['label']),
+                    esc_html($count_text)
                 );
             }
             

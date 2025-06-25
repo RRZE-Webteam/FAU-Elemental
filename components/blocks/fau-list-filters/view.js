@@ -862,8 +862,28 @@ function initializeFilterBlock( blockElement ) {
 		configuredFilters.forEach( ( select ) => {
 			if ( select.value ) {
 				const filterName = select.getAttribute( 'data-filter-name' );
+				const filterType = select.getAttribute( 'data-filter-type' );
+				const taxonomy = select.getAttribute( 'data-taxonomy' );
+				
+				// Map filter types to the format expected by the AJAX handler
+				let adjustedFilterType = filterType;
+				if ( filterType === 'taxonomy' && taxonomy ) {
+					// Map taxonomy types to the expected filter names
+					if ( taxonomy === 'category' ) {
+						adjustedFilterType = 'categories';
+					} else if ( taxonomy === 'post_tag' ) {
+						adjustedFilterType = 'tags';
+					} else {
+						adjustedFilterType = taxonomy; // Use taxonomy name directly
+					}
+				} else if ( filterType === 'author' ) {
+					adjustedFilterType = 'authors';
+				} else if ( filterType === 'date' ) {
+					adjustedFilterType = 'years';
+				}
+				
 				activeFilters[filterName] = {
-					type: 'configured',
+					type: adjustedFilterType,
 					value: select.value,
 				};
 			}
