@@ -44,13 +44,4 @@ get_header(); ?>
 
 </main>
 
-<?php 
-// Enqueue template-specific styles
-wp_enqueue_style(
-    'fau-page-archive-template',
-    get_theme_file_uri('assets/css/templates/page-archive.css'),
-    [],
-    wp_get_theme()->get('Version')
-);
-
-get_footer(); ?> 
+<?php get_footer(); ?> 
