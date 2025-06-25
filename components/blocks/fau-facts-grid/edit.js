@@ -1,7 +1,5 @@
-import { useBlockProps, BlockControls } from '@wordpress/block-editor';
-import { useState } from '@wordpress/element';
-import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
+import { useBlockProps } from '@wordpress/block-editor';
+import { useState, useEffect } from '@wordpress/element';
 import FactsInspectorControls from './components/FactsInspectorControls';
 import FactsGridContent from './components/FactsGridContent';
 
@@ -14,27 +12,34 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	const blockProps = useBlockProps();
 
-	const addFact = () => {
-		const newFacts = [
-			...facts,
-			{
-				text: '',
-				iconUrl: '',
-				iconId: null,
-				link: '',
-			},
-		];
-		setAttributes( { facts: newFacts } );
-		setSelectedFactIndex( newFacts.length - 1 );
-	};
+	// Ensure exactly 4 facts on component mount and when facts change
+	useEffect( () => {
+		if ( facts.length !== 4 ) {
+			const newFacts = [ ...facts ];
 
-	const removeFact = ( index ) => {
-		const newFacts = facts.filter( ( _, i ) => i !== index );
-		setAttributes( { facts: newFacts } );
-		if ( selectedFactIndex >= newFacts.length ) {
-			setSelectedFactIndex( Math.max( 0, newFacts.length - 1 ) );
+			// Add empty facts if we have less than 4
+			while ( newFacts.length < 4 ) {
+				newFacts.push( {
+					text: '',
+					iconUrl: '',
+					iconId: null,
+					link: '',
+				} );
+			}
+
+			// Remove excess facts if we have more than 4
+			if ( newFacts.length > 4 ) {
+				newFacts.splice( 4 );
+			}
+
+			setAttributes( { facts: newFacts } );
+
+			// Adjust selected index if needed
+			if ( selectedFactIndex >= 4 ) {
+				setSelectedFactIndex( 3 );
+			}
 		}
-	};
+	}, [ facts.length, selectedFactIndex, setAttributes ] );
 
 	const updateFact = ( index, field, value ) => {
 		const newFacts = [ ...facts ];
@@ -44,21 +49,9 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	return (
 		<div { ...blockProps }>
-			<BlockControls>
-				<ToolbarGroup>
-					<ToolbarButton
-						icon="plus"
-						label={ __( 'Add New Fact', 'fau-elemental' ) }
-						onClick={ addFact }
-					/>
-				</ToolbarGroup>
-			</BlockControls>
-
 			<FactsInspectorControls
 				facts={ facts }
 				selectedFactIndex={ selectedFactIndex }
-				addFact={ addFact }
-				removeFact={ removeFact }
 				updateFact={ updateFact }
 				setAttributes={ setAttributes }
 			/>

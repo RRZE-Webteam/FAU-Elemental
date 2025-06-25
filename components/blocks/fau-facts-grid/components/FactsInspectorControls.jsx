@@ -18,8 +18,6 @@ import {
 export default function FactsInspectorControls( {
 	facts,
 	selectedFactIndex,
-	addFact,
-	removeFact,
 	updateFact,
 	setAttributes,
 } ) {
@@ -27,32 +25,6 @@ export default function FactsInspectorControls( {
 
 	return (
 		<InspectorControls>
-			<PanelBody title={ __( 'Facts Management', 'fau-elemental' ) }>
-				<div className="fau-facts-grid-inspector-buttons">
-					<Button variant="primary" onClick={ addFact }>
-						{ __( 'Add New Fact', 'fau-elemental' ) }
-					</Button>
-					{ facts.length > 0 && (
-						<Button
-							variant="secondary"
-							isDestructive
-							onClick={ () => removeFact( selectedFactIndex ) }
-							className="fau-facts-grid-remove-button"
-						>
-							{ __( 'Remove Selected Fact', 'fau-elemental' ) }
-						</Button>
-					) }
-				</div>
-				<div className="fau-facts-grid-inspector-info">
-					<p className="fau-facts-grid-inspector-help-text">
-						{ __(
-							'Click on a fact in the editor to select and edit it. You can also use the toolbar button to add new facts.',
-							'fau-elemental'
-						) }
-					</p>
-				</div>
-			</PanelBody>
-
 			{ selectedFact && (
 				<PanelBody
 					title={ sprintf(
@@ -62,6 +34,15 @@ export default function FactsInspectorControls( {
 					) }
 					initialOpen={ true }
 				>
+					<div className="fau-facts-grid-inspector-info">
+						<p className="fau-facts-grid-inspector-help-text">
+							{ __(
+								'This block displays exactly 4 facts. Click on a fact in the editor to select and edit it.',
+								'fau-elemental'
+							) }
+						</p>
+					</div>
+
 					<TextareaControl
 						label={ __( 'Fact Text', 'fau-elemental' ) }
 						value={ selectedFact.text }
