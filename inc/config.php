@@ -14,6 +14,10 @@ $faue_defaults = array(
     'faue_website_type' => 'fau',
     // Breadcrumb Mode
     'faue_breadcrumb_variant_blue' => true,
+    // Search Results Configuration
+    'faue_search_excerpt_length' => 30,
+    'faue_search_separator' => '|',
+    'faue_search_arrow' => '→',
     // Display Footer Address
     'display_footer_address' => true,
 );
