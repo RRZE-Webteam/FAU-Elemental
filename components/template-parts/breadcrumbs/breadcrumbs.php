@@ -49,30 +49,20 @@ function faue_breadcrumbs(): void {
         // Reverse the array to get ancestors in correct order (furthest parent first)
         $ancestors = array_reverse($ancestors);
     } elseif (is_single()) {
-        $categories = get_the_category();
-        if ($categories) {
-            // Try to find primary category or use the first one
+        $terms = get_the_terms(get_the_ID(), 'category');
+        if ($terms && !is_wp_error($terms)) {
+            // Use wp_list_filter to find the primary/parent category
+            // Find categories that have parent categories (more specific)
+            $child_categories = wp_list_filter($terms, array('parent' => 0), 'NOT');
+            
+            // If we have child categories, prefer them over parent categories
             $primary_category = null;
-            
-            // Check for Yoast SEO primary category
-            if (class_exists('WPSEO_Primary_Term')) {
-                // @phpstan-ignore-next-line - WPSEO_Primary_Term and get_the_ID() are WordPress plugin/core functions
-                $wpseo_primary_term = new WPSEO_Primary_Term('category', get_the_ID());
-                $primary_category_id = $wpseo_primary_term->get_primary_term();
-                if ($primary_category_id) {
-                    $primary_category = get_category($primary_category_id);
-                }
-            }
-            
-            // If no primary category, use the first category or find the most specific one
-            if (!$primary_category) {
-                $primary_category = $categories[0];
-                // Prefer categories with fewer posts (more specific)
-                foreach ($categories as $category) {
-                    if ($category->count < $primary_category->count) {
-                        $primary_category = $category;
-                    }
-                }
+            if (!empty($child_categories)) {
+                // Use the first child category (most specific)
+                $primary_category = reset($child_categories);
+            } else {
+                // No child categories, use the first parent category
+                $primary_category = reset($terms);
             }
             
             // Build ancestor chain for the selected category
