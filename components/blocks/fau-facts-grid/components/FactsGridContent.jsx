@@ -39,7 +39,7 @@ export default function FactsGridContent( {
 								<img src={ fact.iconUrl } alt="" />
 							) : (
 								<img
-									src={ `${window.fauElemental?.themeUrl}/assets/images/fact-icon.png` }
+									src={ `${ window.fauElemental?.themeUrl }/assets/images/fact-icon.png` }
 									alt=""
 								/>
 							) }

@@ -47,7 +47,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
-						icon= "plus" 
+						icon="plus"
 						label={ __( 'Add New Fact', 'fau-elemental' ) }
 						onClick={ addFact }
 					/>

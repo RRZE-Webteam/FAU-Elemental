@@ -18,11 +18,7 @@ export default function Save( { attributes } ) {
 								return null;
 							}
 
-							const {
-								text = '',
-								iconUrl = '',
-								link = '',
-							} = fact;
+							const { text = '', iconUrl = '', link = '' } = fact;
 
 							// Don't render fact if no text is provided
 							if ( ! text || text.trim() === '' ) {
@@ -41,7 +37,7 @@ export default function Save( { attributes } ) {
 											<img src={ iconUrl } alt="" />
 										) : (
 											<img
-												src={ `${window.fauElemental?.themeUrl}/assets/images/fact-icon.png` }
+												src={ `${ window.fauElemental?.themeUrl }/assets/images/fact-icon.png` }
 												alt=""
 											/>
 										) }
@@ -80,4 +76,4 @@ export default function Save( { attributes } ) {
 			</div>
 		</div>
 	);
-} 
+}
