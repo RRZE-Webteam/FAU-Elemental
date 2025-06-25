@@ -79,6 +79,11 @@ function initializeFilterBlock( blockElement ) {
 
 	// Initialize - Load actual data instead of simulating
 	loadInitialData();
+	
+	// Set initial view class on main article
+	if ( currentView ) {
+		updateGridView( currentView );
+	}
 
 	// Search functionality
 	if ( searchInput ) {
@@ -776,15 +781,25 @@ function initializeFilterBlock( blockElement ) {
 	function updateGridView( view ) {
 		if ( ! associatedGrid ) return;
 
-		// Remove existing view classes
+		// Remove existing view classes from grid
 		associatedGrid.classList.remove(
 			'view-cards',
 			'view-table',
 			'view-list'
 		);
 
-		// Add new view class
+		// Add new view class to grid
 		associatedGrid.classList.add( `view-${ view }` );
+
+		// Find the main article element and add/remove table view class
+		const mainArticle = document.querySelector( 'main' ) || document.querySelector( 'article' );
+		if ( mainArticle ) {
+			// Remove existing view classes from main article
+			mainArticle.classList.remove( 'table-view', 'cards-view', 'list-view' );
+			
+			// Add the new view class to main article
+			mainArticle.classList.add( `${ view }-view` );
+		}
 
 		// Trigger custom event for other components to listen to
 		const viewChangeEvent = new CustomEvent( 'fauListFiltersViewChange', {
@@ -897,8 +912,22 @@ function initializeFilterBlock( blockElement ) {
 			if ( select.value ) {
 				const filterType = select.getAttribute( 'data-filter-type' );
 				const filterName = select.getAttribute( 'data-filter-name' );
+				
+				// Dynamic filters already use the correct filter types from available options,
+				// but ensure consistency with the AJAX handler expectations
+				let adjustedFilterType = filterType;
+				if ( filterType === 'category' ) {
+					adjustedFilterType = 'categories';
+				} else if ( filterType === 'post_tag' ) {
+					adjustedFilterType = 'tags';
+				} else if ( filterType === 'author' ) {
+					adjustedFilterType = 'authors';
+				} else if ( filterType === 'year' ) {
+					adjustedFilterType = 'years';
+				}
+				
 				activeFilters[filterName] = {
-					type: filterType,
+					type: adjustedFilterType,
 					value: select.value,
 				};
 			}
