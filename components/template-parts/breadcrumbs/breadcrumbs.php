@@ -51,7 +51,35 @@ function faue_breadcrumbs(): void {
     } elseif (is_single()) {
         $categories = get_the_category();
         if ($categories) {
-            $ancestors = array($categories[0]->term_id);
+            // Try to find primary category or use the first one
+            $primary_category = null;
+            
+            // Check for Yoast SEO primary category
+            if (class_exists('WPSEO_Primary_Term')) {
+                // @phpstan-ignore-next-line - WPSEO_Primary_Term and get_the_ID() are WordPress plugin/core functions
+                $wpseo_primary_term = new WPSEO_Primary_Term('category', get_the_ID());
+                $primary_category_id = $wpseo_primary_term->get_primary_term();
+                if ($primary_category_id) {
+                    $primary_category = get_category($primary_category_id);
+                }
+            }
+            
+            // If no primary category, use the first category or find the most specific one
+            if (!$primary_category) {
+                $primary_category = $categories[0];
+                // Prefer categories with fewer posts (more specific)
+                foreach ($categories as $category) {
+                    if ($category->count < $primary_category->count) {
+                        $primary_category = $category;
+                    }
+                }
+            }
+            
+            // Build ancestor chain for the selected category
+            $category_ancestors = get_ancestors($primary_category->term_id, 'category');
+            $category_ancestors = array_reverse($category_ancestors);
+            $category_ancestors[] = $primary_category->term_id;
+            $ancestors = $category_ancestors;
         }
     }
 
