@@ -87,7 +87,7 @@ function faue_breadcrumbs() {
         }
 
         // Truncate parent title
-        $truncated_parent = strlen($parent_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? substr($parent_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH - 3) . '...' : $parent_title;
+        $truncated_parent = strlen($parent_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($parent_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $parent_title;
 
         echo '<li class="breadcrumbs__item breadcrumbs__item--mobile" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
         echo '<span class="breadcrumbs__chevron"></span>';
@@ -119,7 +119,7 @@ function faue_breadcrumbs() {
         }
 
         // Truncate long titles
-        $truncated_title = strlen($title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? substr($title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH - 3) . '...' : $title;
+        $truncated_title = strlen($title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $title;
 
         echo '<li class="breadcrumbs__item breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
         echo '<a href="' . esc_url($url) . '" class="breadcrumbs__link" itemprop="item" title="' . esc_attr($title) . '">';
@@ -145,7 +145,7 @@ function faue_breadcrumbs() {
     }
 
     // Truncate current page title if needed
-    $truncated_current = strlen($current_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? substr($current_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH - 3) . '...' : $current_title;
+    $truncated_current = strlen($current_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($current_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $current_title;
 
     echo '<li class="breadcrumbs__item breadcrumbs__item--current breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">';
     echo '<span class="breadcrumbs__current" itemprop="item" title="' . esc_attr($current_title) . '">';
