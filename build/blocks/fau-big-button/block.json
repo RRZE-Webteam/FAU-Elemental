@@ -1,0 +1,79 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "fau-elemental/fau-big-button",
+	"version": "0.1.0",
+	"title": "FAU Big Button",
+	"category": "fau-elemental/FAU",
+	"icon": "button",
+	"description": "Display a group of big buttons",
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"textdomain": "fau-elemental",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style-theme.css",
+	"render": "file:./render.php",
+	"attributes": {
+		"teaserSize": {
+			"type": "string",
+			"enum": [ "small", "large" ],
+			"default": "small"
+		},
+		"variant": {
+			"type": "string",
+			"enum": [ "filled", "outline" ],
+			"default": "filled"
+		},
+		"items": {
+			"type": "array",
+			"default": [
+				{
+					"id": "",
+					"title": "",
+					"description": "",
+					"url": "",
+					"facultyColor": "default"
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"url": {
+						"type": "string"
+					},
+					"facultyColor": {
+						"type": "string",
+						"enum": [ "default", "phil", "rw", "med", "nat", "tf" ]
+					}
+				}
+			}
+		}
+	},
+	"example": {
+		"attributes": {
+			"teaserSize": "small",
+			"variant": "filled",
+			"items": [
+				{
+					"id": 1,
+					"title": "Example Button",
+					"description": "This is an example description for the button.",
+					"url": "#",
+					"facultyColor": "default"
+				}
+			]
+		}
+	}
+}
