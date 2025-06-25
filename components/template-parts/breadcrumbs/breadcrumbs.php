@@ -147,7 +147,7 @@ function faue_breadcrumbs() {
     // Truncate current page title if needed
     $truncated_current = strlen($current_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? substr($current_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH - 3) . '...' : $current_title;
 
-    echo '<li class="breadcrumbs__item breadcrumbs__item--current breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+    echo '<li class="breadcrumbs__item breadcrumbs__item--current breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">';
     echo '<span class="breadcrumbs__current" itemprop="item" title="' . esc_attr($current_title) . '">';
     echo '<span itemprop="name">' . esc_html($truncated_current) . '</span>';
     echo '</span>';
