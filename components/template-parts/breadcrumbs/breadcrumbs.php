@@ -18,7 +18,9 @@ define('FAUE_BREADCRUMB_TITLE_MAX_LENGTH', 50);
  * Add dark mode class to the parent block group
  */
 function faue_breadcrumbs_block_class($block_content, $block) {
-    if ($block['blockName'] === 'core/group' && strpos($block_content, 'breadcrumbs') !== false) {
+    if ($block['blockName'] === 'core/group' && 
+        isset($block['attrs']['className']) && 
+        str_contains($block['attrs']['className'], 'breadcrumbs')) {
         $mode = get_theme_mod('faue_breadcrumb_variant_blue');
         if ($mode) {
             $block_content = str_replace('wp-block-group', 'wp-block-group is-style-dark', $block_content);
