@@ -76,9 +76,11 @@ export default function save( { attributes } ) {
 				) }
 
 				{ truncatedLinkText && linkUrl && (
-					<a href={ linkUrl } className="fau-big-teaser__link">
-						{ truncatedLinkText }
-					</a>
+					<div className="wp-block-button is-style-tertiary">
+						<a href={ linkUrl } className="wp-block-button__link wp-element-button">
+							{ truncatedLinkText }
+						</a>
+					</div>
 				) }
 			</div>
 		</section>

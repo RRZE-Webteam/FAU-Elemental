@@ -28,7 +28,9 @@
     <div class="fau-big-teaser__content">
         <h3 class="fau-big-teaser__headline">Internationale Spitzenforschung an der FAU</h3>
         <p class="fau-big-teaser__teaser-text"> Die FAU ist eine Volluniversität mit langer Forschungstradition und gefestigte Kooperationen mit internationalen Forschungseinrichtungen wie Max Planck, Fraunhofer und Helmholtz.</p>
-        <a href="#" class="fau-big-teaser__link">Mehr erfahren</a>
+        <div class="wp-block-button is-style-tertiary">
+            <a href="#" class="wp-block-button__link wp-element-button">Mehr erfahren</a>
+        </div>
     </div>
 </section>
 <!-- /wp:fau-elemental/fau-big-teaser --> 
