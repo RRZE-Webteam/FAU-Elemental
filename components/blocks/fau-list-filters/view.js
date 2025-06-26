@@ -12,6 +12,14 @@ document.addEventListener( 'DOMContentLoaded', function () {
 function initializeFilterBlock( blockElement ) {
 	const blockId = blockElement.getAttribute( 'data-block-id' );
 
+	// Find associated teaser grid
+	const associatedGrid = findAssociatedGrid( blockId );
+
+	// Check if grid was found
+	if ( ! associatedGrid ) {
+		return;
+	}
+
 	// Get elements
 	const searchInput = blockElement.querySelector( '.search-input' );
 	const searchClear = blockElement.querySelector( '.search-clear' );
@@ -28,29 +36,14 @@ function initializeFilterBlock( blockElement ) {
 		'.filter-field.hidden'
 	);
 
-	// Find associated teaser grid
-	const associatedGrid = findAssociatedGrid( blockId );
-
-	// Debug: Check if grid was found
-	if ( associatedGrid ) {
-		console.warn(
-			'DEBUG: Filter initialized with grid:',
-			associatedGrid.className
-		);
-	} else {
-		console.warn( 'ERROR: Filter initialized but no grid found!' );
-	}
-
 	// State
 	let currentFilters = {};
 	let currentSearch = '';
 	let currentView = getCurrentView();
-	// eslint-disable-next-line no-unused-vars
 	let currentPage = 1;
-	let totalResults = 0;
-	// eslint-disable-next-line no-unused-vars
 	const resultsPerPage =
-		parseInt( blockElement.getAttribute( 'data-results-per-page' ) ) || 15;
+		parseInt( blockElement.getAttribute( 'data-results-per-page' ), 10 ) ||
+		6;
 	let filtersExpanded = false;
 	let paginationEnabled = false;
 	let associatedPagination = null;
@@ -59,25 +52,14 @@ function initializeFilterBlock( blockElement ) {
 	const paginationBlockId = associatedGrid?.getAttribute(
 		'data-pagination-block-id'
 	);
-	console.warn( 'DEBUG: Looking for pagination with ID:', paginationBlockId );
-	console.warn( 'DEBUG: Associated grid:', associatedGrid );
 
 	if ( paginationBlockId ) {
 		associatedPagination = document.querySelector(
-			`[data-block-id="${ paginationBlockId }"]`
+			`.wp-block-fau-elemental-fau-pagination[data-block-id="${ paginationBlockId }"]`
 		);
 		if ( associatedPagination ) {
 			paginationEnabled = true;
-			console.warn(
-				'DEBUG: Found associated pagination block:',
-				paginationBlockId,
-				associatedPagination
-			);
 		} else {
-			console.warn(
-				'DEBUG: Pagination block ID found but element not found:',
-				paginationBlockId
-			);
 			// Try alternative selectors
 			const altPagination = document.querySelector(
 				`#${ paginationBlockId }`
@@ -85,14 +67,8 @@ function initializeFilterBlock( blockElement ) {
 			if ( altPagination ) {
 				associatedPagination = altPagination;
 				paginationEnabled = true;
-				console.warn(
-					'DEBUG: Found pagination using ID selector:',
-					altPagination
-				);
 			}
 		}
-	} else {
-		console.warn( 'DEBUG: No pagination block ID found on grid' );
 	}
 
 	// Initialize - Load actual data instead of simulating
@@ -162,8 +138,6 @@ function initializeFilterBlock( blockElement ) {
 
 	// Populate filter options based on content in the associated grid
 	function populateFiltersFromGrid() {
-		console.warn( 'DEBUG: Populating filters from grid content' );
-
 		if ( ! associatedGrid ) {
 			return;
 		}
@@ -171,11 +145,6 @@ function initializeFilterBlock( blockElement ) {
 		// Get all existing teaser items in the grid
 		const existingTeaserItems =
 			associatedGrid.querySelectorAll( '.teaser-item' );
-		console.warn(
-			'DEBUG: Found',
-			existingTeaserItems.length,
-			'items to analyze for filters'
-		);
 
 		// Extract categories, tags, authors, etc. from existing items
 		const availableOptions = {
@@ -219,12 +188,6 @@ function initializeFilterBlock( blockElement ) {
 			} );
 		} );
 
-		console.warn( 'DEBUG: Available filter options from grid:', {
-			categories: Array.from( availableOptions.categories ),
-			years: Array.from( availableOptions.years ),
-			authors: Array.from( availableOptions.authors ),
-		} );
-
 		// Update dynamic filter options
 		updateDynamicFilterOptions( availableOptions );
 	}
@@ -262,7 +225,6 @@ function initializeFilterBlock( blockElement ) {
 				}
 			} );
 
-			console.warn( 'DEBUG: Setting dynamic filter data:', filteredData );
 			showMoreButton.setAttribute(
 				'data-available-filters',
 				JSON.stringify( filteredData )
@@ -272,27 +234,20 @@ function initializeFilterBlock( blockElement ) {
 
 	// Helper function to find associated grid
 	function findAssociatedGrid( filterId ) {
-		console.warn( 'DEBUG: Looking for grid with filter ID:', filterId );
-
 		// Method 1: Look for a grid with matching filter-block-id
 		const grids = document.querySelectorAll(
 			'.filterable-grid, .fau-teaser-grid'
 		);
 
-		console.warn( 'DEBUG: Found', grids.length, 'grids on page' );
-
 		for ( const grid of grids ) {
 			const gridFilterId = grid.getAttribute( 'data-filter-block-id' );
-			console.warn( 'DEBUG: Grid has filter-block-id:', gridFilterId );
 
 			if ( gridFilterId === filterId ) {
-				console.warn( 'DEBUG: Found matching grid with ID:', filterId );
 				return grid;
 			}
 		}
 
 		// Method 2: If no exact match, find the closest grid after this filter block
-		console.warn( 'DEBUG: No exact ID match, looking for closest grid...' );
 		let nextElement = blockElement.nextElementSibling;
 		while ( nextElement ) {
 			if (
@@ -307,7 +262,6 @@ function initializeFilterBlock( blockElement ) {
 						'.fau-teaser-grid, .filterable-grid'
 					) || nextElement;
 
-				console.warn( 'DEBUG: Found closest grid via DOM traversal' );
 				return foundGrid;
 			}
 			nextElement = nextElement.nextElementSibling;
@@ -315,38 +269,39 @@ function initializeFilterBlock( blockElement ) {
 
 		// Method 3: If still no grid found, look for any grid on the page
 		if ( grids.length > 0 ) {
-			console.warn( 'DEBUG: Using first available grid as fallback' );
 			return grids[ 0 ];
 		}
 
-		console.warn( 'ERROR: No grid found at all!' );
 		return null;
 	}
 
 	// Search functions
 	function handleSearch() {
-		const searchValue = searchInput.value.trim();
-		currentSearch = searchValue;
-
-		if ( searchValue ) {
-			searchClear.style.display = 'block';
-			searchInput.classList.add( 'has-value' );
-		} else {
-			searchClear.style.display = 'none';
-			searchInput.classList.remove( 'has-value' );
+		const searchTerm = searchInput.value.trim();
+		if ( searchTerm !== currentSearch ) {
+			currentSearch = searchTerm;
+			performSearch( false, 1 );
+			updateSearchClearButton();
 		}
-
-		currentPage = 1;
-		performSearch();
 	}
 
 	function clearSearch() {
 		searchInput.value = '';
 		currentSearch = '';
-		searchClear.style.display = 'none';
-		searchInput.classList.remove( 'has-value' );
-		currentPage = 1;
-		performSearch();
+		performSearch( false, 1 );
+		updateSearchClearButton();
+	}
+
+	function updateSearchClearButton() {
+		if ( searchClear ) {
+			if ( currentSearch ) {
+				searchClear.style.display = 'block';
+				searchInput.classList.add( 'has-value' );
+			} else {
+				searchClear.style.display = 'none';
+				searchInput.classList.remove( 'has-value' );
+			}
+		}
 	}
 
 	// Filter functions
@@ -368,10 +323,9 @@ function initializeFilterBlock( blockElement ) {
 			select.classList.remove( 'has-selection' );
 		}
 
+		performSearch( false, 1 );
 		updateFilterChips();
 		updateFilterLabels();
-		currentPage = 1;
-		performSearch();
 	}
 
 	function updateFilterChips() {
@@ -549,7 +503,6 @@ function initializeFilterBlock( blockElement ) {
 		try {
 			availableFilters = JSON.parse( availableFiltersData );
 		} catch ( e ) {
-			console.error( 'Error parsing available filters:', e );
 			return;
 		}
 
@@ -735,7 +688,7 @@ function initializeFilterBlock( blockElement ) {
 					addedFiltersContainer
 				);
 			} catch ( e ) {
-				console.error( 'Error parsing available filters:', e );
+				// Silently handle parsing errors
 			}
 		}
 	}
@@ -747,8 +700,6 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function clearAllFilters() {
-		console.warn( 'DEBUG: Clearing all filters' );
-
 		// Clear search
 		if ( searchInput ) {
 			searchInput.value = '';
@@ -859,25 +810,27 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function handleSortChange() {
-		currentPage = 1;
-		performSearch();
+		performSearch( false, 1 );
 	}
 
 	function performSearch( isInitial = false, page = 1 ) {
 		if ( ! associatedGrid ) {
-			console.warn( 'DEBUG: No grid available for search' );
 			return;
 		}
 
-		console.warn(
-			'DEBUG: Starting search, isInitial:',
-			isInitial,
-			'page:',
-			page
-		);
-
 		// Update current page
 		currentPage = page;
+
+		// Update URL for pagination state
+		const url = new URL( window.location );
+		if ( currentPage > 1 ) {
+			url.searchParams.set( 'paged', currentPage );
+		} else {
+			url.searchParams.delete( 'paged' );
+		}
+		if ( ! isInitial && window.location.href !== url.href ) {
+			window.history.pushState( { path: url.href }, '', url.href );
+		}
 
 		// Check if grid uses JavaScript pagination
 		const teaserGrid = associatedGrid.querySelector( '.fau-teaser-grid' );
@@ -886,30 +839,16 @@ function initializeFilterBlock( blockElement ) {
 			teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
 
 		if ( isJsPagination ) {
-			console.warn(
-				'DEBUG: Using client-side filtering for JS pagination grid'
-			);
 			performClientSideFilter();
 			return;
 		}
 
 		// Original server-side filtering code continues below...
 		// Read grid attributes to respect its settings
-		const gridPostsPerPage =
-			associatedGrid.getAttribute( 'data-posts-per-page' ) || '15';
 		const gridVariant =
 			associatedGrid.getAttribute( 'data-variant' ) || 'post';
 		const gridCategory =
 			associatedGrid.getAttribute( 'data-category' ) || '0';
-
-		console.warn(
-			'DEBUG: Grid settings - postsPerPage:',
-			gridPostsPerPage,
-			'variant:',
-			gridVariant,
-			'category:',
-			gridCategory
-		);
 
 		// Get list of post IDs currently in the grid to limit filtering scope
 		const existingTeaserItems =
@@ -933,8 +872,6 @@ function initializeFilterBlock( blockElement ) {
 				gridPostIds.push( postId );
 			}
 		} );
-
-		console.warn( 'DEBUG: Grid contains post IDs:', gridPostIds );
 
 		// Collect current filter values
 		const searchValue = searchInput ? searchInput.value.trim() : '';
@@ -1004,44 +941,24 @@ function initializeFilterBlock( blockElement ) {
 			}
 		} );
 
-		console.warn(
-			'DEBUG: Making AJAX request for',
-			gridVariant,
-			gridVariant + 's'
-		);
-		console.warn(
-			'DEBUG: Request params - search:',
-			searchValue,
-			'filters:',
-			activeFilters,
-			'sort:',
-			sortValue,
-			'page:',
-			page
-		);
-
 		// Show loading state
 		updateLoadingState( true );
 
 		// Prepare AJAX data using grid attributes and limiting to grid post IDs
 		const ajaxData = {
-			action: 'fau_filter_teaser_grid',
-			nonce: window.fauListFilters?.nonce || '',
+			action: 'fau_elemental_filter_posts',
+			nonce: window.fauElemental?.nonce || '',
 			search: searchValue,
 			filters: JSON.stringify( activeFilters ), // Convert to JSON string
 			sort: sortValue,
 			page,
-			per_page: parseInt( gridPostsPerPage ), // Use grid's posts per page setting
+			posts_per_page: resultsPerPage, // Use resultsPerPage from filter block
 			post_type: gridVariant, // Use grid's variant (post type)
 			category: parseInt( gridCategory ), // Use grid's category setting
-			grid_post_ids: JSON.stringify( gridPostIds ), // Convert to JSON string
-			pagination_enabled: paginationEnabled,
 		};
 
-		console.warn( 'DEBUG: AJAX data being sent:', ajaxData );
-
 		// Make AJAX request
-		fetch( window.fauListFilters?.ajaxUrl || '', {
+		fetch( window.fauElemental?.ajaxUrl || '', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
@@ -1050,115 +967,67 @@ function initializeFilterBlock( blockElement ) {
 		} )
 			.then( ( response ) => response.json() )
 			.then( ( data ) => {
-				console.warn(
-					'DEBUG: Received',
-					data.posts ? data.posts.length : 0,
-					'posts from server'
-				);
-				console.warn(
-					'DEBUG: Pagination info - current page:',
-					data.current_page,
-					'total pages:',
-					data.pages
-				);
-				updateLoadingState( false );
+				if ( data.success && data.data ) {
+					const responseData = data.data;
 
-				if ( data.success && data.posts ) {
-					// Update pagination info
-					totalResults = data.total || data.posts.length;
-
-					if ( paginationEnabled ) {
-						updateGrid( data.posts );
-						updatePagination( data.current_page, data.pages );
-					} else {
-						updateGrid( data.posts );
-					}
-
-					updateResultsCount( data.total || data.posts.length );
+					updateLoadingState( false );
+					updateGrid( responseData.posts );
+					updatePagination( currentPage, responseData.total_pages );
+					updateResultsCount( responseData.total_posts );
 				} else {
-					console.error( 'Filter error:', data );
+					updateLoadingState( false );
 					showError();
 				}
 			} )
-			.catch( ( error ) => {
-				console.error( 'Filter error:', error );
+			.catch( () => {
 				updateLoadingState( false );
 				showError();
 			} );
 	}
 
 	function updatePagination( currentPageNum, totalPagesNum ) {
-		console.warn( 'DEBUG: updatePagination called with:', {
-			currentPage: currentPageNum,
-			totalPages: totalPagesNum,
-			associatedPagination,
-			paginationEnabled,
-		} );
-
-		if ( ! associatedPagination ) {
-			console.warn( 'DEBUG: No pagination block found to update' );
+		if ( ! paginationEnabled || ! associatedPagination ) {
 			return;
 		}
 
-		console.warn(
-			'DEBUG: Updating pagination - current:',
+		// Hide pagination if there's only one page
+		if ( totalPagesNum <= 1 ) {
+			associatedPagination.style.display = 'none';
+			return;
+		}
+		associatedPagination.style.display = '';
+
+		const paginationHtml = generatePaginationHTML(
 			currentPageNum,
-			'total:',
 			totalPagesNum
 		);
-
-		// Update pagination block attributes
-		associatedPagination.setAttribute(
-			'data-current-page',
-			currentPageNum
-		);
-		associatedPagination.setAttribute( 'data-total-pages', totalPagesNum );
-
-		// Find pagination controls
 		const paginationControls = associatedPagination.querySelector(
 			'.pagination-controls'
 		);
-		console.warn( 'DEBUG: Found pagination controls:', paginationControls );
 
-		if ( ! paginationControls ) {
-			console.warn( 'DEBUG: No pagination controls found' );
-			return;
+		if ( paginationControls ) {
+			paginationControls.innerHTML = paginationHtml;
+			// Add event listeners to the new pagination links
+			paginationControls
+				.querySelectorAll( 'a' )
+				.forEach( ( link ) =>
+					link.addEventListener( 'click', handlePaginationClick )
+				);
 		}
-
-		// Generate pagination HTML
-		const paginationHTML = generatePaginationHTML(
-			currentPageNum,
-			totalPagesNum
-		);
-		console.warn( 'DEBUG: Generated pagination HTML:', paginationHTML );
-		paginationControls.innerHTML = paginationHTML;
-
-		// Add event listeners to pagination buttons
-		const pageButtons = paginationControls.querySelectorAll(
-			'.page-number, .page-nav'
-		);
-		console.warn( 'DEBUG: Found page buttons:', pageButtons.length );
-		pageButtons.forEach( ( button ) => {
-			button.addEventListener( 'click', handlePaginationClick );
-		} );
 	}
 
 	function generatePaginationHTML( currentPageNum, totalPagesNum ) {
-		if ( totalPagesNum <= 1 ) {
-			return '<div class="no-pagination">All results shown</div>';
-		}
-
 		let html = '';
 		const maxVisiblePages = 5;
 		const halfVisible = Math.floor( maxVisiblePages / 2 );
 
 		// Previous button
 		const prevDisabled = currentPageNum === 1 ? ' disabled' : '';
-		html += `<button class="page-nav prev${ prevDisabled }" data-page="${
+		html += `<a href="#" class="page-nav prev${ prevDisabled }" data-page-number="${
 			currentPageNum - 1
-		}" ${ prevDisabled ? 'disabled' : '' }>
+		}" ${ prevDisabled ? 'aria-disabled="true"' : '' }>
 			<span>Previous</span>
-		</button>`;
+		</a>`;
 
 		// Page numbers
 		html += '<div class="page-numbers">';
@@ -1180,7 +1049,7 @@ function initializeFilterBlock( blockElement ) {
 
 		// First page + ellipsis
 		if ( startPage > 1 ) {
-			html += `<button class="page-number" data-page="1">1</button>`;
+			html += `<a href="#" class="page-number" data-page-number="1">1</a>`;
 			if ( startPage > 2 ) {
 				html += '<span class="page-ellipsis">...</span>';
 			}
@@ -1189,7 +1058,7 @@ function initializeFilterBlock( blockElement ) {
 		// Page numbers
 		for ( let i = startPage; i <= endPage; i++ ) {
 			const currentClass = i === currentPageNum ? ' current' : '';
-			html += `<button class="page-number${ currentClass }" data-page="${ i }">${ i }</button>`;
+			html += `<a href="#" class="page-number${ currentClass }" data-page-number="${ i }">${ i }</a>`;
 		}
 
 		// Last page + ellipsis
@@ -1197,7 +1066,7 @@ function initializeFilterBlock( blockElement ) {
 			if ( endPage < totalPagesNum - 1 ) {
 				html += '<span class="page-ellipsis">...</span>';
 			}
-			html += `<button class="page-number" data-page="${ totalPagesNum }">${ totalPagesNum }</button>`;
+			html += `<a href="#" class="page-number" data-page-number="${ totalPagesNum }">${ totalPagesNum }</a>`;
 		}
 
 		html += '</div>';
@@ -1205,40 +1074,29 @@ function initializeFilterBlock( blockElement ) {
 		// Next button
 		const nextDisabled =
 			currentPageNum === totalPagesNum ? ' disabled' : '';
-		html += `<button class="page-nav next${ nextDisabled }" data-page="${
+		html += `<a href="#" class="page-nav next${ nextDisabled }" data-page-number="${
 			currentPageNum + 1
-		}" ${ nextDisabled ? 'disabled' : '' }>
+		}" ${ nextDisabled ? 'aria-disabled="true"' : '' }>
 			<span>Next</span>
-		</button>`;
+		</a>`;
 
 		return html;
 	}
 
 	function handlePaginationClick( e ) {
 		e.preventDefault();
+		const link = e.target.closest( 'a' );
 
-		const button = e.currentTarget;
-		const page = parseInt( button.getAttribute( 'data-page' ) );
-
-		if (
-			! page ||
-			button.disabled ||
-			button.classList.contains( 'disabled' )
-		) {
+		if ( ! link ) {
 			return;
 		}
 
-		console.warn( 'DEBUG: Pagination clicked - going to page:', page );
+		const page = parseInt( link.getAttribute( 'data-page-number' ), 10 );
 
-		// Scroll to top of grid
-		if ( associatedGrid ) {
-			associatedGrid.scrollIntoView( {
-				behavior: 'smooth',
-				block: 'start',
-			} );
+		if ( isNaN( page ) ) {
+			return;
 		}
 
-		// Perform search for the new page
 		performSearch( false, page );
 	}
 
@@ -1267,198 +1125,21 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function updateGrid( posts ) {
-		console.warn(
-			'DEBUG: Filtering existing grid items based on',
-			posts.length,
-			'results'
-		);
-
 		if ( ! associatedGrid ) {
-			console.warn( 'ERROR: No associated grid found!' );
 			return;
 		}
 
-		// Update total results for count display
-		totalResults = posts.length;
-		updateResultsCount( totalResults );
-
-		// Get all existing teaser items in the grid
-		const existingTeaserItems =
-			associatedGrid.querySelectorAll( '.teaser-item' );
-		console.warn(
-			'DEBUG: Found',
-			existingTeaserItems.length,
-			'existing teaser items'
-		);
-
-		if ( existingTeaserItems.length === 0 ) {
-			console.warn( 'ERROR: No existing teaser items found to filter!' );
+		if ( ! posts || posts.length === 0 ) {
+			associatedGrid.innerHTML = `<p class="no-results">${
+				window.fauElemental?.noResultsText || 'No results found.'
+			}</p>`;
 			return;
 		}
 
-		// Create a set of post IDs that should be visible
-		const visiblePostIds = new Set(
-			posts.map( ( post ) => String( post.id ) )
-		);
-		console.warn(
-			'DEBUG: Post IDs that should be visible:',
-			Array.from( visiblePostIds )
-		);
-
-		let visibleCount = 0;
-		let hiddenCount = 0;
-
-		// Check if grid uses JavaScript pagination
-		const teaserGrid = associatedGrid.querySelector( '.fau-teaser-grid' );
-		const isJsPagination =
-			teaserGrid &&
-			teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
-		const customBlockId = associatedGrid.getAttribute(
-			'data-custom-block-id'
-		);
-
-		// Show/hide existing teaser items based on filter results
-		existingTeaserItems.forEach( ( item ) => {
-			// Try to get post ID from various possible attributes and patterns
-			let postId = item.getAttribute( 'data-post-id' );
-
-			// If no data-post-id, try to extract from teaser-title-{ID} pattern
-			if ( ! postId ) {
-				const titleElement = item.querySelector(
-					'[id^="teaser-title-"]'
-				);
-				if ( titleElement ) {
-					postId = titleElement.id.replace( 'teaser-title-', '' );
-				}
-			}
-
-			// Also try other possible attributes as fallback
-			if ( ! postId ) {
-				postId =
-					item.getAttribute( 'data-id' ) ||
-					item.id?.replace( 'post-', '' );
-			}
-
-			console.warn( 'DEBUG: Checking teaser item with post ID:', postId );
-
-			if ( postId && visiblePostIds.has( String( postId ) ) ) {
-				// Mark as not filtered out
-				item.classList.remove( 'filtered-out' );
-				visibleCount++;
-				console.warn( 'DEBUG: Showing post ID:', postId );
-
-				// If NOT using JS pagination, directly show the item
-				if ( ! isJsPagination ) {
-					item.style.display = '';
-					item.removeAttribute( 'hidden' );
-				}
-			} else if ( postId ) {
-				// Mark as filtered out
-				item.classList.add( 'filtered-out' );
-				hiddenCount++;
-				console.warn( 'DEBUG: Hiding post ID:', postId );
-
-				// If NOT using JS pagination, directly hide the item
-				if ( ! isJsPagination ) {
-					item.style.display = 'none';
-					item.setAttribute( 'hidden', 'hidden' );
-				}
-			} else {
-				// No post ID found - leave item as is and log warning
-				console.warn(
-					'DEBUG: No post ID found for teaser item:',
-					item
-				);
-			}
-		} );
-
-		console.warn(
-			'DEBUG: Filter complete - visible:',
-			visibleCount,
-			'hidden:',
-			hiddenCount
-		);
-
-		// If using JavaScript pagination, trigger update event
-		if ( isJsPagination && customBlockId ) {
-			console.warn(
-				'DEBUG: Triggering filter update event for JS pagination'
-			);
-
-			// Reset to page 1 after filtering
-			currentPage = 1;
-
-			// Emit filter update event
-			document.dispatchEvent(
-				new CustomEvent( 'fau-filter-update', {
-					detail: {
-						gridId: customBlockId,
-						visibleCount,
-						totalCount: existingTeaserItems.length,
-					},
-				} )
-			);
-
-			// Also update pagination if we have it
-			if ( paginationEnabled && associatedPagination ) {
-				// Calculate new total pages based on visible items
-				const gridPostsPerPage =
-					parseInt(
-						associatedGrid.getAttribute( 'data-posts-per-page' )
-					) || 6;
-				const newTotalPages = Math.ceil(
-					visibleCount / gridPostsPerPage
-				);
-				updatePagination( 1, newTotalPages );
-			}
-		}
-
-		// Show "no results" message if no items are visible
-		let noResultsMessage = associatedGrid.querySelector(
-			'.no-results-message'
-		);
-
-		if ( visibleCount === 0 ) {
-			if ( ! noResultsMessage ) {
-				noResultsMessage = document.createElement( 'p' );
-				noResultsMessage.className = 'no-results-message';
-				noResultsMessage.setAttribute( 'role', 'status' );
-				noResultsMessage.textContent =
-					'No items found matching your filters.';
-
-				// Insert after the grid
-				const teaserContainer =
-					associatedGrid.querySelector( '.fau-teaser-grid' ) ||
-					associatedGrid;
-				teaserContainer.appendChild( noResultsMessage );
-			}
-			noResultsMessage.style.display = 'block';
-		} else if ( noResultsMessage ) {
-			noResultsMessage.style.display = 'none';
-		}
-
-		// Apply current view class (preserve any view settings)
-		if ( currentView ) {
-			updateGridView( currentView );
-		}
-
-		// Hide loading state after filtering is complete
-		updateLoadingState( false );
-
-		// Trigger custom event for other components
-		const contentUpdateEvent = new CustomEvent(
-			'fauListFiltersContentUpdated',
-			{
-				detail: {
-					data: { total: totalResults, posts },
-					grid: associatedGrid,
-					blockId,
-					visibleCount,
-					hiddenCount,
-				},
-			}
-		);
-		document.dispatchEvent( contentUpdateEvent );
+		// Replace the grid content with the new HTML from the server.
+		associatedGrid.innerHTML = posts
+			.map( ( post ) => post.html_output )
+			.join( '' );
 	}
 
 	function updateResultsCount( total ) {
@@ -1510,7 +1191,6 @@ function initializeFilterBlock( blockElement ) {
 	function performClientSideFilter( filterBlock, filterData ) {
 		const gridBlockId = filterBlock.getAttribute( 'data-grid-block-id' );
 		if ( ! gridBlockId ) {
-			console.warn( 'No grid block ID found for client-side filtering' );
 			return;
 		}
 
@@ -1520,17 +1200,8 @@ function initializeFilterBlock( blockElement ) {
 		);
 
 		if ( ! teaserGrid ) {
-			console.warn(
-				'No teaser grid found with custom block ID:',
-				gridBlockId
-			);
 			return;
 		}
-
-		console.warn(
-			'Performing client-side filtering with data:',
-			filterData
-		);
 
 		// Get all teaser items
 		const teaserItems = teaserGrid.querySelectorAll( '.teaser-item' );
@@ -1604,10 +1275,6 @@ function initializeFilterBlock( blockElement ) {
 				item.style.display = 'none';
 			}
 		} );
-
-		console.warn(
-			`Client-side filtering complete. ${ visibleCount } items visible out of ${ teaserItems.length }`
-		);
 
 		// Emit event for teaser grid to update pagination and reset to page 1
 		document.dispatchEvent(

@@ -13,6 +13,16 @@ document.addEventListener( 'DOMContentLoaded', function () {
 } );
 
 function initializePaginationBlock( paginationElement ) {
+	const filterBlockId = paginationElement.getAttribute(
+		'data-filter-block-id'
+	);
+
+	// If a filter block ID is present, do not initialize this script.
+	// The fau-list-filters view.js will handle the pagination.
+	if ( filterBlockId ) {
+		return;
+	}
+
 	const gridBlockId = paginationElement.getAttribute( 'data-grid-block-id' );
 
 	// Find associated teaser grid
@@ -215,7 +225,6 @@ function updateGridForPage( gridContainer, targetPage, paginationContainer ) {
 	const nonce = gridContainer.getAttribute( 'data-nonce' );
 
 	if ( ! nonce ) {
-		console.error( 'No nonce found for grid update' );
 		showLoadingState( gridContainer, false );
 		return;
 	}
@@ -283,8 +292,7 @@ function updateGridForPage( gridContainer, targetPage, paginationContainer ) {
 
 			showLoadingState( gridContainer, false );
 		} )
-		.catch( ( error ) => {
-			console.error( 'Error updating grid:', error );
+		.catch( () => {
 			showLoadingState( gridContainer, false );
 		} );
 }
@@ -479,8 +487,6 @@ document.addEventListener( 'fau-grid-pagination-ready', function ( e ) {
 	const gridId = e.detail.gridId;
 	const totalPages = e.detail.totalPages;
 	const currentPage = e.detail.currentPage;
-
-	console.warn( 'DEBUG: Pagination received grid ready event:', e.detail );
 
 	// Find associated pagination block
 	const paginationBlocks = document.querySelectorAll(

@@ -310,4 +310,100 @@ function fau_elemental_register_filter_ajax_handlers() {
 }
 
 // Initialize the AJAX handlers
-add_action('init', 'fau_elemental_register_filter_ajax_handlers'); 
+add_action('init', 'fau_elemental_register_filter_ajax_handlers');
+
+add_action( 'wp_ajax_fau_elemental_filter_posts', 'fau_elemental_filter_posts_callback' );
+add_action( 'wp_ajax_nopriv_fau_elemental_filter_posts', 'fau_elemental_filter_posts_callback' );
+
+if ( ! function_exists( 'fau_elemental_filter_posts_callback' ) ) {
+	/**
+	 * Handles filtering posts via AJAX.
+	 */
+	function fau_elemental_filter_posts_callback() {
+		// Verify nonce.
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['nonce'] ), 'fau_elemental_filter_nonce' ) ) {
+			wp_send_json_error( [ 'message' => 'Invalid nonce' ], 403 );
+		}
+
+		// Sanitize and prepare query arguments.
+		$paged      = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
+		$search_query = isset( $_POST['search'] ) ? sanitize_text_field( wp_unslash( $_POST['search'] ) ) : '';
+		$sort_order = isset( $_POST['sort'] ) ? sanitize_text_field( wp_unslash( $_POST['sort'] ) ) : 'date';
+		$filters    = isset( $_POST['filters'] ) ? json_decode( stripslashes( sanitize_text_field( wp_unslash( $_POST['filters'] ) ) ), true ) : [];
+
+		$args = [
+			'post_type'      => 'post',
+			'post_status'    => 'publish',
+			'posts_per_page' => isset( $_POST['posts_per_page'] ) ? absint( $_POST['posts_per_page'] ) : 6,
+			'paged'          => $paged,
+			's'              => $search_query,
+		];
+
+		// Apply sorting.
+		switch ( $sort_order ) {
+			case 'title':
+				$args['orderby'] = 'title';
+				$args['order']   = 'ASC';
+				break;
+			case 'modified':
+				$args['orderby'] = 'modified';
+				$args['order']   = 'DESC';
+				break;
+			case 'date':
+			default:
+				$args['orderby'] = 'date';
+				$args['order']   = 'DESC';
+				break;
+		}
+		
+		// Apply taxonomy and author filters.
+		$tax_query = [];
+		if ( ! empty( $filters ) ) {
+			foreach ( $filters as $key => $filter ) {
+				if ( ! empty( $filter['value'] ) ) {
+					if ( 'author' === $filter['type'] ) {
+						$args['author_name'] = $filter['value'];
+					} else {
+						$tax_query[] = [
+							'taxonomy' => $filter['type'] === 'categories' ? 'category' : 'post_tag',
+							'field'    => 'slug',
+							'terms'    => $filter['value'],
+						];
+					}
+				}
+			}
+		}
+
+		if ( count( $tax_query ) > 1 ) {
+			$tax_query['relation'] = 'AND';
+		}
+		if ( ! empty( $tax_query ) ) {
+			$args['tax_query'] = $tax_query;
+		}
+
+		$query = new WP_Query( $args );
+
+		// The fau_elemental_render_teaser_item function is in this file.
+		require_once get_template_directory() . '/components/blocks/fau-teaser-grid/teaser-item.php';
+
+		$posts_html = [];
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+				// Directly call the render function for the post.
+				$posts_html[] = [
+					'id' => get_the_ID(),
+					'html_output' => fau_elemental_render_teaser_item( get_post(), 'post', [], 'h2' ),
+				];
+			}
+		} 
+		
+		wp_reset_postdata();
+
+		wp_send_json_success( [
+			'posts'         => $posts_html,
+			'total_posts'   => (int) $query->found_posts,
+			'total_pages'   => (int) $query->max_num_pages,
+		] );
+	}
+} 

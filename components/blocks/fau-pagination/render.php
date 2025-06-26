@@ -146,9 +146,7 @@ if ( ! function_exists( 'render_block_fau_pagination' ) ) {
      * @return string Returns the pagination HTML.
      */
     function render_block_fau_pagination( $attributes, $content, $block ) {
-        // Debug: Log that render function is called
-        error_log('FAU Pagination render function called');
-        error_log('FAU Pagination attributes: ' . var_export($attributes, true));
+
         
         $variant = $attributes['variant'] ?? 'basic';
         $current_page = $attributes['currentPage'] ?? 1;
@@ -157,13 +155,12 @@ if ( ! function_exists( 'render_block_fau_pagination' ) ) {
         $page_param = $attributes['pageParam'] ?? 'paged';
         $grid_block_id = $attributes['gridBlockId'] ?? '';
         $filter_block_id = $attributes['filterBlockId'] ?? '';
+        $custom_block_id = $attributes['customBlockId'] ?? '';
 
-        // Generate unique ID for this pagination instance
-        $pagination_id = 'fau-pagination-' . uniqid();
+        // Use custom block ID if provided, otherwise generate unique ID
+        $pagination_id = !empty($custom_block_id) ? $custom_block_id : 'fau-pagination-' . uniqid();
 
-        // Debug: Log what we received
-        error_log('Pagination Block Debug - gridBlockId received: ' . var_export($grid_block_id, true));
-        error_log('Pagination Block Debug - filterBlockId received: ' . var_export($filter_block_id, true));
+
 
         // Explicitly set wrapper attributes to ensure correct CSS classes
         $wrapper_classes = ['wp-block-fau-elemental-fau-pagination', 'pagination', $variant];

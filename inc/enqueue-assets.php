@@ -114,14 +114,28 @@ function faue_enqueue_block_view_scripts() {
         
         if (file_exists($view_script_path) && file_exists($view_asset_path)) {
             $view_asset = include $view_asset_path;
+            $script_handle = 'faue-' . $block_name . '-view';
             
             wp_enqueue_script(
-                'faue-' . $block_name . '-view',
+                $script_handle,
                 get_theme_file_uri('build/blocks/' . $block_name . '/view.js'),
                 $view_asset['dependencies'],
                 $view_asset['version'],
                 true
             );
+
+            // Localize script with necessary data if it's the filter block
+            if ($block_name === 'fau-list-filters') {
+                wp_localize_script(
+                    $script_handle,
+                    'fauElemental',
+                    [
+                        'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+                        'nonce'   => wp_create_nonce( 'fau_elemental_filter_nonce' ),
+                        'noResultsText' => __('No results found.', 'fau-elemental'),
+                    ]
+                );
+            }
         }
     }
 }

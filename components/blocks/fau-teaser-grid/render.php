@@ -38,20 +38,14 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     $pagination_block_id = $attributes['paginationBlockId'] ?? '';
     $custom_block_id = $attributes['customBlockId'] ?? '';
     
-    // Debug: Log what we received
-    error_log('Teaser Grid Debug - filterBlockId received: ' . var_export($filter_block_id, true));
-    error_log('Teaser Grid Debug - paginationBlockId received: ' . var_export($pagination_block_id, true));
-    error_log('Teaser Grid Debug - customBlockId received: ' . var_export($custom_block_id, true));
-    error_log('Teaser Grid Debug - postsPerPage received: ' . var_export($posts_per_page, true));
-    error_log('Teaser Grid Debug - all attributes: ' . var_export($attributes, true));
+
     
     // Fallback detection: Check if we're in a template that should use JavaScript pagination
     $template_file = function_exists('get_page_template_slug') ? get_page_template_slug() : ''; // phpcs:ignore
     $is_all_posts_template = (strpos($template_file, 'page-all-posts') !== false) || 
                             (function_exists('is_page') && is_page() && function_exists('get_page_template_slug') && get_page_template_slug() === 'page-all-posts.php'); // phpcs:ignore
     
-    error_log('Teaser Grid Debug - template_file: ' . var_export($template_file, true));
-    error_log('Teaser Grid Debug - is_all_posts_template: ' . var_export($is_all_posts_template, true));
+
     
     // Generate unique ID for this grid instance, or use custom ID if provided
     $grid_id = !empty($custom_block_id) ? $custom_block_id : 'fau-teaser-grid-' . uniqid();
@@ -88,8 +82,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     // Also enable JS pagination if we're in the all-posts template (fallback)
     $use_js_pagination = $has_filter_integration || $has_pagination_integration || $is_all_posts_template;
     
-    error_log('Teaser Grid Debug - use_js_pagination: ' . var_export($use_js_pagination, true));
-    error_log('Teaser Grid Debug - Reason: filter=' . var_export($has_filter_integration, true) . ', pagination=' . var_export($has_pagination_integration, true) . ', template=' . var_export($is_all_posts_template, true));
+
     
     // Ensure it's a valid heading tag
     $allowed_headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
@@ -168,15 +161,12 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
         if (empty($custom_block_id)) {
             $custom_block_id = 'fau-teaser-grid-' . uniqid();
             $grid_id = $custom_block_id;
-            error_log('Teaser Grid Debug - Generated fallback customBlockId: ' . $custom_block_id);
         }
         if (empty($filter_block_id)) {
             $filter_block_id = 'fau-list-filters-' . uniqid();
-            error_log('Teaser Grid Debug - Generated fallback filterBlockId: ' . $filter_block_id);
         }
         if (empty($pagination_block_id)) {
             $pagination_block_id = 'fau-pagination-' . uniqid();
-            error_log('Teaser Grid Debug - Generated fallback paginationBlockId: ' . $pagination_block_id);
         }
     }
 
@@ -202,7 +192,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
                 'order' => $order,
             ];
             
-            error_log('Teaser Grid Debug - Loading ALL posts for JS pagination/filtering');
+
         } else {
             // Use traditional server-side pagination
             $paged = $current_page;
@@ -218,7 +208,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
                 'order' => $order,
             ];
             
-            error_log('Teaser Grid Debug - Using server-side pagination, page: ' . $paged);
+
         }
 
         if ($selected_category) {
@@ -243,7 +233,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
             wp_reset_postdata();
             $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
             
-            error_log('Teaser Grid Debug - Loaded ' . count($teaser_items) . ' posts total');
+
         } else {
             $output .= sprintf(
                 '<p role="status" class="no-items-found">%s</p>',
