@@ -208,7 +208,7 @@ if ( ! function_exists( 'fau_list_filters_render_search_section' ) ) {
             esc_attr($placeholder),
             esc_attr__('Search content', 'fau-elemental')
         );
-        $output .= '<button type="button" class="search-clear" aria-label="' . esc_attr__('Clear search', 'fau-elemental') . '" style="display: none;"></button>';
+        $output .= '<button type="button" class="search-clear search-clear--hidden" aria-label="' . esc_attr__('Clear search', 'fau-elemental') . '"></button>';
         $output .= '</div>';
         $output .= '</div>';
 
@@ -315,7 +315,7 @@ if ( ! function_exists( 'fau_list_filters_render_filter_section' ) ) {
         }
         
         // Container for dynamically added filters (initially hidden)
-        $output .= '<div class="dynamic-filters-container" style="display: none;"></div>';
+        $output .= '<div class="dynamic-filters-container dynamic-filters-container--hidden"></div>';
         
         // Show more filters button (only if there are available filters to add)
         $configured_filter_types = array_column($filter_fields, 'type');
@@ -325,19 +325,19 @@ if ( ! function_exists( 'fau_list_filters_render_filter_section' ) ) {
         if (!empty($unused_filters)) {
             $output .= '<button type="button" class="show-more-filters" aria-expanded="false" data-available-filters="' . esc_attr(json_encode($available_options)) . '">';
             $output .= '<span class="show-more-text">' . esc_html__('Weitere Filtermöglichkeiten', 'fau-elemental') . ' +</span>';
-            $output .= '<span class="show-less-text" style="display: none;">' . esc_html__('Weniger Filter', 'fau-elemental') . ' -</span>';
+            $output .= '<span class="show-less-text show-less-text--hidden">' . esc_html__('Weniger Filter', 'fau-elemental') . ' -</span>';
             $output .= '</button>';
         }
         
         $output .= '</div>'; // Close filter-controls
         
         // Active filters (chips)
-        $output .= '<div class="active-filters" style="display: none;">';
+        $output .= '<div class="active-filters active-filters--hidden">';
         $output .= '<div class="active-filters__header">';
         $output .= '<span class="active-filters__label">' . esc_html__('Active filters:', 'fau-elemental') . '</span>';
         $output .= '</div>';
         $output .= '<div class="filter-chips"></div>';
-        $output .= '<button type="button" class="clear-all-filters" style="display: none;">';
+        $output .= '<button type="button" class="clear-all-filters clear-all-filters--hidden">';
         $output .= '<span class="clear-all-text">' . esc_html__('Clear all', 'fau-elemental') . '</span>';
         $output .= '</button>';
         $output .= '</div>';

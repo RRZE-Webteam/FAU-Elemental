@@ -103,6 +103,11 @@ $desktop: 1200px;
 			color: $fau-dark-gray;
 			font-weight: 700;
 		}
+
+		// Hidden state instead of inline style
+		&.search-clear--hidden {
+			display: none;
+		}
 	}
 }
 
@@ -180,11 +185,34 @@ $desktop: 1200px;
 		}
 	}
 
+	// Dynamic filters container
+	.dynamic-filters-container {
+		grid-column: 1 / -1;
+
+		// Hidden state instead of inline style
+		&.dynamic-filters-container--hidden {
+			display: none;
+		}
+	}
+
+	// Show more/less text states
+	.show-less-text {
+
+		&.show-less-text--hidden {
+			display: none;
+		}
+	}
+
 	// Active filters (chips)
 	.active-filters {
 		margin-top: 1rem;
 		padding-top: 1rem;
 		border-top: 1px solid $fau-medium-gray;
+
+		// Hidden state instead of inline style
+		&.active-filters--hidden {
+			display: none;
+		}
 	}
 
 	.filter-chips {
@@ -256,6 +284,11 @@ $desktop: 1200px;
 		&:focus {
 			outline: 2px solid $fau-danger;
 			outline-offset: 2px;
+		}
+
+		// Hidden state instead of inline style
+		&.clear-all-filters--hidden {
+			display: none;
 		}
 	}
 }
