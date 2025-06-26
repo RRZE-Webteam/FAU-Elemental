@@ -128,7 +128,7 @@ function fau_elemental_display_logo_title() {
         echo '</span>';
     } elseif ($faulogo) {
         echo '<span class="baselogo">';
-        echo fau_use_svg("fau-logo-2021", 153, 58, 'faubaselogo', false);
+        echo fau_use_svg("fau-logo-2021", 150, 58, 'faubaselogo', false);
         echo '</span>';
     }
 

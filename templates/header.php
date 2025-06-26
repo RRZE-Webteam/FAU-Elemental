@@ -29,15 +29,17 @@ if (!defined('ABSPATH')) {
     <header id="masthead" class="site-header">
         <!-- FAU Top Navigation -->
         <div class="site-header__top">
-            <?php
-            // Include and instantiate FAU Navigation
-            if (class_exists('FAU_Navigation')) {
-                global $fau_navigation;
-                if ($fau_navigation) {
-                    $fau_navigation->render();
+            <div class="site-header-top__wrapper">
+                <?php
+                // Include and instantiate FAU Navigation
+                if (class_exists('FAU_Navigation')) {
+                    global $fau_navigation;
+                    if ($fau_navigation) {
+                        $fau_navigation->render();
+                    }
                 }
-            }
-            ?>
+                ?>
+            </div>
         </div>
 
         <!-- Main Navigation -->
