@@ -52,7 +52,9 @@ export default function Edit( { attributes, setAttributes } ) {
 							} )
 						}
 						placeholder={ __( 'Enter headline…', 'fau-elemental' ) }
-						help={ `${ headline ? headline.length : 0 }/100 characters` }
+						help={ `${
+							headline ? headline.length : 0
+						}/100 characters` }
 					/>
 
 					<TextareaControl
@@ -70,7 +72,9 @@ export default function Edit( { attributes, setAttributes } ) {
 							'Enter teaser text…',
 							'fau-elemental'
 						) }
-						help={ `${ teaserText ? teaserText.length : 0 }/200 characters` }
+						help={ `${
+							teaserText ? teaserText.length : 0
+						}/200 characters` }
 						rows={ 3 }
 					/>
 
@@ -89,7 +93,9 @@ export default function Edit( { attributes, setAttributes } ) {
 							'Enter link text…',
 							'fau-elemental'
 						) }
-						help={ `${ linkText ? linkText.length : 0 }/40 characters` }
+						help={ `${
+							linkText ? linkText.length : 0
+						}/40 characters` }
 					/>
 
 					<TextControl
@@ -154,10 +160,16 @@ export default function Edit( { attributes, setAttributes } ) {
 							value={ headline }
 							onChange={ ( value ) => {
 								// Limit to 100 characters
-								const truncated = value.length > 100 ? value.substring( 0, 100 ) : value;
+								const truncated =
+									value.length > 100
+										? value.substring( 0, 100 )
+										: value;
 								setAttributes( { headline: truncated } );
 							} }
-							placeholder={ __( 'Add your headline here…', 'fau-elemental' ) }
+							placeholder={ __(
+								'Add your headline here…',
+								'fau-elemental'
+							) }
 							allowedFormats={ [] }
 							multiline={ false }
 						/>
@@ -168,10 +180,16 @@ export default function Edit( { attributes, setAttributes } ) {
 							value={ teaserText }
 							onChange={ ( value ) => {
 								// Limit to 200 characters
-								const truncated = value.length > 200 ? value.substring( 0, 200 ) : value;
+								const truncated =
+									value.length > 200
+										? value.substring( 0, 200 )
+										: value;
 								setAttributes( { teaserText: truncated } );
 							} }
-							placeholder={ __( 'Add your teaser text here…', 'fau-elemental' ) }
+							placeholder={ __(
+								'Add your teaser text here…',
+								'fau-elemental'
+							) }
 							allowedFormats={ [] }
 							multiline={ false }
 						/>
