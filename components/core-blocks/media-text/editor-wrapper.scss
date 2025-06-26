@@ -1,0 +1,24 @@
+/**
+ * Core Media Text Block - Editor Wrapper Styles - Hide Editor Features
+ */
+
+.faue-is-media-text-block-selected {
+
+	button[aria-label="Change vertical alignment"],
+	button[aria-label="Vertikale Ausrichtung ändern"],
+	button[aria-label="Link"] {
+		display: none;
+	}
+	// In the block inspector, hide Settings panel except Advanced
+	.block-editor-block-inspector {
+		// Hide only the first Tools Panel (Settings)
+		.components-tools-panel:first-of-type {
+			display: none;
+		}
+
+		// Show the Advanced panel
+		.block-editor-block-inspector__advanced {
+			display: block;
+		}
+	}
+}

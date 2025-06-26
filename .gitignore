@@ -55,3 +55,10 @@ node_modules
 
 # VSCode
 launch.json
+
+# IDE and Editor files
+.intelephense/
+.vscode/
+
+# Ignore build directory
+build/

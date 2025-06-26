@@ -9,35 +9,131 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-function fau_elemental_register_patterns() {
-    // Get the website type from options
-    $website_type = get_option('faue_website_type', 'fau');
+/**
+ * Remove default patterns and block patterns
+ */
+function fau_elemental_remove_default_patterns() {
+    // Remove core block patterns
+    remove_theme_support('core-block-patterns');
+    
+    // Remove block pattern directory
+    remove_theme_support('block-pattern-directory');
+    
+    // Remove block pattern categories UI if no patterns are registered with them,
+    // or to ensure a clean slate if we are defining all categories.
+    remove_theme_support('block-pattern-categories');
+}
+add_action('after_setup_theme', 'fau_elemental_remove_default_patterns');
 
-    // Map website types to their corresponding pattern files
-    $pattern_map = array(
-        'fau' => 'hero-fau',
-        'faculty' => 'hero-faculty',
-        'chair' => 'hero-chair',
-        'other' => 'hero-other',
-        'cooperation' => 'hero-cooperation'
+/**
+ * Register block pattern categories.
+ *
+ * @return void
+ */
+function fau_elemental_register_pattern_categories() {
+    register_block_pattern_category(
+        'fau-elemental',
+        array('label' => esc_html__('FAU Elemental', 'fau-elemental'))
     );
-
-    // Unregister the pattern if it exists
-    unregister_block_pattern('fau-elemental/hero');
-
-    // Register the pattern with content based on website type
-    $pattern_name = isset($pattern_map[$website_type]) ? $pattern_map[$website_type] : 'hero';
-    register_block_pattern(
-        'fau-elemental/hero',
-        array(
-            'title' => __('Hero Pattern', 'fau-elemental'),
-            'source' => 'theme',
-            'content' => (function () use ($pattern_name) {
-                ob_start();
-                include get_theme_file_path("/conditional-patterns/{$pattern_name}.php");
-                return ob_get_clean();
-            })()
-        )
+    register_block_pattern_category(
+        'hero',
+        array('label' => esc_html__('Hero', 'fau-elemental'))
     );
 }
-add_action('init', 'fau_elemental_register_patterns'); 
+add_action('init', 'fau_elemental_register_pattern_categories');
+
+/**
+ * Register patterns from the components/patterns directory structure
+ */
+function fau_elemental_register_component_patterns() {
+    $pattern_base_dir = get_theme_file_path('components/patterns');
+    
+    if (!is_dir($pattern_base_dir)) {
+        return;
+    }
+
+    // Get all subdirectories in components/patterns/
+    $pattern_dirs = glob($pattern_base_dir . '/*', GLOB_ONLYDIR);
+    
+    foreach ($pattern_dirs as $pattern_dir) {
+        $pattern_file = $pattern_dir . '/pattern.php';
+        
+        if (!file_exists($pattern_file)) {
+            continue;
+        }
+
+        // Extract pattern data from file headers
+        $pattern_data = get_file_data($pattern_file, array(
+            'title' => 'Title',
+            'slug' => 'Slug',
+            'categories' => 'Categories',
+            'blockTypes' => 'Block Types',
+            'postTypes' => 'Post Types',
+            'description' => 'Description',
+            'viewportWidth' => 'Viewport Width',
+            'inserter' => 'Inserter',
+            'keywords' => 'Keywords',
+            'templateTypes' => 'Template Types'
+        ));
+
+        if (empty($pattern_data['slug'])) {
+            continue;
+        }
+
+        // Process categories
+        $categories = !empty($pattern_data['categories']) 
+            ? array_map('trim', explode(',', $pattern_data['categories'])) 
+            : array();
+
+        // Process block types
+        $block_types = !empty($pattern_data['blockTypes']) 
+            ? array_map('trim', explode(',', $pattern_data['blockTypes'])) 
+            : array();
+
+        // Process post types
+        $post_types = !empty($pattern_data['postTypes']) 
+            ? array_map('trim', explode(',', $pattern_data['postTypes'])) 
+            : array();
+
+        // Process keywords
+        $keywords = !empty($pattern_data['keywords']) 
+            ? array_map('trim', explode(',', $pattern_data['keywords'])) 
+            : array();
+
+        // Process template types
+        $template_types = !empty($pattern_data['templateTypes']) 
+            ? array_map('trim', explode(',', $pattern_data['templateTypes'])) 
+            : array();
+
+        // Get viewport width or default
+        $viewport_width = !empty($pattern_data['viewportWidth']) 
+            ? (int) $pattern_data['viewportWidth'] 
+            : 1376;
+
+        // Check inserter setting
+        $inserter = $pattern_data['inserter'] !== 'false';
+
+        // Register the pattern
+        register_block_pattern(
+            $pattern_data['slug'],
+            array(
+                'title' => $pattern_data['title'],
+                'description' => $pattern_data['description'],
+                'source' => 'theme',
+                'content' => (function () use ($pattern_file) {
+                    ob_start();
+                    include $pattern_file;
+                    return ob_get_clean();
+                })(),
+                'categories' => $categories,
+                'blockTypes' => $block_types,
+                'postTypes' => $post_types,
+                'keywords' => $keywords,
+                'templateTypes' => $template_types,
+                'viewportWidth' => $viewport_width,
+                'inserter' => $inserter
+            )
+        );
+    }
+}
+add_action('init', 'fau_elemental_register_component_patterns');
