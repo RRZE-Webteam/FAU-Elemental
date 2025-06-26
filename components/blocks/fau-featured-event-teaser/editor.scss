@@ -1,57 +1,15 @@
 .wp-block-fau-elemental-featured-event-teaser {
-    position: relative;
     display: flex;
-    min-height: 607px;
-    background-color: #fff;
     overflow: hidden;
+    min-height: 400px;
 
     .featured-event-content {
-        position: relative;
-        z-index: 1;
         display: flex;
         width: 100%;
 
         .content-left {
             flex: 1 1 auto;
             max-width: 45%;
-            padding: 3rem 2rem 3rem 3rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: #fff;
-
-            .event-subtitle {
-                display: flex;
-                align-items: center;
-                color: #666;
-                font-size: 0.875rem;
-                margin-bottom: 1rem;
-                text-transform: uppercase;
-
-                &::before {
-                    content: "";
-                    display: block;
-                    width: 3rem;
-                    height: 1px;
-                    background-color: #666;
-                    margin-right: 1rem;
-                }
-            }
-
-            .event-title {
-                font-size: 2.5rem;
-                font-weight: 700;
-                line-height: 1.2;
-                margin: 0 0 1.5rem;
-                color: #0f1b4c;
-            }
-
-            .event-description {
-                font-size: 1rem;
-                line-height: 1.6;
-                margin: 0 0 2rem;
-                color: #333;
-            }
         }
 
         .content-right {
@@ -80,7 +38,7 @@
                 }
 
                 .date-month-year {
-                    color: #0f1b4c;
+                    color: #fff;
                     font-size: 1rem;
                     font-weight: 500;
                 }
@@ -90,8 +48,8 @@
             &:has(.featured-event-image) {
                 .event-date {
                     position: absolute;
-                    top: 2rem;
-                    right: 2rem;
+                    top: 0rem;
+                    right: 0rem;
 
                     .date-month-year {
                         color: #fff;
@@ -139,42 +97,5 @@
     // Editor-specific styles
     &.is-selected {
         outline: 2px solid #007cba;
-    }
-
-    // Responsive adjustments for smaller screens
-    @media (max-width: 768px) {
-        flex-direction: column;
-        min-height: auto;
-
-        .featured-event-content {
-            flex-direction: column;
-
-            .content-left,
-            .content-right {
-                max-width: 100%;
-                flex: none;
-            }
-
-            .content-left {
-                padding: 2rem;
-            }
-
-            .content-right {
-                min-height: 300px;
-
-                .event-date {
-                    top: 1rem;
-                    right: 1rem;
-                }
-
-                // Reset centering on mobile
-                &:not(:has(.featured-event-image)) {
-                    .event-date {
-                        position: static;
-                        padding: 2rem;
-                    }
-                }
-            }
-        }
     }
 } 
