@@ -17,14 +17,11 @@ import { Fragment } from '@wordpress/element';
 
 export default function Edit({ attributes, setAttributes }) {
     const {
-        roofLine,
         headline,
         teaserText,
         linkText,
         linkUrl,
-        linkTarget,
         image,
-        showRoofLine,
     } = attributes;
 
     const blockProps = useBlockProps();
@@ -46,36 +43,8 @@ export default function Edit({ attributes, setAttributes }) {
     return (
         <Fragment>
             <InspectorControls>
-                <PanelBody title={__('Feature Teaser Settings', 'fau-elemental')} initialOpen={true}>
-                    <ToggleControl
-                        label={__('Show Roof Line', 'fau-elemental')}
-                        checked={showRoofLine}
-                        onChange={(value) => setAttributes({ showRoofLine: value })}
-                        help={__('Display an optional roof line above the headline', 'fau-elemental')}
-                    />
-
-                    <SelectControl
-                        label={__('Link Target', 'fau-elemental')}
-                        value={linkTarget}
-                        options={[
-                            { label: __('Same Window', 'fau-elemental'), value: '_self' },
-                            { label: __('New Window', 'fau-elemental'), value: '_blank' }
-                        ]}
-                        onChange={(value) => setAttributes({ linkTarget: value })}
-                    />
-                </PanelBody>
 
                 <PanelBody title={__('Content', 'fau-elemental')} initialOpen={true}>
-                    {showRoofLine && (
-                        <TextControl
-                            label={__('Roof Line (max 50 characters)', 'fau-elemental')}
-                            value={roofLine}
-                            onChange={(value) => setAttributes({ roofLine: value.substring(0, 50) })}
-                            placeholder={__('Enter roof line text...', 'fau-elemental')}
-                            help={`${roofLine.length}/50 characters`}
-                        />
-                    )}
-
                     <TextControl
                         label={__('Headline (max 100 characters)', 'fau-elemental')}
                         value={headline}
@@ -144,12 +113,6 @@ export default function Edit({ attributes, setAttributes }) {
                 {/* Frontend-style preview */}
                 <div className="fau-big-teaser-editor-preview">
                     <div className="fau-big-teaser__content">
-                        {showRoofLine && roofLine && (
-                            <div className="fau-big-teaser__roof-line">
-                                {roofLine}
-                            </div>
-                        )}
-
                         {headline && (
                             <h3 className="fau-big-teaser__headline">
                                 {headline}
@@ -165,7 +128,6 @@ export default function Edit({ attributes, setAttributes }) {
                         {linkText && linkUrl && (
                             <a 
                                 href={linkUrl} 
-                                target={linkTarget}
                                 className="fau-big-teaser__link"
                                 onClick={(e) => e.preventDefault()}
                             >
@@ -192,8 +154,8 @@ export default function Edit({ attributes, setAttributes }) {
                                             onClick={open}
                                             variant="secondary"
                                             className="fau-big-teaser__add-image-button"
+                                            icon="plus"
                                         >
-                                            <span className="dashicon dashicons-plus-alt2"></span>
                                             {__('Add Image', 'fau-elemental')}
                                         </Button>
                                     )}

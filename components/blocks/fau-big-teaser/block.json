@@ -13,15 +13,10 @@
 	},
 	"textdomain": "fau-elemental",
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style-theme.css",
 
 	"attributes": {
-		"roofLine": {
-			"type": "string",
-			"default": ""
-		},
 		"headline": {
 			"type": "string",
 			"default": ""
@@ -38,27 +33,17 @@
 			"type": "string",
 			"default": ""
 		},
-		"linkTarget": {
-			"type": "string",
-			"default": "_self"
-		},
 		"image": {
 			"type": "object",
 			"default": null
-		},
-		"showRoofLine": {
-			"type": "boolean",
-			"default": false
 		}
 	},
 	"example": {
 		"attributes": {
-			"roofLine": "Featured",
 			"headline": "Sample Headline",
 			"teaserText": "This is a sample teaser text that demonstrates the component.",
 			"linkText": "Learn More",
-			"linkUrl": "#",
-			"showRoofLine": true
+			"linkUrl": "#"
 		}
 	}
 } 
