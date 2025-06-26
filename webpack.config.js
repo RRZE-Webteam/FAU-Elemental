@@ -36,7 +36,7 @@ const customBlockEntries = customBlockFolders.reduce( ( entries, folder ) => {
 	const outputPrefix = `blocks/${ folder }`;
 
 	const hasViewScript = fs.existsSync(
-		path.resolve(folderPath, 'view.js')
+		path.resolve( folderPath, 'view.js' )
 	);
 	const hasStyleScss = fs.existsSync(
 		path.resolve( folderPath, 'style.scss' )
@@ -81,7 +81,7 @@ const customBlockEntries = customBlockFolders.reduce( ( entries, folder ) => {
 			  }
 			: {} ),
 	};
-}, {});
+}, {} );
 
 // Create dynamic copy patterns for block.json and render.php files
 const copyPatterns = customBlockFolders.reduce( ( patterns, folder ) => {
