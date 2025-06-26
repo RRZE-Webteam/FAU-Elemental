@@ -8,13 +8,6 @@
     "icon": "calendar-alt",
     "description": "A block to display a featured event with details.",
     "attributes": {
-      "subtitle": {
-        "type": "string"
-      },
-      "showSubtitle": {
-        "type": "boolean",
-        "default": false
-      },
       "eventTitle": {
         "type": "string"
       },
@@ -55,7 +48,6 @@
     },
     "textdomain": "fau-elemental",
     "editorScript": "file:./index.js",
-    "editorStyle": "file:./index.css",
-    "style": "file:./style-index.css",
-    "render": "file:./render.php"
+    "editorStyle": "file:./editor.css",
+    "style": "file:./style-theme.css"
   }

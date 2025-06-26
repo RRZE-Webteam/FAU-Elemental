@@ -3,6 +3,7 @@
     display: flex;
     min-height: 607px;
     background-color: #fff;
+    overflow: hidden;
 
     .featured-event-content {
         position: relative;
@@ -11,8 +12,9 @@
         width: 100%;
 
         .content-left {
-            flex: 0 0 45%;
-            padding: 3rem 3rem 3rem 4rem;
+            flex: 1 1 auto;
+            max-width: 45%;
+            padding: 3rem 2rem 3rem 3rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -53,33 +55,66 @@
         }
 
         .content-right {
-            flex: 0 0 55%;
+            flex: 1 1 auto;
+            max-width: 55%;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             .event-date {
-                position: absolute;
-                top: 2rem;
-                right: 2rem;
                 text-align: center;
                 z-index: 2;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                background-color: #0f1b4c;
+                padding: 0.5rem;
 
                 .date-day {
-                    background-color: #0f1b4c;
                     color: #fff;
                     font-size: 2rem;
                     font-weight: 700;
                     line-height: 1;
-                    padding: 0.5rem 1rem;
-                    margin-bottom: 0.25rem;
+                    padding: 0 1rem;
                 }
 
                 .date-month-year {
                     color: #0f1b4c;
                     font-size: 1rem;
                     font-weight: 500;
+                }
+            }
+
+            // When image is present, position date in top-right corner
+            &:has(.featured-event-image) {
+                .event-date {
+                    position: absolute;
+                    top: 2rem;
+                    right: 2rem;
+
+                    .date-month-year {
+                        color: #fff;
+                    }
+                }
+            }
+
+            // When no image is present, make date bigger and centered with dark background
+            &:not(:has(.featured-event-image)) {
+                background-color: #0f1b4c;
+
+                .event-date {
+                    .date-day {
+                        color: #fff;
+                        font-size: 4rem;
+                        padding: 0rem 1.5rem;
+                    }
+
+                    .date-month-year {
+                        color: #fff;
+                        font-size: 1.5rem;
+                        font-weight: 600;
+                    }
                 }
             }
 
@@ -96,6 +131,48 @@
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                }
+            }
+        }
+    }
+
+    // Editor-specific styles
+    &.is-selected {
+        outline: 2px solid #007cba;
+    }
+
+    // Responsive adjustments for smaller screens
+    @media (max-width: 768px) {
+        flex-direction: column;
+        min-height: auto;
+
+        .featured-event-content {
+            flex-direction: column;
+
+            .content-left,
+            .content-right {
+                max-width: 100%;
+                flex: none;
+            }
+
+            .content-left {
+                padding: 2rem;
+            }
+
+            .content-right {
+                min-height: 300px;
+
+                .event-date {
+                    top: 1rem;
+                    right: 1rem;
+                }
+
+                // Reset centering on mobile
+                &:not(:has(.featured-event-image)) {
+                    .event-date {
+                        position: static;
+                        padding: 2rem;
+                    }
                 }
             }
         }

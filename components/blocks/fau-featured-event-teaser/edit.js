@@ -5,8 +5,6 @@ import './editor.scss';
 
 export default function Edit({ attributes, setAttributes }) {
     const {
-        subtitle,
-        showSubtitle,
         eventTitle,
         eventDescription,
         eventDate,
@@ -26,11 +24,6 @@ export default function Edit({ attributes, setAttributes }) {
         <>
             <InspectorControls>
                 <PanelBody title={__('Display Settings', 'fau-elemental')}>
-                    <ToggleControl
-                        label={__('Show Subtitle', 'fau-elemental')}
-                        checked={showSubtitle}
-                        onChange={(value) => setAttributes({ showSubtitle: value })}
-                    />
                     <ToggleControl
                         label={__('Show Image', 'fau-elemental')}
                         checked={showImage}
@@ -81,15 +74,6 @@ export default function Edit({ attributes, setAttributes }) {
             })}>
                 <div className="featured-event-content">
                     <div className="content-left">
-                        {showSubtitle && (
-                            <RichText
-                                tagName="p"
-                                className="event-subtitle"
-                                value={subtitle}
-                                onChange={(value) => setAttributes({ subtitle: value })}
-                                placeholder={__('Enter subtitle...', 'fau-elemental')}
-                            />
-                        )}
                         <RichText
                             tagName="h2"
                             className="event-title"
