@@ -5,297 +5,299 @@
  */
 
 .fau-big-teaser {
-    &.wp-block {
-        border: 2px dashed #ccc;
-        padding: 0;
-        margin: 20px 0;
-        border-radius: 4px;
-        min-height: 200px;
-        
-        &:hover {
-            border-color: #003865;
-        }
-        
-        &.is-selected {
-            border-color: #003865;
-            border-style: solid;
-        }
-    }
+
+	&.wp-block {
+		border: 2px dashed #ccc;
+		padding: 0;
+		margin: 20px 0;
+		border-radius: 4px;
+		min-height: 200px;
+
+		&:hover {
+			border-color: #003865;
+		}
+
+		&.is-selected {
+			border-color: #003865;
+			border-style: solid;
+		}
+	}
 }
 
 // Frontend-style preview in editor
 .fau-big-teaser-editor-preview {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    position: relative;
-    min-height: 400px;
-    
-    @media (min-width: 768px) {
-        flex-direction: row;
-        min-height: 350px;
-        
-        .fau-big-teaser.center-aligned & {
-            flex-direction: column;
-        }
-    }
+	display: flex;
+	flex-direction: column;
+	background: #fff;
+	position: relative;
+	min-height: 400px;
+
+	@media (min-width: 768px) {
+		flex-direction: row;
+		min-height: 350px;
+
+		.fau-big-teaser.center-aligned & {
+			flex-direction: column;
+		}
+	}
 }
 
 .fau-big-teaser-editor-preview .fau-big-teaser__content {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    position: relative;
-    order: 2;
-    
-    @media (min-width: 768px) {
-        order: 1;
-        flex: 1;
-        justify-content: flex-start;
-        
-        .fau-big-teaser.center-aligned & {
-            order: 2;
-            padding: 24px;
-        }
-    }
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+	position: relative;
+	order: 2;
+
+	@media (min-width: 768px) {
+		order: 1;
+		flex: 1;
+		justify-content: flex-start;
+
+		.fau-big-teaser.center-aligned & {
+			order: 2;
+			padding: 24px;
+		}
+	}
 }
 
 .fau-big-teaser-editor-preview .fau-big-teaser__roof-line {
-    font-size: 0.875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #003865;
-    margin: 0 0 16px 0;
-    padding: 20px 20px 0 20px;
-    position: relative;
-    
-    // Horizontal line on the left side similar to FAU design
-    &::before {
-        content: '';
-        position: absolute;
-        top: 80%;
-        left: 20px;
-        transform: translateY(-50%);
-        width: 40px;
-        height: 2px;
-        background-color: #003865;
-    }
-    
-    // Add left padding to offset text from the line
-    padding-left: 75px;
-    
-    @media (min-width: 768px) {
-        padding: 32px 0 0 87px;
-        
-        &::before {
-            left: 32px;
-        }
-        
-        .fau-big-teaser.center-aligned & {
-            text-align: center;
-            padding: 0;
-            
-            &::before {
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-        }
-    }
+	font-size: 0.875rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	color: #003865;
+	margin: 0 0 16px 0;
+	padding: 20px 20px 0 20px;
+	position: relative;
+
+	// Horizontal line on the left side similar to FAU design
+	&::before {
+		content: "";
+		position: absolute;
+		top: 80%;
+		left: 20px;
+		transform: translateY(-50%);
+		width: 40px;
+		height: 2px;
+		background-color: #003865;
+	}
+
+	// Add left padding to offset text from the line
+	padding-left: 75px;
+
+	@media (min-width: 768px) {
+		padding: 32px 0 0 87px;
+
+		&::before {
+			left: 32px;
+		}
+
+		.fau-big-teaser.center-aligned & {
+			text-align: center;
+			padding: 0;
+
+			&::before {
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+		}
+	}
 }
 
 .fau-big-teaser-editor-preview .fau-big-teaser__headline {
-    font-size: 1.75rem;
-    font-weight: 700;
-    line-height: 1.2;
-    color: #003865;
-    margin: 24px 0 0 0;
-    padding: 24px 20px 24px 20px;
-    background: #fff;
-    position: relative;
-    z-index: 2;
-    
-    @media (min-width: 768px) {
-        font-size: 2rem;
-        padding: 24px 32px 24px 32px;
-        margin: 0;
-        
-        // Extend headline background over the image (matching frontend)
-        &::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: -100px;
-            bottom: 0;
-            width: 100px;
-            background: #fff;
-            z-index: -1;
-        }
-        
-        .fau-big-teaser.center-aligned & {
-            text-align: center;
-            
-            &::before {
-                display: none;
-            }
-        }
-    }
-    
-    @media (min-width: 1024px) {
-        font-size: 2.25rem;
-    }
+	font-size: 1.75rem;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #003865;
+	margin: 24px 0 0 0;
+	padding: 24px 20px 24px 20px;
+	background: #fff;
+	position: relative;
+	z-index: 2;
+
+	@media (min-width: 768px) {
+		font-size: 2rem;
+		padding: 24px 32px 24px 32px;
+		margin: 0;
+
+		// Extend headline background over the image (matching frontend)
+		&::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			right: -100px;
+			bottom: 0;
+			width: 100px;
+			background: #fff;
+			z-index: -1;
+		}
+
+		.fau-big-teaser.center-aligned & {
+			text-align: center;
+
+			&::before {
+				display: none;
+			}
+		}
+	}
+
+	@media (min-width: 1024px) {
+		font-size: 2.25rem;
+	}
 }
 
 .fau-big-teaser-editor-preview .fau-big-teaser__teaser-text {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #333;
-    margin: 0;
-    padding: 0 20px 24px 20px;
-    
-    @media (min-width: 768px) {
-        padding: 0 32px 24px 32px;
-        font-size: 1.1rem;
-        
-        .fau-big-teaser.center-aligned & {
-            text-align: center;
-            padding: 0 0 24px 0;
-        }
-    }
+	font-size: 1rem;
+	line-height: 1.6;
+	color: #333;
+	margin: 0;
+	padding: 0 20px 24px 20px;
+
+	@media (min-width: 768px) {
+		padding: 0 32px 24px 32px;
+		font-size: 1.1rem;
+
+		.fau-big-teaser.center-aligned & {
+			text-align: center;
+			padding: 0 0 24px 0;
+		}
+	}
 }
 
 .fau-big-teaser-editor-preview .fau-big-teaser__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    color: #003865;
-    text-decoration: none;
-    cursor: default;
-    margin: 0 20px 24px 20px;
-    align-self: flex-start;
-    font-size: 1rem;
-    
-    &::after {
-        content: '→';
-        font-size: 1.2em;
-    }
-    
-    @media (min-width: 768px) {
-        margin: 0 32px 32px 32px;
-        
-        .fau-big-teaser.center-aligned & {
-            align-self: center;
-            margin: 0 0 24px 0;
-        }
-    }
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-weight: 600;
+	color: #003865;
+	text-decoration: none;
+	cursor: default;
+	margin: 0 20px 24px 20px;
+	align-self: flex-start;
+	font-size: 1rem;
+
+	&::after {
+		content: "→";
+		font-size: 1.2em;
+	}
+
+	@media (min-width: 768px) {
+		margin: 0 32px 32px 32px;
+
+		.fau-big-teaser.center-aligned & {
+			align-self: center;
+			margin: 0 0 24px 0;
+		}
+	}
 }
 
 .fau-big-teaser-editor-preview .fau-big-teaser__image {
-    position: relative;
-    order: 1;
-    
-    img {
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-        display: block;
-    }
-    
-    @media (min-width: 768px) {
-        order: 2;
-        flex: 0 0 55%;
-        
-        img {
-            height: 100%;
-            min-height: 350px;
-        }
-        
-        .fau-big-teaser.center-aligned & {
-            order: 1;
-            flex: none;
-            
-            img {
-                height: 250px;
-                min-height: auto;
-            }
-        }
-    }
+	position: relative;
+	order: 1;
+
+	img {
+		width: 100%;
+		height: 250px;
+		object-fit: cover;
+		display: block;
+	}
+
+	@media (min-width: 768px) {
+		order: 2;
+		flex: 0 0 55%;
+
+		img {
+			height: 100%;
+			min-height: 350px;
+		}
+
+		.fau-big-teaser.center-aligned & {
+			order: 1;
+			flex: none;
+
+			img {
+				height: 250px;
+				min-height: auto;
+			}
+		}
+	}
 }
 
 // Image placeholder styling
 .fau-big-teaser__image-placeholder {
-    position: relative;
-    order: 1;
-    background: #f8f9fa;
-    border: 2px dashed #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 250px;
-    
-    @media (min-width: 768px) {
-        order: 2;
-        flex: 0 0 55%;
-        min-height: 350px;
-        
-        .fau-big-teaser.center-aligned & {
-            order: 1;
-            flex: none;
-            min-height: 250px;
-        }
-    }
+	position: relative;
+	order: 1;
+	background: #f8f9fa;
+	border: 2px dashed #ddd;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 250px;
+
+	@media (min-width: 768px) {
+		order: 2;
+		flex: 0 0 55%;
+		min-height: 350px;
+
+		.fau-big-teaser.center-aligned & {
+			order: 1;
+			flex: none;
+			min-height: 250px;
+		}
+	}
 }
 
 .fau-big-teaser__add-image-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    font-size: 14px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	font-size: 14px;
 }
 
 // Editor help text
 .fau-big-teaser-editor-help {
-    margin-top: 16px;
-    padding: 12px;
-    background: #f8f9fa;
-    border-radius: 4px;
-    border-left: 4px solid #003865;
-    
-    p {
-        margin: 0;
-        color: #666;
-    }
+	margin-top: 16px;
+	padding: 12px;
+	background: #f8f9fa;
+	border-radius: 4px;
+	border-left: 4px solid #003865;
+
+	p {
+		margin: 0;
+		color: #666;
+	}
 }
 
 // Better spacing for form controls in sidebar
 .components-panel__body .components-text-control,
 .components-panel__body .components-textarea-control {
-    margin-bottom: 16px;
-    
-    .components-base-control__help {
-        font-size: 12px;
-        color: #666;
-        text-align: right;
-        margin-top: 4px;
-    }
+	margin-bottom: 16px;
+
+	.components-base-control__help {
+		font-size: 12px;
+		color: #666;
+		text-align: right;
+		margin-top: 4px;
+	}
 }
 
 // Media upload button styling
 .components-panel__body .components-button.is-secondary {
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 8px;
+	width: 100%;
+	justify-content: center;
+	margin-bottom: 8px;
 }
 
 // Responsive adjustments to match frontend
 @media (max-width: 767px) {
-    .fau-big-teaser-editor-preview .fau-big-teaser__headline {
-        font-size: 1.5rem;
-    }
-    
-    .fau-big-teaser-editor-preview .fau-big-teaser__teaser-text {
-        font-size: 0.95rem;
-    }
-} 
+
+	.fau-big-teaser-editor-preview .fau-big-teaser__headline {
+		font-size: 1.5rem;
+	}
+
+	.fau-big-teaser-editor-preview .fau-big-teaser__teaser-text {
+		font-size: 0.95rem;
+	}
+}
