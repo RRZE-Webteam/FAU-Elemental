@@ -1,0 +1,44 @@
+/**
+ * Editor Styles
+ */
+
+/* Theme */
+@use "../theme" as *;
+
+/* Core Blocks */
+@use "../../core-blocks/details/editor" as *;
+@use "../../core-blocks/gallery/editor" as *;
+@use "../../core-blocks/image/editor" as *;
+@use "../../core-blocks/file/editor" as *;
+@use "../../core-blocks/quote/editor" as *;
+@use "../../core-blocks/verse/editor" as *;
+@use "../../core-blocks/spacer/editor" as *;
+
+/* Patterns */
+@use "../../patterns/hero-fau/editor" as *;
+@use "../../patterns/hero-portal/editor" as *;
+
+html :where(.editor-styles-wrapper) {
+	font-family: var(--font-family-base);
+}
+
+.edit-post-visual-editor__post-title-wrapper {
+	margin: var(--Spacing-10x) 0;
+
+	.wp-block-post-title {
+		max-width: var(--small-max-width);
+		margin: 0 auto;
+	}
+}
+
+.wp-block-file__content-wrapper > .wp-block-file > .wp-block-file {
+	margin-bottom: var(--Spacing-4x);
+}
+
+.editor-styles-wrapper .wp-block {
+	margin-bottom: 0;
+}
+
+:root :where(.editor-styles-wrapper) :where(.is-layout-flow) > .wp-block {
+	margin-block-start: 0;
+}

@@ -1,0 +1,46 @@
+<?php
+/**
+ * Footer Target Groups Component
+ * Uses the shared big button rendering function with custom target group data
+ *
+ * @package FAU-Elemental
+ */
+
+// Ensure the shared rendering function is available
+if (!function_exists('render_big_button_teaser_group_html')) {
+    require_once get_theme_file_path('components/blocks/fau-big-button-teaser-group/render.php');
+}
+
+/**
+ * Render footer target groups with big button styling
+ *
+ * @param array $target_groups Array of target group data
+ * @param string $variant Button variant (filled, outline)
+ * @param string $size Button size (small, large)
+ * @return string HTML output
+ */
+function render_footer_target_groups($target_groups = [], $variant = 'outline', $size = 'small') {
+    if (empty($target_groups)) {
+        return '';
+    }
+
+    $items = [];
+    foreach ($target_groups as $group) {
+        if (!empty($group['title'])) {
+            $items[] = [
+                'title' => $group['title'],
+                'excerpt' => $group['description'],
+                'url' => !empty($group['link']) ? $group['link'] : '#'
+            ];
+        }
+    }
+
+    $options = [
+        'variant' => $variant,
+        'teaser_size' => $size,
+        'faculty_color' => 'default',
+        'max_items' => count($items)
+    ];
+
+    return render_big_button_teaser_group_html($items, $options);
+} 

@@ -10,20 +10,19 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Register navigation menus for the theme
+ * Register all navigation menus for the theme
  */
-function fau_elemental_register_menus() {
-    // Always register the footer menu
-    register_nav_menus(array(
-        'footer-menu' => __('Footer Menu', 'fau-elemental'),
-    ));
+function fau_elemental_register_all_menus() {
+    $faue_website_type = get_theme_mod('faue_website_type', 'fau');
     
-    // Only register the Footer Wichtige Links menu for website types other than fauorg-home
-    $website_type = get_option('fau_website_type', 'fauorg-home');
-    if ($website_type !== 'fauorg-home') {
-        register_nav_menus(array(
-            'footer-wichtige-links' => __('Footer Wichtige Links', 'fau-elemental')
-        ));
-    }
+    // Core menus that are always registered
+    $menus = array(
+        'menu-1' => __('Primary Menu', 'fau-elemental'),
+        'footer-menu' => __('Footer Menu', 'fau-elemental'),
+        'footer-lists-menu' => __('Footer Lists Menu', 'fau-elemental'),
+        'footer-important-links' => __('Footer Important Links', 'fau-elemental'),
+    );
+    
+    register_nav_menus($menus);
 }
-add_action('after_setup_theme', 'fau_elemental_register_menus'); 
+add_action('after_setup_theme', 'fau_elemental_register_all_menus'); 
