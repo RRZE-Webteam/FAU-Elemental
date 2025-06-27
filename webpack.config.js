@@ -175,12 +175,6 @@ module.exports = {
 			process.cwd(),
 			'components/core-blocks/quote/quote-carousel.js'
 		),
-
-		// Template Part Scripts
-		'js/template-parts-post-meta': path.resolve(
-			process.cwd(),
-			'components/template-parts/post-meta/script.js'
-		),
 	},
 
 	// ============================================================================
