@@ -440,10 +440,11 @@ function fau_customizer_settings($wp_customize) {
 
     // Add control for showing/hiding post meta
     $wp_customize->add_control('faue_show_post_meta', array(
-        'label'    => esc_html__('Show post metadata', 'fau-elemental'),
-        'section'  => 'faue_post_options',
-        'type'     => 'checkbox',
-        'priority' => 10,
+        'label'       => esc_html__('Display post metadata', 'fau-elemental'),
+        'description' => esc_html__('Shows author, date and reading-time on posts.', 'fau-elemental'),
+        'section'     => 'faue_post_options',
+        'type'        => 'checkbox',
+        'priority'    => 10,
     ));
 
     // Add setting for post meta dark theme
@@ -455,10 +456,14 @@ function fau_customizer_settings($wp_customize) {
 
     // Add control for post meta dark theme
     $wp_customize->add_control('faue_post_meta_dark_theme', array(
-        'label'    => esc_html__('Show post metadata in dark theme', 'fau-elemental'),
-        'section'  => 'faue_post_options',
-        'type'     => 'checkbox',
-        'priority' => 20,
+        'label'           => esc_html__('Apply dark-theme style to metadata', 'fau-elemental'),
+        'description'     => esc_html__('Turns the metadata bar dark-blue with white text.', 'fau-elemental'),
+        'section'         => 'faue_post_options',
+        'type'            => 'checkbox',
+        'priority'        => 20,
+        'active_callback' => function() {
+            return get_theme_mod('faue_show_post_meta', true);
+        },
     ));
 }
 add_action('customize_register', 'fau_customizer_settings');
