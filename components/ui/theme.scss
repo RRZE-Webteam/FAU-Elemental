@@ -39,4 +39,4 @@
 @use "../template-parts/post-meta/style" as *;
 
 // Plugin Integrations
-@use "../plugins/rrze-calendar/style" as *;
+@use "plugins/index" as *;

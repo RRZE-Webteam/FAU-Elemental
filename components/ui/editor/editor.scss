@@ -17,7 +17,9 @@
 /* Patterns */
 @use "../../patterns/hero-fau/editor" as *;
 @use "../../patterns/hero-portal/editor" as *;
-@use "../../plugins/rrze-calendar/editor" as *;
+
+/* Plugin Editor Styles */
+@use "../plugins/rrze-calendar-editor" as *;
 
 html :where(.editor-styles-wrapper) {
 	font-family: var(--font-family-base);
