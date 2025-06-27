@@ -2,13 +2,15 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps, RichText } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	TextControl,
 	TextareaControl,
 	SelectControl,
 	Button,
+	Tooltip,
+	ButtonGroup,
 } from '@wordpress/components';
 import { useEffect, useCallback, useMemo } from '@wordpress/element';
 import { v4 as uuidv4 } from 'uuid';
@@ -131,6 +133,36 @@ export default function Edit( { attributes, setAttributes } ) {
 		[ items, setAttributes ]
 	);
 
+	const moveItemUp = useCallback(
+		( index ) => {
+			if ( index === 0 ) {
+				return; // Can't move first item up
+			}
+
+			const updatedItems = [ ...items ];
+			const temp = updatedItems[ index - 1 ];
+			updatedItems[ index - 1 ] = updatedItems[ index ];
+			updatedItems[ index ] = temp;
+			setAttributes( { items: updatedItems } );
+		},
+		[ items, setAttributes ]
+	);
+
+	const moveItemDown = useCallback(
+		( index ) => {
+			if ( index === items.length - 1 ) {
+				return; // Can't move last item down
+			}
+
+			const updatedItems = [ ...items ];
+			const temp = updatedItems[ index + 1 ];
+			updatedItems[ index + 1 ] = updatedItems[ index ];
+			updatedItems[ index ] = temp;
+			setAttributes( { items: updatedItems } );
+		},
+		[ items, setAttributes ]
+	);
+
 	// Ensure all items have unique IDs and at least one item exists
 	const ensureValidItems = useCallback( () => {
 		let needsUpdate = false;
@@ -208,15 +240,15 @@ export default function Edit( { attributes, setAttributes } ) {
 					initialOpen={ false }
 				>
 					<SelectControl
-						label={ __( 'Teaser Size', 'fau-elemental' ) }
+						label={ __( 'Buttons Per Row', 'fau-elemental' ) }
 						value={ teaserSize }
 						options={ [
 							{
-								label: __( 'Small', 'fau-elemental' ),
+								label: __( '4 buttons', 'fau-elemental' ),
 								value: 'small',
 							},
 							{
-								label: __( 'Large', 'fau-elemental' ),
+								label: __( '3 buttons', 'fau-elemental' ),
 								value: 'large',
 							},
 						] }
@@ -248,7 +280,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					title={ __( 'Items', 'fau-elemental' ) }
 					initialOpen={ true }
 				>
-					<div style={ { marginBottom: '16px' } }>
+					<div className="fau-big-button-sidebar-add-button">
 						<Button isPrimary onClick={ addItem }>
 							{ __( 'Add Item', 'fau-elemental' ) }
 						</Button>
@@ -264,7 +296,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						) } ${ index + 1 }${
 							itemTitle &&
 							itemTitle !== __( 'Untitled Item', 'fau-elemental' )
-								? ` - ${ itemTitle }`
+								? ` - ${ trimTextSmart( itemTitle, 20 ) }`
 								: ''
 						}`;
 
@@ -274,14 +306,26 @@ export default function Edit( { attributes, setAttributes } ) {
 								title={ panelTitle }
 								initialOpen={ index === 0 } // Only first item open by default
 							>
-								<div
-									style={ {
-										marginBottom: '16px',
-										textAlign: 'right',
-									} }
-								>
+								<div className="fau-big-button-sidebar-controls">
+									<ButtonGroup>
+										<Tooltip text={ __( 'Move up', 'fau-elemental' ) }>
+											<Button
+												icon="arrow-up-alt2"
+												onClick={ () => moveItemUp( index ) }
+												disabled={ index === 0 }
+												label={ __( 'Move up', 'fau-elemental' ) }
+											/>
+										</Tooltip>
+										<Tooltip text={ __( 'Move down', 'fau-elemental' ) }>
+											<Button
+												icon="arrow-down-alt2"
+												onClick={ () => moveItemDown( index ) }
+												disabled={ index === items.length - 1 }
+												label={ __( 'Move down', 'fau-elemental' ) }
+											/>
+										</Tooltip>
+									</ButtonGroup>
 									<Button
-										isSmall
 										isDestructive
 										onClick={ () => removeItem( index ) }
 										disabled={ items.length <= 1 }
@@ -296,6 +340,7 @@ export default function Edit( { attributes, setAttributes } ) {
 									onChange={ ( value ) =>
 										updateItem( index, 'title', value )
 									}
+									help={ __( 'You can also click on the title in the preview to edit it directly.', 'fau-elemental' ) }
 								/>
 								<TextareaControl
 									label={ __(
@@ -311,6 +356,7 @@ export default function Edit( { attributes, setAttributes } ) {
 										)
 									}
 									rows={ 3 }
+									help={ __( 'You can also click on the description in the preview to edit it directly.', 'fau-elemental' ) }
 								/>
 								<TextControl
 									label={ __( 'URL', 'fau-elemental' ) }
@@ -320,6 +366,23 @@ export default function Edit( { attributes, setAttributes } ) {
 									}
 									type="url"
 								/>
+								
+								{/* Validation messages */}
+								{ ( !item.title || !item.url ) && (
+									<div className="fau-big-button-validation-notice">
+										<p><strong>{ __( 'Required for display:', 'fau-elemental' ) }</strong></p>
+										<ul>
+											{ !item.title && (
+												<li>{ __( '• Title is required', 'fau-elemental' ) }</li>
+											) }
+											{ !item.url && (
+												<li>{ __( '• URL is required', 'fau-elemental' ) }</li>
+											) }
+										</ul>
+										<p><em>{ __( 'This item will not be displayed on the frontend until both title and URL are provided.', 'fau-elemental' ) }</em></p>
+									</div>
+								) }
+
 								{ isFauDe && (
 									<SelectControl
 										label={ __( 'Color', 'fau-elemental' ) }
@@ -368,69 +431,121 @@ export default function Edit( { attributes, setAttributes } ) {
 							buttonClasses += ` fau-big-button-teaser-group__button--${ effectiveFacultyColor }`;
 						}
 
-						// Get title and excerpt
-						const title = item.title;
-						const rawExcerpt = item.description;
-						// Convert excerpt to string and handle empty/object cases
-						const excerpt =
-							rawExcerpt &&
-							typeof rawExcerpt === 'string' &&
-							rawExcerpt.trim() !== ''
-								? rawExcerpt
-								: '';
-						const url = item.url;
+						// Check if item is complete
+						const isComplete = item.title && item.url;
+						const previewClasses = isComplete 
+							? buttonClasses 
+							: `${buttonClasses} fau-big-button-teaser-group__button--incomplete`;
 
 						return (
-							<div
+							<a
 								key={ item.id || index }
-								className={ buttonClasses }
+								href={ item.url || '#preview' }
+								className={ previewClasses }
+								onClick={ ( e ) => e.preventDefault() } // Prevent navigation in editor
 							>
-								<a
-									href={ url || '#preview' }
-									className="fau-big-button-teaser-group__button-link"
-								>
-									<h3 className="fau-big-button-teaser-group__button-title">
-										{ title ? (
-											<span
-												dangerouslySetInnerHTML={ {
-													__html: String( title ),
+								{/* Inline controls */}
+								<div className="fau-big-button-teaser-group__inline-controls">
+									{ items.length > 1 && index > 0 && (
+										<Tooltip text={ __( 'Move up', 'fau-elemental' ) }>
+											<Button
+												icon="arrow-up-alt2"
+												isSmall
+												className="fau-big-button-teaser-group__move-up"
+												onClick={ ( e ) => {
+													e.stopPropagation();
+													moveItemUp( index );
 												} }
 											/>
-										) : (
-											<span className="fau-big-button-title-placeholder">
-												{ __(
-													'Enter title…',
-													'fau-elemental'
-												) }
-											</span>
-										) }
-									</h3>
-									{ excerpt && (
-										<p className="fau-big-button-teaser-group__button-text">
-											<span
-												dangerouslySetInnerHTML={ {
-													__html: trimTextSmart(
-														excerpt,
-														80,
-														'...'
-													),
+										</Tooltip>
+									) }
+									{ items.length > 1 && index < items.length - 1 && (
+										<Tooltip text={ __( 'Move down', 'fau-elemental' ) }>
+											<Button
+												icon="arrow-down-alt2"
+												isSmall
+												className="fau-big-button-teaser-group__move-down"
+												onClick={ ( e ) => {
+													e.stopPropagation();
+													moveItemDown( index );
 												} }
 											/>
-										</p>
+										</Tooltip>
 									) }
-									{ ! excerpt && (
-										<p className="fau-big-button-text-placeholder">
-											{ __(
-												'Add description…',
-												'fau-elemental'
-											) }
-										</p>
+									{ items.length > 1 && (
+										<Tooltip text={ __( 'Remove item', 'fau-elemental' ) }>
+											<Button
+												icon="trash"
+												isSmall
+												isDestructive
+												className="fau-big-button-teaser-group__button-remove"
+												onClick={ ( e ) => {
+													e.stopPropagation();
+													removeItem( index );
+												} }
+											/>
+										</Tooltip>
 									) }
-									<span className="arrow-link"></span>
-								</a>
-							</div>
+								</div>
+
+								<RichText
+									tagName="h3"
+									className="rich-text"
+									value={ item.title || '' }
+									onChange={ ( value ) =>
+										updateItem( index, 'title', value )
+									}
+									placeholder={ __( 'Enter title…', 'fau-elemental' ) }
+									allowedFormats={ [] }
+									disableLineBreaks={ true }
+									onClick={ ( e ) => e.stopPropagation() }
+								/>
+								
+								<RichText
+									tagName="p"
+									className="rich-text"
+									value={ item.description || '' }
+									onChange={ ( value ) =>
+										updateItem( index, 'description', value )
+									}
+									placeholder={ __( 'Add description…', 'fau-elemental' ) }
+									allowedFormats={ [] }
+									disableLineBreaks={ false }
+									onClick={ ( e ) => e.stopPropagation() }
+								/>
+								
+								{ item.url && (
+									<div className="fau-big-button-teaser-group__url-preview">
+										<strong>{ __( 'URL:', 'fau-elemental' ) }</strong> { item.url }
+									</div>
+								) }
+								
+								{ !isComplete && (
+									<div className="fau-big-button-incomplete-notice">
+										<strong>{ __( 'Incomplete Item', 'fau-elemental' ) }</strong>
+										<br />
+										{ __( 'Add title and URL to display', 'fau-elemental' ) }
+									</div>
+								) }
+								
+								<span className="arrow-link"></span>
+							</a>
 						);
 					} ) }
+
+					{/* Add new item button */}
+					<div
+						className={ `fau-big-button-teaser-group__add-button fau-big-button-teaser-group__add-button--${ teaserSize }` }
+					>
+						<Tooltip text={ __( 'Add new item', 'fau-elemental' ) }>
+							<Button
+								icon="plus"
+								isPrimary
+								onClick={ addItem }
+								label={ __( 'Add Item', 'fau-elemental' ) }
+							/>
+						</Tooltip>
+					</div>
 				</div>
 			</div>
 		</>
