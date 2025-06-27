@@ -306,3 +306,16 @@ function fau_elemental_enqueue_footer_scripts() {
     }
 }
 add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_footer_scripts');
+
+// ============================================================================
+// FAU TEASER GRID AJAX HANDLERS
+// ============================================================================
+
+/**
+ * Include and register AJAX handlers for FAU Teaser Grid
+ */
+function fau_elemental_register_teaser_grid_ajax() {
+    // Include the AJAX handler file
+    require_once get_template_directory() . '/components/blocks/fau-teaser-grid/ajax.php';
+}
+add_action('init', 'fau_elemental_register_teaser_grid_ajax');

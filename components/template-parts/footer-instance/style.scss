@@ -41,6 +41,7 @@
 			padding-bottom: var(--Spacing-14x);
 
 			.instance-info p {
+				font-size: 1rem;
 				max-width: 66%;
 			}
 		}
@@ -50,22 +51,34 @@
 			padding-bottom: var(--Spacing-12x);
 
 			.contact-address {
-				flex-basis: 33%;
-
-				&:has(address) {
-					flex-basis: 66%;
-				}
+				flex-basis: 66%;
 
 				.contact-address-and-tel-container {
-					display: flex;
-					gap: var(--Spacing-8x);
 
 					address {
-						flex-basis: 50%;
+						display: flex;
+						gap: var(--Spacing-16x);
 						font-style: unset;
 						font-size: 1rem;
 						font-weight: 400;
 						line-height: 1.5;
+
+						> div {
+							flex-basis: 50%;
+
+							&:last-child {
+								padding-right: var(--Spacing-8x);
+								box-sizing: border-box;
+							}
+						}
+
+						span {
+							display: block;
+
+							+ .directions {
+								margin-top: var(--Spacing-8x);
+							}
+						}
 					}
 
 					.contact-details {
@@ -79,10 +92,6 @@
 							}
 						}
 					}
-
-					&:has(address) .contact-details {
-						flex-basis: 50%;
-					}
 				}
 			}
 
@@ -94,7 +103,6 @@
 					flex-direction: column;
 					gap: var(--Spacing-3x);
 					margin: 0;
-					list-style: none;
 
 					li {
 
@@ -109,6 +117,10 @@
 							display: none; // no list style
 						}
 					}
+				}
+
+				ul {
+					list-style: none;
 				}
 			}
 		}
@@ -162,24 +174,25 @@
 
 		.fau-info-toggle {
 			position: relative;
-			background: #04316a;
+			background-color: var(--FAU-Col-FAU-Blau-100);
 			border: 0;
-			padding: 20px 1.5rem;
+			padding: var(--Spacing-5x) var(--Spacing-6x);
+			font-family: var(--font-family-base);
 			color: var(--FAU-Col-FAU-Weiss-100);
 			font-size: 1rem;
 			font-weight: 600;
 			line-height: 1;
 			letter-spacing: var(--letter-spacing-big);
-			margin-right: 56px;
+			margin-right: var(--Spacing-14x);
 			cursor: pointer;
 
 			&::before {
 				content: "";
-				background-color: #fff; // TODO Maybe use a custom property
-				width: 56px;
-				height: 56px;
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+				width: 3.5rem;
+				height: 3.5rem;
 				position: absolute;
-				right: -56px;
+				right: calc(-1 * var(--Spacing-14x));
 				top: 0;
 			}
 
@@ -189,28 +202,45 @@
 				background-repeat: no-repeat;
 				transform: rotate(90deg);
 				position: absolute;
-				right: -32px;
-				top: 22px;
-				width: 8px;
-				height: 14px;
+				right: -2rem;
+				top: 1.375rem;
+				width: 0.5rem;
+				height: 0.875rem;
 				transition: var(--basic-animation);
+			}
+
+			// Progressive enhancement: Show button only when JavaScript is available
+			.no-js & {
+				display: none;
+			}
+
+			// Button text and icon structure
+			.toggle-text {
+				display: inline;
+			}
+
+			// Rotate chevron when expanded
+			&[aria-expanded="true"]::after {
+				transform: rotate(-90deg);
 			}
 
 			&:hover,
 			&:focus-visible {
 
 				&::after {
-					top: 26px;
+					top: 1.625rem;
 				}
 			}
+		}
 
-			&[aria-expanded="true"] {
+		// Progressive enhancement: Ensure content is visible without JavaScript
+		.no-js .fau-info-section {
+			display: block !important;
+		}
 
-				&::after {
-					transform: rotate(-90deg);
-					transition: var(--basic-animation);
-				}
-			}
+		// Hide section initially when JavaScript is available (handled by JS)
+		.js .fau-info-section[hidden] {
+			display: none;
 		}
 
 		// adapted visuals for claim only for instance (faculty)
@@ -256,23 +286,13 @@
 
 	.site-footer {
 
-		.footer-content--instance .footer-instance-menu {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: var(--Spacing-10x);
-		}
-
-		.social-links {
-			justify-content: flex-start;
-		}
-	}
-}
-
-@include respond-to("small") {
-
-	.site-footer {
-
 		.footer-content--instance {
+
+			.footer-instance-menu {
+				flex-direction: column;
+				align-items: flex-start;
+				gap: var(--Spacing-10x);
+			}
 
 			.footer-instance-contact {
 				flex-wrap: wrap;
@@ -287,7 +307,6 @@
 				}
 
 				.contact-address,
-				.contact-address:has(address),
 				.footer-important-links {
 					flex-basis: 100%;
 				}
@@ -302,6 +321,16 @@
 				max-width: unset;
 			}
 		}
+
+		.social-links {
+			justify-content: flex-start;
+		}
+	}
+}
+
+@include respond-to("small") {
+
+	.site-footer {
 
 		.footer-bottom {
 
@@ -324,18 +353,16 @@
 @media screen and (max-width: 599px) {
 
 	.site-footer .footer-content--instance .footer-instance-contact .contact-address .contact-address-and-tel-container {
-		flex-direction: column;
 
-		address,
-		.contact-details {
-			flex-basis: unset;
+		address {
+			flex-direction: column;
+			gap: var(--Spacing-4x);
+
+			span + .directions {
+				margin-top: var(--Spacing-6x);
+			}
 		}
 	}
-}
-
-@media screen and (max-width: 499px) {
-
-	// No target groups specific rules needed - using shared big button styling
 }
 
 @include respond-to("x-small") {

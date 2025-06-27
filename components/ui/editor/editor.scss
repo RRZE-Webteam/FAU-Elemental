@@ -2,13 +2,19 @@
  * Editor Styles
  */
 
+/* Theme */
 @use "../theme" as *;
+
+/* Core Blocks */
 @use "../../core-blocks/details/editor" as *;
 @use "../../core-blocks/gallery/editor" as *;
 @use "../../core-blocks/image/editor" as *;
 @use "../../core-blocks/file/editor" as *;
 @use "../../core-blocks/quote/editor" as *;
 @use "../../core-blocks/verse/editor" as *;
+@use "../../core-blocks/spacer/editor" as *;
+
+/* Patterns */
 @use "../../patterns/hero-fau/editor" as *;
 @use "../../patterns/hero-portal/editor" as *;
 @use "../../plugins/rrze-calendar/editor" as *;
@@ -34,6 +40,8 @@ html :where(.editor-styles-wrapper) {
 	margin-bottom: 0;
 }
 
-:root :where(.editor-styles-wrapper) :where(.is-layout-flow) > .wp-block {
-	margin-block-start: 0;
+// removing wordpress standard margin-block-start
+:root :where(.editor-styles-wrapper) :where(.is-layout-flow) > *,
+:root :where(.editor-styles-wrapper) :where(.is-layout-constrained) > * {
+	margin-block-start: 0 !important;
 }
