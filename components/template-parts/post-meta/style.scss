@@ -15,7 +15,8 @@
 			border-top: 1px solid var(--FAU-Col-FAU-Schwarz-37_5);
 			padding-top: var(--Spacing-4x);
 
-			.post-last-update span {
+			.post-last-update span,
+			.post-last-update time {
 				font-size: 0.875rem;
 				color: var(--FAU-Col-FAU-Schwarz-90);
 				line-height: 1.5;
@@ -64,7 +65,8 @@
 	.post-meta-wrapper .post-meta-inner {
 		border-top: 1px solid var(--FAU-Col-FAU-Schwarz-37_5);
 
-		.post-last-update span {
+		.post-last-update span,
+		.post-last-update time {
 			color: var(--FAU-Col-FAU-Weiss-100);
 		}
 	}

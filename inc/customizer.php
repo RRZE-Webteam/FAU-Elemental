@@ -441,7 +441,7 @@ function fau_customizer_settings($wp_customize) {
     // Add control for showing/hiding post meta
     $wp_customize->add_control('faue_show_post_meta', array(
         'label'       => esc_html__('Display post metadata', 'fau-elemental'),
-        'description' => esc_html__('Shows author, date and reading-time on posts.', 'fau-elemental'),
+        'description' => esc_html__('Shows date and reading-time on posts.', 'fau-elemental'),
         'section'     => 'faue_post_options',
         'type'        => 'checkbox',
         'priority'    => 10,
