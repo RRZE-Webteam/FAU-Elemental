@@ -76,9 +76,6 @@ function faue_breadcrumbs(): void {
     }
 
     $mode = get_theme_mod('faue_breadcrumb_variant_blue');
-    
-    // @phpstan-ignore-next-line - wp_is_mobile() is a valid WordPress function
-    $is_mobile = function_exists('wp_is_mobile') ? wp_is_mobile() : false;
 
     $wrapper_classes = array('breadcrumbs-wrapper');
     if ($mode) {
@@ -92,90 +89,90 @@ function faue_breadcrumbs(): void {
     $position = 1;
     $total_items = count($ancestors) + 1;
 
-    if ($is_mobile) {
-        if (!empty($ancestors)) {
-            $parent = $ancestors[count($ancestors) - 1];
-            if (is_page()) {
-                $parent_post = get_post($parent);
-                $parent_title = $parent_post->post_title;
-                $parent_url = get_permalink($parent_post->ID);
-            } else {
-                $parent_category = get_category($parent);
-                $parent_title = $parent_category->name;
-                $parent_url = get_category_link($parent_category->term_id);
-            }
-
-            $truncated_parent = strlen($parent_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($parent_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $parent_title;
-
-            echo '<li class="breadcrumbs__item breadcrumbs__item--mobile" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
-            echo '<span class="breadcrumbs__chevron"></span>';
-            echo '<a href="' . esc_url($parent_url) . '" class="breadcrumbs__link" itemprop="item" title="' . esc_attr($parent_title) . '">';
-            echo '<span itemprop="name">' . esc_html($truncated_parent) . '</span>';
-            echo '</a>';
-            echo '<meta itemprop="position" content="' . ($total_items - 1) . '" />';
-            echo '</li>';
+    // Always render mobile breadcrumbs (CSS will control visibility)
+    if (!empty($ancestors)) {
+        $parent = $ancestors[count($ancestors) - 1];
+        if (is_page()) {
+            $parent_post = get_post($parent);
+            $parent_title = $parent_post->post_title;
+            $parent_url = get_permalink($parent_post->ID);
         } else {
-            echo '<li class="breadcrumbs__item breadcrumbs__item--mobile" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
-            echo '<span class="breadcrumbs__chevron"></span>';
-            echo '<a href="' . esc_url(home_url('/')) . '" class="breadcrumbs__link" itemprop="item">';
-            echo '<span itemprop="name">' . esc_html__('Start', 'fau-elemental') . '</span>';
-            echo '</a>';
-            echo '<meta itemprop="position" content="1" />';
-            echo '</li>';
+            $parent_category = get_category($parent);
+            $parent_title = $parent_category->name;
+            $parent_url = get_category_link($parent_category->term_id);
         }
+
+        $truncated_parent = strlen($parent_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($parent_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $parent_title;
+
+        echo '<li class="breadcrumbs__item breadcrumbs__item--mobile" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+        echo '<span class="breadcrumbs__chevron"></span>';
+        echo '<a href="' . esc_url($parent_url) . '" class="breadcrumbs__link" itemprop="item" title="' . esc_attr($parent_title) . '">';
+        echo '<span itemprop="name">' . esc_html($truncated_parent) . '</span>';
+        echo '</a>';
+        echo '<meta itemprop="position" content="' . ($total_items - 1) . '" />';
+        echo '</li>';
     } else {
-        echo '<li class="breadcrumbs__item breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+        echo '<li class="breadcrumbs__item breadcrumbs__item--mobile" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+        echo '<span class="breadcrumbs__chevron"></span>';
         echo '<a href="' . esc_url(home_url('/')) . '" class="breadcrumbs__link" itemprop="item">';
         echo '<span itemprop="name">' . esc_html__('Start', 'fau-elemental') . '</span>';
         echo '</a>';
         echo '<meta itemprop="position" content="1" />';
         echo '</li>';
-        
-        $position = 2;
+    }
 
-        foreach ($ancestors as $ancestor) {
-            if (is_page()) {
-                $title = get_the_title($ancestor);
-                $url = get_permalink($ancestor);
-            } else {
-                $category = get_category($ancestor);
-                $title = $category->name;
-                $url = get_category_link($category->term_id);
-            }
+    // Always render desktop breadcrumbs (CSS will control visibility)
+    echo '<li class="breadcrumbs__item breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+    echo '<a href="' . esc_url(home_url('/')) . '" class="breadcrumbs__link" itemprop="item">';
+    echo '<span itemprop="name">' . esc_html__('Start', 'fau-elemental') . '</span>';
+    echo '</a>';
+    echo '<meta itemprop="position" content="1" />';
+    echo '</li>';
+    
+    $position = 2;
 
-            $truncated_title = strlen($title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $title;
-
-            echo '<li class="breadcrumbs__item breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
-            echo '<a href="' . esc_url($url) . '" class="breadcrumbs__link" itemprop="item" title="' . esc_attr($title) . '">';
-            echo '<span itemprop="name">' . esc_html($truncated_title) . '</span>';
-            echo '</a>';
-            echo '<meta itemprop="position" content="' . $position . '" />';
-            echo '</li>';
-            $position++;
+    foreach ($ancestors as $ancestor) {
+        if (is_page()) {
+            $title = get_the_title($ancestor);
+            $url = get_permalink($ancestor);
+        } else {
+            $category = get_category($ancestor);
+            $title = $category->name;
+            $url = get_category_link($category->term_id);
         }
 
-        $current_title = '';
-        if (is_category()) {
-            $current_title = single_cat_title('', false);
-        } elseif (is_single()) {
-            $current_title = get_the_title();
-        } elseif (is_page()) {
-            $current_title = get_the_title();
-        } elseif (is_search()) {
-            $current_title = esc_html__('Search Results', 'fau-elemental');
-        } elseif (is_404()) {
-            $current_title = esc_html__('404 - Page Not Found', 'fau-elemental');
-        }
+        $truncated_title = strlen($title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $title;
 
-        $truncated_current = strlen($current_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($current_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $current_title;
-
-        echo '<li class="breadcrumbs__item breadcrumbs__item--current breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">';
-        echo '<span class="breadcrumbs__current" itemprop="item" title="' . esc_attr($current_title) . '">';
-        echo '<span itemprop="name">' . esc_html($truncated_current) . '</span>';
-        echo '</span>';
+        echo '<li class="breadcrumbs__item breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+        echo '<a href="' . esc_url($url) . '" class="breadcrumbs__link" itemprop="item" title="' . esc_attr($title) . '">';
+        echo '<span itemprop="name">' . esc_html($truncated_title) . '</span>';
+        echo '</a>';
         echo '<meta itemprop="position" content="' . $position . '" />';
         echo '</li>';
+        $position++;
     }
+
+    $current_title = '';
+    if (is_category()) {
+        $current_title = single_cat_title('', false);
+    } elseif (is_single()) {
+        $current_title = get_the_title();
+    } elseif (is_page()) {
+        $current_title = get_the_title();
+    } elseif (is_search()) {
+        $current_title = esc_html__('Search Results', 'fau-elemental');
+    } elseif (is_404()) {
+        $current_title = esc_html__('404 - Page Not Found', 'fau-elemental');
+    }
+
+    $truncated_current = strlen($current_title) > FAUE_BREADCRUMB_TITLE_MAX_LENGTH ? mb_strimwidth($current_title, 0, FAUE_BREADCRUMB_TITLE_MAX_LENGTH, '…', 'UTF-8') : $current_title;
+
+    echo '<li class="breadcrumbs__item breadcrumbs__item--current breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">';
+    echo '<span class="breadcrumbs__current" itemprop="item" title="' . esc_attr($current_title) . '">';
+    echo '<span itemprop="name">' . esc_html($truncated_current) . '</span>';
+    echo '</span>';
+    echo '<meta itemprop="position" content="' . $position . '" />';
+    echo '</li>';
 
     echo '</ol>';
     echo '</nav>';
