@@ -36,7 +36,7 @@
 					breadcrumbsHtml += `<li class="breadcrumb-item ${ levelClass } current" aria-current="location">${ item.parentTitle }</li>`;
 				} else {
 					breadcrumbsHtml += `<li class="breadcrumb-item ${ levelClass }">`;
-					breadcrumbsHtml += `<button class="breadcrumb-link" data-level="${ index }" aria-label="Go to ${ item.parentTitle }">${ item.parentTitle }</button>`;
+					breadcrumbsHtml += `<a class="breadcrumb-link" data-level="${ index }" aria-label="Go to ${ item.parentTitle }">${ item.parentTitle }</a>`;
 					breadcrumbsHtml += '</li>';
 				}
 			} );
