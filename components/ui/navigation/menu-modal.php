@@ -10,6 +10,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Ensure this file is only loaded in WordPress context
+if (!function_exists('add_action')) {
+    return;
+}
+
 /**
  * Unified Menu Modal Component Class
  */
@@ -287,26 +292,38 @@ class Menu_Modal {
         $aria_label = $config['aria_label'];
         $show_back_button = $config['show_back_button'];
         $show_close_button = $config['show_close_button'];
+        
+        // Generate unique IDs for proper ARIA relationships
+        $modal_element_id = esc_attr($modal_id) . '-modal';
+        $modal_title_id = esc_attr($modal_id) . '-modal-title';
+        $modal_description_id = esc_attr($modal_id) . '-modal-description';
         ?>
-        <div id="<?php echo esc_attr($modal_id); ?>-modal" class="<?php echo esc_attr($modal_class); ?>" style="display: none;" tabindex="-1" aria-modal="true" role="dialog" aria-hidden="true" aria-label="<?php echo esc_attr($aria_label); ?>">
-            <div class="<?php echo esc_attr($modal_class); ?>__overlay"></div>
-            <div class="<?php echo esc_attr($modal_class); ?>__container">
+        <div id="<?php echo $modal_element_id; ?>" class="<?php echo esc_attr($modal_class); ?>" style="display: none;" tabindex="-1" aria-modal="true" role="dialog" aria-hidden="true" aria-labelledby="<?php echo $modal_title_id; ?>" aria-describedby="<?php echo $modal_description_id; ?>">
+            <!-- Screen reader only title and description -->
+            <h2 id="<?php echo $modal_title_id; ?>" class="screen-reader-text"><?php echo esc_html($aria_label); ?></h2>
+            <div id="<?php echo $modal_description_id; ?>" class="screen-reader-text"><?php esc_html_e('Use Tab to navigate through menu items, Enter to select, Escape to close, or use the Close button.', 'fau-elemental'); ?></div>
+            
+            <!-- Live region for screen reader announcements -->
+            <div class="menu-modal__announcements" aria-live="polite" aria-atomic="true" class="screen-reader-text"></div>
+            
+            <div class="<?php echo esc_attr($modal_class); ?>__overlay" aria-hidden="true"></div>
+            <div class="<?php echo esc_attr($modal_class); ?>__container" role="document">
                 <div class="<?php echo esc_attr($modal_class); ?>__header">
                     <?php if ($show_back_button): ?>
                         <button class="<?php echo esc_attr($modal_class); ?>__back-btn" aria-label="<?php esc_attr_e('Back to main menu', 'fau-elemental'); ?>" style="display: none;">
-                            <span class="<?php echo esc_attr($modal_class); ?>__back-icon"></span>
+                            <span class="<?php echo esc_attr($modal_class); ?>__back-icon" aria-hidden="true"></span>
                             <span class="<?php echo esc_attr($modal_class); ?>__back-text"><?php esc_html_e('Zurück', 'fau-elemental'); ?></span>
                         </button>
                     <?php endif; ?>
                     
                     <?php if ($show_close_button): ?>
                         <button class="<?php echo esc_attr($modal_class); ?>__close-btn" aria-label="<?php esc_attr_e('Close menu', 'fau-elemental'); ?>">
-                            Schließen
-                            <span class="<?php echo esc_attr($modal_class); ?>__close-icon"></span>
+                            <span class="screen-reader-text"><?php esc_html_e('Schließen', 'fau-elemental'); ?></span>
+                            <span class="<?php echo esc_attr($modal_class); ?>__close-icon" aria-hidden="true"></span>
                         </button>
                     <?php endif; ?>
                 </div>
-                <div class="<?php echo esc_attr($modal_class); ?>__content">
+                <div class="<?php echo esc_attr($modal_class); ?>__content" role="navigation" aria-label="<?php echo esc_attr($aria_label); ?>">
                     <?php $this->render_menu_content($config); ?>
                 </div>
             </div>
@@ -328,8 +345,11 @@ class Menu_Modal {
  * Unified Menu Modal Walker
  */
 class Menu_Modal_Walker extends Walker_Nav_Menu {
+    private $current_item_id = 0;
+    
     public function start_lvl(&$output, $depth = 0, $args = null) {
-        $output .= '<ul class="sub-menu">';
+        $submenu_id = 'submenu-' . $this->current_item_id;
+        $output .= '<ul class="sub-menu" id="' . esc_attr($submenu_id) . '">';
     }
 
     public function end_lvl(&$output, $depth = 0, $args = null) {
@@ -337,6 +357,9 @@ class Menu_Modal_Walker extends Walker_Nav_Menu {
     }
 
     public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+        // Store current item ID for use in start_lvl
+        $this->current_item_id = $item->ID;
+        
         $classes = empty($item->classes) ? array() : (array) $item->classes;
         $classes[] = 'menu-item';
         
@@ -347,7 +370,8 @@ class Menu_Modal_Walker extends Walker_Nav_Menu {
         // Add current page class and data attribute
         $current_url = rtrim($_SERVER['REQUEST_URI'], '/');
         $item_url = rtrim(parse_url($item->url, PHP_URL_PATH), '/');
-        if ($current_url === $item_url) {
+        $is_current = ($current_url === $item_url);
+        if ($is_current) {
             $classes[] = 'current-menu-item';
         }
 
@@ -359,14 +383,25 @@ class Menu_Modal_Walker extends Walker_Nav_Menu {
         // For items with children, create a clickable row that opens submenu
         if (in_array('menu-item-has-children', $classes)) {
             $button_classes = 'menu-modal__submenu-toggle menu-modal__submenu-row';
+            $submenu_id = 'submenu-' . $item->ID;
             
-            $output .= '<button class="' . esc_attr($button_classes) . '" aria-expanded="false" aria-label="' . esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $item->title)) . '" data-parent-url="' . esc_attr($item->url) . '" data-parent-title="' . esc_attr($item->title) . '">';
+            $output .= '<button class="' . esc_attr($button_classes) . '" ';
+            $output .= 'aria-expanded="false" ';
+            $output .= 'aria-controls="' . esc_attr($submenu_id) . '" ';
+            $output .= 'aria-haspopup="true" ';
+            $output .= 'aria-label="' . esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $item->title)) . '" ';
+            $output .= 'data-parent-url="' . esc_attr($item->url) . '" ';
+            $output .= 'data-parent-title="' . esc_attr($item->title) . '">';
             $output .= '<span class="menu-modal__item-title">' . apply_filters('the_title', $item->title, $item->ID) . '</span>';
-            $output .= '<span class="menu-modal__submenu-arrow"></span>';
+            $output .= '<span class="menu-modal__submenu-arrow" aria-hidden="true"></span>';
             $output .= '</button>';
         } else {
             // For items without children, keep normal link
-            $output .= '<a href="' . esc_attr($item->url) . '">' . apply_filters('the_title', $item->title, $item->ID) . '</a>';
+            $link_attributes = '';
+            if ($is_current) {
+                $link_attributes .= ' aria-current="page"';
+            }
+            $output .= '<a href="' . esc_attr($item->url) . '"' . $link_attributes . '>' . apply_filters('the_title', $item->title, $item->ID) . '</a>';
         }
     }
 

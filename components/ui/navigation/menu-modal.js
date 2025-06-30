@@ -19,126 +19,93 @@
 			this.setupAccessibility();
 		}
 
-		// Check if a modal is using hierarchy navigation (structure menu)
 		isHierarchyMenu( $modal ) {
-			return $modal.find( '.menu-meta-nav__menu--hierarchy' ).length > 0;
+			return $modal.hasClass( 'menu-meta-nav__modal' );
 		}
 
-		// Generate breadcrumbs for hierarchy navigation
 		generateBreadcrumbs( navigationStack ) {
-			if ( navigationStack.length === 0 ) {
-				return '';
-			}
+			if ( navigationStack.length === 0 ) return '';
 
-			let breadcrumbs = '<nav class="menu-modal__breadcrumbs" aria-label="Breadcrumb">';
-			breadcrumbs += '<ol class="menu-modal__breadcrumb-list">';
+			let breadcrumbsHtml = '<nav class="menu-modal__breadcrumbs" aria-label="Menu breadcrumbs"><ol>';
 			
 			navigationStack.forEach( ( item, index ) => {
 				const isLast = index === navigationStack.length - 1;
-				breadcrumbs += '<li class="menu-modal__breadcrumb-item">';
+				const levelClass = `breadcrumb-level-${ index }`;
 				
 				if ( isLast ) {
-					breadcrumbs += `<span class="menu-modal__breadcrumb-current" aria-current="page">${ item.parentTitle }</span>`;
+					breadcrumbsHtml += `<li class="breadcrumb-item ${ levelClass } current" aria-current="location">${ item.parentTitle }</li>`;
 				} else {
-					breadcrumbs += `<button class="menu-modal__breadcrumb-link" data-breadcrumb-level="${ index }">${ item.parentTitle }</button>`;
+					breadcrumbsHtml += `<li class="breadcrumb-item ${ levelClass }">`;
+					breadcrumbsHtml += `<button class="breadcrumb-link" data-level="${ index }" aria-label="Go to ${ item.parentTitle }">${ item.parentTitle }</button>`;
+					breadcrumbsHtml += '</li>';
 				}
-				
-				if ( ! isLast ) {
-					breadcrumbs += '<span class="menu-modal__breadcrumb-separator" aria-hidden="true">›</span>';
-				}
-				
-				breadcrumbs += '</li>';
 			} );
 			
-			breadcrumbs += '</ol>';
-			breadcrumbs += '</nav>';
-			
-			return breadcrumbs;
+			breadcrumbsHtml += '</ol></nav>';
+			return breadcrumbsHtml;
 		}
 
 		bindEvents() {
-			// Open modal buttons
-			$( document ).on( 'click', '.menu-modal__open-btn', ( e ) => {
+			$( document ).on( 'click', '[data-modal-target]', ( e ) => {
 				e.preventDefault();
-				const modalTarget = $( e.currentTarget ).data( 'modal-target' ) || $( e.currentTarget ).data( 'meta-modal' );
-				const targetItem = $( e.currentTarget ).data( 'target-item' );
+				const modalId = $( e.currentTarget ).data( 'modal-target' );
+				const targetItemId = $( e.currentTarget ).data( 'target-item-id' );
 				const targetUrl = $( e.currentTarget ).data( 'target-url' );
-
-				if ( modalTarget ) {
-					this.openModal( modalTarget, targetItem, targetUrl );
-				}
+				this.openModal( modalId, targetItemId, targetUrl );
 			} );
 
-			// Close modal buttons
 			$( document ).on( 'click', '.menu-modal__close-btn, .menu-meta-nav__modal__close-btn, .menu-website-modal__close-btn', ( e ) => {
 				e.preventDefault();
 				this.closeCurrentModal();
 			} );
 
-			// Back buttons
+			$( document ).on( 'click', '.menu-modal__overlay, .menu-meta-nav__modal__overlay, .menu-website-modal__overlay', () => {
+				this.closeCurrentModal();
+			} );
+
+			$( document ).on( 'click', '.menu-modal__submenu-toggle, .menu-website-modal__submenu-toggle', ( e ) => {
+				e.preventDefault();
+				this.toggleSubmenu( $( e.currentTarget ) );
+			} );
+
 			$( document ).on( 'click', '.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn', ( e ) => {
 				e.preventDefault();
 				this.navigateBack();
 			} );
 
-			// Overlay click to close
-			$( document ).on( 'click', '.menu-modal__overlay, .menu-meta-nav__modal__overlay, .menu-website-modal__overlay', ( e ) => {
-				if ( e.target === e.currentTarget ) {
-					this.closeCurrentModal();
-				}
-			} );
-
-			// Submenu toggles
-			$( document ).on( 'click', '.menu-modal__submenu-toggle, .menu-website-modal__submenu-toggle, .menu-modal__submenu-row', ( e ) => {
+			$( document ).on( 'click', '.breadcrumb-link', ( e ) => {
 				e.preventDefault();
-				this.toggleSubmenu( $( e.currentTarget ) );
+				const targetLevel = parseInt( $( e.currentTarget ).data( 'level' ) );
+				this.navigateToBreadcrumbLevel( targetLevel );
 			} );
 
-			// Breadcrumb navigation
-			$( document ).on( 'click', '.menu-modal__breadcrumb-link', ( e ) => {
-				e.preventDefault();
-				const level = parseInt( $( e.currentTarget ).data( 'breadcrumb-level' ) );
-				this.navigateToBreadcrumbLevel( level );
-			} );
-
-			// Escape key to close
 			$( document ).on( 'keydown', ( e ) => {
 				if ( e.key === 'Escape' && this.currentModal ) {
 					this.closeCurrentModal();
 				}
 			} );
-
-			// Prevent body scroll when modal is open
-			$( document ).on( 'touchmove', ( e ) => {
-				if ( this.currentModal && ! $( e.target ).closest( '.menu-modal__content, .menu-meta-nav__modal__content, .menu-website-modal__content' ).length ) {
-					e.preventDefault();
-				}
-			} );
 		}
 
 		setupAccessibility() {
-			// Ensure modals are properly hidden from screen readers initially
 			$( '.menu-modal, .menu-meta-nav__modal, .menu-website-modal' ).attr( 'aria-hidden', 'true' );
 		}
 
 		openModal( modalId, targetItemId = null, targetUrl = null ) {
-			// Find the modal
 			let $modal = $( `#${ modalId }` );
 			if ( ! $modal.length ) {
 				$modal = $( `#${ modalId }-modal` );
 			}
 			if ( ! $modal.length ) return;
 
-			// If the same modal is already open, toggle it closed
+			this.previouslyFocused = document.activeElement;
+
 			if ( this.currentModal && this.currentModal.is( $modal ) ) {
 				this.closeCurrentModal();
 				return;
 			}
 
-			// Close any other currently open modal
 			this.closeCurrentModal();
 
-			// Clear any pending close timeout
 			if ( this.closeTimeout ) {
 				clearTimeout( this.closeTimeout );
 				this.closeTimeout = null;
@@ -147,38 +114,38 @@
 			this.currentModal = $modal;
 			this.resetModalState( $modal );
 
-			// Add active class to the corresponding button
 			const $triggerButton = $( `[data-modal-target="${ modalId }"]` );
 			if ( $triggerButton.length ) {
-				// Remove active class from all other modal trigger buttons
 				$( '.menu-modal__open-btn' ).removeClass( 'is-active' ).attr( 'aria-expanded', 'false' );
-				// Add active class to current button
 				$triggerButton.addClass( 'is-active' ).attr( 'aria-expanded', 'true' );
 			}
 
-			// Show modal
 			$modal.removeAttr( 'style' ).addClass( 'is-open' ).attr( 'aria-hidden', 'false' );
+			$( 'body' ).addClass( 'modal-open' );
 
-			// Navigate to specific item or current page
-			if ( targetItemId && targetUrl ) {
+			this.announce( 'Menu opened' );
+
+			if ( targetItemId || targetUrl ) {
 				this.navigateToItem( $modal, targetItemId, targetUrl );
 			} else {
 				this.navigateToCurrentPage( $modal );
 			}
 
-			// Focus management
-			const $firstFocusable = $modal.find( 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])' ).first();
-			if ( $firstFocusable.length ) {
-				$firstFocusable.focus();
-			}
-
-			this.previouslyFocused = document.activeElement;
-			$( 'body' ).addClass( 'modal-open' );
 			this.trapFocus( $modal );
+			
+			setTimeout( () => {
+				const $closeButton = $modal.find( '.menu-modal__close-btn, .menu-meta-nav__modal__close-btn, .menu-website-modal__close-btn' ).first();
+				if ( $closeButton.length ) {
+					$closeButton.focus();
+				} else {
+					$modal.attr( 'tabindex', '-1' ).focus();
+				}
+				
+				this.updateFocusTrap( $modal );
+			}, 150 );
 		}
 
 		navigateToItem( $modal, targetItemId, targetUrl ) {
-			// Find target item by ID or URL
 			let $targetItem = $modal.find( `li[data-menu-item-id="${ targetItemId }"]` ).first();
 			
 			if ( ! $targetItem.length ) {
@@ -213,7 +180,6 @@
 		}
 
 		drillDownToItem( $modal, $targetItem ) {
-			// Navigate through all parent items
 			const $parents = $targetItem.parents( '.menu-item' ).get().reverse();
 			$parents.forEach( ( parentItem ) => {
 				const $parent = $( parentItem );
@@ -223,7 +189,6 @@
 				}
 			} );
 
-			// If target item itself has children, drill into it
 			const $toggle = $targetItem.children( '.menu-modal__submenu-toggle' );
 			const $submenu = $targetItem.children( '.sub-menu' );
 			if ( $submenu.length && $toggle.length ) {
@@ -233,7 +198,6 @@
 				this.highlightMenuItem( $targetItem );
 			}
 
-			// Update breadcrumbs for hierarchy menus
 			if ( this.isHierarchyMenu( $modal ) ) {
 				this.updateBreadcrumbs( $modal );
 			}
@@ -246,17 +210,14 @@
 			const isHierarchyMenu = this.isHierarchyMenu( $modal );
 			const navigationStack = $modal.data( 'navigation-stack' ) || [];
 
-			// Hide siblings and toggle
 			$parentLi.siblings().hide();
 			$toggle.hide();
 
-			// Add heading for regular menus only
 			if ( ! isHierarchyMenu ) {
 				$modal.find( '.menu-modal__level-heading' ).remove();
 				$toggle.after( `<h2 class="menu-modal__level-heading">${ $toggle.data( 'parent-title' ) }</h2>` );
 			}
 
-			// Add overview link
 			const parentUrl = $toggle.data( 'parent-url' );
 			const parentTitle = $toggle.data( 'parent-title' );
 			if ( parentUrl && parentTitle && parentUrl !== '#' ) {
@@ -264,11 +225,9 @@
 				$submenu.prepend( `<li class="menu-item menu-item-overview"><a href="${ parentUrl }">Übersicht: ${ parentTitle }</a></li>` );
 			}
 
-			// Show submenu
 			$submenu.css( 'display', 'block' );
 			$toggle.attr( 'aria-expanded', 'true' );
 
-			// Update navigation stack
 			navigationStack.push( {
 				parentUl: $parentLi.parent(),
 				parentLi: $parentLi,
@@ -277,23 +236,49 @@
 			} );
 			$modal.data( 'navigation-stack', navigationStack );
 
-			// Show back button for all menus
 			$modal.find( '.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn' ).show();
+
+			setTimeout( () => {
+				this.updateFocusTrap( $modal );
+				this.announce( `Navigated to ${parentTitle} submenu` );
+			}, 50 );
 		}
 
 		toggleSubmenu( $toggle ) {
 			const $modal = $toggle.closest( '.menu-modal, .menu-meta-nav__modal, .menu-website-modal' );
 			const $parentLi = $toggle.closest( '.menu-item' );
 			
-			this.performDrillDown( $modal, $parentLi, $toggle );
+			if ( this.isHierarchyMenu( $modal ) || $toggle.hasClass( 'menu-modal__submenu-row' ) ) {
+				this.performDrillDown( $modal, $parentLi, $toggle );
 
-			// Update breadcrumbs for hierarchy menus
-			if ( this.isHierarchyMenu( $modal ) ) {
-				this.updateBreadcrumbs( $modal );
+				if ( this.isHierarchyMenu( $modal ) ) {
+					this.updateBreadcrumbs( $modal );
+				}
+
+				this.rehighlightCurrentPage( $modal );
+			} else {
+				this.toggleSubmenuSimple( $toggle );
 			}
+		}
 
-			// Re-highlight current page after navigation
-			this.rehighlightCurrentPage( $modal );
+		toggleSubmenuSimple( $toggle ) {
+			const $submenu = $toggle.siblings( '.sub-menu' );
+			const isExpanded = $toggle.attr( 'aria-expanded' ) === 'true';
+			const parentTitle = $toggle.data( 'parent-title' ) || $toggle.find( '.menu-modal__item-title' ).text();
+
+			if ( isExpanded ) {
+				$submenu.hide();
+				$toggle.attr( 'aria-expanded', 'false' ).removeClass( 'expanded' );
+				this.announce( `${parentTitle} submenu collapsed` );
+			} else {
+				$submenu.show();
+				$toggle.attr( 'aria-expanded', 'true' ).addClass( 'expanded' );
+				this.announce( `${parentTitle} submenu expanded` );
+				
+				setTimeout( () => {
+					this.updateFocusTrap( $toggle.closest( '.menu-modal, .menu-meta-nav__modal, .menu-website-modal' ) );
+				}, 50 );
+			}
 		}
 
 		navigateBack() {
@@ -302,41 +287,31 @@
 			const $modal = this.currentModal;
 			const navigationStack = $modal.data( 'navigation-stack' ) || [];
 
-			if ( navigationStack.length === 0 ) {
-				this.closeCurrentModal();
-				return;
-			}
+			if ( navigationStack.length === 0 ) return;
 
-			const { parentUl, parentLi } = navigationStack.pop();
-
-			// Hide current submenu and show parent level
-			parentLi.find( '.sub-menu' ).hide();
-			parentLi.find( '.menu-item-overview' ).remove();
-			parentLi.find( '.menu-modal__level-heading' ).remove();
-			parentUl.children( 'li' ).show();
-			parentLi.children( '.menu-modal__submenu-toggle' ).show().attr( 'aria-expanded', 'false' );
-
+			const lastLevel = navigationStack.pop();
 			$modal.data( 'navigation-stack', navigationStack );
 
-			// Handle remaining navigation levels
-			if ( navigationStack.length > 0 ) {
-				const currentLevel = navigationStack[ navigationStack.length - 1 ];
-				if ( currentLevel.parentTitle && ! this.isHierarchyMenu( $modal ) ) {
-					$modal.find( '.menu-modal__level-heading' ).remove();
-					parentUl.prepend( `<h2 class="menu-modal__level-heading">${ currentLevel.parentTitle }</h2>` );
-				}
-			} else {
-				$modal.find( '.menu-modal__level-heading' ).remove();
+			lastLevel.parentLi.siblings().show();
+			lastLevel.parentLi.children( '.menu-modal__submenu-toggle' ).show();
+			lastLevel.parentLi.children( '.sub-menu' ).hide();
+
+			$modal.find( '.menu-modal__level-heading' ).remove();
+
+			if ( navigationStack.length === 0 ) {
 				$modal.find( '.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn' ).hide();
 			}
 
-			// Update breadcrumbs for hierarchy menus
 			if ( this.isHierarchyMenu( $modal ) ) {
 				this.updateBreadcrumbs( $modal );
 			}
 
-			// Re-highlight current page after navigation
 			this.rehighlightCurrentPage( $modal );
+			this.announce( 'Navigated back' );
+
+			setTimeout( () => {
+				this.updateFocusTrap( $modal );
+			}, 50 );
 		}
 
 		navigateToBreadcrumbLevel( targetLevel ) {
@@ -345,12 +320,10 @@
 			const $modal = this.currentModal;
 			const navigationStack = $modal.data( 'navigation-stack' ) || [];
 
-			// Navigate back to target level
 			while ( navigationStack.length > targetLevel + 1 ) {
 				this.navigateBack();
 			}
 
-			// Ensure current page is highlighted after breadcrumb navigation
 			this.rehighlightCurrentPage( $modal );
 		}
 
@@ -377,12 +350,10 @@
 		highlightOverviewLink( $submenu ) {
 			if ( ! $submenu.length ) return;
 
-			// Remove existing highlights
 			$submenu.closest( '.menu-modal, .menu-meta-nav__modal, .menu-website-modal' )
 				.find( '.current-menu-item-focused, .active' )
 				.removeClass( 'current-menu-item-focused active' );
 
-			// Highlight overview link if it matches current URL
 			const currentUrl = window.location.href;
 			const $overviewLink = $submenu.find( '.menu-item-overview a' ).filter( function () {
 				return this.href === currentUrl;
@@ -394,21 +365,17 @@
 			}
 		}
 
-		// Re-highlight current page in the currently visible menu level
 		rehighlightCurrentPage( $modal ) {
 			const currentPath = window.location.pathname.replace( /\/$/, '' );
 			const searchPaths = currentPath === '' ? ['/'] : [currentPath, currentPath + '/'];
 			
-			// First try to highlight overview link in visible submenus
 			const $visibleSubmenus = $modal.find( '.sub-menu:visible' );
 			$visibleSubmenus.each( ( _, submenu ) => {
 				this.highlightOverviewLink( $( submenu ) );
 			} );
 
-			// If no overview link was highlighted, look for current page in visible items
 			const $highlighted = $modal.find( '.current-menu-item-focused, .active' );
 			if ( ! $highlighted.length ) {
-				// Find current page item in currently visible menu items
 				let $currentItem = $();
 				for ( const path of searchPaths ) {
 					$currentItem = $modal.find( '.menu-item:visible' ).filter( function () {
@@ -425,12 +392,10 @@
 		}
 
 		highlightMenuItem( $item ) {
-			// Remove existing highlights
 			$item.closest( '.menu-modal, .menu-meta-nav__modal, .menu-website-modal' )
 				.find( '.current-menu-item-focused, .active' )
 				.removeClass( 'current-menu-item-focused active' );
 
-			// Highlight the item
 			const $link = $item.find( 'a' ).first();
 			if ( $link.length ) {
 				$link.addClass( 'current-menu-item-focused active' );
@@ -444,7 +409,6 @@
 		resetModalState( $modal ) {
 			const $menu = $modal.find( '.menu-modal__menu, .menu-meta-nav__menu, .menu-website-modal__menu' );
 
-			// Reset to initial state
 			$menu.children( '.menu-item' ).show();
 			$menu.find( '.sub-menu' ).hide();
 			$menu.find( '.menu-item-overview' ).remove();
@@ -463,35 +427,44 @@
 
 			const $modal = this.currentModal;
 			
-			// Clear any existing close timeout
+			this.announce( 'Menu closed' );
+			
 			if ( this.closeTimeout ) {
 				clearTimeout( this.closeTimeout );
 			}
 			
 			this.resetModalState( $modal );
 
-			// Remove active class from all modal trigger buttons
 			$( '.menu-modal__open-btn' ).removeClass( 'is-active' ).attr( 'aria-expanded', 'false' );
 
-			// Hide modal
 			$modal.removeClass( 'is-open' ).attr( 'aria-hidden', 'true' );
 			this.closeTimeout = setTimeout( () => {
 				$modal.hide();
 				this.closeTimeout = null;
 			}, 300 );
 
-			// Restore focus and body scroll
 			if ( this.previouslyFocused ) {
 				$( this.previouslyFocused ).focus();
 			}
 			$( 'body' ).removeClass( 'modal-open' );
+
+			$modal.off( 'keydown.menu-modal' );
 
 			this.currentModal = null;
 			this.previouslyFocused = null;
 		}
 
 		trapFocus( $modal ) {
-			const $focusableElements = $modal.find( 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])' );
+			this.updateFocusTrap( $modal );
+		}
+
+		updateFocusTrap( $modal ) {
+			$modal.off( 'keydown.menu-modal' );
+
+			const $focusableElements = this.getFocusableElements( $modal );
+			
+			if ( $focusableElements.length === 0 ) return;
+
 			const $firstFocusable = $focusableElements.first();
 			const $lastFocusable = $focusableElements.last();
 
@@ -499,20 +472,73 @@
 				if ( e.key !== 'Tab' ) return;
 
 				const activeElement = document.activeElement;
+				
+				if ( ! $modal.find( activeElement ).length && activeElement !== $modal[0] ) {
+					return;
+				}
+
 				if ( e.shiftKey ) {
-					if ( activeElement === $firstFocusable[ 0 ] ) {
+					if ( activeElement === $firstFocusable[ 0 ] || ! $modal.find( activeElement ).length ) {
 						e.preventDefault();
 						$lastFocusable.focus();
+						this.announce( 'Moved to last menu item' );
 					}
-				} else if ( activeElement === $lastFocusable[ 0 ] ) {
-					e.preventDefault();
-					$firstFocusable.focus();
+				} else {
+					if ( activeElement === $lastFocusable[ 0 ] ) {
+						e.preventDefault();
+						$firstFocusable.focus();
+						this.announce( 'Moved to close button' );
+					}
 				}
 			} );
 		}
+
+		getFocusableElements( $modal ) {
+			const focusableSelectors = [
+				'button:visible:not([disabled])',
+				'a:visible[href]',
+				'input:visible:not([disabled])',
+				'select:visible:not([disabled])',
+				'textarea:visible:not([disabled])',
+				'[tabindex]:visible:not([tabindex="-1"]):not([disabled])'
+			].join(', ');
+
+			const $allFocusable = $modal.find( focusableSelectors );
+
+			const $visibleFocusable = $allFocusable.filter( function() {
+				const $el = $( this );
+				return $el.is(':visible') && 
+					   $el.css('visibility') !== 'hidden' && 
+					   $el.css('opacity') !== '0' &&
+					   !$el.closest('[style*="display: none"]').length;
+			});
+
+			const $closeButton = $modal.find( '.menu-modal__close-btn, .menu-meta-nav__modal__close-btn, .menu-website-modal__close-btn' ).filter(':visible');
+			const $backButton = $modal.find( '.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn' ).filter(':visible');
+			const $otherElements = $visibleFocusable.not( $closeButton ).not( $backButton );
+
+			let $orderedElements = $closeButton;
+			if ( $backButton.length ) {
+				$orderedElements = $orderedElements.add( $backButton );
+			}
+			$orderedElements = $orderedElements.add( $otherElements );
+
+			return $orderedElements;
+		}
+
+		announce( message ) {
+			if ( ! this.currentModal ) return;
+			
+			const $announcements = this.currentModal.find( '.menu-modal__announcements' );
+			if ( $announcements.length ) {
+				$announcements.text( message );
+				setTimeout( () => {
+					$announcements.empty();
+				}, 1000 );
+			}
+		}
 	}
 
-	// Initialize when DOM is ready
 	$( document ).ready( function () {
 		new MenuModal();
 	} );

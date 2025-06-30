@@ -535,6 +535,38 @@ body.modal-open {
 		}
 	}
 
+	// Accessibility: Live region for screen reader announcements
+	&__announcements {
+		// Screen reader only styles - inline instead of @extend
+		clip: rect(1px, 1px, 1px, 1px);
+		position: absolute !important;
+		height: 1px;
+		width: 1px;
+		overflow: hidden;
+		
+		// Ensure it's not completely hidden for screen readers
+		&[aria-live] {
+			position: absolute !important;
+			left: -10000px;
+			width: 1px;
+			height: 1px;
+			overflow: hidden;
+		}
+	}
+
+	// Focus management improvements
+	&:focus {
+		outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+		outline-offset: 2px;
+	}
+
+	// Ensure proper focus indicators for all interactive elements
+	button:focus-visible,
+	a:focus-visible {
+		outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+		outline-offset: 2px;
+	}
+
 	&__menu--header-primary-menu {
 		margin-bottom: 3.5rem;
 	}
