@@ -117,7 +117,7 @@ function render_big_button_html($items, $options = []) {
                 
                 if (!empty($title) && !empty($url)) :
             ?>
-                <a href="<?php echo $url; ?>" class="<?php echo implode(' ', $button_classes); ?>">
+                <a href="<?php echo $url; ?>" class="<?php echo implode(' ', $button_classes); ?>" role="button">
                     <h3>
                         <?php echo $title; ?>
                     </h3>
@@ -126,7 +126,7 @@ function render_big_button_html($items, $options = []) {
                             <?php echo esc_html(fau_trim_text_big_button($excerpt, 80, '...')); ?>
                         </p>
                     <?php endif; ?>
-                    <span class="arrow-link"></span>
+                    <span class="arrow-link" aria-hidden="true"></span>
                 </a>
             <?php 
                 endif;

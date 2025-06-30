@@ -2,7 +2,11 @@
  * WordPress dependencies
  */
 import { __, sprintf } from '@wordpress/i18n';
-import { InspectorControls, useBlockProps, RichText } from '@wordpress/block-editor';
+import {
+	InspectorControls,
+	useBlockProps,
+	RichText,
+} from '@wordpress/block-editor';
 import {
 	PanelBody,
 	TextControl,
@@ -12,8 +16,9 @@ import {
 	Tooltip,
 	ButtonGroup,
 } from '@wordpress/components';
-import { useEffect, useCallback, useMemo } from '@wordpress/element';
+import { useEffect, useMemo } from '@wordpress/element';
 import { v4 as uuidv4 } from 'uuid';
+import { isURL } from '@wordpress/url';
 
 /**
  * Helper function to trim text by characters while respecting word boundaries
@@ -68,29 +73,24 @@ export default function Edit( { attributes, setAttributes } ) {
 		{ label: __( 'Technology', 'fau-elemental' ), value: 'tf' },
 	];
 
-	const isFauDe =
-		typeof window !== 'undefined' &&
-		window.fauElemental &&
-		window.fauElemental.websiteType === 'fau';
-	const isFacultyWebsite =
-		typeof window !== 'undefined' &&
-		window.fauElemental &&
-		window.fauElemental.websiteType === 'faculty';
-	const facultyType =
-		typeof window !== 'undefined' &&
-		window.fauElemental &&
-		window.fauElemental.facultyType;
+	// Safe window access with proper guards
+	const siteContext = useMemo( () => {
+		if ( typeof window === 'undefined' ) {
+			return {};
+		}
+		return window?.fauElemental ?? {};
+	}, [] );
 
-	// Create a unique identifier for the block to force re-renders
-	const blockId = useMemo( () => uuidv4(), [] );
+	const isFauDe = siteContext.websiteType === 'fau';
+	const isFacultyWebsite = siteContext.websiteType === 'faculty';
+	const facultyType = siteContext.facultyType;
 
 	const blockProps = useBlockProps( {
 		className: `fau-big-button-teaser-group fau-big-button-teaser-group--${ teaserSize } fau-big-button-teaser-group--${ variant } fau-big-button-teaser-group--faculty-showcase`,
-		'data-block-id': blockId,
 	} );
 
-	// Items Management
-	const addItem = useCallback( () => {
+	// Simple functions for managing items
+	const addItem = () => {
 		const newItem = {
 			id: uuidv4(),
 			title: '',
@@ -98,128 +98,66 @@ export default function Edit( { attributes, setAttributes } ) {
 			url: '',
 			facultyColor: 'default',
 		};
+		setAttributes( { items: [ ...items, newItem ] } );
+	};
 
-		setAttributes( {
-			items: [ ...items, newItem ],
-		} );
-	}, [ items, setAttributes ] );
-
-	const updateItem = useCallback(
-		( index, field, value ) => {
-			const updatedItems = items.map( ( item, i ) => {
-				if ( i === index ) {
-					return {
-						...item,
-						[ field ]: value,
-					};
-				}
-				return item;
-			} );
-			setAttributes( { items: updatedItems } );
-		},
-		[ items, setAttributes ]
-	);
-
-	const removeItem = useCallback(
-		( index ) => {
-			// Don't allow removing the last item
-			if ( items.length <= 1 ) {
-				return;
-			}
-
-			const updatedItems = items.filter( ( _, i ) => i !== index );
-			setAttributes( { items: updatedItems } );
-		},
-		[ items, setAttributes ]
-	);
-
-	const moveItemUp = useCallback(
-		( index ) => {
-			if ( index === 0 ) {
-				return; // Can't move first item up
-			}
-
-			const updatedItems = [ ...items ];
-			const temp = updatedItems[ index - 1 ];
-			updatedItems[ index - 1 ] = updatedItems[ index ];
-			updatedItems[ index ] = temp;
-			setAttributes( { items: updatedItems } );
-		},
-		[ items, setAttributes ]
-	);
-
-	const moveItemDown = useCallback(
-		( index ) => {
-			if ( index === items.length - 1 ) {
-				return; // Can't move last item down
-			}
-
-			const updatedItems = [ ...items ];
-			const temp = updatedItems[ index + 1 ];
-			updatedItems[ index + 1 ] = updatedItems[ index ];
-			updatedItems[ index ] = temp;
-			setAttributes( { items: updatedItems } );
-		},
-		[ items, setAttributes ]
-	);
-
-	// Ensure all items have unique IDs and at least one item exists
-	const ensureValidItems = useCallback( () => {
-		let needsUpdate = false;
-		let updatedItems = [ ...items ];
-
-		// Ensure we have at least one item
-		if ( updatedItems.length === 0 ) {
-			updatedItems = [
-				{
-					id: uuidv4(),
-					title: '',
-					description: '',
-					url: '',
-					facultyColor: 'default',
-				},
-			];
-			needsUpdate = true;
-		}
-
-		// Ensure all items have unique IDs
-		updatedItems = updatedItems.map( ( item ) => {
-			if ( ! item.id ) {
-				needsUpdate = true;
-				return {
-					...item,
-					id: uuidv4(),
-				};
+	const updateItem = ( index, field, value ) => {
+		const updatedItems = items.map( ( item, i ) => {
+			if ( i === index ) {
+				return { ...item, [ field ]: value };
 			}
 			return item;
 		} );
+		setAttributes( { items: updatedItems } );
+	};
 
-		if ( needsUpdate ) {
-			setAttributes( { items: updatedItems } );
+	const removeItem = ( index ) => {
+		if ( items.length <= 1 ) {
+			return;
 		}
-	}, [ items, setAttributes ] );
+		const updatedItems = items.filter( ( _, i ) => i !== index );
+		setAttributes( { items: updatedItems } );
+	};
 
-	// Run once on component mount to ensure valid items
+	const moveItemUp = ( index ) => {
+		if ( index === 0 ) {
+			return;
+		}
+		const updatedItems = [ ...items ];
+		const temp = updatedItems[ index - 1 ];
+		updatedItems[ index - 1 ] = updatedItems[ index ];
+		updatedItems[ index ] = temp;
+		setAttributes( { items: updatedItems } );
+	};
+
+	const moveItemDown = ( index ) => {
+		if ( index === items.length - 1 ) {
+			return;
+		}
+		const updatedItems = [ ...items ];
+		const temp = updatedItems[ index + 1 ];
+		updatedItems[ index + 1 ] = updatedItems[ index ];
+		updatedItems[ index ] = temp;
+		setAttributes( { items: updatedItems } );
+	};
+
+	// Ensure we have at least one item on mount
 	useEffect( () => {
-		ensureValidItems();
-	}, [ ensureValidItems ] );
-
-	// Get items for preview
-	const previewItems = items;
+		if ( items.length === 0 ) {
+			addItem();
+		}
+	}, [] );
 
 	// Helper function to get the effective faculty color for an item
 	const getEffectiveFacultyColor = ( item ) => {
-		// For fau.de websites, use the individual item color
 		if ( isFauDe ) {
 			return item.facultyColor && item.facultyColor !== 'default'
 				? item.facultyColor
 				: null;
 		}
-		// For faculty websites, use the website's faculty type
 		if ( isFacultyWebsite && facultyType ) {
 			return facultyType;
 		}
-		// For other website types (chair, other, cooperation), no faculty color
 		return null;
 	};
 
@@ -231,6 +169,23 @@ export default function Edit( { attributes, setAttributes } ) {
 				facultyType || __( 'Unknown', 'fau-elemental' )
 		  )
 		: '';
+
+	// URL validation helper
+	const validateUrl = ( url ) => {
+		if ( ! url ) {
+			return {
+				isValid: false,
+				message: __( 'URL is required', 'fau-elemental' ),
+			};
+		}
+		if ( ! isURL( url ) ) {
+			return {
+				isValid: false,
+				message: __( 'Please enter a valid URL', 'fau-elemental' ),
+			};
+		}
+		return { isValid: true, message: '' };
+	};
 
 	return (
 		<>
@@ -300,28 +255,52 @@ export default function Edit( { attributes, setAttributes } ) {
 								: ''
 						}`;
 
+						const urlValidation = validateUrl( item.url );
+
 						return (
 							<PanelBody
 								key={ item.id || index }
 								title={ panelTitle }
-								initialOpen={ index === 0 } // Only first item open by default
+								initialOpen={ index === 0 }
 							>
 								<div className="fau-big-button-sidebar-controls">
 									<ButtonGroup>
-										<Tooltip text={ __( 'Move up', 'fau-elemental' ) }>
+										<Tooltip
+											text={ __(
+												'Move up',
+												'fau-elemental'
+											) }
+										>
 											<Button
 												icon="arrow-up-alt2"
-												onClick={ () => moveItemUp( index ) }
+												onClick={ () =>
+													moveItemUp( index )
+												}
 												disabled={ index === 0 }
-												label={ __( 'Move up', 'fau-elemental' ) }
+												label={ __(
+													'Move up',
+													'fau-elemental'
+												) }
 											/>
 										</Tooltip>
-										<Tooltip text={ __( 'Move down', 'fau-elemental' ) }>
+										<Tooltip
+											text={ __(
+												'Move down',
+												'fau-elemental'
+											) }
+										>
 											<Button
 												icon="arrow-down-alt2"
-												onClick={ () => moveItemDown( index ) }
-												disabled={ index === items.length - 1 }
-												label={ __( 'Move down', 'fau-elemental' ) }
+												onClick={ () =>
+													moveItemDown( index )
+												}
+												disabled={
+													index === items.length - 1
+												}
+												label={ __(
+													'Move down',
+													'fau-elemental'
+												) }
 											/>
 										</Tooltip>
 									</ButtonGroup>
@@ -340,7 +319,10 @@ export default function Edit( { attributes, setAttributes } ) {
 									onChange={ ( value ) =>
 										updateItem( index, 'title', value )
 									}
-									help={ __( 'You can also click on the title in the preview to edit it directly.', 'fau-elemental' ) }
+									help={ __(
+										'You can also click on the title in the preview to edit it directly.',
+										'fau-elemental'
+									) }
 								/>
 								<TextareaControl
 									label={ __(
@@ -356,7 +338,10 @@ export default function Edit( { attributes, setAttributes } ) {
 										)
 									}
 									rows={ 3 }
-									help={ __( 'You can also click on the description in the preview to edit it directly.', 'fau-elemental' ) }
+									help={ __(
+										'You can also click on the description in the preview to edit it directly.',
+										'fau-elemental'
+									) }
 								/>
 								<TextControl
 									label={ __( 'URL', 'fau-elemental' ) }
@@ -365,21 +350,57 @@ export default function Edit( { attributes, setAttributes } ) {
 										updateItem( index, 'url', value )
 									}
 									type="url"
+									help={ urlValidation.message }
+									className={
+										! urlValidation.isValid && item.url
+											? 'has-error'
+											: ''
+									}
 								/>
-								
-								{/* Validation messages */}
-								{ ( !item.title || !item.url ) && (
+
+								{ /* Validation messages */ }
+								{ ( ! item.title ||
+									! item.url ||
+									! urlValidation.isValid ) && (
 									<div className="fau-big-button-validation-notice">
-										<p><strong>{ __( 'Required for display:', 'fau-elemental' ) }</strong></p>
+										<p>
+											<strong>
+												{ __(
+													'Required for display:',
+													'fau-elemental'
+												) }
+											</strong>
+										</p>
 										<ul>
-											{ !item.title && (
-												<li>{ __( '• Title is required', 'fau-elemental' ) }</li>
+											{ ! item.title && (
+												<li>
+													{ __(
+														'• Title is required',
+														'fau-elemental'
+													) }
+												</li>
 											) }
-											{ !item.url && (
-												<li>{ __( '• URL is required', 'fau-elemental' ) }</li>
+											{ ! item.url && (
+												<li>
+													{ __(
+														'• URL is required',
+														'fau-elemental'
+													) }
+												</li>
 											) }
+											{ item.url &&
+												! urlValidation.isValid && (
+													<li>{ `• ${ urlValidation.message }` }</li>
+												) }
 										</ul>
-										<p><em>{ __( 'This item will not be displayed on the frontend until both title and URL are provided.', 'fau-elemental' ) }</em></p>
+										<p>
+											<em>
+												{ __(
+													'This item will not be displayed on the frontend until both title and URL are provided.',
+													'fau-elemental'
+												) }
+											</em>
+										</p>
 									</div>
 								) }
 
@@ -419,7 +440,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			<div { ...blockProps }>
 				<div className="fau-big-button-teaser-group__buttons">
-					{ previewItems.map( ( item, index ) => {
+					{ items.map( ( item, index ) => {
 						// Determine button classes
 						let buttonClasses =
 							'fau-big-button-teaser-group__button';
@@ -431,23 +452,31 @@ export default function Edit( { attributes, setAttributes } ) {
 							buttonClasses += ` fau-big-button-teaser-group__button--${ effectiveFacultyColor }`;
 						}
 
-						// Check if item is complete
-						const isComplete = item.title && item.url;
-						const previewClasses = isComplete 
-							? buttonClasses 
-							: `${buttonClasses} fau-big-button-teaser-group__button--incomplete`;
+						// Check if item is complete and valid
+						const urlValidation = validateUrl( item.url );
+						const isComplete =
+							item.title && item.url && urlValidation.isValid;
+						const previewClasses = isComplete
+							? buttonClasses
+							: `${ buttonClasses } fau-big-button-teaser-group__button--incomplete`;
 
 						return (
 							<a
 								key={ item.id || index }
 								href={ item.url || '#preview' }
 								className={ previewClasses }
-								onClick={ ( e ) => e.preventDefault() } // Prevent navigation in editor
+								onClick={ ( e ) => e.preventDefault() }
+								role="button"
 							>
-								{/* Inline controls */}
+								{ /* Inline controls */ }
 								<div className="fau-big-button-teaser-group__inline-controls">
 									{ items.length > 1 && index > 0 && (
-										<Tooltip text={ __( 'Move up', 'fau-elemental' ) }>
+										<Tooltip
+											text={ __(
+												'Move up',
+												'fau-elemental'
+											) }
+										>
 											<Button
 												icon="arrow-up-alt2"
 												isSmall
@@ -459,21 +488,32 @@ export default function Edit( { attributes, setAttributes } ) {
 											/>
 										</Tooltip>
 									) }
-									{ items.length > 1 && index < items.length - 1 && (
-										<Tooltip text={ __( 'Move down', 'fau-elemental' ) }>
-											<Button
-												icon="arrow-down-alt2"
-												isSmall
-												className="fau-big-button-teaser-group__move-down"
-												onClick={ ( e ) => {
-													e.stopPropagation();
-													moveItemDown( index );
-												} }
-											/>
-										</Tooltip>
-									) }
+									{ items.length > 1 &&
+										index < items.length - 1 && (
+											<Tooltip
+												text={ __(
+													'Move down',
+													'fau-elemental'
+												) }
+											>
+												<Button
+													icon="arrow-down-alt2"
+													isSmall
+													className="fau-big-button-teaser-group__move-down"
+													onClick={ ( e ) => {
+														e.stopPropagation();
+														moveItemDown( index );
+													} }
+												/>
+											</Tooltip>
+										) }
 									{ items.length > 1 && (
-										<Tooltip text={ __( 'Remove item', 'fau-elemental' ) }>
+										<Tooltip
+											text={ __(
+												'Remove item',
+												'fau-elemental'
+											) }
+										>
 											<Button
 												icon="trash"
 												isSmall
@@ -495,45 +535,74 @@ export default function Edit( { attributes, setAttributes } ) {
 									onChange={ ( value ) =>
 										updateItem( index, 'title', value )
 									}
-									placeholder={ __( 'Enter title…', 'fau-elemental' ) }
+									placeholder={ __(
+										'Enter title…',
+										'fau-elemental'
+									) }
 									allowedFormats={ [] }
 									disableLineBreaks={ true }
 									onClick={ ( e ) => e.stopPropagation() }
 								/>
-								
+
 								<RichText
 									tagName="p"
 									className="rich-text"
 									value={ item.description || '' }
 									onChange={ ( value ) =>
-										updateItem( index, 'description', value )
+										updateItem(
+											index,
+											'description',
+											value
+										)
 									}
-									placeholder={ __( 'Add description…', 'fau-elemental' ) }
+									placeholder={ __(
+										'Add description…',
+										'fau-elemental'
+									) }
 									allowedFormats={ [] }
 									disableLineBreaks={ false }
 									onClick={ ( e ) => e.stopPropagation() }
 								/>
-								
+
 								{ item.url && (
 									<div className="fau-big-button-teaser-group__url-preview">
-										<strong>{ __( 'URL:', 'fau-elemental' ) }</strong> { item.url }
+										<strong>
+											{ __( 'URL:', 'fau-elemental' ) }
+										</strong>{ ' ' }
+										{ item.url }
+										{ ! urlValidation.isValid && (
+											<span className="fau-big-button-url-error">
+												{ ` (${ urlValidation.message })` }
+											</span>
+										) }
 									</div>
 								) }
-								
-								{ !isComplete && (
+
+								{ ! isComplete && (
 									<div className="fau-big-button-incomplete-notice">
-										<strong>{ __( 'Incomplete Item', 'fau-elemental' ) }</strong>
+										<strong>
+											{ __(
+												'Incomplete Item',
+												'fau-elemental'
+											) }
+										</strong>
 										<br />
-										{ __( 'Add title and URL to display', 'fau-elemental' ) }
+										{ __(
+											'Add title and valid URL to display',
+											'fau-elemental'
+										) }
 									</div>
 								) }
-								
-								<span className="arrow-link"></span>
+
+								<span
+									className="arrow-link"
+									aria-hidden="true"
+								></span>
 							</a>
 						);
 					} ) }
 
-					{/* Add new item button */}
+					{ /* Add new item button */ }
 					<div
 						className={ `fau-big-button-teaser-group__add-button fau-big-button-teaser-group__add-button--${ teaserSize }` }
 					>

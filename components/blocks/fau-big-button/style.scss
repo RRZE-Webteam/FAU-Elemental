@@ -63,6 +63,13 @@
 					}
 				}
 			}
+
+			// Improved focus visibility for WCAG compliance
+			&:focus-visible {
+				outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+				outline-offset: 2px;
+				border-radius: 2px;
+			}
 		}
 	}
 
@@ -99,6 +106,13 @@
 						background-image: var(--icon-arrow-weiss);
 					}
 				}
+
+				// Focus indicator for outline variant
+				&:focus-visible {
+					outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+					outline-offset: 2px;
+					border-radius: 2px;
+				}
 			}
 		}
 	}
@@ -127,6 +141,13 @@
 					background-image: var(--icon-arrow-weiss);
 				}
 			}
+
+			// Focus indicator for dark mode
+			&:focus-visible {
+				outline: 2px solid var(--FAU-Col-FAU-Weiss-100);
+				outline-offset: 2px;
+				border-radius: 2px;
+			}
 		}
 	}
 
@@ -146,10 +167,18 @@
 
 				.arrow-link {
 					background-color: var(--FAU-Col-FAU-Weiss-100);
+					right: -1px;
 
 					&::before {
 						background-image: var(--icon-arrow-fau-blau);
 					}
+				}
+
+				// Focus indicator for RW faculty dark mode outline buttons
+				&:focus-visible {
+					outline: 2px solid var(--FAU-Col-FAU-Weiss-100);
+					outline-offset: 2px;
+					border-radius: 2px;
 				}
 			}
 		}
@@ -217,6 +246,13 @@
 						&::before {
 							background-image: var(--icon-arrow-fau-blau);
 						}
+					}
+
+					// Focus indicator for faculty outline buttons
+					&:focus-visible {
+						outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+						outline-offset: 2px;
+						border-radius: 2px;
 					}
 				}
 			}
@@ -296,6 +332,13 @@
 						background-image: var(--icon-arrow-fau-blau);
 					}
 				}
+
+				// Focus indicator for faculty buttons
+				&:focus-visible {
+					outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+					outline-offset: 2px;
+					border-radius: 2px;
+				}
 			}
 		}
 
@@ -314,6 +357,13 @@
 				&::before {
 					background-image: var(--icon-arrow-weiss);
 				}
+			}
+
+			// Focus indicator for RW faculty buttons
+			&:focus-visible {
+				outline: 2px solid var(--FAU-Col-FAU-Weiss-100);
+				outline-offset: 2px;
+				border-radius: 2px;
 			}
 		}
 	}
@@ -348,6 +398,13 @@
 						&::before {
 							background-image: var(--icon-arrow-fau-blau);
 						}
+					}
+
+					// Focus indicator for faculty outline buttons
+					&:focus-visible {
+						outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+						outline-offset: 2px;
+						border-radius: 2px;
 					}
 				}
 			}
@@ -385,6 +442,13 @@
 					p {
 						color: var(--FAU-Col-FAU-Weiss-100);
 					}
+
+					// Focus indicator for dark mode faculty buttons
+					&:focus-visible {
+						outline: 2px solid var(--FAU-Col-FAU-Weiss-100);
+						outline-offset: 2px;
+						border-radius: 2px;
+					}
 				}
 			}
 		}
@@ -412,10 +476,18 @@
 
 						.arrow-link {
 							background-color: var(--FAU-Col-FAU-Weiss-100);
+							right: -1px;
 
 							&::before {
 								background-image: var(--icon-arrow-fau-blau);
 							}
+						}
+
+						// Focus indicator for dark mode outline faculty buttons
+						&:focus-visible {
+							outline: 2px solid var(--FAU-Col-FAU-Weiss-100);
+							outline-offset: 2px;
+							border-radius: 2px;
 						}
 					}
 				}
@@ -435,6 +507,13 @@
 						&::before {
 							background-image: var(--icon-arrow-fau-blau);
 						}
+					}
+
+					// Focus indicator for RW faculty dark mode outline buttons
+					&:focus-visible {
+						outline: 2px solid var(--FAU-Col-FAU-Weiss-100);
+						outline-offset: 2px;
+						border-radius: 2px;
 					}
 				}
 			}

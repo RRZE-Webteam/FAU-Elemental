@@ -32,6 +32,100 @@
 			transform: none;
 			box-shadow: none;
 		}
+
+		// Button container positioning
+		&__button {
+			position: relative;
+			cursor: default;
+
+			&:hover {
+				.fau-big-button-teaser-group__inline-controls {
+					opacity: 1;
+				}
+			}
+
+			// Focus indicator for editor preview
+			&:focus-visible {
+				outline: 2px solid #007cba;
+				outline-offset: 2px;
+				border-radius: 2px;
+			}
+		}
+
+		// Inline controls container
+		&__inline-controls {
+			position: absolute;
+			top: 0.5rem;
+			right: 0.5rem;
+			z-index: 15;
+			display: flex;
+			gap: 0.25rem;
+
+			.components-button {
+				background-color: rgba(255, 255, 255, 0.95);
+				border: 1px solid #ddd;
+				min-width: 24px;
+				height: 24px;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+				&:hover {
+					background-color: rgba(255, 255, 255, 1);
+					border-color: #999;
+				}
+			}
+		}
+
+		// Move buttons specific styling
+		&__move-up,
+		&__move-down {
+			background-color: rgba(255, 255, 255, 0.9);
+			border: 1px solid #ddd;
+		}
+
+		// Add button styling
+		&__add-button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 2px dashed #ddd;
+			border-radius: 4px;
+			background-color: #f9f9f9;
+
+			&--small {
+				min-height: 150px;
+			}
+
+			&--large {
+				min-height: 200px;
+			}
+
+			.components-button {
+				height: 48px;
+				width: 48px;
+			}
+		}
+
+		// URL preview styling
+		&__url-preview {
+			margin-top: 0.5rem;
+			font-size: 0.75rem;
+			opacity: 0.7;
+
+			strong {
+				font-weight: 600;
+			}
+		}
+
+		// RichText editing states
+		.rich-text {
+			cursor: text;
+
+			&:focus,
+			&.is-selected {
+				outline: 1px solid #007cba;
+				outline-offset: 1px;
+			}
+		}
 	}
 
 	// Selected state in editor
@@ -276,101 +370,6 @@
 	color: #999;
 }
 
-// Editor controls styling
-.block-editor .fau-big-button-teaser-group {
-	
-	// Button container positioning
-	&__button {
-		position: relative;
-	}
-	
-	// Inline controls container
-	&__inline-controls {
-		position: absolute;
-		top: 0.5rem;
-		right: 0.5rem;
-		z-index: 15;
-		display: flex;
-		gap: 0.25rem;
-		
-		.components-button {
-			background-color: rgba(255, 255, 255, 0.95);
-			border: 1px solid #ddd;
-			min-width: 24px;
-			height: 24px;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-			
-			&:hover {
-				background-color: rgba(255, 255, 255, 1);
-				border-color: #999;
-			}
-		}
-	}
-	
-	// Move buttons specific styling
-	&__move-up,
-	&__move-down {
-		background-color: rgba(255, 255, 255, 0.9);
-		border: 1px solid #ddd;
-	}
-	
-	// Add button styling
-	&__add-button {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border: 2px dashed #ddd;
-		border-radius: 4px;
-		background-color: #f9f9f9;
-		
-		&--small {
-			min-height: 150px;
-		}
-		
-		&--large {
-			min-height: 200px;
-		}
-		
-		.components-button {
-			height: 48px;
-			width: 48px;
-		}
-	}
-	
-	// URL preview styling
-	&__url-preview {
-		margin-top: 0.5rem;
-		font-size: 0.75rem;
-		opacity: 0.7;
-		
-		strong {
-			font-weight: 600;
-		}
-	}
-	
-	// RichText editing states
-	.rich-text {
-		cursor: text;
-		
-		&:focus,
-		&.is-selected {
-			outline: 1px solid #007cba;
-			outline-offset: 1px;
-		}
-	}
-	
-	// Editor button states
-	&__button {
-		cursor: default;
-		
-		&:hover {
-			.fau-big-button-teaser-group__inline-controls {
-				opacity: 1;
-			}
-		}
-	}
-}
-
 // Sidebar controls styling
 .fau-big-button-sidebar-add-button {
 	margin-bottom: 1rem;
@@ -381,11 +380,11 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	
+
 	.components-button-group {
 		margin-right: 0.5rem;
 	}
-	
+
 	button {
 		border: 1px solid;
 	}
@@ -398,25 +397,25 @@
 	border-radius: 4px;
 	padding: 0.75rem;
 	margin-top: 0.5rem;
-	
+
 	p {
 		margin: 0 0 0.5rem 0;
-		
+
 		&:last-child {
 			margin-bottom: 0;
 		}
 	}
-	
+
 	ul {
 		margin: 0.5rem 0;
 		padding-left: 1rem;
-		
+
 		li {
 			color: #856404;
 			margin-bottom: 0.25rem;
 		}
 	}
-	
+
 	em {
 		color: #6c757d;
 		font-size: 0.875rem;
@@ -434,7 +433,7 @@
 	text-align: center;
 	font-size: 0.875rem;
 	color: #cc9e1a;
-	
+
 	strong {
 		display: block;
 		margin-bottom: 0.25rem;
