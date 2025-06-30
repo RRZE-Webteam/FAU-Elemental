@@ -318,7 +318,7 @@ class Menu_Modal {
                     
                     <?php if ($show_close_button): ?>
                         <button class="<?php echo esc_attr($modal_class); ?>__close-btn" aria-label="<?php esc_attr_e('Close menu', 'fau-elemental'); ?>">
-                            <span class="screen-reader-text"><?php esc_html_e('Schließen', 'fau-elemental'); ?></span>
+                            <span><?php esc_html_e('Schließen', 'fau-elemental'); ?></span>
                             <span class="<?php echo esc_attr($modal_class); ?>__close-icon" aria-hidden="true"></span>
                         </button>
                     <?php endif; ?>

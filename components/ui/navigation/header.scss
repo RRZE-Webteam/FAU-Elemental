@@ -59,7 +59,7 @@
 				&:focus-visible {
 
 					.fau-navigation__back-icon {
-						transform: translateX(0.25rem) scaleX(-1);
+						transform: translateX(-0.25rem) scaleX(-1);
 					}
 				}
 			}
@@ -392,6 +392,46 @@ body.modal-open {
 		overflow-y: scroll;
 	}
 
+	&__breadcrumbs {
+
+		ol {
+			gap: var(--Spacing-2x);
+			padding: 1rem 1.25rem 1rem 1.25rem;
+			list-style: none;
+
+			.breadcrumb-link {
+				border: 0;
+				background: none;
+				padding: unset;
+				font-family: var(--font-family-base);
+			}
+
+			.breadcrumb-link,
+			li {
+				font-size: 1.125rem;
+				font-weight: 700;
+				color: var(--FAU-Col-FAU-Blau-100);
+				letter-spacing: var(--letter-spacing-small);
+			}
+
+			li {
+				display: inline;
+
+				&::after {
+					content: "/";
+					position: relative;
+				}
+
+				&:last-child {
+
+					&::after {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+
 	&__close-btn {
 		margin-left: auto;
 	}
@@ -535,36 +575,14 @@ body.modal-open {
 		}
 	}
 
-	// Accessibility: Live region for screen reader announcements
 	&__announcements {
-		// Screen reader only styles - inline instead of @extend
-		clip: rect(1px, 1px, 1px, 1px);
-		position: absolute !important;
-		height: 1px;
-		width: 1px;
-		overflow: hidden;
-		
-		// Ensure it's not completely hidden for screen readers
-		&[aria-live] {
-			position: absolute !important;
-			left: -10000px;
-			width: 1px;
-			height: 1px;
-			overflow: hidden;
-		}
+		visibility: hidden; // Hide screen reader annoucements
 	}
 
-	// Focus management improvements
-	&:focus {
-		outline: 2px solid var(--FAU-Col-FAU-Blau-100);
-		outline-offset: 2px;
-	}
-
-	// Ensure proper focus indicators for all interactive elements
 	button:focus-visible,
 	a:focus-visible {
-		outline: 2px solid var(--FAU-Col-FAU-Blau-100);
-		outline-offset: 2px;
+		outline: 0.125rem solid var(--FAU-Col-FAU-Blau-100);
+		outline-offset: 0.125rem;
 	}
 
 	&__menu--header-primary-menu {
@@ -648,7 +666,19 @@ body.modal-open {
 // Exception for front page
 
 .home .site-content {
-	padding-top: 2.8125rem; // Discuss with Marten
+	padding-top: 2.8125rem; // Compensate for height of Header top
+}
+
+// Override RW faculty color just for home
+body.home.fauorg-fakultaet.faculty-rw {
+
+	.main-navigation__direct-links ul li a {
+		color: var(--FAU-Col-FAU-Blau-100);
+	}
+
+	.main-navigation__direct-links ul li a::after {
+		background-image: var(--icon-chevron-fau-blau);
+	}
 }
 
 .home {
