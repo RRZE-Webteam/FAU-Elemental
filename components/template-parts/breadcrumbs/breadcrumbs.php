@@ -122,7 +122,7 @@ function faue_breadcrumbs(): void {
     }
 
     // Always render desktop breadcrumbs (CSS will control visibility)
-    echo '<li class="breadcrumbs__item breadcrumbs__item--desktop" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
+    echo '<li class="breadcrumbs__item breadcrumbs__item--desktop breadcrumbs__item--home" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
     echo '<a href="' . esc_url(home_url('/')) . '" class="breadcrumbs__link" itemprop="item">';
     echo '<span itemprop="name">' . esc_html__('Start', 'fau-elemental') . '</span>';
     echo '</a>';
