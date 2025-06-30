@@ -304,7 +304,7 @@ class Menu_Modal {
             <div id="<?php echo $modal_description_id; ?>" class="screen-reader-text"><?php esc_html_e('Use Tab to navigate through menu items, Enter to select, Escape to close, or use the Close button.', 'fau-elemental'); ?></div>
             
             <!-- Live region for screen reader announcements -->
-            <div class="menu-modal__announcements" aria-live="polite" aria-atomic="true" class="screen-reader-text"></div>
+            <div class="menu-modal__announcements screen-reader-text" aria-live="polite" aria-atomic="true"></div>
             
             <div class="<?php echo esc_attr($modal_class); ?>__overlay" aria-hidden="true"></div>
             <div class="<?php echo esc_attr($modal_class); ?>__container" role="document">
