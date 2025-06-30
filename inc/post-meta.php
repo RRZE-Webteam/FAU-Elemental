@@ -62,7 +62,7 @@ function faue_enqueue_post_meta_admin_assets($hook) {
     
     wp_enqueue_script(
         'faue-post-meta-admin',
-        get_template_directory_uri() . '/components/template-parts/post-meta/admin.js',
+        get_template_directory_uri() . '/build/js/template-parts-post-meta.js',
         ['jquery'],
         wp_get_theme()->get('Version'),
         true
