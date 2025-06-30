@@ -55,13 +55,10 @@ require_once get_template_directory() . '/components/template-parts/breadcrumbs/
 
 /**
  * Register custom page templates
- * 
- * IMPORTANT: Portal Page template MUST be registered in the root of the theme,
- * not in templates/ directory for it to work with WordPress template selector
  */
 function fau_elemental_register_page_templates($templates) {
     // Register the portal page template
-    $templates['portal-page.php'] = 'Portal Page';
+    $templates['components/templates/portal-page/portal-page.php'] = __('Portal Page', 'fau-elemental');
     
     // Force flush the template cache if we're in admin
     if (is_admin()) {
