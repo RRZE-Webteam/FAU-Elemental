@@ -32,7 +32,7 @@ $use_custom_date = isset($post_meta['_faue_use_custom_last_updated'][0]) ? $post
 $custom_date = isset($post_meta['_faue_custom_last_updated'][0]) ? $post_meta['_faue_custom_last_updated'][0] : '';
 
 // Determine the date to display and get timestamp
-$timestamp = null;
+$timestamp = false;
 $display_date = '';
 
 if ($use_custom_date === '1' && !empty($custom_date)) {
