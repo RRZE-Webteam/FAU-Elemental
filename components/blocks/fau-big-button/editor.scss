@@ -39,6 +39,7 @@
 			cursor: default;
 
 			&:hover {
+
 				.fau-big-button-teaser-group__inline-controls {
 					opacity: 1;
 				}
@@ -422,7 +423,7 @@
 	}
 }
 
-// Incomplete item styling in preview (removed visual changes, keeping class for functionality)
+// Incomplete item styling in preview
 
 .fau-big-button-incomplete-notice {
 	background-color: rgba(255, 193, 7, 0.1);
