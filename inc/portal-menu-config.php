@@ -14,6 +14,14 @@ if (!defined('ABSPATH')) {
  * Portal Menu Configuration Class
  */
 class FAU_Elemental_Portal_Menu_Config {
+    /**
+     * Slug of the portal page template.
+     * Note: If the template gets moved this must be changed BUT (!)
+     *       as the slug and the file path of the template are the same
+     *       for Wordpress, all pages using this template WILL BREAK without
+     *       some code that automatically migrates from the old path.
+     */
+    const TEMPLATE = "components/templates/portal-page/portal-page.php";
     
     /**
      * Default portal menu settings

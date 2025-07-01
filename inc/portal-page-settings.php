@@ -83,7 +83,7 @@ function fau_elemental_admin_footer() {
             var template = $('#page_template').val();
             console.log('FAU Portal Menu: Detected template: ' + template);
             
-            if (template === 'templates/portal-page.php' || template === 'portal-page.php') {
+            if (template === 'components/templates/portal-page/portal-page.php' || template === 'portal-page.php') {
                 console.log('FAU Portal Menu: Using portal template');
                 $('#fau_elemental_portal_menu_settings').addClass('fau-portal-active').css({
                     'border': '2px solid #2271b1',
@@ -110,7 +110,7 @@ function fau_elemental_admin_footer() {
                 var template = wp.data.select('core/editor').getEditedPostAttribute('template');
                 console.log('FAU Portal Menu: Block editor template: ' + template);
                 
-                if (template === 'templates/portal-page.php' || template === 'portal-page.php') {
+                if (template === 'components/templates/portal-page/portal-page.php' || template === 'portal-page.php') {
                     console.log('FAU Portal Menu: Using portal template');
                 }
             }, 1000);
@@ -150,13 +150,9 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
 
     // Get all menus
     $menus = wp_get_nav_menus();
-    
-    // Template check is just for reference - we'll always show the metabox now
-    $template = get_post_meta($post->ID, '_wp_page_template', true);
-    $using_portal_template = ($template === 'templates/portal-page.php' || $template === 'portal-page.php');
-    
-    echo '<div class="fau-portal-menu-settings">';
+
     ?>
+    <div class="fau-portal-menu-settings">
     <p>
         <label for="portal_menu_id"><strong><?php esc_html_e('Menu', 'fau-elemental'); ?>:</strong></label>
         <select name="portal_menu_id" id="portal_menu_id" class="widefat">
