@@ -37,6 +37,7 @@ if (!function_exists('render_block_fau_global_search')) {
 
         $title = !empty($attributes['title']) ? $attributes['title'] : __('Search', 'fau-elemental');
         $search_scope = !empty($attributes['searchScope']) ? $attributes['searchScope'] : 'current';
+        $layout_size = !empty($attributes['layoutSize']) ? $attributes['layoutSize'] : 'content';
 
         if (isset($_GET['fau_search_scope'])) {
             $search_scope = sanitize_text_field($_GET['fau_search_scope']);
@@ -53,8 +54,15 @@ if (!function_exists('render_block_fau_global_search')) {
         }
         
         $wrapper_attributes_array = [];
+        $css_classes = [];
         if (!empty($attributes['align'])) {
-            $wrapper_attributes_array['class'] = 'align' . $attributes['align'];
+            $css_classes[] = 'align' . $attributes['align'];
+        }
+        // Add layout size class
+        $css_classes[] = 'layout-' . $layout_size;
+        
+        if (!empty($css_classes)) {
+            $wrapper_attributes_array['class'] = implode(' ', $css_classes);
         }
         $wrapper_attributes = get_block_wrapper_attributes($wrapper_attributes_array);
 
@@ -85,6 +93,7 @@ if (!function_exists('render_block_fau_global_search')) {
                 
                 <input type="hidden" name="fau_search_scope" id="<?php echo esc_attr($block_instance_id); ?>-scope-hidden" value="<?php echo esc_attr($search_scope); ?>" />
 
+                <?php if ($layout_size === 'content') : ?>
                 <div class="wp-block-fau-elemental-fau-global-search__scope-toggle search-scope-toggle">
                     <fieldset>
                         <legend class="screen-reader-text"><?php _e('Search Scope', 'fau-elemental'); ?></legend>
@@ -114,6 +123,7 @@ if (!function_exists('render_block_fau_global_search')) {
                         </label>
                     </fieldset>
                 </div>
+                <?php endif; ?>
             </form>
 
             <div class="wp-block-fau-elemental-fau-global-search__suggestions-area search-suggestions-area">

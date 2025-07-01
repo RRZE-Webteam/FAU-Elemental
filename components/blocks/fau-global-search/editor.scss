@@ -5,6 +5,26 @@
 .wp-block-fau-elemental-fau-global-search {
     // Editor wrapper class added in edit.js
 
+    // Layout-specific styles for editor
+    &.layout-full {
+        width: 100%;
+        
+        .search-form-placeholder {
+            width: 100%;
+            max-width: none;
+        }
+        
+        .search-scope-toggle-placeholder {
+            display: none;
+        }
+    }
+
+    &.layout-content {
+        .search-form-placeholder {
+            max-width: 600px;
+        }
+    }
+
     // Mimic front-end title style if desired, or add editor specific
     // .wp-block-fau-elemental-fau-global-search__title { ... }
 

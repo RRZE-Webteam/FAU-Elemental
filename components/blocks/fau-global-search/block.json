@@ -20,6 +20,10 @@
 		"searchScope": {
 			"type": "string",
 			"default": "current"
+		},
+		"layoutSize": {
+			"type": "string",
+			"default": "content"
 		}
 	},
 	"editorScript": "file:./index.js",
