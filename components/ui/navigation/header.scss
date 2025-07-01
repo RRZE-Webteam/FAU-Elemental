@@ -179,10 +179,13 @@
 		.fauorg-fakultaet.faculty-#{$faculty} & {
 			background-color: $color;
 
-			.main-navigation__logo .text,
 			.main-navigation__toggle-text,
 			.main-navigation__direct-links ul li a {
 				color: var(--FAU-Col-FAU-Blau-100);
+			}
+
+			.main-navigation__logo .text {
+				color: var(--FAU-Col-FAU-Dunkelblau-100);
 			}
 
 			.main-navigation__toggle-icon > span {
@@ -395,7 +398,6 @@ body.modal-open {
 	&__breadcrumbs {
 
 		ol {
-			gap: var(--Spacing-2x);
 			padding: 1rem 1.25rem 1rem 1.25rem;
 			list-style: none;
 
@@ -404,6 +406,15 @@ body.modal-open {
 				background: none;
 				padding: unset;
 				font-family: var(--font-family-base);
+				text-decoration: none;
+				cursor: pointer;
+
+				&:hover,
+				&:focus-visible {
+					text-decoration: underline;
+					text-underline-offset: var(--Spacing-1x);
+					text-decoration-thickness: var(--Spacing-05x);
+				}
 			}
 
 			.breadcrumb-link,
@@ -412,6 +423,7 @@ body.modal-open {
 				font-weight: 700;
 				color: var(--FAU-Col-FAU-Blau-100);
 				letter-spacing: var(--letter-spacing-small);
+				margin-right: 0.5rem;
 			}
 
 			li {
@@ -720,7 +732,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 					.baselogo {
 
-						svg {
+						img {
 							scale: 2.2;
 							transform-origin: top left;
 						}
@@ -800,7 +812,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 	}
 
 	.main-navigation__container {
-		gap: unset;
+		gap: var(--Spacing-4x);
 	}
 
 	.home .site-header__main {
@@ -814,7 +826,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 		.main-navigation__brand {
 			left: var(--Spacing-10x);
 
-			.baselogo svg {
+			.baselogo img {
 				scale: 1.6;
 			}
 		}
@@ -916,7 +928,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 		&__main {
 			top: 4rem;
 
-			.main-navigation__brand .baselogo svg {
+			.main-navigation__brand .baselogo img {
 				scale: 1.1;
 			}
 
@@ -937,13 +949,13 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 			.main-navigation {
 
-				&__brand .baselogo svg {
+				&__brand .baselogo img {
 					width: 6.25rem;
 					height: 2.4375rem;
 				}
 
 				&__logo a .textlogo {
-					gap: 0.9rem;
+					gap: 0.8rem;
 
 					.text {
 						top: -0.125rem;
