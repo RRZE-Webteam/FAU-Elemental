@@ -4,7 +4,7 @@
 
 @use "../../ui/mixins/mixins" as *;
 
-.hero-portalseite {
+.hero-portal {
 	max-width: var(--wide-max-width);
 	margin: 0 auto;
 	gap: var(--Spacing-10x);
@@ -40,14 +40,14 @@
 // Responsive
 @media screen and (max-width: 1399px) {
 
-	.hero-portalseite .wp-block-cover {
+	.hero-portal .wp-block-cover {
 		aspect-ratio: 1/1;
 	}
 }
 
 @media screen and (max-width: 999px) {
 
-	.hero-portalseite {
+	.hero-portal {
 		flex-direction: column-reverse;
 		gap: unset;
 
@@ -84,7 +84,7 @@
 
 @include respond-to("small") {
 
-	.hero-portalseite {
+	.hero-portal {
 
 		> div:last-child {
 			overflow: hidden;
@@ -98,21 +98,21 @@
 
 @media screen and (max-width: 599px) {
 
-	.hero-portalseite .wp-block-cover {
+	.hero-portal .wp-block-cover {
 		min-height: 280px;
 	}
 }
 
 @media screen and (max-width: 499px) {
 
-	.hero-portalseite .wp-block-cover {
+	.hero-portal .wp-block-cover {
 		min-height: 200px;
 	}
 }
 
 @include respond-to("x-small") {
 
-	.hero-portalseite {
+	.hero-portal {
 		padding: unset;
 
 		.wp-block-post-title {
