@@ -392,6 +392,8 @@
 
 			$modal.find( '.menu-modal__level-heading' ).remove();
 
+			$modal.find( '.menu-item-heading' ).remove();
+
 			if ( navigationStack.length === 0 ) {
 				$modal
 					.find(
@@ -436,21 +438,31 @@
 			const $breadcrumbContainer = $modal.find(
 				'.menu-modal__breadcrumbs'
 			);
+			const $levelHeading = $modal.find( '.menu-modal__level-heading' );
 
 			if ( navigationStack.length === 0 ) {
 				$breadcrumbContainer.remove();
+				$levelHeading.remove();
 				return;
 			}
 
 			const breadcrumbHtml = this.generateBreadcrumbs( navigationStack );
+			const currentLevel = navigationStack[ navigationStack.length - 1 ];
+			const levelHeadingHtml = `<h2 class="menu-modal__level-heading">${ currentLevel.parentTitle }</h2>`;
 
-			if ( $breadcrumbContainer.length ) {
-				$breadcrumbContainer.replaceWith( breadcrumbHtml );
-			} else {
-				$modal
-					.find( '.menu-meta-nav__modal__content' )
-					.prepend( breadcrumbHtml );
-			}
+			// Remove existing breadcrumbs and level heading
+			$breadcrumbContainer.remove();
+			$levelHeading.remove();
+
+			// Add breadcrumbs first
+			$modal
+				.find( '.menu-meta-nav__modal__content' )
+				.prepend( breadcrumbHtml );
+
+			// Add level heading inside the menu ul (as first item)
+			$modal
+				.find( '.menu-meta-nav__menu' )
+				.prepend( `<li class="menu-item menu-item-heading">${ levelHeadingHtml }</li>` );
 		}
 
 		highlightOverviewLink( $submenu ) {
