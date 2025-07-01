@@ -8,7 +8,7 @@
 @use "base/index" as *;
 
 // Navigation Styles
-@use "navigation/header" as *;
+@use "../template-parts/navigation/header" as *;
 
 // Core Block Styles (modifications to WordPress core blocks)
 @use "../core-blocks/button/style" as *;

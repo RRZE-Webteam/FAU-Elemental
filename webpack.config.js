@@ -177,7 +177,7 @@ module.exports = {
 		// Add navigation component scripts (unified menu modal system)
 		'js/menu-modal': path.resolve(
 			process.cwd(),
-			'components/ui/navigation/menu-modal.js'
+			'components/template-parts/navigation/menu-modal.js'
 		),
 
 		// Template Part Scripts

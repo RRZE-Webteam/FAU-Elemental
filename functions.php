@@ -48,7 +48,7 @@ require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
 require_once get_template_directory() . '/components/template-parts/breadcrumbs/breadcrumbs.php';
 
 // Navigation components
-require_once get_template_directory() . '/components/ui/navigation/index.php';
+require_once get_template_directory() . '/components/template-parts/navigation/index.php';
 
 /**
  * Register custom page templates

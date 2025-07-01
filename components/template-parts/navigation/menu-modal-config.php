@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Include the unified menu modal component
-require_once get_template_directory() . '/components/ui/navigation/menu-modal.php';
+require_once get_template_directory() . '/components/template-parts/navigation/menu-modal.php';
 
 // Get global menu modal instance
 global $menu_modal;
