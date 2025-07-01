@@ -292,7 +292,11 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 		const fileDetails = useSelect(
 			( select ) => {
 				const { getMedia } = select( 'core' );
-				return attributes.id ? getMedia( attributes.id ) : null;
+				return attributes.id
+					? getMedia( attributes.id )
+					: attributes.fileDetails
+					? attributes.fileDetails
+					: null;
 			},
 			[ attributes.id ]
 		);
@@ -306,7 +310,9 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 							fileDetails.title?.rendered ||
 							fileDetails.filename ||
 							fileDetails.source_url?.split( '/' ).pop(),
-						filesize: fileDetails.media_details?.filesize,
+						filesize:
+							fileDetails.media_details?.filesize ||
+							fileDetails.filesize,
 						mime_type: fileDetails.mime_type,
 					},
 				} );
@@ -439,8 +445,7 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 										</dt>
 										<dd className="file-info-definition">
 											{ formatFileSize(
-												fileDetails.media_details
-													?.filesize
+												fileDetails.filesize
 											) }
 										</dd>
 									</div>

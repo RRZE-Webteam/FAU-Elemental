@@ -98,7 +98,9 @@ function faue_enqueue_block_editor_script() {
             'faue-block-editor-script',
             'fauElemental',
             array(
-                'themeUrl' => get_template_directory_uri()
+                'themeUrl' => get_template_directory_uri(),
+                'websiteType' => get_theme_mod('faue_website_type', 'fau'),
+                'facultyType' => get_theme_mod('faue_faculty', 'phil'),
             )
         );
     }

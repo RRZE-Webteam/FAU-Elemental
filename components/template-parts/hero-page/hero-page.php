@@ -9,7 +9,7 @@
 
 <div class="hero-page">
 
-  <div class="faeu-featured-image">
+  <div class="faue-featured-image">
     <?php if (has_post_thumbnail()) : ?>
       <?php
       $featured_img_id = get_post_thumbnail_id();

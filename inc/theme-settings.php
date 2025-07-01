@@ -16,25 +16,25 @@ function faue_customize_register($wp_customize) {
     // Add FAU Elemental section
     $wp_customize->add_section('faue_theme_settings', array(
         'title'    => __('Theme Settings', 'fau-elemental'),
-        'priority' => 30,
+        'priority' => 120,
     ));
 
     // Add Header Settings section
     $wp_customize->add_section('faue_header_settings', array(
         'title'    => __('Header Settings', 'fau-elemental'),
-        'priority' => 25,
+        'priority' => 125,
     ));
 
     // Breadcrumb Mode Setting (stores boolean, convert to 'dark'/'light' when using)
-    $wp_customize->add_setting('faue_breadcrumb_mode', [
-        'default' => false,
+    $wp_customize->add_setting('faue_breadcrumb_variant_blue', [
+        'default' => faue_get_default('faue_breadcrumb_variant_blue'),
         'transport' => 'refresh',
         'sanitize_callback' => 'faue_sanitize_breadcrumb_mode',
     ]);
     
-    $wp_customize->add_control('faue_breadcrumb_mode', [
-        'label' => __('Breadcrumb Dark Mode', 'fau-elemental'),
-        'description' => __('Apply dark styling to the breadcrumbs', 'fau-elemental'),
+    $wp_customize->add_control('faue_breadcrumb_variant_blue', [
+        'label' => __('Breadcrumb variant: Blue', 'fau-elemental'),
+        'description' => __('Setting for the blue breadcrumb variant', 'fau-elemental'),
         'section' => 'faue_header_settings',
         'type' => 'checkbox',
         'priority' => 15,
@@ -42,7 +42,8 @@ function faue_customize_register($wp_customize) {
 
     // Website Type Setting
     $wp_customize->add_setting('faue_website_type', array(
-        'default'           => 'fau',
+        'default'           => faue_get_default('faue_website_type'),
+        'transport'         => 'refresh',
         'sanitize_callback' => 'faue_sanitize_website_type',
     ));
 
@@ -62,6 +63,7 @@ function faue_customize_register($wp_customize) {
     // Faculty Setting
     $wp_customize->add_setting('faue_faculty', array(
         'default'           => 'phil',
+        'transport'         => 'refresh',
         'sanitize_callback' => 'faue_sanitize_faculty',
     ));
 

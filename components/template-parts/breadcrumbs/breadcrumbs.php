@@ -19,7 +19,7 @@ define('FAUE_BREADCRUMB_TITLE_MAX_LENGTH', 50);
  */
 function faue_breadcrumbs_block_class($block_content, $block) {
     if ($block['blockName'] === 'core/group' && strpos($block_content, 'breadcrumbs') !== false) {
-        $mode = get_theme_mod('faue_breadcrumb_mode', false);
+        $mode = get_theme_mod('faue_breadcrumb_variant_blue');
         if ($mode) {
             $block_content = str_replace('wp-block-group', 'wp-block-group is-style-dark', $block_content);
         }
@@ -50,7 +50,7 @@ function faue_breadcrumbs() {
     }
 
     // Get breadcrumb mode from customizer
-    $mode = get_theme_mod('faue_breadcrumb_mode', false);
+    $mode = get_theme_mod('faue_breadcrumb_variant_blue');
 
     // Start breadcrumb navigation
     $wrapper_classes = array('breadcrumbs-wrapper');
