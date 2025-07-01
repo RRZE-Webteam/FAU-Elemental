@@ -1,0 +1,7 @@
+.faue-is-group-block-selected {
+
+    // disable layout panel
+    .block-editor-block-inspector > div:nth-last-child(3) {
+        display: none;
+    }
+}
