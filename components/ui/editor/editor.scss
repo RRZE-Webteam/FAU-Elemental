@@ -39,6 +39,8 @@ html :where(.editor-styles-wrapper) {
 	margin-bottom: 0;
 }
 
-:root :where(.editor-styles-wrapper) :where(.is-layout-flow) > .wp-block {
-	margin-block-start: 0;
+// removing wordpress standard margin-block-start
+:root :where(.editor-styles-wrapper) :where(.is-layout-flow) > *,
+:root :where(.editor-styles-wrapper) :where(.is-layout-constrained) > * {
+	margin-block-start: 0 !important;
 }
