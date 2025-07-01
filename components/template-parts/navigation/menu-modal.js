@@ -462,7 +462,9 @@
 			// Add level heading inside the menu ul (as first item)
 			$modal
 				.find( '.menu-meta-nav__menu' )
-				.prepend( `<li class="menu-item menu-item-heading">${ levelHeadingHtml }</li>` );
+				.prepend(
+					`<li class="menu-item menu-item-heading">${ levelHeadingHtml }</li>`
+				);
 		}
 
 		highlightOverviewLink( $submenu ) {
