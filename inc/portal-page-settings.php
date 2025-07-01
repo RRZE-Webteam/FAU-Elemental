@@ -26,45 +26,6 @@ function fau_elemental_add_portal_page_meta_boxes() {
 add_action('add_meta_boxes', 'fau_elemental_add_portal_page_meta_boxes');
 
 /**
- * Always show the meta box in admin, regardless of template
- * We'll use JavaScript to toggle visibility based on template
- */
-function fau_elemental_admin_head() {
-    global $post;
-    if (!$post || get_post_type($post) !== 'page') {
-        return;
-    }
-    
-    // Make the metabox more noticeable with styling
-    echo '<style>
-        #fau_elemental_portal_menu_settings {
-            border: 2px solid #2271b1;
-            box-shadow: 0 0 5px rgba(34, 113, 177, 0.2);
-            margin-top: 10px;
-        }
-        #fau_elemental_portal_menu_settings .postbox-header {
-            background-color: #f0f6fc;
-        }
-        #fau_elemental_portal_menu_settings h2 {
-            font-weight: bold;
-        }
-        /* Fix metabox in Gutenberg */
-        .components-panel__body .fau-portal-menu-settings {
-            padding: 16px;
-            border: 1px solid #e0e0e0;
-            margin-bottom: 16px;
-        }
-        .fau-portal-template-notice {
-            margin: 10px 0;
-            padding: 10px;
-            background-color: #f0f7fb;
-            border-left: 4px solid #2271b1;
-        }
-    </style>';
-}
-add_action('admin_head', 'fau_elemental_admin_head');
-
-/**
  * Show the meta box with improved template selection visibility
  */
 function fau_elemental_admin_footer() {
@@ -153,72 +114,70 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
 
     ?>
     <div class="fau-portal-menu-settings">
-    <p>
-        <label for="portal_menu_id"><strong><?php esc_html_e('Menu', 'fau-elemental'); ?>:</strong></label>
-        <select name="portal_menu_id" id="portal_menu_id" class="widefat">
-            <option value=""><?php esc_html_e('- Select Menu -', 'fau-elemental'); ?></option>
-            <?php foreach ($menus as $menu) : ?>
-                <option value="<?php echo esc_attr($menu->term_id); ?>" <?php selected($menu_id, $menu->term_id); ?>>
-                    <?php echo esc_html($menu->name); ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
-    </p>
-    
-    <p>
-        <label for="portal_menu_type"><strong><?php esc_html_e('Display Type', 'fau-elemental'); ?>:</strong></label>
-        <select name="portal_menu_type" id="portal_menu_type" class="widefat">
-            <option value="1" <?php selected($display_type, 1); ?>><?php esc_html_e('Type 1 (2:1 Ratio)', 'fau-elemental'); ?></option>
-            <option value="2" <?php selected($display_type, 2); ?>><?php esc_html_e('Type 2 (3:2 Ratio)', 'fau-elemental'); ?></option>
-            <option value="3" <?php selected($display_type, 3); ?>><?php esc_html_e('Type 3 (3:4 Ratio)', 'fau-elemental'); ?></option>
-        </select>
-    </p>
-    
-    <p>
-        <label><input type="checkbox" name="portal_menu_hide_subs" id="portal_menu_hide_subs" value="1" <?php checked($hide_subs, true); ?> />
-        <?php esc_html_e('Hide Submenus', 'fau-elemental'); ?></label>
-    </p>
-    
-    <p>
-        <label><input type="checkbox" name="portal_menu_list_view" id="portal_menu_list_view" value="1" <?php checked($list_view, true); ?> />
-        <?php esc_html_e('List View', 'fau-elemental'); ?></label>
-    </p>
-    
-    <p>
-        <label><input type="checkbox" name="portal_menu_hide_thumbs" id="portal_menu_hide_thumbs" value="1" <?php checked($hide_thumbs, true); ?> />
-        <?php esc_html_e('Hide Thumbnails', 'fau-elemental'); ?></label>
-    </p>
-    
-    <p>
-        <label><input type="checkbox" name="portal_menu_no_fallback" id="portal_menu_no_fallback" value="1" <?php checked($no_fallback, true); ?> />
-        <?php esc_html_e('No Fallback Image', 'fau-elemental'); ?></label>
-    </p>
-    
-    <h4><?php esc_html_e('Hover Effects', 'fau-elemental'); ?></h4>
-    <p>
-        <label><input type="checkbox" name="portal_menu_hover_zoom" id="portal_menu_hover_zoom" value="1" <?php checked($hover_zoom, true); ?> />
-        <?php esc_html_e('Zoom', 'fau-elemental'); ?></label>
-    </p>
-    
-    <p>
-        <label><input type="checkbox" name="portal_menu_hover_blur" id="portal_menu_hover_blur" value="1" <?php checked($hover_blur, true); ?> />
-        <?php esc_html_e('Blur', 'fau-elemental'); ?></label>
-    </p>
-    
-    <h4><?php esc_html_e('Appearance', 'fau-elemental'); ?></h4>
-    <p>
-        <label><input type="checkbox" name="portal_menu_is_dark" id="portal_menu_is_dark" value="1" <?php checked($is_dark, true); ?> />
-        <?php esc_html_e('Dark Style', 'fau-elemental'); ?></label>
-    </p>
-    
+        <p>
+            <label for="portal_menu_id"><strong><?php esc_html_e('Menu', 'fau-elemental'); ?>:</strong></label>
+            <select name="portal_menu_id" id="portal_menu_id" class="widefat">
+                <option value=""><?php esc_html_e('- Select Menu -', 'fau-elemental'); ?></option>
+                <?php foreach ($menus as $menu) : ?>
+                    <option value="<?php echo esc_attr($menu->term_id); ?>" <?php selected($menu_id, $menu->term_id); ?>>
+                        <?php echo esc_html($menu->name); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+        
+        <p>
+            <label for="portal_menu_type"><strong><?php esc_html_e('Display Type', 'fau-elemental'); ?>:</strong></label>
+            <select name="portal_menu_type" id="portal_menu_type" class="widefat">
+                <option value="1" <?php selected($display_type, 1); ?>><?php esc_html_e('Type 1 (2:1 Ratio)', 'fau-elemental'); ?></option>
+                <option value="2" <?php selected($display_type, 2); ?>><?php esc_html_e('Type 2 (3:2 Ratio)', 'fau-elemental'); ?></option>
+                <option value="3" <?php selected($display_type, 3); ?>><?php esc_html_e('Type 3 (3:4 Ratio)', 'fau-elemental'); ?></option>
+            </select>
+        </p>
+        
+        <p>
+            <label><input type="checkbox" name="portal_menu_hide_subs" id="portal_menu_hide_subs" value="1" <?php checked($hide_subs, true); ?> />
+            <?php esc_html_e('Hide Submenus', 'fau-elemental'); ?></label>
+        </p>
+        
+        <p>
+            <label><input type="checkbox" name="portal_menu_list_view" id="portal_menu_list_view" value="1" <?php checked($list_view, true); ?> />
+            <?php esc_html_e('List View', 'fau-elemental'); ?></label>
+        </p>
+        
+        <p>
+            <label><input type="checkbox" name="portal_menu_hide_thumbs" id="portal_menu_hide_thumbs" value="1" <?php checked($hide_thumbs, true); ?> />
+            <?php esc_html_e('Hide Thumbnails', 'fau-elemental'); ?></label>
+        </p>
+        
+        <p>
+            <label><input type="checkbox" name="portal_menu_no_fallback" id="portal_menu_no_fallback" value="1" <?php checked($no_fallback, true); ?> />
+            <?php esc_html_e('No Fallback Image', 'fau-elemental'); ?></label>
+        </p>
+        
+        <h4><?php esc_html_e('Hover Effects', 'fau-elemental'); ?></h4>
+        <p>
+            <label><input type="checkbox" name="portal_menu_hover_zoom" id="portal_menu_hover_zoom" value="1" <?php checked($hover_zoom, true); ?> />
+            <?php esc_html_e('Zoom', 'fau-elemental'); ?></label>
+        </p>
+        
+        <p>
+            <label><input type="checkbox" name="portal_menu_hover_blur" id="portal_menu_hover_blur" value="1" <?php checked($hover_blur, true); ?> />
+            <?php esc_html_e('Blur', 'fau-elemental'); ?></label>
+        </p>
+        
+        <h4><?php esc_html_e('Appearance', 'fau-elemental'); ?></h4>
+        <p>
+            <label><input type="checkbox" name="portal_menu_is_dark" id="portal_menu_is_dark" value="1" <?php checked($is_dark, true); ?> />
+            <?php esc_html_e('Dark Style', 'fau-elemental'); ?></label>
+        </p>
+        
+        <div class="portal-menu-shortcode-example" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">
+            <h4><?php esc_html_e('Shortcode Usage', 'fau-elemental'); ?></h4>
+            <code>[portalmenu menu="<?php echo ($menu_id ? esc_attr($menu_id) : 'menu-id-or-name'); ?>" type="<?php echo esc_attr($display_type); ?>" columns="<?php echo esc_attr($columns) ?>"]</code>
+        </div>
+    </div>
     <?php
-    // Always display the shortcode usage example
-    echo '<div class="portal-menu-shortcode-example" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">';
-    echo '<h4>' . esc_html__('Shortcode Usage', 'fau-elemental') . '</h4>';
-    echo '<code>[portalmenu menu="' . ($menu_id ? esc_attr($menu_id) : 'menu-id-or-name') . '" type="' . esc_attr($display_type) . '" columns="' . esc_attr($columns) . '"]</code>';
-    echo '</div>';
-    
-    echo '</div>'; // .fau-portal-menu-settings
 }
 
 /**

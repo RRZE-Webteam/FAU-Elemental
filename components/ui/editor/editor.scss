@@ -42,3 +42,32 @@ html :where(.editor-styles-wrapper) {
 :root :where(.editor-styles-wrapper) :where(.is-layout-flow) > .wp-block {
 	margin-block-start: 0;
 }
+
+/* Portal Menu Settings */
+#fau_elemental_portal_menu_settings {
+	border: 2px solid #2271b1;
+	box-shadow: 0 0 5px rgba(34, 113, 177, 0.2);
+	margin-top: 10px;
+
+	.postbox-header {
+		background-color: #f0f6fc;
+	}
+
+	h2 {
+		font-weight: bold;
+	}
+}
+
+/* Fix metabox in Gutenberg */
+.components-panel__body .fau-portal-menu-settings {
+	padding: 16px;
+	border: 1px solid #e0e0e0;
+	margin-bottom: 16px;
+}
+
+.fau-portal-template-notice {
+	margin: 10px 0;
+	padding: 10px;
+	background-color: #f0f7fb;
+	border-left: 4px solid #2271b1;
+}
