@@ -97,7 +97,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
         if (!$this->settings['nothumbs'] && $depth === 0) {
             if ($thumbnail_id) {
                 $img_src = wp_get_attachment_image_src($thumbnail_id, 'medium');
-                $thumbnail = $img_src[0];
+                $thumbnail = $img_src ? $img_src[0] : false;
             }
         }
         
