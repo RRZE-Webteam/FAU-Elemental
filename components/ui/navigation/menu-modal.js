@@ -19,9 +19,11 @@
 			this.setupAccessibility();
 		}
 
-		isHierarchyMenu( $modal ) {
-			return $modal.hasClass( 'menu-meta-nav__modal' );
-		}
+			isHierarchyMenu( $modal ) {
+		// Only the structure menu should show breadcrumbs
+		// Check for the hierarchy-specific menu class
+		return $modal.find( '.menu-meta-nav__menu--hierarchy' ).length > 0;
+	}
 
 		generateBreadcrumbs( navigationStack ) {
 			if ( navigationStack.length === 0 ) return '';
