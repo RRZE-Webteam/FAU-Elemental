@@ -5,24 +5,118 @@
  * @package FAU-Elemental
  */
 
-if (!defined('ABSPATH')) {
-    exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 /**
- * Register all navigation menus for the theme
+ * Register all navigation menus for the theme.
+ *
+ * @since 1.0.0
+ * @return void
  */
 function fau_elemental_register_all_menus() {
-    $faue_website_type = get_theme_mod('faue_website_type', 'fau');
-    
-    // Core menus that are always registered
-    $menus = array(
-        'menu-1' => __('Primary Menu', 'fau-elemental'),
-        'footer-menu' => __('Footer Menu', 'fau-elemental'),
-        'footer-lists-menu' => __('Footer Lists Menu', 'fau-elemental'),
-        'footer-important-links' => __('Footer Important Links', 'fau-elemental'),
-    );
-    
-    register_nav_menus($menus);
+	// Register theme navigation menus.
+	register_nav_menus(
+		array(
+			'menu-1'                 => esc_html__( 'Primary Menu', 'fau-elemental' ),
+			'footer-menu'            => esc_html__( 'Footer Menu', 'fau-elemental' ),
+			'footer-lists-menu'      => esc_html__( 'Footer Lists Menu', 'fau-elemental' ),
+			'footer-important-links' => esc_html__( 'Footer Important Links', 'fau-elemental' ),
+		)
+	);
 }
-add_action('after_setup_theme', 'fau_elemental_register_all_menus'); 
+add_action( 'after_setup_theme', 'fau_elemental_register_all_menus' );
+
+/**
+ * Add support for selective refresh for nav menus in the Customizer.
+ *
+ * @since 1.0.0
+ * @param WP_Customize_Manager $wp_customize Theme Customizer object.
+ * @return void
+ */
+function fau_elemental_customize_register_nav_menus( $wp_customize ) {
+	// Bail early if selective refresh is not available.
+	if ( ! isset( $wp_customize->selective_refresh ) ) {
+		return;
+	}
+
+	// Primary Menu.
+	$wp_customize->selective_refresh->add_partial(
+		'nav_menu_locations[menu-1]',
+		array(
+			'selector'            => '#site-navigation',
+			'render_callback'     => function() {
+				wp_nav_menu(
+					array(
+						'theme_location' => 'menu-1',
+						'menu_id'        => 'primary-menu',
+					)
+				);
+			},
+			'container_inclusive' => false,
+		)
+	);
+
+	// Footer Menu (in footer-main.php).
+	$wp_customize->selective_refresh->add_partial(
+		'nav_menu_locations[footer-menu]',
+		array(
+			'selector'            => '.footer-links',
+			'render_callback'     => function() {
+				wp_nav_menu(
+					array(
+						'theme_location' => 'footer-menu',
+						'menu_class'     => 'footer-meta-menu',
+						'container'      => false,
+						'depth'          => 1,
+						'fallback_cb'    => false,
+					)
+				);
+			},
+			'container_inclusive' => false,
+		)
+	);
+
+	// Footer Lists Menu.
+	$wp_customize->selective_refresh->add_partial(
+		'nav_menu_locations[footer-lists-menu]',
+		array(
+			'selector'            => '.footer-lists',
+			'render_callback'     => function() {
+				wp_nav_menu(
+					array(
+						'theme_location'  => 'footer-lists-menu',
+						'menu_class'      => 'footer-lists-menu columns-layout',
+						'container'       => 'nav',
+						'container_class' => 'footer-lists-container',
+						'depth'           => 2,
+						'fallback_cb'     => false,
+					)
+				);
+			},
+			'container_inclusive' => false,
+		)
+	);
+
+	// Footer Important Links.
+	$wp_customize->selective_refresh->add_partial(
+		'nav_menu_locations[footer-important-links]',
+		array(
+			'selector'            => '.footer-important-links',
+			'render_callback'     => function() {
+				wp_nav_menu(
+					array(
+						'theme_location' => 'footer-important-links',
+						'menu_class'     => 'important-links-list',
+						'container'      => false,
+						'fallback_cb'    => false,
+					)
+				);
+			},
+			'container_inclusive' => false,
+		)
+	);
+}
+add_action( 'customize_register', 'fau_elemental_customize_register_nav_menus', 11 ); 
