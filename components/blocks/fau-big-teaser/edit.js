@@ -127,10 +127,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								<Button
 									onClick={ open }
 									variant="secondary"
-									style={ {
-										marginBottom: '10px',
-										display: 'block',
-									} }
+									className="fau-big-teaser__image-select-button"
 								>
 									{ image
 										? __( 'Replace Image', 'fau-elemental' )
