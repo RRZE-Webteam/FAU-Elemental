@@ -22,7 +22,8 @@ function faue_setup() {
     // Enable support for Post Thumbnails on posts and pages
     add_theme_support('post-thumbnails');
 
-
+    // Add support for selective refresh for widgets and nav menus in the Customizer
+    add_theme_support('customize-selective-refresh-widgets');
 
     add_editor_style(array(
         'style.css',
