@@ -9,12 +9,10 @@
         </section>
 
         <section class="footer-instance-contact">
-            <?php
-            $display_address = get_theme_mod('display_footer_address');
-
-            if ($display_address):
-            ?>
+            <?php $display_address = get_theme_mod('display_footer_address'); ?>
+            
             <div class="contact-address">
+                <?php if ($display_address): ?>
                 <h3><?php esc_html_e('Contact and Directions', 'fau-elemental'); ?></h3>
 
                 <div class="contact-address-and-tel-container">
@@ -111,11 +109,12 @@
 
                         </address>
                 </div>
+                <?php endif; ?>
             </div>
-            <?php endif; ?>
-
+            <div class="footer-important-links-container">
+            <h3><?php esc_html_e('Important Links', 'fau-elemental'); ?></h3>
             <nav class="footer-important-links">
-                <h3><?php esc_html_e('Important Links', 'fau-elemental'); ?></h3>
+              
                 <?php
                 wp_nav_menu(array(
                     'theme_location' => 'footer-important-links',
@@ -125,6 +124,7 @@
                 ));
                 ?>
             </nav>
+            </div>
         </section>
 
         <section class="footer-instance-menu">
