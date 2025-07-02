@@ -46,7 +46,7 @@
             }
             
             if ($show_categories === '1' && has_category()) : ?>
-            <span class="post-categories-separator">–</span>
+            <span class="post-categories-separator"></span>
             
             <div class="post-categories"><?php 
                 $categories = get_the_category();
