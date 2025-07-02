@@ -13,3 +13,8 @@
 .screen-reader-text {
 	visibility: hidden;
 }
+
+:root :where(.is-layout-flow) > * {
+	margin-left: auto;
+	margin-right: auto;
+}
