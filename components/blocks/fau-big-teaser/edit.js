@@ -13,7 +13,6 @@ import {
 	RichText,
 } from '@wordpress/block-editor';
 
-
 export default function Edit( { attributes, setAttributes } ) {
 	const { headline, teaserText, linkText, linkUrl, image } = attributes;
 
@@ -53,6 +52,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 						placeholder={ __( 'Enter headline…', 'fau-elemental' ) }
 						help={ sprintf(
+							/* translators: %d: current character count */
 							__( '%d/100 characters', 'fau-elemental' ),
 							headline ? headline.length : 0
 						) }
@@ -74,6 +74,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							'fau-elemental'
 						) }
 						help={ sprintf(
+							/* translators: %d: current character count */
 							__( '%d/200 characters', 'fau-elemental' ),
 							teaserText ? teaserText.length : 0
 						) }
@@ -96,6 +97,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							'fau-elemental'
 						) }
 						help={ sprintf(
+							/* translators: %d: current character count */
 							__( '%d/40 characters', 'fau-elemental' ),
 							linkText ? linkText.length : 0
 						) }

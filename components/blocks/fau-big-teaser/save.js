@@ -2,14 +2,13 @@ import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Save component for the FAU Big Teaser block.
- * 
+ *
  * Renders a promotional teaser section with optional image, headline, description text,
  * and action button. Automatically truncates text content to maintain consistent layout:
  * - Headlines limited to 100 characters
- * - Teaser text limited to 200 characters  
+ * - Teaser text limited to 200 characters
  * - Link text limited to 40 characters
  *
- * @param {Object} attributes Block attributes containing headline, teaserText, linkText, linkUrl, and image
  * @return {Element} Section element with fau-big-teaser styling and structured content.
  */
 export default function Save( { attributes } ) {
