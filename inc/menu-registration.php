@@ -128,14 +128,13 @@ function fau_elemental_customize_register_nav_menus( $wp_customize ) {
 	// Note: Footer menu in instance uses same theme location as main footer,
 	// so it shares the same partial. WordPress will show pencils for both automatically.
 
-	// Footer Important Links - Target with specific parent to ensure it works in instance.
+	// Footer Important Links - Render nav without h3 (h3 is now outside nav).
 	$wp_customize->selective_refresh->add_partial(
 		'nav_menu_locations[footer-important-links]',
 		array(
 			'selector'            => '.footer-important-links',
 			'render_callback'     => function() {
 				echo '<nav class="footer-important-links">';
-				echo '<h3>' . esc_html__('Important Links', 'fau-elemental') . '</h3>';
 				wp_nav_menu(
 					array(
 						'theme_location' => 'footer-important-links',
