@@ -37,7 +37,7 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
     $options = [
         'variant' => $variant,
         'teaser_size' => $size,
-        'faculty_color' => 'fau.de',        
+        'force_fau_colors' => true,       
         'max_items' => count($items)
     ];
 
