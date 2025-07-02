@@ -377,21 +377,8 @@
 				color: var(--FAU-Col-FAU-Weiss-100);
 			}
 
-			.arrow-link {
-				background-color: var(--FAU-Col-FAU-Blau-100);
-				right: 0;
+			
 
-				&::before {
-					background-image: var(--icon-arrow-weiss);
-				}
-			}
-
-			// Focus indicator for RW faculty buttons
-			&:focus-visible {
-				outline: 2px solid var(--FAU-Col-FAU-Weiss-100);
-				outline-offset: 2px;
-				border-radius: 2px;
-			}
 		}
 	}
 
@@ -477,11 +464,23 @@
 				"tf": var(--FAU-Col-TF-Metallic-100)
 			) {
 				.fau-big-button-teaser-group__button--#{$faculty} {
-					border: 1px solid var(--FAU-Col-FAU-Weiss-100);
+					border: 1px solid var(--FAU-Col-FAU-Blau-100);
 
-					h3,
+					h3 {
+						color: var(--FAU-Col-FAU-Blau-100);
+					}
+	
 					p {
-						color: var(--FAU-Col-FAU-Weiss-100);
+						color: var(--FAU-Col-FAU-Schwarz-90);
+					}
+
+					.arrow-link {
+						background-color: var(--FAU-Col-FAU-Blau-100);
+						right: -1px;
+
+						&::before {
+							background-image: var(--icon-arrow-weiss);
+						}
 					}
 
 					// Focus indicator for dark mode faculty buttons
@@ -491,6 +490,18 @@
 						border-radius: 2px;
 					}
 				}
+			}
+
+			// Special handling for RW faculty buttons
+			.fau-big-button-teaser-group__button--rw {
+
+				h3,
+				p {
+					color: var(--FAU-Col-FAU-Weiss-100);
+				}
+
+
+
 			}
 		}
 
@@ -508,7 +519,7 @@
 					"tf": var(--FAU-Col-TF-Metallic-100)
 				) {
 					.fau-big-button-teaser-group__button--#{$faculty} {
-						background-color: $color;
+						background-color: var(--FAU-Col-FAU-Blau-100);
 						border: 1px solid var(--FAU-Col-FAU-Weiss-100);
 
 						h3,
@@ -517,7 +528,7 @@
 						}
 
 						.arrow-link {
-							background-color: var(--FAU-Col-FAU-Weiss-100);
+							background-color: $color;
 							right: -1px;
 
 							&::before {
@@ -561,18 +572,11 @@
 
 				// Special handling for RW faculty in dark mode outline
 				.fau-big-button-teaser-group__button--rw {
-
-					h3,
-					p {
-						color: var(--FAU-Col-FAU-Weiss-100);
-					}
-
 					.arrow-link {
-						background-color: var(--FAU-Col-FAU-Weiss-100);
 						right: -1px;
 
 						&::before {
-							background-image: var(--icon-arrow-fau-blau);
+							background-image: var(--icon-arrow-weiss);
 						}
 					}
 
@@ -589,7 +593,7 @@
 }
 
 // Responsive
-@media screen and (max-width: 999px) {
+@include respond-to("medium") {
 
 	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons,
 	.fau-big-button-teaser-group.fau-big-button-teaser-group--large .fau-big-button-teaser-group__buttons {
@@ -604,7 +608,7 @@
 	}
 }
 
-@media screen and (max-width: 599px) {
+@include respond-to("small") {
 
 	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons,
 	.fau-big-button-teaser-group.fau-big-button-teaser-group--large .fau-big-button-teaser-group__buttons {
