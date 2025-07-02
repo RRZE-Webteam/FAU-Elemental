@@ -9,12 +9,10 @@
         </section>
 
         <section class="footer-instance-contact">
-            <?php
-            $display_address = get_theme_mod('display_footer_address');
-
-            if ($display_address):
-            ?>
+            <?php $display_address = get_theme_mod('display_footer_address'); ?>
+            
             <div class="contact-address">
+                <?php if ($display_address): ?>
                 <h3><?php esc_html_e('Contact and Directions', 'fau-elemental'); ?></h3>
 
                 <div class="contact-address-and-tel-container">
@@ -111,8 +109,8 @@
 
                         </address>
                 </div>
+                <?php endif; ?>
             </div>
-            <?php endif; ?>
 
             <nav class="footer-important-links">
                 <h3><?php esc_html_e('Important Links', 'fau-elemental'); ?></h3>
