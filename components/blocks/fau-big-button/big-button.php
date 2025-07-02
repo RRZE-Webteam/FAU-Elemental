@@ -45,17 +45,27 @@ function fau_trim_text_big_button($text, $max_chars = 80, $more = '...') {
  * Shared rendering function for big button teaser groups
  *
  * @param array $items Array of items with 'title', 'excerpt', 'url' keys, and optionally 'faculty_color' for individual colors
- * @param array $options Rendering options
+ * @param array $options {
+ *     Rendering options for the big button group.
+ *
+ *     @type string $teaser_size       Size of the buttons. Accepts 'small' or 'large'. Default 'small'.
+ *     @type string $variant           Button style variant. Accepts 'filled' or 'outline'. Default 'filled'.
+ *     @type bool   $is_dark_style     Whether to apply dark style. Default false.
+ *     @type string $wrapper_attributes HTML attributes for the wrapper element. Default empty.
+ *     @type bool   $faculty_showcase  Whether to display as faculty showcase. Default true.
+ *     @type bool   $force_fau_colors  Whether to force default FAU colors, ignoring faculty-specific colors. Default false.
+ * }
  * @return string HTML output
  */
 function render_big_button_html($items, $options = []) {
     // Set default options
     $defaults = [
-        'teaser_size' => 'small',
-        'variant' => 'filled',
-        'is_dark_style' => false,
+        'teaser_size'        => 'small',
+        'variant'            => 'filled',
+        'is_dark_style'      => false,
         'wrapper_attributes' => '',
-        'faculty_showcase' => true
+        'faculty_showcase'   => true,
+        'force_fau_colors'   => false
     ];
     $options = wp_parse_args($options, $defaults);
 
@@ -100,7 +110,11 @@ function render_big_button_html($items, $options = []) {
                 // Determine the effective faculty color for this item
                 $effective_faculty_color = null;
                 
-                if ($website_type === 'fau') {
+                if ($options['force_fau_colors']) {
+                    // When force_fau_colors is true, always use FAU colors (no faculty-specific colors)
+                    // This effectively means we don't add any faculty color class
+                    $effective_faculty_color = null;
+                } elseif ($website_type === 'fau') {
                     // For fau.de websites, use individual item color if set
                     if (!empty($item['faculty_color']) && $item['faculty_color'] !== 'default') {
                         $effective_faculty_color = $item['faculty_color'];
