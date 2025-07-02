@@ -59,32 +59,56 @@ function fau_elemental_customize_register_nav_menus( $wp_customize ) {
 		)
 	);
 
-	// Footer Menu (in footer-main.php).
+	// Footer Menu - Target both footer-main and footer-instance containers.
 	$wp_customize->selective_refresh->add_partial(
 		'nav_menu_locations[footer-menu]',
 		array(
-			'selector'            => '.footer-links',
+			'selector'            => '.footer-bottom-top .footer-right, .footer-content--instance .footer-meta-nav',
 			'render_callback'     => function() {
-				wp_nav_menu(
-					array(
-						'theme_location' => 'footer-menu',
-						'menu_class'     => 'footer-meta-menu',
-						'container'      => false,
-						'depth'          => 1,
-						'fallback_cb'    => false,
-					)
-				);
+				// Check which context we're in
+				$in_main_footer = strpos($_SERVER['REQUEST_URI'], 'customize_changeset_uuid') !== false;
+				
+				// For main footer
+				if ($in_main_footer || !isset($GLOBALS['footer_instance_context'])) {
+					echo '<div class="footer-right">';
+					echo '<nav class="footer-links">';
+					wp_nav_menu(
+						array(
+							'theme_location' => 'footer-menu',
+							'menu_class'     => 'footer-meta-menu',
+							'container'      => false,
+							'depth'          => 1,
+							'fallback_cb'    => false,
+						)
+					);
+					echo '</nav>';
+					echo '</div>';
+				} else {
+					// For footer instance
+					echo '<nav class="footer-meta-nav">';
+					wp_nav_menu(
+						array(
+							'theme_location' => 'footer-menu',
+							'menu_class'     => 'footer-menu-list',
+							'container'      => false,
+							'depth'          => 1,
+							'fallback_cb'    => false,
+						)
+					);
+					echo '</nav>';
+				}
 			},
-			'container_inclusive' => false,
+			'container_inclusive' => true,
 		)
 	);
 
-	// Footer Lists Menu.
+	// Footer Lists Menu - Include section container for consistent pencil display.
 	$wp_customize->selective_refresh->add_partial(
 		'nav_menu_locations[footer-lists-menu]',
 		array(
 			'selector'            => '.footer-lists',
 			'render_callback'     => function() {
+				echo '<section class="footer-lists">';
 				wp_nav_menu(
 					array(
 						'theme_location'  => 'footer-lists-menu',
@@ -95,17 +119,23 @@ function fau_elemental_customize_register_nav_menus( $wp_customize ) {
 						'fallback_cb'     => false,
 					)
 				);
+				echo '</section>';
 			},
-			'container_inclusive' => false,
+			'container_inclusive' => true,
 		)
 	);
 
-	// Footer Important Links.
+	// Note: Footer menu in instance uses same theme location as main footer,
+	// so it shares the same partial. WordPress will show pencils for both automatically.
+
+	// Footer Important Links - Target with specific parent to ensure it works in instance.
 	$wp_customize->selective_refresh->add_partial(
 		'nav_menu_locations[footer-important-links]',
 		array(
 			'selector'            => '.footer-important-links',
 			'render_callback'     => function() {
+				echo '<nav class="footer-important-links">';
+				echo '<h3>' . esc_html__('Important Links', 'fau-elemental') . '</h3>';
 				wp_nav_menu(
 					array(
 						'theme_location' => 'footer-important-links',
@@ -114,8 +144,9 @@ function fau_elemental_customize_register_nav_menus( $wp_customize ) {
 						'fallback_cb'    => false,
 					)
 				);
+				echo '</nav>';
 			},
-			'container_inclusive' => false,
+			'container_inclusive' => true,
 		)
 	);
 }
