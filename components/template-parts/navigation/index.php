@@ -10,4 +10,4 @@ if (!defined('ABSPATH')) {
 }
 
 // Include the unified menu modal system first
-require_once __DIR__ . '/menu-modal-config.php';
+require_once get_template_directory() . '/components/template-parts/navigation/menu-modal-config.php';

@@ -20,10 +20,8 @@ $has_website_menu = fau_elemental_has_website_menu();
 
 <nav class="main-navigation" role="navigation" aria-label="<?php esc_attr_e('Main Navigation', 'fau-elemental'); ?>">
     <div class="main-navigation__container">
-        <div class="main-navigation__brand">
-            <div class="main-navigation__logo">
-                <?php fau_elemental_display_logo_title(); ?>
-            </div>
+        <div class="main-navigation__logo">
+            <?php fau_elemental_display_logo_title(); ?>
         </div>
 
         <div class="main-navigation__direct-links">
@@ -46,11 +44,7 @@ $has_website_menu = fau_elemental_has_website_menu();
             <?php if ($has_website_menu): ?>
                 <button class="main-navigation__toggle menu-modal__open-btn" aria-expanded="false" aria-controls="menu-website-modal" data-modal-target="menu-website-modal">
                     <span class="main-navigation__toggle-text">Menü</span>
-                    <span class="main-navigation__toggle-icon">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
+                    <span class="main-navigation__toggle-icon"></span>
                 </button>
             <?php endif; ?>
         </div>

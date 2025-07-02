@@ -16,18 +16,39 @@ if (!function_exists('add_action')) {
 }
 
 /**
- * Unified Menu Modal Component Class
+ * Unified Menu Modal Component Class (Singleton)
  */
 class Menu_Modal {
     
+    /**
+     * The single instance of the class
+     */
+    private static $instance = null;
+    
     private $modal_configs = [];
+    private $hooks_registered = false;
     
     /**
-     * Initialize the component
+     * Public constructor (WordPress-friendly singleton)
      */
     public function __construct() {
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
-        add_action('wp_footer', array($this, 'render_all_modals'));
+        // Only register hooks once, even if constructor is called multiple times
+        if (!$this->hooks_registered && function_exists('add_action')) {
+            add_action('wp_footer', array($this, 'render_all_modals'));
+            $this->hooks_registered = true;
+        }
+    }
+    
+    /**
+     * Get the singleton instance
+     *
+     * @return Menu_Modal The singleton instance
+     */
+    public static function get_instance() {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 
     /**
@@ -59,12 +80,7 @@ class Menu_Modal {
         $this->modal_configs[$modal_id] = wp_parse_args($config, $default_config);
     }
 
-    /**
-     * Enqueue necessary scripts and styles
-     */
-    public function enqueue_scripts() {
-        // Note: CSS and JS are now handled by the main theme enqueue function (inc/enqueue-assets.php)
-    }
+
 
     /**
      * Get menu from main site (for global menus)

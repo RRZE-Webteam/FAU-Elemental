@@ -13,16 +13,8 @@ if (!defined('ABSPATH')) {
 // Include the unified menu modal component
 require_once get_template_directory() . '/components/template-parts/navigation/menu-modal.php';
 
-// Get global menu modal instance
-global $menu_modal;
-
-// Ensure the menu modal instance exists - if not, create it
-if (!$menu_modal || !is_object($menu_modal)) {
-    $menu_modal = new Menu_Modal();
-}
-
 // Configure Services Modal (Global Menu - replaces menu-meta-nav functionality)
-$menu_modal->register_modal('services', array(
+Menu_Modal::get_instance()->register_modal('services', array(
     'theme_locations' => array('top_header_nav_services'),
     'use_global_menu' => true,
     'modal_class' => 'menu-meta-nav__modal',
@@ -35,7 +27,7 @@ $menu_modal->register_modal('services', array(
 ));
 
 // Configure Structure Modal (Global Menu - replaces menu-meta-nav functionality)
-$menu_modal->register_modal('structure', array(
+Menu_Modal::get_instance()->register_modal('structure', array(
     'theme_locations' => array('top_header_nav_structure'),
     'use_global_menu' => true,
     'modal_class' => 'menu-meta-nav__modal',
@@ -48,7 +40,7 @@ $menu_modal->register_modal('structure', array(
 ));
 
 // Configure Website Menu Modal (Local Menu - replaces menu-website functionality)
-$menu_modal->register_modal('menu-website', array(
+Menu_Modal::get_instance()->register_modal('menu-website', array(
     'theme_locations' => array('header_primary_menu', 'header_menu_links'),
     'use_global_menu' => false,
     'modal_class' => 'menu-website-modal',
@@ -70,12 +62,7 @@ $menu_modal->register_modal('menu-website', array(
  * @return bool
  */
 function fau_elemental_has_services_menu() {
-    global $menu_modal;
-    if (!$menu_modal || !is_object($menu_modal)) {
-        return false;
-    }
-    $result = $menu_modal->has_menu(array('top_header_nav_services'), true);
-    return $result;
+    return Menu_Modal::get_instance()->has_menu(array('top_header_nav_services'), true);
 }
 
 /**
@@ -84,12 +71,7 @@ function fau_elemental_has_services_menu() {
  * @return bool
  */
 function fau_elemental_has_structure_menu() {
-    global $menu_modal;
-    if (!$menu_modal || !is_object($menu_modal)) {
-        return false;
-    }
-    $result = $menu_modal->has_menu(array('top_header_nav_structure'), true);
-    return $result;
+    return Menu_Modal::get_instance()->has_menu(array('top_header_nav_structure'), true);
 }
 
 /**
@@ -98,12 +80,7 @@ function fau_elemental_has_structure_menu() {
  * @return bool
  */
 function fau_elemental_has_website_menu() {
-    global $menu_modal;
-    if (!$menu_modal || !is_object($menu_modal)) {
-        return false;
-    }
-    $result = $menu_modal->has_menu(array('header_primary_menu'));
-    return $result;
+    return Menu_Modal::get_instance()->has_menu(array('header_primary_menu'));
 }
 
 /**
@@ -112,11 +89,7 @@ function fau_elemental_has_website_menu() {
  * @return array|false
  */
 function fau_elemental_get_services_menu_items() {
-    global $menu_modal;
-    if (!$menu_modal || !is_object($menu_modal)) {
-        return false;
-    }
-    return $menu_modal->get_main_site_menu('top_header_nav_services');
+    return Menu_Modal::get_instance()->get_main_site_menu('top_header_nav_services');
 }
 
 /**
@@ -125,9 +98,5 @@ function fau_elemental_get_services_menu_items() {
  * @return array|false
  */
 function fau_elemental_get_structure_menu_items() {
-    global $menu_modal;
-    if (!$menu_modal || !is_object($menu_modal)) {
-        return false;
-    }
-    return $menu_modal->get_main_site_menu('top_header_nav_structure');
+    return Menu_Modal::get_instance()->get_main_site_menu('top_header_nav_structure');
 } 
