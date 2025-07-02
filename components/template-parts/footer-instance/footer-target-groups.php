@@ -29,6 +29,7 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
                 'title' => $group['title'],
                 'excerpt' => $group['description'],
                 'url' => !empty($group['link']) ? $group['link'] : '#'
+                // No faculty_color set - will always use FAU blue colors
             ];
         }
     }
@@ -36,7 +37,7 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
     $options = [
         'variant' => $variant,
         'teaser_size' => $size,
-        'faculty_color' => 'default',
+        'faculty_color' => 'fau.de',        
         'max_items' => count($items)
     ];
 
