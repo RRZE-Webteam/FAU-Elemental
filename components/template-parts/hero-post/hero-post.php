@@ -6,7 +6,7 @@
  */
 ?>
 
-<div class="post-header">
+<div class="post-header" role="banner">
     
     <div class="post-header-content">
         
