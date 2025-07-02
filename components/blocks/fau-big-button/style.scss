@@ -187,6 +187,7 @@
 
 // Faculty colors for entire container (existing behavior)
 @each $faculty, $color in (
+	"fau": var(--FAU-Col-FAU-Blau-100),
 	"phil": var(--FAU-Col-Phil-Gelb-100),
 	"nat": var(--FAU-Col-Nat-Gruen-100),
 	"med": var(--FAU-Col-Med-Blau-100),
@@ -308,6 +309,7 @@
 
 		// Individual button faculty colors
 		@each $faculty, $color in (
+			"fau": var(--FAU-Col-FAU-Blau-100),
 			"phil": var(--FAU-Col-Phil-Gelb-100),
 			"nat": var(--FAU-Col-Nat-Gruen-100),
 			"med": var(--FAU-Col-Med-Blau-100),
@@ -339,6 +341,31 @@
 					outline-offset: 2px;
 					border-radius: 2px;
 				}
+			}
+		}
+
+		// Special handling for FAU faculty buttons
+		.fau-big-button-teaser-group__button--fau {
+
+			h3,
+			p {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+
+			.arrow-link {
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+				right: 0;
+
+				&::before {
+					background-image: var(--icon-arrow-fau-blau);
+				}
+			}
+
+			// Focus indicator for FAU faculty buttons
+			&:focus-visible {
+				outline: 2px solid var(--FAU-Col-FAU-Weiss-100);
+				outline-offset: 2px;
+				border-radius: 2px;
 			}
 		}
 
@@ -374,6 +401,7 @@
 		.fau-big-button-teaser-group__buttons {
 
 			@each $faculty, $color in (
+				"fau": var(--FAU-Col-FAU-Blau-100),
 				"phil": var(--FAU-Col-Phil-Gelb-100),
 				"nat": var(--FAU-Col-Nat-Gruen-100),
 				"med": var(--FAU-Col-Med-Blau-100),
@@ -409,6 +437,18 @@
 				}
 			}
 
+			// Special handling for FAU faculty outline buttons
+			.fau-big-button-teaser-group__button--fau {
+
+				.arrow-link {
+					right: -1px;
+
+					&::before {
+						background-image: var(--icon-arrow-weiss);
+					}
+				}
+			}
+
 			// Special handling for RW faculty outline buttons
 			.fau-big-button-teaser-group__button--rw {
 
@@ -429,6 +469,7 @@
 		.fau-big-button-teaser-group__buttons {
 
 			@each $faculty, $color in (
+				"fau": var(--FAU-Col-FAU-Blau-100),
 				"phil": var(--FAU-Col-Phil-Gelb-100),
 				"nat": var(--FAU-Col-Nat-Gruen-100),
 				"med": var(--FAU-Col-Med-Blau-100),
@@ -459,6 +500,7 @@
 			.fau-big-button-teaser-group__buttons {
 
 				@each $faculty, $color in (
+					"fau": var(--FAU-Col-FAU-Blau-100),
 					"phil": var(--FAU-Col-Phil-Gelb-100),
 					"nat": var(--FAU-Col-Nat-Gruen-100),
 					"med": var(--FAU-Col-Med-Blau-100),
@@ -489,6 +531,31 @@
 							outline-offset: 2px;
 							border-radius: 2px;
 						}
+					}
+				}
+
+				// Special handling for FAU faculty in dark mode outline
+				.fau-big-button-teaser-group__button--fau {
+
+					h3,
+					p {
+						color: var(--FAU-Col-FAU-Weiss-100);
+					}
+
+					.arrow-link {
+						background-color: var(--FAU-Col-FAU-Weiss-100);
+						right: -1px;
+
+						&::before {
+							background-image: var(--icon-arrow-fau-blau);
+						}
+					}
+
+					// Focus indicator for FAU faculty dark mode outline buttons
+					&:focus-visible {
+						outline: 2px solid var(--FAU-Col-FAU-Weiss-100);
+						outline-offset: 2px;
+						border-radius: 2px;
 					}
 				}
 

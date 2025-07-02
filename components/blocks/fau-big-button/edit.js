@@ -66,6 +66,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	// Faculty color options for individual items
 	const facultyColorOptions = [
 		{ label: __( 'Default', 'fau-elemental' ), value: 'default' },
+		{ label: __( 'FAU', 'fau-elemental' ), value: 'fau' },
 		{ label: __( 'Philosophy', 'fau-elemental' ), value: 'phil' },
 		{ label: __( 'Law & Economics', 'fau-elemental' ), value: 'rw' },
 		{ label: __( 'Medicine', 'fau-elemental' ), value: 'med' },

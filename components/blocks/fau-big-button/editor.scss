@@ -147,6 +147,7 @@
 
 		// Individual button faculty colors
 		@each $faculty, $color in (
+			"fau": var(--FAU-Col-FAU-Blau-100),
 			"phil": var(--FAU-Col-Phil-Gelb-100),
 			"nat": var(--FAU-Col-Nat-Gruen-100),
 			"med": var(--FAU-Col-Med-Blau-100),
@@ -170,6 +171,24 @@
 					&::before {
 						background-image: var(--icon-arrow-fau-blau) !important;
 					}
+				}
+			}
+		}
+
+		// Special handling for FAU faculty buttons
+		.fau-big-button-teaser-group__button--fau a {
+
+			h3,
+			p {
+				color: var(--FAU-Col-FAU-Weiss-100) !important;
+			}
+
+			.arrow-link {
+				background-color: var(--FAU-Col-FAU-Weiss-100) !important;
+				right: 0;
+
+				&::before {
+					background-image: var(--icon-arrow-fau-blau) !important;
 				}
 			}
 		}
@@ -199,6 +218,7 @@
 		.fau-big-button-teaser-group__buttons {
 
 			@each $faculty, $color in (
+				"fau": var(--FAU-Col-FAU-Blau-100),
 				"phil": var(--FAU-Col-Phil-Gelb-100),
 				"nat": var(--FAU-Col-Nat-Gruen-100),
 				"med": var(--FAU-Col-Med-Blau-100),
@@ -227,6 +247,18 @@
 				}
 			}
 
+			// Special handling for FAU faculty outline buttons
+			.fau-big-button-teaser-group__button--fau a {
+
+				.arrow-link {
+					right: -1px;
+
+					&::before {
+						background-image: var(--icon-arrow-weiss) !important;
+					}
+				}
+			}
+
 			// Special handling for RW faculty outline buttons
 			.fau-big-button-teaser-group__button--rw a {
 
@@ -247,6 +279,7 @@
 		.fau-big-button-teaser-group__buttons {
 
 			@each $faculty, $color in (
+				"fau": var(--FAU-Col-FAU-Blau-100),
 				"phil": var(--FAU-Col-Phil-Gelb-100),
 				"nat": var(--FAU-Col-Nat-Gruen-100),
 				"med": var(--FAU-Col-Med-Blau-100),
@@ -270,6 +303,7 @@
 			.fau-big-button-teaser-group__buttons {
 
 				@each $faculty, $color in (
+					"fau": var(--FAU-Col-FAU-Blau-100),
 					"phil": var(--FAU-Col-Phil-Gelb-100),
 					"nat": var(--FAU-Col-Nat-Gruen-100),
 					"med": var(--FAU-Col-Med-Blau-100),
@@ -291,6 +325,24 @@
 							&::before {
 								background-image: var(--icon-arrow-fau-blau) !important;
 							}
+						}
+					}
+				}
+
+				// Special handling for FAU faculty in dark mode outline
+				.fau-big-button-teaser-group__button--fau a {
+
+					h3,
+					p {
+						color: var(--FAU-Col-FAU-Weiss-100) !important;
+					}
+
+					.arrow-link {
+						background-color: var(--FAU-Col-FAU-Weiss-100) !important;
+						right: -1px;
+
+						&::before {
+							background-image: var(--icon-arrow-fau-blau) !important;
 						}
 					}
 				}
