@@ -20,7 +20,11 @@ function fau_elemental_register_all_menus() {
 	// Register theme navigation menus.
 	register_nav_menus(
 		array(
-			'menu-1'                 => esc_html__( 'Primary Menu', 'fau-elemental' ),
+			'header_primary_menu' => esc_html__('Header Primary Menu', 'fau-elemental'),
+			'header_direct_links_menu' => esc_html__('Header Direct Links Menu', 'fau-elemental'),
+			'header_menu_links' => esc_html__('Header Menu Links', 'fau-elemental'),
+			'top_header_nav_services' => esc_html__('Top Header Nav Services', 'fau-elemental'),
+			'top_header_nav_structure' => esc_html__('Top Header Nav Structure', 'fau-elemental'),
 			'footer-menu'            => esc_html__( 'Footer Menu', 'fau-elemental' ),
 			'footer-lists-menu'      => esc_html__( 'Footer Lists Menu', 'fau-elemental' ),
 			'footer-important-links' => esc_html__( 'Footer Important Links', 'fau-elemental' ),

@@ -109,4 +109,21 @@ function faue_enqueue_block_view_scripts() {
         }
     }
 }
-add_action('wp_enqueue_scripts', 'faue_enqueue_block_view_scripts'); 
+add_action('wp_enqueue_scripts', 'faue_enqueue_block_view_scripts');
+
+// Enqueue Menu Modal Script
+function faue_enqueue_menu_modal_script() {
+    $script_asset_path = get_theme_file_path('build/js/menu-modal.asset.php');
+    if (file_exists($script_asset_path)) {
+        $script_asset = include $script_asset_path;
+        
+        wp_enqueue_script(
+            'faue-menu-modal',
+            get_theme_file_uri('build/js/menu-modal.js'),
+            array_merge($script_asset['dependencies'], array('jquery')),
+            $script_asset['version'],
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'faue_enqueue_menu_modal_script'); 

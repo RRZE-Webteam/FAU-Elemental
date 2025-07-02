@@ -147,7 +147,6 @@ module.exports = {
 			process.cwd(),
 			'components/ui/editor/editor-wrapper.scss'
 		),
-
 		// ============================================================================
 		// JAVASCRIPT BUNDLES
 		// ============================================================================
@@ -174,6 +173,11 @@ module.exports = {
 		'js/quote-carousel': path.resolve(
 			process.cwd(),
 			'components/core-blocks/quote/quote-carousel.js'
+		),
+		// Add navigation component scripts (unified menu modal system)
+		'js/menu-modal': path.resolve(
+			process.cwd(),
+			'components/template-parts/navigation/menu-modal.js'
 		),
 
 		// Template Part Scripts
