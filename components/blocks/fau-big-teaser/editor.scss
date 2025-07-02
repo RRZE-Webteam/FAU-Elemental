@@ -4,29 +4,6 @@
  */
 
 // Editor preview layout to match frontend
-.fau-big-teaser-editor-preview {
-	display: flex;
-	flex-direction: column;
-
-	@media (min-width: 768px) {
-		flex-direction: row;
-		align-items: stretch;
-	}
-}
-
-.fau-big-teaser-editor-preview .fau-big-teaser__content {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	padding: 2rem;
-	order: 2;
-
-	@media (min-width: 768px) {
-		order: 1;
-		flex: 1;
-		padding: 3rem;
-	}
-}
 
 .fau-big-teaser-editor-preview .fau-big-teaser__image {
 	order: 1;

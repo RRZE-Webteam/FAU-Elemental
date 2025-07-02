@@ -1,22 +1,18 @@
 import { useBlockProps } from '@wordpress/block-editor';
 
 /**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
+ * Save component for the FAU Big Teaser block.
+ * 
+ * Renders a promotional teaser section with optional image, headline, description text,
+ * and action button. Automatically truncates text content to maintain consistent layout:
+ * - Headlines limited to 100 characters
+ * - Teaser text limited to 200 characters  
+ * - Link text limited to 40 characters
  *
- * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
+ * @param {Object} attributes Block attributes containing headline, teaserText, linkText, linkUrl, and image
+ * @return {Element} Section element with fau-big-teaser styling and structured content.
  */
-
-/**
- * The save function defines the way in which the different attributes should
- * be combined into the final markup, which is then serialized by the block
- * editor into `post_content`.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#save
- *
- * @return {Element} Element to render.
- */
-export default function save( { attributes } ) {
+export default function Save( { attributes } ) {
 	const {
 		headline = '',
 		teaserText = '',
@@ -35,10 +31,10 @@ export default function save( { attributes } ) {
 		const lastSpace = truncated.lastIndexOf( ' ' );
 
 		if ( lastSpace !== -1 && lastSpace > length * 0.8 ) {
-			return truncated.substring( 0, lastSpace ) + '...';
+			return truncated.substring( 0, lastSpace ) + '…';
 		}
 
-		return truncated + '...';
+		return truncated + '…';
 	};
 
 	// Apply character limits (same as PHP version)

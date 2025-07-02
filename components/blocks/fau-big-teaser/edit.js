@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import {
 	PanelBody,
 	TextControl,
@@ -12,7 +12,7 @@ import {
 	useBlockProps,
 	RichText,
 } from '@wordpress/block-editor';
-import { Fragment } from '@wordpress/element';
+
 
 export default function Edit( { attributes, setAttributes } ) {
 	const { headline, teaserText, linkText, linkUrl, image } = attributes;
@@ -34,7 +34,7 @@ export default function Edit( { attributes, setAttributes } ) {
 	};
 
 	return (
-		<Fragment>
+		<>
 			<InspectorControls>
 				<PanelBody
 					title={ __( 'Content', 'fau-elemental' ) }
@@ -52,9 +52,10 @@ export default function Edit( { attributes, setAttributes } ) {
 							} )
 						}
 						placeholder={ __( 'Enter headline…', 'fau-elemental' ) }
-						help={ `${
+						help={ sprintf(
+							__( '%d/100 characters', 'fau-elemental' ),
 							headline ? headline.length : 0
-						}/100 characters` }
+						) }
 					/>
 
 					<TextareaControl
@@ -72,9 +73,10 @@ export default function Edit( { attributes, setAttributes } ) {
 							'Enter teaser text…',
 							'fau-elemental'
 						) }
-						help={ `${
+						help={ sprintf(
+							__( '%d/200 characters', 'fau-elemental' ),
 							teaserText ? teaserText.length : 0
-						}/200 characters` }
+						) }
 						rows={ 3 }
 					/>
 
@@ -93,9 +95,10 @@ export default function Edit( { attributes, setAttributes } ) {
 							'Enter link text…',
 							'fau-elemental'
 						) }
-						help={ `${
+						help={ sprintf(
+							__( '%d/40 characters', 'fau-elemental' ),
 							linkText ? linkText.length : 0
-						}/40 characters` }
+						) }
 					/>
 
 					<TextControl
@@ -242,6 +245,6 @@ export default function Edit( { attributes, setAttributes } ) {
 					) }
 				</div>
 			</div>
-		</Fragment>
+		</>
 	);
 }

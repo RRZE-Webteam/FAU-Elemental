@@ -12,6 +12,8 @@
 
 ?>
 
+<!-- wp:group -->
+<div class="wp-block-group">
 <!-- wp:fau-elemental/fau-meta-headline {"headline":"Forschung an der FAU","id":"featured-content"} -->
 <div class="wp-block-fau-elemental-fau-meta-headline" id="headline-featured-content">Forschung an der FAU</div>
 <!-- /wp:fau-elemental/fau-meta-headline -->
@@ -33,4 +35,6 @@
         </div>
     </div>
 </section>
-<!-- /wp:fau-elemental/fau-big-teaser --> 
+<!-- /wp:fau-elemental/fau-big-teaser -->
+</div>
+<!-- /wp:group --> 
