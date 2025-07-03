@@ -45,6 +45,5 @@
 	},
 	"textdomain": "fau-elemental",
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./editor.css",
 	"style": "file:./style-theme.css"
 }

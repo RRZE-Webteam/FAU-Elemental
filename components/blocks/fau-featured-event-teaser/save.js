@@ -1,6 +1,7 @@
 import { useBlockProps } from '@wordpress/block-editor';
+import { processEventDate } from './utils/date-helpers';
 
-export default function save( { attributes } ) {
+export default function Save( { attributes } ) {
 	const {
 		eventTitle,
 		eventDescription,
@@ -12,12 +13,8 @@ export default function save( { attributes } ) {
 		imageAlt,
 	} = attributes;
 
-	// Split the date into day and month/year
-	const dateParts = eventDate
-		? eventDate.split( ' ' )
-		: [ '01', 'Okt', '2024' ];
-	const day = dateParts[ 0 ];
-	const monthYear = dateParts.slice( 1 ).join( ' ' );
+	// Process the date using shared utility
+	const { day, monthYear, datetimeAttr } = processEventDate( eventDate );
 
 	const blockProps = useBlockProps.save( {
 		className: 'wp-block-fau-elemental-featured-event-teaser',
@@ -36,10 +33,10 @@ export default function save( { attributes } ) {
 					</div>
 				</div>
 				<div className="content-right">
-					<div className="event-date">
-						<div className="date-day">{ day }</div>
-						<div className="date-month-year">{ monthYear }</div>
-					</div>
+					<time className="event-date" dateTime={ datetimeAttr }>
+						<span className="date-day">{ day }</span>
+						<span className="date-month-year">{ monthYear }</span>
+					</time>
 					{ showImage && imageUrl && (
 						<div className="featured-event-image">
 							<img src={ imageUrl } alt={ imageAlt } />

@@ -7,7 +7,7 @@ import {
 	MediaUploadCheck,
 } from '@wordpress/block-editor';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
-import './editor.scss';
+import { processEventDate } from './utils/date-helpers';
 
 export default function Edit( { attributes, setAttributes } ) {
 	const {
@@ -21,10 +21,8 @@ export default function Edit( { attributes, setAttributes } ) {
 		imageAlt,
 	} = attributes;
 
-	// Split the date into day and month/year
-	const dateParts = eventDate ? eventDate.split( ' ' ) : [ '01', 'Okt 2024' ];
-	const day = dateParts[ 0 ];
-	const monthYear = dateParts.slice( 1 ).join( ' ' );
+	// Process the date using shared utility
+	const { day, monthYear, datetimeAttr } = processEventDate( eventDate );
 
 	return (
 		<>
@@ -46,7 +44,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							setAttributes( { eventDate: value } )
 						}
 						help={ __(
-							'Enter date in format: DD MMM YYYY (e.g. 01 Okt 2024)',
+							'Enter date in format: DD MM YYYY or DD MMM YYYY (e.g. 01 12 2025 or 01 Dec 2025)',
 							'fau-elemental'
 						) }
 					/>
@@ -146,10 +144,12 @@ export default function Edit( { attributes, setAttributes } ) {
 						</div>
 					</div>
 					<div className="content-right">
-						<div className="event-date">
-							<div className="date-day">{ day }</div>
-							<div className="date-month-year">{ monthYear }</div>
-						</div>
+						<time className="event-date" dateTime={ datetimeAttr }>
+							<span className="date-day">{ day }</span>
+							<span className="date-month-year">
+								{ monthYear }
+							</span>
+						</time>
 						{ showImage && imageUrl && (
 							<div className="featured-event-image">
 								<img src={ imageUrl } alt={ imageAlt } />
