@@ -42,35 +42,34 @@ addFilter(
 				return <BlockEdit { ...props } />;
 			}
 
-			const blockProps = useBlockProps( {
-				onMouseDown: ( event ) => {
-					// Get the summary element
-					const summary = event.target.closest( 'summary' );
-					if ( ! summary ) {
-						return;
-					}
-
-					// Get the click position relative to the summary
-					const rect = summary.getBoundingClientRect();
-					const clickX = event.clientX - rect.left;
-
-					// Check if click is in the chevron area (right side)
-					if ( clickX > rect.width - 40 ) {
-						event.preventDefault();
-						event.stopPropagation();
-						const details = summary.parentElement;
-						if ( details.tagName.toLowerCase() === 'details' ) {
-							details.open = ! details.open;
+			const enhancedProps = {
+				...props,
+				...useBlockProps( {
+					onMouseDown: ( event ) => {
+						// Get the summary element
+						const summary = event.target.closest( 'summary' );
+						if ( ! summary ) {
+							return;
 						}
-					}
-				},
-			} );
 
-			return (
-				<div { ...blockProps }>
-					<BlockEdit { ...props } />
-				</div>
-			);
+						// Get the click position relative to the summary
+						const rect = summary.getBoundingClientRect();
+						const clickX = event.clientX - rect.left;
+
+						// Check if click is in the chevron area (right side)
+						if ( clickX > rect.width - 40 ) {
+							event.preventDefault();
+							event.stopPropagation();
+							const details = summary.parentElement;
+							if ( details.tagName.toLowerCase() === 'details' ) {
+								details.open = ! details.open;
+							}
+						}
+					},
+				} ),
+			};
+
+			return <BlockEdit { ...enhancedProps } />;
 		};
 	}, 'withDetailsRestrictions' )
 );

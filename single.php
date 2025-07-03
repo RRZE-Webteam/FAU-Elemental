@@ -15,7 +15,7 @@ get_header();
     get_template_part('components/template-parts/hero-post/hero-post');
     ?>
 
-    <div class="entry-content">
+    <div class="is-layout-flow">
         <?php the_content(); ?>
     </div>
 

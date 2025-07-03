@@ -12,7 +12,7 @@ get_header();
 <main>
     <?php while (have_posts()) : the_post(); ?>
 
-        <div>
+        <div class="is-layout-flow">
             <?php the_content(); ?>
         </div>
 
