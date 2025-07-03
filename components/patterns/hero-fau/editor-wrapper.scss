@@ -1,5 +1,10 @@
 .faue-is-hero-fau-pattern-selected {
 
+	.block-editor-block-switcher * {
+		// disable block transforms
+		pointer-events: none !important; // override WP CSS
+	}
+
 	// hide block lock toolbar
 	.block-editor-block-lock-toolbar,
     // hide block mover
@@ -31,6 +36,11 @@
 
 	&.faue-is-cover-block-selected {
 
+		.components-resizable-box__handle {
+			// hide resize handle
+			display: none;
+		}
+
 		.block-editor-block-toolbar {
 			// hide all toolbar groups except the replace image button
 			>.components-toolbar-group:not(:nth-last-child(2)) {
@@ -43,7 +53,7 @@
 			.block-editor-block-inspector__tabs {
 
 				// hide all tabs except the settings tab
-				> div:not(#tabs-1-settings-view) {
+				> div:not([id*="settings-view"]) {
 					display: none;
 				}
 
