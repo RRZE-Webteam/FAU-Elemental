@@ -132,26 +132,19 @@ function getPatternClassFromBlock( block ) {
 	const className = block.attributes.className;
 
 	// Check for hero pattern classes
-	if ( className.includes( 'hero-fau' ) ) {
-		return 'hero-fau';
-	}
-	if ( className.includes( 'hero-portal' ) ) {
-		return 'hero-portal';
-	}
-	if ( className.includes( 'hero-faculty' ) ) {
-		return 'hero-faculty';
-	}
-	if ( className.includes( 'hero-chair' ) ) {
-		return 'hero-chair';
-	}
-	if ( className.includes( 'hero-cooperation' ) ) {
-		return 'hero-cooperation';
-	}
-	if ( className.includes( 'hero-other' ) ) {
-		return 'hero-other';
-	}
+	const heroPatterns = [
+		'hero-fau',
+		'hero-portal',
+		'hero-faculty',
+		'hero-chair',
+		'hero-cooperation',
+		'hero-other',
+	];
 
-	return null;
+	const foundPattern = heroPatterns.find( ( pattern ) =>
+		className.includes( pattern )
+	);
+	return foundPattern || null;
 }
 
 // Remove the text-color format type

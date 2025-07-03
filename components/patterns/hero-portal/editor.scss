@@ -1,5 +1,12 @@
 .editor-styles-wrapper .hero-portal {
 
+	gap: var(--Spacing-10x) !important; // override WP CSS
+
+	.wp-block-post-title {
+		margin: var(--Spacing-10x) 0 0 0 !important; // override WP CSS
+		min-width: calc(100% + 5.5rem) !important; // override WP inline CSS
+	}
+
 	.wp-block {
 
 		.hideParagraph {

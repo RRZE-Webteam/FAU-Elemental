@@ -1,64 +1,69 @@
 .faue-is-hero-portal-pattern-selected {
 
-    .block-editor-block-lock-toolbar,
-    .block-editor-block-mover {
-        display: none;
-    }
+	.block-editor-block-lock-toolbar,
+	.block-editor-block-mover {
+		display: none;
+	}
 
-    .block-editor-block-inspector {
-        >:not(.block-editor-block-card) {
-            display: none;
-        }
-    }
-    
-    &.faue-is-columns-block-selected {
-        .block-editor-block-toolbar {
-            // hide layout options
-            >.block-editor-block-toolbar__slot {
-                display: none;
-            }
-        }
-    }
+	.block-editor-block-inspector {
 
-    &.faue-is-column-block-selected {
+		>:not(.block-editor-block-card) {
+			display: none;
+		}
+	}
 
-        .block-editor-block-toolbar {
-            // hide layout options
-            >.block-editor-block-toolbar__slot {
-                display: none;
-            }
-            // hide block options dropdown
-            >.components-toolbar-group:nth-last-child(1) {
-                display: none;
-            }
-            
-        }
-    }
+	&.faue-is-columns-block-selected {
 
-    &.faue-is-paragraph-block-selected {
-        .block-editor-block-toolbar {
-            // hide all toolbar groups
-            >.components-toolbar-group {
-                display: none;
-            }
-        }
-    }
+		.block-editor-block-toolbar {
+			// hide layout options
+			>.block-editor-block-toolbar__slot {
+				display: none;
+			}
+		}
+	}
 
-    &.faue-is-button-block-selected {
-        .block-editor-block-toolbar {  
-            // hide block options dropdown 
-            >.components-toolbar-group:nth-last-child(1) {
-                display: none;
-            }
-        }
-    }
+	&.faue-is-column-block-selected {
 
-    &.faue-is-cover-block-selected {
-        .block-editor-block-toolbar {
-            // hide all toolbar groups except the replace image button
-            >.components-toolbar-group:not(:nth-last-child(2)) {
-                display: none;
-            }
-        }
-    }
+		.block-editor-block-toolbar {
+			// hide layout options
+			>.block-editor-block-toolbar__slot {
+				display: none;
+			}
+			// hide block options dropdown
+			>.components-toolbar-group:nth-last-child(1) {
+				display: none;
+			}
+
+		}
+	}
+
+	&.faue-is-paragraph-block-selected {
+
+		.block-editor-block-toolbar {
+			// hide all toolbar groups
+			>.components-toolbar-group {
+				display: none;
+			}
+		}
+	}
+
+	&.faue-is-button-block-selected {
+
+		.block-editor-block-toolbar {
+			// hide block options dropdown
+			>.components-toolbar-group:nth-last-child(1) {
+				display: none;
+			}
+		}
+	}
+
+	&.faue-is-cover-block-selected {
+
+		.block-editor-block-toolbar {
+			// hide all toolbar groups except the replace image button
+			>.components-toolbar-group:not(:nth-last-child(2)) {
+				display: none;
+			}
+		}
+	}
 }
