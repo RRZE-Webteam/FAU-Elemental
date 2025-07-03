@@ -22,9 +22,9 @@ $no_text_class = $show_text_mobile ? '' : 'no-text-and-link';
         <div class="wp-block-cover__inner-container">
             <!-- wp:group {"className":"hero-content is-style-dark"} -->
             <div class="wp-block-group hero-content is-style-dark">
-                <!-- wp:paragraph {"isSpan":true,"className":"hero-front-page-title"} -->
-                <p class="hero-front-page-title">Wir bewegen Wissen</p>
-                <!-- /wp:paragraph -->
+                <!-- wp:heading {"level":1,"className":"hero-front-page-title"} -->
+                <h1 class="wp-block-heading hero-front-page-title">Wir bewegen Wissen</h1>
+                <!-- /wp:heading -->
                 <!-- wp:group {"className":"hero-mobile-optional"} -->
                 <div class="wp-block-group hero-mobile-optional is-style-dark">
                     <!-- wp:paragraph {"className":"hero-text"} -->
