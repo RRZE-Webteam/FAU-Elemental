@@ -26,12 +26,11 @@
 			margin-bottom: 1em;
 		}
 	}
-
-
 }
 
 .wp-block-gallery {
-	gap: 0 !important;
+
+	gap: 0 !important; // overwrite wordpress default gallery gap
 
 	&:not(.has-child-selected) {
 

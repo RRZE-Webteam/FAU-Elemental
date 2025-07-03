@@ -14,6 +14,15 @@
 	.post-meta-top {
 		display: flex;
 		gap: var(--Spacing-4x);
+		align-items: center;
+	}
+
+	.post-categories-separator {
+		display: inline-block;
+		width: var(--Spacing-3x);
+		height: var(--Spacing-05x);
+		background-color: var(--FAU-Col-FAU-Blau-100);
+		vertical-align: middle;
 	}
 
 	.wp-block-post-title {

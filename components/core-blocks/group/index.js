@@ -1,4 +1,7 @@
-import { registerBlockStyle } from '@wordpress/blocks';
+import {
+	registerBlockStyle,
+	unregisterBlockVariation,
+} from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 
 // Register dark style for core/group block
@@ -8,4 +11,9 @@ wp.domReady( () => {
 		label: __( 'Dark', 'fau-elemental' ),
 		isDefault: false,
 	} );
+
+	// unregister the stack block variation
+	unregisterBlockVariation( 'core/group', 'group-row' );
+	unregisterBlockVariation( 'core/group', 'group-stack' );
+	unregisterBlockVariation( 'core/group', 'group-grid' );
 } );

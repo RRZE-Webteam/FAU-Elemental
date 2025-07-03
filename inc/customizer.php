@@ -86,12 +86,32 @@ function fau_customizer_settings($wp_customize) {
     ]);
     
     // ======= 1. CLAIM SECTION =======
+    $website_type = get_theme_mod('faue_website_type', 'faculty');
+    $claim_description = __('Configure the main claim section', 'fau-elemental');
+    if ($website_type !== 'fau') {
+        $claim_description = __('This section is managed centrally by FAU and cannot be edited by faculties.', 'fau-elemental');
+    }
+    
     $wp_customize->add_section('footer_claim', [
         'title' => __('Claim', 'fau-elemental'),
         'panel' => 'fau_footer_panel',
         'priority' => 10,
-        'description' => __('Configure the main claim section', 'fau-elemental'),
+        'description' => $claim_description,
     ]);
+    
+    // Add a notice for non-FAU websites
+    if ($website_type !== 'fau') {
+        $wp_customize->add_setting('claim_notice', [
+            'default' => ''
+        ]);
+        $wp_customize->add_control('claim_notice', [
+            'label' => '',
+            'description' => __('Note: The FAU claim is centrally managed by FAU and cannot be edited by faculties. The section will display with default FAU content.', 'fau-elemental'),
+            'section' => 'footer_claim',
+            'type' => 'hidden',
+            'priority' => 1
+        ]);
+    }
     
     // Dark Theme Toggle (Priority 15 - only for FAU main site)
     $wp_customize->add_setting('footer_dark_style', [
@@ -121,6 +141,9 @@ function fau_customizer_settings($wp_customize) {
         'section' => 'footer_claim',
         'type' => 'text',
         'priority' => 20,
+        'active_callback' => function() {
+            return get_theme_mod('faue_website_type', 'faculty') === 'fau';
+        }
     ]);
     
     // Text (was FAU Claim Text)
@@ -133,6 +156,9 @@ function fau_customizer_settings($wp_customize) {
         'section' => 'footer_claim',
         'type' => 'textarea',
         'priority' => 30,
+        'active_callback' => function() {
+            return get_theme_mod('faue_website_type', 'faculty') === 'fau';
+        }
     ]);
     
     // ======= 2. BESCHREIBUNG SECTION (Faculty Information) =======
@@ -304,11 +330,17 @@ function fau_customizer_settings($wp_customize) {
     ]);
     
     // ======= 4. ZIELGRUPPEN-LINKS SECTION =======
+    $website_type = get_theme_mod('faue_website_type', 'faculty');
+    $section_description = __('Configure the target group sections', 'fau-elemental');
+    if ($website_type !== 'fau') {
+        $section_description = __('These settings are managed centrally by FAU and cannot be edited by faculties.', 'fau-elemental');
+    }
+    
     $wp_customize->add_section('footer_zielgruppen', [
         'title' => __('Target Group Links', 'fau-elemental'),
         'panel' => 'fau_footer_panel',
         'priority' => 40,
-        'description' => __('Configure the target group sections', 'fau-elemental')
+        'description' => $section_description
     ]);
     
     // Hide FAU info section for cooperation websites (only for non-FAU sites)
@@ -336,6 +368,20 @@ function fau_customizer_settings($wp_customize) {
         'section4' => __('Section 4', 'fau-elemental')
     ];
     
+    // Add a notice for non-FAU websites
+    if ($website_type !== 'fau') {
+        $wp_customize->add_setting('target_groups_notice', [
+            'default' => ''
+        ]);
+        $wp_customize->add_control('target_groups_notice', [
+            'label' => '',
+            'description' => __('Note: Target group links are centrally managed by FAU and cannot be edited by faculties. The sections will display with default FAU content.', 'fau-elemental'),
+            'section' => 'footer_zielgruppen',
+            'type' => 'hidden',
+            'priority' => 1
+        ]);
+    }
+    
     foreach ($target_groups as $key => $label) {
         // Group heading
         $wp_customize->add_setting('target_group_heading_' . $key, [
@@ -355,7 +401,10 @@ function fau_customizer_settings($wp_customize) {
         $wp_customize->add_control('target_' . $key . '_title', [
             'label' => __('Heading', 'fau-elemental'),
             'section' => 'footer_zielgruppen',
-            'type' => 'text'
+            'type' => 'text',
+            'active_callback' => function() {
+                return get_theme_mod('faue_website_type', 'faculty') === 'fau';
+            }
         ]);
         
         // Beschreibung (was Description)
@@ -370,7 +419,10 @@ function fau_customizer_settings($wp_customize) {
         $wp_customize->add_control('target_' . $key . '_description', [
             'label' => __('Description', 'fau-elemental'),
             'section' => 'footer_zielgruppen',
-            'type' => 'textarea'
+            'type' => 'textarea',
+            'active_callback' => function() {
+                return get_theme_mod('faue_website_type', 'faculty') === 'fau';
+            }
         ]);
         
         // Link URL (unchanged)
@@ -380,7 +432,10 @@ function fau_customizer_settings($wp_customize) {
         $wp_customize->add_control('target_' . $key . '_link', [
             'label' => __('Link URL', 'fau-elemental'),
             'section' => 'footer_zielgruppen',
-            'type' => 'url'
+            'type' => 'url',
+            'active_callback' => function() {
+                return get_theme_mod('faue_website_type', 'faculty') === 'fau';
+            }
         ]);
         
         // Separator
@@ -440,10 +495,11 @@ function fau_customizer_settings($wp_customize) {
 
     // Add control for showing/hiding post meta
     $wp_customize->add_control('faue_show_post_meta', array(
-        'label'    => esc_html__('Show post metadata', 'fau-elemental'),
-        'section'  => 'faue_post_options',
-        'type'     => 'checkbox',
-        'priority' => 10,
+        'label'       => esc_html__('Display post metadata', 'fau-elemental'),
+        'description' => esc_html__('Shows date and reading-time on posts.', 'fau-elemental'),
+        'section'     => 'faue_post_options',
+        'type'        => 'checkbox',
+        'priority'    => 10,
     ));
 
     // Add setting for post meta dark theme
@@ -455,10 +511,14 @@ function fau_customizer_settings($wp_customize) {
 
     // Add control for post meta dark theme
     $wp_customize->add_control('faue_post_meta_dark_theme', array(
-        'label'    => esc_html__('Show post metadata in dark theme', 'fau-elemental'),
-        'section'  => 'faue_post_options',
-        'type'     => 'checkbox',
-        'priority' => 20,
+        'label'           => esc_html__('Apply dark-theme style to metadata', 'fau-elemental'),
+        'description'     => esc_html__('Turns the metadata bar dark-blue with white text.', 'fau-elemental'),
+        'section'         => 'faue_post_options',
+        'type'            => 'checkbox',
+        'priority'        => 20,
+        'active_callback' => function() {
+            return get_theme_mod('faue_show_post_meta', true);
+        },
     ));
 }
 add_action('customize_register', 'fau_customizer_settings');
@@ -778,13 +838,10 @@ add_action('wp_enqueue_scripts', 'fau_hero_styles', 999);
 /**
  * Clear cache when hero settings are changed
  */
-function fau_hero_settings_changed($value, $old_value, $option) {
-    if (function_exists('wp_cache_flush')) {
-        wp_cache_flush();
-    }
-    return $value;
-}
-add_filter('pre_update_option_hero_show_text_mobile', 'fau_hero_settings_changed', 10, 3);
-
-
-
+// function fau_hero_settings_changed($value, $old_value, $option) {
+//     if (function_exists('wp_cache_flush')) {
+//         wp_cache_flush();
+//     }
+//     return $value;
+// }
+// add_filter('pre_update_option_hero_show_text_mobile', 'fau_hero_settings_changed', 10, 3);

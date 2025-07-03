@@ -8,7 +8,7 @@
 get_header();
 ?>
 
-<main>
+<main class="is-layout-constrained">
     <?php if (have_posts()) : ?>
         <h1><?php the_archive_title(); ?></h1>
         
