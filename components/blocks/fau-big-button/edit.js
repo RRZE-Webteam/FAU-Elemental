@@ -376,7 +376,7 @@ export default function Edit( { attributes, setAttributes } ) {
 											{ ! item.title && (
 												<li>
 													{ __(
-														'• Title is required',
+														'Title is required',
 														'fau-elemental'
 													) }
 												</li>
@@ -384,7 +384,7 @@ export default function Edit( { attributes, setAttributes } ) {
 											{ ! item.url && (
 												<li>
 													{ __(
-														'• URL is required',
+														'URL is required',
 														'fau-elemental'
 													) }
 												</li>
@@ -464,8 +464,8 @@ export default function Edit( { attributes, setAttributes } ) {
 						return (
 							<a
 								key={ item.id || index }
-								href={ item.url || '#preview' }
-								className={ previewClasses }
+								href="#preview"
+								className={ `${ previewClasses } disabled` }
 								onClick={ ( e ) => e.preventDefault() }
 								role="button"
 							>

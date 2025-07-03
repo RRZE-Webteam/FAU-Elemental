@@ -3,10 +3,11 @@
  */
 
 .wp-block-group {
-	//max-width: var(--wide-max-width);
+	max-width: var(--wide-max-width);
 
 	&.is-style-dark {
 		background-color: var(--FAU-Col-FAU-Blau-100);
 		color: var(--FAU-Col-FAU-Weiss-100);
+		max-width: 100%;
 	}
 }
