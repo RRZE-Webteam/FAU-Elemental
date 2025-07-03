@@ -1,10 +1,5 @@
 @use "../../ui/mixins/mixins" as *;
 
-// WP CSS reset
-.wp-block-gallery {
-	margin: 0;
-}
-
 .wp-block-gallery.has-nested-images
 figure.wp-block-image:has(figcaption)::before {
 	content: none;
@@ -33,7 +28,6 @@ figure.wp-block-image:has(figcaption)::before {
 // End WP CSS reset
 .wp-block-gallery-container {
 	max-width: var(--wide-max-width);
-	margin: 0 auto;
 	padding: 0 var(--Spacing-10x);
 	position: relative;
 	display: flex;
