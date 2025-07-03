@@ -47,6 +47,9 @@ require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
 // Breadcrumb functionality
 require_once get_template_directory() . '/components/template-parts/breadcrumbs/breadcrumbs.php';
 
+// Navigation components
+require_once get_template_directory() . '/components/template-parts/navigation/index.php';
+
 // AJAX handlers
 require_once get_template_directory() . '/inc/ajax-handlers.php';
 

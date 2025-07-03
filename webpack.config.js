@@ -180,7 +180,6 @@ module.exports = {
 			process.cwd(),
 			'components/ui/editor/editor-wrapper.scss'
 		),
-
 		// ============================================================================
 		// JAVASCRIPT BUNDLES
 		// ============================================================================
@@ -208,11 +207,16 @@ module.exports = {
 			process.cwd(),
 			'components/core-blocks/quote/quote-carousel.js'
 		),
+		// Add navigation component scripts (unified menu modal system)
+		'js/menu-modal': path.resolve(
+			process.cwd(),
+			'components/template-parts/navigation/menu-modal.js'
+		),
 
 		// Template Part Scripts
 		'js/template-parts-post-meta': path.resolve(
 			process.cwd(),
-			'components/template-parts/post-meta/script.js'
+			'components/template-parts/post-meta/post-meta.js'
 		),
 	},
 

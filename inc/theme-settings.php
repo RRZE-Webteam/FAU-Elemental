@@ -43,6 +43,7 @@ function faue_customize_register($wp_customize) {
     // Website Type Setting
     $wp_customize->add_setting('faue_website_type', array(
         'default'           => faue_get_default('faue_website_type'),
+        'transport'         => 'refresh',
         'sanitize_callback' => 'faue_sanitize_website_type',
     ));
 
@@ -62,6 +63,7 @@ function faue_customize_register($wp_customize) {
     // Faculty Setting
     $wp_customize->add_setting('faue_faculty', array(
         'default'           => 'phil',
+        'transport'         => 'refresh',
         'sanitize_callback' => 'faue_sanitize_faculty',
     ));
 
