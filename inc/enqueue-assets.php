@@ -56,25 +56,7 @@ function faue_enqueue_editor_assets() {
 }
 add_action('enqueue_block_editor_assets', 'faue_enqueue_editor_assets');
 
-// Enqueue Frontend Scripts
-function faue_enqueue_scripts() {
-    // Post meta script for share functionality
-    if (is_singular()) {
-        $post_meta_asset_path = get_theme_file_path('build/js/template-parts-post-meta.asset.php');
-        if (file_exists($post_meta_asset_path)) {
-            $post_meta_asset = include $post_meta_asset_path;
-            
-            wp_enqueue_script(
-                'faue-post-meta',
-                get_theme_file_uri('build/js/template-parts-post-meta.js'),
-                $post_meta_asset['dependencies'],
-                $post_meta_asset['version'],
-                true
-            );
-        }
-    }
-}
-add_action('wp_enqueue_scripts', 'faue_enqueue_scripts');
+
 
 // Enqueue Editor Scripts
 function faue_enqueue_block_editor_script() {
@@ -127,4 +109,21 @@ function faue_enqueue_block_view_scripts() {
         }
     }
 }
-add_action('wp_enqueue_scripts', 'faue_enqueue_block_view_scripts'); 
+add_action('wp_enqueue_scripts', 'faue_enqueue_block_view_scripts');
+
+// Enqueue Menu Modal Script
+function faue_enqueue_menu_modal_script() {
+    $script_asset_path = get_theme_file_path('build/js/menu-modal.asset.php');
+    if (file_exists($script_asset_path)) {
+        $script_asset = include $script_asset_path;
+        
+        wp_enqueue_script(
+            'faue-menu-modal',
+            get_theme_file_uri('build/js/menu-modal.js'),
+            array_merge($script_asset['dependencies'], array('jquery')),
+            $script_asset['version'],
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'faue_enqueue_menu_modal_script'); 
