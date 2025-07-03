@@ -37,6 +37,7 @@
 @use "../template-parts/hero-page/style" as *;
 @use "../template-parts/hero-post/style" as *;
 @use "../template-parts/post-meta/style" as *;
+@use "../template-parts/navigation/header" as *;
 
 // Plugin Integrations
 @use "plugins/index" as *;

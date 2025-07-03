@@ -5,9 +5,10 @@
 .wp-block-separator {
 	position: relative;
 	max-width: var(--wide-max-width);
-	margin: var(--Spacing-4x) auto !important;
+	margin-top: var(--Spacing-4x);
+	margin-bottom: var(--Spacing-4x);
 	width: 100%;
-	height: 1px;
+	height: 0.0625rem;
 	background-color: var(--FAU-Col-FAU-Blau-25);
 	border: none;
 

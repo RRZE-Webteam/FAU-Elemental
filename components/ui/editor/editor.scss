@@ -37,13 +37,3 @@ html :where(.editor-styles-wrapper) {
 .wp-block-file__content-wrapper > .wp-block-file > .wp-block-file {
 	margin-bottom: var(--Spacing-4x);
 }
-
-.editor-styles-wrapper .wp-block {
-	margin-bottom: 0;
-}
-
-// removing wordpress standard margin-block-start
-:root :where(.editor-styles-wrapper) :where(.is-layout-flow) > *,
-:root :where(.editor-styles-wrapper) :where(.is-layout-constrained) > * {
-	margin-block-start: 0 !important;
-}
