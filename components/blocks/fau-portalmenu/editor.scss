@@ -1,0 +1,72 @@
+/**
+ * Editor-only styles for the FAU Portal Menu block
+ */
+
+// Hide old markup for legacy compatibility
+.block-editor-block-list__block[data-type="fau/portal-menu"] .portal-menu-preview,
+.block-editor-block-list__block[data-type="fau/portal-menu"] .portal-menu-preview-header,
+.block-editor-block-list__block[data-type="fau/portal-menu"] .portal-menu-preview-settings {
+	display: none !important;
+}
+
+// Editor-specific styling
+.wp-block-fau-elemental-portalmenu {
+	display: block !important; // Force display
+	visibility: visible !important; // Force visibility
+
+	// Menu notice - only visible in editor
+	.menu-notice {
+		margin-top: 15px;
+		padding: 10px;
+		background: #f9f9f9;
+		border-left: 4px solid #0073aa;
+		font-size: 0.9em;
+
+		p {
+			margin: 0;
+		}
+
+		strong {
+			color: #0073aa;
+		}
+	}
+
+	// Placeholder style - only visible in editor
+	.fau-custom-placeholder {
+		padding: 2em;
+		text-align: center;
+		background-color: #f0f0f0;
+		border: 1px dashed #999;
+		border-radius: 4px;
+		margin: 1em 0;
+		min-height: 100px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		p {
+			margin: 0;
+			color: #666;
+		}
+	}
+
+	// Placeholder thumbnail styling for editor
+	.thumbnail.placeholder {
+		background: linear-gradient(135deg, #f1f1f1 25%, #e5e5e5 25%, #e5e5e5 50%, #f1f1f1 50%, #f1f1f1 75%, #e5e5e5 75%);
+		background-size: 20px 20px;
+	}
+}
+
+// Ensure proper spacing in editor
+.block-editor-block-list__block[data-type="fau-elemental/portalmenu"],
+.block-editor-block-list__block[data-type="fau/portal-menu"] {
+	margin: 1em 0;
+	background-color: #fff; // TODO Should this be loaded from a custom property?
+	padding: 1em;
+	border-radius: 2px;
+
+	.components-placeholder {
+		padding: 2em;
+		border-radius: 2px;
+	}
+}

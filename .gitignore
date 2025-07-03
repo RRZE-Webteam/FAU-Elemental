@@ -55,3 +55,16 @@ node_modules
 
 # VSCode
 launch.json
+
+# IDE and Editor files
+.intelephense/
+.vscode/
+
+# Cursor IDE files
+.cursor/
+.cursorrules
+cursor.rules
+.cursor-tutor/
+
+# Ignore build directory
+build/

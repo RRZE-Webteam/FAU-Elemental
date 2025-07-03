@@ -9,147 +9,204 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-function faue_settings_page() {
-    add_menu_page(
-        'FAU Elemental Settings',
-        'FAU Elemental',
-        'manage_options',
-        'faue-settings',
-        'faue_settings_callback'
-    );
+/**
+ * Add theme settings to the WordPress Customizer
+ */
+function faue_customize_register($wp_customize) {
+    // Add FAU Elemental section
+    $wp_customize->add_section('faue_theme_settings', array(
+        'title'    => __('Theme Settings', 'fau-elemental'),
+        'priority' => 120,
+    ));
+
+    // Add Header Settings section
+    $wp_customize->add_section('faue_header_settings', array(
+        'title'    => __('Header Settings', 'fau-elemental'),
+        'priority' => 125,
+    ));
+
+    // Breadcrumb Mode Setting (stores boolean, convert to 'dark'/'light' when using)
+    $wp_customize->add_setting('faue_breadcrumb_variant_blue', [
+        'default' => faue_get_default('faue_breadcrumb_variant_blue'),
+        'transport' => 'refresh',
+        'sanitize_callback' => 'faue_sanitize_breadcrumb_mode',
+    ]);
+    
+    $wp_customize->add_control('faue_breadcrumb_variant_blue', [
+        'label' => __('Breadcrumb variant: Blue', 'fau-elemental'),
+        'description' => __('Setting for the blue breadcrumb variant', 'fau-elemental'),
+        'section' => 'faue_header_settings',
+        'type' => 'checkbox',
+        'priority' => 15,
+    ]);
+
+    // Website Type Setting
+    $wp_customize->add_setting('faue_website_type', array(
+        'default'           => faue_get_default('faue_website_type'),
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'faue_sanitize_website_type',
+    ));
+
+    $wp_customize->add_control('faue_website_type', array(
+        'label'    => __('Website Type', 'fau-elemental'),
+        'section'  => 'faue_theme_settings',
+        'type'     => 'select',
+        'choices'  => array(
+            'fau'          => __('FAU.de', 'fau-elemental'),
+            'faculty'      => __('Faculty', 'fau-elemental'),
+            'chair'        => __('Chair', 'fau-elemental'),
+            'other'        => __('Other', 'fau-elemental'),
+            'cooperation'  => __('Cooperation', 'fau-elemental'),
+        ),
+    ));
+
+    // Faculty Setting
+    $wp_customize->add_setting('faue_faculty', array(
+        'default'           => 'phil',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'faue_sanitize_faculty',
+    ));
+
+    $wp_customize->add_control('faue_faculty', array(
+        'label'           => __('Faculty', 'fau-elemental'),
+        'section'         => 'faue_theme_settings',
+        'type'            => 'select',
+        'choices'         => array(
+            'phil' => __('Philosophical Faculty', 'fau-elemental'),
+            'nat'  => __('Natural Sciences Faculty', 'fau-elemental'),
+            'med'  => __('Medical Faculty', 'fau-elemental'),
+            'rw'   => __('Law Faculty', 'fau-elemental'),
+            'tf'   => __('Technical Faculty', 'fau-elemental'),
+        ),
+        'active_callback' => 'faue_is_faculty_website',
+    ));
+
+    // Copyright Info Priority
+    $wp_customize->add_setting('faue_copyright_info_priority', array(
+        'default'           => 'field',
+        'sanitize_callback' => 'faue_sanitize_copyright_info_priority',
+    ));
+
+    $wp_customize->add_control('faue_copyright_info_priority', array(
+        'label'    => __('Copyright Info Priority', 'fau-elemental'),
+        'section'  => 'faue_theme_settings',
+        'type'     => 'select',
+        'choices'  => array(
+            'field' => __('Copyright Field', 'fau-elemental'),
+            'iptc'  => __('IPTC Image Metadata', 'fau-elemental'),
+        ),
+    ));
 }
-add_action('admin_menu', 'faue_settings_page');
+add_action('customize_register', 'faue_customize_register');
 
-function faue_settings_callback() {
-    echo '<h1>FAU Elemental Settings</h1>';
-
-    // Add settings update message
-    if (isset($_GET['settings-updated'])) {
-        if (get_settings_errors()) {
-            foreach (get_settings_errors() as $error) {
-                echo '<div class="notice notice-' . esc_attr($error['type']) . ' is-dismissible"><p>' . esc_html($error['message']) . '</p></div>';
-            }
-        } else {
-            echo '<div class="notice notice-success is-dismissible"><p>' . esc_html__('Settings saved successfully.', 'fau-elemental') . '</p></div>';
-        }
+/**
+ * Check if the website type is set to faculty
+ */
+function faue_is_faculty_website($control) {
+    $setting = $control->manager->get_setting('faue_website_type');
+    if (!$setting) {
+        return false;
     }
-
-    echo '<form method="post" action="options.php">';
-    settings_fields('faue-settings-group');
-    do_settings_sections('faue-settings');
-    submit_button();
-    echo '</form>';
+    return 'faculty' === $setting->value();
 }
 
-function faue_register_settings() {
-    register_setting(
-        'faue-settings-group',
-        'faue_website_type',
-        array(
-            'sanitize_callback' => 'faue_sanitize_website_type'
-        )
-    );
-
-    register_setting(
-        'faue-settings-group',
-        'faue_faculty',
-        array(
-            'sanitize_callback' => 'faue_sanitize_faculty'
-        )
-    );
-
-    add_settings_section('faue-section', 'Custom Options', null, 'faue-settings');
-
-    // Add new website type field
-    add_settings_field(
-        'faue_website_type',
-        'Website Type',
-        'faue_website_type_callback',
-        'faue-settings',
-        'faue-section'
-    );
-
-    // Add faculty field
-    add_settings_field(
-        'faue_faculty',
-        'Faculty',
-        'faue_faculty_callback',
-        'faue-settings',
-        'faue-section'
-    );
-}
-add_action('admin_init', 'faue_register_settings');
-
-function faue_website_type_callback() {
-    $website_type = get_option('faue_website_type', 'fau');
-    $options = array(
-        'fau' => __('FAU.de', 'fau-elemental'),
-        'faculty' => __('Fakultät', 'fau-elemental'),
-        'chair' => __('Lehrstuhl', 'fau-elemental'),
-        'other' => __('Sonstige', 'fau-elemental'),
-        'cooperation' => __('Kooperation', 'fau-elemental')
-    );
-
-    echo '<div class="faue-faculty-field"><div class="faue-faculty-field__content">';
-    echo '<select name="faue_website_type">';
-    foreach ($options as $value => $label) {
-        echo '<option value="' . esc_attr($value) . '" ' . selected($website_type, $value, false) . '>';
-        echo esc_html($label);
-        echo '</option>';
-    }
-    echo '</select>';
-    echo '</div></div>';
-}
-
-function faue_faculty_callback() {
-    $faculty = get_option('faue_faculty', 'phil');
-    $options = array(
-        'phil' => __('Philosophische Fakultät', 'fau-elemental'),
-        'nat' => __('Naturwissenschaftliche Fakultät', 'fau-elemental'),
-        'med' => __('Medizinische Fakultät', 'faue'),
-        'rw' => __('Rechtswissenschaftliche Fakultät', 'fau-elemental'),
-        'tf' => __('Technische Fakultät', 'fau-elemental')
-    );
-
-    echo '<div class="faue-faculty-field"><div class="faue-faculty-field__content">';
-    echo '<select name="faue_faculty">';
-    foreach ($options as $value => $label) {
-        echo '<option value="' . esc_attr($value) . '" ' . selected($faculty, $value, false) . '>';
-        echo esc_html($label);
-        echo '</option>';
-    }
-    echo '</select>';
-    echo '</div></div>';
-}
-
+/**
+ * Sanitize website type input
+ */
 function faue_sanitize_website_type($input) {
     $valid_types = array('fau', 'faculty', 'chair', 'other', 'cooperation');
 
     if (!in_array($input, $valid_types)) {
-        add_settings_error(
-            'faue_website_type',
-            'invalid_website_type',
-            __('Invalid website type selected.', 'fau-elemental'),
-            'error'
-        );
-        return get_option('faue_website_type', 'fau');
+        return 'fau';
+    }
+
+    return $input;
+}
+/**
+ * Sanitize copyright info priority input
+ */
+function faue_sanitize_copyright_info_priority($input) {
+    $valid_prios = array('field', 'iptc');
+
+    if (!in_array($input, $valid_prios)) {
+        return 'field';
     }
 
     return $input;
 }
 
+
+
+/**
+ * Restrict specific blocks to certain post types
+ * 
+ * This function restricts the FAU Teaser Grid block to pages only
+ */
+function restrict_blocks_by_post_type($allowed_blocks, $editor_context) {
+    if (empty($editor_context->post)) {
+        return $allowed_blocks;
+    }
+
+    $post_type = $editor_context->post->post_type;
+    $block_to_remove = 'fau-elemental/fau-teaser-grid';
+
+    if ($post_type === 'post') {
+        // If $allowed_blocks is true or null, we need to get all registered blocks
+        if ($allowed_blocks === true || is_null($allowed_blocks)) {
+            // Make sure WP_Block_Type_Registry class exists
+            if (class_exists('WP_Block_Type_Registry')) {
+                $registry = WP_Block_Type_Registry::get_instance();
+                $allowed_blocks = array_keys($registry->get_all_registered());
+            } else {
+                // If the registry class doesn't exist, we can't reliably filter blocks
+                return $allowed_blocks;
+            }
+        }
+
+        // Now that we've ensured $allowed_blocks is an array, we can safely filter it
+        if (is_array($allowed_blocks)) {
+            $allowed_blocks = array_diff($allowed_blocks, [$block_to_remove]);
+        }
+    }
+
+    return $allowed_blocks;
+}
+add_filter('allowed_block_types_all', 'restrict_blocks_by_post_type', 10, 2);
+
+function hide_teaser_grid_block_for_posts() {
+    global $post;
+
+    if (!is_admin() || get_post_type($post) !== 'post') {
+        return;
+    }
+
+    ?>
+    <script type="text/javascript">
+        wp.domReady(() => {
+            wp.blocks.unregisterBlockType('fau-elemental/fau-teaser-grid');
+        });
+    </script>
+    <?php
+}
+add_action('admin_footer', 'hide_teaser_grid_block_for_posts');
+
+
+/**
+ * Sanitize faculty input
+ */
 function faue_sanitize_faculty($input) {
-    $valid_faculties = array('phil', 'nat', 'med', 'rw', 'tf', '');
+    $valid_faculties = array('phil', 'nat', 'med', 'rw', 'tf');
 
     if (!in_array($input, $valid_faculties)) {
-        add_settings_error(
-            'faue_faculty',
-            'invalid_faculty',
-            __('Invalid faculty selected.', 'fau-elemental'),
-            'error'
-        );
-        return get_option('faue_faculty', '');
+        return 'phil';
     }
 
     return $input;
-} 
+}
+
+/**
+ * Sanitize breadcrumb mode input
+ */
+function faue_sanitize_breadcrumb_mode($input) {
+    return (bool) $input;
+}

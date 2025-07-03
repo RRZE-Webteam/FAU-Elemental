@@ -10,6 +10,37 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Get SVG file path for use with img tags
+ *
+ * @param string $name The name of the SVG icon
+ * @param bool $echo Whether to echo the output
+ * @return string|void The SVG file path if $echo is false
+ */
+function fau_get_svg_path($name, $echo = true) {
+    // Check if it's the FAU logo
+    if ($name === 'fau-logo-2021') {
+        // Check website type to determine logo color
+        $website_type = get_theme_mod('faue_website_type', 'fau');
+        
+        if ($website_type === 'faculty') {
+            // Use blue logo for faculty websites
+            $svg_path = get_template_directory_uri() . '/assets/images/logo.svg';
+        } else {
+            // Use white logo for all other website types
+            $svg_path = get_template_directory_uri() . '/assets/images/Logo-white.svg';
+        }
+    } else {
+        $svg_path = get_template_directory_uri() . '/assets/svg/' . $name . '.svg';
+    }
+    
+    if ($echo) {
+        echo $svg_path;
+    } else {
+        return $svg_path;
+    }
+}
+
+/**
  * Display an SVG icon with specified attributes
  *
  * @param string $name The name of the SVG icon
@@ -22,7 +53,16 @@ if (!defined('ABSPATH')) {
 function fau_use_svg($name, $width = 0, $height = 0, $class = '', $echo = true) {
     // Check if it's the FAU logo
     if ($name === 'fau-logo-2021') {
-        $svg_path = get_template_directory() . '/assets/images/logo-white.svg';
+        // Check website type to determine logo color
+        $website_type = get_theme_mod('faue_website_type', 'fau');
+        
+        if ($website_type === 'faculty') {
+            // Use blue logo for faculty websites
+            $svg_path = get_template_directory() . '/assets/images/logo.svg';
+        } else {
+            // Use white logo for all other website types
+            $svg_path = get_template_directory() . '/assets/images/Logo-white.svg';
+        }
     } else {
         $svg_path = get_template_directory() . '/assets/svg/' . $name . '.svg';
     }
@@ -76,7 +116,7 @@ function fau_elemental_display_logo_title() {
         }
     }
 
-    $website_type = get_option('faue_website_type', 'fau');
+    $website_type = get_theme_mod('faue_website_type', 'fau');
     
     // Handle invalid faculty selection for faculty website type
     if ((empty($faculty)) && ($website_type === 'faculty')) {
@@ -128,12 +168,12 @@ function fau_elemental_display_logo_title() {
         echo '</span>';
     } elseif ($faulogo) {
         echo '<span class="baselogo">';
-        echo fau_use_svg("fau-logo-2021", 153, 58, 'faubaselogo', false);
+        echo '<img src="' . fau_get_svg_path("fau-logo-2021", false) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="faubaselogo" width="150" height="58">';
         echo '</span>';
     }
 
-    // Only show text elements if not a cooperation website
-    if ($website_type !== 'cooperation') {
+    // Only show text elements for non-cooperation websites and non-front pages
+    if ($website_type !== 'cooperation' && !is_front_page()) {
         echo '<span class="text">';
         if ($visible_toptitle) {
             echo '<span class="fau-title"' . ($visible_title ? ' aria-hidden="true"' : ' id="website-title"') . '>' . esc_html($visible_toptitle) . '</span> ';
@@ -152,7 +192,6 @@ function fau_elemental_display_logo_title() {
         } elseif ($visible_shortcut) {
             echo '<span id="website-title" class="visible-title' . (!empty($faculty) ? ' ' . esc_attr($faculty) : '') . '" itemprop="name">' . esc_html($visible_shortcut) . '</span>';
         }
-        
         echo '</span>';
     }
     

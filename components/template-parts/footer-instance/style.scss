@@ -1,0 +1,381 @@
+@use "../../ui/mixins/mixins" as *;
+
+.site-footer {
+
+	.footer-content--instance {
+		padding: var(--Spacing-12x) var(--Spacing-10x) var(--Spacing-16x) var(--Spacing-10x);
+
+		.footer-content--instance-wrapper {
+			max-width: var(--wide-max-width);
+			margin: 0 auto;
+		}
+
+		h2 {
+			margin-top: 0;
+			font-size: 1.5rem;
+		}
+
+		h3 {
+			font-size: 1.125rem;
+			margin: 0;
+			padding-bottom: 1rem;
+		}
+
+		h2,
+		h3,
+		p,
+		address,
+		a {
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		p {
+			margin: 0;
+		}
+
+		ul {
+			padding-left: unset; // no ul padding
+		}
+
+		.footer-instance-header {
+			padding-bottom: var(--Spacing-14x);
+
+			.instance-info p {
+				font-size: 1rem;
+				max-width: 66%;
+			}
+		}
+
+		.footer-instance-contact {
+			display: flex;
+			padding-bottom: var(--Spacing-12x);
+
+			.contact-address {
+				flex-basis: 66%;
+
+				.contact-address-and-tel-container {
+
+					address {
+						display: flex;
+						gap: var(--Spacing-16x);
+						font-style: unset;
+						font-size: 1rem;
+						font-weight: 400;
+						line-height: 1.5;
+
+						> div {
+							flex-basis: 50%;
+
+							&:last-child {
+								padding-right: var(--Spacing-8x);
+								box-sizing: border-box;
+							}
+						}
+
+						span {
+							display: block;
+
+							+ .directions {
+								margin-top: var(--Spacing-8x);
+							}
+						}
+					}
+
+					.contact-details {
+
+						p {
+							font-size: 1rem;
+
+							// Add spacer if directions are not alone
+							+ .directions {
+								margin-top: var(--Spacing-5x);
+							}
+						}
+					}
+				}
+			}
+
+			.footer-important-links-container {
+				flex-basis: 33%;
+
+				.important-links-list {
+					display: flex;
+					flex-direction: column;
+					gap: var(--Spacing-3x);
+					margin: 0;
+
+					li {
+
+						a {
+							font-size: 1rem;
+							line-height: 1.5;
+							font-weight: 400;
+							text-decoration: none;
+						}
+
+						&::before {
+							display: none; // no list style
+						}
+					}
+				}
+
+				ul {
+					list-style: none;
+				}
+			}
+		}
+
+		.footer-instance-menu {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.footer-menu-list {
+				display: flex;
+				gap: var(--Spacing-6x);
+				flex-wrap: wrap;
+				padding-left: unset; // no ul padding
+				margin: 0;
+				list-style: none;
+
+				a {
+					color: var(--FAU-Col-FAU-Weiss-100);
+					font-size: 1rem;
+					line-height: 1.5;
+					font-weight: 400;
+					text-decoration: none;
+				}
+
+				li {
+					flex-shrink: 0;
+
+					&::before {
+						display: none; // no list style
+					}
+				}
+			}
+		}
+	}
+
+	.footer-bottom {
+		padding: var(--Spacing-4x) var(--Spacing-10x);
+
+		.footer-controls {
+			display: flex;
+			justify-content: space-between;
+			padding-bottom: var(--Spacing-10x);
+		}
+
+		.footer-credits p {
+			color: var(--FAU-Col-FAU-Weiss-100);
+			font-size: 1rem;
+			margin: 0;
+		}
+
+		.fau-info-toggle {
+			position: relative;
+			background-color: var(--FAU-Col-FAU-Blau-100);
+			border: 0;
+			padding: var(--Spacing-5x) var(--Spacing-6x);
+			font-family: var(--font-family-base);
+			color: var(--FAU-Col-FAU-Weiss-100);
+			font-size: 1rem;
+			font-weight: 600;
+			line-height: 1;
+			letter-spacing: var(--letter-spacing-big);
+			margin-right: var(--Spacing-14x);
+			cursor: pointer;
+
+			&::before {
+				content: "";
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+				width: 3.5rem;
+				height: 3.5rem;
+				position: absolute;
+				right: calc(-1 * var(--Spacing-14x));
+				top: 0;
+			}
+
+			&::after {
+				content: "";
+				background-image: var(--icon-chevron-fau-blau);
+				background-repeat: no-repeat;
+				transform: rotate(90deg);
+				position: absolute;
+				right: -2rem;
+				top: 1.375rem;
+				width: 0.5rem;
+				height: 0.875rem;
+				transition: var(--basic-animation);
+			}
+
+			// Progressive enhancement: Show button only when JavaScript is available
+			.no-js & {
+				display: none;
+			}
+
+			// Button text and icon structure
+			.toggle-text {
+				display: inline;
+			}
+
+			// Rotate chevron when expanded
+			&[aria-expanded="true"]::after {
+				transform: rotate(-90deg);
+			}
+
+			&:hover,
+			&:focus-visible {
+
+				&::after {
+					top: 1.625rem;
+				}
+			}
+		}
+
+		// Progressive enhancement: Ensure content is visible without JavaScript
+		.no-js .fau-info-section {
+			display: block !important;
+		}
+
+		// Hide section initially when JavaScript is available (handled by JS)
+		.js .fau-info-section[hidden] {
+			display: none;
+		}
+
+		// adapted visuals for claim only for instance (faculty)
+		#fau-info-section {
+
+			.fau-claim {
+				display: flex;
+				bottom: unset;
+				max-width: unset;
+				padding: unset;
+
+				h2 {
+					display: none;
+				}
+
+				h3 {
+					display: none;
+				}
+
+				p {
+					flex-basis: 66%;
+					padding-bottom: var(--Spacing-10x);
+					font-size: 1rem;
+				}
+			}
+
+			.fau-big-button-teaser-group {
+				margin-bottom: var(--Spacing-8x);
+			}
+		}
+	}
+}
+
+// Responsive
+@media screen and (max-width: 999px) {
+
+	.site-footer .footer-content--instance {
+		padding: var(--Spacing-8x) var(--Spacing-10x) var(--Spacing-12x) var(--Spacing-10x);
+	}
+}
+
+@media screen and (max-width: 899px) {
+
+	.site-footer {
+
+		.footer-content--instance {
+
+			.footer-instance-menu {
+				flex-direction: column;
+				align-items: flex-start;
+				gap: var(--Spacing-10x);
+			}
+
+			.footer-instance-contact {
+				flex-wrap: wrap;
+
+				.footer-important-links-container {
+
+					.important-links-list {
+						flex-direction: row;
+						gap: var(--Spacing-6x);
+						flex-wrap: wrap;
+					}
+				}
+
+				.contact-address,
+				.footer-important-links-container {
+					flex-basis: 100%;
+				}
+			}
+
+			.footer-instance-header,
+			.contact-address {
+				padding-bottom: var(--Spacing-10x);
+			}
+
+			.footer-instance-header .instance-info p {
+				max-width: unset;
+			}
+		}
+
+		.social-links {
+			justify-content: flex-start;
+		}
+	}
+}
+
+@include respond-to("small") {
+
+	.site-footer {
+
+		.footer-bottom {
+
+			.footer-controls {
+				flex-direction: column;
+				padding-bottom: var(--Spacing-8x);
+
+				.toggle-container {
+					margin-top: var(--Spacing-5x);
+				}
+			}
+
+			#fau-info-section .fau-claim p {
+				flex-basis: unset;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 599px) {
+
+	.site-footer .footer-content--instance .footer-instance-contact .contact-address .contact-address-and-tel-container {
+
+		address {
+			flex-direction: column;
+			gap: var(--Spacing-4x);
+
+			span + .directions {
+				margin-top: var(--Spacing-6x);
+			}
+		}
+	}
+}
+
+@include respond-to("x-small") {
+
+	.site-footer {
+
+		.footer-content--instance {
+			padding: var(--Spacing-8x) var(--Spacing-5x);
+
+			.footer-instance-contact .footer-important-links .important-links-list {
+				flex-direction: column;
+				gap: var(--Spacing-3x);
+			}
+		}
+	}
+}
