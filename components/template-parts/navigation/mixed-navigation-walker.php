@@ -54,11 +54,16 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
      */
     public function end_lvl(&$output, $depth = 0, $args = null) {
         // Add page children before closing the submenu (for mixed navigation)
+        // This handles the case where we have both menu children and page children
         if ($depth === 0 && !empty($this->parent_stack)) {
             $parent_item = end($this->parent_stack);
             if ($parent_item) {
+                $menu_children = $this->get_menu_children($parent_item);
                 $page_children = $this->get_page_children($parent_item);
-                if (!empty($page_children)) {
+                $has_menu_children = !empty($menu_children);
+                $has_page_children = !empty($page_children);
+                
+                if ($has_menu_children && $has_page_children && !empty($page_children)) {
                     $this->add_page_children_to_output($output, $page_children, $depth + 1);
                 }
             }
@@ -176,6 +181,10 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
             $output .= '<span class="menu-modal__item-title">' . apply_filters('the_title', $item->title, $item->ID) . '</span>';
             $output .= '<span class="menu-modal__submenu-arrow" aria-hidden="true"></span>';
             $output .= '</button>';
+            
+            if (!$has_menu_children && $has_page_children) {
+                $output .= '<ul class="sub-menu page-only-submenu" id="' . esc_attr($submenu_id) . '" data-depth="' . esc_attr($depth) . '">';
+            }
         } else {
             // For items without children, keep normal link (following existing pattern)
             $link_attributes = '';
@@ -195,6 +204,20 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
      * @param stdClass $args An object of wp_nav_menu() arguments.
      */
     public function end_el(&$output, $item, $depth = 0, $args = null) {
+        // If this item has only page children (no menu children), close the submenu we created
+        if ($depth === 0 && !empty($this->current_item)) {
+            $menu_children = $this->get_menu_children($this->current_item);
+            $page_children = $this->get_page_children($this->current_item);
+            $has_menu_children = !empty($menu_children);
+            $has_page_children = !empty($page_children);
+            
+            if (!$has_menu_children && $has_page_children) {
+                // Add page children to the submenu before closing it
+                $this->add_page_children_to_output($output, $page_children, $depth + 1);
+                $output .= '</ul>';
+            }
+        }
+        
         $output .= '</li>';
     }
     
