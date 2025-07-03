@@ -242,6 +242,13 @@ const GalleryCarousel = ( props ) => {
 		className: 'wp-block-gallery-container',
 	} );
 
+	// Remove wp-block-gallery from className
+	if ( blockProps.className ) {
+		blockProps.className = blockProps.className
+			.replace( /(^|\s)wp-block-gallery(\s|$)/g, '$1$2' )
+			.trim();
+	}
+
 	return (
 		<div { ...blockProps } ref={ carouselRef }>
 			{ slides.length > 1 && (
@@ -272,8 +279,13 @@ addFilter(
 				return <BlockEdit { ...props } />;
 			}
 
+			const newProps = {
+				clientId: props.clientId,
+				children: props.children,
+			};
+
 			return (
-				<GalleryCarousel { ...props }>
+				<GalleryCarousel { ...newProps }>
 					<BlockEdit { ...props } />
 				</GalleryCarousel>
 			);

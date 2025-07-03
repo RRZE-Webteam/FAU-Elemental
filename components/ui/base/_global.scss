@@ -9,25 +9,12 @@
 	min-height: 100vh;
 }
 
-// WordPress core alignment classes
-.alignwide {
-	max-width: var(--wide-max-width);
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.alignfull {
-	width: 100vw;
-	margin-left: calc(50% - 50vw);
-}
-
 // Screen reader text utility
 .screen-reader-text {
 	visibility: hidden;
 }
 
-// removing wordpress standard margin-block-start
-:root :where(.is-layout-flow) > *,
-:root :where(.is-layout-constrained) > * {
-	margin-block-start: 0 !important;
+:root :where(.is-layout-flow) > * {
+	margin-left: auto;
+	margin-right: auto;
 }
