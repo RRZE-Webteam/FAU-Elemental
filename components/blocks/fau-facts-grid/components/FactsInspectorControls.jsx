@@ -11,6 +11,26 @@ import {
 	Button,
 	ButtonGroup,
 } from '@wordpress/components';
+import { isURL } from '@wordpress/url';
+
+/**
+ * URL validation helper
+ */
+const validateUrl = ( url ) => {
+	if ( ! url ) {
+		return {
+			isValid: true, // Empty URL is valid (optional field)
+			message: '',
+		};
+	}
+	if ( ! isURL( url ) ) {
+		return {
+			isValid: false,
+			message: __( 'Please enter a valid URL', 'fau-elemental' ),
+		};
+	}
+	return { isValid: true, message: '' };
+};
 
 /**
  * Inspector Controls Component
@@ -22,6 +42,11 @@ export default function FactsInspectorControls( {
 	setAttributes,
 } ) {
 	const selectedFact = facts[ selectedFactIndex ] || null;
+
+	// Validate the current fact's URL
+	const urlValidation = selectedFact
+		? validateUrl( selectedFact.link )
+		: { isValid: true, message: '' };
 
 	return (
 		<InspectorControls>
@@ -151,15 +176,47 @@ export default function FactsInspectorControls( {
 						onChange={ ( value ) =>
 							updateFact( selectedFactIndex, 'link', value )
 						}
+						type="url"
 						placeholder={ __(
 							'https://example.com',
 							'fau-elemental'
 						) }
-						help={ __(
-							'A link button will automatically appear when you enter a URL.',
-							'fau-elemental'
-						) }
+						help={
+							urlValidation.message ||
+							__(
+								'A link button will automatically appear when you enter a valid URL.',
+								'fau-elemental'
+							)
+						}
+						className={
+							! urlValidation.isValid && selectedFact.link
+								? 'has-error'
+								: ''
+						}
 					/>
+
+					{ /* Validation messages */ }
+					{ selectedFact.link && ! urlValidation.isValid && (
+						<div className="fau-facts-grid-validation-notice">
+							<p>
+								<strong>
+									{ __(
+										'URL Validation Error:',
+										'fau-elemental'
+									) }
+								</strong>
+							</p>
+							<p>{ urlValidation.message }</p>
+							<p>
+								<em>
+									{ __(
+										'Please enter a valid URL (e.g., https://example.com)',
+										'fau-elemental'
+									) }
+								</em>
+							</p>
+						</div>
+					) }
 				</PanelBody>
 			) }
 		</InspectorControls>

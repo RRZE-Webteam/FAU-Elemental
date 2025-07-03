@@ -1,0 +1,56 @@
+@use "../../ui/mixins/mixins" as *;
+
+.post-header {
+
+	.post-header-content {
+		max-width: var(--small-max-width);
+		margin: var(--Spacing-8x) auto;
+		display: flex;
+		flex-direction: column;
+		gap: var(--Spacing-3x);
+		padding: 0 var(--Spacing-5x);
+	}
+
+	.post-meta-top {
+		display: flex;
+		gap: var(--Spacing-4x);
+		align-items: center;
+	}
+
+	.post-categories-separator {
+		display: inline-block;
+		width: var(--Spacing-3x);
+		height: var(--Spacing-05x);
+		background-color: var(--FAU-Col-FAU-Blau-100);
+		vertical-align: middle;
+	}
+
+	.wp-block-post-title {
+		margin: 0;
+	}
+}
+
+// Responsive
+@include respond-to("small") {
+
+	.post-header {
+
+		.wp-block-post-title {
+			font-size: 2.5rem;
+		}
+	}
+}
+
+@include respond-to("x-small") {
+
+	.post-header {
+
+		.wp-block-post-title {
+			font-size: 1.75rem;
+		}
+
+		.post-meta-top {
+			font-size: 0.875rem;
+		}
+	}
+}

@@ -1,89 +1,85 @@
-// Facts Grid Block Editor Styles
-.wp-block-fau-elemental-fau-facts-grid {
-
-	.fau-facts-grid {
-
-		.fau-facts-grid-items {
-
-			.fau-facts-grid-item {
-				cursor: pointer;
-				position: relative;
-
-				&.is-active {
-					outline: 2px solid var(--wp--preset--color--primary, #003865);
-					outline-offset: 2px;
-				}
-
-				.fau-facts-grid-item-content {
-
-					.fau-facts-grid-item-text {
-
-						&[data-rich-text-placeholder]::after {
-							color: #999;
-							font-style: italic;
-						}
-					}
-				}
-			}
-		}
-
-		.fau-facts-grid-empty-state {
-			text-align: center;
-			padding: 2rem;
-			color: #666;
-		}
-	}
-}
-
 // Inspector Controls Styles
 .fau-facts-grid-inspector-info {
-	margin-bottom: 1rem;
+	margin-bottom: var(--Spacing-4x);
 
 	.fau-facts-grid-inspector-help-text {
 		font-size: 0.9rem;
-		color: #666;
-		margin: 0 0 1rem 0;
+		color: var(--FAU-Col-FAU-Schwarz-62_5);
+		margin: 0 0 var(--Spacing-4x) 0;
 		line-height: 1.4;
-		padding: 0.75rem;
-		background-color: #f0f6fc;
-		border-left: 3px solid #0073aa;
-		border-radius: 0 4px 4px 0;
+		padding: var(--Spacing-3x);
+		background-color: var(--FAU-Col-Med-Blau-12_5);
+		border-left: 0.1875rem solid var(--FAU-Col-Med-Blau-100);
+		border-radius: 0 0.25rem 0.25rem 0;
 	}
 }
 
 .fau-facts-grid-inspector-buttons {
-	margin-bottom: 1rem;
+	margin-bottom: var(--Spacing-4x);
 	display: flex;
-	gap: 0.5rem;
+	gap: var(--Spacing-2x);
 	flex-wrap: wrap;
 }
 
 .fau-facts-grid-icon-field {
-	margin-bottom: 1.5rem;
+	margin-bottom: var(--Spacing-6x);
 
 	.fau-facts-grid-icon-label {
 		display: block;
-		margin-bottom: 0.75rem;
+		margin-bottom: var(--Spacing-3x);
 		font-weight: 600;
 	}
 
 	.fau-facts-grid-icon-preview {
-		margin-bottom: 0.75rem;
+		margin-bottom: var(--Spacing-3x);
 
 		img {
-			width: 60px;
-			height: 60px;
+			width: 3.75rem;
+			height: 3.75rem;
 			object-fit: contain;
-			border: 1px solid #ddd;
-			border-radius: 4px;
-			padding: 8px;
-			background-color: #fff;
+			border: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-25);
+			border-radius: 0.25rem;
+			padding: 0.5rem;
+			background-color: var(--FAU-Col-FAU-Weiss-100);
 		}
 	}
 }
 
-.fau-facts-grid-item-icon img {
-	width: 24px;
-	height: 24px;
-	object-fit: contain;
+// URL Validation Styles
+.fau-facts-grid-validation-notice {
+	margin-top: var(--Spacing-4x);
+	padding: var(--Spacing-3x);
+	background-color: var(--FAU-Col-RW-Rot-12_5);
+	border: 0.0625rem solid var(--FAU-Col-RW-Rot-100);
+	border-radius: 0.25rem;
+
+	p {
+		margin: 0 0 var(--Spacing-2x) 0;
+		font-size: 0.9rem;
+		line-height: 1.4;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		strong {
+			color: var(--FAU-Col-RW-Rot-100);
+		}
+
+		em {
+			color: var(--FAU-Col-FAU-Schwarz-62_5);
+			font-style: italic;
+		}
+	}
+}
+
+// TextControl error styling
+.components-text-control__input.has-error {
+	border-color: var(--FAU-Col-RW-Rot-100);
+	box-shadow: 0 0 0 0.0625rem var(--FAU-Col-RW-Rot-100);
+
+	&:focus {
+		border-color: var(--FAU-Col-RW-Rot-100);
+		box-shadow: 0 0 0 0.0625rem var(--FAU-Col-RW-Rot-100);
+	}
 }

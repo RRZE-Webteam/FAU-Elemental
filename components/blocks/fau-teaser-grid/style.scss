@@ -3,6 +3,7 @@
 .wp-block-fau-elemental-fau-teaser-grid {
 	max-width: var(--wide-max-width);
 	padding: 0 var(--Spacing-10x);
+	margin: 0 auto;
 
 	.fau-teaser-grid {
 		display: grid;
@@ -948,5 +949,78 @@
 
 	.wp-block-fau-elemental-fau-teaser-grid {
 		padding: 0 var(--Spacing-5x);
+	}
+}
+
+// Spin animation for loading indicator
+@keyframes spin {
+
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+// Load More Button Styles
+.fau-teaser-grid__load-more-wrapper {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	margin-top: var(--Spacing-5x);
+	width: 100%;
+
+	.load-more-spinner {
+		display: none;
+		margin-left: var(--Spacing-2x);
+
+		&.loading {
+			display: block;
+		}
+
+		.loading-text {
+			font-size: 0.875rem;
+			color: var(--FAU-Col-FAU-Dunkelblau-100);
+		}
+	}
+}
+
+// Responsive adjustments for filtered views
+@media (max-width: 768px) {
+
+	.filterable-grid {
+
+		.fau-teaser-grid {
+
+			&.view-table,
+			&.view-list {
+
+				.teaser-item {
+					flex-direction: column;
+
+					.teaser-image-wrapper {
+						float: none;
+						width: 100%;
+						margin-right: 0;
+						margin-bottom: var(--Spacing-3x);
+					}
+				}
+			}
+		}
+	}
+
+	.fau-teaser-grid__load-more-wrapper {
+		justify-content: center;
+
+		.wp-block-button {
+			width: 100%;
+
+			.wp-block-button__link {
+				width: 100%;
+				text-align: center;
+			}
+		}
 	}
 }

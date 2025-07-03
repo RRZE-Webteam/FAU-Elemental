@@ -11,7 +11,7 @@
 ?>
 
 <!-- wp:columns {"align":"wide","templateLock":"all"} -->
-<div class="wp-block-columns alignwide hero-portalseite">
+<div class="wp-block-columns hero-portalseite">
     <!-- wp:column {"templateLock":"contentOnly"} -->
     <div class="wp-block-column" >
         <!-- wp:post-title {"level":1} /-->
