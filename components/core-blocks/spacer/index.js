@@ -44,7 +44,6 @@ addFilter(
 			return settings;
 		}
 
-		// Set default height to 1rem (16px) - index 4 in our spacing values
 		const defaultSpacing = SPACING_VALUES[ 6 ]; // 1rem
 		const defaultHeight = remToPx( defaultSpacing.value );
 
