@@ -22,7 +22,7 @@
   <?php endif; ?>
 
 
-  <div class="faue-post-title">
+  <div>
     <h1 class="wp-block-post-title"><?php the_title(); ?></h1>
   </div>
 
