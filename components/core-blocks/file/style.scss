@@ -9,6 +9,15 @@ div.wp-block-file {
 	padding: 0 var(--Spacing-10x);
 	box-sizing: content-box;
 
+	.is-layout-flow > &,
+	.is-layout-constrained > & {
+		padding: 0 var(--Spacing-10x);
+
+		@include respond-to("xs") {
+			padding: 0 var(--Spacing-5x);
+		}
+	}
+
 	.wp-block-file__content-wrapper {
 		display: flex;
 		align-items: center;

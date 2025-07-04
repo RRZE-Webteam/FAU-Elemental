@@ -11,6 +11,15 @@ p {
 	font-weight: 400;
 	line-height: 1.5;
 
+	.is-layout-flow > &,
+	.is-layout-constrained > & {
+		padding: 0 var(--Spacing-10x);
+
+		@include respond-to("xs") {
+			padding: 0 var(--Spacing-5x);
+		}
+	}
+
 	strong {
 		font-weight: 700;
 	}

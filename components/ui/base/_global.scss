@@ -1,12 +1,20 @@
-// ============================================================================
-// GLOBAL WORDPRESS STYLES
-// ============================================================================
-// Global styles that apply across the entire theme but don't belong to
-// specific components
+@use "../../ui/mixins/mixins" as *;
 
 // Global content container styles
-.site-content {
+main {
 	min-height: 100vh;
+}
+
+main > .is-layout-flow > pre,
+main .is-layout-constrained > pre,	
+
+main >.is-layout-flow > .wp-block-table,
+main .is-layout-constrained > .wp-block-table {
+	padding: 0 var(--Spacing-10x);
+
+	@include respond-to("xs") {
+		padding: 0 var(--Spacing-5x);
+	}
 }
 
 // Screen reader text utility

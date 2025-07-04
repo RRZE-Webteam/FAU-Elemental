@@ -724,7 +724,7 @@ body.modal-open {
 
 // Exception for front page
 
-.home .site-content {
+.home main {
 	padding-top: 2.8125rem; // Compensate for height of Header top
 }
 
@@ -997,7 +997,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 	}
 
 	// Exception for front page
-	.home .site-content {
+	.home main {
 		padding-top: unset;
 	}
 

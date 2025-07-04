@@ -9,7 +9,7 @@
 	max-width: var(--small-max-width);
 	background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
 	color: var(--FAU-Col-FAU-Schwarz-100);
-	padding: var(--Spacing-6x) var(--Spacing-5x) !important;
+	padding: var(--Spacing-6x) 0;
 
 	// Ensure proper scrollbar appearance across browsers
 	&::-webkit-scrollbar {
