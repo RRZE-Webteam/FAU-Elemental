@@ -13,6 +13,9 @@ if (!defined('ABSPATH')) {
 // Include the unified menu modal component
 require_once get_template_directory() . '/components/template-parts/navigation/menu-modal.php';
 
+// Include the mixed navigation walker
+require_once get_template_directory() . '/components/template-parts/navigation/mixed-navigation-walker.php';
+
 // Configure Services Modal (Global Menu - replaces menu-meta-nav functionality)
 Menu_Modal::get_instance()->register_modal('services', array(
     'theme_locations' => array('top_header_nav_services'),
@@ -47,7 +50,7 @@ Menu_Modal::get_instance()->register_modal('menu-website', array(
     'menu_class' => 'menu-website-modal__menu',
     'aria_label' => __('Website Menu', 'fau-elemental'),
     'depth' => 0,
-    'walker' => 'Menu_Modal_Walker',
+    'walker' => 'Mixed_Navigation_Walker',
     'show_back_button' => true,
     'show_close_button' => true,
 ));
