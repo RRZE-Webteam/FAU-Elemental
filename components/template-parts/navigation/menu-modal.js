@@ -404,6 +404,21 @@
 
 			if ( this.isHierarchyMenu( $modal ) ) {
 				this.updateBreadcrumbs( $modal );
+			} else if ( navigationStack.length > 0 ) {
+				// For non-hierarchy menus (like website menu with Mixed Navigation Walker),
+				// restore the level heading for the current level
+				const currentLevel =
+					navigationStack[ navigationStack.length - 1 ];
+				const $currentParentLi = currentLevel.parentLi;
+				const $currentToggle = $currentParentLi.children(
+					'.menu-modal__submenu-toggle'
+				);
+
+				if ( $currentToggle.length && currentLevel.parentTitle ) {
+					$currentToggle.after(
+						`<h2 class="menu-modal__level-heading">${ currentLevel.parentTitle }</h2>`
+					);
+				}
 			}
 
 			this.rehighlightCurrentPage( $modal );
