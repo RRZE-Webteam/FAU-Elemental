@@ -7,6 +7,9 @@
 @use "variables/index" as *;
 @use "base/index" as *;
 
+// Plugin Styles
+@use "plugins/index" as *;
+
 // Core Block Styles (modifications to WordPress core blocks)
 @use "../core-blocks/button/style" as *;
 @use "../core-blocks/code/style" as *;
@@ -38,6 +41,9 @@
 @use "../template-parts/hero-post/style" as *;
 @use "../template-parts/post-meta/style" as *;
 @use "../template-parts/navigation/header" as *;
+
+// Plugin Integrations
+@use "plugins/index" as *;
 
 // Template Styles
 @use "../templates/style" as *;
