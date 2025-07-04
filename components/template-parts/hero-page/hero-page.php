@@ -9,21 +9,20 @@
 
 <div class="hero-page">
 
-  <div class="faue-featured-image">
-    <?php if (has_post_thumbnail()) : ?>
+  <?php if (has_post_thumbnail()) : ?>
+    <div class="faue-featured-image">
       <?php
       $featured_img_id = get_post_thumbnail_id();
       $featured_img_src = wp_get_attachment_image_src($featured_img_id, 'full');
       $featured_img_alt = get_post_meta($featured_img_id, '_wp_attachment_image_alt', true);
       $featured_img_srcset = wp_get_attachment_image_srcset($featured_img_id, 'full');
-      $featured_img_sizes = wp_get_attachment_image_sizes($featured_img_id, 'full');
       ?>
-      <img width="<?php echo $featured_img_src[1]; ?>" height="<?php echo $featured_img_src[2]; ?>" src="<?php echo esc_url($featured_img_src[0]); ?>" class="wp-block-cover__image-background wp-post-image" alt="<?php echo esc_attr($featured_img_alt); ?>" data-object-fit="cover" decoding="async" fetchpriority="high" <?php if ($featured_img_srcset) : ?> srcset="<?php echo esc_attr($featured_img_srcset); ?>" <?php endif; ?><?php if ($featured_img_sizes) : ?> sizes="<?php echo esc_attr($featured_img_sizes); ?>" <?php endif; ?>>
-    <?php endif; ?>
-  </div>
+      <img src="<?php echo esc_url($featured_img_src[0]); ?>" class="wp-block-cover__image-background wp-post-image" alt="<?php echo esc_attr($featured_img_alt); ?>" <?php if ($featured_img_srcset) : ?> srcset="<?php echo esc_attr($featured_img_srcset); ?>" <?php endif; ?>>
+    </div>
+  <?php endif; ?>
 
 
-  <div class="wp-block-group alignfull is-layout-flow wp-block-group-is-layout-flow">
+  <div class="faue-post-title">
     <h1 class="wp-block-post-title"><?php the_title(); ?></h1>
   </div>
 
