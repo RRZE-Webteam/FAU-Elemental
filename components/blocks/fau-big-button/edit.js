@@ -565,36 +565,6 @@ export default function Edit( { attributes, setAttributes } ) {
 									onClick={ ( e ) => e.stopPropagation() }
 								/>
 
-								{ item.url && (
-									<div className="fau-big-button-teaser-group__url-preview">
-										<strong>
-											{ __( 'URL:', 'fau-elemental' ) }
-										</strong>{ ' ' }
-										{ item.url }
-										{ ! urlValidation.isValid && (
-											<span className="fau-big-button-url-error">
-												{ ` (${ urlValidation.message })` }
-											</span>
-										) }
-									</div>
-								) }
-
-								{ ! isComplete && (
-									<div className="fau-big-button-incomplete-notice">
-										<strong>
-											{ __(
-												'Incomplete Item',
-												'fau-elemental'
-											) }
-										</strong>
-										<br />
-										{ __(
-											'Add title and valid URL to display',
-											'fau-elemental'
-										) }
-									</div>
-								) }
-
 								<span
 									className="arrow-link"
 									aria-hidden="true"
