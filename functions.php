@@ -53,6 +53,9 @@ require_once get_template_directory() . '/inc/portal-page-settings.php';
 // Breadcrumb functionality
 require_once get_template_directory() . '/components/template-parts/breadcrumbs/breadcrumbs.php';
 
+// Navigation components
+require_once get_template_directory() . '/components/template-parts/navigation/index.php';
+
 /**
  * Register custom page templates
  */

@@ -18,6 +18,9 @@
 @use "../../patterns/hero-fau/editor" as *;
 @use "../../patterns/hero-portal/editor" as *;
 
+/* Plugin Editor Styles */
+@use "../plugins/rrze-calendar-editor" as *;
+
 html :where(.editor-styles-wrapper) {
 	font-family: var(--font-family-base);
 }
@@ -33,14 +36,6 @@ html :where(.editor-styles-wrapper) {
 
 .wp-block-file__content-wrapper > .wp-block-file > .wp-block-file {
 	margin-bottom: var(--Spacing-4x);
-}
-
-.editor-styles-wrapper .wp-block {
-	margin-bottom: 0;
-}
-
-:root :where(.editor-styles-wrapper) :where(.is-layout-flow) > .wp-block {
-	margin-block-start: 0;
 }
 
 /* Portal Menu Settings */
@@ -71,3 +66,4 @@ html :where(.editor-styles-wrapper) {
 	background-color: #f0f7fb;
 	border-left: 4px solid #2271b1;
 }
+

@@ -46,7 +46,7 @@ $is_dark = get_post_meta(get_the_ID(), 'portal_menu_is_dark', true) ?: false;
 ?>
 
 <main id="primary" class="site-main">
-    <div class="entry-content">
+    <div class="is-layout-flow">
         <?php 
         // Display the page content if any
         while (have_posts()) : the_post(); 

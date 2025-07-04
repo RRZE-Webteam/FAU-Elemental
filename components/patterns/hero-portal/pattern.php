@@ -10,8 +10,8 @@
  */
 ?>
 
-<!-- wp:columns {"align":"wide","templateLock":"all"} -->
-<div class="wp-block-columns alignwide hero-portalseite">
+<!-- wp:columns {"align":"wide","templateLock":"all", "className": "hero-portal"} -->
+<div class="wp-block-columns alignwide hero-portal">
     <!-- wp:column {"templateLock":"contentOnly"} -->
     <div class="wp-block-column" >
         <!-- wp:post-title {"level":1} /-->
