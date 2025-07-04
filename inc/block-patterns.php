@@ -73,11 +73,22 @@ function fau_elemental_register_component_patterns() {
             'viewportWidth' => 'Viewport Width',
             'inserter' => 'Inserter',
             'keywords' => 'Keywords',
-            'templateTypes' => 'Template Types'
+            'templateTypes' => 'Template Types',
+            'websiteTypes' => 'Website Types'
         ));
 
         if (empty($pattern_data['slug'])) {
             continue;
+        }
+
+        // Check if pattern should be registered for current website type
+        if (!empty($pattern_data['websiteTypes'])) {
+            $allowed_website_types = array_map('trim', explode(',', $pattern_data['websiteTypes']));
+            $current_website_type = get_theme_mod('faue_website_type', 'fau');
+            
+            if (!in_array($current_website_type, $allowed_website_types)) {
+                continue; // Skip this pattern for current website type
+            }
         }
 
         // Process categories
