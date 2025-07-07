@@ -18,89 +18,89 @@ import {
 import { useRef, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { v4 as uuidv4 } from 'uuid';
-import QuoteCarousel from './components/QuoteCarousel';
+import TestimonialCarousel from './components/TestimonialCarousel';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const [ selectedQuoteIndex, setSelectedQuoteIndex ] = useState( 0 );
+	const [ selectedItemIndex, setSelectedItemIndex ] = useState( 0 );
 	const blockProps = useBlockProps();
 
-	const addNewQuote = () => {
-		const quotes = [ ...( attributes.quotes || [] ) ];
+	const addNewItem = () => {
+		const items = [ ...( attributes.items || [] ) ];
 		const newUuid = uuidv4();
 
-		quotes.push( {
+		items.push( {
 			id: newUuid,
 			content: '',
 			citation: '',
 			image: null,
 		} );
 
-		// First update the attributes to ensure the new quote is added
-		setAttributes( { quotes } );
+		// First update the attributes to ensure the new item is added
+		setAttributes( { items } );
 
-		// Then update the selected quote index to point to the newly added quote
-		// This ensures the InspectorControls panel will highlight the correct quote
-		setSelectedQuoteIndex( quotes.length - 1 );
+		// Then update the selected item index to point to the newly added item
+		// This ensures the InspectorControls panel will highlight the correct item
+		setSelectedItemIndex( items.length - 1 );
 	};
 
-	const updateQuote = ( index, field, value ) => {
-		const quotes = [ ...attributes.quotes ];
-		quotes[ index ] = { ...quotes[ index ], [ field ]: value };
-		setAttributes( { quotes } );
+	const updateItem = ( index, field, value ) => {
+		const items = [ ...attributes.items ];
+		items[ index ] = { ...items[ index ], [ field ]: value };
+		setAttributes( { items } );
 	};
 
-	const removeQuote = ( index ) => {
-		const quotes = [ ...attributes.quotes ];
-		quotes.splice( index, 1 );
-		setSelectedQuoteIndex(
-			Math.min( selectedQuoteIndex, Math.max( 0, quotes.length - 1 ) )
+	const removeItem = ( index ) => {
+		const items = [ ...attributes.items ];
+		items.splice( index, 1 );
+		setSelectedItemIndex(
+			Math.min( selectedItemIndex, Math.max( 0, items.length - 1 ) )
 		);
-		setAttributes( { quotes } );
+		setAttributes( { items } );
 	};
 
-	const moveQuote = ( index, direction ) => {
-		const quotes = [ ...attributes.quotes ];
+	const moveItem = ( index, direction ) => {
+		const items = [ ...attributes.items ];
 		const newIndex = index + direction;
-		if ( newIndex >= 0 && newIndex < quotes.length ) {
-			[ quotes[ index ], quotes[ newIndex ] ] = [
-				quotes[ newIndex ],
-				quotes[ index ],
+		if ( newIndex >= 0 && newIndex < items.length ) {
+			[ items[ index ], items[ newIndex ] ] = [
+				items[ newIndex ],
+				items[ index ],
 			];
-			setSelectedQuoteIndex( newIndex );
-			setAttributes( { quotes } );
+			setSelectedItemIndex( newIndex );
+			setAttributes( { items } );
 		}
 	};
 
-	// Show a single quote inside the editor
-	const renderQuoteContent = ( quote, index ) => (
-		<div className="quote-wrapper">
-			<div className="quote-content">
-				{ quote.image && (
-					<figure className="quote-image">
+	// Show a single testimonial inside the editor
+	const renderTestimonialContent = ( testimonial, index ) => (
+		<div className="testimonial-wrapper">
+			<div className="testimonial-content">
+				{ testimonial.image && (
+					<figure className="testimonial-image">
 						<img
-							src={ quote.image.url }
-							alt={ quote.image.alt || '' }
+							src={ testimonial.image.url }
+							alt={ testimonial.image.alt || '' }
 						/>
 					</figure>
 				) }
-				<div className="quote-text">
+				<div className="testimonial-text">
 					<RichText
 						tagName="blockquote"
-						value={ quote.content }
+						value={ testimonial.content }
 						onChange={ ( content ) =>
-							updateQuote( index, 'content', content )
+							updateItem( index, 'content', content )
 						}
 						placeholder={ __(
-							'Enter quote text…',
+							'Enter testimonial text…',
 							'fau-elemental'
 						) }
 						allowedFormats={ [] }
 					/>
 					<RichText
 						tagName="cite"
-						value={ quote.citation }
+						value={ testimonial.citation }
 						onChange={ ( citation ) =>
-							updateQuote( index, 'citation', citation )
+							updateItem( index, 'citation', citation )
 						}
 						placeholder={ __( 'Enter citation…', 'fau-elemental' ) }
 						allowedFormats={ [] }
@@ -110,35 +110,35 @@ export default function Edit( { attributes, setAttributes } ) {
 		</div>
 	);
 
-	// Show all quotes inside the editor
-	const renderQuotes = () => {
-		if ( ! attributes.quotes?.length ) {
+	// Show all testimonials inside the editor
+	const renderTestimonials = () => {
+		if ( ! attributes.items?.length ) {
 			return null;
 		}
 
-		if ( attributes.quotes.length === 1 ) {
+		if ( attributes.items.length === 1 ) {
 			return (
-				<div className="wp-block-quote-item">
-					{ renderQuoteContent( attributes.quotes[ 0 ], 0 ) }
+				<div className="fau-testimonial-item">
+					{ renderTestimonialContent( attributes.items[ 0 ], 0 ) }
 				</div>
 			);
 		}
 
 		return (
-			<QuoteCarousel
-				selectedIndex={ selectedQuoteIndex }
-				onSlideChange={ setSelectedQuoteIndex }
+			<TestimonialCarousel
+				selectedIndex={ selectedItemIndex }
+				onSlideChange={ setSelectedItemIndex }
 			>
 				<div className="carousel-container">
-					{ attributes.quotes.map( ( quote, index ) => (
-						<div key={ quote.id } className="quote-slide">
-							<div className="wp-block-quote-item">
-								{ renderQuoteContent( quote, index ) }
+					{ attributes.items.map( ( item, index ) => (
+						<div key={ item.id } className="testimonial-slide">
+							<div className="fau-testimonial-item">
+								{ renderTestimonialContent( item, index ) }
 							</div>
 						</div>
 					) ) }
 				</div>
-			</QuoteCarousel>
+			</TestimonialCarousel>
 		);
 	};
 
@@ -149,27 +149,27 @@ export default function Edit( { attributes, setAttributes } ) {
 	const mediaUploaderButton = useRef( null );
 
 	// Component to show the BlockControls Toolbar
-	const renderQuoteBlockControls = () => {
+	const renderTestimonialBlockControls = () => {
 		return (
 			<BlockControls>
 				<ToolbarGroup>
 					<ToolbarButton
 						icon="plus"
-						label={ __( 'Add New Quote', 'fau-elemental' ) }
-						onClick={ addNewQuote }
+						label={ __( 'Add New Testimonial', 'fau-elemental' ) }
+						onClick={ addNewItem }
 					/>
 					<ToolbarButton
 						icon="arrow-left-alt"
-						label={ __( 'Move quote up', 'fau-elemental' ) }
-						onClick={ () => moveQuote( selectedQuoteIndex, -1 ) }
-						disabled={ selectedQuoteIndex === 0 }
+						label={ __( 'Move testimonial up', 'fau-elemental' ) }
+						onClick={ () => moveItem( selectedItemIndex, -1 ) }
+						disabled={ selectedItemIndex === 0 }
 					/>
 					<ToolbarButton
 						icon="arrow-right-alt"
-						label={ __( 'Move quote down', 'fau-elemental' ) }
-						onClick={ () => moveQuote( selectedQuoteIndex, 1 ) }
+						label={ __( 'Move testimonial down', 'fau-elemental' ) }
+						onClick={ () => moveItem( selectedItemIndex, 1 ) }
 						disabled={
-							selectedQuoteIndex === attributes.quotes.length - 1
+							selectedItemIndex === attributes.items.length - 1
 						}
 					/>
 					<ToolbarDropdownMenu
@@ -190,9 +190,8 @@ export default function Edit( { attributes, setAttributes } ) {
 											mediaUploaderButton.current?.click();
 										} }
 									>
-										{ attributes.quotes[
-											selectedQuoteIndex
-										].image === null
+										{ attributes.items[ selectedItemIndex ]
+											.image === null
 											? __( 'Add Image', 'fau-elemental' )
 											: __(
 													'Replace Image',
@@ -203,13 +202,13 @@ export default function Edit( { attributes, setAttributes } ) {
 										icon="editor-removeformatting"
 										iconPosition="left"
 										disabled={
-											attributes.quotes[
-												selectedQuoteIndex
+											attributes.items[
+												selectedItemIndex
 											].image === null
 										}
 										onClick={ () =>
-											updateQuote(
-												selectedQuoteIndex,
+											updateItem(
+												selectedItemIndex,
 												'image',
 												null
 											)
@@ -227,19 +226,19 @@ export default function Edit( { attributes, setAttributes } ) {
 										iconPosition="left"
 										isDestructive
 										disabled={
-											attributes.quotes.length <= 1
+											attributes.items.length <= 1
 										}
 										onClick={ () =>
-											removeQuote( selectedQuoteIndex )
+											removeItem( selectedItemIndex )
 										}
 									>
-										{ attributes.quotes.length <= 1
+										{ attributes.items.length <= 1
 											? __(
-													'Cannot remove the last quote',
+													'Cannot remove the last testimonial',
 													'fau-elemental'
 											  )
 											: __(
-													'Remove this quote',
+													'Remove this testimonial',
 													'fau-elemental'
 											  ) }
 									</MenuItem>
@@ -253,46 +252,47 @@ export default function Edit( { attributes, setAttributes } ) {
 	};
 
 	// Renders the InspectorControls to manage
-	// all quotes inside this block, including adding new ones
+	// all testimonials inside this block, including adding new ones
 	const renderManageInspectorControls = () => {
-		if ( ! attributes.quotes?.length ) {
+		if ( ! attributes.items?.length ) {
 			return null;
 		}
 		return (
 			<>
-				<div className="quote-list">
-					{ attributes.quotes.map( ( quote, index ) => (
+				<div className="testimonial-list">
+					{ attributes.items.map( ( item, index ) => (
 						<button
-							key={ quote.id }
-							className={ `quote-list-item ${
-								index === selectedQuoteIndex
-									? 'is-selected'
-									: ''
+							key={ item.id }
+							className={ `testimonial-list-item ${
+								index === selectedItemIndex ? 'is-selected' : ''
 							}` }
 							onClick={ () => {
-								setSelectedQuoteIndex( index );
+								setSelectedItemIndex( index );
 							} }
 						>
-							<div className="quote-list-item__content">
-								<span className="quote-list-item__text">
-									{ quote.content
-										? quote.content
+							<div className="testimonial-list-item__content">
+								<span className="testimonial-list-item__text">
+									{ item.content
+										? item.content
 												.replace( /<[^>]*>/g, '' )
 												.substring( 0, 50 ) + '...'
-										: __( 'Empty quote', 'fau-elemental' ) }
+										: __(
+												'Empty testimonial',
+												'fau-elemental'
+										  ) }
 								</span>
 							</div>
-							<div className="quote-list-item__actions">
+							<div className="testimonial-list-item__actions">
 								<Button
 									icon="arrow-up-alt2"
 									onClick={ ( e ) => {
 										e.stopPropagation();
-										moveQuote( index, -1 );
+										moveItem( index, -1 );
 									} }
 									disabled={ index === 0 }
-									className="quote-list-item__move"
+									className="testimonial-list-item__move"
 									title={ __(
-										'Move quote up',
+										'Move testimonial up',
 										'fau-elemental'
 									) }
 								/>
@@ -300,14 +300,14 @@ export default function Edit( { attributes, setAttributes } ) {
 									icon="arrow-down-alt2"
 									onClick={ ( e ) => {
 										e.stopPropagation();
-										moveQuote( index, 1 );
+										moveItem( index, 1 );
 									} }
 									disabled={
-										index === attributes.quotes.length - 1
+										index === attributes.items.length - 1
 									}
-									className="quote-list-item__move"
+									className="testimonial-list-item__move"
 									title={ __(
-										'Move quote down',
+										'Move testimonial down',
 										'fau-elemental'
 									) }
 								/>
@@ -315,19 +315,19 @@ export default function Edit( { attributes, setAttributes } ) {
 									icon="trash"
 									onClick={ ( e ) => {
 										e.stopPropagation();
-										removeQuote( index );
+										removeItem( index );
 									} }
 									isDestructive
-									disabled={ attributes.quotes.length <= 1 }
-									className="quote-list-item__remove"
+									disabled={ attributes.items.length <= 1 }
+									className="testimonial-list-item__remove"
 									title={
-										attributes.quotes.length <= 1
+										attributes.items.length <= 1
 											? __(
-													'Cannot remove the last quote',
+													'Cannot remove the last testimonial',
 													'fau-elemental'
 											  )
 											: __(
-													'Remove this quote',
+													'Remove this testimonial',
 													'fau-elemental'
 											  )
 									}
@@ -337,11 +337,11 @@ export default function Edit( { attributes, setAttributes } ) {
 					) ) }
 					<button
 						type="button"
-						className="quote-list-item quote-list-item-add"
-						onClick={ addNewQuote }
+						className="testimonial-list-item testimonial-list-item-add"
+						onClick={ addNewItem }
 					>
-						<div className="quote-list-item__content">
-							<span className="quote-list-item__add-icon">
+						<div className="testimonial-list-item__content">
+							<span className="testimonial-list-item__add-icon">
 								<svg
 									width="24"
 									height="24"
@@ -353,8 +353,8 @@ export default function Edit( { attributes, setAttributes } ) {
 									<path d="M18 11.2h-5.2V6h-1.6v5.2H6v1.6h5.2V18h1.6v-5.2H18z"></path>
 								</svg>
 							</span>
-							<span className="quote-list-item__add-label">
-								{ __( 'Add New Quote', 'fau-elemental' ) }
+							<span className="testimonial-list-item__add-label">
+								{ __( 'Add New Testimonial', 'fau-elemental' ) }
 							</span>
 						</div>
 					</button>
@@ -363,40 +363,40 @@ export default function Edit( { attributes, setAttributes } ) {
 		);
 	};
 
-	// Renders the InspectorControls for a single quote
-	const renderQuoteInspectorControls = () => {
+	// Renders the InspectorControls for a single testimonial
+	const renderTestimonialInspectorControls = () => {
 		return (
 			<BaseControl
-				label={ __( 'Quote Image', 'fau-elemental' ) }
+				label={ __( 'Testimonial Image', 'fau-elemental' ) }
 				help={ __(
-					'Add an image to accompany this quote',
+					'Add an image to accompany this testimonial',
 					'fau-elemental'
 				) }
-				id="quote-image-upload"
+				id="testimonial-image-upload"
 			>
-				<div className="quote-image-controls">
+				<div className="testimonial-image-controls">
 					<MediaUploadCheck>
 						<div className="editor-post-featured-image">
 							<MediaUpload
 								onSelect={ ( media ) =>
-									updateQuote(
-										selectedQuoteIndex,
+									updateItem(
+										selectedItemIndex,
 										'image',
 										media
 									)
 								}
 								allowedTypes={ [ 'image' ] }
 								value={
-									attributes.quotes[ selectedQuoteIndex ]
-										.image?.id
+									attributes.items[ selectedItemIndex ].image
+										?.id
 								}
 								render={ ( { open } ) => (
 									<div>
-										{ ! attributes.quotes[
-											selectedQuoteIndex
+										{ ! attributes.items[
+											selectedItemIndex
 										].image && (
 											<Button
-												id="quote-image-upload"
+												id="testimonial-image-upload"
 												ref={ mediaUploaderButton }
 												onClick={ open }
 												variant="secondary"
@@ -408,26 +408,25 @@ export default function Edit( { attributes, setAttributes } ) {
 												) }
 											</Button>
 										) }
-										{ attributes.quotes[
-											selectedQuoteIndex
-										].image && (
+										{ attributes.items[ selectedItemIndex ]
+											.image && (
 											<>
 												<img
 													src={
-														attributes.quotes[
-															selectedQuoteIndex
+														attributes.items[
+															selectedItemIndex
 														].image.url
 													}
 													alt={
-														attributes.quotes[
-															selectedQuoteIndex
+														attributes.items[
+															selectedItemIndex
 														].image.alt || ''
 													}
 													className="editor-post-featured-image__preview"
 												/>
 												<div className="editor-post-featured-image__actions">
 													<Button
-														id="quote-image-upload"
+														id="testimonial-image-upload"
 														ref={
 															mediaUploaderButton
 														}
@@ -442,8 +441,8 @@ export default function Edit( { attributes, setAttributes } ) {
 													</Button>
 													<Button
 														onClick={ () =>
-															updateQuote(
-																selectedQuoteIndex,
+															updateItem(
+																selectedItemIndex,
 																'image',
 																null
 															)
@@ -469,27 +468,26 @@ export default function Edit( { attributes, setAttributes } ) {
 		);
 	};
 
-	// Do not render anything if the selectedQuoteIndex is out of bounds, instead
+	// Do not render anything if the selectedItemIndex is out of bounds, instead
 	// reset it to 0.
 	// This may happen if the user undos or redos changes.
-	if ( attributes.quotes && selectedQuoteIndex >= attributes.quotes.length ) {
-		setSelectedQuoteIndex( 0 );
+	if ( attributes.items && selectedItemIndex >= attributes.items.length ) {
+		setSelectedItemIndex( 0 );
 		return <></>;
 	}
 
-	// Build the full withFauImageQuote
 	return (
 		<>
-			{ renderQuoteBlockControls() }
+			{ renderTestimonialBlockControls() }
 			<InspectorControls>
-				{ attributes.quotes?.length > 0 && (
+				{ attributes.items?.length > 0 && (
 					<>
 						{ renderManageInspectorControls() }
-						{ renderQuoteInspectorControls() }
+						{ renderTestimonialInspectorControls() }
 					</>
 				) }
 			</InspectorControls>
-			<div { ...blockProps }>{ renderQuotes() }</div>
+			<div { ...blockProps }>{ renderTestimonials() }</div>
 		</>
 	);
 }

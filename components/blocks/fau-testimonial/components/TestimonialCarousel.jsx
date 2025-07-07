@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 
-export default function QuoteCarousel( {
+export default function TestimonialCarousel( {
 	children,
 	selectedIndex = 0,
 	onSlideChange,
@@ -13,7 +13,7 @@ export default function QuoteCarousel( {
 	useEffect( () => {
 		if ( carouselRef.current ) {
 			const slideElements = Array.from(
-				carouselRef.current.querySelectorAll( '.quote-slide' )
+				carouselRef.current.querySelectorAll( '.testimonial-slide' )
 			);
 			setSlides( slideElements );
 		}
@@ -62,7 +62,7 @@ export default function QuoteCarousel( {
 	const showNavigation = slides.length > 1;
 
 	return (
-		<div className="quote-carousel" ref={ carouselRef }>
+		<div className="testimonial-carousel" ref={ carouselRef }>
 			{ children }
 			{ showNavigation && (
 				<div className="carousel-controls">

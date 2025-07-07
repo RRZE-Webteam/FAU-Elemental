@@ -6,7 +6,7 @@
 	"title": "FAU Testimonial",
 	"category": "fau-elemental/FAU",
 	"icon": "format-quote",
-	"description": "Display a quote carousel with an optional image",
+	"description": "Display a testimonial carousel with an optional image",
 	"supports": {
 		"html": false,
 		"className": true
@@ -17,7 +17,7 @@
 	"style": "file:./style-theme.css",
 	"viewScript": "file:./view.js",
 	"attributes": {
-		"quotes": {
+		"items": {
 			"type": "array",
 			"default": [
 				{
@@ -31,7 +31,7 @@
 	},
 	"example": {
 		"attributes": {
-			"quotes": [
+			"items": [
 				{
 					"id": "052d0af3-100e-4aab-b90b-d3f9a56bcd39",
 					"content": "This is an example testimonial.",

@@ -5,42 +5,42 @@ import { __ } from '@wordpress/i18n';
  * Save function - generates static HTML
  */
 export default function Save( { attributes } ) {
-	// Filter out quotes with empty content
-	const validQuotes = attributes.quotes.filter(
-		( quote ) => quote.content && quote.content.trim() !== ''
+	// Filter out items with empty content
+	const validItems = attributes.items.filter(
+		( item ) => item.content && item.content.trim() !== ''
 	);
 
 	const blockProps = useBlockProps.save( {
-		className: 'quote-carousel',
+		className: 'testimonial-carousel',
 	} );
 
-	const renderQuote = ( quote ) => (
-		<div className="quote-content">
-			{ quote.image && (
-				<figure className="quote-image">
+	const renderItem = ( testimonial ) => (
+		<div className="testimonial-content">
+			{ testimonial.image && (
+				<figure className="testimonial-image">
 					<img
-						src={ quote.image.url }
-						alt={ quote.image.alt || '' }
+						src={ testimonial.image.url }
+						alt={ testimonial.image.alt || '' }
 					/>
 				</figure>
 			) }
-			<div className="quote-text">
+			<div className="testimonial-text">
 				<blockquote>
-					<RichText.Content value={ quote.content } />
+					<RichText.Content value={ testimonial.content } />
 				</blockquote>
-				{ quote.citation && (
+				{ testimonial.citation && (
 					<cite>
-						<RichText.Content value={ quote.citation } />
+						<RichText.Content value={ testimonial.citation } />
 					</cite>
 				) }
 			</div>
 		</div>
 	);
 
-	if ( validQuotes.length === 1 ) {
+	if ( validItems.length === 1 ) {
 		return (
-			<div className="wp-block-quote-item">
-				{ renderQuote( validQuotes[ 0 ] ) }
+			<div className="fau-testimonial-item">
+				{ renderItem( validItems[ 0 ] ) }
 			</div>
 		);
 	}
@@ -48,10 +48,10 @@ export default function Save( { attributes } ) {
 	return (
 		<div { ...blockProps }>
 			<div className="carousel-container">
-				{ validQuotes.map( ( quote ) => (
-					<div key={ quote.id } className="quote-slide">
-						<div className="wp-block-quote-item">
-							{ renderQuote( quote ) }
+				{ validItems.map( ( item ) => (
+					<div key={ item.id } className="testimonial-slide">
+						<div className="fau-testimonial-item">
+							{ renderItem( item ) }
 						</div>
 					</div>
 				) ) }

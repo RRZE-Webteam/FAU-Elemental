@@ -1,6 +1,6 @@
 @use "../../ui/mixins/mixins" as *;
 
-.wp-block-quote-item {
+.fau-testimonial-item {
 	max-width: var(--base-max-width);
 	padding: 0 var(--Spacing-10x);
 
@@ -21,11 +21,11 @@
 		font-style: normal;
 	}
 
-	.quote-content {
+	.testimonial-content {
 		display: flex;
 		align-items: center;
 
-		.quote-text {
+		.testimonial-text {
 			display: flex;
 			flex-direction: column;
 			gap: var(--Spacing-4x);
@@ -45,7 +45,7 @@
 		}
 
 		// Positioning when image is displayed
-		figure + .quote-text {
+		figure + .testimonial-text {
 			background-color: var(--FAU-Col-FAU-Weiss-100);
 			margin-left: -80px;
 			padding: var(--Spacing-6x);
@@ -57,12 +57,12 @@
 	}
 }
 
-// Multiple quotes
-.quote-carousel {
+// Multiple testimonials
+.testimonial-carousel {
 	max-width: var(--base-max-width);
 	padding: 0 var(--Spacing-10x);
 
-	.carousel-container .wp-block-quote-item {
+	.carousel-container .fau-testimonial-item {
 		max-width: unset;
 		padding: unset;
 	}
@@ -160,8 +160,8 @@
 }
 
 // Dark mode
-.wp-block-quote-item,
-.quote-carousel {
+.fau-testimonial-item,
+.testimonial-carousel {
 
 	.is-style-dark & {
 
@@ -170,7 +170,7 @@
 			color: var(--FAU-Col-FAU-Weiss-100);
 		}
 
-		.quote-content .quote-text {
+		.testimonial-content .testimonial-text {
 			background-color: var(--FAU-Col-FAU-Blau-100);
 		}
 
@@ -202,13 +202,13 @@
 // Responsive
 @include respond-to("medium") {
 
-	.wp-block-quote-item {
+	.fau-testimonial-item {
 
 		blockquote {
 			font-size: 1.25rem;
 		}
 
-		.quote-content figure + .quote-text {
+		.testimonial-content figure + .testimonial-text {
 			margin-left: -110px;
 		}
 	}
@@ -216,12 +216,12 @@
 
 @include respond-to("small") {
 
-	.wp-block-quote-item {
+	.fau-testimonial-item {
 
-		.quote-content {
+		.testimonial-content {
 			flex-direction: column;
 
-			figure + .quote-text {
+			figure + .testimonial-text {
 				margin-left: unset;
 				margin-top: -120px;
 				width: 90%;
@@ -234,19 +234,19 @@
 		}
 	}
 
-	.quote-carousel .carousel-controls {
+	.testimonial-carousel .carousel-controls {
 		margin-top: var(--Spacing-10x);
 	}
 }
 
 @include respond-to("x-small") {
 
-	.wp-block-quote-item,
-	.quote-carousel {
+	.fau-testimonial-item,
+	.testimonial-carousel {
 		padding: 0;
 	}
 
-	.wp-block-quote-item .quote-content .quote-text {
+	.fau-testimonial-item .testimonial-content .testimonial-text {
 		padding: 0 var(--Spacing-5x);
 	}
 }
