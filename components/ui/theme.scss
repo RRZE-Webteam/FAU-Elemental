@@ -7,6 +7,9 @@
 @use "variables/index" as *;
 @use "base/index" as *;
 
+// Plugin Styles
+@use "plugins/index" as *;
+
 // Core Block Styles (modifications to WordPress core blocks)
 @use "../core-blocks/button/style" as *;
 @use "../core-blocks/code/style" as *;
@@ -29,7 +32,8 @@
 // Pattern Styles
 @use "../patterns/hero-fau/style" as *;
 @use "../patterns/hero-portal/style" as *;
-
+@use "../patterns/big-buttons-faculties/style" as *;
+@use "../patterns/big-buttons/style" as *;
 // Template Part Styles
 @use "../template-parts/breadcrumbs/style" as *;
 @use "../template-parts/footer-instance/style" as *;
@@ -38,3 +42,6 @@
 @use "../template-parts/hero-post/style" as *;
 @use "../template-parts/post-meta/style" as *;
 @use "../template-parts/navigation/header" as *;
+
+// Plugin Integrations
+@use "plugins/index" as *;

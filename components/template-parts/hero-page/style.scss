@@ -1,43 +1,62 @@
 @use "../../ui/mixins/mixins" as *;
 
 .hero-page {
-	padding: var(--Spacing-10x) var(--Spacing-10x);
+	padding: var(--Spacing-10x);
 	box-sizing: content-box;
-	max-width: 1320px;
-	margin-left: auto;
-	margin-right: auto;
+	max-width: var(--small-max-width);
+	margin: 0 auto;
 
+	img {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 23 / 10;
+		object-fit: cover;
+	}
+
+	.wp-block-post-title {
+		margin: unset;
+	}
+
+	// Styles applying only when there is a featured image
+	&:has(.faue-featured-image) {
+		max-width: var(--wide-max-width);
+	}
+
+	// Styles applying only when there is a featured image
 	.faue-featured-image + div {
 		position: relative;
 		margin: 0 auto;
-		top: -40px;
+		top: -4.7rem;
 		background: var(--FAU-Col-FAU-Weiss-100);
-		padding: var(--Spacing-5x) var(--Spacing-8x);
-		max-width: calc(870px + 4rem);
+		padding: var(--Spacing-6x) var(--Spacing-8x);
+		max-width: calc(var(--small-max-width) + var(--Spacing-16x));
+		box-sizing: border-box;
 	}
 }
 
 // Responsive
-@include respond-to("medium") {
+@media screen and (max-width: 1199px) {
 
-	.hero-page {
-
-		.wp-block-post-featured-image + .wp-block-post-title {
-			width: 80%; // Make sure there is a distance between title container and image borders
-		}
+	.hero-page .faue-featured-image + div {
+		max-width: 90%;
 	}
 }
 
 @include respond-to("small") {
 
 	.hero-page {
+		padding: var(--Spacing-8x) var(--Spacing-10x);
+
+		img {
+			aspect-ratio: 16 / 9;
+		}
 
 		.wp-block-post-title {
 			font-size: 2.5rem;
 		}
 
-		.wp-block-post-featured-image + .wp-block-post-title {
-			top: -77px;
+		.faue-featured-image + div {
+			top: -4rem;
 			padding: var(--Spacing-4x) var(--Spacing-6x);
 		}
 	}
@@ -46,17 +65,21 @@
 @include respond-to("x-small") {
 
 	.hero-page {
-		padding: unset;
+		padding: var(--Spacing-6x) var(--Spacing-5x);
+
+		&:has(.faue-featured-image) {
+			padding: unset;
+		}
 
 		.wp-block-post-title {
 			font-size: 1.75rem;
-			padding: 0 var(--Spacing-10x);
 		}
 
-		.wp-block-post-featured-image + .wp-block-post-title {
-			top: -57px;
-			width: 90%;
-			padding: var(--Spacing-3x) var(--Spacing-3x);
+		.faue-featured-image + div {
+			top: -2.5rem;
+			max-width: unset;
+			padding: var(--Spacing-4x) var(--Spacing-3x);
+			margin: 0 var(--Spacing-2x);
 		}
 	}
 }
