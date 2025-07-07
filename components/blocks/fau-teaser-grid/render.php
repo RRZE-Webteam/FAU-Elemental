@@ -21,7 +21,6 @@ require_once get_template_directory() . '/components/blocks/fau-teaser-grid/teas
  * @param WP_Block $block      Block instance.
  * @return string Returns the post content with the teaser grid.
  */
-if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
 function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     $variant = $attributes['variant'] ?? 'post';
     $selection_mode = $attributes['selectionMode'] ?? 'auto';
@@ -277,7 +276,6 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
 
     return $output;
 }
-}
 
 /**
  * Generates pagination HTML.
@@ -286,7 +284,6 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
  * @param int $total_pages Total number of pages.
  * @return string The pagination HTML.
  */
-if ( ! function_exists( 'fau_elemental_generate_pagination' ) ) {
 function fau_elemental_generate_pagination($current_page, $total_pages) {
     $output = '<div class="pagination">';
 
@@ -328,7 +325,6 @@ function fau_elemental_generate_pagination($current_page, $total_pages) {
 
     $output .= '</div>';
     return $output;
-}
 }
 
 echo render_block_fau_teaser_grid($attributes, $content, $block); 

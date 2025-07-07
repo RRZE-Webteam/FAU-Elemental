@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string  $heading_level The heading level to use (h1-h6).
  * @return string The rendered teaser item HTML.
  */
+if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
 function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level = 'h4') {
     $image = get_the_post_thumbnail_url($post->ID, 'full') ?: get_template_directory_uri() . '/assets/images/logo.svg';
     $title = get_the_title($post);
@@ -114,8 +115,9 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
     $output .= '</div>'; // Close teaser-content
     $output .= '</div>'; // Close teaser-content-wrapper
     $output .= '</article>'; // Close teaser-item
-
+    
     return $output;
+}
 }
 
 /**
@@ -125,6 +127,7 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
  * @param string $layout The current layout
  * @return string The wrapped teaser items HTML
  */
+if ( ! function_exists( 'fau_elemental_wrap_teaser_items' ) ) {
 function fau_elemental_wrap_teaser_items($items, $layout) {
     // Only wrap for l2s and 2sl layouts
     if (!in_array($layout, ['l2s', '2sl'])) {
@@ -144,4 +147,5 @@ function fau_elemental_wrap_teaser_items($items, $layout) {
     }
     
     return $output;
+}
 } 

@@ -131,6 +131,14 @@ const copyPatterns = customBlockFolders.reduce( ( patterns, folder ) => {
 		} );
 	}
 
+	// Add ajax.php copy pattern
+	if ( fs.existsSync( path.resolve( folderPath, 'ajax.php' ) ) ) {
+		patterns.push( {
+			from: `components/blocks/${ folder }/ajax.php`,
+			to: `blocks/${ folder }/ajax.php`,
+		} );
+	}
+
 	return patterns;
 }, [] );
 
