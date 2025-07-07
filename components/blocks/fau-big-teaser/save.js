@@ -71,13 +71,15 @@ export default function Save( { attributes } ) {
 				) }
 
 				{ truncatedLinkText && linkUrl && (
-					<div className="wp-block-button is-style-tertiary">
-						<a
-							href={ linkUrl }
-							className="wp-block-button__link wp-element-button"
-						>
-							{ truncatedLinkText }
-						</a>
+					<div className="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
+						<div className="wp-block-button is-style-tertiary">
+							<a
+								href={ linkUrl }
+								className="wp-block-button__link wp-element-button"
+							>
+								{ truncatedLinkText }
+							</a>
+						</div>
 					</div>
 				) }
 			</div>
