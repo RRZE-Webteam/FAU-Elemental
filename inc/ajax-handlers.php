@@ -19,25 +19,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
     function fau_filter_teaser_grid_ajax_handler() {
-        // Add error logging for debugging
-        error_log('FAU Filter Debug - AJAX Handler Called');
-        error_log('FAU Filter Debug - POST data: ' . print_r($_POST, true));
+
         
         // Verify nonce for security
         $nonce = $_POST['nonce'] ?? '';
         if (!wp_verify_nonce($nonce, 'fau_filter_nonce')) {
-            error_log('FAU Filter Debug - Nonce verification failed. Provided: ' . $nonce);
             wp_send_json_error([
-                'message' => 'Security check failed',
-                'debug' => [
-                    'provided_nonce' => $nonce,
-                    'expected_action' => 'fau_filter_nonce'
-                ]
+                'message' => 'Security check failed'
             ]);
             return;
         }
-
-        error_log('FAU Filter Debug - Nonce verification passed');
 
         // Get filter parameters
         $search = sanitize_text_field($_POST['search'] ?? '');
@@ -51,18 +42,7 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
         $pagination_enabled = filter_var($_POST['pagination_enabled'] ?? false, FILTER_VALIDATE_BOOLEAN);
         $total_posts_override = intval($_POST['total_posts_override'] ?? 0);
 
-        // Debug: Log incoming parameters
-        error_log('FAU Filter Debug - Incoming Parameters:');
-        error_log('  search: ' . $search);
-        error_log('  filters (raw): ' . $filters);
-        error_log('  sort: ' . $sort);
-        error_log('  page: ' . $page);
-        error_log('  per_page: ' . $per_page);
-        error_log('  post_type: ' . $post_type);
-        error_log('  category: ' . $category);
-        error_log('  grid_post_ids (raw): ' . $grid_post_ids);
-        error_log('  pagination_enabled: ' . ($pagination_enabled ? 'true' : 'false'));
-        error_log('  total_posts_override: ' . $total_posts_override);
+
 
         // Decode JSON strings - handle escaped quotes from URLSearchParams
         $filters = stripslashes($filters);
@@ -77,9 +57,7 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
             $grid_post_ids = [];
         }
 
-        // Debug: Log decoded parameters
-        error_log('  filters (decoded): ' . print_r($filters, true));
-        error_log('  grid_post_ids (decoded): ' . print_r($grid_post_ids, true));
+
 
         // Build query arguments with EXPLICIT post type filtering
         $args = [
@@ -96,10 +74,8 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
         if (!$has_active_filters && !empty($grid_post_ids)) {
             // No filters active - limit to grid content for pagination
             $args['post__in'] = array_map('intval', $grid_post_ids);
-            error_log('FAU Filter Debug - No filters: Limiting query to grid post IDs: ' . implode(', ', $args['post__in']));
         } else if ($has_active_filters) {
             // Filters are active - search ALL content, ignore grid limitations
-            error_log('FAU Filter Debug - Filters active: Searching ALL content');
             // Don't set post__in when filters are active - we want to search everything
         }
 
@@ -190,10 +166,7 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
         $query = new WP_Query($args);
         $posts = [];
 
-        // Debug: Log query details
-        error_log('FAU Filter Debug - Query Args: ' . print_r($args, true));
-        error_log('FAU Filter Debug - SQL Query: ' . $query->request);
-        error_log('FAU Filter Debug - Found Posts: ' . $query->found_posts);
+
 
         if ($query->have_posts()) {
             while ($query->have_posts()) {
@@ -203,17 +176,14 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
                 // Get post object for more reliable data access
                 $post_object = get_post($post_id);
                 if (!$post_object) {
-                    error_log("FAU Filter Debug - Could not get post object for ID: $post_id");
                     continue;
                 }
                 
                 // Use post object for more reliable post type check
                 $actual_post_type = $post_object->post_type;
-                error_log("FAU Filter Debug - Post ID: $post_id, Title: " . $post_object->post_title . ", Type: $actual_post_type");
                 
                 // CRITICAL SAFETY CHECK: Skip posts that don't match our expected post_type
                 if ($actual_post_type !== $post_type) {
-                    error_log("FAU Filter Debug - SKIPPING Post ID: $post_id because it's type '$actual_post_type' but we want '$post_type'");
                     continue;
                 }
                 
@@ -251,8 +221,7 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
                     $excerpt = 'Read more about ' . $post_object->post_title . '...';
                 }
 
-                // Debug: Log excerpt generation
-                error_log("FAU Filter Debug - Post ID: $post_id, Excerpt: '$excerpt'");
+
 
                 // Build post data using post object for reliability
                 $post_data = [
@@ -267,20 +236,12 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
                     'post_type' => $actual_post_type, // Ensure this is always set
                 ];
                 
-                // Debug: Confirm post_type is in the array before adding to posts
-                error_log("FAU Filter Debug - Post ID: $post_id, post_type in array: " . $post_data['post_type']);
-                error_log("FAU Filter Debug - Post data keys: " . implode(', ', array_keys($post_data)));
-                
                 $posts[] = $post_data;
             }
             wp_reset_postdata();
         }
 
-        // Debug: Log final response details
-        error_log('FAU Filter Debug - Total posts in response: ' . count($posts));
-        if (!empty($posts)) {
-            error_log('FAU Filter Debug - First post in response: ' . print_r($posts[0], true));
-        }
+
         
         // Prepare response in the format expected by the filter block JavaScript
         $response = [
@@ -292,10 +253,7 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
             'debug_args' => $args, // For debugging
         ];
 
-        // Debug: Log response structure
-        error_log('FAU Filter Debug - Response keys: ' . implode(', ', array_keys($response)));
-        error_log('FAU Filter Debug - Response posts count: ' . count($response['posts']));
-        error_log('FAU Filter Debug - About to send JSON response');
+
 
         wp_send_json($response);
     }

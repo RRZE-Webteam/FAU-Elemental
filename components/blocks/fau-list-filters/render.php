@@ -154,7 +154,7 @@ if ( ! function_exists( 'fau_get_available_filter_options' ) ) {
         }
 
         // Get authors
-        $authors = get_users(['who' => 'authors']);
+        $authors = get_users(['capability' => 'publish_posts']);
         foreach ($authors as $author) {
             $post_count = count_user_posts($author->ID);
             if ($post_count > 0) {
@@ -451,8 +451,5 @@ if ( ! function_exists( 'fau_list_filters_render_sort_section' ) ) {
         return $output;
     }
 }
-
-// Note: AJAX handlers for fau_filter_teaser_grid are now defined in 
-// functions.php to ensure they're always available during AJAX requests
 
 echo render_block_fau_list_filters($attributes, $content, $block);

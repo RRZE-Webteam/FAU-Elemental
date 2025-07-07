@@ -66,13 +66,36 @@ const Edit = ( props ) => {
 		}
 	}, [ customBlockId, setAttributes ] );
 
-	const addFilterField = () => {
-		const newField = {
-			name: `filter_${ filterFieldsState.length + 1 }`,
-			label: __( 'New Filter', 'fau-elemental' ),
-			type: 'taxonomy',
-			taxonomy: 'category',
-		};
+	const addFilterField = ( filterType = 'custom' ) => {
+		let newField;
+		
+		if ( filterType === 'custom' ) {
+			newField = {
+				name: `filter_${ filterFieldsState.length + 1 }`,
+				label: __( 'New Filter', 'fau-elemental' ),
+				type: 'custom',
+				options: [
+					{ label: __( 'Option 1', 'fau-elemental' ), value: 'option1' },
+					{ label: __( 'Option 2', 'fau-elemental' ), value: 'option2' },
+				],
+			};
+		} else {
+			// WordPress filter types
+			const filterData = filterType === 'categories' ? categories : 
+							  filterType === 'tags' ? tags : 
+							  filterType === 'authors' ? authors : [];
+			
+			newField = {
+				name: filterType,
+				label: filterType.charAt( 0 ).toUpperCase() + filterType.slice( 1 ),
+				type: filterType,
+				options: filterData ? filterData.map( item => ({
+					label: item.name || item.title?.rendered || item.display_name,
+					value: item.id || item.slug
+				})) : [],
+			};
+		}
+		
 		const updatedFields = [ ...filterFieldsState, newField ];
 		setFilterFieldsState( updatedFields );
 		setAttributes( { filterFields: updatedFields } );
@@ -169,7 +192,7 @@ const Edit = ( props ) => {
 												{ __( 'All', 'fau-elemental' ) }{ ' ' }
 												{ field.name }
 											</option>
-											{ field.options
+											{ ( field.options || [] )
 												.slice( 0, 5 )
 												.map( ( option, optIndex ) => (
 													<option
@@ -179,7 +202,7 @@ const Edit = ( props ) => {
 														{ option.label }
 													</option>
 												) ) }
-											{ field.options.length > 5 && (
+											{ ( field.options && field.options.length > 5 ) && (
 												<option disabled>
 													...and{ ' ' }
 													{ field.options.length - 5 }{ ' ' }
@@ -201,6 +224,7 @@ const Edit = ( props ) => {
 								);
 								if (
 									isAlreadyAdded ||
+									!filterData ||
 									filterData.length === 0
 								) {
 									return null;
@@ -239,7 +263,7 @@ const Edit = ( props ) => {
 													.toUpperCase() +
 													filterKey.slice( 1 ) }
 											</option>
-											{ filterData
+											{ ( filterData || [] )
 												.slice( 0, 3 )
 												.map( ( option, optIndex ) => (
 													<option
@@ -249,7 +273,7 @@ const Edit = ( props ) => {
 														{ option.label }
 													</option>
 												) ) }
-											{ filterData.length > 3 && (
+											{ ( filterData && filterData.length > 3 ) && (
 												<option disabled>
 													...and{ ' ' }
 													{ filterData.length - 3 }{ ' ' }
@@ -532,7 +556,7 @@ const Edit = ( props ) => {
 												isSecondary
 												isSmall
 												onClick={ () =>
-													addFilterField()
+													addFilterField( filterKey )
 												}
 												disabled={
 													isAlreadyAdded ||
@@ -573,60 +597,9 @@ const Edit = ( props ) => {
 										'fau-elemental'
 									) }
 								</Text>
-								<TextControl
-									label={ __(
-										'Filter Name',
-										'fau-elemental'
-									) }
-									value={
-										filterFieldsState[
-											filterFieldsState.length - 1
-										].name
-									}
-									onChange={ ( value ) =>
-										updateFilterField(
-											filterFieldsState.length - 1,
-											'name',
-											value
-										)
-									}
-								/>
-								<TextareaControl
-									label={ __(
-										'Filter Options',
-										'fau-elemental'
-									) }
-									value={ filterFieldsState[
-										filterFieldsState.length - 1
-									].options
-										.map( ( option ) => option.label )
-										.join( '\n' ) }
-									onChange={ ( value ) =>
-										updateFilterField(
-											filterFieldsState.length - 1,
-											'options',
-											value
-												.split( '\n' )
-												.map( ( label ) => ( {
-													label,
-													value: label.trim(),
-												} ) )
-										)
-									}
-									help={ __(
-										'Enter one option per line. Use format: value|label (e.g., "news|News Articles")',
-										'fau-elemental'
-									) }
-									rows={ 4 }
-								/>
 								<Button
 									isPrimary
 									onClick={ addFilterField }
-									disabled={
-										! filterFieldsState[
-											filterFieldsState.length - 1
-										].name.trim()
-									}
 								>
 									{ __(
 										'Add Custom Filter',
@@ -685,8 +658,7 @@ const Edit = ( props ) => {
 																  ) }{ ' ' }
 															•
 															{
-																field.options
-																	.length
+																( field.options && field.options.length ) || 0
 															}{ ' ' }
 															{ __(
 																'options',
