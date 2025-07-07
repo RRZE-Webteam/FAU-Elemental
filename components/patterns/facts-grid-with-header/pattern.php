@@ -14,8 +14,8 @@
 
 <!-- wp:group {"className":"facts-grid-section"} -->
 <div class="wp-block-group facts-grid-section">
-    <!-- wp:fau-elemental/fau-meta-headline -->
-    <header class="wp-block-fau-elemental-fau-meta-headline">Dachzeile</header>
+    <!-- wp:fau-elemental/fau-meta-headline {"headline":"Dachzeile","id":""} -->
+    <div class="wp-block-fau-elemental-fau-meta-headline" id="headline-">Dachzeile</div>
     <!-- /wp:fau-elemental/fau-meta-headline -->
     
     <!-- wp:fau-elemental/fau-facts-grid {"facts":[{"text":"<strong>270+</strong><br>Studiengänge","iconUrl":"","iconId":null,"link":""},{"text":"<strong>40.000+</strong><br>Studierende","iconUrl":"","iconId":null,"link":""},{"text":"<strong>5</strong><br>Fakultäten","iconUrl":"","iconId":null,"link":""},{"text":"<strong>1743</strong><br>Gegründet","iconUrl":"","iconId":null,"link":""}]} -->
