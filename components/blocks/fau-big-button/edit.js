@@ -12,6 +12,7 @@ import {
 } from '@wordpress/components';
 import { useEffect, useCallback, useMemo } from '@wordpress/element';
 import { v4 as uuidv4 } from 'uuid';
+import { validateUrl } from '../../utils/urlValidation';
 
 /**
  * Helper function to trim text by characters while respecting word boundaries
@@ -319,6 +320,23 @@ export default function Edit( { attributes, setAttributes } ) {
 										updateItem( index, 'url', value )
 									}
 									type="url"
+									help={
+										item.url
+											? validateUrl( item.url ).message ||
+											  __(
+													'Enter a valid URL for this button.',
+													'fau-elemental'
+											  )
+											: __(
+													'Enter a valid URL for this button.',
+													'fau-elemental'
+											  )
+									}
+									className={
+										item.url && ! validateUrl( item.url ).isValid
+											? 'has-error'
+											: ''
+									}
 								/>
 								{ isFauDe && (
 									<SelectControl

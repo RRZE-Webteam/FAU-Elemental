@@ -11,26 +11,7 @@ import {
 	Button,
 	ButtonGroup,
 } from '@wordpress/components';
-import { isURL } from '@wordpress/url';
-
-/**
- * URL validation helper
- */
-const validateUrl = ( url ) => {
-	if ( ! url ) {
-		return {
-			isValid: true, // Empty URL is valid (optional field)
-			message: '',
-		};
-	}
-	if ( ! isURL( url ) ) {
-		return {
-			isValid: false,
-			message: __( 'Please enter a valid URL', 'fau-elemental' ),
-		};
-	}
-	return { isValid: true, message: '' };
-};
+import { validateUrl } from '../../../utils/urlValidation';
 
 /**
  * Inspector Controls Component

@@ -1,25 +1,6 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { RichText } from '@wordpress/block-editor';
-import { isURL } from '@wordpress/url';
-
-/**
- * URL validation helper
- */
-const validateUrl = ( url ) => {
-	if ( ! url ) {
-		return {
-			isValid: true, // Empty URL is valid (optional field)
-			message: '',
-		};
-	}
-	if ( ! isURL( url ) ) {
-		return {
-			isValid: false,
-			message: __( 'Please enter a valid URL', 'fau-elemental' ),
-		};
-	}
-	return { isValid: true, message: '' };
-};
+import { validateUrl } from '../../../utils/urlValidation';
 
 /**
  * Facts Grid Content Component
@@ -104,34 +85,14 @@ export default function FactsGridContent( {
 									</div>
 								) }
 
-								{ /* URL validation error display */ }
-								{ fact.link && ! urlValidation.isValid && (
-									<div className="fau-facts-grid-url-error">
-										<strong>
-											{ __(
-												'URL Error:',
-												'fau-elemental'
-											) }
-										</strong>{ ' ' }
-										{ urlValidation.message }
-									</div>
-								) }
+
 							</div>
 						</div>
 					);
 				} ) }
 			</div>
 
-			{ facts.length === 0 && (
-				<div className="fau-facts-grid-empty-state">
-					<p>
-						{ __(
-							'No facts added yet. Use the "+" button in the block toolbar to get started.',
-							'fau-elemental'
-						) }
-					</p>
-				</div>
-			) }
+
 		</div>
 	);
 }
