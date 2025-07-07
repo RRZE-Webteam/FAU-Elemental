@@ -3,72 +3,74 @@
  */
 
 .wp-block-fau-elemental-fau-global-search {
-    // Editor wrapper class added in edit.js
+	// Editor wrapper class added in edit.js
 
-    // Layout-specific styles for editor
-    &.layout-full {
-        width: 100%;
-        
-        .search-form-placeholder {
-            width: 100%;
-            max-width: none;
-        }
-        
-        .search-scope-toggle-placeholder {
-            display: none;
-        }
-    }
+	// Layout-specific styles for editor
+	&.layout-full {
+		width: 100%;
 
-    &.layout-content {
-        .search-form-placeholder {
-            max-width: 600px;
-        }
-    }
+		.search-form-placeholder {
+			width: 100%;
+			max-width: none;
+		}
 
-    // Mimic front-end title style if desired, or add editor specific
-    // .wp-block-fau-elemental-fau-global-search__title { ... }
+		.search-scope-toggle-placeholder {
+			display: none;
+		}
+	}
 
-    .search-form-placeholder {
-        border: 1px dashed #ccc;
-        padding: 15px;
-        margin-top: 10px;
-        background: #f9f9f9;
+	&.layout-content {
 
-        input[type="search"] {
-            margin-right: 5px;
-        }
-        // Apply specific classes if needed for more granular styling
-        // .wp-block-fau-elemental-fau-global-search__field { ... }
-        // .wp-block-fau-elemental-fau-global-search__submit { ... }
-    }
+		.search-form-placeholder {
+			max-width: 600px;
+		}
+	}
 
-    .search-scope-toggle-placeholder {
-        margin-top: 10px;
-        font-size: 0.9em;
-        color: #555;
+	// Mimic front-end title style if desired, or add editor specific
+	// .wp-block-fau-elemental-fau-global-search__title { ... }
 
-        label {
-            margin-right: 10px;
-            cursor: default; // Non-interactive in editor preview
-        }
-    }
+	.search-form-placeholder {
+		border: 1px dashed #ccc;
+		padding: 15px;
+		margin-top: 10px;
+		background: #f9f9f9;
 
-    .search-suggestions-placeholder {
-        margin-top: 10px;
-        padding: 10px;
-        background: #f0f0f0;
-        border: 1px dashed #ddd;
-        font-size: 0.9em;
+		input[type="search"] {
+			margin-right: 5px;
+		}
+		// Apply specific classes if needed for more granular styling
+		// .wp-block-fau-elemental-fau-global-search__field { ... }
+		// .wp-block-fau-elemental-fau-global-search__submit { ... }
+	}
 
-        ul {
-            list-style: disc;
-            padding-left: 20px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-        }
-        strong {
-            display: block;
-            margin-bottom: 3px;
-        }
-    }
-} 
+	.search-scope-toggle-placeholder {
+		margin-top: 10px;
+		font-size: 0.9em;
+		color: #555;
+
+		label {
+			margin-right: 10px;
+			cursor: default; // Non-interactive in editor preview
+		}
+	}
+
+	.search-suggestions-placeholder {
+		margin-top: 10px;
+		padding: 10px;
+		background: #f0f0f0;
+		border: 1px dashed #ddd;
+		font-size: 0.9em;
+
+		ul {
+			list-style: disc;
+			padding-left: 20px;
+			margin-top: 5px;
+			margin-bottom: 10px;
+		}
+
+		strong {
+			display: block;
+			margin-bottom: 3px;
+		}
+	}
+}

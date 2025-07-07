@@ -6,10 +6,10 @@ import { PanelBody, SelectControl } from '@wordpress/components';
 export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Destructure attributes first
 	const { searchScope, layoutSize } = attributes;
-	
+
 	// Added clientId for unique keys if needed
 	const blockProps = useBlockProps( {
-		className: `wp-block-fau-elemental-fau-global-search layout-${layoutSize}`,
+		className: `wp-block-fau-elemental-fau-global-search layout-${ layoutSize }`,
 	} );
 
 	// Unique ID for editor elements like radio group name, using clientId from props
@@ -25,10 +25,18 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						label={ __( 'Layout Size', 'fau-elemental' ) }
 						value={ layoutSize }
 						options={ [
-							{ label: __( 'Content Size', 'fau-elemental' ), value: 'content' },
-							{ label: __( 'Full Grid', 'fau-elemental' ), value: 'full' },
+							{
+								label: __( 'Content Size', 'fau-elemental' ),
+								value: 'content',
+							},
+							{
+								label: __( 'Full Grid', 'fau-elemental' ),
+								value: 'full',
+							},
 						] }
-						onChange={ ( value ) => setAttributes( { layoutSize: value } ) }
+						onChange={ ( value ) =>
+							setAttributes( { layoutSize: value } )
+						}
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -57,7 +65,10 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 									disabled
 									onChange={ () => {} }
 								/>{ ' ' }
-								{ __( 'Only in this website', 'fau-elemental' ) }
+								{ __(
+									'Only in this website',
+									'fau-elemental'
+								) }
 							</label>
 							<label htmlFor={ fauWideScopeId }>
 								<input
