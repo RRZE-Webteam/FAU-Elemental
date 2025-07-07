@@ -173,7 +173,6 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	// URL validation helper
 
-
 	return (
 		<>
 			<InspectorControls>

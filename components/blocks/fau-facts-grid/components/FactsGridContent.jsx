@@ -84,15 +84,11 @@ export default function FactsGridContent( {
 										</div>
 									</div>
 								) }
-
-
 							</div>
 						</div>
 					);
 				} ) }
 			</div>
-
-
 		</div>
 	);
 }

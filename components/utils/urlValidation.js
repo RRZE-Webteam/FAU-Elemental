@@ -3,10 +3,10 @@ import { isURL } from '@wordpress/url';
 
 /**
  * URL validation helper
- * 
- * @param {string} url - The URL to validate
+ *
+ * @param {string}  url      - The URL to validate
  * @param {boolean} required - Whether the URL is required (default: false)
- * @returns {Object} - Object with isValid boolean and message string
+ * @return {Object} - Object with isValid boolean and message string
  */
 export const validateUrl = ( url, required = false ) => {
 	if ( ! url ) {
@@ -28,4 +28,4 @@ export const validateUrl = ( url, required = false ) => {
 		};
 	}
 	return { isValid: true, message: '' };
-}; 
+};
