@@ -1,0 +1,43 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "fau-elemental/fau-testimonial",
+	"version": "0.1.0",
+	"title": "FAU Testimonial",
+	"category": "fau-elemental/FAU",
+	"icon": "format-quote",
+	"description": "Display a quote carousel with an optional image",
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"textdomain": "fau-elemental",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style-theme.css",
+	"attributes": {
+		"quotes": {
+			"type": "array",
+			"default": [
+				{
+					"id": null,
+					"content": "",
+					"citation": "",
+					"image": null
+				}
+			]
+		}
+	},
+	"example": {
+		"attributes": {
+			"quotes": [
+				{
+					"id": "052d0af3-100e-4aab-b90b-d3f9a56bcd39",
+					"content": "This is an example testimonial.",
+					"citation": "",
+					"image": null
+				}
+			]
+		}
+	}
+}
