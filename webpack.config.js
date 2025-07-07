@@ -177,13 +177,13 @@ module.exports = {
 		// Add navigation component scripts (unified menu modal system)
 		'js/menu-modal': path.resolve(
 			process.cwd(),
-			'components/ui/navigation/menu-modal.js'
+			'components/template-parts/navigation/menu-modal.js'
 		),
 
 		// Template Part Scripts
 		'js/template-parts-post-meta': path.resolve(
 			process.cwd(),
-			'components/template-parts/post-meta/script.js'
+			'components/template-parts/post-meta/post-meta.js'
 		),
 	},
 

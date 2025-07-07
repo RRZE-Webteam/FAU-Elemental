@@ -20,29 +20,17 @@
 <div id="page" class="site">
     <header id="masthead" class="site-header">
         <nav id="site-navigation" class="main-navigation">
-                <!-- Top Navigation -->
-    <div class="site-header__top">
-        <?php
-        if (class_exists('FAU_Navigation')) {
-            global $fau_navigation;
-            if ($fau_navigation) {
-                $fau_navigation->render();
-            }
-        }
-        ?>
-    </div>
+            <!-- Top Navigation -->
+            <div class="site-header__top">
+                <div class="site-header-top__wrapper">
+                    <?php get_template_part('components/template-parts/navigation/fau-navigation'); ?>
+                </div>
+            </div>
 
-    <!-- Main Navigation -->
-    <div class="site-header__main">
-        <?php
-        if (class_exists('Main_Navigation')) {
-            global $main_navigation;
-            if ($main_navigation) {
-                $main_navigation->render();
-            }
-        }
-        ?>
-    </div>
+            <!-- Main Navigation -->
+            <div class="site-header__main">
+                <?php get_template_part('components/template-parts/navigation/main-navigation'); ?>
+            </div>
         </nav>
     </header>
 

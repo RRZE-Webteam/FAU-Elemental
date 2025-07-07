@@ -56,28 +56,7 @@ function faue_enqueue_editor_assets() {
 }
 add_action('enqueue_block_editor_assets', 'faue_enqueue_editor_assets');
 
-// Enqueue Frontend Scripts
-function faue_enqueue_scripts() {
-    // Post meta script for share functionality
-    if (is_singular()) {
-        $post_meta_asset_path = get_theme_file_path('build/js/template-parts-post-meta.asset.php');
-        if (file_exists($post_meta_asset_path)) {
-            $post_meta_asset = include $post_meta_asset_path;
-            
-            wp_enqueue_script(
-                'faue-post-meta',
-                get_theme_file_uri('build/js/template-parts-post-meta.js'),
-                $post_meta_asset['dependencies'],
-                $post_meta_asset['version'],
-                true
-            );
-        }
-    }
 
-    // Enqueue navigation JavaScript
-    wp_enqueue_script('menu-modal', get_theme_file_uri('build/js/menu-modal.js'), array('jquery'), '1.0.0', true);
-}
-add_action('wp_enqueue_scripts', 'faue_enqueue_scripts');
 
 // Enqueue Editor Scripts
 function faue_enqueue_block_editor_script() {
@@ -98,7 +77,9 @@ function faue_enqueue_block_editor_script() {
             'faue-block-editor-script',
             'fauElemental',
             array(
-                'themeUrl' => get_template_directory_uri()
+                'themeUrl' => get_template_directory_uri(),
+                'websiteType' => get_theme_mod('faue_website_type', 'fau'),
+                'facultyType' => get_theme_mod('faue_faculty', 'phil'),
             )
         );
     }
@@ -130,38 +111,19 @@ function faue_enqueue_block_view_scripts() {
 }
 add_action('wp_enqueue_scripts', 'faue_enqueue_block_view_scripts');
 
-/**
- * Enqueue theme assets
- */
-function fau_enqueue_assets() {
-    // Theme styles
-    wp_enqueue_style(
-        'fau-elemental-style',
-        get_template_directory_uri() . '/build/css/theme.css',
-        array(),
-        wp_get_theme()->get('Version')
-    );
-
-    // Global Search block scripts
-    if (has_block('fau-elemental/fau-global-search')) {
+// Enqueue Menu Modal Script
+function faue_enqueue_menu_modal_script() {
+    $script_asset_path = get_theme_file_path('build/js/menu-modal.asset.php');
+    if (file_exists($script_asset_path)) {
+        $script_asset = include $script_asset_path;
+        
         wp_enqueue_script(
-            'fau-global-search',
-            get_template_directory_uri() . '/components/blocks/fau-global-search/search-suggestions.js',
-            array(),
-            wp_get_theme()->get('Version'),
+            'faue-menu-modal',
+            get_theme_file_uri('build/js/menu-modal.js'),
+            array_merge($script_asset['dependencies'], array('jquery')),
+            $script_asset['version'],
             true
         );
-
-        // Add translations and configuration
-        wp_localize_script('fau-global-search', 'fauGlobalSearch', array(
-            'strings' => array(
-                'faqsTitle' => __('Frequently Asked Questions', 'fau-elemental'),
-                'suggestionsTitle' => __('Search Suggestions', 'fau-elemental'),
-                'noResults' => __('No results found', 'fau-elemental'),
-            ),
-            'restUrl' => rest_url(),
-            'restNonce' => wp_create_nonce('wp_rest'),
-        ));
     }
 }
-add_action('wp_enqueue_scripts', 'fau_enqueue_assets'); 
+add_action('wp_enqueue_scripts', 'faue_enqueue_menu_modal_script'); 

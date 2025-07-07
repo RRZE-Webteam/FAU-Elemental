@@ -27,7 +27,7 @@
 			"type": "number",
 			"default": 3
 		},
-		"showFilters": {
+		"showLoadMore": {
 			"type": "boolean",
 			"default": false
 		},
@@ -46,10 +46,6 @@
 		"displayStyle": {
 			"type": "string",
 			"default": "teaser-grid"
-		},
-		"showPagination": {
-			"type": "boolean",
-			"default": true
 		},
 		"totalPosts": {
 			"type": "number",
@@ -87,21 +83,10 @@
 	"example": {
 		"attributes": {
 			"variant": "post",
-			"postsPerPage": 3,
-			"showFilters": false,
-			"selectedCategory": 0,
-			"selectedTaxonomy": "",
-			"currentPage": 1,
+			"postsPerPage": 6,
 			"displayStyle": "teaser-grid",
-			"showPagination": true,
-			"totalPosts": 3,
-			"orderBy": "date",
-			"order": "DESC",
 			"teaserLayout": "3m",
-			"teaserSizes": [],
-			"selectedPosts": [],
-			"selectionMode": "auto",
-			"headingLevel": "h4"
+			"showLoadMore": true
 		}
 	}
 }

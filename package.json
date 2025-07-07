@@ -13,6 +13,7 @@
 		"lint:css": "wp-scripts lint-style",
 		"fix:css": "wp-scripts lint-style --fix",
 		"lint:js": "wp-scripts lint-js",
+		"pr-check": "npm run format && npm run lint:js && npm run lint:css && npm run build -- --fail-on-warnings && echo \">>>>> Ready to PR!\"",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"makepot": "wp i18n make-pot . languages/fau-elemental.pot --include=template-parts --exclude=node_modules,vendor,build",

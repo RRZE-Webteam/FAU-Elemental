@@ -218,6 +218,8 @@ footer.wp-block-template-part {
 		align-items: center;
 		flex-wrap: wrap;
 		gap: var(--Spacing-6x);
+		list-style: none;
+		padding-left: unset; // no ul padding
 
 		a {
 			display: block;

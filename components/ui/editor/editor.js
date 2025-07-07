@@ -15,6 +15,7 @@ import '../../core-blocks/media-text/index.js';
 import '../../core-blocks/paragraph/index.js';
 import '../../core-blocks/quote/index.js';
 import '../../core-blocks/separator/index.js';
+import '../../core-blocks/spacer/index.js';
 import '../../core-blocks/table/index.js';
 import '../../core-blocks/tag-cloud/index.js';
 
@@ -32,6 +33,13 @@ subscribe( () => {
 		if (
 			className.startsWith( 'faue-is-' ) &&
 			className.endsWith( '-block-selected' )
+		) {
+			document.body.classList.remove( className );
+		}
+		// Also clear pattern-related classes
+		if (
+			className.startsWith( 'faue-is-' ) &&
+			className.endsWith( '-pattern-selected' )
 		) {
 			document.body.classList.remove( className );
 		}
@@ -64,8 +72,80 @@ subscribe( () => {
 				`faue-is-${ blockType }-parent-block-selected`
 			);
 		}
+
+		// Check if the selected block is inside a pattern
+		const patternClass = detectPatternClass( selectedBlockId );
+		if ( patternClass ) {
+			document.body.classList.add(
+				`faue-is-${ patternClass }-pattern-selected`
+			);
+		}
 	}
 } );
+
+/**
+ * Detect if a block is inside a pattern and return the pattern class name
+ * @param {string} blockId - The client ID of the block to check
+ * @return {string|null} - The pattern class name or null if not in a pattern
+ */
+function detectPatternClass( blockId ) {
+	const block = select( 'core/block-editor' ).getBlock( blockId );
+	if ( ! block ) {
+		return null;
+	}
+
+	// Check if this block itself is a pattern root
+	const patternClass = getPatternClassFromBlock( block );
+	if ( patternClass ) {
+		return patternClass;
+	}
+
+	// Check parent blocks for pattern classes
+	const parentBlockIds =
+		select( 'core/block-editor' ).getBlockParents( blockId );
+
+	for ( let i = parentBlockIds.length - 1; i >= 0; i-- ) {
+		const parentBlock = select( 'core/block-editor' ).getBlock(
+			parentBlockIds[ i ]
+		);
+		if ( parentBlock ) {
+			const parentPatternClass = getPatternClassFromBlock( parentBlock );
+			if ( parentPatternClass ) {
+				return parentPatternClass;
+			}
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Extract pattern class name from a block's className attribute
+ * @param {Object} block - The block object
+ * @return {string|null} - The pattern class name or null if not a pattern
+ */
+function getPatternClassFromBlock( block ) {
+	if ( ! block.attributes?.className ) {
+		return null;
+	}
+
+	const className = block.attributes.className;
+
+	// Check for hero pattern classes
+	const heroPatterns = [
+		'hero-fau',
+		'hero-portal',
+		'hero-faculty',
+		'hero-chair',
+		'hero-cooperation',
+		'hero-other',
+	];
+
+	const foundPattern = heroPatterns.find( ( pattern ) =>
+		className.includes( pattern )
+	);
+	return foundPattern || null;
+}
 
 // Remove the text-color format type
 unregisterFormatType( 'core/text-color' );

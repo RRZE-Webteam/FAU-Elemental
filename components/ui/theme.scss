@@ -7,13 +7,14 @@
 @use "variables/index" as *;
 @use "base/index" as *;
 
-// Navigation Styles
-@use "navigation/header" as *;
+// Plugin Styles
+@use "plugins/index" as *;
 
 // Core Block Styles (modifications to WordPress core blocks)
 @use "../core-blocks/button/style" as *;
 @use "../core-blocks/code/style" as *;
 @use "../core-blocks/details/style" as *;
+@use "../core-blocks/buttons/style" as *;
 @use "../core-blocks/file/style" as *;
 @use "../core-blocks/gallery/style" as *;
 @use "../core-blocks/group/style" as *;
@@ -37,4 +38,9 @@
 @use "../template-parts/footer-instance/style" as *;
 @use "../template-parts/footer-main/style" as *;
 @use "../template-parts/hero-page/style" as *;
+@use "../template-parts/hero-post/style" as *;
 @use "../template-parts/post-meta/style" as *;
+@use "../template-parts/navigation/header" as *;
+
+// Plugin Integrations
+@use "plugins/index" as *;
