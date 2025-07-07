@@ -20,11 +20,10 @@
 		"makejson": "wp i18n make-json languages --pretty-print"
 	},
 	"devDependencies": {
-		"@wordpress/create-block": "^4.68.0",
-		"@wordpress/env": "^10.25.0",
-		"@wordpress/i18n": "^5.25.0",
-		"@wordpress/scripts": "^30.18.0",
-		"@wordpress/stylelint-config": "^23.17.0",
+		"@wordpress/create-block": "^4.59.0",
+		"@wordpress/env": "^10.15.0",
+		"@wordpress/i18n": "^4.54.0",
+		"@wordpress/scripts": "^30.9.0",
 		"copy-webpack-plugin": "^13.0.0",
 		"glob": "^11.0.2",
 		"webpack-cli": "^6.0.1",
