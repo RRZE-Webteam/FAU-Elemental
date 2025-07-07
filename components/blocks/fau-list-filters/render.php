@@ -41,14 +41,8 @@ if ( ! function_exists( 'render_block_fau_list_filters' ) ) {
         $grid_width = $attributes['gridWidth'] ?? '12';
         $custom_block_id = $attributes['customBlockId'] ?? '';
 
-        // Debug: Log what we received
-        error_log('Filter Block Debug - customBlockId received: ' . var_export($custom_block_id, true));
-        error_log('Filter Block Debug - all attributes: ' . var_export($attributes, true));
-
         // Generate unique ID for this block instance, or use custom ID if provided
         $block_id = !empty($custom_block_id) ? $custom_block_id : 'fau-list-filters-' . uniqid();
-        
-        error_log('Filter Block Debug - final block_id: ' . $block_id);
 
         // Get general filter options
         $available_filter_options = fau_get_available_filter_options();
@@ -101,6 +95,20 @@ if ( ! function_exists( 'render_block_fau_list_filters' ) ) {
         wp_localize_script('fau-list-filters-script', 'fauListFilters', [
             'ajaxUrl' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('fau_filter_nonce'),
+            'i18n' => [
+                'noContentToFilter' => __('No content to filter', 'fau-elemental'),
+                'categories' => __('Categories', 'fau-elemental'),
+                'year' => __('Year', 'fau-elemental'),
+                'search' => __('Search', 'fau-elemental'),
+                'addFilters' => __('Add filters:', 'fau-elemental'),
+                'removeFilter' => __('Remove %s filter', 'fau-elemental'),
+                'allLabel' => __('All %s', 'fau-elemental'),
+                'loadingResults' => __('Loading results...', 'fau-elemental'),
+                'resultsLoaded' => __('Results loaded', 'fau-elemental'),
+                'errorOccurred' => __('An error occurred', 'fau-elemental'),
+                'noResultsFound' => __('No results found', 'fau-elemental'),
+                'totalResults' => __('Total results: %s', 'fau-elemental'),
+            ],
         ]);
 
         return $output;

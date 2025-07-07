@@ -124,7 +124,7 @@ function initializeFilterBlock( blockElement ) {
 		if ( ! associatedGrid ) {
 			// If no associated grid is found, show a default message
 			if ( resultsCountElement ) {
-				resultsCountElement.textContent = 'No content to filter';
+				resultsCountElement.textContent = window.fauListFilters?.i18n?.noContentToFilter || 'No content to filter';
 			}
 			return;
 		}
@@ -198,7 +198,7 @@ function initializeFilterBlock( blockElement ) {
 		if ( showMoreButton ) {
 			const dynamicFilterData = {
 				categories: {
-					label: 'Categories',
+					label: window.fauListFilters?.i18n?.categories || 'Categories',
 					options: Array.from( availableOptions.categories ).map(
 						( cat ) => ( {
 							value: cat.toLowerCase().replace( /\s+/g, '-' ),
@@ -207,7 +207,7 @@ function initializeFilterBlock( blockElement ) {
 					),
 				},
 				years: {
-					label: 'Year',
+					label: window.fauListFilters?.i18n?.year || 'Year',
 					options: Array.from( availableOptions.years )
 						.sort( ( a, b ) => b - a )
 						.map( ( year ) => ( {
@@ -345,7 +345,7 @@ function initializeFilterBlock( blockElement ) {
 			// Add search chip
 			if ( hasSearch ) {
 				const searchChip = createFilterChip(
-					'Search',
+					window.fauListFilters?.i18n?.search || 'Search',
 					currentSearch,
 					'search'
 				);
@@ -385,13 +385,14 @@ function initializeFilterBlock( blockElement ) {
 			chip.setAttribute( 'data-filter-key', filterKey );
 		}
 
+		const removeFilterText = window.fauListFilters?.i18n?.removeFilter || 'Remove %s filter';
+		const ariaLabel = removeFilterText.replace('%s', escapeHtml(name));
+		
 		chip.innerHTML = `
 			<span class="chip-label">${ escapeHtml( name ) }: ${ escapeHtml(
 				value
 			) }</span>
-			<button type="button" class="chip-remove" aria-label="Remove ${ escapeHtml(
-				name
-			) } filter">
+			<button type="button" class="chip-remove" aria-label="${ ariaLabel }">
 				<span aria-hidden="true">×</span>
 			</button>
 		`;
@@ -512,8 +513,9 @@ function initializeFilterBlock( blockElement ) {
 		// Create container for available filter buttons
 		const availableFiltersContainer = document.createElement( 'div' );
 		availableFiltersContainer.className = 'available-filters';
+		const addFiltersText = window.fauListFilters?.i18n?.addFilters || 'Add filters:';
 		availableFiltersContainer.innerHTML =
-			'<h4>Add filters:</h4><div class="filter-buttons-container"></div>';
+			`<h4>${ escapeHtml( addFiltersText ) }</h4><div class="filter-buttons-container"></div>`;
 
 		// Create container for added filters
 		const addedFiltersContainer = document.createElement( 'div' );
@@ -603,6 +605,9 @@ function initializeFilterBlock( blockElement ) {
 
 		const filterId = blockId + '-dynamic-filter-' + filterKey;
 
+		const allLabelText = window.fauListFilters?.i18n?.allLabel || 'All %s';
+		const allOption = allLabelText.replace('%s', escapeHtml(filterData.label));
+		
 		let filterHTML = `
 			<label for="${ filterId }" class="filter-label">${ escapeHtml(
 				filterData.label
@@ -611,7 +616,7 @@ function initializeFilterBlock( blockElement ) {
 				<select id="${ filterId }" class="filter-select" data-filter-name="${ escapeHtml(
 					filterData.label
 				) }" data-filter-type="${ filterKey }">
-					<option value="">All ${ escapeHtml( filterData.label ) }</option>
+					<option value="">${ allOption }</option>
 		`;
 
 		filterData.options.forEach( ( option ) => {
@@ -620,11 +625,12 @@ function initializeFilterBlock( blockElement ) {
 			) }">${ escapeHtml( option.label ) }</option>`;
 		} );
 
+		const removeButtonText = window.fauListFilters?.i18n?.removeFilter || 'Remove %s filter';
+		const removeButtonAriaLabel = removeButtonText.replace('%s', escapeHtml(filterData.label));
+		
 		filterHTML += `
 				</select>
-				<button type="button" class="filter-remove-button" aria-label="Remove ${ escapeHtml(
-					filterData.label
-				) } filter">
+				<button type="button" class="filter-remove-button" aria-label="${ removeButtonAriaLabel }">
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
@@ -1111,16 +1117,16 @@ function initializeFilterBlock( blockElement ) {
 
 		if ( resultsCountElement ) {
 			if ( isLoading ) {
-				resultsCountElement.textContent = 'Loading results...';
+				resultsCountElement.textContent = window.fauListFilters?.i18n?.loadingResults || 'Loading results...';
 			} else {
-				resultsCountElement.textContent = 'Results loaded';
+				resultsCountElement.textContent = window.fauListFilters?.i18n?.resultsLoaded || 'Results loaded';
 			}
 		}
 	}
 
 	function showError() {
 		if ( resultsCountElement ) {
-			resultsCountElement.textContent = 'An error occurred';
+			resultsCountElement.textContent = window.fauListFilters?.i18n?.errorOccurred || 'An error occurred';
 		}
 	}
 
@@ -1130,9 +1136,8 @@ function initializeFilterBlock( blockElement ) {
 		}
 
 		if ( ! posts || posts.length === 0 ) {
-			associatedGrid.innerHTML = `<p class="no-results">${
-				window.fauElemental?.noResultsText || 'No results found.'
-			}</p>`;
+			const noResultsText = window.fauListFilters?.i18n?.noResultsFound || 'No results found';
+			associatedGrid.innerHTML = `<p class="no-results">${ noResultsText }</p>`;
 			return;
 		}
 
@@ -1148,9 +1153,10 @@ function initializeFilterBlock( blockElement ) {
 		}
 
 		if ( total === 0 ) {
-			resultsCountElement.textContent = 'No results found';
+			resultsCountElement.textContent = window.fauListFilters?.i18n?.noResultsFound || 'No results found';
 		} else {
-			resultsCountElement.textContent = `Total results: ${ total }`;
+			const totalResultsText = window.fauListFilters?.i18n?.totalResults || 'Total results: %s';
+			resultsCountElement.textContent = totalResultsText.replace('%s', total);
 		}
 	}
 

@@ -9,9 +9,6 @@
  */
 function render_block_fau_portalmenu($attributes, $content, $block) {
     // Include shortcodes file if not already included
-    if (!function_exists('do_shortcode')) {
-        return '';
-    }
     
     // Ensure Walker_Content_Menu class is loaded
     if (!class_exists('Walker_Content_Menu')) {
