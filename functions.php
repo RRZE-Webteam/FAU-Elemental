@@ -56,6 +56,9 @@ require_once get_template_directory() . '/components/template-parts/breadcrumbs/
 // Navigation components
 require_once get_template_directory() . '/components/template-parts/navigation/index.php';
 
+// Page meta fields
+require_once get_template_directory() . '/inc/page-meta-fields.php';
+
 /**
  * Register custom page templates
  */
