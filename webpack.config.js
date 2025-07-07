@@ -170,10 +170,6 @@ module.exports = {
 			process.cwd(),
 			'components/core-blocks/image/image-fullscreen.js'
 		),
-		'js/quote-carousel': path.resolve(
-			process.cwd(),
-			'components/core-blocks/quote/quote-carousel.js'
-		),
 		// Add navigation component scripts (unified menu modal system)
 		'js/menu-modal': path.resolve(
 			process.cwd(),
