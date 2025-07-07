@@ -493,7 +493,8 @@ body.modal-open {
 		letter-spacing: var(--letter-spacing-small);
 
 		.menu-website-modal__close-icon,
-		.menu-meta-nav__modal__close-icon {
+		.menu-meta-nav__modal__close-icon,
+		.menu-modal__close-icon {
 			display: inline-block;
 			width: 0.625rem;
 			height: 0.625rem;
@@ -538,7 +539,8 @@ body.modal-open {
 		&:focus-visible {
 
 			.menu-website-modal__close-icon,
-			.menu-meta-nav__modal__close-icon {
+			.menu-meta-nav__modal__close-icon,
+			.menu-modal__close-icon {
 				transform: rotate(90deg);
 			}
 		}

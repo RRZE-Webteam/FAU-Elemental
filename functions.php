@@ -53,6 +53,9 @@ require_once get_template_directory() . '/components/template-parts/breadcrumbs/
 // Navigation components
 require_once get_template_directory() . '/components/template-parts/navigation/index.php';
 
+// Page meta fields
+require_once get_template_directory() . '/inc/page-meta-fields.php';
+
 /**
  * Register custom page templates
  * 
@@ -236,50 +239,6 @@ function fau_elemental_load_template_part($slug, $name = null, $args = array()) 
             get_template_part("template-parts/{$slug}", $name, $args);
         }
     }
-    
-    // ======= FOOTER APPEARANCE =======
-    $wp_customize->add_section('footer_appearance', [
-        'title' => __('Footer Appearance', 'fau-elemental'),
-        'panel' => 'fau_footer_panel',
-        'priority' => 90,
-    ]);
-    
-    // Logo
-    $wp_customize->add_setting('fau_footer_logo');
-    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'fau_footer_logo', [
-        'label' => __('Footer Logo', 'fau-elemental'),
-        'description' => __('Upload a custom logo for the footer (white version recommended)', 'fau-elemental'),
-        'section' => 'footer_appearance',
-        'settings' => 'fau_footer_logo'
-    ]));
-    
-    // Toggle text
-    $wp_customize->add_setting('fau_info_toggle_text', [
-        'default' => __('FAU Informationen anzeigen', 'fau-elemental')
-    ]);
-    $wp_customize->add_control('fau_info_toggle_text', [
-        'label' => __('Toggle Button Text (Show)', 'fau-elemental'),
-        'section' => 'footer_appearance',
-        'type' => 'text'
-    ]);
-    
-    $wp_customize->add_setting('fau_info_toggle_text_hide', [
-        'default' => __('FAU Informationen ausblenden', 'fau-elemental')
-    ]);
-    $wp_customize->add_control('fau_info_toggle_text_hide', [
-        'label' => __('Toggle Button Text (Hide)', 'fau-elemental'),
-        'section' => 'footer_appearance',
-        'type' => 'text'
-    ]);
-    $wp_customize->add_setting('footer_logo_tagline', [
-        'default' => "Friedrich-Alexander-Universität\nErlangen-Nürnberg"
-    ]);
-    $wp_customize->add_control('footer_logo_tagline', [
-        'label' => __('Logo Tagline', 'fau-elemental'),
-        'description' => __('Text displayed next to the logo. Use \\n for line break.', 'fau-elemental'),
-        'section' => 'footer_appearance',
-        'type' => 'textarea'
-    ]);
 }
 
 add_action('customize_register', 'fau_footer_customizer_settings');

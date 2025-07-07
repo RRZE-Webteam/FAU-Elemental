@@ -158,11 +158,16 @@ class Menu_Modal {
         $walker = $walker_class ? new $walker_class() : new Menu_Modal_Walker();
         $output = '';
         
+        // Create a mock args object for walker compatibility
+        $args = (object) array(
+            'menu_items' => $menu_items
+        );
+        
         // Start the menu
         $output .= '<ul class="' . esc_attr($menu_class) . '">';
         
         // Build the menu structure recursively
-        $this->build_menu_items_recursive($menu_items, $output, $walker, 0, 0);
+        $this->build_menu_items_recursive($menu_items, $output, $walker, 0, 0, $args);
         
         // End the menu
         $output .= '</ul>';
@@ -178,8 +183,9 @@ class Menu_Modal {
      * @param object $walker The walker instance
      * @param int $parent_id The parent item ID (0 for top level)
      * @param int $depth The current depth level
+     * @param object $args Optional args object for walker
      */
-    private function build_menu_items_recursive($menu_items, &$output, $walker, $parent_id = 0, $depth = 0) {
+    private function build_menu_items_recursive($menu_items, &$output, $walker, $parent_id = 0, $depth = 0, $args = null) {
         // Get items for this level
         $current_level_items = array_filter($menu_items, function($item) use ($parent_id) {
             return $item->menu_item_parent == $parent_id;
@@ -203,7 +209,7 @@ class Menu_Modal {
             $item->classes = $item_classes;
             
             // Start this item
-            $walker->start_el($output, $item, $depth, (object)[
+            $walker->start_el($output, $item, $depth, $args ?: (object)[
                 'before' => '',
                 'after' => '',
                 'has_children' => $has_children
@@ -211,13 +217,13 @@ class Menu_Modal {
             
             // If this item has children, create a submenu
             if ($has_children) {
-                $walker->start_lvl($output, $depth);
-                $this->build_menu_items_recursive($menu_items, $output, $walker, $item->ID, $depth + 1);
-                $walker->end_lvl($output, $depth);
+                $walker->start_lvl($output, $depth, $args);
+                $this->build_menu_items_recursive($menu_items, $output, $walker, $item->ID, $depth + 1, $args);
+                $walker->end_lvl($output, $depth, $args);
             }
             
             // End this item
-            $walker->end_el($output, $item, $depth);
+            $walker->end_el($output, $item, $depth, $args);
         }
     }
 
