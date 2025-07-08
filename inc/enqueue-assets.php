@@ -117,20 +117,6 @@ function faue_enqueue_block_view_scripts() {
                         'ajaxUrl' => admin_url( 'admin-ajax.php' ),
                         'nonce'   => wp_create_nonce( 'fau_filter_nonce' ),
                         'noResultsText' => __('No results found.', 'fau-elemental'),
-                        'i18n' => [
-                            'noContentToFilter' => __('No content to filter', 'fau-elemental'),
-                            'categories' => __('Categories', 'fau-elemental'),
-                            'year' => __('Year', 'fau-elemental'),
-                            'search' => __('Search', 'fau-elemental'),
-                            'removeFilter' => __('Remove %s filter', 'fau-elemental'),
-                            'addFilters' => __('Add filters:', 'fau-elemental'),
-                            'allLabel' => __('All %s', 'fau-elemental'),
-                            'loadingResults' => __('Loading results...', 'fau-elemental'),
-                            'resultsLoaded' => __('Results loaded', 'fau-elemental'),
-                            'errorOccurred' => __('An error occurred', 'fau-elemental'),
-                            'noResultsFound' => __('No results found', 'fau-elemental'),
-                            'totalResults' => __('Total results:', 'fau-elemental'),
-                        ]
                     ]
                 );
             }

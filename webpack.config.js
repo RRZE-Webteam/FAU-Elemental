@@ -27,31 +27,6 @@ const customBlockFolders = fs.existsSync(
 			)
 	: [];
 
-// ============================================================================
-// DYNAMIC TEMPLATE DETECTION
-// ============================================================================
-// Get all template files from components/templates directory
-const templateFiles = fs.existsSync(
-	path.resolve( process.cwd(), 'components/templates' )
-)
-	? fs
-			.readdirSync(
-				path.resolve( process.cwd(), 'components/templates' )
-			)
-			.filter(
-				( file ) =>
-					fs
-						.statSync(
-							path.resolve(
-								process.cwd(),
-								'components/templates',
-								file
-							)
-						)
-						.isFile() && file.endsWith( '.php' )
-			)
-	: [];
-
 // Create entries for each custom block (WordPress Scripts handles block.json copying)
 const customBlockEntries = customBlockFolders.reduce( ( entries, folder ) => {
 	const folderPath = path.resolve(
@@ -131,24 +106,8 @@ const copyPatterns = customBlockFolders.reduce( ( patterns, folder ) => {
 		} );
 	}
 
-	// Add ajax.php copy pattern
-	if ( fs.existsSync( path.resolve( folderPath, 'ajax.php' ) ) ) {
-		patterns.push( {
-			from: `components/blocks/${ folder }/ajax.php`,
-			to: `blocks/${ folder }/ajax.php`,
-		} );
-	}
-
 	return patterns;
 }, [] );
-
-// Add template copy patterns
-templateFiles.forEach( ( templateFile ) => {
-	copyPatterns.push( {
-		from: `components/templates/${ templateFile }`,
-		to: `templates/${ templateFile }`,
-	} );
-} );
 
 // ============================================================================
 // EXTEND DEFAULT WORDPRESS SCRIPTS CONFIG

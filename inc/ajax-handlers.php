@@ -1,13 +1,13 @@
 <?php
 /**
- * AJAX Handlers for FAU Elemental Theme
+ * AJAX handlers for FAU Elemental theme.
  *
- * @package FAU-Elemental
+ * @package FAU_Elemental
  */
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 // ============================================================================
@@ -284,14 +284,16 @@ if ( ! function_exists( 'fau_elemental_filter_posts_callback' ) ) {
 	 * Handles filtering posts via AJAX.
 	 */
 	function fau_elemental_filter_posts_callback() {
-		// Verify nonce.
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['nonce'] ), 'fau_elemental_filter_nonce' ) ) {
-			wp_send_json_error( [ 'message' => 'Invalid nonce' ], 403 );
+		// Verify nonce for security
+		$nonce = $_POST['nonce'] ?? '';
+		if ( ! wp_verify_nonce( $nonce, 'fau_filter_nonce' ) ) {
+			error_log( 'FAU Filter - Nonce verification failed.' );
+			wp_send_json_error( [ 'message' => __( 'Security check failed.', 'fau-elemental' ) ], 403 );
+			return;
 		}
 
-		// Sanitize and prepare query arguments.
-		$paged      = isset( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
-		$search_query = isset( $_POST['search'] ) ? sanitize_text_field( wp_unslash( $_POST['search'] ) ) : '';
+		// Sanitize and retrieve parameters
+		$search               = isset( $_POST['search'] ) ? sanitize_text_field( wp_unslash( $_POST['search'] ) ) : '';
 		$sort_order = isset( $_POST['sort'] ) ? sanitize_text_field( wp_unslash( $_POST['sort'] ) ) : 'date';
 		$filters    = isset( $_POST['filters'] ) ? json_decode( stripslashes( sanitize_text_field( wp_unslash( $_POST['filters'] ) ) ), true ) : [];
 

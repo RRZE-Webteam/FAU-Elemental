@@ -1,3 +1,5 @@
+import { __, sprintf } from '@wordpress/i18n';
+
 document.addEventListener( 'DOMContentLoaded', function () {
 	const filterBlocks = document.querySelectorAll(
 		'.wp-block-fau-elemental-fau-list-filters'
@@ -10,6 +12,12 @@ function initializeFilterBlock( blockElement ) {
 
 	const associatedGrid = findAssociatedGrid( blockId );
 	if ( ! associatedGrid ) {
+		const resultsContainer = blockElement.querySelector(
+			'.fau-list-filters__sort-section'
+		);
+		if ( resultsContainer ) {
+			resultsContainer.innerHTML = `<p>${ __( 'No content to filter', 'fau-elemental' ) }</p>`;
+		}
 		return;
 	}
 
@@ -43,8 +51,7 @@ function initializeFilterBlock( blockElement ) {
 	if ( ! availableFiltersContainer ) {
 		availableFiltersContainer = document.createElement( 'div' );
 		availableFiltersContainer.className = 'available-filters';
-		availableFiltersContainer.innerHTML =
-			'<h4>Add filters:</h4><div class="filter-buttons-container"></div>';
+		availableFiltersContainer.innerHTML = `<h4>${ __( 'Add filters:', 'fau-elemental' ) }</h4><div class="filter-buttons-container"></div>`;
 		dynamicFiltersContainer.appendChild( availableFiltersContainer );
 	}
 
@@ -415,6 +422,11 @@ function initializeFilterBlock( blockElement ) {
 		if ( ! buttonsContainer ) {
 			return;
 		}
+		if ( ! availableFiltersContainer.querySelector( 'h4' ) ) {
+			const heading = document.createElement( 'h4' );
+			heading.textContent = __( 'Add filters:', 'fau-elemental' );
+			buttonsContainer.before( heading );
+		}
 
 		buttonsContainer.innerHTML = '';
 		const addedFilterKeys = [
@@ -461,7 +473,7 @@ function initializeFilterBlock( blockElement ) {
 
 		const defaultOption = document.createElement( 'option' );
 		defaultOption.value = '';
-		defaultOption.textContent = `All ${ data.label }`;
+		defaultOption.textContent = sprintf( __( 'All %s', 'fau-elemental' ), data.label );
 		select.appendChild( defaultOption );
 
 		data.options.forEach( ( opt ) => {
@@ -476,7 +488,10 @@ function initializeFilterBlock( blockElement ) {
 		const removeBtn = document.createElement( 'button' );
 		removeBtn.type = 'button';
 		removeBtn.className = 'filter-remove-button';
-		removeBtn.setAttribute( 'aria-label', `Remove ${ data.label } filter` );
+		removeBtn.setAttribute(
+			'aria-label',
+			sprintf( __( 'Remove %s filter', 'fau-elemental' ), data.label )
+		);
 		removeBtn.innerHTML = '<span aria-hidden="true">×</span>';
 		removeBtn.addEventListener( 'click', () => {
 			removeDynamicFilter( filterField );
@@ -550,7 +565,10 @@ function initializeFilterBlock( blockElement ) {
 		const removeBtn = document.createElement( 'button' );
 		removeBtn.type = 'button';
 		removeBtn.className = 'chip-remove';
-		removeBtn.setAttribute( 'aria-label', `Remove ${ name } filter` );
+		removeBtn.setAttribute(
+			'aria-label',
+			sprintf( __( 'Remove %s filter', 'fau-elemental' ), name )
+		);
 		removeBtn.innerHTML = '<span aria-hidden="true">×</span>';
 		removeBtn.addEventListener( 'click', () => {
 			if ( type === 'search' ) {
@@ -614,19 +632,25 @@ function initializeFilterBlock( blockElement ) {
 
 	function updateResultsCount( total ) {
 		if ( resultsCountElement ) {
-			resultsCountElement.textContent = `${ total } results`;
+			if ( total === 0 ) {
+				resultsCountElement.textContent = __( 'No results found', 'fau-elemental' );
+			} else {
+				resultsCountElement.textContent = sprintf( __( 'Total results: %s', 'fau-elemental' ), total );
+			}
 		}
 	}
 
 	function updateLoadingState( isLoading ) {
 		if ( resultsCountElement ) {
-			resultsCountElement.textContent = isLoading ? 'Loading...' : '';
+			resultsCountElement.textContent = isLoading
+				? __( 'Loading results...', 'fau-elemental' )
+				: '';
 		}
 	}
 
 	function showError() {
 		if ( resultsCountElement ) {
-			resultsCountElement.textContent = 'An error occurred';
+			resultsCountElement.textContent = __( 'An error occurred', 'fau-elemental' );
 		}
 	}
 
