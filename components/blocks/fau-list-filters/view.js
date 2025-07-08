@@ -228,86 +228,128 @@ function initializeFilterBlock( blockElement ) {
 				taxonomy: select.dataset.taxonomy,
 			} ) );
 
-		console.log( `FAU LIST FILTERS: #${ blockId } Client Filter State:`, {
-			searchTerm,
-			sortValue,
-			activeFilters,
-		} );
-
-		const allItems = Array.from( teaserGrid.querySelectorAll( '.teaser-item' ) );
-		let matchedItems = allItems.filter( ( item ) => {
-			const textMatch =
-				! searchTerm ||
-				item.textContent.toLowerCase().includes( searchTerm );
-
-			const filterMatch = activeFilters.every( ( filter ) => {
-				if ( filter.type === 'taxonomy' ) {
-					if ( filter.taxonomy === 'category' ) {
-						const catEl = item.querySelector( '.category' );
-						return (
-							catEl &&
-							catEl.textContent.toLowerCase() === filter.value
-						);
-					}
-					// Add other taxonomies like tags here if needed
-				}
-				if ( filter.type === 'author' ) {
-					// Add author check if needed
-				}
-				return true;
-			} );
-
-			return textMatch && filterMatch;
-		} );
-
-		// --- SORTING ---
-		const getSortableValue = ( item, type ) => {
-			if ( type === 'title' ) {
-				return item.querySelector( 'h2' )?.textContent || '';
-			}
-			if ( type === 'date' || type === 'modified' ) {
-				const timeEl = item.querySelector( 'time' );
-				return timeEl ? new Date( timeEl.getAttribute( 'datetime' ) ) : 0;
-			}
-			return 0;
-		};
-
-		if ( sortValue === 'title' ) {
-			matchedItems.sort( ( a, b ) => {
-				const valA = getSortableValue( a, 'title' );
-				const valB = getSortableValue( b, 'title' );
-				return valA.localeCompare( valB );
-			} );
-		} else if ( sortValue === 'date' || sortValue === 'modified' ) {
-			matchedItems.sort( ( a, b ) => {
-				const dateA = getSortableValue( a, sortValue );
-				const dateB = getSortableValue( b, sortValue );
-				return dateB - dateA; // Newest first
-			} );
-		}
-
 		console.log(
-			`FAU LIST FILTERS: #${ blockId } Matched ${ matchedItems.length } of ${ allItems.length } items.`
+			`FAU LIST FILTERS: #${ blockId } Client Filter State:`,
+			{ searchTerm, sortValue, activeFilters }
 		);
 
-		// --- DOM UPDATE ---
-		// Detach all items first to preserve event listeners
-		allItems.forEach( ( item ) => item.remove() );
+		const allItems = Array.from(
+			associatedGrid.querySelectorAll( '.teaser-item' )
+		);
+		let visibleItems = [];
 
-		// Append sorted and filtered items back to the grid
-		matchedItems.forEach( ( item ) => {
-			teaserGrid.appendChild( item );
-		} );
-
-		// Update grid visibility
 		allItems.forEach( ( item ) => {
-			const isVisible = matchedItems.includes( item );
-			item.style.display = isVisible ? '' : 'none';
-			item.classList.toggle( 'filtered-out', ! isVisible );
+			const title =
+				item.querySelector( 'h4' )?.textContent.toLowerCase() || '';
+			const excerpt =
+				item.querySelector( '.excerpt' )?.textContent.toLowerCase() ||
+				'';
+			const categories = Array.from(
+				item.querySelectorAll( '.category' )
+			).map( ( el ) => el.textContent.trim().toLowerCase() );
+			const tags = Array.from( item.querySelectorAll( '.tag' ) ).map(
+				( el ) => el.textContent.trim().toLowerCase()
+			);
+			const author = item.dataset.author?.toLowerCase() || '';
+			const yearString =
+				item.querySelector( 'time' )?.getAttribute( 'datetime' ) || '';
+			const year = yearString
+				? new Date( yearString ).getFullYear().toString()
+				: '';
+
+			const searchMatch =
+				! searchTerm ||
+				title.includes( searchTerm ) ||
+				excerpt.includes( searchTerm );
+
+			const filterMatch = activeFilters.every( ( filter ) => {
+				switch ( filter.type ) {
+					case 'categories':
+						return categories.includes( filter.value );
+					case 'tags':
+						return tags.includes( filter.value );
+					case 'authors':
+						return author === filter.value;
+					case 'years':
+						return year === filter.value;
+					case 'taxonomy':
+						// Generic taxonomy handler, might need refinement
+						return (
+							categories.includes( filter.value ) ||
+							tags.includes( filter.value )
+						);
+					default:
+						return true;
+				}
+			} );
+
+			if ( searchMatch && filterMatch ) {
+				visibleItems.push( item );
+			}
 		} );
 
-		updateResultsCount( matchedItems.length );
-		dispatchFilterUpdateEvent( matchedItems.length );
+		console.log(
+			`FAU LIST FILTERS: #${ blockId } Matched ${ visibleItems.length } of ${ allItems.length } items.`
+		);
+
+		// --- Sorting ---
+		const getSortableValue = ( item, type ) => {
+			switch ( type ) {
+				case 'title':
+					return (
+						item.querySelector( 'h4' )?.textContent.trim() || ''
+					);
+				case 'modified':
+				case 'date':
+				default:
+					return (
+						item.querySelector( 'time' )?.getAttribute( 'datetime' ) ||
+						'0'
+					);
+			}
+		};
+
+		visibleItems.sort( ( a, b ) => {
+			const valA = getSortableValue( a, sortValue );
+			const valB = getSortableValue( b, sortValue );
+
+			if ( sortValue === 'title' ) {
+				return valA.localeCompare( valB );
+			}
+			// For date and modified, descending order is newest first
+			return new Date( valB ) - new Date( valA );
+		} );
+
+		// --- Re-append to DOM and handle pagination ---
+		// Reorder DOM based on sort order first
+		visibleItems.forEach(item => teaserGrid.appendChild(item));
+		allItems.filter(item => !visibleItems.includes(item)).forEach(item => teaserGrid.appendChild(item));
+
+		// Now apply visibility based on filtering and pagination
+		allItems.forEach((item, index) => {
+			const isVisible = visibleItems.includes(item);
+			
+			if (!isVisible) {
+				item.style.display = 'none';
+				item.classList.add('filtered-out');
+				item.classList.add('js-paginated-hidden');
+			} else {
+				item.classList.remove('filtered-out');
+				const visibleIndex = visibleItems.indexOf(item);
+				const isOnCurrentPage = visibleIndex >= (currentPage - 1) * postsPerPage && visibleIndex < currentPage * postsPerPage;
+
+				if (isOnCurrentPage) {
+					item.style.display = '';
+					item.classList.remove('js-paginated-hidden');
+				} else {
+					item.style.display = 'none';
+					item.classList.add('js-paginated-hidden');
+				}
+			}
+		});
+
+		updateResultsCount(visibleItems.length);
+		dispatchFilterUpdateEvent(visibleItems.length);
 	}
 
 	function performSearch( isInitial = false, page = 1 ) {
@@ -377,6 +419,20 @@ function initializeFilterBlock( blockElement ) {
 				showMoreButton.style.display = 'none';
 			}
 			return;
+		}
+
+		// Initially hide the dynamic filters container
+		dynamicFiltersContainer.style.display = 'none';
+		
+		// Set initial button state
+		if ( showMoreButton ) {
+			showMoreButton.setAttribute( 'aria-expanded', 'false' );
+			const showText = showMoreButton.querySelector( '.show-more-text' );
+			const hideText = showMoreButton.querySelector( '.show-less-text' );
+			if ( showText && hideText ) {
+				showText.style.display = 'inline';
+				hideText.style.display = 'none';
+			}
 		}
 
 		updateAvailableFilterButtons();
@@ -545,15 +601,21 @@ function initializeFilterBlock( blockElement ) {
 		if ( ! dynamicFiltersContainer || ! showMoreButton ) return;
 
 		const isExpanded = showMoreButton.getAttribute( 'aria-expanded' ) === 'true';
-		showMoreButton.setAttribute( 'aria-expanded', ! isExpanded );
-		dynamicFiltersContainer.style.display = isExpanded ? 'none' : 'block';
+		const newExpandedState = ! isExpanded;
+		
+		// Update button state
+		showMoreButton.setAttribute( 'aria-expanded', newExpandedState );
+		
+		// Update container visibility
+		dynamicFiltersContainer.style.display = newExpandedState ? 'block' : 'none';
 
+		// Update button text
 		const showText = showMoreButton.querySelector( '.show-more-text' );
 		const hideText = showMoreButton.querySelector( '.show-less-text' );
 
 		if ( showText && hideText ) {
-			showText.style.display = isExpanded ? 'inline' : 'none';
-			hideText.style.display = isExpanded ? 'none' : 'inline';
+			showText.style.display = newExpandedState ? 'none' : 'inline';
+			hideText.style.display = newExpandedState ? 'inline' : 'none';
 		}
 	}
 
