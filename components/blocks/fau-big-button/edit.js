@@ -18,7 +18,7 @@ import {
 } from '@wordpress/components';
 import { useEffect, useMemo } from '@wordpress/element';
 import { v4 as uuidv4 } from 'uuid';
-import { isURL } from '@wordpress/url';
+import { validateUrl } from '../../utils/urlValidation';
 
 /**
  * Helper function to trim text by characters while respecting word boundaries
@@ -172,21 +172,6 @@ export default function Edit( { attributes, setAttributes } ) {
 		: '';
 
 	// URL validation helper
-	const validateUrl = ( url ) => {
-		if ( ! url ) {
-			return {
-				isValid: false,
-				message: __( 'URL is required', 'fau-elemental' ),
-			};
-		}
-		if ( ! isURL( url ) ) {
-			return {
-				isValid: false,
-				message: __( 'Please enter a valid URL', 'fau-elemental' ),
-			};
-		}
-		return { isValid: true, message: '' };
-	};
 
 	return (
 		<>
@@ -256,7 +241,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								: ''
 						}`;
 
-						const urlValidation = validateUrl( item.url );
+						const urlValidation = validateUrl( item.url, true );
 
 						return (
 							<PanelBody
@@ -454,7 +439,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 
 						// Check if item is complete and valid
-						const urlValidation = validateUrl( item.url );
+						const urlValidation = validateUrl( item.url, true );
 						const isComplete =
 							item.title && item.url && urlValidation.isValid;
 						const previewClasses = isComplete

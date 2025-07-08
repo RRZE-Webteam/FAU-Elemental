@@ -44,6 +44,12 @@ require_once get_template_directory() . '/inc/shortcodes-loader.php';
 // Portal menu compatibility with old theme
 require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
 
+// Portal menu configuration
+require_once get_template_directory() . '/inc/portal-menu-config.php';
+
+// Portal page settings
+require_once get_template_directory() . '/inc/portal-page-settings.php';
+
 // Breadcrumb functionality
 require_once get_template_directory() . '/components/template-parts/breadcrumbs/breadcrumbs.php';
 
@@ -55,13 +61,10 @@ require_once get_template_directory() . '/inc/page-meta-fields.php';
 
 /**
  * Register custom page templates
- * 
- * IMPORTANT: Portal Page template MUST be registered in the root of the theme,
- * not in templates/ directory for it to work with WordPress template selector
  */
 function fau_elemental_register_page_templates($templates) {
     // Register the portal page template
-    $templates['portal-page.php'] = 'Portal Page';
+    $templates[FAU_Elemental_Portal_Menu_Config::TEMPLATE] = __('Portal Page', 'fau-elemental');
     
     // Force flush the template cache if we're in admin
     if (is_admin()) {
@@ -91,8 +94,8 @@ function fau_elemental_template_include($template) {
         }
         
         // Priority 1: Use the root template if explicitly selected
-        if ($template_slug === 'portal-page.php') {
-            $root_template = locate_template(['portal-page.php']);
+        if ($template_slug === FAU_Elemental_Portal_Menu_Config::TEMPLATE) {
+            $root_template = locate_template([FAU_Elemental_Portal_Menu_Config::TEMPLATE]);
             if (!empty($root_template)) {
                 return $root_template;
             }
@@ -101,10 +104,10 @@ function fau_elemental_template_include($template) {
         // If the requested template isn't found but the page has a portal menu ID
         // Try to use the portal template
         if (get_post_meta(get_the_ID(), 'portal_menu_id', true)) {
-            $portal_template = locate_template(['portal-page.php']);
+            $portal_template = locate_template([FAU_Elemental_Portal_Menu_Config::TEMPLATE]);
             if (!empty($portal_template)) {
-                error_log('FAU Elemental: Portal menu ID found, using template: portal-page.php');
-                update_post_meta(get_the_ID(), '_wp_page_template', 'portal-page.php');
+                error_log('FAU Elemental: Portal menu ID found, using template: ' . FAU_Elemental_Portal_Menu_Config::TEMPLATE);
+                update_post_meta(get_the_ID(), '_wp_page_template', FAU_Elemental_Portal_Menu_Config::TEMPLATE);
                 return $portal_template;
             }
         }
@@ -148,7 +151,7 @@ function fau_elemental_post_updated_messages($messages) {
     if ($post && get_post_type($post) === 'page') {
         $template = get_post_meta($post->ID, '_wp_page_template', true);
         
-        if ($template === 'portal-page.php') {
+        if ($template === FAU_Elemental_Portal_Menu_Config::TEMPLATE) {
             // Add message for portal page template
             $messages['post'][1] .= ' <span style="color:#2271b1;">This page is using the Portal Page template. Make sure to select a menu in the Portal Menu Settings box.</span>';
         }
