@@ -240,7 +240,7 @@ function initializeFilterBlock( blockElement ) {
 
 		allItems.forEach( ( item ) => {
 			const title =
-				item.querySelector( 'h4' )?.textContent.toLowerCase() || '';
+				item.querySelector( '.teaser-content h2, .teaser-content h3, .teaser-content h4' )?.textContent.toLowerCase() || '';
 			const excerpt =
 				item.querySelector( '.excerpt' )?.textContent.toLowerCase() ||
 				'';
@@ -297,7 +297,7 @@ function initializeFilterBlock( blockElement ) {
 			switch ( type ) {
 				case 'title':
 					return (
-						item.querySelector( 'h4' )?.textContent.trim() || ''
+						item.querySelector( '.teaser-content h2, .teaser-content h3, .teaser-content h4' )?.textContent.trim() || ''
 					);
 				case 'modified':
 				case 'date':
