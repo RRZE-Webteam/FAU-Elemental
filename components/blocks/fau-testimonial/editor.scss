@@ -6,10 +6,10 @@
 .testimonial-management-buttons {
 
 	.components-button {
-		height: 36px;
+		height: 2.2rem;
 
 		&.is-destructive {
-			border: 1px solid currentcolor;
+			border: 0.0625rem solid currentcolor;
 
 			&:hover {
 				box-shadow: none;
@@ -24,10 +24,10 @@
 		position: relative;
 
 		&__toggle {
-			min-height: 90px;
-			padding: 8px;
-			border: 1px dashed #949494;
-			border-radius: 2px;
+			min-height: 5.625rem;
+			padding: 0.5rem;
+			border: 0.0625rem dashed #949494;
+			border-radius: 0.125rem;
 			width: 100%;
 
 			&:hover {
@@ -38,10 +38,10 @@
 		&__preview {
 			margin: 0;
 			display: block;
-			max-height: 200px;
+			max-height: 12.5rem;
 			width: 100%;
 			object-fit: cover;
-			border-radius: 2px;
+			border-radius: 0.125rem;
 		}
 
 		&__actions {
@@ -53,19 +53,19 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			gap: 8px;
-			padding: 8px;
+			gap: 0.5rem;
+			padding: 0.5rem;
 			background: rgba(255, 255, 255, 0.9);
 			opacity: 0;
 			transition: opacity 0.2s;
 
 			.components-button {
-				min-width: 80px;
-				height: 32px;
-				padding: 0 12px;
+				min-width: 5rem;
+				height: 2rem;
+				padding: 0 0.75rem;
 
 				&.is-destructive {
-					border: 1px solid currentcolor;
+					border: 0.0625rem solid currentcolor;
 
 					&:hover {
 						box-shadow: none;
@@ -84,20 +84,20 @@
 }
 
 .testimonial-list + div {
-	padding: calc(16px);
+	padding: 1rem;
 }
 
 // Testimonial List in Sidebar
 .testimonial-list {
-	border-bottom: 1px solid #e0e0e0;
+	border-bottom: 0.0625rem solid #e0e0e0;
 
 	.testimonial-list-item {
-		padding: 12px 16px;
+		padding: 0.75rem 1rem;
 		border: 0;
-		border-top: 1px solid #e0e0e0;
+		border-top: 0.0625rem solid #e0e0e0;
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: 0.5rem;
 		cursor: pointer;
 		transition: background-color 0.1s ease;
 		width: 100%;
@@ -114,7 +114,7 @@
 
 		&.is-selected {
 			background: #f0f6fc;
-			box-shadow: inset 3px 0 0 #007cba;
+			box-shadow: inset 0.1875rem 0 0 #007cba;
 		}
 
 		&__content {
@@ -126,7 +126,7 @@
 
 		&__text {
 			display: block;
-			font-size: 13px;
+			font-size: 0.8125rem;
 			line-height: 1.4;
 			white-space: nowrap;
 			overflow: hidden;
@@ -142,7 +142,7 @@
 
 		&__actions {
 			display: flex;
-			gap: 2px;
+			gap: 0.125rem;
 			align-items: center;
 			opacity: 0.5;
 			transition: opacity 0.1s ease;
@@ -151,8 +151,8 @@
 		.components-button.testimonial-list-item__move,
 		.components-button.testimonial-list-item__remove {
 			padding: 0;
-			min-width: 24px;
-			height: 24px;
+			min-width: 1.5rem;
+			height: 1.5rem;
 			color: #1e1e1e;
 
 			&:not(:disabled):not([aria-disabled="true"]):hover {
@@ -182,8 +182,8 @@
 			width: 100%;
 			background: #f0f6fc;
 			color: #0073aa;
-			border-top: 1px solid #e0e0e0;
-			padding: 12px;
+			border-top: 0.0625rem solid #e0e0e0;
+			padding: 0.75rem;
 
 			&:hover {
 				background: #f0f0f0;
@@ -191,7 +191,7 @@
 			}
 
 			.testimonial-list-item__content {
-				gap: 12px;
+				gap: 0.75rem;
 				justify-content: center;
 			}
 
@@ -201,13 +201,13 @@
 
 				svg {
 					fill: currentcolor;
-					width: 20px;
-					height: 20px;
+					width: 1.25rem;
+					height: 1.25rem;
 				}
 			}
 
 			.testimonial-list-item__add-label {
-				font-size: 13px;
+				font-size: 0.8125rem;
 				font-weight: 500;
 				color: currentcolor;
 			}
@@ -217,10 +217,10 @@
 
 // Content Area Actions
 .testimonial-content-actions {
-	margin-top: 16px;
-	padding: 16px;
+	margin-top: 1rem;
+	padding: 1rem;
 	background: #f0f0f0;
-	border-radius: 2px;
+	border-radius: 0.125rem;
 	text-align: center;
 
 	.testimonial-content-action {
