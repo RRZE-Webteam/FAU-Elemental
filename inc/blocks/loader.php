@@ -20,7 +20,6 @@ require_once get_template_directory() . '/inc/blocks/heading.php';
 require_once get_template_directory() . '/inc/blocks/image.php';
 require_once get_template_directory() . '/inc/blocks/gallery.php';
 
-
 require_once get_template_directory() . '/inc/blocks/quote.php';
 
 require_once get_template_directory() . '/inc/blocks/paragraph.php';

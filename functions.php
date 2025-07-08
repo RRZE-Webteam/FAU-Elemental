@@ -44,50 +44,27 @@ require_once get_template_directory() . '/inc/shortcodes-loader.php';
 // Portal menu compatibility with old theme
 require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
 
+// Portal menu configuration
+require_once get_template_directory() . '/inc/portal-menu-config.php';
+
+// Portal page settings
+require_once get_template_directory() . '/inc/portal-page-settings.php';
+
 // Breadcrumb functionality
 require_once get_template_directory() . '/components/template-parts/breadcrumbs/breadcrumbs.php';
 
 // Navigation components
 require_once get_template_directory() . '/components/template-parts/navigation/index.php';
 
-// AJAX handlers
-require_once get_template_directory() . '/inc/ajax-handlers.php';
+// Page meta fields
+require_once get_template_directory() . '/inc/page-meta-fields.php';
 
 /**
  * Register custom page templates
- * 
- * Automatically detects and registers all templates from components/templates directory
- * IMPORTANT: Portal Page template MUST be registered in the root of the theme,
- * not in templates/ directory for it to work with WordPress template selector
  */
 function fau_elemental_register_page_templates($templates) {
-    // Register the portal page template (must be in root)
-    $templates['portal-page.php'] = 'Portal Page';
-    
-    // Automatically register all templates from components/templates directory
-    // Check both build/templates (production) and components/templates (development)
-    $build_templates_dir = get_template_directory() . '/build/templates/';
-    $source_templates_dir = get_template_directory() . '/components/templates/';
-    
-    // Use build directory if it exists, otherwise use source directory
-    $templates_dir = is_dir($build_templates_dir) ? $build_templates_dir : $source_templates_dir;
-    $template_prefix = is_dir($build_templates_dir) ? 'build/templates/' : 'components/templates/';
-    
-    if (is_dir($templates_dir)) {
-        $template_files = glob($templates_dir . '*.php');
-        
-        foreach ($template_files as $template_file) {
-            $filename = basename($template_file);
-            $template_key = $template_prefix . $filename;
-            
-            // Extract template name from the file header
-            $template_name = fau_elemental_get_template_name($template_file);
-            
-            if ($template_name) {
-                $templates[$template_key] = $template_name;
-            }
-        }
-    }
+    // Register the portal page template
+    $templates[FAU_Elemental_Portal_Menu_Config::TEMPLATE] = __('Portal Page', 'fau-elemental');
     
     // Force flush the template cache if we're in admin
     if (is_admin()) {
@@ -100,20 +77,6 @@ function fau_elemental_register_page_templates($templates) {
     
     return $templates;
 }
-
-/**
- * Extract template name from PHP file header
- * 
- * @param string $template_file Path to template file
- * @return string|false Template name or false if not found
- */
-function fau_elemental_get_template_name($template_file) {
-    $file_data = get_file_data($template_file, [
-        'template_name' => 'Template Name'
-    ]);
-    
-    return !empty($file_data['template_name']) ? $file_data['template_name'] : false;
-}
 add_filter('theme_page_templates', 'fau_elemental_register_page_templates', 11, 1);
 
 
@@ -125,9 +88,14 @@ function fau_elemental_template_include($template) {
     if (is_page()) {
         $template_slug = get_page_template_slug();
         
+        // Debug output
+        if (defined('FAU_ELEMENTAL_DEBUG') && FAU_ELEMENTAL_DEBUG) {
+            error_log('FAU Elemental Debug: Template include requested for: ' . $template_slug);
+        }
+        
         // Priority 1: Use the root template if explicitly selected
-        if ($template_slug === 'portal-page.php') {
-            $root_template = locate_template(['portal-page.php']);
+        if ($template_slug === FAU_Elemental_Portal_Menu_Config::TEMPLATE) {
+            $root_template = locate_template([FAU_Elemental_Portal_Menu_Config::TEMPLATE]);
             if (!empty($root_template)) {
                 return $root_template;
             }
@@ -136,9 +104,10 @@ function fau_elemental_template_include($template) {
         // If the requested template isn't found but the page has a portal menu ID
         // Try to use the portal template
         if (get_post_meta(get_the_ID(), 'portal_menu_id', true)) {
-            $portal_template = locate_template(['portal-page.php']);
+            $portal_template = locate_template([FAU_Elemental_Portal_Menu_Config::TEMPLATE]);
             if (!empty($portal_template)) {
-                update_post_meta(get_the_ID(), '_wp_page_template', 'portal-page.php');
+                error_log('FAU Elemental: Portal menu ID found, using template: ' . FAU_Elemental_Portal_Menu_Config::TEMPLATE);
+                update_post_meta(get_the_ID(), '_wp_page_template', FAU_Elemental_Portal_Menu_Config::TEMPLATE);
                 return $portal_template;
             }
         }
@@ -182,7 +151,7 @@ function fau_elemental_post_updated_messages($messages) {
     if ($post && get_post_type($post) === 'page') {
         $template = get_post_meta($post->ID, '_wp_page_template', true);
         
-        if ($template === 'portal-page.php') {
+        if ($template === FAU_Elemental_Portal_Menu_Config::TEMPLATE) {
             // Add message for portal page template
             $messages['post'][1] .= ' <span style="color:#2271b1;">This page is using the Portal Page template. Make sure to select a menu in the Portal Menu Settings box.</span>';
         }
@@ -351,25 +320,11 @@ add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_footer_scripts');
 // FAU TEASER GRID AJAX HANDLERS
 // ============================================================================
 
-// AJAX handlers are now auto-loaded by blocks when needed
-// Removed manual inclusion to prevent function redeclaration issues
-
 /**
- * Enqueue template-specific styles
+ * Include and register AJAX handlers for FAU Teaser Grid
  */
-function fau_elemental_enqueue_template_styles() {
-    if (is_page()) {
-        $template = get_page_template_slug();
-        
-        // Enqueue All Posts template styles
-        if ($template === 'page-all-posts.html') {
-            wp_enqueue_style(
-                'fau-all-posts-template',
-                get_theme_file_uri('assets/css/templates/page-all-posts.css'),
-                [],
-                wp_get_theme()->get('Version')
-            );
-        }
-    }
+function fau_elemental_register_teaser_grid_ajax() {
+    // Include the AJAX handler file
+    require_once get_template_directory() . '/components/blocks/fau-teaser-grid/ajax.php';
 }
-add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_template_styles');
+add_action('init', 'fau_elemental_register_teaser_grid_ajax');

@@ -55,7 +55,15 @@
 					},
 					"facultyColor": {
 						"type": "string",
-						"enum": [ "default", "phil", "rw", "med", "nat", "tf" ]
+						"enum": [
+							"default",
+							"fau",
+							"phil",
+							"rw",
+							"med",
+							"nat",
+							"tf"
+						]
 					}
 				}
 			}

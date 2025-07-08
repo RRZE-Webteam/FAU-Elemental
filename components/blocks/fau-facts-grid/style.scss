@@ -1,0 +1,114 @@
+@use "../../ui/mixins/mixins" as *;
+
+// Facts Grid Block Styles
+.wp-block-fau-elemental-fau-facts-grid {
+
+	.fau-facts-grid {
+		margin: var(--Spacing-8x) 0;
+		padding: var(--Spacing-8x);
+
+		.fau-facts-grid-items {
+			display: grid;
+			gap: var(--Spacing-6x);
+			margin: 0;
+			justify-items: center;
+
+			// Default: Desktop and up
+			grid-template-columns: repeat(4, 1fr);
+
+			// Tablet: 2 columns
+			@include respond-to("medium") {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			// Mobile: 1 column
+			@include respond-to("small") {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		.fau-facts-grid-item {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			gap: var(--Spacing-4x);
+			padding: var(--Spacing-8x) var(--Spacing-4x);
+			transition: all 0.3s ease;
+
+			.fau-facts-grid-item-icon {
+				flex-shrink: 0;
+				width: 3rem;
+				height: 3rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 50%;
+				margin-bottom: var(--Spacing-3x);
+
+				img,
+				svg {
+					width: 2.5rem;
+					height: 2.5rem;
+					object-fit: contain;
+					display: block;
+					margin: 0 auto;
+				}
+			}
+
+			.fau-facts-grid-item-content {
+				flex: unset;
+				min-width: 0;
+				display: flex;
+				flex-direction: column;
+			}
+
+			.fau-facts-grid-item-text {
+				font-size: 1rem;
+				line-height: 1.5;
+				color: var(--wp--preset--color--foreground, var(--FAU-Col-FAU-Schwarz-90));
+				margin: 0 0 var(--Spacing-3x) 0;
+				text-align: left;
+				max-width: 18rem;
+
+				strong {
+					font-weight: 700;
+					color: var(--wp--preset--color--primary, var(--FAU-Col-FAU-Blau-100));
+				}
+			}
+
+			.fau-facts-grid-item-link {
+				display: inline-flex;
+				justify-content: center;
+				gap: 0.5em;
+				color: var(--wp--preset--color--primary, var(--FAU-Col-FAU-Blau-100));
+				font-weight: 600;
+				font-size: 1rem;
+				text-decoration: none;
+				margin-top: var(--Spacing-2x);
+				transition: color 0.2s;
+
+				&:hover,
+				&:focus {
+					color: var(--FAU-Col-FAU-Dunkelblau-100);
+					text-decoration: underline;
+				}
+
+				// Optional: add arrow icon styling if needed
+				svg,
+				img {
+					margin-left: 0.25em;
+					width: 1em;
+					height: 1em;
+				}
+			}
+
+			// Hover effect for items with links
+			&.has-link {
+
+				&:hover {
+					transform: translateY(-0.0625rem);
+				}
+			}
+		}
+	}
+}
