@@ -85,7 +85,6 @@ function fau_elemental_register_page_templates($templates) {
             
             if ($template_name) {
                 $templates[$template_key] = $template_name;
-                error_log("FAU Elemental: Auto-registered template: $template_key => $template_name");
             }
         }
     }
@@ -126,11 +125,6 @@ function fau_elemental_template_include($template) {
     if (is_page()) {
         $template_slug = get_page_template_slug();
         
-        // Debug output
-        if (defined('FAU_ELEMENTAL_DEBUG') && FAU_ELEMENTAL_DEBUG) {
-            error_log('FAU Elemental Debug: Template include requested for: ' . $template_slug);
-        }
-        
         // Priority 1: Use the root template if explicitly selected
         if ($template_slug === 'portal-page.php') {
             $root_template = locate_template(['portal-page.php']);
@@ -144,7 +138,6 @@ function fau_elemental_template_include($template) {
         if (get_post_meta(get_the_ID(), 'portal_menu_id', true)) {
             $portal_template = locate_template(['portal-page.php']);
             if (!empty($portal_template)) {
-                error_log('FAU Elemental: Portal menu ID found, using template: portal-page.php');
                 update_post_meta(get_the_ID(), '_wp_page_template', 'portal-page.php');
                 return $portal_template;
             }

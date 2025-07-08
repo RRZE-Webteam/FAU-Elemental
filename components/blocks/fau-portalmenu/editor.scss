@@ -61,7 +61,7 @@
 .block-editor-block-list__block[data-type="fau-elemental/portalmenu"],
 .block-editor-block-list__block[data-type="fau/portal-menu"] {
 	margin: 1em 0;
-	background-color: #fff; // TODO Should this be loaded from a custom property?
+	background-color: var(--wp--preset--color--white, #fff);
 	padding: 1em;
 	border-radius: 2px;
 

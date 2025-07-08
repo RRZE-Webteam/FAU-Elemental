@@ -191,10 +191,13 @@ if ( ! function_exists( 'render_block_fau_pagination' ) ) {
             // Basic pagination - create container that will be controlled by filter JavaScript
             $output .= '<div class="pagination-controls">';
             
-            // Check if this is connected to a grid with JS pagination
-            // JavaScript pagination is enabled when there's a connected teaser grid
-            // (matches the logic in fau-teaser-grid render.php)
-            $is_js_pagination = !empty($grid_block_id);
+            // Determine if we should use JavaScript pagination:
+            // 1. If connected to a grid (via grid_block_id)
+            // 2. If we have multiple pages and this is likely a block editor pagination
+            //    (as opposed to a template-based pagination)
+            $has_grid_connection = !empty($grid_block_id);
+            $is_block_editor_context = !empty($custom_block_id); // Block editor blocks have custom IDs
+            $is_js_pagination = $has_grid_connection || ($total_pages > 1 && $is_block_editor_context);
             
             if ($is_js_pagination) {
                 // For JS pagination, show a placeholder that will be replaced by JavaScript
@@ -202,7 +205,7 @@ if ( ! function_exists( 'render_block_fau_pagination' ) ) {
                 $output .= '<span class="loading-pagination">' . esc_html__('Loading pagination...', 'fau-elemental') . '</span>';
                 $output .= '</div>';
             } elseif ($total_pages > 1) {
-                // For server-side pagination, generate the pagination HTML
+                // For server-side pagination (fallback for template-based pagination)
                 $output .= fau_elemental_generate_advanced_pagination($current_page, $total_pages, $base_url, $page_param);
             } else {
                 $output .= '<div class="no-pagination">All results shown</div>';

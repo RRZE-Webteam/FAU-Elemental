@@ -153,10 +153,8 @@ function fau_elemental_check_old_portal_menu_settings() {
                 // Ensure the page uses the portal page template
                 update_post_meta($post_id, '_wp_page_template', 'templates/portal-page.php');
                 
-                // Log the migration for debugging
-                error_log("Migrated portal menu settings for post $post_id with menu {$menu_obj->name}");
             } else {
-                error_log("Could not find menu for post $post_id with menu name/slug '$menu_name'");
+                // error_log("Could not find menu for post $post_id with menu name/slug '$menu_name'");
             }
         }
         
@@ -183,7 +181,7 @@ function fau_elemental_check_content_for_old_shortcodes($post_id) {
     
     // Check if content contains old portal menu shortcode
     if (has_shortcode($content, 'portalmenu')) {
-        error_log("Found portalmenu shortcode in content for post $post_id");
+        // error_log("Found portalmenu shortcode in content for post $post_id");
         
         // Extract shortcode attributes
         $pattern = get_shortcode_regex(array('portalmenu'));
@@ -207,7 +205,7 @@ function fau_elemental_check_content_for_old_shortcodes($post_id) {
                     if ($menu_obj) {
                         // Always set portal menu ID regardless of template
                         update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
-                        error_log("Set portal_menu_id to {$menu_obj->term_id} for post $post_id from shortcode");
+                        // error_log("Set portal_menu_id to {$menu_obj->term_id} for post $post_id from shortcode");
                         
                         // Handle other attributes
                         if (isset($atts['type'])) {
@@ -281,7 +279,7 @@ function fau_elemental_handle_portal_page_save($post_id) {
             
             if ($menu_obj) {
                 update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
-                error_log("Portal menu save handler: Set portal_menu_id to {$menu_obj->term_id} for post $post_id from old slug");
+                // error_log("Portal menu save handler: Set portal_menu_id to {$menu_obj->term_id} for post $post_id from old slug");
             }
         }
     }
@@ -289,7 +287,7 @@ function fau_elemental_handle_portal_page_save($post_id) {
     // Check if this is a portal page template
     $template = get_post_meta($post_id, '_wp_page_template', true);
     if ($template === 'templates/portal-page.php' || $template === 'portal-page.php') {
-        error_log("Post $post_id is using portal page template: $template");
+        // error_log("Post $post_id is using portal page template: $template");
         
         // Ensure default settings are set if not already
         if (!get_post_meta($post_id, 'portal_menu_type', true)) {
@@ -300,7 +298,7 @@ function fau_elemental_handle_portal_page_save($post_id) {
         }
     } else if (!empty($menu_id)) {
         // This page has portal menu settings but is not using the portal template
-        error_log("Post $post_id has portal menu ID $menu_id but is not using portal template");
+        // error_log("Post $post_id has portal menu ID $menu_id but is not using portal template");
     }
 }
 add_action('save_post', 'fau_elemental_handle_portal_page_save', 20); // Run after the other save functions
@@ -641,9 +639,9 @@ function fau_elemental_migrate_portal_menu_settings($post_id) {
         // Only set template if not already set to something other than default
         if (empty($template) || $template === 'default') {
             update_post_meta($post_id, '_wp_page_template', 'templates/portal-page.php');
-            error_log("Portal menu migration: Set template for post $post_id to templates/portal-page.php");
+            // error_log("Portal menu migration: Set template for post $post_id to templates/portal-page.php");
         } else {
-            error_log("Portal menu migration: Post $post_id already using template: $template - not changing");
+            // error_log("Portal menu migration: Post $post_id already using template: $template - not changing");
         }
         
         return true;

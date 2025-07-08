@@ -76,51 +76,35 @@ function fau_elemental_admin_footer() {
     ?>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
-        console.log('FAU Portal Menu: Script loaded');
         
-        // Function to check the template and update the meta box UI
-        function checkTemplate() {
-            var template = $('#page_template').val();
-            console.log('FAU Portal Menu: Detected template: ' + template);
-            
-            if (template === 'templates/portal-page.php' || template === 'portal-page.php') {
-                console.log('FAU Portal Menu: Using portal template');
-                $('#fau_elemental_portal_menu_settings').addClass('fau-portal-active').css({
-                    'border': '2px solid #2271b1',
-                    'box-shadow': '0 0 5px rgba(34, 113, 177, 0.2)'
-                });
-            } else {
-                console.log('FAU Portal Menu: Not using portal template');
-                $('#fau_elemental_portal_menu_settings').removeClass('fau-portal-active').css({
-                    'border': '1px solid #ccd0d4',
-                    'box-shadow': 'none'
-                });
-            }
+        var template = $('#page_template').val();
+        
+        if (template === 'templates/portal.html') {
+            $('#portal-page-settings').show();
+        } else {
+            $('#portal-page-settings').hide();
         }
         
         // Check if we're in the block editor
-        if ($('.block-editor').length || $('.edit-post-layout').length) {
-            console.log('FAU Portal Menu: Block editor detected');
+        if (typeof wp !== 'undefined' && wp.data && wp.data.select('core/editor')) {
             
-            // For Gutenberg/Block Editor - we'll show the panel always
-            // and add a note inside it when template isn't selected
+            // Get the current template
+            var template = wp.data.select('core/editor').getEditedPostAttribute('template');
             
-            // Check if the post is already using a portal template
-            setTimeout(function() {
-                var template = wp.data.select('core/editor').getEditedPostAttribute('template');
-                console.log('FAU Portal Menu: Block editor template: ' + template);
-                
-                if (template === 'templates/portal-page.php' || template === 'portal-page.php') {
-                    console.log('FAU Portal Menu: Using portal template');
-                }
-            }, 1000);
+            if (template === 'templates/portal.html') {
+                $('#portal-page-settings').show();
+            } else {
+                $('#portal-page-settings').hide();
+            }
         } else {
-            console.log('FAU Portal Menu: Classic editor detected');
-            // For Classic Editor
-            checkTemplate();
+            // Classic editor
             $('#page_template').change(function() {
-                console.log('FAU Portal Menu: Template changed to ' + $(this).val());
-                checkTemplate();
+                var template = $(this).val();
+                if (template === 'templates/portal.html') {
+                    $('#portal-page-settings').show();
+                } else {
+                    $('#portal-page-settings').hide();
+                }
             });
         }
     });

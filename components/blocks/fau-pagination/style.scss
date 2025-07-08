@@ -1,11 +1,12 @@
-@use "../../ui/mixins/mixins" as *;
+/* FAU Pagination Block - Placeholder Styles */
 
 .wp-block-fau-elemental-fau-pagination {
-
+	/* Pagination container placeholder */
+	
 	.pagination-controls {
 		display: flex;
 		align-items: center;
-		gap: var(--Spacing-2x);
+		gap: 0.5rem;
 		flex-wrap: wrap;
 		justify-content: center;
 	}
@@ -13,66 +14,51 @@
 	.page-numbers {
 		display: flex;
 		align-items: center;
-		gap: var(--Spacing-1x);
-		margin: 0 var(--Spacing-2x);
+		gap: 0.25rem;
+		margin: 0 0.5rem;
 	}
 
-	// Individual page number buttons
+	/* Page number buttons placeholder */
 	.page-number {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 40px;
-		min-height: 40px;
-		padding: 0 var(--Spacing-2x, 0.5rem);
-		background-color: var(--FAU-Col-FAU-Weiss-100, #fff);
-		border: 1px solid var(--FAU-Col-FAU-Blau-100, #0054a5);
-		color: var(--FAU-Col-FAU-Blau-100, #0054a5);
+		min-width: 2.5rem;
+		min-height: 2.5rem;
+		padding: 0 0.5rem;
+		border: 1px solid transparent;
+		background: transparent;
 		text-decoration: none;
-		font-size: 1rem;
-		font-weight: 600;
-		line-height: 1;
-		transition: all 0.2s linear;
 		cursor: pointer;
-
+		
+		&.current {
+			/* Current page placeholder */
+		}
+		
 		&:hover,
 		&:focus {
-			background-color: var(--FAU-Col-FAU-Blau-100, #0054a5);
-			color: var(--FAU-Col-FAU-Weiss-100, #fff);
-			outline: none;
-		}
-
-		&.current {
-			background-color: var(--FAU-Col-FAU-Blau-100, #0054a5);
-			color: var(--FAU-Col-FAU-Weiss-100, #fff);
-			cursor: default;
+			/* Hover state placeholder */
 		}
 	}
-	// Previous/Next navigation buttons
+
+	/* Navigation buttons placeholder */
 	.page-nav {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 40px;
-		min-height: 40px;
-		padding: 0 var(--Spacing-4x, 1rem);
-		background-color: var(--FAU-Col-FAU-Weiss-100, #fff);
-		border: 1px solid var(--FAU-Col-FAU-Blau-100, #0054a5);
-		color: var(--FAU-Col-FAU-Blau-100, #0054a5);
+		min-width: 2.5rem;
+		min-height: 2.5rem;
+		padding: 0 1rem;
+		border: 1px solid transparent;
+		background: transparent;
 		text-decoration: none;
-		font-size: 1rem;
-		font-weight: 600;
-		line-height: 1;
-		transition: all 0.2s linear;
 		cursor: pointer;
-
+		
 		&:hover,
 		&:focus {
-			background-color: var(--FAU-Col-FAU-Blau-100, #0054a5);
-			color: var(--FAU-Col-FAU-Weiss-100, #fff);
-			outline: none;
+			/* Hover state placeholder */
 		}
-
+		
 		&.disabled {
 			opacity: 0.5;
 			cursor: not-allowed;
@@ -80,245 +66,77 @@
 		}
 	}
 
-	// Ellipsis (dots)
+	/* Ellipsis placeholder */
 	.page-ellipsis {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 40px;
-		min-height: 40px;
-		border: none;
-		background: none;
-		color: var(--FAU-Col-FAU-Schwarz-90);
-		font-size: 1rem;
-		font-weight: 600;
+		min-width: 2.5rem;
+		min-height: 2.5rem;
+		padding: 0 0.5rem;
 		cursor: default;
-		padding: 0 var(--Spacing-2x);
 	}
 
+	/* Load more button placeholder */
 	.load-more-button {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: var(--Spacing-2x) var(--Spacing-4x);
-		background-color: var(--FAU-Col-FAU-Weiss-100);
-		border: 1px solid var(--FAU-Col-FAU-Blau-100);
-		color: var(--FAU-Col-FAU-Blau-100);
-		font-size: 1rem;
-		font-weight: 600;
+		padding: 0.5rem 1rem;
+		border: 1px solid transparent;
+		background: transparent;
 		text-decoration: none;
 		cursor: pointer;
-		transition: all 0.2s linear;
-		min-height: 48px;
-
+		min-height: 3rem;
+		
 		&:hover,
 		&:focus {
-			background-color: var(--FAU-Col-FAU-Blau-100);
-			color: var(--FAU-Col-FAU-Weiss-100);
-			outline: none;
+			/* Hover state placeholder */
 		}
-
+		
 		&:disabled {
 			opacity: 0.5;
 			cursor: not-allowed;
-
-			&:hover {
-				background-color: var(--FAU-Col-FAU-Weiss-100);
-				color: var(--FAU-Col-FAU-Blau-100);
-			}
 		}
+	}
 
-		&::after {
-			content: "";
-			display: inline-block;
-			width: 16px;
-			height: 16px;
-			margin-left: var(--Spacing-2x);
-			background-image: var(--icon-arrow-down);
-			background-repeat: no-repeat;
-			background-position: center;
-			background-size: contain;
-		}
+	/* Placeholder for pagination loading state */
+	.pagination-placeholder {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2.5rem;
+		padding: 0.5rem;
+	}
 
-		// Loading state
-		&.loading {
-			position: relative;
-			color: transparent;
-
-			&::after {
-				content: "";
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				width: 20px;
-				height: 20px;
-				margin: -10px 0 0 -10px;
-				border: 2px solid transparent;
-				border-top: 2px solid currentcolor;
-				border-radius: 50%;
-				animation: spin 1s linear infinite;
-				background-image: none;
-			}
-		}
+	/* No pagination state */
+	.no-pagination {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2.5rem;
+		padding: 0.5rem;
+		opacity: 0.6;
 	}
 }
 
-
-// Loading animation
-@keyframes spin {
-
-	0% {
-		transform: rotate(0deg);
-	}
-
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-// Responsive adjustments
-@include respond-to("medium") {
-
+/* Responsive placeholder */
+@media (max-width: 48rem) {
 	.wp-block-fau-elemental-fau-pagination {
-
-		.pagination.basic {
-
-			.pagination-controls {
-				gap: var(--Spacing-1x);
-			}
-
-			.page-numbers {
-				gap: 2px;
-				margin: 0 var(--Spacing-1x);
-			}
-
-			.page-number {
-				min-width: 36px;
-				min-height: 36px;
-				padding: 0 var(--Spacing-1x);
-				font-size: 0.875rem;
-			}
-
-			.page-nav {
-				min-width: 36px;
-				min-height: 36px;
-				padding: 0 var(--Spacing-3x);
-				font-size: 0.875rem;
-			}
-
-			.page-ellipsis {
-				min-width: 36px;
-				min-height: 36px;
-				padding: 0 var(--Spacing-1x);
-			}
+		.pagination-controls {
+			gap: 0.25rem;
 		}
-
-		.pagination.load-more {
-
-			.load-more-button {
-				width: 100%;
-				font-size: 0.875rem;
-				padding: var(--Spacing-2x) var(--Spacing-3x);
-			}
+		
+		.page-numbers {
+			gap: 0.125rem;
+			margin: 0 0.25rem;
 		}
-	}
-}
-
-@include respond-to("small") {
-
-	.wp-block-fau-elemental-fau-pagination {
-
-		.pagination.basic {
-
-			.pagination-controls {
-				flex-wrap: wrap;
-				justify-content: center;
-			}
-
-			.page-numbers {
-				order: 2;
-				width: 100%;
-				justify-content: center;
-				margin: var(--Spacing-2x) 0 0 0;
-			}
-
-			.page-nav {
-				min-width: 80px;
-				font-size: 0.875rem;
-
-				&.prev {
-					order: 1;
-				}
-
-				&.next {
-					order: 3;
-				}
-			}
-		}
-	}
-}
-
-// Dark mode support
-.is-style-dark {
-
-	.wp-block-fau-elemental-fau-pagination {
-
+		
 		.page-number,
-		.page-nav,
-		.load-more-button {
-			background-color: var(--FAU-Col-FAU-Blau-100);
-			color: var(--FAU-Col-FAU-Weiss-100);
-			border-color: var(--FAU-Col-FAU-Weiss-100);
-
-			&:hover,
-			&:focus {
-				background-color: var(--FAU-Col-FAU-Weiss-100);
-				color: var(--FAU-Col-FAU-Blau-100);
-			}
-
-			&.current {
-				background-color: var(--FAU-Col-FAU-Weiss-100);
-				color: var(--FAU-Col-FAU-Blau-100);
-			}
-		}
-
-		.page-ellipsis {
-			color: var(--FAU-Col-FAU-Weiss-100);
-		}
-	}
-}
-
-// High contrast mode
-@media (prefers-contrast: high) {
-
-	.wp-block-fau-elemental-fau-pagination {
-
-		.page-number,
-		.page-nav,
-		.load-more-button {
-			border-width: 2px;
-
-			&:focus {
-				outline: 2px solid currentcolor;
-				outline-offset: 2px;
-			}
-		}
-	}
-}
-
-// Reduced motion
-@media (prefers-reduced-motion: reduce) {
-
-	.wp-block-fau-elemental-fau-pagination {
-
-		.page-number,
-		.page-nav,
-		.load-more-button {
-			transition: none;
-		}
-
-		.load-more-button.loading::after {
-			animation: none;
+		.page-nav {
+			min-width: 2.25rem;
+			min-height: 2.25rem;
+			padding: 0 0.25rem;
 		}
 	}
 }
