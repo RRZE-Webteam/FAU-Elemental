@@ -25,7 +25,8 @@ if ( ! function_exists( 'render_block_fau_list_filters' ) ) {
         $search_placeholder = $attributes['searchPlaceholder'] ?? __('Search...', 'fau-elemental');
         $enable_filters = $attributes['enableFilters'] ?? true;
         $filter_fields = $attributes['filterFields'] ?? [];
-        $show_more_filters = $attributes['showMoreFiltersButton'] ?? false;
+        // Change default for showMoreFiltersButton to true for better UX
+        $show_more_filters = $attributes['showMoreFiltersButton'] ?? true;
         $enable_view_switcher = $attributes['enableViewSwitcher'] ?? true;
         $available_views = $attributes['availableViews'] ?? ['cards', 'table'];
         $default_view = $attributes['defaultView'] ?? 'cards';
@@ -238,19 +239,55 @@ if ( ! function_exists( 'fau_list_filters_render_filter_section' ) ) {
 		$output = '<div class="fau-list-filters__filter-section">';
 		$output .= '<div class="filter-controls">';
 
+		// Render configured/preset filters
+		foreach ($filter_fields as $index => $field) {
+			if (!empty($field['filterType'])) {
+				$options_key = $field['filterType'];
+				if ($options_key === 'taxonomy' && !empty($field['taxonomy'])) {
+					$options_key = $field['taxonomy'];
+				}
+				
+				$options = $available_options[$options_key]['options'] ?? [];
+				$label = $field['label'] ?? sprintf(__('All %s', 'fau-elemental'), $available_options[$options_key]['label'] ?? 'Items');
+				
+				$output .= sprintf(
+					'<div class="filter-field filter-field--configured"><label for="%1$s-filter-%2$s" class="filter-label">%3$s</label><select id="%1$s-filter-%2$s" class="filter-select" data-filter-name="%4$s" data-filter-type="%5$s" data-taxonomy="%6$s">',
+					esc_attr($block_id),
+					esc_attr($index),
+					esc_html($label),
+					esc_attr($field['filterType']),
+					esc_attr($field['filterType']),
+					esc_attr($field['taxonomy'] ?? '')
+				);
+				
+				$output .= sprintf('<option value="">%s</option>', esc_html($label));
+				foreach ($options as $option) {
+					$output .= sprintf(
+						'<option value="%1$s">%2$s (%3$s)</option>',
+						esc_attr($option['value']),
+						esc_html($option['label']),
+						esc_html($option['count'])
+					);
+				}
+				$output .= '</select></div>';
+			}
+		}
+
 		// Dynamic Filters Section
-		if ($show_more_filters) {
+		if ($show_more_filters && !empty($available_options)) {
 			$output .= '<div class="dynamic-filters-container">';
 			$output .= '<div class="available-filters" style="display: none;">';
-			$output .= '<h4>Add filters:</h4>';
+			$output .= '<h4>' . esc_html__( 'Add filters:', 'fau-elemental' ) . '</h4>';
 			$output .= '<div class="filter-buttons-container"></div>';
 			$output .= '</div>';
 			$output .= '<div class="added-filters"></div>';
 			$output .= '</div>';
 
 			$output .= sprintf(
-				'<button type="button" class="show-more-filters" aria-expanded="false" data-available-filters="%s"><span class="show-more-text">Weitere Filtermöglichkeiten +</span><span class="show-less-text" style="display: none;">Weniger Filter –</span></button>',
-				esc_attr( wp_json_encode( $available_options ) )
+				'<button type="button" class="show-more-filters" aria-expanded="false" data-available-filters="%s"><span class="show-more-text">%s</span><span class="show-less-text" style="display: none;">%s</span></button>',
+				esc_attr( wp_json_encode( $available_options ) ),
+				esc_html__( 'Weitere Filtermöglichkeiten +', 'fau-elemental' ),
+				esc_html__( 'Weniger Filter –', 'fau-elemental' )
 			);
 		}
 
@@ -258,9 +295,9 @@ if ( ! function_exists( 'fau_list_filters_render_filter_section' ) ) {
 
 		// Active filters section
 		$output .= '<div class="active-filters active-filters--hidden">';
-		$output .= '<div class="active-filters__header"><span class="active-filters__label">Active filters:</span></div>';
+		$output .= '<div class="active-filters__header"><span class="active-filters__label">' . esc_html__( 'Active filters:', 'fau-elemental' ) . '</span></div>';
 		$output .= '<div class="filter-chips"></div>';
-		$output .= '<button type="button" class="clear-all-filters clear-all-filters--hidden"><span class="clear-all-text">Clear all</span></button>';
+		$output .= '<button type="button" class="clear-all-filters clear-all-filters--hidden"><span class="clear-all-text">' . esc_html__( 'Clear all', 'fau-elemental' ) . '</span></button>';
 		$output .= '</div>';
 
 		$output .= '</div>'; // .fau-list-filters__filter-section
