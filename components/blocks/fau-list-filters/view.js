@@ -34,13 +34,42 @@ function initializeFilterBlock( blockElement ) {
 	const sortSelect = blockElement.querySelector( '.sort-select' );
 	const resultsCountElement = blockElement.querySelector( '.results-text' );
 	const showMoreButton = blockElement.querySelector( '.show-more-filters' );
-	const dynamicFiltersContainer = blockElement.querySelector(
+	const activeFiltersContainer =
+		blockElement.querySelector( '.active-filters' );
+	const filterChipsContainer = blockElement.querySelector( '.filter-chips' );
+	const clearAllButton = blockElement.querySelector( '.clear-all-filters' );
+
+	// --- JS-managed container creation (robustness fix) ---
+	let dynamicFiltersContainer = blockElement.querySelector(
 		'.dynamic-filters-container'
 	);
-	const availableFiltersContainer = blockElement.querySelector(
+	if ( ! dynamicFiltersContainer ) {
+		dynamicFiltersContainer = document.createElement( 'div' );
+		dynamicFiltersContainer.className = 'dynamic-filters-container';
+		const filterControls = blockElement.querySelector( '.filter-controls' );
+		if ( filterControls ) {
+			filterControls.prepend( dynamicFiltersContainer );
+		}
+	}
+
+	let availableFiltersContainer = blockElement.querySelector(
 		'.available-filters'
 	);
-	const addedFiltersContainer = blockElement.querySelector( '.added-filters' );
+	if ( ! availableFiltersContainer ) {
+		availableFiltersContainer = document.createElement( 'div' );
+		availableFiltersContainer.className = 'available-filters';
+		availableFiltersContainer.innerHTML =
+			'<h4>Add filters:</h4><div class="filter-buttons-container"></div>';
+		dynamicFiltersContainer.appendChild( availableFiltersContainer );
+	}
+
+	let addedFiltersContainer = blockElement.querySelector( '.added-filters' );
+	if ( ! addedFiltersContainer ) {
+		addedFiltersContainer = document.createElement( 'div' );
+		addedFiltersContainer.className = 'added-filters';
+		dynamicFiltersContainer.appendChild( addedFiltersContainer );
+	}
+	// --- End of robustness fix ---
 
 	// --- State Variables ---
 	let currentPage = 1;
@@ -58,11 +87,13 @@ function initializeFilterBlock( blockElement ) {
 	// --- Initialization ---
 	if ( showMoreButton ) {
 		try {
-			availableFilters = JSON.parse(
-				showMoreButton.dataset.availableFilters || '{}'
-			);
+			availableFilters =
+				JSON.parse( showMoreButton.dataset.availableFilters ) || {};
 		} catch ( e ) {
-			console.error( 'FAU LIST FILTERS: Invalid JSON in data-available-filters attribute.', e );
+			console.error(
+				'FAU LIST FILTERS: Invalid JSON in data-available-filters attribute.',
+				e
+			);
 		}
 	}
 
@@ -88,10 +119,14 @@ function initializeFilterBlock( blockElement ) {
 	if ( showMoreButton ) {
 		showMoreButton.addEventListener( 'click', toggleMoreFilters );
 	}
+	if ( clearAllButton ) {
+		clearAllButton.addEventListener( 'click', clearAllFilters );
+	}
 
 	// --- Main Functions ---
 	function loadInitialData() {
 		console.log( `FAU LIST FILTERS: #${ blockId } loadInitialData` );
+		updateFilterChips();
 		if ( isJsPagination ) {
 			performClientSideFilter();
 		} else {
@@ -102,6 +137,7 @@ function initializeFilterBlock( blockElement ) {
 	function handleFilterChange() {
 		console.log( `FAU LIST FILTERS: #${ blockId } handleFilterChange` );
 		currentPage = 1;
+		updateFilterChips();
 		if ( isJsPagination ) {
 			performClientSideFilter();
 		} else {
@@ -113,6 +149,7 @@ function initializeFilterBlock( blockElement ) {
 		console.log( `FAU LIST FILTERS: #${ blockId } handleSearch` );
 		currentPage = 1;
 		updateSearchClearButton();
+		updateFilterChips();
 		if ( isJsPagination ) {
 			performClientSideFilter();
 		} else {
@@ -126,6 +163,26 @@ function initializeFilterBlock( blockElement ) {
 			searchInput.value = '';
 		}
 		handleSearch();
+	}
+
+	function clearAllFilters() {
+		console.log( `FAU LIST FILTERS: #${ blockId } clearAllFilters` );
+		if ( searchInput ) {
+			searchInput.value = '';
+		}
+		blockElement
+			.querySelectorAll( '.filter-select' )
+			.forEach( ( select ) => {
+				select.value = '';
+			} );
+
+		// Remove all dynamic filters
+		addedFiltersContainer
+			.querySelectorAll( '.filter-field--dynamic' )
+			.forEach( ( field ) => field.remove() );
+
+		updateAvailableFilterButtons();
+		handleFilterChange();
 	}
 
 	function handleSortChange() {
@@ -308,14 +365,17 @@ function initializeFilterBlock( blockElement ) {
 
 	// --- Dynamic Filter Functions ---
 	function createDynamicFilterInterface() {
+		if ( ! dynamicFiltersContainer ) return;
 		if (
 			! availableFiltersContainer ||
 			Object.keys( availableFilters ).length === 0
 		) {
-			dynamicFiltersContainer?.classList.add(
+			dynamicFiltersContainer.classList.add(
 				'dynamic-filters-container--hidden'
 			);
-			showMoreButton?.classList.add( 'show-more-filters--hidden' );
+			if ( showMoreButton ) {
+				showMoreButton.style.display = 'none';
+			}
 			return;
 		}
 
@@ -406,6 +466,79 @@ function initializeFilterBlock( blockElement ) {
 		filterField.remove();
 		updateAvailableFilterButtons();
 		handleFilterChange(); // Re-run filter after removing one
+	}
+
+	// --- UI Update Functions ---
+	function updateFilterChips() {
+		if ( ! filterChipsContainer || ! activeFiltersContainer ) return;
+
+		filterChipsContainer.innerHTML = '';
+		let hasActiveFilter = false;
+
+		if ( searchInput && searchInput.value ) {
+			createFilterChip( 'Search', searchInput.value, 'search' );
+			hasActiveFilter = true;
+		}
+
+		blockElement
+			.querySelectorAll( '.filter-select' )
+			.forEach( ( select ) => {
+				if ( select.value ) {
+					const label =
+						select.options[ select.selectedIndex ].textContent;
+					const type = select.dataset.filterType;
+					createFilterChip(
+						select.dataset.filterName,
+						label,
+						type,
+						select
+					);
+					hasActiveFilter = true;
+				}
+			} );
+
+		activeFiltersContainer.classList.toggle(
+			'active-filters--hidden',
+			! hasActiveFilter
+		);
+		clearAllButton.classList.toggle(
+			'clear-all-filters--hidden',
+			! hasActiveFilter
+		);
+	}
+
+	function createFilterChip( name, value, type, selectElement = null ) {
+		const chip = document.createElement( 'div' );
+		chip.className = 'filter-chip';
+		chip.dataset.type = type;
+
+		const label = document.createElement( 'span' );
+		label.className = 'chip-label';
+		label.textContent = `${ name }: ${ value }`;
+		chip.appendChild( label );
+
+		const removeBtn = document.createElement( 'button' );
+		removeBtn.type = 'button';
+		removeBtn.className = 'chip-remove';
+		removeBtn.setAttribute( 'aria-label', `Remove ${ name } filter` );
+		removeBtn.innerHTML = '<span aria-hidden="true">×</span>';
+		removeBtn.addEventListener( 'click', () => {
+			if ( type === 'search' ) {
+				clearSearch();
+			} else if ( selectElement ) {
+				if ( selectElement.closest( '.filter-field--dynamic' ) ) {
+					removeDynamicFilter(
+						selectElement.closest( '.filter-field--dynamic' )
+					);
+				} else {
+					selectElement.value = '';
+					handleFilterChange();
+				}
+			}
+		} );
+
+		chip.appendChild( removeBtn );
+		filterChipsContainer.appendChild( chip );
 	}
 
 	function toggleMoreFilters() {

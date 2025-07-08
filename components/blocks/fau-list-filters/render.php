@@ -225,135 +225,47 @@ if ( ! function_exists( 'fau_list_filters_render_search_section' ) ) {
 }
 
 if ( ! function_exists( 'fau_list_filters_render_filter_section' ) ) {
-    /**
-     * Renders the filter section of the list filters.
-     *
-     * @param array  $filter_fields The filter field configurations.
-     * @param bool   $show_more_filters Whether to show the "show more" button.
-     * @param string $block_id The unique block ID.
-     * @param array  $available_options Available filter options from WordPress.
-     * @return string The filter section HTML.
-     */
-    function fau_list_filters_render_filter_section($filter_fields, $show_more_filters, $block_id, $available_options) {
-        $output = '<div class="fau-list-filters__filter-section">';
-        
-        // Filter controls
-        $output .= '<div class="filter-controls">';
-        
-        // Render configured filter fields
-        foreach ($filter_fields as $index => $field) {
-            $filter_id = $block_id . '-filter-' . $index;
-            $field_name = $field['name'] ?? 'Filter ' . ($index + 1);
-            $field_label = $field['label'] ?? $field_name;
-            $field_type = $field['type'] ?? 'taxonomy';
-            $is_hidden = $show_more_filters && $index >= 3; // Hide filters after the 3rd one initially
-            
-            // Get options based on field type and configuration
-            $field_options = [];
-            if ($field_type === 'taxonomy' && isset($field['taxonomy'])) {
-                $taxonomy = $field['taxonomy'];
-                if ($taxonomy === 'category' && isset($available_options['categories'])) {
-                    $field_options = $available_options['categories']['options'];
-                } elseif ($taxonomy === 'post_tag' && isset($available_options['tags'])) {
-                    $field_options = $available_options['tags']['options'];
-                }
-            } elseif ($field_type === 'author' && isset($available_options['authors'])) {
-                $field_options = $available_options['authors']['options'];
-            } elseif ($field_type === 'date' && isset($available_options['years'])) {
-                $field_options = $available_options['years']['options'];
-            } elseif ($field_type === 'meta' && isset($field['meta_key'])) {
-                // Handle custom meta fields like page templates
-                if ($field['meta_key'] === '_wp_page_template') {
-                    $templates = get_page_templates();
-                    foreach ($templates as $template_name => $template_file) {
-                        $field_options[] = [
-                            'value' => $template_file,
-                            'label' => $template_name,
-                            'count' => 0 // Could be calculated if needed
-                        ];
-                    }
-                }
-            } elseif ($field_type === 'hierarchy') {
-                // Handle page hierarchy
-                $pages = get_pages(['parent' => 0, 'post_status' => 'publish']);
-                foreach ($pages as $page) {
-                    $field_options[] = [
-                        'value' => $page->ID,
-                        'label' => $page->post_title,
-                        'count' => 0 // Could be calculated if needed
-                    ];
-                }
-            }
-            
-            $filter_class = 'filter-field filter-field--configured';
-            if ($is_hidden) {
-                $filter_class .= ' hidden';
-            }
-            
-            $output .= sprintf('<div class="%s">', esc_attr($filter_class));
-            $output .= sprintf(
-                '<label for="%s" class="filter-label">%s</label>',
-                esc_attr($filter_id),
-                esc_html($field_label)
-            );
-            $output .= sprintf(
-                '<select id="%s" class="filter-select" data-filter-name="%s" data-filter-type="%s" data-taxonomy="%s">',
-                esc_attr($filter_id),
-                esc_attr($field_name),
-                esc_attr($field_type),
-                esc_attr($field['taxonomy'] ?? '')
-            );
-            $output .= sprintf(
-                '<option value="">%s</option>',
-                esc_html($field_label)
-            );
-            
-            foreach ($field_options as $option) {
-                $count_text = isset($option['count']) && $option['count'] > 0 ? ' (' . $option['count'] . ')' : '';
-                $output .= sprintf(
-                    '<option value="%s">%s%s</option>',
-                    esc_attr($option['value']),
-                    esc_html($option['label']),
-                    esc_html($count_text)
-                );
-            }
-            
-            $output .= '</select>';
-            $output .= '</div>';
-        }
-        
-        // Container for dynamically added filters (initially hidden)
-        $output .= '<div class="dynamic-filters-container dynamic-filters-container--hidden"></div>';
-        
-        // Show more filters button (only if there are available filters to add)
-        $configured_filter_types = array_column($filter_fields, 'type');
-        $available_filter_types = array_keys($available_options);
-        $unused_filters = array_diff($available_filter_types, $configured_filter_types);
-        
-        if (!empty($unused_filters)) {
-            $output .= '<button type="button" class="show-more-filters" aria-expanded="false" data-available-filters="' . esc_attr(json_encode($available_options)) . '">';
-            $output .= '<span class="show-more-text">' . esc_html__('Weitere Filtermöglichkeiten', 'fau-elemental') . ' +</span>';
-            $output .= '<span class="show-less-text show-less-text--hidden">' . esc_html__('Weniger Filter', 'fau-elemental') . ' -</span>';
-            $output .= '</button>';
-        }
-        
-        $output .= '</div>'; // Close filter-controls
-        
-        // Active filters (chips)
-        $output .= '<div class="active-filters active-filters--hidden">';
-        $output .= '<div class="active-filters__header">';
-        $output .= '<span class="active-filters__label">' . esc_html__('Active filters:', 'fau-elemental') . '</span>';
-        $output .= '</div>';
-        $output .= '<div class="filter-chips"></div>';
-        $output .= '<button type="button" class="clear-all-filters clear-all-filters--hidden">';
-        $output .= '<span class="clear-all-text">' . esc_html__('Clear all', 'fau-elemental') . '</span>';
-        $output .= '</button>';
-        $output .= '</div>';
-        
-        $output .= '</div>'; // Close filter-section
+	/**
+	 * Renders the filter section of the block.
+	 *
+	 * @param array  $filter_fields      Configured filter fields.
+	 * @param bool   $show_more_filters  Whether to show the "more filters" button.
+	 * @param string $block_id           The block's unique ID.
+	 * @param array  $available_options  Available filter options.
+	 * @return string The filter section HTML.
+	 */
+	function fau_list_filters_render_filter_section($filter_fields, $show_more_filters, $block_id, $available_options) {
+		$output = '<div class="fau-list-filters__filter-section">';
+		$output .= '<div class="filter-controls">';
 
-        return $output;
-    }
+		// Dynamic Filters Section
+		if ($show_more_filters) {
+			$output .= '<div class="dynamic-filters-container">';
+			$output .= '<div class="available-filters" style="display: none;">';
+			$output .= '<h4>Add filters:</h4>';
+			$output .= '<div class="filter-buttons-container"></div>';
+			$output .= '</div>';
+			$output .= '<div class="added-filters"></div>';
+			$output .= '</div>';
+
+			$output .= sprintf(
+				'<button type="button" class="show-more-filters" aria-expanded="false" data-available-filters="%s"><span class="show-more-text">Weitere Filtermöglichkeiten +</span><span class="show-less-text" style="display: none;">Weniger Filter –</span></button>',
+				esc_attr( wp_json_encode( $available_options ) )
+			);
+		}
+
+		$output .= '</div>'; // .filter-controls
+
+		// Active filters section
+		$output .= '<div class="active-filters active-filters--hidden">';
+		$output .= '<div class="active-filters__header"><span class="active-filters__label">Active filters:</span></div>';
+		$output .= '<div class="filter-chips"></div>';
+		$output .= '<button type="button" class="clear-all-filters clear-all-filters--hidden"><span class="clear-all-text">Clear all</span></button>';
+		$output .= '</div>';
+
+		$output .= '</div>'; // .fau-list-filters__filter-section
+		return $output;
+	}
 }
 
 if ( ! function_exists( 'fau_list_filters_render_sort_section' ) ) {
