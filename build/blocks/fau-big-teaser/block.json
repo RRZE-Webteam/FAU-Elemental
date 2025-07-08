@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "fau-elemental/fau-big-teaser",
+	"version": "0.1.0",
+	"title": "FAU Big Teaser",
+	"category": "fau-elemental/FAU",
+	"icon": "megaphone",
+	"description": "A feature teaser component with roof line, headline, teaser text, link and image",
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"textdomain": "fau-elemental",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style-theme.css",
+
+	"attributes": {
+		"headline": {
+			"type": "string",
+			"default": ""
+		},
+		"teaserText": {
+			"type": "string",
+			"default": ""
+		},
+		"linkText": {
+			"type": "string",
+			"default": ""
+		},
+		"linkUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"image": {
+			"type": "object",
+			"default": null
+		}
+	},
+	"example": {
+		"attributes": {
+			"headline": "Sample Headline",
+			"teaserText": "This is a sample teaser text that demonstrates the component.",
+			"linkText": "Learn More",
+			"linkUrl": "#"
+		}
+	}
+}
