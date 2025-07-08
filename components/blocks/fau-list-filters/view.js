@@ -1,31 +1,18 @@
-/**
- * Frontend JavaScript for FAU List Filters block
- */
-
 document.addEventListener( 'DOMContentLoaded', function () {
-	console.log( 'FAU LIST FILTERS: DOM Content Loaded - Initializing...' );
-
 	const filterBlocks = document.querySelectorAll(
 		'.wp-block-fau-elemental-fau-list-filters'
 	);
-	console.log( `FAU LIST FILTERS: Found ${ filterBlocks.length } filter blocks.` );
-
 	filterBlocks.forEach( initializeFilterBlock );
 } );
 
 function initializeFilterBlock( blockElement ) {
 	const blockId = blockElement.getAttribute( 'data-block-id' );
-	console.log( `FAU LIST FILTERS: Initializing block #${ blockId }` );
 
 	const associatedGrid = findAssociatedGrid( blockId );
 	if ( ! associatedGrid ) {
-		console.error(
-			`FAU LIST FILTERS: No associated grid found for filter block #${ blockId }. Aborting.`
-		);
 		return;
 	}
 
-	// --- Element Selectors ---
 	const searchInput = blockElement.querySelector( '.search-input' );
 	const searchClear = blockElement.querySelector( '.search-clear' );
 	const configuredFilterSelects = blockElement.querySelectorAll(
@@ -39,7 +26,6 @@ function initializeFilterBlock( blockElement ) {
 	const filterChipsContainer = blockElement.querySelector( '.filter-chips' );
 	const clearAllButton = blockElement.querySelector( '.clear-all-filters' );
 
-	// --- JS-managed container creation (robustness fix) ---
 	let dynamicFiltersContainer = blockElement.querySelector(
 		'.dynamic-filters-container'
 	);
@@ -52,9 +38,8 @@ function initializeFilterBlock( blockElement ) {
 		}
 	}
 
-	let availableFiltersContainer = blockElement.querySelector(
-		'.available-filters'
-	);
+	let availableFiltersContainer =
+		blockElement.querySelector( '.available-filters' );
 	if ( ! availableFiltersContainer ) {
 		availableFiltersContainer = document.createElement( 'div' );
 		availableFiltersContainer.className = 'available-filters';
@@ -69,9 +54,7 @@ function initializeFilterBlock( blockElement ) {
 		addedFiltersContainer.className = 'added-filters';
 		dynamicFiltersContainer.appendChild( addedFiltersContainer );
 	}
-	// --- End of robustness fix ---
 
-	// --- State Variables ---
 	let currentPage = 1;
 	let availableFilters = {};
 	const teaserGrid = associatedGrid.querySelector( '.fau-teaser-grid' );
@@ -79,32 +62,24 @@ function initializeFilterBlock( blockElement ) {
 	const postsPerPage =
 		parseInt( associatedGrid.dataset.postsPerPage, 10 ) || 6;
 
-	console.log( `FAU LIST FILTERS: Block #${ blockId } Settings:`, {
-		isJsPagination,
-		postsPerPage,
-	} );
-
-	// --- Initialization ---
 	if ( showMoreButton ) {
 		try {
 			availableFilters =
 				JSON.parse( showMoreButton.dataset.availableFilters ) || {};
 		} catch ( e ) {
-			console.error(
-				'FAU LIST FILTERS: Invalid JSON in data-available-filters attribute.',
-				e
-			);
+			// Do nothing, just prevent crash
 		}
 	}
 
 	loadInitialData();
 	createDynamicFilterInterface();
 
-	// --- Event Listeners ---
 	if ( searchInput ) {
 		searchInput.addEventListener( 'input', debounce( handleSearch, 300 ) );
 		searchInput.addEventListener( 'keypress', ( e ) => {
-			if ( e.key === 'Enter' ) e.preventDefault();
+			if ( e.key === 'Enter' ) {
+				e.preventDefault();
+			}
 		} );
 	}
 	if ( searchClear ) {
@@ -123,9 +98,7 @@ function initializeFilterBlock( blockElement ) {
 		clearAllButton.addEventListener( 'click', clearAllFilters );
 	}
 
-	// --- Main Functions ---
 	function loadInitialData() {
-		console.log( `FAU LIST FILTERS: #${ blockId } loadInitialData` );
 		updateFilterChips();
 		if ( isJsPagination ) {
 			performClientSideFilter();
@@ -135,7 +108,6 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function handleFilterChange() {
-		console.log( `FAU LIST FILTERS: #${ blockId } handleFilterChange` );
 		currentPage = 1;
 		updateFilterChips();
 		if ( isJsPagination ) {
@@ -146,7 +118,6 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function handleSearch() {
-		console.log( `FAU LIST FILTERS: #${ blockId } handleSearch` );
 		currentPage = 1;
 		updateSearchClearButton();
 		updateFilterChips();
@@ -158,7 +129,6 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function clearSearch() {
-		console.log( `FAU LIST FILTERS: #${ blockId } clearSearch` );
 		if ( searchInput ) {
 			searchInput.value = '';
 		}
@@ -166,7 +136,6 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function clearAllFilters() {
-		console.log( `FAU LIST FILTERS: #${ blockId } clearAllFilters` );
 		if ( searchInput ) {
 			searchInput.value = '';
 		}
@@ -176,17 +145,17 @@ function initializeFilterBlock( blockElement ) {
 				select.value = '';
 			} );
 
-		// Remove all dynamic filters
 		addedFiltersContainer
 			.querySelectorAll( '.filter-field--dynamic' )
-			.forEach( ( field ) => field.remove() );
+			.forEach( ( field ) => {
+				field.remove();
+			} );
 
 		updateAvailableFilterButtons();
 		handleFilterChange();
 	}
 
 	function handleSortChange() {
-		console.log( `FAU LIST FILTERS: #${ blockId } handleSortChange` );
 		if ( isJsPagination ) {
 			performClientSideFilter();
 		} else {
@@ -208,17 +177,16 @@ function initializeFilterBlock( blockElement ) {
 			`.wp-block-fau-elemental-fau-teaser-grid[data-filter-block-id="${ filterId }"]`
 		);
 		if ( ! grid ) {
-			console.warn( `FAU LIST FILTERS: Could not find grid for filter ID: ${ filterId }` );
+			// Do nothing if grid not found
 		}
 		return grid;
 	}
 
 	function performClientSideFilter() {
-		console.log( `FAU LIST FILTERS: #${ blockId } performClientSideFilter` );
-
 		const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
 		const sortValue = sortSelect ? sortSelect.value : 'date';
-		const allFilterSelects = blockElement.querySelectorAll( '.filter-select' );
+		const allFilterSelects =
+			blockElement.querySelectorAll( '.filter-select' );
 
 		const activeFilters = Array.from( allFilterSelects )
 			.filter( ( select ) => select.value !== '' )
@@ -228,19 +196,18 @@ function initializeFilterBlock( blockElement ) {
 				taxonomy: select.dataset.taxonomy,
 			} ) );
 
-		console.log(
-			`FAU LIST FILTERS: #${ blockId } Client Filter State:`,
-			{ searchTerm, sortValue, activeFilters }
-		);
-
 		const allItems = Array.from(
 			associatedGrid.querySelectorAll( '.teaser-item' )
 		);
-		let visibleItems = [];
+		const visibleItems = [];
 
 		allItems.forEach( ( item ) => {
 			const title =
-				item.querySelector( '.teaser-content h2, .teaser-content h3, .teaser-content h4' )?.textContent.toLowerCase() || '';
+				item
+					.querySelector(
+						'.teaser-content h2, .teaser-content h3, .teaser-content h4'
+					)
+					?.textContent.toLowerCase() || '';
 			const excerpt =
 				item.querySelector( '.excerpt' )?.textContent.toLowerCase() ||
 				'';
@@ -273,7 +240,6 @@ function initializeFilterBlock( blockElement ) {
 					case 'years':
 						return year === filter.value;
 					case 'taxonomy':
-						// Generic taxonomy handler, might need refinement
 						return (
 							categories.includes( filter.value ) ||
 							tags.includes( filter.value )
@@ -288,23 +254,23 @@ function initializeFilterBlock( blockElement ) {
 			}
 		} );
 
-		console.log(
-			`FAU LIST FILTERS: #${ blockId } Matched ${ visibleItems.length } of ${ allItems.length } items.`
-		);
-
-		// --- Sorting ---
 		const getSortableValue = ( item, type ) => {
 			switch ( type ) {
 				case 'title':
 					return (
-						item.querySelector( '.teaser-content h2, .teaser-content h3, .teaser-content h4' )?.textContent.trim() || ''
+						item
+							.querySelector(
+								'.teaser-content h2, .teaser-content h3, .teaser-content h4'
+							)
+							?.textContent.trim() || ''
 					);
 				case 'modified':
 				case 'date':
 				default:
 					return (
-						item.querySelector( 'time' )?.getAttribute( 'datetime' ) ||
-						'0'
+						item
+							.querySelector( 'time' )
+							?.getAttribute( 'datetime' ) || '0'
 					);
 			}
 		};
@@ -316,51 +282,51 @@ function initializeFilterBlock( blockElement ) {
 			if ( sortValue === 'title' ) {
 				return valA.localeCompare( valB );
 			}
-			// For date and modified, descending order is newest first
 			return new Date( valB ) - new Date( valA );
 		} );
 
-		// --- Re-append to DOM and handle pagination ---
-		// Reorder DOM based on sort order first
-		visibleItems.forEach(item => teaserGrid.appendChild(item));
-		allItems.filter(item => !visibleItems.includes(item)).forEach(item => teaserGrid.appendChild(item));
+		visibleItems.forEach( ( item ) => {
+			teaserGrid.appendChild( item );
+		} );
+		allItems
+			.filter( ( item ) => ! visibleItems.includes( item ) )
+			.forEach( ( item ) => {
+				teaserGrid.appendChild( item );
+			} );
 
-		// Now apply visibility based on filtering and pagination
-		allItems.forEach((item, index) => {
-			const isVisible = visibleItems.includes(item);
-			
-			if (!isVisible) {
+		allItems.forEach( ( item ) => {
+			const isVisible = visibleItems.includes( item );
+
+			if ( ! isVisible ) {
 				item.style.display = 'none';
-				item.classList.add('filtered-out');
-				item.classList.add('js-paginated-hidden');
+				item.classList.add( 'filtered-out' );
+				item.classList.add( 'js-paginated-hidden' );
 			} else {
-				item.classList.remove('filtered-out');
-				const visibleIndex = visibleItems.indexOf(item);
-				const isOnCurrentPage = visibleIndex >= (currentPage - 1) * postsPerPage && visibleIndex < currentPage * postsPerPage;
+				item.classList.remove( 'filtered-out' );
+				const visibleIndex = visibleItems.indexOf( item );
+				const isOnCurrentPage =
+					visibleIndex >= ( currentPage - 1 ) * postsPerPage &&
+					visibleIndex < currentPage * postsPerPage;
 
-				if (isOnCurrentPage) {
+				if ( isOnCurrentPage ) {
 					item.style.display = '';
-					item.classList.remove('js-paginated-hidden');
+					item.classList.remove( 'js-paginated-hidden' );
 				} else {
 					item.style.display = 'none';
-					item.classList.add('js-paginated-hidden');
+					item.classList.add( 'js-paginated-hidden' );
 				}
 			}
-		});
-
-		updateResultsCount(visibleItems.length);
-		dispatchFilterUpdateEvent(visibleItems.length);
-	}
-
-	function performSearch( isInitial = false, page = 1 ) {
-		console.log( `FAU LIST FILTERS: #${ blockId } performSearch (Server-side)`, {
-			isInitial,
-			page,
 		} );
 
+		updateResultsCount( visibleItems.length );
+		dispatchFilterUpdateEvent( visibleItems.length );
+	}
+
+	function performSearch( page = 1 ) {
 		updateLoadingState( true );
 		currentPage = page;
-		const allFilterSelects = blockElement.querySelectorAll( '.filter-select' );
+		const allFilterSelects =
+			blockElement.querySelectorAll( '.filter-select' );
 
 		const ajaxData = {
 			action: 'fau_filter_teaser_grid',
@@ -385,7 +351,9 @@ function initializeFilterBlock( blockElement ) {
 
 		fetch( window.fauElemental?.ajaxUrl || '', {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
 			body: new URLSearchParams( ajaxData ),
 		} )
 			.then( ( response ) => response.json() )
@@ -405,9 +373,10 @@ function initializeFilterBlock( blockElement ) {
 			} );
 	}
 
-	// --- Dynamic Filter Functions ---
 	function createDynamicFilterInterface() {
-		if ( ! dynamicFiltersContainer ) return;
+		if ( ! dynamicFiltersContainer ) {
+			return;
+		}
 		if (
 			! availableFiltersContainer ||
 			Object.keys( availableFilters ).length === 0
@@ -421,10 +390,8 @@ function initializeFilterBlock( blockElement ) {
 			return;
 		}
 
-		// Initially hide the dynamic filters container
 		dynamicFiltersContainer.style.display = 'none';
-		
-		// Set initial button state
+
 		if ( showMoreButton ) {
 			showMoreButton.setAttribute( 'aria-expanded', 'false' );
 			const showText = showMoreButton.querySelector( '.show-more-text' );
@@ -439,13 +406,17 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function updateAvailableFilterButtons() {
-		if ( ! availableFiltersContainer ) return;
+		if ( ! availableFiltersContainer ) {
+			return;
+		}
 		const buttonsContainer = availableFiltersContainer.querySelector(
 			'.filter-buttons-container'
 		);
-		if ( ! buttonsContainer ) return;
+		if ( ! buttonsContainer ) {
+			return;
+		}
 
-		buttonsContainer.innerHTML = ''; // Clear existing buttons
+		buttonsContainer.innerHTML = '';
 		const addedFilterKeys = [
 			...addedFiltersContainer.querySelectorAll( '.filter-field' ),
 		].map( ( el ) => el.dataset.filterKey );
@@ -457,7 +428,9 @@ function initializeFilterBlock( blockElement ) {
 				button.className = 'filter-add-button';
 				button.dataset.filterKey = key;
 				button.textContent = data.label;
-				button.addEventListener( 'click', () => addDynamicFilter( key, data ) );
+				button.addEventListener( 'click', () => {
+					addDynamicFilter( key, data );
+				} );
 				buttonsContainer.appendChild( button );
 			}
 		}
@@ -484,7 +457,7 @@ function initializeFilterBlock( blockElement ) {
 		select.id = selectId;
 		select.className = 'filter-select';
 		select.dataset.filterName = data.label;
-		select.dataset.filterType = key; // e.g., 'years'
+		select.dataset.filterType = key;
 
 		const defaultOption = document.createElement( 'option' );
 		defaultOption.value = '';
@@ -505,9 +478,9 @@ function initializeFilterBlock( blockElement ) {
 		removeBtn.className = 'filter-remove-button';
 		removeBtn.setAttribute( 'aria-label', `Remove ${ data.label } filter` );
 		removeBtn.innerHTML = '<span aria-hidden="true">×</span>';
-		removeBtn.addEventListener( 'click', () =>
-			removeDynamicFilter( filterField )
-		);
+		removeBtn.addEventListener( 'click', () => {
+			removeDynamicFilter( filterField );
+		} );
 
 		wrapper.appendChild( select );
 		wrapper.appendChild( removeBtn );
@@ -521,12 +494,13 @@ function initializeFilterBlock( blockElement ) {
 	function removeDynamicFilter( filterField ) {
 		filterField.remove();
 		updateAvailableFilterButtons();
-		handleFilterChange(); // Re-run filter after removing one
+		handleFilterChange();
 	}
 
-	// --- UI Update Functions ---
 	function updateFilterChips() {
-		if ( ! filterChipsContainer || ! activeFiltersContainer ) return;
+		if ( ! filterChipsContainer || ! activeFiltersContainer ) {
+			return;
+		}
 
 		filterChipsContainer.innerHTML = '';
 		let hasActiveFilter = false;
@@ -598,18 +572,20 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function toggleMoreFilters() {
-		if ( ! dynamicFiltersContainer || ! showMoreButton ) return;
+		if ( ! dynamicFiltersContainer || ! showMoreButton ) {
+			return;
+		}
 
-		const isExpanded = showMoreButton.getAttribute( 'aria-expanded' ) === 'true';
+		const isExpanded =
+			showMoreButton.getAttribute( 'aria-expanded' ) === 'true';
 		const newExpandedState = ! isExpanded;
-		
-		// Update button state
-		showMoreButton.setAttribute( 'aria-expanded', newExpandedState );
-		
-		// Update container visibility
-		dynamicFiltersContainer.style.display = newExpandedState ? 'block' : 'none';
 
-		// Update button text
+		showMoreButton.setAttribute( 'aria-expanded', newExpandedState );
+
+		dynamicFiltersContainer.style.display = newExpandedState
+			? 'block'
+			: 'none';
+
 		const showText = showMoreButton.querySelector( '.show-more-text' );
 		const hideText = showMoreButton.querySelector( '.show-less-text' );
 
@@ -621,9 +597,10 @@ function initializeFilterBlock( blockElement ) {
 
 	function dispatchFilterUpdateEvent( visibleCount ) {
 		const gridId = associatedGrid.dataset.customBlockId;
-		if ( ! gridId ) return;
+		if ( ! gridId ) {
+			return;
+		}
 
-		console.log( `FAU LIST FILTERS: #${ blockId } dispatching 'fau-filter-update' for grid #${ gridId }`, { visibleCount } );
 		document.dispatchEvent(
 			new CustomEvent( 'fau-filter-update', {
 				detail: {
@@ -642,11 +619,15 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function updateLoadingState( isLoading ) {
-		resultsCountElement.textContent = isLoading ? 'Loading...' : '';
+		if ( resultsCountElement ) {
+			resultsCountElement.textContent = isLoading ? 'Loading...' : '';
+		}
 	}
 
 	function showError() {
-		resultsCountElement.textContent = 'An error occurred';
+		if ( resultsCountElement ) {
+			resultsCountElement.textContent = 'An error occurred';
+		}
 	}
 
 	function debounce( func, wait ) {
