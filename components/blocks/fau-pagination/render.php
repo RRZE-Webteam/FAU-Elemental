@@ -10,9 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-// Debug: Log that this file is being loaded
-error_log('FAU Pagination render.php loaded');
-
 // Add AJAX handler for load more functionality
 add_action('wp_ajax_fau_load_more_content', 'fau_elemental_ajax_load_more_content');
 add_action('wp_ajax_nopriv_fau_load_more_content', 'fau_elemental_ajax_load_more_content');
@@ -70,7 +67,7 @@ if ( ! function_exists( 'fau_elemental_render_teaser_grid_content' ) ) {
     function fau_elemental_render_teaser_grid_content($attributes, $page) {
         // Extract attributes
         $variant = $attributes['variant'] ?? 'post';
-        $posts_per_page = $attributes['postsPerPage'] ?? 15;
+        $posts_per_page = $attributes['postsPerPage'] ?? 6;
         $selected_category = $attributes['category'] ?? 0;
         $order_by = $attributes['orderBy'] ?? 'date';
         $order = $attributes['order'] ?? 'DESC';
@@ -195,6 +192,8 @@ if ( ! function_exists( 'render_block_fau_pagination' ) ) {
             $output .= '<div class="pagination-controls">';
             
             // Check if this is connected to a grid with JS pagination
+            // JavaScript pagination is enabled when there's a connected teaser grid
+            // (matches the logic in fau-teaser-grid render.php)
             $is_js_pagination = !empty($grid_block_id);
             
             if ($is_js_pagination) {
@@ -336,6 +335,31 @@ if ( ! function_exists( 'fau_elemental_get_load_more_script' ) ) {
     }
 }
 
+if ( ! function_exists( 'fau_elemental_generate_pagination_url' ) ) {
+    /**
+     * Generates a pretty permalink pagination URL.
+     *
+     * @param int    $page_number The page number.
+     * @param string $base_url    Base URL (optional).
+     * @return string The pagination URL.
+     */
+    function fau_elemental_generate_pagination_url($page_number, $base_url = '') {
+        if (empty($base_url)) {
+            $base_url = get_permalink();
+        }
+        
+        // Remove trailing slash
+        $base_url = rtrim($base_url, '/');
+        
+        if ($page_number <= 1) {
+            return $base_url . '/';
+        }
+        
+        // Generate pretty permalink: /page/2/
+        return $base_url . '/page/' . $page_number . '/';
+    }
+}
+
 if ( ! function_exists( 'fau_elemental_generate_advanced_pagination' ) ) {
     /**
      * Generates advanced pagination HTML with previous/next buttons and ellipsis.
@@ -359,7 +383,7 @@ if ( ! function_exists( 'fau_elemental_generate_advanced_pagination' ) ) {
 
         // Previous button
         if ($current_page > 1) {
-            $prev_url = add_query_arg($page_param, $current_page - 1, $base_url);
+            $prev_url = fau_elemental_generate_pagination_url($current_page - 1, $base_url);
             $output .= sprintf(
                 '<a href="%s" class="page-nav prev" aria-label="%s"><span aria-hidden="true">‹</span></a>',
                 esc_url($prev_url),
@@ -418,7 +442,7 @@ if ( ! function_exists( 'fau_elemental_generate_advanced_pagination' ) ) {
 
         // Next button
         if ($current_page < $total_pages) {
-            $next_url = add_query_arg($page_param, $current_page + 1, $base_url);
+            $next_url = fau_elemental_generate_pagination_url($current_page + 1, $base_url);
             $output .= sprintf(
                 '<a href="%s" class="page-nav next" aria-label="%s"><span aria-hidden="true">›</span></a>',
                 esc_url($next_url),
@@ -457,7 +481,7 @@ if ( ! function_exists( 'fau_elemental_generate_page_link' ) ) {
                 $page_number
             );
         } else {
-            $page_url = add_query_arg($page_param, $page_number, $base_url);
+            $page_url = fau_elemental_generate_pagination_url($page_number, $base_url);
             return sprintf(
                 '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                 esc_url($page_url),
@@ -467,6 +491,9 @@ if ( ! function_exists( 'fau_elemental_generate_page_link' ) ) {
         }
     }
 }
+
+// Enqueue the view script
+wp_enqueue_script('fau-pagination-view', get_template_directory_uri() . '/build/blocks/fau-pagination/view.js', [], '1.0.0-' . time(), true);
 
 // Actually render the block
 echo render_block_fau_pagination($attributes, $content, $block); 

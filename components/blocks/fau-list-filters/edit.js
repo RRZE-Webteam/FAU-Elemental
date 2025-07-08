@@ -59,12 +59,76 @@ const Edit = ( props ) => {
 		return select( 'core' ).getUsers( { who: 'authors' } );
 	}, [] );
 
+	// Generate and set customBlockId if it doesn't exist
 	useEffect( () => {
 		if ( ! customBlockId ) {
 			const blockId = `fau-list-filters-${ Date.now() }`;
 			setAttributes( { customBlockId: blockId } );
 		}
 	}, [ customBlockId, setAttributes ] );
+
+	// Detect connected blocks
+	const { connectedBlocks } = useSelect( ( select ) => {
+		const { getBlocks } = select( 'core/block-editor' );
+		const allBlocks = getBlocks();
+
+		// Find teaser grid and pagination blocks
+		const teaserGridBlocks = allBlocks.filter(
+			( block ) => block.name === 'fau-elemental/fau-teaser-grid'
+		);
+		const paginationBlocks = allBlocks.filter(
+			( block ) => block.name === 'fau-elemental/fau-pagination'
+		);
+
+		return {
+			connectedBlocks: {
+				teaserGrid: teaserGridBlocks.length > 0 ? teaserGridBlocks[0] : null,
+				pagination: paginationBlocks.length > 0 ? paginationBlocks[0] : null,
+				hasMultipleGrids: teaserGridBlocks.length > 1,
+				hasPagination: paginationBlocks.length > 0,
+			},
+		};
+	}, [] );
+
+	// Connection status component
+	const ConnectionStatus = () => {
+		const { teaserGrid, pagination, hasMultipleGrids, hasPagination } = connectedBlocks;
+		
+		if ( ! teaserGrid ) {
+			return (
+				<div className="connection-status connection-status--warning">
+					<p><strong>{ __( 'No FAU Teaser Grid found', 'fau-elemental' ) }</strong></p>
+					<p>{ __( 'Add a FAU Teaser Grid block to enable filtering.', 'fau-elemental' ) }</p>
+				</div>
+			);
+		}
+
+		// Use the teaser grid's postsPerPage setting, not the filter block's resultsPerPage
+		const postsPerPage = teaserGrid.attributes?.postsPerPage || 6;
+		const totalPosts = teaserGrid.attributes?.totalPosts || 10;
+		const totalPages = Math.ceil( totalPosts / postsPerPage );
+
+		return (
+			<div className="connection-status connection-status--connected">
+				<p><strong>{ __( 'Connected to:', 'fau-elemental' ) }</strong></p>
+				<ul>
+					<li>✓ { __( 'FAU Teaser Grid', 'fau-elemental' ) } ({ postsPerPage } { __( 'posts per page', 'fau-elemental' ) })</li>
+					{ hasPagination && totalPages > 1 && (
+						<li>✓ { __( 'FAU Pagination', 'fau-elemental' ) } ({ totalPages } { __( 'pages', 'fau-elemental' ) })</li>
+					) }
+					{ hasPagination && totalPages <= 1 && (
+						<li>○ { __( 'FAU Pagination (hidden - only 1 page)', 'fau-elemental' ) }</li>
+					) }
+					{ ! hasPagination && (
+						<li>○ { __( 'Add FAU Pagination for page navigation', 'fau-elemental' ) }</li>
+					) }
+				</ul>
+				{ hasMultipleGrids && (
+					<p><em>{ __( 'Note: Multiple teaser grids detected. Filters will connect to the first one.', 'fau-elemental' ) }</em></p>
+				) }
+			</div>
+		);
+	};
 
 	const addFilterField = ( filterType = 'custom' ) => {
 		let newField;
@@ -350,7 +414,7 @@ const Edit = ( props ) => {
 					{ showResultsCount && (
 						<div className="results-count">
 							<span className="results-text">
-								1 to { resultsPerPage } from 100 records
+								1 to { connectedBlocks.teaserGrid?.attributes?.postsPerPage || 6 } from 100 records
 							</span>
 						</div>
 					) }
@@ -851,17 +915,6 @@ const Edit = ( props ) => {
 						}
 					/>
 
-					<RangeControl
-						label={ __( 'Results Per Page', 'fau-elemental' ) }
-						value={ resultsPerPage }
-						onChange={ ( value ) =>
-							setAttributes( { resultsPerPage: value } )
-						}
-						min={ 5 }
-						max={ 50 }
-						step={ 5 }
-					/>
-
 					<SelectControl
 						label={ __( 'Grid Width', 'fau-elemental' ) }
 						value={ gridWidth }
@@ -886,19 +939,21 @@ const Edit = ( props ) => {
 				</PanelBody>
 			</InspectorControls>
 
-			<div { ...blockProps }>
-				<div className="fau-list-filters-editor">
-					<h3>{ __( 'FAU List Filters', 'fau-elemental' ) }</h3>
-					<p>
-						{ __(
-							'This block will render interactive filters for lists on the frontend. Configure the settings in the sidebar to customize the filtering options.',
-							'fau-elemental'
-						) }
-					</p>
+					<div { ...blockProps }>
+			<div className="fau-list-filters-editor">
+				<h3>{ __( 'FAU List Filters', 'fau-elemental' ) }</h3>
+				<p>
+					{ __(
+						'This block will render interactive filters for lists on the frontend. Configure the settings in the sidebar to customize the filtering options.',
+						'fau-elemental'
+					) }
+				</p>
 
-					{ renderPreview() }
-				</div>
+				<ConnectionStatus />
+
+				{ renderPreview() }
 			</div>
+		</div>
 		</>
 	);
 };

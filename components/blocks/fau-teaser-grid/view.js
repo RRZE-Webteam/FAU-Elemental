@@ -16,12 +16,6 @@ document.addEventListener( 'DOMContentLoaded', function () {
 function initializeTeaserGrid( gridContainer ) {
 	const filterBlockId = gridContainer.getAttribute( 'data-filter-block-id' );
 
-	// If the grid is controlled by a filter block, do not initialize client-side JS.
-	// The filter block's view.js will handle all interactions.
-	if ( filterBlockId ) {
-		return;
-	}
-
 	const teaserGrid = gridContainer.querySelector( '.fau-teaser-grid' );
 
 	if ( ! teaserGrid ) {
@@ -31,9 +25,17 @@ function initializeTeaserGrid( gridContainer ) {
 	const isJsPagination =
 		teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
 
+	// If the grid is controlled by a filter block AND this is server-side pagination,
+	// do not initialize client-side JS - the filter block's view.js will handle all interactions.
+	// But if this is JavaScript pagination, we need to initialize to emit pagination events.
+	if ( filterBlockId && ! isJsPagination ) {
+		return;
+	}
+
 	if ( ! isJsPagination ) {
 		return; // This grid uses server-side pagination
 	}
+	
 	// Read posts per page from the wrapper container (where it's stored)
 	const postsPerPage =
 		parseInt( gridContainer.getAttribute( 'data-posts-per-page' ) ) || 6;
@@ -101,20 +103,22 @@ function showPage( teaserGrid, pageNumber ) {
 	const startIndex = ( pageNumber - 1 ) * postsPerPage;
 	const endIndex = startIndex + postsPerPage;
 
+	// Get all teaser items (including filtered ones)
+	const allTeaserItems = teaserGrid.querySelectorAll( '.teaser-item' );
+	
 	// Get all visible teaser items (not filtered out)
-	const allItems = Array.from(
+	const visibleItems = Array.from(
 		teaserGrid.querySelectorAll( '.teaser-item:not(.filtered-out)' )
 	);
 
 	// First, hide ALL items (including filtered ones)
-	const allTeaserItems = teaserGrid.querySelectorAll( '.teaser-item' );
 	allTeaserItems.forEach( ( item ) => {
 		item.classList.add( 'js-paginated-hidden' );
 		item.style.display = 'none';
 	} );
 
 	// Then show only the items for the current page (from visible items only)
-	allItems.forEach( ( item, index ) => {
+	visibleItems.forEach( ( item, index ) => {
 		if ( index >= startIndex && index < endIndex ) {
 			// Show this item
 			item.classList.remove( 'js-paginated-hidden' );
@@ -135,7 +139,7 @@ function showPage( teaserGrid, pageNumber ) {
 				detail: {
 					gridId: customBlockId,
 					currentPage: pageNumber,
-					totalPages: Math.ceil( allItems.length / postsPerPage ),
+					totalPages: Math.ceil( visibleItems.length / postsPerPage ),
 				},
 			} )
 		);
@@ -158,7 +162,14 @@ function updatePaginationDisplay( teaserGrid ) {
 
 	paginationData.totalItems = visibleItems.length;
 
-	// Show the first page by default
+	// Ensure current page is valid for the number of visible items
+	if ( paginationData.currentPage > totalPages && totalPages > 0 ) {
+		paginationData.currentPage = totalPages;
+	} else if ( paginationData.currentPage < 1 ) {
+		paginationData.currentPage = 1;
+	}
+
+	// Show the appropriate page
 	showPage( teaserGrid, paginationData.currentPage );
 
 	// Emit event for pagination blocks to update

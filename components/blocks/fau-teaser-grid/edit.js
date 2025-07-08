@@ -98,9 +98,41 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			nearbyBlocks: {
 				filter: filterBlock,
 				pagination: paginationBlock,
+				hasFilters: !!filterBlock,
+				hasPagination: !!paginationBlock,
 			},
 		};
 	}, [] );
+
+	// Connection status indicator
+	const ConnectionIndicator = () => {
+		const { hasFilters, hasPagination } = nearbyBlocks;
+		const totalPages = Math.ceil( calculatedTotalPosts / postsPerPage );
+		
+		if ( ! hasFilters && ! hasPagination ) {
+			return null;
+		}
+
+		return (
+			<div className="teaser-grid-connections">
+				{ hasFilters && (
+					<span className="connection-badge connection-badge--filters">
+						✓ { __( 'Filters', 'fau-elemental' ) }
+					</span>
+				) }
+				{ hasPagination && totalPages > 1 && (
+					<span className="connection-badge connection-badge--pagination">
+						✓ { __( 'Pagination', 'fau-elemental' ) } ({ totalPages } { __( 'pages', 'fau-elemental' ) })
+					</span>
+				) }
+				{ hasPagination && totalPages <= 1 && (
+					<span className="connection-badge connection-badge--pagination-hidden">
+						○ { __( 'Pagination (hidden)', 'fau-elemental' ) }
+					</span>
+				) }
+			</div>
+		);
+	};
 
 	// Update filter and pagination block IDs when detected
 	useEffect( () => {
@@ -340,6 +372,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					] }
 				/>
 			</BlockControls>
+
+			<ConnectionIndicator />
 
 			<div
 				ref={ gridRef }

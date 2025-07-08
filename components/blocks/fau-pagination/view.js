@@ -17,18 +17,24 @@ function initializePaginationBlock( paginationElement ) {
 		'data-filter-block-id'
 	);
 
-	// If a filter block ID is present, do not initialize this script.
-	// The fau-list-filters view.js will handle the pagination.
-	if ( filterBlockId ) {
-		return;
-	}
-
 	const gridBlockId = paginationElement.getAttribute( 'data-grid-block-id' );
 
 	// Find associated teaser grid
 	const associatedGrid = findAssociatedGrid( gridBlockId );
 
 	if ( ! associatedGrid ) {
+		return;
+	}
+
+	// Check if this is JavaScript pagination
+	const teaserGrid = associatedGrid.querySelector( '.fau-teaser-grid' );
+	const isJsPagination =
+		teaserGrid && teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
+
+	// If a filter block ID is present AND this is server-side pagination, 
+	// do not initialize this script - the fau-list-filters view.js will handle it.
+	// But if this is JavaScript pagination, we need to initialize to listen for grid events.
+	if ( filterBlockId && ! isJsPagination ) {
 		return;
 	}
 
@@ -198,6 +204,9 @@ function handlePaginationClick( e, gridContainer, paginationContainer ) {
 
 			// Update pagination state immediately
 			updatePaginationState( paginationContainer, targetPage );
+			
+			// Update browser URL with pretty permalinks
+			updateBrowserURL( targetPage );
 		}
 	} else {
 		// Use traditional AJAX pagination
@@ -272,6 +281,9 @@ function updateGridForPage( gridContainer, targetPage, paginationContainer ) {
 
 				// Update pagination state
 				updatePaginationState( paginationContainer, targetPage );
+				
+				// Update browser URL with pretty permalinks
+				updateBrowserURL( targetPage );
 
 				// Scroll to grid (with some offset for better UX)
 				const gridTop =
@@ -298,8 +310,11 @@ function updateGridForPage( gridContainer, targetPage, paginationContainer ) {
 }
 
 function updatePaginationState( paginationContainer, currentPage ) {
+	// Get current page from parameter or data attribute
+	const actualCurrentPage = currentPage || parseInt( paginationContainer.getAttribute( 'data-current-page' ) ) || 1;
+	
 	// Update current page data attribute
-	paginationContainer.setAttribute( 'data-current-page', currentPage );
+	paginationContainer.setAttribute( 'data-current-page', actualCurrentPage );
 
 	// Get total pages
 	const totalPages =
@@ -317,16 +332,27 @@ function updatePaginationState( paginationContainer, currentPage ) {
 
 	// If we have a placeholder and need to create the pagination structure
 	if ( placeholderContainer && totalPages > 1 ) {
+		// Ensure the pagination container has the correct CSS classes
+		if ( ! paginationContainer.classList.contains( 'pagination' ) ) {
+			paginationContainer.classList.add( 'pagination', 'basic' );
+		}
+		
 		// Create the full pagination structure
 		const paginationHTML = generateFullPaginationHTML(
-			currentPage,
+			actualCurrentPage,
 			totalPages
 		);
 		controlsContainer.innerHTML = paginationHTML;
+		
+		// Attach click handlers to the new pagination elements
+		const paginationElement = paginationContainer.closest( '.wp-block-fau-elemental-fau-pagination' );
+		if ( paginationElement && paginationElement.attachClickHandlers ) {
+			paginationElement.attachClickHandlers();
+		}
 	} else if ( pageNumbersContainer ) {
 		// Update existing pagination
 		const paginationHTML = generatePaginationHTML(
-			currentPage,
+			actualCurrentPage,
 			totalPages
 		);
 		pageNumbersContainer.innerHTML = paginationHTML;
@@ -337,7 +363,7 @@ function updatePaginationState( paginationContainer, currentPage ) {
 	const nextButton = paginationContainer.querySelector( '.page-nav.next' );
 
 	if ( prevButton ) {
-		if ( currentPage <= 1 ) {
+		if ( actualCurrentPage <= 1 ) {
 			prevButton.classList.add( 'disabled' );
 			prevButton.setAttribute( 'aria-disabled', 'true' );
 		} else {
@@ -347,7 +373,7 @@ function updatePaginationState( paginationContainer, currentPage ) {
 	}
 
 	if ( nextButton ) {
-		if ( currentPage >= totalPages ) {
+		if ( actualCurrentPage >= totalPages ) {
 			nextButton.classList.add( 'disabled' );
 			nextButton.setAttribute( 'aria-disabled', 'true' );
 		} else {
@@ -492,13 +518,18 @@ document.addEventListener( 'fau-grid-pagination-ready', function ( e ) {
 	const paginationBlocks = document.querySelectorAll(
 		'[data-grid-block-id="' + gridId + '"]'
 	);
+	
 	paginationBlocks.forEach( ( paginationBlock ) => {
 		paginationBlock.setAttribute( 'data-total-pages', totalPages );
 		paginationBlock.setAttribute( 'data-current-page', currentPage );
-		updatePaginationState( paginationBlock, currentPage );
-
-		// Re-initialize to attach event handlers to new elements
-		initializePaginationBlock( paginationBlock );
+		
+		// Make sure pagination block is visible (in case it was hidden)
+		if ( totalPages > 1 ) {
+			paginationBlock.style.display = '';
+		}
+		
+		// Update pagination display
+		updatePaginationState( paginationBlock );
 	} );
 } );
 
@@ -518,9 +549,34 @@ document.addEventListener( 'fau-grid-page-change', function ( e ) {
 	} );
 } );
 
+function updateBrowserURL( pageNumber ) {
+	// Get current URL without query parameters
+	const currentUrl = window.location.href.split( '?' )[ 0 ];
+	
+	// Remove any existing /page/X/ from the URL
+	const cleanUrl = currentUrl.replace( /\/page\/\d+\/?/, '' );
+	
+	// Build new URL with pretty permalinks
+	let newUrl;
+	if ( pageNumber && pageNumber > 1 ) {
+		// Add trailing slash if not present
+		const baseUrl = cleanUrl.endsWith( '/' ) ? cleanUrl : cleanUrl + '/';
+		newUrl = baseUrl + 'page/' + pageNumber + '/';
+	} else {
+		// Page 1 doesn't need /page/1/ in the URL
+		newUrl = cleanUrl.endsWith( '/' ) ? cleanUrl : cleanUrl + '/';
+	}
+	
+	// Update browser URL without reloading the page
+	if ( newUrl !== window.location.href ) {
+		window.history.pushState( { page: pageNumber }, `Page ${pageNumber}`, newUrl );
+	}
+}
+
 // Export functions for use by other scripts
 window.fauPagination = {
 	initializePaginationBlock,
 	updateGridForPage,
 	updatePaginationState,
+	updateBrowserURL,
 };

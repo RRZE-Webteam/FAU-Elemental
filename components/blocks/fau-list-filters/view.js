@@ -41,9 +41,14 @@ function initializeFilterBlock( blockElement ) {
 	let currentSearch = '';
 	let currentView = getCurrentView();
 	let currentPage = 1;
-	const resultsPerPage =
-		parseInt( blockElement.getAttribute( 'data-results-per-page' ), 10 ) ||
-		6;
+	// Get posts per page from the associated teaser grid, not from the filter block
+	let resultsPerPage = 6; // default fallback
+	if (associatedGrid) {
+		const gridPostsPerPage = parseInt(associatedGrid.getAttribute('data-posts-per-page'), 10);
+		if (gridPostsPerPage && gridPostsPerPage > 0) {
+			resultsPerPage = gridPostsPerPage;
+		}
+	}
 	let filtersExpanded = false;
 	let paginationEnabled = false;
 	let associatedPagination = null;
@@ -827,15 +832,9 @@ function initializeFilterBlock( blockElement ) {
 		// Update current page
 		currentPage = page;
 
-		// Update URL for pagination state
-		const url = new URL( window.location );
-		if ( currentPage > 1 ) {
-			url.searchParams.set( 'paged', currentPage );
-		} else {
-			url.searchParams.delete( 'paged' );
-		}
-		if ( ! isInitial && window.location.href !== url.href ) {
-			window.history.pushState( { path: url.href }, '', url.href );
+		// Update URL for pagination state with pretty permalinks
+		if ( ! isInitial ) {
+			updateBrowserURLWithPrettyPermalinks( currentPage );
 		}
 
 		// Check if grid uses JavaScript pagination
@@ -996,6 +995,17 @@ function initializeFilterBlock( blockElement ) {
 			return;
 		}
 
+		// Check if this is JavaScript pagination mode
+		const teaserGrid = associatedGrid ? associatedGrid.querySelector( '.fau-teaser-grid' ) : null;
+		const isJsPagination = teaserGrid && teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
+
+		// If JavaScript pagination is active, don't manage pagination display here
+		// The pagination block and teaser grid will handle it themselves
+		if ( isJsPagination ) {
+			return;
+		}
+
+		// Only manage pagination for server-side pagination mode
 		// Hide pagination if there's only one page
 		if ( totalPagesNum <= 1 ) {
 			associatedPagination.style.display = 'none';
@@ -1209,10 +1219,16 @@ function initializeFilterBlock( blockElement ) {
 			return;
 		}
 
+		// Get posts per page setting from the teaser grid container
+		const gridContainer = teaserGrid.closest('.wp-block-fau-elemental-fau-teaser-grid');
+		const postsPerPage = parseInt(gridContainer?.getAttribute('data-posts-per-page')) || 6;
+
 		// Get all teaser items
 		const teaserItems = teaserGrid.querySelectorAll( '.teaser-item' );
 		let visibleCount = 0;
+		const matchingItems = [];
 
+		// First pass: determine which items match the filters
 		teaserItems.forEach( ( item ) => {
 			let shouldShow = true;
 
@@ -1271,15 +1287,23 @@ function initializeFilterBlock( blockElement ) {
 				}
 			}
 
-			// Apply visibility
 			if ( shouldShow ) {
-				item.classList.remove( 'filtered-out' );
-				item.style.display = '';
-				visibleCount++;
-			} else {
-				item.classList.add( 'filtered-out' );
-				item.style.display = 'none';
+				matchingItems.push( item );
 			}
+		} );
+
+		// Second pass: hide all items first, then show only the first page of matching items
+		teaserItems.forEach( ( item ) => {
+			item.classList.add( 'filtered-out' );
+			item.style.display = 'none';
+		} );
+
+		// Show only the first page worth of matching items
+		const itemsToShow = matchingItems.slice( 0, postsPerPage );
+		itemsToShow.forEach( ( item ) => {
+			item.classList.remove( 'filtered-out' );
+			item.style.display = '';
+			visibleCount++;
 		} );
 
 		// Emit event for teaser grid to update pagination and reset to page 1
@@ -1287,10 +1311,34 @@ function initializeFilterBlock( blockElement ) {
 			new CustomEvent( 'fau-filter-update', {
 				detail: {
 					gridId: gridBlockId,
-					visibleCount,
+					visibleCount: matchingItems.length, // Use total matching items for pagination calculation
 					resetToPage1: true, // Add flag to indicate page reset
 				},
 			} )
 		);
+	}
+
+	function updateBrowserURLWithPrettyPermalinks( pageNumber ) {
+		// Get current URL without query parameters
+		const currentUrl = window.location.href.split( '?' )[ 0 ];
+		
+		// Remove any existing /page/X/ from the URL
+		const cleanUrl = currentUrl.replace( /\/page\/\d+\/?/, '' );
+		
+		// Build new URL with pretty permalinks
+		let newUrl;
+		if ( pageNumber && pageNumber > 1 ) {
+			// Add trailing slash if not present
+			const baseUrl = cleanUrl.endsWith( '/' ) ? cleanUrl : cleanUrl + '/';
+			newUrl = baseUrl + 'page/' + pageNumber + '/';
+		} else {
+			// Page 1 doesn't need /page/1/ in the URL
+			newUrl = cleanUrl.endsWith( '/' ) ? cleanUrl : cleanUrl + '/';
+		}
+		
+		// Update browser URL without reloading the page
+		if ( newUrl !== window.location.href ) {
+			window.history.pushState( { page: pageNumber }, `Page ${pageNumber}`, newUrl );
+		}
 	}
 }

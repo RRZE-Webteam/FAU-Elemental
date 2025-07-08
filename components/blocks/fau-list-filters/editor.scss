@@ -37,6 +37,52 @@
 				opacity: 0.9;
 			}
 		}
+
+		// Connection status component
+		.connection-status {
+			margin: var(--Spacing-4x) 0;
+			padding: var(--Spacing-4x);
+			border-radius: var(--Spacing-1x);
+			font-size: 0.9rem;
+
+			p {
+				margin: 0 0 var(--Spacing-2x);
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+
+				strong {
+					color: var(--FAU-Col-FAU-Blau-100);
+				}
+			}
+
+			ul {
+				margin: var(--Spacing-2x) 0 0;
+				padding-left: var(--Spacing-4x);
+
+				li {
+					margin-bottom: var(--Spacing-1x);
+				}
+			}
+
+			em {
+				color: var(--FAU-Col-FAU-Schwarz-62_5);
+				font-size: 0.85rem;
+			}
+
+			&--connected {
+				background-color: #e8f5e8;
+				border: 1px solid #4caf50;
+				color: #2e7d2e;
+			}
+
+			&--warning {
+				background-color: #fff3cd;
+				border: 1px solid #ffc107;
+				color: #856404;
+			}
+		}
 	}
 }
 

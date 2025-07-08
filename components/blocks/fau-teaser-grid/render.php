@@ -29,7 +29,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     $display_style = $attributes['displayStyle'] ?? 'teaser-grid';
     $teaser_layout = $attributes['teaserLayout'] ?? '3m';
     $current_page = $attributes['currentPage'] ?? 1;
-    $posts_per_page = $attributes['postsPerPage'] ?? 15;
+    $posts_per_page = $attributes['postsPerPage'] ?? 6;
     $selected_category = $attributes['selectedCategory'] ?? 0;
     $order_by = $attributes['orderBy'] ?? 'date';
     $order = $attributes['order'] ?? 'DESC';
@@ -267,7 +267,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     if ($use_js_pagination || $show_load_more) {
         // Only enqueue if not already enqueued
         if (!wp_script_is('fau-teaser-grid-view', 'enqueued')) {
-            wp_enqueue_script('fau-teaser-grid-view', get_template_directory_uri() . '/build/blocks/fau-teaser-grid/view.js', [], '1.0.0', true);
+            wp_enqueue_script('fau-teaser-grid-view', get_template_directory_uri() . '/build/blocks/fau-teaser-grid/view.js', [], '1.0.0-' . time(), true);
             wp_localize_script('fau-teaser-grid-view', 'fauTeaserGrid', [
                 'ajaxUrl' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('fau_load_more_nonce'),

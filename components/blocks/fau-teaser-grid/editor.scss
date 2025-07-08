@@ -4,6 +4,41 @@
 .wp-block-fau-elemental-fau-teaser-grid {
 	max-width: var(--wide-max-width);
 	margin: 0 auto;
+
+	// Connection indicator badges
+	.teaser-grid-connections {
+		display: flex;
+		gap: var(--Spacing-2x);
+		margin-bottom: var(--Spacing-4x);
+		flex-wrap: wrap;
+
+		.connection-badge {
+			display: inline-block;
+			padding: var(--Spacing-1x) var(--Spacing-3x);
+			border-radius: var(--Spacing-1x);
+			font-size: 0.8rem;
+			font-weight: 600;
+			white-space: nowrap;
+
+			&--filters {
+				background-color: #e8f4fd;
+				color: var(--FAU-Col-FAU-Blau-100);
+				border: 1px solid var(--FAU-Col-FAU-Blau-100);
+			}
+
+			&--pagination {
+				background-color: #e8f5e8;
+				color: #2e7d2e;
+				border: 1px solid #4caf50;
+			}
+
+			&--pagination-hidden {
+				background-color: #f5f5f5;
+				color: var(--FAU-Col-FAU-Schwarz-62_5);
+				border: 1px solid var(--FAU-Col-FAU-Schwarz-25);
+			}
+		}
+	}
 }
 
 .fau-teaser-grid {
