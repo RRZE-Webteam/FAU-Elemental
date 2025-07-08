@@ -2,87 +2,125 @@ import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 
-// This is the main Edit component for the block editor interface.
-export default function Edit( { attributes, setAttributes, clientId } ) {
-	// Destructure attributes first
-	const { searchScope, layoutSize } = attributes;
+/**
+ * The edit function describes the structure of your block in the context of the
+ * editor. This represents what the editor will render when the block is used.
+ */
+export default function Edit( { attributes, setAttributes } ) {
+	const { width } = attributes;
 
-	// Added clientId for unique keys if needed
 	const blockProps = useBlockProps( {
-		className: `wp-block-fau-elemental-fau-global-search layout-${ layoutSize }`,
+		className: `fau-global-search-wrapper fau-global-search-wrapper--${ width }`,
 	} );
 
-	// Unique ID for editor elements like radio group name, using clientId from props
-	const editorInstanceId = `edit-scope-${ clientId }`;
-	const currentScopeId = `${ editorInstanceId }-current`;
-	const fauWideScopeId = `${ editorInstanceId }-fau-wide`;
+	const onChangeWidth = ( newWidth ) => {
+		setAttributes( { width: newWidth } );
+	};
 
 	return (
 		<>
 			<InspectorControls>
 				<PanelBody title={ __( 'Layout Settings', 'fau-elemental' ) }>
 					<SelectControl
-						label={ __( 'Layout Size', 'fau-elemental' ) }
-						value={ layoutSize }
+						label={ __( 'Width', 'fau-elemental' ) }
+						value={ width }
 						options={ [
 							{
-								label: __( 'Content Size', 'fau-elemental' ),
-								value: 'content',
+								label: __(
+									'Content Size (with search scope & advanced features)',
+									'fau-elemental'
+								),
+								value: 'content-size',
 							},
 							{
-								label: __( 'Full Grid', 'fau-elemental' ),
-								value: 'full',
+								label: __(
+									'Full Grid (simple search only)',
+									'fau-elemental'
+								),
+								value: 'full-grid',
 							},
 						] }
-						onChange={ ( value ) =>
-							setAttributes( { layoutSize: value } )
-						}
+						onChange={ onChangeWidth }
+						help={ __(
+							'Content Size: for editorial content, includes search scope selection and advanced features. Full Grid: for wide teaser components, simple search only.',
+							'fau-elemental'
+						) }
 					/>
 				</PanelBody>
 			</InspectorControls>
+
 			<div { ...blockProps }>
-				<div className="wp-block-fau-elemental-fau-global-search__form search-form-placeholder">
-					<input
-						type="search"
-						className="wp-block-fau-elemental-fau-global-search__field"
-						placeholder={ __( 'Search …', 'fau-elemental' ) }
-						disabled
-					/>
-					<input
-						type="submit"
-						className="wp-block-fau-elemental-fau-global-search__submit"
-						value={ __( 'Search', 'fau-elemental' ) }
-						disabled
-					/>
-					{ layoutSize === 'content' && (
-						<div className="wp-block-fau-elemental-fau-global-search__scope-toggle search-scope-toggle-placeholder">
-							<label htmlFor={ currentScopeId }>
+				<div className="fau-global-search">
+					<div className="fau-global-search__container">
+						<form className="fau-global-search__form">
+							<div className="fau-global-search__input-wrapper">
 								<input
-									id={ currentScopeId }
-									type="radio"
-									name={ editorInstanceId }
-									checked={ searchScope === 'current' }
+									type="search"
+									className="fau-global-search__input"
+									placeholder={ __(
+										'Search…',
+										'fau-elemental'
+									) }
 									disabled
-									onChange={ () => {} }
-								/>{ ' ' }
-								{ __(
-									'Only in this website',
-									'fau-elemental'
-								) }
-							</label>
-							<label htmlFor={ fauWideScopeId }>
-								<input
-									id={ fauWideScopeId }
-									type="radio"
-									name={ editorInstanceId }
-									checked={ searchScope === 'fau-wide' }
+								/>
+								<button
+									type="submit"
+									className="fau-global-search__button"
 									disabled
-									onChange={ () => {} }
-								/>{ ' ' }
-								{ __( 'FAU-wide', 'fau-elemental' ) }
-							</label>
-						</div>
-					) }
+								>
+									<span className="fau-global-search__button-text">
+										{ __( 'Search', 'fau-elemental' ) }
+									</span>
+									<span
+										className="fau-global-search__button-icon"
+										aria-hidden="true"
+									></span>
+								</button>
+							</div>
+
+							{ width === 'content-size' && (
+								<div className="fau-global-search__scope">
+									<label
+										className="fau-global-search__scope-option"
+										htmlFor="scope-global-preview"
+									>
+										<input
+											type="radio"
+											name="scope"
+											value="global"
+											id="scope-global-preview"
+											defaultChecked
+											disabled
+										/>
+										<span>
+											{ __(
+												'Global Search',
+												'fau-elemental'
+											) }
+										</span>
+									</label>
+									<label
+										className="fau-global-search__scope-option"
+										htmlFor="scope-website-preview"
+									>
+										<input
+											type="radio"
+											name="scope"
+											value="website"
+											id="scope-website-preview"
+											disabled
+										/>
+										<span>
+											{ __(
+												'Website Search',
+												'fau-elemental'
+											) }
+										</span>
+									</label>
+								</div>
+							) }
+						</form>
+					</div>
 				</div>
 			</div>
 		</>

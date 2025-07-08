@@ -1,76 +1,46 @@
-/**
- * Editor-specific styles for FAU Global Search Block
- */
+.wp-block-fau-global-search {
+	// Editor-specific styles
+	.fau-global-search {
+		// Add some visual indication this is a preview
+		&__input,
+		&__button {
+			position: relative;
 
-.wp-block-fau-elemental-fau-global-search {
-	// Editor wrapper class added in edit.js
-
-	// Layout-specific styles for editor
-	&.layout-full {
-		width: 100%;
-
-		.search-form-placeholder {
-			width: 100%;
-			max-width: none;
+			&::after {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: rgba(0, 0, 0, 0.05);
+				pointer-events: none;
+				z-index: 1;
+			}
 		}
 
-		.search-scope-toggle-placeholder {
-			display: none;
+		&__input {
+			cursor: default;
 		}
-	}
 
-	&.layout-content {
-
-		.search-form-placeholder {
-			max-width: 600px;
-		}
-	}
-
-	// Mimic front-end title style if desired, or add editor specific
-	// .wp-block-fau-elemental-fau-global-search__title { ... }
-
-	.search-form-placeholder {
-		border: 1px dashed #ccc;
-		padding: 15px;
-		margin-top: 10px;
-		background: #f9f9f9;
-
-		input[type="search"] {
-			margin-right: 5px;
-		}
-		// Apply specific classes if needed for more granular styling
-		// .wp-block-fau-elemental-fau-global-search__field { ... }
-		// .wp-block-fau-elemental-fau-global-search__submit { ... }
-	}
-
-	.search-scope-toggle-placeholder {
-		margin-top: 10px;
-		font-size: 0.9em;
-		color: #555;
-
-		label {
-			margin-right: 10px;
-			cursor: default; // Non-interactive in editor preview
+		&__button {
+			cursor: default;
 		}
 	}
 
-	.search-suggestions-placeholder {
-		margin-top: 10px;
-		padding: 10px;
-		background: #f0f0f0;
-		border: 1px dashed #ddd;
-		font-size: 0.9em;
+	// Editor wrapper adjustments
+	.block-editor-block-list__layout & {
+		margin: 20px 0;
+	}
+}
 
-		ul {
-			list-style: disc;
-			padding-left: 20px;
-			margin-top: 5px;
-			margin-bottom: 10px;
-		}
+// Inspector controls styling
+.fau-global-search-inspector {
 
-		strong {
-			display: block;
-			margin-bottom: 3px;
+	.components-panel__body {
+
+		.components-base-control {
+			margin-bottom: 16px;
 		}
 	}
 }
