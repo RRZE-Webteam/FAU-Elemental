@@ -40,18 +40,18 @@
 				height: 100%;
 				aspect-ratio: 1;
 				object-fit: cover;
-				width: 350px;
+				width: 21.875rem;
 			}
 		}
 
 		// Positioning when image is displayed
 		figure + .testimonial-text {
 			background-color: var(--FAU-Col-FAU-Weiss-100);
-			margin-left: -80px;
+			margin-left: -5rem;
 			padding: var(--Spacing-6x);
 
 			blockquote {
-				max-width: 700px;
+				max-width: 43.75rem;
 			}
 		}
 	}
@@ -70,7 +70,7 @@
 	.carousel-controls {
 		display: flex;
 		justify-content: center;
-		gap: 40px;
+		gap: 2.5rem;
 		align-items: center;
 		margin-top: var(--Spacing-12x);
 
@@ -80,9 +80,9 @@
 
 		.carousel-prev,
 		.carousel-next {
-			width: 40px;
-			height: 40px;
-			border: 1px solid var(--FAU-Col-FAU-Blau-100);
+			width: 2.5rem;
+			height: 2.5rem;
+			border: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
 			background-color: unset;
 			color: transparent;
 			position: relative;
@@ -95,9 +95,9 @@
 				background-image: var(--icon-chevron-fau-blau);
 				position: absolute;
 				transform: rotate(180deg);
-				width: 8px;
-				height: 14px;
-				left: 14px;
+				width: 0.5rem;
+				height: 0.875rem;
+				left: 0.875rem;
 				transition: all 0.2s ease-in-out;
 			}
 
@@ -106,7 +106,7 @@
 
 				&::before {
 					transition: all 0.2s ease-in-out;
-					left: 10px;
+					left: 0.625rem;
 				}
 			}
 		}
@@ -117,9 +117,9 @@
 				content: "";
 				background-image: var(--icon-chevron-fau-blau);
 				position: absolute;
-				width: 8px;
-				height: 14px;
-				right: 14px;
+				width: 0.5rem;
+				height: 0.875rem;
+				right: 0.875rem;
 				transition: all 0.2s ease-in-out;
 			}
 
@@ -128,31 +128,31 @@
 
 				&::before {
 					transition: all 0.2s ease-in-out;
-					right: 10px;
+					right: 0.625rem;
 				}
 			}
 		}
 
 		.carousel-dots {
 			display: flex;
-			gap: 20px;
+			gap: 1.25rem;
 
 			button {
 				border: 0;
-				height: 18px;
-				width: 18px;
+				height: 1.125rem;
+				width: 1.125rem;
 				background-color: var(--FAU-Col-FAU-Weiss-100);
-				outline: 1px solid var(--FAU-Col-FAU-Blau-100);
+				outline: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
 
 				&.active,
 				&:hover,
 				&:focus-visible {
 					background-color: var(--FAU-Col-FAU-Blau-100);
-					border: 3px solid var(--FAU-Col-FAU-Weiss-100);
+					border: 0.1875rem solid var(--FAU-Col-FAU-Weiss-100);
 				}
 
 				&:focus-visible {
-					outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+					outline: 0.125rem solid var(--FAU-Col-FAU-Blau-100);
 				}
 			}
 		}
@@ -178,7 +178,7 @@
 
 			.carousel-prev,
 			.carousel-next {
-				border: 1px solid var(--FAU-Col-FAU-Weiss-100);
+				border: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 				background-color: unset;
 
 				&::before {
@@ -188,10 +188,10 @@
 
 			.carousel-dots button {
 				background-color: var(--FAU-Col-FAU-Blau-100);
-				outline: 1px solid var(--FAU-Col-FAU-Weiss-100);
+				outline: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 
 				&.active {
-					border: 3px solid var(--FAU-Col-FAU-Blau-100);
+					border: 0.1875rem solid var(--FAU-Col-FAU-Blau-100);
 					background-color: var(--FAU-Col-FAU-Weiss-100);
 				}
 			}
@@ -209,7 +209,7 @@
 		}
 
 		.testimonial-content figure + .testimonial-text {
-			margin-left: -110px;
+			margin-left: -10.625rem;
 		}
 	}
 }
@@ -223,7 +223,7 @@
 
 			figure + .testimonial-text {
 				margin-left: unset;
-				margin-top: -120px;
+				margin-top: -7.5rem;
 				width: 90%;
 				padding-bottom: 0;
 			}
