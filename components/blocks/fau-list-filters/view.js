@@ -43,9 +43,12 @@ function initializeFilterBlock( blockElement ) {
 	let currentPage = 1;
 	// Get posts per page from the associated teaser grid, not from the filter block
 	let resultsPerPage = 6; // default fallback
-	if (associatedGrid) {
-		const gridPostsPerPage = parseInt(associatedGrid.getAttribute('data-posts-per-page'), 10);
-		if (gridPostsPerPage && gridPostsPerPage > 0) {
+	if ( associatedGrid ) {
+		const gridPostsPerPage = parseInt(
+			associatedGrid.getAttribute( 'data-posts-per-page' ),
+			10
+		);
+		if ( gridPostsPerPage && gridPostsPerPage > 0 ) {
 			resultsPerPage = gridPostsPerPage;
 		}
 	}
@@ -129,7 +132,9 @@ function initializeFilterBlock( blockElement ) {
 		if ( ! associatedGrid ) {
 			// If no associated grid is found, show a default message
 			if ( resultsCountElement ) {
-				resultsCountElement.textContent = window.fauListFilters?.i18n?.noContentToFilter || 'No content to filter';
+				resultsCountElement.textContent =
+					window.fauListFilters?.i18n?.noContentToFilter ||
+					'No content to filter';
 			}
 			return;
 		}
@@ -203,7 +208,8 @@ function initializeFilterBlock( blockElement ) {
 		if ( showMoreButton ) {
 			const dynamicFilterData = {
 				categories: {
-					label: window.fauListFilters?.i18n?.categories || 'Categories',
+					label:
+						window.fauListFilters?.i18n?.categories || 'Categories',
 					options: Array.from( availableOptions.categories ).map(
 						( cat ) => ( {
 							value: cat.toLowerCase().replace( /\s+/g, '-' ),
@@ -390,9 +396,10 @@ function initializeFilterBlock( blockElement ) {
 			chip.setAttribute( 'data-filter-key', filterKey );
 		}
 
-		const removeFilterText = window.fauListFilters?.i18n?.removeFilter || 'Remove %s filter';
-		const ariaLabel = removeFilterText.replace('%s', escapeHtml(name));
-		
+		const removeFilterText =
+			window.fauListFilters?.i18n?.removeFilter || 'Remove %s filter';
+		const ariaLabel = removeFilterText.replace( '%s', escapeHtml( name ) );
+
 		chip.innerHTML = `
 			<span class="chip-label">${ escapeHtml( name ) }: ${ escapeHtml(
 				value
@@ -518,9 +525,11 @@ function initializeFilterBlock( blockElement ) {
 		// Create container for available filter buttons
 		const availableFiltersContainer = document.createElement( 'div' );
 		availableFiltersContainer.className = 'available-filters';
-		const addFiltersText = window.fauListFilters?.i18n?.addFilters || 'Add filters:';
-		availableFiltersContainer.innerHTML =
-			`<h4>${ escapeHtml( addFiltersText ) }</h4><div class="filter-buttons-container"></div>`;
+		const addFiltersText =
+			window.fauListFilters?.i18n?.addFilters || 'Add filters:';
+		availableFiltersContainer.innerHTML = `<h4>${ escapeHtml(
+			addFiltersText
+		) }</h4><div class="filter-buttons-container"></div>`;
 
 		// Create container for added filters
 		const addedFiltersContainer = document.createElement( 'div' );
@@ -611,8 +620,11 @@ function initializeFilterBlock( blockElement ) {
 		const filterId = blockId + '-dynamic-filter-' + filterKey;
 
 		const allLabelText = window.fauListFilters?.i18n?.allLabel || 'All %s';
-		const allOption = allLabelText.replace('%s', escapeHtml(filterData.label));
-		
+		const allOption = allLabelText.replace(
+			'%s',
+			escapeHtml( filterData.label )
+		);
+
 		let filterHTML = `
 			<label for="${ filterId }" class="filter-label">${ escapeHtml(
 				filterData.label
@@ -630,9 +642,13 @@ function initializeFilterBlock( blockElement ) {
 			) }">${ escapeHtml( option.label ) }</option>`;
 		} );
 
-		const removeButtonText = window.fauListFilters?.i18n?.removeFilter || 'Remove %s filter';
-		const removeButtonAriaLabel = removeButtonText.replace('%s', escapeHtml(filterData.label));
-		
+		const removeButtonText =
+			window.fauListFilters?.i18n?.removeFilter || 'Remove %s filter';
+		const removeButtonAriaLabel = removeButtonText.replace(
+			'%s',
+			escapeHtml( filterData.label )
+		);
+
 		filterHTML += `
 				</select>
 				<button type="button" class="filter-remove-button" aria-label="${ removeButtonAriaLabel }">
@@ -996,8 +1012,12 @@ function initializeFilterBlock( blockElement ) {
 		}
 
 		// Check if this is JavaScript pagination mode
-		const teaserGrid = associatedGrid ? associatedGrid.querySelector( '.fau-teaser-grid' ) : null;
-		const isJsPagination = teaserGrid && teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
+		const teaserGrid = associatedGrid
+			? associatedGrid.querySelector( '.fau-teaser-grid' )
+			: null;
+		const isJsPagination =
+			teaserGrid &&
+			teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
 
 		// If JavaScript pagination is active, don't manage pagination display here
 		// The pagination block and teaser grid will handle it themselves
@@ -1127,16 +1147,22 @@ function initializeFilterBlock( blockElement ) {
 
 		if ( resultsCountElement ) {
 			if ( isLoading ) {
-				resultsCountElement.textContent = window.fauListFilters?.i18n?.loadingResults || 'Loading results...';
+				resultsCountElement.textContent =
+					window.fauListFilters?.i18n?.loadingResults ||
+					'Loading results...';
 			} else {
-				resultsCountElement.textContent = window.fauListFilters?.i18n?.resultsLoaded || 'Results loaded';
+				resultsCountElement.textContent =
+					window.fauListFilters?.i18n?.resultsLoaded ||
+					'Results loaded';
 			}
 		}
 	}
 
 	function showError() {
 		if ( resultsCountElement ) {
-			resultsCountElement.textContent = window.fauListFilters?.i18n?.errorOccurred || 'An error occurred';
+			resultsCountElement.textContent =
+				window.fauListFilters?.i18n?.errorOccurred ||
+				'An error occurred';
 		}
 	}
 
@@ -1146,7 +1172,9 @@ function initializeFilterBlock( blockElement ) {
 		}
 
 		if ( ! posts || posts.length === 0 ) {
-			const noResultsText = window.fauListFilters?.i18n?.noResultsFound || 'No results found';
+			const noResultsText =
+				window.fauListFilters?.i18n?.noResultsFound ||
+				'No results found';
 			associatedGrid.innerHTML = `<p class="no-results">${ noResultsText }</p>`;
 			return;
 		}
@@ -1163,10 +1191,17 @@ function initializeFilterBlock( blockElement ) {
 		}
 
 		if ( total === 0 ) {
-			resultsCountElement.textContent = window.fauListFilters?.i18n?.noResultsFound || 'No results found';
+			resultsCountElement.textContent =
+				window.fauListFilters?.i18n?.noResultsFound ||
+				'No results found';
 		} else {
-			const totalResultsText = window.fauListFilters?.i18n?.totalResults || 'Total results: %s';
-			resultsCountElement.textContent = totalResultsText.replace('%s', total);
+			const totalResultsText =
+				window.fauListFilters?.i18n?.totalResults ||
+				'Total results: %s';
+			resultsCountElement.textContent = totalResultsText.replace(
+				'%s',
+				total
+			);
 		}
 	}
 
@@ -1220,12 +1255,15 @@ function initializeFilterBlock( blockElement ) {
 		}
 
 		// Get posts per page setting from the teaser grid container
-		const gridContainer = teaserGrid.closest('.wp-block-fau-elemental-fau-teaser-grid');
-		const postsPerPage = parseInt(gridContainer?.getAttribute('data-posts-per-page')) || 6;
+		const gridContainer = teaserGrid.closest(
+			'.wp-block-fau-elemental-fau-teaser-grid'
+		);
+		const postsPerPage =
+			parseInt( gridContainer?.getAttribute( 'data-posts-per-page' ) ) ||
+			6;
 
 		// Get all teaser items
 		const teaserItems = teaserGrid.querySelectorAll( '.teaser-item' );
-		let visibleCount = 0;
 		const matchingItems = [];
 
 		// First pass: determine which items match the filters
@@ -1303,7 +1341,6 @@ function initializeFilterBlock( blockElement ) {
 		itemsToShow.forEach( ( item ) => {
 			item.classList.remove( 'filtered-out' );
 			item.style.display = '';
-			visibleCount++;
 		} );
 
 		// Emit event for teaser grid to update pagination and reset to page 1
@@ -1321,24 +1358,30 @@ function initializeFilterBlock( blockElement ) {
 	function updateBrowserURLWithPrettyPermalinks( pageNumber ) {
 		// Get current URL without query parameters
 		const currentUrl = window.location.href.split( '?' )[ 0 ];
-		
+
 		// Remove any existing /page/X/ from the URL
 		const cleanUrl = currentUrl.replace( /\/page\/\d+\/?/, '' );
-		
+
 		// Build new URL with pretty permalinks
 		let newUrl;
 		if ( pageNumber && pageNumber > 1 ) {
 			// Add trailing slash if not present
-			const baseUrl = cleanUrl.endsWith( '/' ) ? cleanUrl : cleanUrl + '/';
+			const baseUrl = cleanUrl.endsWith( '/' )
+				? cleanUrl
+				: cleanUrl + '/';
 			newUrl = baseUrl + 'page/' + pageNumber + '/';
 		} else {
 			// Page 1 doesn't need /page/1/ in the URL
 			newUrl = cleanUrl.endsWith( '/' ) ? cleanUrl : cleanUrl + '/';
 		}
-		
+
 		// Update browser URL without reloading the page
 		if ( newUrl !== window.location.href ) {
-			window.history.pushState( { page: pageNumber }, `Page ${pageNumber}`, newUrl );
+			window.history.pushState(
+				{ page: pageNumber },
+				`Page ${ pageNumber }`,
+				newUrl
+			);
 		}
 	}
 }

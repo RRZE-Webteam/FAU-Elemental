@@ -13,10 +13,6 @@ document.addEventListener( 'DOMContentLoaded', function () {
 } );
 
 function initializePaginationBlock( paginationElement ) {
-	const filterBlockId = paginationElement.getAttribute(
-		'data-filter-block-id'
-	);
-
 	const gridBlockId = paginationElement.getAttribute( 'data-grid-block-id' );
 
 	// Find associated teaser grid
@@ -29,9 +25,14 @@ function initializePaginationBlock( paginationElement ) {
 	// Check if this is JavaScript pagination
 	const teaserGrid = associatedGrid.querySelector( '.fau-teaser-grid' );
 	const isJsPagination =
-		teaserGrid && teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
+		teaserGrid &&
+		teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
 
-	// If a filter block ID is present AND this is server-side pagination, 
+	const filterBlockId = paginationElement.getAttribute(
+		'data-filter-block-id'
+	);
+
+	// If a filter block ID is present AND this is server-side pagination,
 	// do not initialize this script - the fau-list-filters view.js will handle it.
 	// But if this is JavaScript pagination, we need to initialize to listen for grid events.
 	if ( filterBlockId && ! isJsPagination ) {
@@ -204,7 +205,7 @@ function handlePaginationClick( e, gridContainer, paginationContainer ) {
 
 			// Update pagination state immediately
 			updatePaginationState( paginationContainer, targetPage );
-			
+
 			// Update browser URL with pretty permalinks
 			updateBrowserURL( targetPage );
 		}
@@ -281,7 +282,7 @@ function updateGridForPage( gridContainer, targetPage, paginationContainer ) {
 
 				// Update pagination state
 				updatePaginationState( paginationContainer, targetPage );
-				
+
 				// Update browser URL with pretty permalinks
 				updateBrowserURL( targetPage );
 
@@ -311,8 +312,11 @@ function updateGridForPage( gridContainer, targetPage, paginationContainer ) {
 
 function updatePaginationState( paginationContainer, currentPage ) {
 	// Get current page from parameter or data attribute
-	const actualCurrentPage = currentPage || parseInt( paginationContainer.getAttribute( 'data-current-page' ) ) || 1;
-	
+	const actualCurrentPage =
+		currentPage ||
+		parseInt( paginationContainer.getAttribute( 'data-current-page' ) ) ||
+		1;
+
 	// Update current page data attribute
 	paginationContainer.setAttribute( 'data-current-page', actualCurrentPage );
 
@@ -336,16 +340,18 @@ function updatePaginationState( paginationContainer, currentPage ) {
 		if ( ! paginationContainer.classList.contains( 'pagination' ) ) {
 			paginationContainer.classList.add( 'pagination', 'basic' );
 		}
-		
+
 		// Create the full pagination structure
 		const paginationHTML = generateFullPaginationHTML(
 			actualCurrentPage,
 			totalPages
 		);
 		controlsContainer.innerHTML = paginationHTML;
-		
+
 		// Attach click handlers to the new pagination elements
-		const paginationElement = paginationContainer.closest( '.wp-block-fau-elemental-fau-pagination' );
+		const paginationElement = paginationContainer.closest(
+			'.wp-block-fau-elemental-fau-pagination'
+		);
 		if ( paginationElement && paginationElement.attachClickHandlers ) {
 			paginationElement.attachClickHandlers();
 		}
@@ -518,16 +524,16 @@ document.addEventListener( 'fau-grid-pagination-ready', function ( e ) {
 	const paginationBlocks = document.querySelectorAll(
 		'[data-grid-block-id="' + gridId + '"]'
 	);
-	
+
 	paginationBlocks.forEach( ( paginationBlock ) => {
 		paginationBlock.setAttribute( 'data-total-pages', totalPages );
 		paginationBlock.setAttribute( 'data-current-page', currentPage );
-		
+
 		// Make sure pagination block is visible (in case it was hidden)
 		if ( totalPages > 1 ) {
 			paginationBlock.style.display = '';
 		}
-		
+
 		// Update pagination display
 		updatePaginationState( paginationBlock );
 	} );
@@ -552,10 +558,10 @@ document.addEventListener( 'fau-grid-page-change', function ( e ) {
 function updateBrowserURL( pageNumber ) {
 	// Get current URL without query parameters
 	const currentUrl = window.location.href.split( '?' )[ 0 ];
-	
+
 	// Remove any existing /page/X/ from the URL
 	const cleanUrl = currentUrl.replace( /\/page\/\d+\/?/, '' );
-	
+
 	// Build new URL with pretty permalinks
 	let newUrl;
 	if ( pageNumber && pageNumber > 1 ) {
@@ -566,10 +572,14 @@ function updateBrowserURL( pageNumber ) {
 		// Page 1 doesn't need /page/1/ in the URL
 		newUrl = cleanUrl.endsWith( '/' ) ? cleanUrl : cleanUrl + '/';
 	}
-	
+
 	// Update browser URL without reloading the page
 	if ( newUrl !== window.location.href ) {
-		window.history.pushState( { page: pageNumber }, `Page ${pageNumber}`, newUrl );
+		window.history.pushState(
+			{ page: pageNumber },
+			`Page ${ pageNumber }`,
+			newUrl
+		);
 	}
 }
 

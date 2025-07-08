@@ -5,8 +5,7 @@ import { useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
 export default function Edit( { attributes, setAttributes, clientId } ) {
-	const { variant, currentPage, totalPages, customBlockId, gridBlockId } =
-		attributes;
+	const { variant, currentPage, customBlockId, gridBlockId } = attributes;
 	const blockProps = useBlockProps();
 
 	// Generate and set customBlockId if it doesn't exist
@@ -19,44 +18,62 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	}, [ customBlockId, clientId, setAttributes ] );
 
 	// Detect teaser grid block - look for the closest or most recent teaser grid
-	const { nearbyGrid, hasFilters } = useSelect( ( select ) => {
-		const { getBlocks, getBlockHierarchyRootClientId, getBlockOrder } = select( 'core/block-editor' );
-		const allBlocks = getBlocks();
+	const { nearbyGrid, hasFilters } = useSelect(
+		( select ) => {
+			const { getBlocks, getBlockHierarchyRootClientId } =
+				select( 'core/block-editor' );
+			const allBlocks = getBlocks();
 
-		// Find all teaser grid blocks
-		const gridBlocks = allBlocks.filter(
-			( block ) => block.name === 'fau-elemental/fau-teaser-grid'
-		);
+			// Find all teaser grid blocks
+			const gridBlocks = allBlocks.filter(
+				( block ) => block.name === 'fau-elemental/fau-teaser-grid'
+			);
 
-		// Find filter blocks
-		const filterBlocks = allBlocks.filter(
-			( block ) => block.name === 'fau-elemental/fau-list-filters'
-		);
+			// Find filter blocks
+			const filterBlocks = allBlocks.filter(
+				( block ) => block.name === 'fau-elemental/fau-list-filters'
+			);
 
-		if ( gridBlocks.length === 0 ) {
-			return { nearbyGrid: null, hasFilters: filterBlocks.length > 0 };
-		}
+			if ( gridBlocks.length === 0 ) {
+				return {
+					nearbyGrid: null,
+					hasFilters: filterBlocks.length > 0,
+				};
+			}
 
-		// If there's only one teaser grid, use it
-		if ( gridBlocks.length === 1 ) {
-			return { nearbyGrid: gridBlocks[0], hasFilters: filterBlocks.length > 0 };
-		}
+			// If there's only one teaser grid, use it
+			if ( gridBlocks.length === 1 ) {
+				return {
+					nearbyGrid: gridBlocks[ 0 ],
+					hasFilters: filterBlocks.length > 0,
+				};
+			}
 
-		// If there are multiple teaser grids, try to find the one in the same container
-		// or the most recently created one
-		const rootClientId = getBlockHierarchyRootClientId( clientId );
-		const sameRootBlocks = gridBlocks.filter( 
-			( block ) => getBlockHierarchyRootClientId( block.clientId ) === rootClientId 
-		);
+			// If there are multiple teaser grids, try to find the one in the same container
+			// or the most recently created one
+			const rootClientId = getBlockHierarchyRootClientId( clientId );
+			const sameRootBlocks = gridBlocks.filter(
+				( block ) =>
+					getBlockHierarchyRootClientId( block.clientId ) ===
+					rootClientId
+			);
 
-		if ( sameRootBlocks.length > 0 ) {
-			// Return the last one in the same container
-			return { nearbyGrid: sameRootBlocks[sameRootBlocks.length - 1], hasFilters: filterBlocks.length > 0 };
-		}
+			if ( sameRootBlocks.length > 0 ) {
+				// Return the last one in the same container
+				return {
+					nearbyGrid: sameRootBlocks[ sameRootBlocks.length - 1 ],
+					hasFilters: filterBlocks.length > 0,
+				};
+			}
 
-		// Fallback: return the last teaser grid block
-		return { nearbyGrid: gridBlocks[gridBlocks.length - 1], hasFilters: filterBlocks.length > 0 };
-	}, [ clientId ] );
+			// Fallback: return the last teaser grid block
+			return {
+				nearbyGrid: gridBlocks[ gridBlocks.length - 1 ],
+				hasFilters: filterBlocks.length > 0,
+			};
+		},
+		[ clientId ]
+	);
 
 	// Update grid block ID when detected
 	useEffect( () => {
@@ -71,44 +88,60 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		}
 	}, [ nearbyGrid, gridBlockId, setAttributes ] );
 
-	// Calculate if pagination should be visible
-	const shouldShowPagination = nearbyGrid && (nearbyGrid.attributes.postsPerPage || 6) > 0;
+	// Calculate pagination display values
 	const gridPostsPerPage = nearbyGrid?.attributes?.postsPerPage || 6;
 	const gridTotalItems = nearbyGrid?.attributes?.totalPosts || 10; // Mock data for preview
-	const calculatedTotalPages = Math.ceil(gridTotalItems / gridPostsPerPage);
+	const calculatedTotalPages = Math.ceil( gridTotalItems / gridPostsPerPage );
 
 	// If no connected grid, show a placeholder
 	if ( ! nearbyGrid ) {
 		return (
 			<>
 				<InspectorControls>
-					<PanelBody title={ __( 'Pagination Settings', 'fau-elemental' ) }>
+					<PanelBody
+						title={ __( 'Pagination Settings', 'fau-elemental' ) }
+					>
 						<SelectControl
-							label={ __( 'Pagination Variant', 'fau-elemental' ) }
+							label={ __(
+								'Pagination Variant',
+								'fau-elemental'
+							) }
 							value={ variant }
 							options={ [
 								{
-									label: __( 'Basic Pagination', 'fau-elemental' ),
+									label: __(
+										'Basic Pagination',
+										'fau-elemental'
+									),
 									value: 'basic',
 								},
 								{
-									label: __( 'Load More Button', 'fau-elemental' ),
+									label: __(
+										'Load More Button',
+										'fau-elemental'
+									),
 									value: 'load-more',
 								},
 							] }
-							onChange={ ( value ) => setAttributes( { variant: value } ) }
-							help={ __( 'Choose the type of pagination to display.', 'fau-elemental' ) }
+							onChange={ ( value ) =>
+								setAttributes( { variant: value } )
+							}
+							help={ __(
+								'Choose the type of pagination to display.',
+								'fau-elemental'
+							) }
 						/>
 					</PanelBody>
 				</InspectorControls>
 
 				<div { ...blockProps }>
 					<div className="pagination-placeholder">
+						<p>{ __( 'FAU Pagination', 'fau-elemental' ) }</p>
 						<p>
-							{ __( 'FAU Pagination', 'fau-elemental' ) }
-						</p>
-						<p>
-							{ __( 'Add a FAU Teaser Grid block to see pagination options.', 'fau-elemental' ) }
+							{ __(
+								'Add a FAU Teaser Grid block to see pagination options.',
+								'fau-elemental'
+							) }
 						</p>
 					</div>
 				</div>
@@ -121,22 +154,38 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		return (
 			<>
 				<InspectorControls>
-					<PanelBody title={ __( 'Pagination Settings', 'fau-elemental' ) }>
+					<PanelBody
+						title={ __( 'Pagination Settings', 'fau-elemental' ) }
+					>
 						<SelectControl
-							label={ __( 'Pagination Variant', 'fau-elemental' ) }
+							label={ __(
+								'Pagination Variant',
+								'fau-elemental'
+							) }
 							value={ variant }
 							options={ [
 								{
-									label: __( 'Basic Pagination', 'fau-elemental' ),
+									label: __(
+										'Basic Pagination',
+										'fau-elemental'
+									),
 									value: 'basic',
 								},
 								{
-									label: __( 'Load More Button', 'fau-elemental' ),
+									label: __(
+										'Load More Button',
+										'fau-elemental'
+									),
 									value: 'load-more',
 								},
 							] }
-							onChange={ ( value ) => setAttributes( { variant: value } ) }
-							help={ __( 'Choose the type of pagination to display.', 'fau-elemental' ) }
+							onChange={ ( value ) =>
+								setAttributes( { variant: value } )
+							}
+							help={ __(
+								'Choose the type of pagination to display.',
+								'fau-elemental'
+							) }
 						/>
 					</PanelBody>
 				</InspectorControls>
@@ -144,11 +193,15 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				<div { ...blockProps }>
 					<div className="pagination-hidden">
 						<p>
-							{ __( 'FAU Pagination', 'fau-elemental' ) } 
-							{ hasFilters && ' + ' + __( 'Filters', 'fau-elemental' ) }
+							{ __( 'FAU Pagination', 'fau-elemental' ) }
+							{ hasFilters &&
+								' + ' + __( 'Filters', 'fau-elemental' ) }
 						</p>
 						<p>
-							{ __( 'Pagination will appear when there are multiple pages of content.', 'fau-elemental' ) }
+							{ __(
+								'Pagination will appear when there are multiple pages of content.',
+								'fau-elemental'
+							) }
 						</p>
 					</div>
 				</div>
@@ -246,7 +299,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 										? ' disabled'
 										: ''
 								}` }
-								disabled={ currentPage === calculatedTotalPages }
+								disabled={
+									currentPage === calculatedTotalPages
+								}
 							>
 								{ __( 'Next', 'fau-elemental' ) }
 							</button>

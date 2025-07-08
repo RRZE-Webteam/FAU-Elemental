@@ -14,8 +14,6 @@ document.addEventListener( 'DOMContentLoaded', function () {
 } );
 
 function initializeTeaserGrid( gridContainer ) {
-	const filterBlockId = gridContainer.getAttribute( 'data-filter-block-id' );
-
 	const teaserGrid = gridContainer.querySelector( '.fau-teaser-grid' );
 
 	if ( ! teaserGrid ) {
@@ -24,6 +22,8 @@ function initializeTeaserGrid( gridContainer ) {
 
 	const isJsPagination =
 		teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
+
+	const filterBlockId = gridContainer.getAttribute( 'data-filter-block-id' );
 
 	// If the grid is controlled by a filter block AND this is server-side pagination,
 	// do not initialize client-side JS - the filter block's view.js will handle all interactions.
@@ -35,7 +35,7 @@ function initializeTeaserGrid( gridContainer ) {
 	if ( ! isJsPagination ) {
 		return; // This grid uses server-side pagination
 	}
-	
+
 	// Read posts per page from the wrapper container (where it's stored)
 	const postsPerPage =
 		parseInt( gridContainer.getAttribute( 'data-posts-per-page' ) ) || 6;
@@ -105,7 +105,7 @@ function showPage( teaserGrid, pageNumber ) {
 
 	// Get all teaser items (including filtered ones)
 	const allTeaserItems = teaserGrid.querySelectorAll( '.teaser-item' );
-	
+
 	// Get all visible teaser items (not filtered out)
 	const visibleItems = Array.from(
 		teaserGrid.querySelectorAll( '.teaser-item:not(.filtered-out)' )

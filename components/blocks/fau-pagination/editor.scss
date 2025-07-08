@@ -2,10 +2,10 @@
 @use "./style" as *;
 
 .wp-block-fau-elemental-fau-pagination {
-	
+
 	// Editor-specific overrides to make buttons look like frontend spans
 	.pagination.basic {
-		
+
 		.page-numbers button,
 		button.page-numbers {
 			// Make buttons look like frontend spans
@@ -18,27 +18,27 @@
 			line-height: 1;
 			transition: all 0.2s linear;
 			cursor: pointer;
-			
+
 			&:hover,
 			&:focus {
 				background-color: var(--FAU-Col-FAU-Blau-100, #0054a5);
 				color: var(--FAU-Col-FAU-Weiss-100, #fff);
 				outline: none;
 			}
-			
+
 			&.current {
 				background-color: var(--FAU-Col-FAU-Blau-100, #0054a5);
 				color: var(--FAU-Col-FAU-Weiss-100, #fff);
 				cursor: default;
 			}
-			
+
 			&.disabled {
 				opacity: 0.5;
 				cursor: not-allowed;
 				pointer-events: none;
 			}
 		}
-		
+
 		// Override default button styles
 		button {
 			border-radius: 0;
@@ -49,14 +49,14 @@
 			align-items: center;
 			justify-content: center;
 		}
-		
+
 		// Navigation buttons
 		button.prev,
 		button.next {
 			padding: 0 var(--Spacing-4x, 1rem);
 		}
 	}
-	
+
 	// Placeholder when no grid is connected
 	.pagination-placeholder {
 		border: 2px dashed var(--FAU-Col-FAU-Schwarz-25, #ccc);
@@ -64,20 +64,20 @@
 		border-radius: var(--Spacing-1x, 0.25rem);
 		text-align: center;
 		background-color: var(--FAU-Col-FAU-Schwarz-5, #f9f9f9);
-		
+
 		p:first-child {
 			font-weight: 600;
 			color: var(--FAU-Col-FAU-Blau-100, #0054a5);
 			margin: 0 0 var(--Spacing-2x, 0.5rem);
 		}
-		
+
 		p:last-child {
 			color: var(--FAU-Col-FAU-Schwarz-62_5, #666);
 			margin: 0;
 			font-size: 0.9rem;
 		}
 	}
-	
+
 	// Hidden state when only 1 page
 	.pagination-hidden {
 		border: 1px solid var(--FAU-Col-FAU-Schwarz-25, #ccc);
@@ -86,24 +86,25 @@
 		text-align: center;
 		background-color: var(--FAU-Col-FAU-Weiss-100, #fff);
 		opacity: 0.7;
-		
+
 		p:first-child {
 			font-weight: 600;
 			color: var(--FAU-Col-FAU-Blau-100, #0054a5);
 			margin: 0 0 var(--Spacing-1x, 0.25rem);
 			font-size: 0.9rem;
 		}
-		
+
 		p:last-child {
 			color: var(--FAU-Col-FAU-Schwarz-62_5, #666);
 			margin: 0;
 			font-size: 0.8rem;
 		}
 	}
-	
+
 	// Editor visual indicators when connected and active
 	&:has(.pagination.basic),
 	&:has(.pagination.load-more) {
+
 		&::before {
 			content: "FAU Pagination (Connected to grid)";
 			display: block;

@@ -4,9 +4,7 @@ import {
 	PanelBody,
 	ToggleControl,
 	TextControl,
-	TextareaControl,
 	SelectControl,
-	RangeControl,
 	Button,
 	CheckboxControl,
 	__experimentalText as Text,
@@ -30,7 +28,6 @@ const Edit = ( props ) => {
 		sortOptions,
 		defaultSort,
 		showResultsCount,
-		resultsPerPage,
 		gridWidth,
 		customBlockId,
 	} = attributes;
@@ -82,8 +79,8 @@ const Edit = ( props ) => {
 
 		return {
 			connectedBlocks: {
-				teaserGrid: teaserGridBlocks.length > 0 ? teaserGridBlocks[0] : null,
-				pagination: paginationBlocks.length > 0 ? paginationBlocks[0] : null,
+				teaserGrid:
+					teaserGridBlocks.length > 0 ? teaserGridBlocks[ 0 ] : null,
 				hasMultipleGrids: teaserGridBlocks.length > 1,
 				hasPagination: paginationBlocks.length > 0,
 			},
@@ -92,13 +89,25 @@ const Edit = ( props ) => {
 
 	// Connection status component
 	const ConnectionStatus = () => {
-		const { teaserGrid, pagination, hasMultipleGrids, hasPagination } = connectedBlocks;
-		
+		const { teaserGrid, hasMultipleGrids, hasPagination } = connectedBlocks;
+
 		if ( ! teaserGrid ) {
 			return (
 				<div className="connection-status connection-status--warning">
-					<p><strong>{ __( 'No FAU Teaser Grid found', 'fau-elemental' ) }</strong></p>
-					<p>{ __( 'Add a FAU Teaser Grid block to enable filtering.', 'fau-elemental' ) }</p>
+					<p>
+						<strong>
+							{ __(
+								'No FAU Teaser Grid found',
+								'fau-elemental'
+							) }
+						</strong>
+					</p>
+					<p>
+						{ __(
+							'Add a FAU Teaser Grid block to enable filtering.',
+							'fau-elemental'
+						) }
+					</p>
 				</div>
 			);
 		}
@@ -110,21 +119,49 @@ const Edit = ( props ) => {
 
 		return (
 			<div className="connection-status connection-status--connected">
-				<p><strong>{ __( 'Connected to:', 'fau-elemental' ) }</strong></p>
+				<p>
+					<strong>{ __( 'Connected to:', 'fau-elemental' ) }</strong>
+				</p>
 				<ul>
-					<li>✓ { __( 'FAU Teaser Grid', 'fau-elemental' ) } ({ postsPerPage } { __( 'posts per page', 'fau-elemental' ) })</li>
+					<li>
+						✓ { __( 'FAU Teaser Grid', 'fau-elemental' ) } (
+						{ postsPerPage }{ ' ' }
+						{ __( 'posts per page', 'fau-elemental' ) })
+					</li>
 					{ hasPagination && totalPages > 1 && (
-						<li>✓ { __( 'FAU Pagination', 'fau-elemental' ) } ({ totalPages } { __( 'pages', 'fau-elemental' ) })</li>
+						<li>
+							✓ { __( 'FAU Pagination', 'fau-elemental' ) } (
+							{ totalPages } { __( 'pages', 'fau-elemental' ) })
+						</li>
 					) }
 					{ hasPagination && totalPages <= 1 && (
-						<li>○ { __( 'FAU Pagination (hidden - only 1 page)', 'fau-elemental' ) }</li>
+						<li>
+							○{ ' ' }
+							{ __(
+								'FAU Pagination (hidden - only 1 page)',
+								'fau-elemental'
+							) }
+						</li>
 					) }
 					{ ! hasPagination && (
-						<li>○ { __( 'Add FAU Pagination for page navigation', 'fau-elemental' ) }</li>
+						<li>
+							○{ ' ' }
+							{ __(
+								'Add FAU Pagination for page navigation',
+								'fau-elemental'
+							) }
+						</li>
 					) }
 				</ul>
 				{ hasMultipleGrids && (
-					<p><em>{ __( 'Note: Multiple teaser grids detected. Filters will connect to the first one.', 'fau-elemental' ) }</em></p>
+					<p>
+						<em>
+							{ __(
+								'Note: Multiple teaser grids detected. Filters will connect to the first one.',
+								'fau-elemental'
+							) }
+						</em>
+					</p>
 				) }
 			</div>
 		);
@@ -132,42 +169,53 @@ const Edit = ( props ) => {
 
 	const addFilterField = ( filterType = 'custom' ) => {
 		let newField;
-		
+
 		if ( filterType === 'custom' ) {
 			newField = {
 				name: `filter_${ filterFieldsState.length + 1 }`,
 				label: __( 'New Filter', 'fau-elemental' ),
 				type: 'custom',
 				options: [
-					{ label: __( 'Option 1', 'fau-elemental' ), value: 'option1' },
-					{ label: __( 'Option 2', 'fau-elemental' ), value: 'option2' },
+					{
+						label: __( 'Option 1', 'fau-elemental' ),
+						value: 'option1',
+					},
+					{
+						label: __( 'Option 2', 'fau-elemental' ),
+						value: 'option2',
+					},
 				],
 			};
 		} else {
 			// WordPress filter types
-			const filterData = filterType === 'categories' ? categories : 
-							  filterType === 'tags' ? tags : 
-							  filterType === 'authors' ? authors : [];
-			
+			const filterData =
+				filterType === 'categories'
+					? categories
+					: filterType === 'tags'
+					? tags
+					: filterType === 'authors'
+					? authors
+					: [];
+
 			newField = {
 				name: filterType,
-				label: filterType.charAt( 0 ).toUpperCase() + filterType.slice( 1 ),
+				label:
+					filterType.charAt( 0 ).toUpperCase() +
+					filterType.slice( 1 ),
 				type: filterType,
-				options: filterData ? filterData.map( item => ({
-					label: item.name || item.title?.rendered || item.display_name,
-					value: item.id || item.slug
-				})) : [],
+				options: filterData
+					? filterData.map( ( item ) => ( {
+							label:
+								item.name ||
+								item.title?.rendered ||
+								item.display_name,
+							value: item.id || item.slug,
+					  } ) )
+					: [],
 			};
 		}
-		
-		const updatedFields = [ ...filterFieldsState, newField ];
-		setFilterFieldsState( updatedFields );
-		setAttributes( { filterFields: updatedFields } );
-	};
 
-	const updateFilterField = ( index, field, value ) => {
-		const updatedFields = [ ...filterFieldsState ];
-		updatedFields[ index ][ field ] = value;
+		const updatedFields = [ ...filterFieldsState, newField ];
 		setFilterFieldsState( updatedFields );
 		setAttributes( { filterFields: updatedFields } );
 	};
@@ -266,13 +314,15 @@ const Edit = ( props ) => {
 														{ option.label }
 													</option>
 												) ) }
-											{ ( field.options && field.options.length > 5 ) && (
-												<option disabled>
-													...and{ ' ' }
-													{ field.options.length - 5 }{ ' ' }
-													more
-												</option>
-											) }
+											{ field.options &&
+												field.options.length > 5 && (
+													<option disabled>
+														...and{ ' ' }
+														{ field.options.length -
+															5 }{ ' ' }
+														more
+													</option>
+												) }
 										</select>
 									</div>
 								) ) }
@@ -288,7 +338,7 @@ const Edit = ( props ) => {
 								);
 								if (
 									isAlreadyAdded ||
-									!filterData ||
+									! filterData ||
 									filterData.length === 0
 								) {
 									return null;
@@ -337,13 +387,15 @@ const Edit = ( props ) => {
 														{ option.label }
 													</option>
 												) ) }
-											{ ( filterData && filterData.length > 3 ) && (
-												<option disabled>
-													...and{ ' ' }
-													{ filterData.length - 3 }{ ' ' }
-													more
-												</option>
-											) }
+											{ filterData &&
+												filterData.length > 3 && (
+													<option disabled>
+														...and{ ' ' }
+														{ filterData.length -
+															3 }{ ' ' }
+														more
+													</option>
+												) }
 										</select>
 									</div>
 								);
@@ -414,7 +466,10 @@ const Edit = ( props ) => {
 					{ showResultsCount && (
 						<div className="results-count">
 							<span className="results-text">
-								1 to { connectedBlocks.teaserGrid?.attributes?.postsPerPage || 6 } from 100 records
+								1 to{ ' ' }
+								{ connectedBlocks.teaserGrid?.attributes
+									?.postsPerPage || 6 }{ ' ' }
+								from 100 records
 							</span>
 						</div>
 					) }
@@ -661,10 +716,7 @@ const Edit = ( props ) => {
 										'fau-elemental'
 									) }
 								</Text>
-								<Button
-									isPrimary
-									onClick={ addFilterField }
-								>
+								<Button isPrimary onClick={ addFilterField }>
 									{ __(
 										'Add Custom Filter',
 										'fau-elemental'
@@ -721,9 +773,10 @@ const Edit = ( props ) => {
 																		'fau-elemental'
 																  ) }{ ' ' }
 															•
-															{
-																( field.options && field.options.length ) || 0
-															}{ ' ' }
+															{ ( field.options &&
+																field.options
+																	.length ) ||
+																0 }{ ' ' }
 															{ __(
 																'options',
 																'fau-elemental'
@@ -939,21 +992,21 @@ const Edit = ( props ) => {
 				</PanelBody>
 			</InspectorControls>
 
-					<div { ...blockProps }>
-			<div className="fau-list-filters-editor">
-				<h3>{ __( 'FAU List Filters', 'fau-elemental' ) }</h3>
-				<p>
-					{ __(
-						'This block will render interactive filters for lists on the frontend. Configure the settings in the sidebar to customize the filtering options.',
-						'fau-elemental'
-					) }
-				</p>
+			<div { ...blockProps }>
+				<div className="fau-list-filters-editor">
+					<h3>{ __( 'FAU List Filters', 'fau-elemental' ) }</h3>
+					<p>
+						{ __(
+							'This block will render interactive filters for lists on the frontend. Configure the settings in the sidebar to customize the filtering options.',
+							'fau-elemental'
+						) }
+					</p>
 
-				<ConnectionStatus />
+					<ConnectionStatus />
 
-				{ renderPreview() }
+					{ renderPreview() }
+				</div>
 			</div>
-		</div>
 		</>
 	);
 };

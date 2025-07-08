@@ -1,8 +1,9 @@
 /* FAU Pagination Block - Placeholder Styles */
 
 .wp-block-fau-elemental-fau-pagination {
+
 	/* Pagination container placeholder */
-	
+
 	.pagination-controls {
 		display: flex;
 		align-items: center;
@@ -30,13 +31,15 @@
 		background: transparent;
 		text-decoration: none;
 		cursor: pointer;
-		
+
 		&.current {
+
 			/* Current page placeholder */
 		}
-		
+
 		&:hover,
 		&:focus {
+
 			/* Hover state placeholder */
 		}
 	}
@@ -53,12 +56,13 @@
 		background: transparent;
 		text-decoration: none;
 		cursor: pointer;
-		
+
 		&:hover,
 		&:focus {
+
 			/* Hover state placeholder */
 		}
-		
+
 		&.disabled {
 			opacity: 0.5;
 			cursor: not-allowed;
@@ -88,12 +92,13 @@
 		text-decoration: none;
 		cursor: pointer;
 		min-height: 3rem;
-		
+
 		&:hover,
 		&:focus {
+
 			/* Hover state placeholder */
 		}
-		
+
 		&:disabled {
 			opacity: 0.5;
 			cursor: not-allowed;
@@ -122,16 +127,18 @@
 
 /* Responsive placeholder */
 @media (max-width: 48rem) {
+
 	.wp-block-fau-elemental-fau-pagination {
+
 		.pagination-controls {
 			gap: 0.25rem;
 		}
-		
+
 		.page-numbers {
 			gap: 0.125rem;
 			margin: 0 0.25rem;
 		}
-		
+
 		.page-number,
 		.page-nav {
 			min-width: 2.25rem;
