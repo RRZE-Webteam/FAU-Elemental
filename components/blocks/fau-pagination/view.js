@@ -66,12 +66,18 @@ function initializePaginationBlock( paginationElement ) {
 			// Mark as having handler
 			control.setAttribute( 'data-pagination-handler', 'true' );
 
-			// Make spans clickable by adding pointer cursor
 			if (
 				control.tagName === 'SPAN' &&
-				control.classList.contains( 'page-number' )
+				control.classList.contains( 'page-number' ) &&
+				! control.classList.contains( 'current' )
 			) {
-				control.style.cursor = 'pointer';
+				// Handle keyboard activation for accessible span-based buttons
+				control.addEventListener( 'keydown', function ( e ) {
+					if ( e.key === 'Enter' || e.key === ' ' ) {
+						e.preventDefault();
+						control.click();
+					}
+				} );
 			}
 
 			control.addEventListener( 'click', function ( e ) {
@@ -432,7 +438,7 @@ function generatePaginationHTML( currentPage, totalPages ) {
 			if ( i === currentPage ) {
 				html += `<span class="page-number current" aria-current="page">${ i }</span>`;
 			} else {
-				html += `<span class="page-number">${ i }</span>`;
+				html += `<span class="page-number is-clickable" role="button" tabindex="0" data-page="${ i }">${ i }</span>`;
 			}
 		}
 	} else {
@@ -494,7 +500,7 @@ function generatePaginationHTML( currentPage, totalPages ) {
 			} else if ( page === currentPage ) {
 				html += `<span class="page-number current" aria-current="page">${ page }</span>`;
 			} else {
-				html += `<span class="page-number">${ page }</span>`;
+				html += `<span class="page-number is-clickable" role="button" tabindex="0" data-page="${ page }">${ page }</span>`;
 			}
 		} );
 	}

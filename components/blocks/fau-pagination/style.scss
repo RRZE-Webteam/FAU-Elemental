@@ -44,6 +44,10 @@
 		}
 	}
 
+	.page-number.is-clickable {
+		cursor: pointer;
+	}
+
 	/* Navigation buttons placeholder */
 	.page-nav {
 		display: inline-flex;
