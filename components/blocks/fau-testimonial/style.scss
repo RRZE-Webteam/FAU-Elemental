@@ -86,19 +86,24 @@
 			background-color: unset;
 			color: transparent;
 			position: relative;
-		}
-
-		.carousel-prev {
 
 			&::before {
 				content: "";
 				background-image: var(--icon-chevron-fau-blau);
 				position: absolute;
-				transform: rotate(180deg);
 				width: 0.5rem;
 				height: 0.875rem;
-				left: 0.875rem;
+				top: calc(50% - 0.4375rem);
 				transition: all 0.2s ease-in-out;
+			}
+		}
+
+		.carousel-prev {
+
+			&::before {
+				transform: rotate(180deg);
+				left: 0.875rem;
+				
 			}
 
 			&:hover,
@@ -114,13 +119,7 @@
 		.carousel-next {
 
 			&::before {
-				content: "";
-				background-image: var(--icon-chevron-fau-blau);
-				position: absolute;
-				width: 0.5rem;
-				height: 0.875rem;
 				right: 0.875rem;
-				transition: all 0.2s ease-in-out;
 			}
 
 			&:hover,
