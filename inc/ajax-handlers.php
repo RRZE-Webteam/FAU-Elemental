@@ -223,6 +223,11 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
 
 
 
+                // Include teaser-item.php to get the render function
+                if (!function_exists('fau_elemental_render_teaser_item')) {
+                    require_once get_template_directory() . '/components/blocks/fau-teaser-grid/teaser-item.php';
+                }
+
                 // Build post data using post object for reliability
                 $post_data = [
                     'id' => $post_id,
@@ -234,6 +239,7 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
                     'date' => get_the_date('', $post_id),
                     'author' => get_the_author_meta('display_name', $post_object->post_author),
                     'post_type' => $actual_post_type, // Ensure this is always set
+                    'html_output' => fau_elemental_render_teaser_item($post_object, $post_type, [], 'h2'),
                 ];
                 
                 $posts[] = $post_data;
