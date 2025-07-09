@@ -105,7 +105,7 @@ if (is_home() && is_front_page()) {
     </main>
     <?php
 } else {
-    // Front page is set to a static page - use the standard page template
+    // Front page is set to a static page - display the page content
     ?>
     <main>
         <?php
@@ -113,21 +113,32 @@ if (is_home() && is_front_page()) {
             the_post();
             ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                <?php
+                // Show title if the page has one (some front pages might want to hide it)
+                $show_title = get_post_meta(get_the_ID(), 'hide_title', true) !== '1';
+                if ($show_title && get_the_title()) :
+                ?>
                 <header class="entry-header">
-                    <?php if (!is_front_page()) : ?>
-                        <h1 class="entry-title"><?php the_title(); ?></h1>
-                    <?php endif; ?>
+                    <h1 class="entry-title"><?php the_title(); ?></h1>
                 </header>
+                <?php endif; ?>
 
                 <div class="entry-content">
                     <?php
                     the_content();
+                    
                     wp_link_pages([
                         'before' => '<div class="page-links">' . __('Pages:', 'fau-elemental'),
                         'after'  => '</div>',
                     ]);
                     ?>
                 </div>
+                
+                <?php if (comments_open() || get_comments_number()) : ?>
+                    <div class="comments-area">
+                        <?php comments_template(); ?>
+                    </div>
+                <?php endif; ?>
             </article>
             <?php
         endwhile;
