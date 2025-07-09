@@ -5,61 +5,57 @@
 
 // Editor preview layout to match frontend
 
-.fau-big-teaser-editor-preview .fau-big-teaser__image {
-	order: 1;
+@use "../../ui/mixins/mixins" as *;
 
-	img {
-		width: 100%;
-		height: 250px;
-		object-fit: cover;
-		display: block;
-	}
+.fau-big-teaser-editor-preview {
+	box-sizing: content-box;
+	display: flex;
+	gap: var(--Spacing-10x);
+	margin: 0 auto;
+	margin-right: auto;
+	margin-left: auto;
+	max-width: var(--wide-max-width);
+	padding: var(--Spacing-8x) var(--Spacing-10x);
 
-	@media (min-width: 768px) {
-		order: 2;
-		flex: 0 0 50%;
+	.fau-big-teaser__content {
 
-		img {
-			height: 100%;
-			min-height: 350px;
+		h3 {
+			min-width: calc(100% + 5.5rem) !important; // Override WP inline style
+		}
+
+		.wp-block-button__link {
+			width: auto;
 		}
 	}
 }
 
-// Image placeholder styling
-.fau-big-teaser__image-placeholder {
-	order: 1;
-	background: #f8f9fa;
-	border: 2px dashed #ddd;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-height: 250px;
+// Dark Mode
+.is-style-dark {
 
-	@media (min-width: 768px) {
-		order: 2;
-		flex: 0 0 50%;
-		min-height: 350px;
+	.fau-big-teaser-editor-preview .fau-big-teaser__content h3 {
+		background-color: var(--FAU-Col-FAU-Blau-100);
 	}
 }
 
-.fau-big-teaser__add-image-button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	padding: 20px;
-	font-size: 14px;
+// Responsive
+@media screen and (max-width: 899px) {
+
+	.fau-big-teaser-editor-preview {
+		flex-direction: column-reverse;
+		gap: unset;
+
+		.fau-big-teaser__content {
+
+			h3 {
+				min-width: unset !important;
+			}
+		}
+	}
 }
 
-// Image selection button in inspector controls
-.fau-big-teaser__image-select-button {
-	margin-bottom: 10px;
-	display: block;
-}
+@include respond-to("x-small") {
 
-// Placeholder text styling
-.fau-big-teaser__placeholder {
-	color: #999;
-	font-style: italic;
-	opacity: 0.7;
+	.fau-big-teaser-editor-preview {
+		padding: unset;
+	}
 }
