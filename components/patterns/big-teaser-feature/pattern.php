@@ -25,7 +25,7 @@
 <!-- wp:fau-elemental/fau-big-teaser {"headline":"Internationale Spitzenforschung an der FAU","teaserText":"Die FAU ist eine Volluniversität mit langer Forschungstradition und gefestigte Kooperationen mit internationalen Forschungseinrichtungen wie Max Planck, Fraunhofer und Helmholtz.","linkText":"Mehr erfahren","linkUrl":"#","image":{"id":0,"url":"<?php echo esc_url(get_theme_file_uri('assets/images/hero-fau.jpg')); ?>","alt":"FAU Campus"}} -->
 <section class="wp-block-fau-elemental-fau-big-teaser fau-big-teaser">
     <div class="fau-big-teaser__image">
-        <img src="<?php echo esc_url(get_theme_file_uri('assets/images/hero-fau.jpg')); ?>" alt="FAU Campus" loading="lazy" />
+        <img src="<?php echo esc_url(get_theme_file_uri('assets/images/hero-fau.jpg')); ?>" alt="FAU Campus" loading="lazy">
     </div>
     <div class="fau-big-teaser__content">
         <h3 class="fau-big-teaser__headline">Internationale Spitzenforschung an der FAU</h3>
