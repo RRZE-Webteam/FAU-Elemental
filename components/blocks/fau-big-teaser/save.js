@@ -47,16 +47,6 @@ export default function Save( { attributes } ) {
 
 	return (
 		<section { ...blockProps }>
-			{ image && image.url && (
-				<div className="fau-big-teaser__image">
-					<img
-						src={ image.url }
-						alt={ image.alt || truncatedHeadline || '' }
-						loading="lazy"
-					/>
-				</div>
-			) }
-
 			<div className="fau-big-teaser__content">
 				{ truncatedHeadline && (
 					<h3 className="fau-big-teaser__headline">
@@ -83,6 +73,16 @@ export default function Save( { attributes } ) {
 					</div>
 				) }
 			</div>
+
+			{ image && image.url && (
+				<div className="fau-big-teaser__image">
+					<img
+						src={ image.url }
+						alt={ image.alt || truncatedHeadline || '' }
+						loading="lazy"
+					/>
+				</div>
+			) }
 		</section>
 	);
 }
