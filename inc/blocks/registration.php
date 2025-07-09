@@ -13,10 +13,9 @@ if (!defined('ABSPATH')) {
  * Register all custom blocks from the build directory
  */
 function fau_elemental_register_blocks() {
-    // Get all directories in both build/blocks and components/blocks that start with 'fau-'
+    // Get all directories in build/blocks that start with 'fau-'
     $block_folders = array_merge(
-        glob(get_theme_file_path('build/blocks/fau-*'), GLOB_ONLYDIR),
-        glob(get_theme_file_path('components/blocks/fau-*'), GLOB_ONLYDIR)
+        glob(get_theme_file_path('build/blocks/fau-*'), GLOB_ONLYDIR)
     );
 
     // Register each block
