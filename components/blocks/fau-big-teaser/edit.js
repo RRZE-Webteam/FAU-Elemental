@@ -4,9 +4,12 @@ import {
 	TextControl,
 	TextareaControl,
 	Button,
+	ToolbarGroup,
+	ToolbarButton,
 } from '@wordpress/components';
 import {
 	InspectorControls,
+	BlockControls,
 	MediaUpload,
 	MediaUploadCheck,
 	useBlockProps,
@@ -34,6 +37,36 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	return (
 		<>
+			<BlockControls>
+				<ToolbarGroup>
+					<MediaUploadCheck>
+						<MediaUpload
+							onSelect={ onSelectImage }
+							allowedTypes={ [ 'image' ] }
+							value={ image?.id }
+							render={ ( { open } ) => (
+								<ToolbarButton
+									icon="format-image"
+									label={ 
+										image
+											? __( 'Replace Image', 'fau-elemental' )
+											: __( 'Add Image', 'fau-elemental' )
+									}
+									onClick={ open }
+								/>
+							) }
+						/>
+					</MediaUploadCheck>
+					{ image && (
+						<ToolbarButton
+							icon="no"
+							label={ __( 'Remove Image', 'fau-elemental' ) }
+							onClick={ removeImage }
+						/>
+					) }
+				</ToolbarGroup>
+			</BlockControls>
+
 			<InspectorControls>
 				<PanelBody
 					title={ __( 'Content', 'fau-elemental' ) }
@@ -217,31 +250,6 @@ export default function Edit( { attributes, setAttributes } ) {
 								src={ image.url }
 								alt={ image.alt || headline }
 							/>
-						</div>
-					) }
-
-					{ /* Image placeholder when no image selected */ }
-					{ ! image && (
-						<div className="fau-big-teaser__image-placeholder">
-							<MediaUploadCheck>
-								<MediaUpload
-									onSelect={ onSelectImage }
-									allowedTypes={ [ 'image' ] }
-									render={ ( { open } ) => (
-										<Button
-											onClick={ open }
-											variant="secondary"
-											className="fau-big-teaser__add-image-button"
-											icon="plus"
-										>
-											{ __(
-												'Add Image',
-												'fau-elemental'
-											) }
-										</Button>
-									) }
-								/>
-							</MediaUploadCheck>
 						</div>
 					) }
 				</div>
