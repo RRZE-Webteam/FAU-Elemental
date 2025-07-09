@@ -848,10 +848,7 @@ const Edit = ( props ) => {
 								{ __( 'Sort Options', 'fau-elemental' ) }
 							</Text>
 							{ sortOptions.map( ( option, index ) => (
-								<div
-									key={ index }
-									className="sort-option-item"
-								>
+								<div key={ index } className="sort-option-item">
 									<TextControl
 										label={ __( 'Value', 'fau-elemental' ) }
 										value={ option.value }
