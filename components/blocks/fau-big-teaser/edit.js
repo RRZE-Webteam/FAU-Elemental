@@ -47,9 +47,12 @@ export default function Edit( { attributes, setAttributes } ) {
 							render={ ( { open } ) => (
 								<ToolbarButton
 									icon="format-image"
-									label={ 
+									label={
 										image
-											? __( 'Replace Image', 'fau-elemental' )
+											? __(
+													'Replace Image',
+													'fau-elemental'
+											  )
 											: __( 'Add Image', 'fau-elemental' )
 									}
 									onClick={ open }
