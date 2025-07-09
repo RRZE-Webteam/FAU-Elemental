@@ -218,7 +218,7 @@ if (!function_exists('fau_filter_teaser_grid_ajax_handler')) {
                 
                 // Fallback if still empty
                 if (empty($excerpt)) {
-                    $excerpt = 'Read more about ' . $post_object->post_title . '...';
+                    $excerpt = sprintf(__('Read more about %s...', 'fau-elemental'), $post_object->post_title);
                 }
 
 
