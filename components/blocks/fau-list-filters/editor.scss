@@ -179,4 +179,64 @@
 			color: #155724;
 		}
 	}
+
+	// Editor layout classes to replace inline styles
+	.editor-section {
+		margin-bottom: var(--Spacing-8x);
+	}
+
+	.editor-section-header {
+		font-weight: 700;
+		margin-bottom: var(--Spacing-4x);
+	}
+
+	.editor-section-description {
+		margin-bottom: var(--Spacing-6x);
+	}
+
+	.editor-section-content {
+		margin-top: var(--Spacing-8x);
+	}
+
+	.filter-option-item {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: var(--Spacing-4x);
+		padding: var(--Spacing-4x);
+		border: 1px solid var(--FAU-Col-FAU-Schwarz-25);
+		border-radius: var(--Spacing-1x);
+		background-color: transparent;
+
+		&--added {
+			background-color: var(--FAU-Col-FAU-Schwarz-5);
+		}
+	}
+
+	.filter-option-meta {
+		font-size: 0.75rem;
+		color: var(--FAU-Col-FAU-Schwarz-62_5);
+	}
+
+	.filter-field-container {
+		border: 1px solid var(--FAU-Col-FAU-Schwarz-25);
+		padding: var(--Spacing-4x);
+		margin-bottom: var(--Spacing-4x);
+		border-radius: var(--Spacing-1x);
+	}
+
+	.filter-field-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.filter-field-meta {
+		font-size: 0.75rem;
+		color: var(--FAU-Col-FAU-Schwarz-62_5);
+	}
+
+	.hidden {
+		display: none;
+	}
 }

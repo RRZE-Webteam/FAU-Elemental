@@ -268,8 +268,7 @@ const Edit = ( props ) => {
 							/>
 							<button
 								type="button"
-								className="search-clear"
-								style={ { display: 'none' } }
+								className="search-clear hidden"
 							>
 								×
 							</button>
@@ -419,10 +418,7 @@ const Edit = ( props ) => {
 						</div>
 
 						{ /* Active filters preview */ }
-						<div
-							className="active-filters"
-							style={ { display: 'none' } }
-						>
+						<div className="active-filters hidden">
 							<div className="active-filters__header">
 								<span className="active-filters__label">
 									{ __( 'Active filters:', 'fau-elemental' ) }
@@ -594,13 +590,8 @@ const Edit = ( props ) => {
 							<Spacer marginTop={ 4 } marginBottom={ 4 } />
 
 							{ /* WordPress Content Filters */ }
-							<div style={ { marginBottom: '20px' } }>
-								<Text
-									style={ {
-										fontWeight: 'bold',
-										marginBottom: '10px',
-									} }
-								>
+							<div className="editor-section">
+								<Text className="editor-section-header">
 									{ __(
 										'Add WordPress Content Filters',
 										'fau-elemental'
@@ -608,7 +599,7 @@ const Edit = ( props ) => {
 								</Text>
 								<Text
 									variant="muted"
-									style={ { marginBottom: '15px' } }
+									className="editor-section-description"
 								>
 									{ __(
 										'These filters are automatically populated from your WordPress content.',
@@ -632,18 +623,11 @@ const Edit = ( props ) => {
 									return (
 										<div
 											key={ filterKey }
-											style={ {
-												display: 'flex',
-												justifyContent: 'space-between',
-												alignItems: 'center',
-												marginBottom: '10px',
-												padding: '10px',
-												border: '1px solid #ddd',
-												borderRadius: '4px',
-												backgroundColor: isAlreadyAdded
-													? '#f0f0f0'
-													: 'transparent',
-											} }
+											className={ `filter-option-item ${
+												isAlreadyAdded
+													? 'filter-option-item--added'
+													: ''
+											}` }
 										>
 											<div>
 												<strong>
@@ -652,12 +636,7 @@ const Edit = ( props ) => {
 														.toUpperCase() +
 														filterKey.slice( 1 ) }
 												</strong>
-												<div
-													style={ {
-														fontSize: '12px',
-														color: '#666',
-													} }
-												>
+												<div className="filter-option-meta">
 													{ hasOptions
 														? `${
 																filterData.length
@@ -700,8 +679,8 @@ const Edit = ( props ) => {
 							<Spacer marginTop={ 4 } marginBottom={ 4 } />
 
 							{ /* Custom Filter Fields */ }
-							<div style={ { marginTop: '20px' } }>
-								<Text style={ { fontWeight: 'bold' } }>
+							<div className="editor-section-content">
+								<Text className="editor-section-header">
 									{ __(
 										'Add Custom Filter Field',
 										'fau-elemental'
@@ -709,7 +688,7 @@ const Edit = ( props ) => {
 								</Text>
 								<Text
 									variant="muted"
-									style={ { marginBottom: '15px' } }
+									className="editor-section-description"
 								>
 									{ __(
 										'Create custom filters with your own options.',
@@ -725,8 +704,8 @@ const Edit = ( props ) => {
 							</div>
 
 							{ filterFieldsState.length > 0 && (
-								<div style={ { marginTop: '20px' } }>
-									<Text style={ { fontWeight: 'bold' } }>
+								<div className="editor-section-content">
+									<Text className="editor-section-header">
 										{ __(
 											'Current Filter Fields',
 											'fau-elemental'
@@ -736,32 +715,14 @@ const Edit = ( props ) => {
 										( field, index ) => (
 											<div
 												key={ index }
-												style={ {
-													border: '1px solid #ddd',
-													padding: '10px',
-													marginBottom: '10px',
-													borderRadius: '4px',
-												} }
+												className="filter-field-container"
 											>
-												<div
-													style={ {
-														display: 'flex',
-														justifyContent:
-															'space-between',
-														alignItems: 'center',
-													} }
-												>
+												<div className="filter-field-header">
 													<div>
 														<strong>
 															{ field.name }
 														</strong>
-														<div
-															style={ {
-																fontSize:
-																	'12px',
-																color: '#666',
-															} }
-														>
+														<div className="filter-field-meta">
 															{ field.type ===
 															'custom'
 																? __(
