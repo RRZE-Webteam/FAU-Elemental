@@ -782,13 +782,7 @@ const Edit = ( props ) => {
 
 					{ enableViewSwitcher && (
 						<>
-							<Text
-								style={ {
-									fontWeight: 'bold',
-									marginTop: '15px',
-									marginBottom: '10px',
-								} }
-							>
+							<Text className="inspector-section-title">
 								{ __( 'Available Views', 'fau-elemental' ) }
 							</Text>
 							{ [
@@ -849,19 +843,14 @@ const Edit = ( props ) => {
 					/>
 
 					{ enableSorting && (
-						<div style={ { marginTop: '20px' } }>
-							<Text style={ { fontWeight: 'bold' } }>
+						<div className="sort-options-container">
+							<Text className="sort-options-label">
 								{ __( 'Sort Options', 'fau-elemental' ) }
 							</Text>
 							{ sortOptions.map( ( option, index ) => (
 								<div
 									key={ index }
-									style={ {
-										border: '1px solid #ddd',
-										padding: '10px',
-										marginBottom: '10px',
-										borderRadius: '4px',
-									} }
+									className="sort-option-item"
 								>
 									<TextControl
 										label={ __( 'Value', 'fau-elemental' ) }
