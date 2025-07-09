@@ -16,7 +16,10 @@ function initializeFilterBlock( blockElement ) {
 			'.fau-list-filters__sort-section'
 		);
 		if ( resultsContainer ) {
-			resultsContainer.innerHTML = `<p>${ __( 'No content to filter', 'fau-elemental' ) }</p>`;
+			resultsContainer.innerHTML = `<p>${ __(
+				'No content to filter',
+				'fau-elemental'
+			) }</p>`;
 		}
 		return;
 	}
@@ -51,7 +54,10 @@ function initializeFilterBlock( blockElement ) {
 	if ( ! availableFiltersContainer ) {
 		availableFiltersContainer = document.createElement( 'div' );
 		availableFiltersContainer.className = 'available-filters';
-		availableFiltersContainer.innerHTML = `<h4>${ __( 'Add filters:', 'fau-elemental' ) }</h4><div class="filter-buttons-container"></div>`;
+		availableFiltersContainer.innerHTML = `<h4>${ __(
+			'Add filters:',
+			'fau-elemental'
+		) }</h4><div class="filter-buttons-container"></div>`;
 		dynamicFiltersContainer.appendChild( availableFiltersContainer );
 	}
 
@@ -473,7 +479,11 @@ function initializeFilterBlock( blockElement ) {
 
 		const defaultOption = document.createElement( 'option' );
 		defaultOption.value = '';
-		defaultOption.textContent = sprintf( __( 'All %s', 'fau-elemental' ), data.label );
+		defaultOption.textContent = sprintf(
+			/* translators: %s: filter label (e.g., "Categories", "Tags") */
+			__( 'All %s', 'fau-elemental' ),
+			data.label
+		);
 		select.appendChild( defaultOption );
 
 		data.options.forEach( ( opt ) => {
@@ -490,7 +500,11 @@ function initializeFilterBlock( blockElement ) {
 		removeBtn.className = 'filter-remove-button';
 		removeBtn.setAttribute(
 			'aria-label',
-			sprintf( __( 'Remove %s filter', 'fau-elemental' ), data.label )
+			sprintf(
+				/* translators: %s: filter label (e.g., "Categories", "Tags") */
+				__( 'Remove %s filter', 'fau-elemental' ),
+				data.label
+			)
 		);
 		removeBtn.innerHTML = '<span aria-hidden="true">×</span>';
 		removeBtn.addEventListener( 'click', () => {
@@ -567,7 +581,11 @@ function initializeFilterBlock( blockElement ) {
 		removeBtn.className = 'chip-remove';
 		removeBtn.setAttribute(
 			'aria-label',
-			sprintf( __( 'Remove %s filter', 'fau-elemental' ), name )
+			sprintf(
+				/* translators: %s: filter name (e.g., "Search", "Categories") */
+				__( 'Remove %s filter', 'fau-elemental' ),
+				name
+			)
 		);
 		removeBtn.innerHTML = '<span aria-hidden="true">×</span>';
 		removeBtn.addEventListener( 'click', () => {
@@ -633,9 +651,16 @@ function initializeFilterBlock( blockElement ) {
 	function updateResultsCount( total ) {
 		if ( resultsCountElement ) {
 			if ( total === 0 ) {
-				resultsCountElement.textContent = __( 'No results found', 'fau-elemental' );
+				resultsCountElement.textContent = __(
+					'No results found',
+					'fau-elemental'
+				);
 			} else {
-				resultsCountElement.textContent = sprintf( __( 'Total results: %s', 'fau-elemental' ), total );
+				resultsCountElement.textContent = sprintf(
+					/* translators: %s: number of results found */
+					__( 'Total results: %s', 'fau-elemental' ),
+					total
+				);
 			}
 		}
 	}
@@ -643,14 +668,17 @@ function initializeFilterBlock( blockElement ) {
 	function updateLoadingState( isLoading ) {
 		if ( resultsCountElement ) {
 			resultsCountElement.textContent = isLoading
-				? __( 'Loading results...', 'fau-elemental' )
+				? __( 'Loading results…', 'fau-elemental' )
 				: '';
 		}
 	}
 
 	function showError() {
 		if ( resultsCountElement ) {
-			resultsCountElement.textContent = __( 'An error occurred', 'fau-elemental' );
+			resultsCountElement.textContent = __(
+				'An error occurred',
+				'fau-elemental'
+			);
 		}
 	}
 
