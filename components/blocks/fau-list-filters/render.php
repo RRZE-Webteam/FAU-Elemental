@@ -190,7 +190,8 @@ function fau_get_available_filter_options() {
 function fau_list_filters_render_search_section($placeholder, $block_id) {
     $search_id = $block_id . '-search';
     
-    $output = '<div class="fau-list-filters__search-section">';
+    $output = '<section class="fau-list-filters__search-section" aria-labelledby="' . esc_attr($search_id) . '-label">';
+    $output .= '<h3 id="' . esc_attr($search_id) . '-label" class="screen-reader-text">' . esc_html__('Search content', 'fau-elemental') . '</h3>';
     $output .= '<div class="search-wrapper">';
     $output .= sprintf(
         '<input type="search" id="%s" class="search-input" placeholder="%s" aria-label="%s" />',
@@ -200,7 +201,7 @@ function fau_list_filters_render_search_section($placeholder, $block_id) {
     );
     $output .= '<button type="button" class="search-clear search-clear--hidden" aria-label="' . esc_attr__('Clear search', 'fau-elemental') . '"></button>';
     $output .= '</div>';
-    $output .= '</div>';
+    $output .= '</section>';
 
     return $output;
 }
@@ -215,7 +216,8 @@ function fau_list_filters_render_search_section($placeholder, $block_id) {
  * @return string The filter section HTML.
  */
 function fau_list_filters_render_filter_section($filter_fields, $show_more_filters, $block_id, $available_options) {
-    $output = '<div class="fau-list-filters__filter-section">';
+    $output = '<section class="fau-list-filters__filter-section" aria-labelledby="' . esc_attr($block_id) . '-filters-label">';
+    $output .= '<h3 id="' . esc_attr($block_id) . '-filters-label" class="screen-reader-text">' . esc_html__('Filter content', 'fau-elemental') . '</h3>';
     $output .= '<div class="filter-controls">';
 
     // Render configured/preset filters
@@ -279,7 +281,7 @@ function fau_list_filters_render_filter_section($filter_fields, $show_more_filte
     $output .= '<button type="button" class="clear-all-filters clear-all-filters--hidden"><span class="clear-all-text">' . esc_html__( 'Clear all', 'fau-elemental' ) . '</span></button>';
     $output .= '</div>';
 
-    $output .= '</div>'; // .fau-list-filters__filter-section
+    $output .= '</section>'; // .fau-list-filters__filter-section
     return $output;
 }
 
