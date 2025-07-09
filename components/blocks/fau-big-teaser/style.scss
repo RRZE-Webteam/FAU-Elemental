@@ -11,7 +11,7 @@
 	&__content {
 		min-width: 0;
 		flex-basis: 0;
-    	flex-grow: 1;
+		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -38,7 +38,7 @@
 
 	&__image {
 		flex-basis: 0;
-   		flex-grow: 1;
+		flex-grow: 1;
 
 		img {
 			width: 100%;
@@ -50,7 +50,12 @@
 }
 
 // Dark Mode
+.is-style-dark {
 
+	.fau-big-teaser .fau-big-teaser__content h3 {
+		background-color: var(--FAU-Col-FAU-Blau-100);
+	}
+}
 
 // Responsive
 @media screen and (max-width: 1199px) {
