@@ -328,3 +328,31 @@ function fau_elemental_register_teaser_grid_ajax() {
     require_once get_template_directory() . '/components/blocks/fau-teaser-grid/ajax.php';
 }
 add_action('init', 'fau_elemental_register_teaser_grid_ajax');
+
+/**
+ * Clean up XHTML-style trailing slashes on void elements for HTML5 compliance
+ * This fixes validation warnings about trailing slashes on void elements
+ */
+function fau_elemental_clean_void_element_slashes() {
+    ob_start(function($html) {
+        // List of HTML5 void elements that should not have trailing slashes
+        $void_elements = array(
+            'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 
+            'link', 'meta', 'param', 'source', 'track', 'wbr'
+        );
+        
+        foreach ($void_elements as $element) {
+            // Remove trailing slash and space before it: " />" becomes ">"
+            $html = preg_replace('/<' . $element . '([^>]*?)\s*\/>/i', '<' . $element . '$1>', $html);
+        }
+        
+        return $html;
+    });
+}
+
+// Hook this late to clean up all output
+add_action('template_redirect', function() {
+    if (!is_admin()) {
+        fau_elemental_clean_void_element_slashes();
+    }
+});
