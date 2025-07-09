@@ -9,7 +9,8 @@
 	"description": "A reusable pagination component with basic and load-more variants",
 	"supports": {
 		"html": false,
-		"className": true
+		"className": true,
+		"inserter": false
 	},
 	"textdomain": "fau-elemental",
 	"keywords": [ "fau", "pagination", "navigation" ],

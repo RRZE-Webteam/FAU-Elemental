@@ -10,7 +10,8 @@
 	"description": "A block to filter teaser grids by various criteria.",
 	"supports": {
 		"html": false,
-		"className": true
+		"className": true,
+		"inserter": false
 	},
 	"textdomain": "fau-elemental",
 	"editorScript": "file:./index.js",
