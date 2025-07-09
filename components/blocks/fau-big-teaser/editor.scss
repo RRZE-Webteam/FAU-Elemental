@@ -5,6 +5,8 @@
 
 // Editor preview layout to match frontend
 
+@use "../../ui/mixins/mixins" as *;
+
 .fau-big-teaser-editor-preview {
 	box-sizing: content-box;
 	display: flex;
@@ -14,4 +16,37 @@
 	margin-left: auto;
 	max-width: var(--wide-max-width);
 	padding: var(--Spacing-8x) var(--Spacing-10x);
+
+	.fau-big-teaser__content {
+
+		h3 {
+			min-width: calc(100% + 5.5rem) !important; // Override WP inline style
+		}
+
+		.wp-block-button__link {
+			width: auto;
+		}
+	}
+}
+
+@media screen and (max-width: 899px) {
+
+	.fau-big-teaser-editor-preview {
+		flex-direction: column-reverse;
+		gap: unset;
+
+		.fau-big-teaser__content {
+
+			h3 {
+				min-width: unset !important;
+			}
+		}
+	}
+}
+
+@include respond-to("x-small") {
+
+	.fau-big-teaser-editor-preview {
+		padding: unset;
+	}
 }

@@ -197,14 +197,16 @@ export default function Edit( { attributes, setAttributes } ) {
 						/>
 
 						{ linkText && linkUrl && (
-							<div className="wp-block-button is-style-tertiary">
-								<a
-									href={ linkUrl }
-									className="wp-block-button__link wp-element-button"
-									onClick={ ( e ) => e.preventDefault() }
-								>
-									{ linkText }
-								</a>
+							<div className="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
+								<div className="wp-block-button is-style-tertiary">
+									<a
+										href={ linkUrl }
+										className="wp-block-button__link wp-element-button"
+										onClick={ ( e ) => e.preventDefault() }
+									>
+										{ linkText }
+									</a>
+								</div>
 							</div>
 						) }
 					</div>
