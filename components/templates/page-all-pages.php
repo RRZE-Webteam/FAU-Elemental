@@ -4,6 +4,36 @@
  * @package FAU-Elemental
  */
 
+// Handle pagination validation before any output
+add_action('template_redirect', function() {
+    // Only run on this specific template
+    if (!is_page() || get_page_template_slug() !== 'page-all-pages.php') {
+        return;
+    }
+    
+    // Use WordPress standard pagination query var
+    $current_page = max(1, get_query_var('paged', 1));
+    
+    // Calculate total pages for validation
+    $posts_per_page = 6;
+    $count_query = new WP_Query([
+        'post_type' => 'page',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'fields' => 'ids'
+    ]);
+    $total_posts = $count_query->found_posts; 
+    wp_reset_postdata();
+    $total_pages = max(1, ceil($total_posts / $posts_per_page));
+    
+    // Validate current page and redirect if necessary
+    if ($current_page > $total_pages && $total_pages > 0) {
+        // Redirect to last valid page
+        wp_safe_redirect(get_permalink() . 'page/' . $total_pages . '/');
+        exit;
+    }
+});
+
 get_header(); ?>
 
 <main class="wp-block-group all-pages-page">
@@ -29,21 +59,9 @@ get_header(); ?>
         $grid_block_id = 'fau-teaser-grid-all-pages-page';
         $pagination_block_id = 'fau-pagination-all-pages-page';
         
-        $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
-        
-        echo do_blocks('<!-- wp:fau-elemental/fau-list-filters {"enableSearch":true,"searchPlaceholder":"' . esc_attr__('Search pages...', 'fau-elemental') . '","enableFilters":true,"filterFields":[{"name":"page_template","label":"' . esc_attr__('All Templates', 'fau-elemental') . '","type":"meta","meta_key":"_wp_page_template"},{"name":"parent_page","label":"' . esc_attr__('All Parent Pages', 'fau-elemental') . '","type":"hierarchy"}],"showMoreFiltersButton":false,"enableViewSwitcher":true,"availableViews":["cards","table"],"defaultView":"cards","enableSorting":true,"sortOptions":[{"value":"title","label":"' . esc_attr__('Alphabetical', 'fau-elemental') . '"},{"value":"date","label":"' . esc_attr__('Latest First', 'fau-elemental') . '"},{"value":"modified","label":"' . esc_attr__('Recently Updated', 'fau-elemental') . '"}],"defaultSort":"title","showResultsCount":true,"resultsPerPage":12,"gridWidth":"12","customBlockId":"' . $filter_block_id . '"} /-->');
-        ?>
-    </section>
-
-    <section class="content-grid" aria-label="<?php esc_attr_e('Pages listing', 'fau-elemental'); ?>">
-        <?php
-        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"page","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":12,"selectedCategory":0,"orderBy":"title","order":"ASC","headingLevel":"h2","showLoadMore":false,"showPagination":true,"currentPage":' . $current_page . ',"customBlockId":"' . $grid_block_id . '","filterBlockId":"' . $filter_block_id . '","paginationBlockId":"' . $pagination_block_id . '"} /-->');
-        ?>
-    </section>
-
-    <nav class="content-pagination" aria-label="<?php esc_attr_e('Pages pagination', 'fau-elemental'); ?>">
-        <?php
-        $posts_per_page = 12;
+        // Get pagination variables (validation already handled in template_redirect)
+        $current_page = max(1, get_query_var('paged', 1));
+        $posts_per_page = 6;
         $count_query = new WP_Query([
             'post_type' => 'page',
             'post_status' => 'publish',
@@ -54,6 +72,19 @@ get_header(); ?>
         wp_reset_postdata();
         $total_pages = max(1, ceil($total_posts / $posts_per_page));
         
+        // Only provide post type context, no preset filters, and disable showMoreFiltersButton
+        echo do_blocks('<!-- wp:fau-elemental/fau-list-filters {"enableSearch":true,"searchPlaceholder":"' . esc_attr__('Search pages...', 'fau-elemental') . '","enableFilters":true,"filterFields":[{"postType":"page"}],"showMoreFiltersButton":false,"enableViewSwitcher":true,"availableViews":["cards","table"],"defaultView":"cards","enableSorting":true,"sortOptions":[{"value":"title","label":"' . esc_attr__('Alphabetical', 'fau-elemental') . '"},{"value":"date","label":"' . esc_attr__('Latest First', 'fau-elemental') . '"},{"value":"modified","label":"' . esc_attr__('Recently Updated', 'fau-elemental') . '"}],"defaultSort":"title","showResultsCount":true,"resultsPerPage":6,"gridWidth":"12","customBlockId":"' . $filter_block_id . '"} /-->');
+        ?>
+    </section>
+
+    <section class="content-grid" aria-label="<?php esc_attr_e('Pages listing', 'fau-elemental'); ?>">
+        <?php
+        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"page","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":6,"selectedCategory":0,"orderBy":"title","order":"ASC","headingLevel":"h2","showLoadMore":false,"showPagination":true,"currentPage":' . $current_page . ',"customBlockId":"' . $grid_block_id . '","filterBlockId":"' . $filter_block_id . '","paginationBlockId":"' . $pagination_block_id . '"} /-->');
+        ?>
+    </section>
+
+    <nav class="content-pagination" aria-label="<?php esc_attr_e('Pages pagination', 'fau-elemental'); ?>">
+        <?php
         echo do_blocks('<!-- wp:fau-elemental/fau-pagination {"variant":"basic","currentPage":' . $current_page . ',"totalPages":' . $total_pages . ',"customBlockId":"' . $pagination_block_id . '","gridBlockId":"' . $grid_block_id . '","filterBlockId":"' . $filter_block_id . '"} /-->');
         ?>
     </nav>

@@ -45,7 +45,7 @@ function render_block_fau_list_filters( $attributes, $content, $block ) {
     $block_id = !empty($custom_block_id) ? $custom_block_id : 'fau-list-filters-' . uniqid();
 
     // Get general filter options
-    $available_filter_options = fau_get_available_filter_options();
+    $available_filter_options = fau_get_available_filter_options($filter_fields);
 
     // Start building the output
     $wrapper_attributes = get_block_wrapper_attributes([
@@ -103,9 +103,19 @@ function render_block_fau_list_filters( $attributes, $content, $block ) {
 /**
  * Get available filter options from WordPress content.
  *
+ * @param array $filter_fields The configured filter fields.
  * @return array Available filter options.
  */
-function fau_get_available_filter_options() {
+function fau_get_available_filter_options($filter_fields = []) {
+    // Determine the post type context from any filter field
+    $context_post_type = 'post'; // Default to post
+    foreach ($filter_fields as $field) {
+        if (isset($field['postType'])) {
+            $context_post_type = $field['postType'];
+            break; // Use the first postType found
+        }
+    }
+    
     $filter_options = [
         'categories' => [
             'label' => __('Categories', 'fau-elemental'),
@@ -125,8 +135,18 @@ function fau_get_available_filter_options() {
         ]
     ];
 
-    // Get categories
-    $categories = get_categories(['hide_empty' => true]);
+    // Get categories used by the context post type
+    $categories = get_terms([
+        'taxonomy' => 'category',
+        'hide_empty' => true,
+        'object_ids' => get_posts([
+            'post_type' => $context_post_type,
+            'post_status' => 'publish',
+            'numberposts' => -1,
+            'fields' => 'ids'
+        ])
+    ]);
+    
     foreach ($categories as $category) {
         $filter_options['categories']['options'][] = [
             'value' => $category->slug,
@@ -135,8 +155,18 @@ function fau_get_available_filter_options() {
         ];
     }
 
-    // Get tags
-    $tags = get_tags(['hide_empty' => true]);
+    // Get tags used by the context post type
+    $tags = get_terms([
+        'taxonomy' => 'post_tag',
+        'hide_empty' => true,
+        'object_ids' => get_posts([
+            'post_type' => $context_post_type,
+            'post_status' => 'publish',
+            'numberposts' => -1,
+            'fields' => 'ids'
+        ])
+    ]);
+    
     foreach ($tags as $tag) {
         $filter_options['tags']['options'][] = [
             'value' => $tag->slug,
@@ -145,10 +175,10 @@ function fau_get_available_filter_options() {
         ];
     }
 
-    // Get authors
+    // Get authors for the context post type
     $authors = get_users( [ 'capability' => [ 'edit_posts' ] ] );
     foreach ($authors as $author) {
-        $post_count = count_user_posts($author->ID);
+        $post_count = count_user_posts($author->ID, $context_post_type);
         if ($post_count > 0) {
             $filter_options['authors']['options'][] = [
                 'value' => $author->user_nicename,
@@ -158,16 +188,16 @@ function fau_get_available_filter_options() {
         }
     }
 
-    // Get years from posts
+    // Get years for the context post type
     global $wpdb;
-    $years = $wpdb->get_results("
+    $years = $wpdb->get_results($wpdb->prepare("
         SELECT DISTINCT YEAR(post_date) as year, COUNT(*) as count 
         FROM {$wpdb->posts} 
         WHERE post_status = 'publish' 
-        AND post_type IN ('post', 'page') 
+        AND post_type = %s 
         GROUP BY YEAR(post_date) 
         ORDER BY year DESC
-    ");
+    ", $context_post_type));
     
     foreach ($years as $year_data) {
         $filter_options['years']['options'][] = [

@@ -45,7 +45,7 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
     );
     $output .= '</div>';
 
-    // Add date meta for posts
+    // Add date meta for posts (visible)
     if ($variant === 'post') {
         $date_obj = new DateTime($post->post_date);
         $day = $date_obj->format('d');
@@ -60,6 +60,16 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
         $output .= sprintf('<span class="date-month-year">%s</span>', esc_html($month_year));
         $output .= '</time>';
         $output .= '</div>';
+    }
+    
+    // Add hidden date meta for pages (for sorting purposes)
+    if ($variant === 'page') {
+        $output .= sprintf(
+            '<time datetime="%s" style="display: none;" data-created="%s" data-modified="%s"></time>',
+            esc_attr($post->post_date),
+            esc_attr($post->post_date),
+            esc_attr($post->post_modified)
+        );
     }
 
     $output .= '</div>'; // Close image wrapper

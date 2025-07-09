@@ -278,13 +278,20 @@ function initializeFilterBlock( blockElement ) {
 							?.textContent.trim() || ''
 					);
 				case 'modified':
+					// For pages, use the data-modified attribute, for posts use datetime
+					const timeElement = item.querySelector( 'time' );
+					if ( timeElement ) {
+						return timeElement.getAttribute( 'data-modified' ) || timeElement.getAttribute( 'datetime' ) || '0';
+					}
+					return '0';
 				case 'date':
 				default:
-					return (
-						item
-							.querySelector( 'time' )
-							?.getAttribute( 'datetime' ) || '0'
-					);
+					// For pages, use the data-created attribute, for posts use datetime
+					const timeEl = item.querySelector( 'time' );
+					if ( timeEl ) {
+						return timeEl.getAttribute( 'data-created' ) || timeEl.getAttribute( 'datetime' ) || '0';
+					}
+					return '0';
 			}
 		};
 
