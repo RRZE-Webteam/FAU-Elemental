@@ -5,6 +5,7 @@
 	"version": "1.0.0",
 	"title": "FAU Global Search",
 	"category": "fau-elemental/FAU",
+	"icon": "search",
 	"description": "A global search component for FAU websites with configurable width and target page",
 	"keywords": [ "search", "global", "fau" ],
 	"supports": {
@@ -24,8 +25,8 @@
 	},
 	"textdomain": "fau-elemental",
 	"editorScript": "file:./index.js",
-	"editorStyle": "file:./editor.scss",
-	"style": "file:./style.scss",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style-theme.css",
 	"viewScript": "file:./view.js",
 	"render": "file:./render.php"
 }

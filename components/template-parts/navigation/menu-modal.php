@@ -239,29 +239,9 @@ class Menu_Modal {
             $block_content = '<!-- wp:fau-elemental/fau-global-search {"title":"' . esc_attr(__('Search', 'fau-elemental')) . '","searchScope":"fau-wide"} /-->';
             
             echo '<div class="menu-modal__search-wrapper">';
-            echo '<h2 class="menu-modal__search-heading">' . __('Search all pages and documents:', 'fau-elemental') . '</h2>';
+            echo '<h4 class="menu-modal__search-heading">' . __('Search all pages and documents:', 'fau-elemental') . '</h4>';
             echo do_blocks($block_content);
             echo '</div>';
-            ?>
-            <script>
-            jQuery(document).ready(function($) {
-                // Use event delegation to handle form submission
-                $(document).on('submit', '#search-modal .wp-block-fau-elemental-fau-global-search__form', function(e) {
-                    e.preventDefault(); // Prevent default form submission
-                    
-                    // Get the search query
-                    const searchQuery = $(this).find('input[name="s"]').val();
-                    const searchScope = $(this).find('input[name="fau_search_scope"]').val() || 'current';
-                    
-                    // Close the modal
-                    $('#search-modal .menu-modal__close-btn').trigger('click');
-                    
-                    // Navigate to search results page
-                    window.location.href = '<?php echo esc_url(home_url('/')); ?>?s=' + encodeURIComponent(searchQuery) + '&fau_search_scope=' + encodeURIComponent(searchScope);
-                });
-            });
-            </script>
-            <?php
             return;
         }
 

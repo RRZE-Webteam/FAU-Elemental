@@ -4,32 +4,53 @@
 
 document.addEventListener( 'DOMContentLoaded', function () {
 	// Find all search forms with advanced features enabled
-	const searchConfigs = document.querySelectorAll(
-		'.fau-global-search-config'
+	const searchForms = document.querySelectorAll(
+		'.fau-global-search[data-advanced-features="true"]'
 	);
 
-	searchConfigs.forEach( ( configElement ) => {
-		try {
-			const config = JSON.parse( configElement.textContent );
-			const form = document.getElementById( config.formId );
-			const input = document.getElementById( config.formId + '-input' );
+	searchForms.forEach( ( form ) => {
+		const input = form.querySelector( '.fau-global-search__input' );
 
-			if ( ! form || ! input ) {
-				return;
-			}
+		if ( ! form || ! input ) {
+			return;
+		}
 
-			// Initialize advanced features
-			if ( config.enableAutocomplete ) {
-				// Initialize in order: autocomplete first (creates structure), then features that depend on it
-				initializeAutocomplete( input, form );
-				initializeSearchOptionsMenu( form, input );
-				initializeFrequentSearches( input, form );
-			}
-		} catch ( error ) {
-			// Failed to parse search config
+		// Initialize advanced features
+		if ( form.dataset.enableAutocomplete === 'true' ) {
+			// Initialize in order: autocomplete first (creates structure), then features that depend on it
+			initializeAutocomplete( input, form );
+			initializeSearchOptionsMenu( form, input );
+			initializeFrequentSearches( input, form );
 		}
 	} );
 } );
+
+/**
+ * Get translatable message from hidden elements
+ */
+function getTranslatableMessage( form, messageType ) {
+	const messagesContainer = form.querySelector( '.fau-global-search__hidden-messages' );
+	if ( ! messagesContainer ) {
+		// Fallback for forms without hidden messages
+		const fallbacks = {
+			'searching': 'Searching...',
+			'no-suggestions': 'No suggestions found',
+			'no-results': 'No results found for "%s"',
+			'page': 'Page',
+			'post': 'Post',
+			'frequent-searches': 'Frequent Searches',
+			'loading': 'Loading...',
+			'no-search-data': 'No search data available yet',
+			'loading-options': 'Loading search options...',
+			'search-options': 'Search Options',
+			'advanced-search': 'Advanced Search'
+		};
+		return fallbacks[ messageType ] || '';
+	}
+	
+	const messageElement = messagesContainer.querySelector( `.fau-global-search__message-${ messageType }` );
+	return messageElement ? messageElement.textContent : '';
+}
 
 /**
  * Initialize autocomplete functionality
@@ -142,9 +163,10 @@ function initializeAutocomplete( input, form ) {
 		const container = createSuggestionsContainer();
 
 		// Show loading state
+		const searchingText = getTranslatableMessage( form, 'searching' );
 		container.innerHTML = `
 			<div class="fau-global-search__suggestion-item fau-global-search__suggestion-loading">
-				<span>Searching...</span>
+				<span>${ searchingText }</span>
 			</div>
 		`;
 		container.style.display = 'block';
@@ -164,9 +186,10 @@ function initializeAutocomplete( input, form ) {
 			} )
 			.catch( () => {
 				if ( container.parentNode ) {
+					const noSuggestionsText = getTranslatableMessage( form, 'no-suggestions' );
 					container.innerHTML = `
 						<div class="fau-global-search__suggestion-item">
-							<span>No suggestions found</span>
+							<span>${ noSuggestionsText }</span>
 						</div>
 					`;
 				}
@@ -176,9 +199,10 @@ function initializeAutocomplete( input, form ) {
 	// Display search suggestions
 	function displaySuggestions( results, query, container ) {
 		if ( ! results || results.length === 0 ) {
+			const noResultsText = getTranslatableMessage( form, 'no-results' ).replace( '%s', query );
 			container.innerHTML = `
 				<div class="fau-global-search__suggestion-item">
-					<span>Keine Ergebnisse für "${ query }" gefunden</span>
+					<span>${ noResultsText }</span>
 				</div>
 			`;
 			return;
@@ -199,14 +223,14 @@ function initializeAutocomplete( input, form ) {
 		// Limit to 5 results maximum
 		const limitedResults = uniqueResults.slice( 0, 5 );
 
-		let html =
-			'<div class="fau-global-search__suggestions-header">Live-Suchergebnisse (FAU-weit)</div>';
-		html += '<div class="fau-global-search__suggestions-list">';
+		html = '<div class="fau-global-search__suggestions-list">';
 
 		limitedResults.forEach( ( result ) => {
 			// Handle both old format (subtype) and new format (type)
+			const pageText = getTranslatableMessage( form, 'page' );
+			const postText = getTranslatableMessage( form, 'post' );
 			const type =
-				result.type || ( result.subtype === 'page' ? 'Page' : 'Post' );
+				result.type || ( result.subtype === 'page' ? pageText : postText );
 
 			// Show site name for network results
 			const siteIndicator =
@@ -368,11 +392,13 @@ function initializeFrequentSearches( input, form ) {
 		const container = createFrequentContainer();
 
 		// Show loading state
+		const frequentSearchesText = getTranslatableMessage( form, 'frequent-searches' );
+		const loadingText = getTranslatableMessage( form, 'loading' );
 		container.innerHTML = `
-			<div class="fau-global-search__frequent-header">Häufige Suchen</div>
+			<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>
 			<div class="fau-global-search__frequent-list">
-				<div class="fau-global-search__frequent-item" style="opacity: 0.7;">
-					<span>Laden...</span>
+				<div class="fau-global-search__frequent-item">
+					<span>${ loadingText }</span>
 				</div>
 			</div>
 		`;
@@ -403,11 +429,13 @@ function initializeFrequentSearches( input, form ) {
 					displayFrequentSearches( data.data.searches, container );
 				} else {
 					// No search data available yet - hide the container
+					const frequentSearchesText = getTranslatableMessage( form, 'frequent-searches' );
+					const noSearchDataText = getTranslatableMessage( form, 'no-search-data' );
 					container.innerHTML = `
-					<div class="fau-global-search__frequent-header">Häufige Suchen</div>
+					<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>
 					<div class="fau-global-search__frequent-list">
-						<div style="padding: 12px; opacity: 0.7; font-size: 14px;">
-							Noch keine Suchdaten verfügbar
+						<div>
+							${ noSearchDataText }
 						</div>
 					</div>
 				`;
@@ -421,8 +449,9 @@ function initializeFrequentSearches( input, form ) {
 
 	// Display frequent searches with click handlers
 	function displayFrequentSearches( searches, container ) {
+		const frequentSearchesText = getTranslatableMessage( form, 'frequent-searches' );
 		let html =
-			'<div class="fau-global-search__frequent-header">Häufige Suchen</div>';
+			`<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>`;
 		html += '<div class="fau-global-search__frequent-list">';
 
 		searches.forEach( ( query ) => {
@@ -541,7 +570,7 @@ function initializeSearchOptionsMenu( form, input ) {
 	}
 
 	// Fetch the search options menu
-	fetchSearchOptionsMenu( menuContainer );
+	fetchSearchOptionsMenu( menuContainer, form );
 
 	// Expose show/hide functions for the frequent searches module
 	input._showSearchOptionsMenu = function () {
@@ -560,11 +589,12 @@ function initializeSearchOptionsMenu( form, input ) {
 /**
  * Fetch search options menu from WordPress
  */
-function fetchSearchOptionsMenu( container ) {
+function fetchSearchOptionsMenu( container, form ) {
 	// Show loading state
+	const loadingOptionsText = getTranslatableMessage( form, 'loading-options' );
 	container.innerHTML = `
 		<div class="fau-global-search__menu-loading">
-			<span>Loading search options...</span>
+			<span>${ loadingOptionsText }</span>
 		</div>
 	`;
 
@@ -577,28 +607,28 @@ function fetchSearchOptionsMenu( container ) {
 		.then( ( response ) => {
 			if ( ! response.ok ) {
 				// If REST API doesn't work, try an alternative approach
-				return fetchSearchOptionsMenuFallback( container );
+				return fetchSearchOptionsMenuFallback( container, form );
 			}
 			return response.json();
 		} )
 		.then( ( menuItems ) => {
 			if ( Array.isArray( menuItems ) && menuItems.length > 0 ) {
-				displaySearchOptionsMenu( menuItems, container );
+				displaySearchOptionsMenu( menuItems, container, form );
 			} else {
 				// Try fallback approach
-				fetchSearchOptionsMenuFallback( container );
+				fetchSearchOptionsMenuFallback( container, form );
 			}
 		} )
 		.catch( () => {
 			// Fallback approach
-			fetchSearchOptionsMenuFallback( container );
+			fetchSearchOptionsMenuFallback( container, form );
 		} );
 }
 
 /**
  * Fallback method to fetch menu using a simpler approach
  */
-function fetchSearchOptionsMenuFallback( container ) {
+function fetchSearchOptionsMenuFallback( container, form ) {
 	// Try to get menu via admin-ajax
 	const ajaxUrl = '/wp-admin/admin-ajax.php';
 	const formData = new FormData();
@@ -621,10 +651,12 @@ function fetchSearchOptionsMenuFallback( container ) {
 		} )
 		.catch( () => {
 			// If all fails, show some default options or hide
+			const searchOptionsText = getTranslatableMessage( form, 'search-options' );
+			const advancedSearchText = getTranslatableMessage( form, 'advanced-search' );
 			container.innerHTML = `
-				<div class="fau-global-search__menu-header">Search Options</div>
+				<div class="fau-global-search__menu-header">${ searchOptionsText }</div>
 				<div class="fau-global-search__menu-item">
-					<a href="/search/">Advanced Search</a>
+					<a href="/search/">${ advancedSearchText }</a>
 				</div>
 			`;
 			addMenuClickHandlers( container );
@@ -634,14 +666,15 @@ function fetchSearchOptionsMenuFallback( container ) {
 /**
  * Display search options menu items
  */
-function displaySearchOptionsMenu( menuItems, container ) {
+function displaySearchOptionsMenu( menuItems, container, form ) {
 	if ( ! menuItems || menuItems.length === 0 ) {
 		container.style.display = 'none';
 		return;
 	}
 
+	const searchOptionsText = getTranslatableMessage( form, 'search-options' );
 	let html =
-		'<div class="fau-global-search__menu-header">Search Options</div>';
+		`<div class="fau-global-search__menu-header">${ searchOptionsText }</div>`;
 	html += '<div class="fau-global-search__menu-list">';
 
 	// Build menu structure (handle parent/child relationships)

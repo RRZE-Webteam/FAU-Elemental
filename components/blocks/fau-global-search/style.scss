@@ -1,1 +1,6 @@
-// FAU Global Search Block Styles - Removed
+// FAU Global Search Block Styles
+.fau-global-search {
+	&__hidden {
+		display: none;
+	}
+}

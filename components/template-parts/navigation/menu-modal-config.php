@@ -117,13 +117,4 @@ function fau_elemental_get_structure_menu_items() {
     return Menu_Modal::get_instance()->get_main_site_menu('top_header_nav_structure');
 } 
 
-/**
- * Check if search functionality is available
- *
- * @return bool
- */
-function fau_elemental_has_search() {
-    // Since the search block is part of the theme, always return true
-    // The search modal will handle any missing functionality gracefully
-    return true;
-}
+

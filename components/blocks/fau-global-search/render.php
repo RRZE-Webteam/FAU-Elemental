@@ -23,15 +23,13 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
-	<div class="fau-global-search">
-		<div class="fau-global-search__container">
-			<form 
-				class="fau-global-search__form" 
-				method="get" 
-				action="<?php echo home_url('/'); ?>"
-				id="<?php echo $form_id; ?>"
-				<?php if ($width === 'content-size'): ?>data-advanced-features="true"<?php endif; ?>
-			>
+	<form 
+		class="fau-global-search fau-global-search__form" 
+		method="get" 
+		action="<?php echo home_url('/'); ?>"
+		id="<?php echo $form_id; ?>"
+		<?php if ($width === 'content-size'): ?>data-advanced-features="true" data-enable-autocomplete="true"<?php endif; ?>
+	>
 				<div class="fau-global-search__input-wrapper">
 					<input
 						type="search"
@@ -74,16 +72,44 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 						</label>
 					</div>
 				<?php endif; ?>
-			</form>
-		</div>
-	</div>
-</div>
 
-<?php if ($width === 'content-size'): ?>
-<script type="application/json" class="fau-global-search-config">
-{
-	"formId": "<?php echo esc_js($form_id); ?>",
-	"enableAutocomplete": true
-}
-</script>
-<?php endif; ?> 
+				<?php if ($width === 'content-size'): ?>
+					<!-- Hidden elements for JavaScript to use (translatable) -->
+					<div class="fau-global-search__hidden-messages fau-global-search__hidden">
+						<div class="fau-global-search__message-searching">
+							<?php echo __('Searching...', 'fau-elemental'); ?>
+						</div>
+						<div class="fau-global-search__message-no-suggestions">
+							<?php echo __('No suggestions found', 'fau-elemental'); ?>
+						</div>
+						<div class="fau-global-search__message-no-results">
+							<?php echo __('No results found for "%s"', 'fau-elemental'); ?>
+						</div>
+						<div class="fau-global-search__message-page">
+							<?php echo __('Page', 'fau-elemental'); ?>
+						</div>
+						<div class="fau-global-search__message-post">
+							<?php echo __('Post', 'fau-elemental'); ?>
+						</div>
+						<div class="fau-global-search__message-frequent-searches">
+							<?php echo __('Frequent Searches', 'fau-elemental'); ?>
+						</div>
+						<div class="fau-global-search__message-loading">
+							<?php echo __('Loading...', 'fau-elemental'); ?>
+						</div>
+						<div class="fau-global-search__message-no-search-data">
+							<?php echo __('No search data available yet', 'fau-elemental'); ?>
+						</div>
+						<div class="fau-global-search__message-loading-options">
+							<?php echo __('Loading search options...', 'fau-elemental'); ?>
+						</div>
+						<div class="fau-global-search__message-search-options">
+							<?php echo __('Search Options', 'fau-elemental'); ?>
+						</div>
+						<div class="fau-global-search__message-advanced-search">
+							<?php echo __('Advanced Search', 'fau-elemental'); ?>
+						</div>
+					</div>
+				<?php endif; ?>
+	</form>
+</div> 

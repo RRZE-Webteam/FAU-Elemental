@@ -2,10 +2,6 @@ import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- */
 export default function Edit( { attributes, setAttributes } ) {
 	const { width } = attributes;
 
@@ -50,78 +46,74 @@ export default function Edit( { attributes, setAttributes } ) {
 			</InspectorControls>
 
 			<div { ...blockProps }>
-				<div className="fau-global-search">
-					<div className="fau-global-search__container">
-						<form className="fau-global-search__form">
-							<div className="fau-global-search__input-wrapper">
+				<form className="fau-global-search fau-global-search__form">
+					<div className="fau-global-search__input-wrapper">
+						<input
+							type="search"
+							className="fau-global-search__input"
+							placeholder={ __(
+								'Search…',
+								'fau-elemental'
+							) }
+							disabled
+						/>
+						<button
+							type="submit"
+							className="fau-global-search__button"
+							disabled
+						>
+							<span className="fau-global-search__button-text">
+								{ __( 'Search', 'fau-elemental' ) }
+							</span>
+							<span
+								className="fau-global-search__button-icon"
+								aria-hidden="true"
+							></span>
+						</button>
+					</div>
+
+					{ width === 'content-size' && (
+						<div className="fau-global-search__scope">
+							<label
+								className="fau-global-search__scope-option"
+								htmlFor="scope-global-preview"
+							>
 								<input
-									type="search"
-									className="fau-global-search__input"
-									placeholder={ __(
-										'Search…',
-										'fau-elemental'
-									) }
+									type="radio"
+									name="scope"
+									value="global"
+									id="scope-global-preview"
+									defaultChecked
 									disabled
 								/>
-								<button
-									type="submit"
-									className="fau-global-search__button"
+								<span>
+									{ __(
+										'Global Search',
+										'fau-elemental'
+									) }
+								</span>
+							</label>
+							<label
+								className="fau-global-search__scope-option"
+								htmlFor="scope-website-preview"
+							>
+								<input
+									type="radio"
+									name="scope"
+									value="website"
+									id="scope-website-preview"
 									disabled
-								>
-									<span className="fau-global-search__button-text">
-										{ __( 'Search', 'fau-elemental' ) }
-									</span>
-									<span
-										className="fau-global-search__button-icon"
-										aria-hidden="true"
-									></span>
-								</button>
-							</div>
-
-							{ width === 'content-size' && (
-								<div className="fau-global-search__scope">
-									<label
-										className="fau-global-search__scope-option"
-										htmlFor="scope-global-preview"
-									>
-										<input
-											type="radio"
-											name="scope"
-											value="global"
-											id="scope-global-preview"
-											defaultChecked
-											disabled
-										/>
-										<span>
-											{ __(
-												'Global Search',
-												'fau-elemental'
-											) }
-										</span>
-									</label>
-									<label
-										className="fau-global-search__scope-option"
-										htmlFor="scope-website-preview"
-									>
-										<input
-											type="radio"
-											name="scope"
-											value="website"
-											id="scope-website-preview"
-											disabled
-										/>
-										<span>
-											{ __(
-												'Website Search',
-												'fau-elemental'
-											) }
-										</span>
-									</label>
-								</div>
-							) }
-						</form>
-					</div>
-				</div>
+								/>
+								<span>
+									{ __(
+										'Website Search',
+										'fau-elemental'
+									) }
+								</span>
+							</label>
+						</div>
+					) }
+				</form>
 			</div>
 		</>
 	);
