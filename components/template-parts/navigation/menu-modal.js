@@ -62,9 +62,13 @@
 			} );
 
 			// Handle search form submission in search modal
-			$( document ).on( 'submit', '#search-modal .fau-global-search', ( e ) => {
-				this.handleSearchFormSubmission( e );
-			} );
+			$( document ).on(
+				'submit',
+				'#search-modal .fau-global-search',
+				( e ) => {
+					this.handleSearchFormSubmission( e );
+				}
+			);
 
 			$( document ).on(
 				'click',
@@ -749,20 +753,27 @@
 
 		handleSearchFormSubmission( e ) {
 			e.preventDefault(); // Prevent default form submission
-			
+
 			const $form = $( e.currentTarget );
-			
+
 			// Get the search query
 			const searchQuery = $form.find( 'input[name="s"]' ).val();
-			const searchScope = $form.find( 'input[name="fau_search_scope"]:checked' ).val() || 'current-site';
-			
+			const searchScope =
+				$form.find( 'input[name="fau_search_scope"]:checked' ).val() ||
+				'current-site';
+
 			// Close the modal
 			this.closeCurrentModal();
-			
+
 			// Build search URL
 			const homeUrl = window.location.origin + '/';
-			const searchUrl = homeUrl + '?s=' + encodeURIComponent( searchQuery ) + '&fau_search_scope=' + encodeURIComponent( searchScope );
-			
+			const searchUrl =
+				homeUrl +
+				'?s=' +
+				encodeURIComponent( searchQuery ) +
+				'&fau_search_scope=' +
+				encodeURIComponent( searchScope );
+
 			// Navigate to search results page
 			window.location.href = searchUrl;
 		}

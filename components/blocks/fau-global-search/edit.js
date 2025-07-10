@@ -51,10 +51,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						<input
 							type="search"
 							className="fau-global-search__input"
-							placeholder={ __(
-								'Search…',
-								'fau-elemental'
-							) }
+							placeholder={ __( 'Search…', 'fau-elemental' ) }
 							disabled
 						/>
 						<button
@@ -87,10 +84,7 @@ export default function Edit( { attributes, setAttributes } ) {
 									disabled
 								/>
 								<span>
-									{ __(
-										'Global Search',
-										'fau-elemental'
-									) }
+									{ __( 'Global Search', 'fau-elemental' ) }
 								</span>
 							</label>
 							<label
@@ -105,10 +99,7 @@ export default function Edit( { attributes, setAttributes } ) {
 									disabled
 								/>
 								<span>
-									{ __(
-										'Website Search',
-										'fau-elemental'
-									) }
+									{ __( 'Website Search', 'fau-elemental' ) }
 								</span>
 							</label>
 						</div>

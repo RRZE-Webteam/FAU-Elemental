@@ -29,26 +29,30 @@ document.addEventListener( 'DOMContentLoaded', function () {
  * Get translatable message from hidden elements
  */
 function getTranslatableMessage( form, messageType ) {
-	const messagesContainer = form.querySelector( '.fau-global-search__hidden-messages' );
+	const messagesContainer = form.querySelector(
+		'.fau-global-search__hidden-messages'
+	);
 	if ( ! messagesContainer ) {
 		// Fallback for forms without hidden messages
 		const fallbacks = {
-			'searching': 'Searching...',
+			searching: 'Searching...',
 			'no-suggestions': 'No suggestions found',
 			'no-results': 'No results found for "%s"',
-			'page': 'Page',
-			'post': 'Post',
+			page: 'Page',
+			post: 'Post',
 			'frequent-searches': 'Frequent Searches',
-			'loading': 'Loading...',
+			loading: 'Loading...',
 			'no-search-data': 'No search data available yet',
 			'loading-options': 'Loading search options...',
 			'search-options': 'Search Options',
-			'advanced-search': 'Advanced Search'
+			'advanced-search': 'Advanced Search',
 		};
 		return fallbacks[ messageType ] || '';
 	}
-	
-	const messageElement = messagesContainer.querySelector( `.fau-global-search__message-${ messageType }` );
+
+	const messageElement = messagesContainer.querySelector(
+		`.fau-global-search__message-${ messageType }`
+	);
 	return messageElement ? messageElement.textContent : '';
 }
 
@@ -186,7 +190,10 @@ function initializeAutocomplete( input, form ) {
 			} )
 			.catch( () => {
 				if ( container.parentNode ) {
-					const noSuggestionsText = getTranslatableMessage( form, 'no-suggestions' );
+					const noSuggestionsText = getTranslatableMessage(
+						form,
+						'no-suggestions'
+					);
 					container.innerHTML = `
 						<div class="fau-global-search__suggestion-item">
 							<span>${ noSuggestionsText }</span>
@@ -199,7 +206,10 @@ function initializeAutocomplete( input, form ) {
 	// Display search suggestions
 	function displaySuggestions( results, query, container ) {
 		if ( ! results || results.length === 0 ) {
-			const noResultsText = getTranslatableMessage( form, 'no-results' ).replace( '%s', query );
+			const noResultsText = getTranslatableMessage(
+				form,
+				'no-results'
+			).replace( '%s', query );
 			container.innerHTML = `
 				<div class="fau-global-search__suggestion-item">
 					<span>${ noResultsText }</span>
@@ -223,14 +233,15 @@ function initializeAutocomplete( input, form ) {
 		// Limit to 5 results maximum
 		const limitedResults = uniqueResults.slice( 0, 5 );
 
-		html = '<div class="fau-global-search__suggestions-list">';
+		let html = '<div class="fau-global-search__suggestions-list">';
 
 		limitedResults.forEach( ( result ) => {
 			// Handle both old format (subtype) and new format (type)
 			const pageText = getTranslatableMessage( form, 'page' );
 			const postText = getTranslatableMessage( form, 'post' );
 			const type =
-				result.type || ( result.subtype === 'page' ? pageText : postText );
+				result.type ||
+				( result.subtype === 'page' ? pageText : postText );
 
 			// Show site name for network results
 			const siteIndicator =
@@ -392,7 +403,10 @@ function initializeFrequentSearches( input, form ) {
 		const container = createFrequentContainer();
 
 		// Show loading state
-		const frequentSearchesText = getTranslatableMessage( form, 'frequent-searches' );
+		const frequentSearchesText = getTranslatableMessage(
+			form,
+			'frequent-searches'
+		);
 		const loadingText = getTranslatableMessage( form, 'loading' );
 		container.innerHTML = `
 			<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>
@@ -410,7 +424,8 @@ function initializeFrequentSearches( input, form ) {
 
 	// Fetch frequent searches from WordPress analytics
 	function fetchFrequentSearches( container ) {
-		const ajaxUrl = window.fauElemental?.ajaxUrl || '/wp-admin/admin-ajax.php';
+		const ajaxUrl =
+			window.fauElemental?.ajaxUrl || '/wp-admin/admin-ajax.php';
 		const formData = new FormData();
 		formData.append( 'action', 'get_frequent_searches' );
 		formData.append( 'nonce', window.fauElemental?.nonce || '' );
@@ -429,8 +444,14 @@ function initializeFrequentSearches( input, form ) {
 					displayFrequentSearches( data.data.searches, container );
 				} else {
 					// No search data available yet - hide the container
-					const frequentSearchesText = getTranslatableMessage( form, 'frequent-searches' );
-					const noSearchDataText = getTranslatableMessage( form, 'no-search-data' );
+					const frequentSearchesText = getTranslatableMessage(
+						form,
+						'frequent-searches'
+					);
+					const noSearchDataText = getTranslatableMessage(
+						form,
+						'no-search-data'
+					);
 					container.innerHTML = `
 					<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>
 					<div class="fau-global-search__frequent-list">
@@ -449,9 +470,11 @@ function initializeFrequentSearches( input, form ) {
 
 	// Display frequent searches with click handlers
 	function displayFrequentSearches( searches, container ) {
-		const frequentSearchesText = getTranslatableMessage( form, 'frequent-searches' );
-		let html =
-			`<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>`;
+		const frequentSearchesText = getTranslatableMessage(
+			form,
+			'frequent-searches'
+		);
+		let html = `<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>`;
 		html += '<div class="fau-global-search__frequent-list">';
 
 		searches.forEach( ( query ) => {
@@ -591,7 +614,10 @@ function initializeSearchOptionsMenu( form, input ) {
  */
 function fetchSearchOptionsMenu( container, form ) {
 	// Show loading state
-	const loadingOptionsText = getTranslatableMessage( form, 'loading-options' );
+	const loadingOptionsText = getTranslatableMessage(
+		form,
+		'loading-options'
+	);
 	container.innerHTML = `
 		<div class="fau-global-search__menu-loading">
 			<span>${ loadingOptionsText }</span>
@@ -651,8 +677,14 @@ function fetchSearchOptionsMenuFallback( container, form ) {
 		} )
 		.catch( () => {
 			// If all fails, show some default options or hide
-			const searchOptionsText = getTranslatableMessage( form, 'search-options' );
-			const advancedSearchText = getTranslatableMessage( form, 'advanced-search' );
+			const searchOptionsText = getTranslatableMessage(
+				form,
+				'search-options'
+			);
+			const advancedSearchText = getTranslatableMessage(
+				form,
+				'advanced-search'
+			);
 			container.innerHTML = `
 				<div class="fau-global-search__menu-header">${ searchOptionsText }</div>
 				<div class="fau-global-search__menu-item">
@@ -673,8 +705,7 @@ function displaySearchOptionsMenu( menuItems, container, form ) {
 	}
 
 	const searchOptionsText = getTranslatableMessage( form, 'search-options' );
-	let html =
-		`<div class="fau-global-search__menu-header">${ searchOptionsText }</div>`;
+	let html = `<div class="fau-global-search__menu-header">${ searchOptionsText }</div>`;
 	html += '<div class="fau-global-search__menu-list">';
 
 	// Build menu structure (handle parent/child relationships)
