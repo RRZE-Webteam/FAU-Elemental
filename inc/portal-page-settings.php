@@ -34,14 +34,8 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
 
     // Get the saved values
     $menu_id = get_post_meta($post->ID, 'portal_menu_id', true);
-    $display_type = get_post_meta($post->ID, 'portal_menu_type', true) ?: 1;
-    $columns = 3; // Always use 3 columns
     $hide_subs = get_post_meta($post->ID, 'portal_menu_hide_subs', true);
-    $list_view = get_post_meta($post->ID, 'portal_menu_list_view', true);
     $hide_thumbs = get_post_meta($post->ID, 'portal_menu_hide_thumbs', true);
-    $no_fallback = get_post_meta($post->ID, 'portal_menu_no_fallback', true);
-    $hover_zoom = get_post_meta($post->ID, 'portal_menu_hover_zoom', true);
-    $hover_blur = get_post_meta($post->ID, 'portal_menu_hover_blur', true);
     $is_dark = get_post_meta($post->ID, 'portal_menu_is_dark', true);
 
     // Get all menus
@@ -62,22 +56,8 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
         </p>
         
         <p>
-            <label for="portal_menu_type"><strong><?php esc_html_e('Display Type', 'fau-elemental'); ?>:</strong></label>
-            <select name="portal_menu_type" id="portal_menu_type" class="widefat">
-                <option value="1" <?php selected($display_type, 1); ?>><?php esc_html_e('Type 1 (2:1 Ratio)', 'fau-elemental'); ?></option>
-                <option value="2" <?php selected($display_type, 2); ?>><?php esc_html_e('Type 2 (3:2 Ratio)', 'fau-elemental'); ?></option>
-                <option value="3" <?php selected($display_type, 3); ?>><?php esc_html_e('Type 3 (3:4 Ratio)', 'fau-elemental'); ?></option>
-            </select>
-        </p>
-        
-        <p>
             <label><input type="checkbox" name="portal_menu_hide_subs" id="portal_menu_hide_subs" value="1" <?php checked($hide_subs, true); ?>>
             <?php esc_html_e('Hide Submenus', 'fau-elemental'); ?></label>
-        </p>
-        
-        <p>
-            <label><input type="checkbox" name="portal_menu_list_view" id="portal_menu_list_view" value="1" <?php checked($list_view, true); ?>>
-            <?php esc_html_e('List View', 'fau-elemental'); ?></label>
         </p>
         
         <p>
@@ -86,31 +66,11 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
         </p>
         
         <p>
-            <label><input type="checkbox" name="portal_menu_no_fallback" id="portal_menu_no_fallback" value="1" <?php checked($no_fallback, true); ?>>
-            <?php esc_html_e('No Fallback Image', 'fau-elemental'); ?></label>
-        </p>
-        
-        <h4><?php esc_html_e('Hover Effects', 'fau-elemental'); ?></h4>
-        <p>
-            <label><input type="checkbox" name="portal_menu_hover_zoom" id="portal_menu_hover_zoom" value="1" <?php checked($hover_zoom, true); ?>>
-            <?php esc_html_e('Zoom', 'fau-elemental'); ?></label>
-        </p>
-        
-        <p>
-            <label><input type="checkbox" name="portal_menu_hover_blur" id="portal_menu_hover_blur" value="1" <?php checked($hover_blur, true); ?>>
-            <?php esc_html_e('Blur', 'fau-elemental'); ?></label>
-        </p>
-        
-        <h4><?php esc_html_e('Appearance', 'fau-elemental'); ?></h4>
-        <p>
             <label><input type="checkbox" name="portal_menu_is_dark" id="portal_menu_is_dark" value="1" <?php checked($is_dark, true); ?>>
             <?php esc_html_e('Dark Style', 'fau-elemental'); ?></label>
         </p>
         
-        <div class="portal-menu-shortcode-example" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #ddd;">
-            <h4><?php esc_html_e('Shortcode Usage', 'fau-elemental'); ?></h4>
-            <code>[portalmenu menu="<?php echo ($menu_id ? esc_attr($menu_id) : 'menu-id-or-name'); ?>" type="<?php echo esc_attr($display_type); ?>" columns="<?php echo esc_attr($columns) ?>"]</code>
-        </div>
+        <code>[portalmenu menu="<?php echo ($menu_id ? esc_attr($menu_id) : 'menu-id-or-name'); ?>" showsubs="<?php echo esc_attr($hide_subs ? "false" : "true"); ?>" nothumbs="<?php echo esc_attr($hide_thumbs ? "true" : "false") ?>"]</code>
     </div>
     <?php
 }
@@ -144,22 +104,10 @@ function fau_elemental_save_portal_menu_meta_box_data($post_id) {
         update_post_meta($post_id, 'portal_menu_id', sanitize_text_field($_POST['portal_menu_id']));
     }
 
-    // Save display type
-    if (isset($_POST['portal_menu_type'])) {
-        update_post_meta($post_id, 'portal_menu_type', intval($_POST['portal_menu_type']));
-    }
-    
-    // Always save 3 columns
-    update_post_meta($post_id, 'portal_menu_columns', 3);
-
     // Save checkboxes
     $checkbox_fields = array(
         'portal_menu_hide_subs',
-        'portal_menu_list_view',
         'portal_menu_hide_thumbs',
-        'portal_menu_no_fallback',
-        'portal_menu_hover_zoom',
-        'portal_menu_hover_blur',
         'portal_menu_is_dark'
     );
 
@@ -171,4 +119,5 @@ function fau_elemental_save_portal_menu_meta_box_data($post_id) {
         }
     }
 }
+
 add_action('save_post', 'fau_elemental_save_portal_menu_meta_box_data'); 

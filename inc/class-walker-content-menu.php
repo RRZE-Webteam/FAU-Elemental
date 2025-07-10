@@ -19,17 +19,8 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
      * Default settings for content menu
      */
     protected $defaults = array(
-        'type' => 1,        // Display type (1: 2:1 ratio, 2: 3:2 ratio, 3: 3:4 ratio)
-        'showsubs' => true, // Whether to show submenus
-        'listview' => false, // Whether to use list view
-        'nothumbs' => false, // Whether to hide thumbnails
-        'nofallback' => false, // Whether to skip fallback images
-        'hoverzoom' => false, // Whether to use hover zoom effect
-        'hoverblur' => false, // Whether to use hover blur effect
-        'theme' => 'light',  // Theme: light, dark
-        'faculty_color' => '', // Faculty color: phil, med, nat, tf, rw, default is none
-        'meganav' => false, // Whether to use mega navigation
-        'columns' => 3,     // Default number of columns
+        'showsubs' => true,     // Whether to show submenus
+        'nothumbs' => false,    // Whether to hide thumbnails
     );
 
     /**
@@ -50,9 +41,9 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
     public function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
         $indent = str_repeat("\t", $depth + 1);
 
-        /*if (!$this->settings['showsubs'] && $depth !== 0) {
+        if (!$this->settings['showsubs'] && $depth !== 0) {
             return;
-        }*/
+        }
         
         // Get menu item details
         $title = apply_filters('the_title', $item->title, $item->ID);
@@ -117,9 +108,9 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
      * Start level output
      */
     public function start_lvl(&$output, $depth = 0, $args = array()) {
-        /*if (!$this->settings['showsubs']) {
+        if (!$this->settings['showsubs']) {
             return;
-        }*/
+        }
 
         $indent = str_repeat("\t", $depth + 3);
         $output .= "$indent<ul>\n";
@@ -129,9 +120,9 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
      * End level output
      */
     public function end_lvl(&$output, $depth = 0, $args = array()) {
-        /*if (!$this->settings['showsubs']) {
+        if (!$this->settings['showsubs']) {
             return;
-        }*/
+        }
 
         $indent = str_repeat("\t", $depth + 3);
         $output .= "$indent</ul>\n";

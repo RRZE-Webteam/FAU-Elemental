@@ -63,11 +63,6 @@ function fau_elemental_check_old_portal_menu_settings() {
                 // Get additional settings
                 if ($meta_key === 'portalmenu-slug') {
                     // Bottom menu settings
-                    $meganav = get_post_meta($post_id, 'fauval_portalmenu_meganav', true);
-                    if ($meganav) {
-                        update_post_meta($post_id, 'portal_menu_mega_nav', true);
-                    }
-                    
                     $nosub = get_post_meta($post_id, 'fauval_portalmenu_nosub', true);
                     if ($nosub) {
                         update_post_meta($post_id, 'portal_menu_hide_subs', true);
@@ -76,36 +71,6 @@ function fau_elemental_check_old_portal_menu_settings() {
                     $nothumbs = get_post_meta($post_id, 'fauval_portalmenu_thumbnailson', true);
                     if ($nothumbs) {
                         update_post_meta($post_id, 'portal_menu_hide_thumbs', true);
-                    }
-                    
-                    $nofallback = get_post_meta($post_id, 'fauval_portalmenu_nofallbackthumb', true);
-                    if ($nofallback) {
-                        update_post_meta($post_id, 'portal_menu_no_fallback', true);
-                    }
-                    
-                    $type = get_post_meta($post_id, 'fauval_portalmenu_type', true);
-                    if ($type) {
-                        update_post_meta($post_id, 'portal_menu_type', intval($type));
-                    }
-                    
-                    $listview = get_post_meta($post_id, 'fauval_portalmenu_listview', true);
-                    if ($listview) {
-                        update_post_meta($post_id, 'portal_menu_list_view', true);
-                    }
-                    
-                    $hoverzoom = get_post_meta($post_id, 'fauval_portalmenu_hoverZoom', true);
-                    if ($hoverzoom) {
-                        update_post_meta($post_id, 'portal_menu_hover_zoom', true);
-                    }
-                    
-                    $hoverblur = get_post_meta($post_id, 'fauval_portalmenu_hoverBlur', true);
-                    if ($hoverblur) {
-                        update_post_meta($post_id, 'portal_menu_hover_blur', true);
-                    }
-                    
-                    // Set default columns if not set
-                    if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
-                        update_post_meta($post_id, 'portal_menu_columns', 3); // Default to 3 columns
                     }
                 } else {
                     // Top menu settings
@@ -117,36 +82,6 @@ function fau_elemental_check_old_portal_menu_settings() {
                     $nothumbs = get_post_meta($post_id, 'fauval_portalmenu_thumbnailson_oben', true);
                     if ($nothumbs) {
                         update_post_meta($post_id, 'portal_menu_hide_thumbs', true);
-                    }
-                    
-                    $nofallback = get_post_meta($post_id, 'fauval_portalmenu_nofallbackthumb_oben', true);
-                    if ($nofallback) {
-                        update_post_meta($post_id, 'portal_menu_no_fallback', true);
-                    }
-                    
-                    $type = get_post_meta($post_id, 'fauval_portalmenu_type_oben', true);
-                    if ($type) {
-                        update_post_meta($post_id, 'portal_menu_type', intval($type));
-                    }
-                    
-                    $listview = get_post_meta($post_id, 'fauval_portalmenu_listview_oben', true);
-                    if ($listview) {
-                        update_post_meta($post_id, 'portal_menu_list_view', true);
-                    }
-                    
-                    $hoverzoom = get_post_meta($post_id, 'fauval_portalmenu_hoverZoom_oben', true);
-                    if ($hoverzoom) {
-                        update_post_meta($post_id, 'portal_menu_hover_zoom', true);
-                    }
-                    
-                    $hoverblur = get_post_meta($post_id, 'fauval_portalmenu_hoverBlur_oben', true);
-                    if ($hoverblur) {
-                        update_post_meta($post_id, 'portal_menu_hover_blur', true);
-                    }
-                    
-                    // Set default columns if not set
-                    if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
-                        update_post_meta($post_id, 'portal_menu_columns', 3); // Default to 3 columns
                     }
                 }
                 
@@ -210,41 +145,12 @@ function fau_elemental_check_content_for_old_shortcodes($post_id) {
                         error_log("Set portal_menu_id to {$menu_obj->term_id} for post $post_id from shortcode");
                         
                         // Handle other attributes
-                        if (isset($atts['type'])) {
-                            update_post_meta($post_id, 'portal_menu_type', intval($atts['type']));
-                        }
-                        
-                        if (isset($atts['columns'])) {
-                            update_post_meta($post_id, 'portal_menu_columns', intval($atts['columns']));
-                        }
-                        
                         if (isset($atts['showsubs']) && ($atts['showsubs'] === 'false' || $atts['showsubs'] === false)) {
                             update_post_meta($post_id, 'portal_menu_hide_subs', true);
                         }
                         
-                        if (isset($atts['listview']) && ($atts['listview'] === 'true' || $atts['listview'] === true)) {
-                            update_post_meta($post_id, 'portal_menu_list_view', true);
-                        }
-                        
                         if (isset($atts['nothumbs']) && ($atts['nothumbs'] === 'true' || $atts['nothumbs'] === true)) {
                             update_post_meta($post_id, 'portal_menu_hide_thumbs', true);
-                        }
-                        
-                        if (isset($atts['nofallback']) && ($atts['nofallback'] === 'true' || $atts['nofallback'] === true)) {
-                            update_post_meta($post_id, 'portal_menu_no_fallback', true);
-                        }
-                        
-                        if (isset($atts['hoverzoom']) && ($atts['hoverzoom'] === 'true' || $atts['hoverzoom'] === true)) {
-                            update_post_meta($post_id, 'portal_menu_hover_zoom', true);
-                        }
-                        
-                        if (isset($atts['hoverblur']) && ($atts['hoverblur'] === 'true' || $atts['hoverblur'] === true)) {
-                            update_post_meta($post_id, 'portal_menu_hover_blur', true);
-                        }
-                        
-                        // Set default columns if not already set
-                        if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
-                            update_post_meta($post_id, 'portal_menu_columns', 3);
                         }
                     }
                 }
@@ -290,14 +196,6 @@ function fau_elemental_handle_portal_page_save($post_id) {
     $template = get_post_meta($post_id, '_wp_page_template', true);
     if ($template === FAU_Elemental_Portal_Menu_Config::TEMPLATE || $template === 'portal-page.php') {
         error_log("Post $post_id is using portal page template: $template");
-        
-        // Ensure default settings are set if not already
-        if (!get_post_meta($post_id, 'portal_menu_type', true)) {
-            update_post_meta($post_id, 'portal_menu_type', 1); // Default to Type 1
-        }
-        if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
-            update_post_meta($post_id, 'portal_menu_columns', 3); // Default to 3 columns
-        }
     } else if (!empty($menu_id)) {
         // This page has portal menu settings but is not using the portal template
         error_log("Post $post_id has portal menu ID $menu_id but is not using portal template");
@@ -312,8 +210,6 @@ function fau_elemental_remigrate_portal_menus() {
     delete_option('fau_elemental_portal_menu_migrated');
     fau_elemental_check_old_portal_menu_settings();
 }
-
-
 
 /**
  * AJAX handler for remigration button
@@ -353,21 +249,13 @@ function fau_elemental_portalmenu_shortcode($atts) {
     $defaults = [
         'menu' => '',
         'id' => '',
-        'type' => FAU_Elemental_Portal_Menu_Config::get_default('type'),
-        'columns' => FAU_Elemental_Portal_Menu_Config::get_default('columns'),
         'nothumbs' => FAU_Elemental_Portal_Menu_Config::get_default('hide_thumbs'),
         'nothumbnails' => FAU_Elemental_Portal_Menu_Config::get_default('hide_thumbs'),
-        'nofallback' => FAU_Elemental_Portal_Menu_Config::get_default('no_fallback'),
-        'nofallbackthumb' => FAU_Elemental_Portal_Menu_Config::get_default('no_fallback'),
         'nosub' => !FAU_Elemental_Portal_Menu_Config::get_default('show_subs'),
         'hidesubs' => !FAU_Elemental_Portal_Menu_Config::get_default('show_subs'),
-        'listview' => FAU_Elemental_Portal_Menu_Config::get_default('list_view'),
-        'hoverzoom' => FAU_Elemental_Portal_Menu_Config::get_default('hover_zoom'),
-        'hoverZoom' => FAU_Elemental_Portal_Menu_Config::get_default('hover_zoom'),
-        'hoverblur' => FAU_Elemental_Portal_Menu_Config::get_default('hover_blur'),
-        'hoverBlur' => FAU_Elemental_Portal_Menu_Config::get_default('hover_blur'),
         'is-style-dark' => FAU_Elemental_Portal_Menu_Config::get_default('is_dark'),
         'dark' => FAU_Elemental_Portal_Menu_Config::get_default('is_dark'),
+        'theme' => FAU_Elemental_Portal_Menu_Config::get_default('is_dark') ? "dark" : "light",
     ];
     
     $atts = shortcode_atts($defaults, $atts, 'portalmenu');
@@ -433,36 +321,15 @@ function fau_elemental_portalmenu_shortcode($atts) {
     
     // Handle boolean attributes that might have different formats
     $hide_thumbs = filter_var($atts['nothumbs'] ?: $atts['nothumbnails'], FILTER_VALIDATE_BOOLEAN);
-    $no_fallback = filter_var($atts['nofallback'] ?: $atts['nofallbackthumb'], FILTER_VALIDATE_BOOLEAN);
     $hide_subs = filter_var($atts['nosub'] ?: $atts['hidesubs'], FILTER_VALIDATE_BOOLEAN);
-    $list_view = filter_var($atts['listview'], FILTER_VALIDATE_BOOLEAN);
-    $hover_zoom = filter_var($atts['hoverzoom'] ?: $atts['hoverZoom'], FILTER_VALIDATE_BOOLEAN);
-    $hover_blur = filter_var($atts['hoverblur'] ?: $atts['hoverBlur'], FILTER_VALIDATE_BOOLEAN);
     $is_dark = filter_var($atts['is-style-dark'] ?: $atts['dark'], FILTER_VALIDATE_BOOLEAN);
     
     // Setup CSS classes using configuration
-    $menu_classes = FAU_Elemental_Portal_Menu_Config::get_css_class('container');
-    
-    // Add type-specific class
-    $type = intval($atts['type']);
-    $type_config = FAU_Elemental_Portal_Menu_Config::get_type($type);
-    $menu_classes .= ' ' . $type_config['css_class'];
+    $menu_classes = 'fau-portal-menu';
     
     // Add optional classes using configuration
-    if ($list_view) {
-        $menu_classes .= ' ' . FAU_Elemental_Portal_Menu_Config::get_css_class('list_view');
-    }
-    if ($hide_thumbs) {
-        $menu_classes .= ' ' . FAU_Elemental_Portal_Menu_Config::get_css_class('no_thumb');
-    }
-    if ($hover_zoom) {
-        $menu_classes .= ' ' . FAU_Elemental_Portal_Menu_Config::get_css_class('hover_zoom');
-    }
-    if ($hover_blur) {
-        $menu_classes .= ' ' . FAU_Elemental_Portal_Menu_Config::get_css_class('hover_blur');
-    }
     if ($is_dark) {
-        $menu_classes .= ' ' . FAU_Elemental_Portal_Menu_Config::get_css_class('dark_style');
+        $menu_classes .= ' is-style-dark';
     }
     
     // Load our menu walker class
@@ -475,41 +342,24 @@ function fau_elemental_portalmenu_shortcode($atts) {
     
     // Buffer the output and return it
     ob_start();
-    
-    // Semantic HTML with proper ARIA attributes
-    echo '<section class="portal-menu-shortcode" aria-labelledby="portal-menu-shortcode-heading">';
-    
-    // Hidden heading for screen readers
-    if ($menu_obj) {
-        echo '<h2 id="portal-menu-shortcode-heading" class="' . esc_attr(FAU_Elemental_Portal_Menu_Config::get_css_class('screen_reader_text')) . '">';
-        echo esc_html(sprintf(
-            /* translators: %s: Menu name */
-            __('Portal Menu: %s', 'fau-elemental'),
-            $menu_obj->name
-        ));
-        echo '</h2>';
-    }
-    
-    echo '<nav class="' . esc_attr($menu_classes) . '" aria-label="' . esc_attr__('Portal Menu', 'fau-elemental') . '">';
-    
+
+    echo '<div class="' . $menu_classes . '" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
+
     wp_nav_menu([
         'menu' => $menu_id,
-        'container' => false,
-        'menu_class' => FAU_Elemental_Portal_Menu_Config::get_css_class('menu_list'),
+        'echo' => true,
+        'container' => true,
+        'items_wrap' => '%3$s',
+        'link_before' => '',
+        'link_after' => '',
+        'item_spacing' => 'discard',
         'walker' => new Walker_Content_Menu([
-            'columns' => intval($atts['columns']),
             'showsubs' => !$hide_subs,
             'nothumbs' => $hide_thumbs,
-            'nofallback' => $no_fallback,
-            'listview' => $list_view,
-            'hoverzoom' => $hover_zoom,
-            'hoverblur' => $hover_blur,
-            'type' => $type,
         ]),
     ]);
     
-    echo '</nav>';
-    echo '</section>';
+    echo '</div>';
     
     return ob_get_clean();
 }
@@ -560,54 +410,19 @@ function fau_elemental_migrate_portal_menu_settings($post_id) {
         
         // Migrate other settings based on which menu we're using
         $settings_map = array(
-            'type' => $is_top_menu ? 'fauval_portalmenu_type_oben' : 'fauval_portalmenu_type',
             'thumbnails' => $is_top_menu ? 'fauval_portalmenu_thumbnailson_oben' : 'fauval_portalmenu_thumbnailson',
-            'nofallback' => $is_top_menu ? 'fauval_portalmenu_nofallbackthumb_oben' : 'fauval_portalmenu_nofallbackthumb',
             'nosub' => $is_top_menu ? 'fauval_portalmenu_nosub_oben' : 'fauval_portalmenu_nosub',
-            'listview' => $is_top_menu ? 'fauval_portalmenu_listview_oben' : 'fauval_portalmenu_listview',
-            'hoverzoom' => $is_top_menu ? 'fauval_portalmenu_hoverZoom_oben' : 'fauval_portalmenu_hoverZoom',
-            'hoverblur' => $is_top_menu ? 'fauval_portalmenu_hoverBlur_oben' : 'fauval_portalmenu_hoverBlur'
         );
         
         // Process each setting
-        $type = get_post_meta($post_id, $settings_map['type'], true);
-        if ($type) {
-            update_post_meta($post_id, 'portal_menu_type', intval($type));
-        }
-        
         $thumbnails = get_post_meta($post_id, $settings_map['thumbnails'], true);
         if ($thumbnails) {
             update_post_meta($post_id, 'portal_menu_hide_thumbs', true);
         }
         
-        $nofallback = get_post_meta($post_id, $settings_map['nofallback'], true);
-        if ($nofallback) {
-            update_post_meta($post_id, 'portal_menu_no_fallback', true);
-        }
-        
         $nosub = get_post_meta($post_id, $settings_map['nosub'], true);
         if ($nosub) {
             update_post_meta($post_id, 'portal_menu_hide_subs', true);
-        }
-        
-        $listview = get_post_meta($post_id, $settings_map['listview'], true);
-        if ($listview) {
-            update_post_meta($post_id, 'portal_menu_list_view', true);
-        }
-        
-        $hoverzoom = get_post_meta($post_id, $settings_map['hoverzoom'], true);
-        if ($hoverzoom) {
-            update_post_meta($post_id, 'portal_menu_hover_zoom', true);
-        }
-        
-        $hoverblur = get_post_meta($post_id, $settings_map['hoverblur'], true);
-        if ($hoverblur) {
-            update_post_meta($post_id, 'portal_menu_hover_blur', true);
-        }
-        
-        // Set default columns if not set
-        if (!get_post_meta($post_id, 'portal_menu_columns', true)) {
-            update_post_meta($post_id, 'portal_menu_columns', 3);
         }
         
         // Check if the page is using a custom template

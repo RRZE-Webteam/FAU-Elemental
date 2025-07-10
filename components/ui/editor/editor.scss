@@ -37,21 +37,6 @@ html :where(.editor-styles-wrapper) {
 	margin-bottom: var(--Spacing-4x);
 }
 
-/* Portal Menu Settings */
-#fau_elemental_portal_menu_settings {
-	border: 2px solid #2271b1;
-	box-shadow: 0 0 5px rgba(34, 113, 177, 0.2);
-	margin-top: 10px;
-
-	.postbox-header {
-		background-color: #f0f6fc;
-	}
-
-	h2 {
-		font-weight: 700;
-	}
-}
-
 /* Fix metabox in Gutenberg */
 .components-panel__body .fau-portal-menu-settings {
 	padding: 16px;
