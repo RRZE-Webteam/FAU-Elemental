@@ -20,6 +20,7 @@
 	// Styles applying only when there is a featured image
 	&:has(.faue-featured-image) {
 		max-width: var(--wide-max-width);
+		margin-bottom: -4.7rem;
 	}
 
 	// Styles applying only when there is a featured image
@@ -59,6 +60,10 @@
 			top: -4rem;
 			padding: var(--Spacing-4x) var(--Spacing-6x);
 		}
+
+		&:has(.faue-featured-image) {
+			margin-bottom: -4rem;
+		}
 	}
 }
 
@@ -69,6 +74,7 @@
 
 		&:has(.faue-featured-image) {
 			padding: unset;
+			margin-bottom: -2.5rem;
 		}
 
 		.wp-block-post-title {
