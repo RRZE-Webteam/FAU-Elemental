@@ -22,10 +22,9 @@ if (have_posts()) {
             <?php the_content(); ?>
         </div>
 
+    <?php endwhile; ?>
+
 </main>
-
-<?php endwhile; ?>
-
 
 <?php
 get_footer();
