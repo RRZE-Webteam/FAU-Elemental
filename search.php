@@ -243,7 +243,7 @@ $search_config = array(
                            placeholder="<?php _e('Enter search term...', 'fau-elemental'); ?>" 
                            value="<?php echo get_search_query(); ?>" 
                            name="s" 
-                           aria-describedby="search-instructions" />
+                           aria-describedby="search-instructions">
                     <button type="submit" class="search-submit" aria-label="<?php _e('Submit search', 'fau-elemental'); ?>">
                         <?php _e('Search', 'fau-elemental'); ?>
                     </button>

@@ -47,6 +47,12 @@ require_once get_template_directory() . '/inc/shortcodes-loader.php';
 // Portal menu compatibility with old theme
 require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
 
+// Portal menu configuration
+require_once get_template_directory() . '/inc/portal-menu-config.php';
+
+// Portal page settings
+require_once get_template_directory() . '/inc/portal-page-settings.php';
+
 // Breadcrumb functionality
 require_once get_template_directory() . '/components/template-parts/breadcrumbs/breadcrumbs.php';
 
@@ -58,13 +64,10 @@ require_once get_template_directory() . '/inc/page-meta-fields.php';
 
 /**
  * Register custom page templates
- * 
- * IMPORTANT: Portal Page template MUST be registered in the root of the theme,
- * not in templates/ directory for it to work with WordPress template selector
  */
 function fau_elemental_register_page_templates($templates) {
     // Register the portal page template
-    $templates['portal-page.php'] = 'Portal Page';
+    $templates[FAU_Elemental_Portal_Menu_Config::TEMPLATE] = __('Portal Page', 'fau-elemental');
     
     // Force flush the template cache if we're in admin
     if (is_admin()) {
@@ -94,8 +97,8 @@ function fau_elemental_template_include($template) {
         }
         
         // Priority 1: Use the root template if explicitly selected
-        if ($template_slug === 'portal-page.php') {
-            $root_template = locate_template(['portal-page.php']);
+        if ($template_slug === FAU_Elemental_Portal_Menu_Config::TEMPLATE) {
+            $root_template = locate_template([FAU_Elemental_Portal_Menu_Config::TEMPLATE]);
             if (!empty($root_template)) {
                 return $root_template;
             }
@@ -104,10 +107,10 @@ function fau_elemental_template_include($template) {
         // If the requested template isn't found but the page has a portal menu ID
         // Try to use the portal template
         if (get_post_meta(get_the_ID(), 'portal_menu_id', true)) {
-            $portal_template = locate_template(['portal-page.php']);
+            $portal_template = locate_template([FAU_Elemental_Portal_Menu_Config::TEMPLATE]);
             if (!empty($portal_template)) {
-                error_log('FAU Elemental: Portal menu ID found, using template: portal-page.php');
-                update_post_meta(get_the_ID(), '_wp_page_template', 'portal-page.php');
+                error_log('FAU Elemental: Portal menu ID found, using template: ' . FAU_Elemental_Portal_Menu_Config::TEMPLATE);
+                update_post_meta(get_the_ID(), '_wp_page_template', FAU_Elemental_Portal_Menu_Config::TEMPLATE);
                 return $portal_template;
             }
         }
@@ -151,7 +154,7 @@ function fau_elemental_post_updated_messages($messages) {
     if ($post && get_post_type($post) === 'page') {
         $template = get_post_meta($post->ID, '_wp_page_template', true);
         
-        if ($template === 'portal-page.php') {
+        if ($template === FAU_Elemental_Portal_Menu_Config::TEMPLATE) {
             // Add message for portal page template
             $messages['post'][1] .= ' <span style="color:#2271b1;">This page is using the Portal Page template. Make sure to select a menu in the Portal Menu Settings box.</span>';
         }
@@ -241,41 +244,19 @@ function fau_elemental_load_template_part($slug, $name = null, $args = array()) 
     }
 }
 
-add_action('customize_register', 'fau_footer_customizer_settings');
-
 /**
- * Add SVG support to WordPress media uploader
+ * Hook to migrate settings right after theme activation
  */
-function fau_elemental_add_svg_support($mimes) {
-    $mimes['svg'] = 'image/svg+xml';
-    $mimes['svgz'] = 'image/svg+xml';
-    return $mimes;
-}
-add_filter('upload_mimes', 'fau_elemental_add_svg_support');
-
-/**
- * Sanitize SVG uploads
- */
-function fau_elemental_sanitize_svg($file) {
-    if ($file['type'] === 'image/svg+xml') {
-        $svg_content = file_get_contents($file['tmp_name']);
-        
-        // Basic SVG sanitization
-        if (strpos($svg_content, '<script') !== false || 
-            strpos($svg_content, 'javascript:') !== false || 
-            strpos($svg_content, 'onload=') !== false) {
-            $file['error'] = __('SVG files containing scripts are not allowed for security reasons.', 'fau-elemental');
-        }
+add_action('after_switch_theme', function() {
+    if (function_exists('fau_elemental_check_old_portal_menu_settings')) {
+        fau_elemental_check_old_portal_menu_settings();
     }
     
     // Also trigger address migration
     if (function_exists('fau_elemental_migrate_address_information')) {
         fau_elemental_migrate_address_information();
     }
-    
-    return $file;
-}
-add_filter('wp_handle_upload_prefilter', 'fau_elemental_sanitize_svg');
+});
 
 /**
  * Sanitize and format telephone number
@@ -334,11 +315,6 @@ function fau_elemental_enqueue_footer_scripts() {
             'showMore' => __('Show more', 'fau-elemental'),
             'showLess' => __('Show less', 'fau-elemental')
         ]);
-    }
-    
-    // Also trigger address migration
-    if (function_exists('fau_elemental_migrate_address_information')) {
-        fau_elemental_migrate_address_information();
     }
 }
 add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_footer_scripts');

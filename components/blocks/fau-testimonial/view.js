@@ -2,7 +2,7 @@
 ( function ( $ ) {
 	$( document ).ready( function () {
 		function initCarousel( $container ) {
-			const $slides = $container.find( '.quote-slide' );
+			const $slides = $container.find( '.testimonial-slide' );
 			const $prevButton = $container.find( '.carousel-prev' );
 			const $nextButton = $container.find( '.carousel-next' );
 			const $dots = $container.find( '.carousel-dots' );
@@ -59,16 +59,20 @@
 		}
 
 		// Initialize all carousels on the page
-		$( '.quote-carousel' ).each( function () {
+		$( '.testimonial-carousel' ).each( function () {
 			initCarousel( $( this ) );
 		} );
 
-		// Handle non-carousel quotes with inner blocks
-		$( '.wp-block-quote:not(.quote-carousel)' ).each( function () {
-			const $innerQuotes = $( this ).find( '.wp-block-quote' );
-			if ( $innerQuotes.length > 1 ) {
-				// Hide all quotes except the first one
-				$innerQuotes.each( function ( index ) {
+		// Handle non-carousel testimonial with inner blocks
+		$(
+			'.wp-block-fau-elemental-fau-testimonial:not(.testimonial-carousel)'
+		).each( function () {
+			const $innerItems = $( this ).find(
+				'.wp-block-fau-elemental-fau-testimonial'
+			);
+			if ( $innerItems.length > 1 ) {
+				// Hide all items except the first one
+				$innerItems.each( function ( index ) {
 					if ( index > 0 ) {
 						$( this ).hide();
 					}

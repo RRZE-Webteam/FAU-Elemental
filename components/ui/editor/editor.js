@@ -13,7 +13,6 @@ import '../../core-blocks/image/index.js';
 import '../../core-blocks/list/index.js';
 import '../../core-blocks/media-text/index.js';
 import '../../core-blocks/paragraph/index.js';
-import '../../core-blocks/quote/index.js';
 import '../../core-blocks/separator/index.js';
 import '../../core-blocks/spacer/index.js';
 import '../../core-blocks/table/index.js';

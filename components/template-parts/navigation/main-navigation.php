@@ -18,7 +18,7 @@ if (!function_exists('fau_elemental_display_logo_title')) {
 $has_website_menu = fau_elemental_has_website_menu();
 ?>
 
-<nav class="main-navigation" role="navigation" aria-label="<?php esc_attr_e('Main Navigation', 'fau-elemental'); ?>">
+<nav class="main-navigation" aria-label="<?php esc_attr_e('Main Navigation', 'fau-elemental'); ?>">
     <div class="main-navigation__container">
         <div class="main-navigation__logo">
             <?php fau_elemental_display_logo_title(); ?>
