@@ -410,7 +410,7 @@ function initializeFrequentSearches( input, form ) {
 
 	// Fetch frequent searches from WordPress analytics
 	function fetchFrequentSearches( container ) {
-		const ajaxUrl = '/wp-admin/admin-ajax.php';
+		const ajaxUrl = window.fauElemental?.ajaxUrl || '/wp-admin/admin-ajax.php';
 		const formData = new FormData();
 		formData.append( 'action', 'get_frequent_searches' );
 		formData.append( 'nonce', window.fauElemental?.nonce || '' );
@@ -630,7 +630,7 @@ function fetchSearchOptionsMenu( container, form ) {
  */
 function fetchSearchOptionsMenuFallback( container, form ) {
 	// Try to get menu via admin-ajax
-	const ajaxUrl = '/wp-admin/admin-ajax.php';
+	const ajaxUrl = window.fauElemental?.ajaxUrl || '/wp-admin/admin-ajax.php';
 	const formData = new FormData();
 	formData.append( 'action', 'get_search_options_menu' );
 	formData.append( 'nonce', window.fauElemental?.nonce || '' );

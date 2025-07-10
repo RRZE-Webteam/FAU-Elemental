@@ -1,6 +1,6 @@
 <?php
 /**
- * REST API Endpoints
+ * Search API Endpoints
  *
  * @package FAU-Elemental
  */
@@ -211,7 +211,7 @@ function fau_elemental_get_search_options_menu() {
     if (!empty($menu_html)) {
         wp_send_json_success(array('menu_html' => $menu_html));
     } else {
-        wp_send_json_error(array('message' => 'No search options menu found'));
+        wp_send_json_error(array('message' => __('No search options menu found', 'fau-elemental')));
     }
 }
 add_action('wp_ajax_get_search_options_menu', 'fau_elemental_get_search_options_menu');
@@ -297,4 +297,4 @@ function fau_elemental_get_frequent_searches() {
     wp_send_json_success(array('searches' => $top_searches));
 }
 add_action('wp_ajax_get_frequent_searches', 'fau_elemental_get_frequent_searches');
-add_action('wp_ajax_nopriv_get_frequent_searches', 'fau_elemental_get_frequent_searches');
+add_action('wp_ajax_nopriv_get_frequent_searches', 'fau_elemental_get_frequent_searches'); 
