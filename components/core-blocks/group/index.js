@@ -3,8 +3,8 @@ import {
 	unregisterBlockVariation,
 } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
+import { addFilter } from '@wordpress/hooks';
 
-// Register dark style for core/group block
 wp.domReady( () => {
 	registerBlockStyle( 'core/group', {
 		name: 'dark',
@@ -12,8 +12,24 @@ wp.domReady( () => {
 		isDefault: false,
 	} );
 
-	// unregister the stack block variation
 	unregisterBlockVariation( 'core/group', 'group-row' );
 	unregisterBlockVariation( 'core/group', 'group-stack' );
 	unregisterBlockVariation( 'core/group', 'group-grid' );
 } );
+
+addFilter(
+	'blocks.registerBlockType',
+	'fau-elemental/edit-group-block-settings',
+	function ( settings, name ) {
+		if ( name !== 'core/group' ) {
+			return settings;
+		}
+
+		settings.supports = {
+			...settings.supports,
+			layout: false,
+		};
+
+		return settings;
+	}
+);
