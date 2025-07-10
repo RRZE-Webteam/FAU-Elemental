@@ -54,7 +54,7 @@ class FAU_Page_Meta_Fields {
                                id="fau_hide_from_menu" 
                                name="fau_hide_from_menu" 
                                value="1" 
-                               <?php checked($hide_from_menu, '1'); ?> />
+                               <?php checked($hide_from_menu, '1'); ?>>
                         <?php _e('Hide this page from navigation menus', 'fau-elemental'); ?>
                     </label>
                     <p class="description">

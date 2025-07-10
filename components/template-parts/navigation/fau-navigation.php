@@ -15,7 +15,7 @@ $has_structure = fau_elemental_has_structure_menu();
 $website_type = get_theme_mod('faue_website_type', 'fau');
 ?>
 
-<nav class="fau-navigation" role="navigation" aria-label="<?php esc_attr_e('FAU Navigation', 'fau-elemental'); ?>">
+<nav class="fau-navigation" aria-label="<?php esc_attr_e('FAU Navigation', 'fau-elemental'); ?>">
     <?php if ($website_type !== 'fau'): ?>
     <a href="https://www.fau.de" class="fau-navigation__fau-link">
         <span class="fau-navigation__back-icon"></span>

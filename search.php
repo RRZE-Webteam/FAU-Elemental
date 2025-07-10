@@ -39,7 +39,7 @@ $search_config = array(
                            placeholder="<?php _e('Enter search term...', 'fau-elemental'); ?>" 
                            value="<?php echo get_search_query(); ?>" 
                            name="s" 
-                           aria-describedby="search-instructions" />
+                           aria-describedby="search-instructions">
                     <button type="submit" class="search-submit" aria-label="<?php _e('Submit search', 'fau-elemental'); ?>">
                         <?php _e('Search', 'fau-elemental'); ?>
                     </button>
@@ -145,8 +145,8 @@ $search_config = array(
                         </div>
 
             
-                        <meta itemprop="author" content="<?php echo esc_attr(get_the_author()); ?>" />
-                        <meta itemprop="dateModified" content="<?php echo get_the_modified_date('c'); ?>" />
+                        <meta itemprop="author" content="<?php echo esc_attr(get_the_author()); ?>">
+                        <meta itemprop="dateModified" content="<?php echo get_the_modified_date('c'); ?>">
                     </article>
                 <?php 
                 $result_counter++;

@@ -119,7 +119,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 $output .= '<div class="portal-thumbnail">';
                 $output .= '<a href="' . esc_url($permalink) . '" class="image-link" aria-label="' . esc_attr(sprintf(__('Go to %s', 'fau-elemental'), $title)) . '">';
                 if ($thumbnail) {
-                    $output .= '<img src="' . esc_url($thumbnail) . '" alt="' . esc_attr(sprintf(__('Featured image for %s', 'fau-elemental'), $title)) . '" loading="lazy" />';
+                    $output .= '<img src="' . esc_url($thumbnail) . '" alt="' . esc_attr(sprintf(__('Featured image for %s', 'fau-elemental'), $title)) . '" loading="lazy">';
                 } else {
                     // WCAG compliant placeholder with proper alt text
                     $output .= '<div class="portal-placeholder-image" role="img" aria-label="' . esc_attr(sprintf(__('No image available for %s', 'fau-elemental'), $title)) . '">';
