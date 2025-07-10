@@ -71,39 +71,39 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
         </p>
         
         <p>
-            <label><input type="checkbox" name="portal_menu_hide_subs" id="portal_menu_hide_subs" value="1" <?php checked($hide_subs, true); ?> />
+            <label><input type="checkbox" name="portal_menu_hide_subs" id="portal_menu_hide_subs" value="1" <?php checked($hide_subs, true); ?>>
             <?php esc_html_e('Hide Submenus', 'fau-elemental'); ?></label>
         </p>
         
         <p>
-            <label><input type="checkbox" name="portal_menu_list_view" id="portal_menu_list_view" value="1" <?php checked($list_view, true); ?> />
+            <label><input type="checkbox" name="portal_menu_list_view" id="portal_menu_list_view" value="1" <?php checked($list_view, true); ?>>
             <?php esc_html_e('List View', 'fau-elemental'); ?></label>
         </p>
         
         <p>
-            <label><input type="checkbox" name="portal_menu_hide_thumbs" id="portal_menu_hide_thumbs" value="1" <?php checked($hide_thumbs, true); ?> />
+            <label><input type="checkbox" name="portal_menu_hide_thumbs" id="portal_menu_hide_thumbs" value="1" <?php checked($hide_thumbs, true); ?>>
             <?php esc_html_e('Hide Thumbnails', 'fau-elemental'); ?></label>
         </p>
         
         <p>
-            <label><input type="checkbox" name="portal_menu_no_fallback" id="portal_menu_no_fallback" value="1" <?php checked($no_fallback, true); ?> />
+            <label><input type="checkbox" name="portal_menu_no_fallback" id="portal_menu_no_fallback" value="1" <?php checked($no_fallback, true); ?>>
             <?php esc_html_e('No Fallback Image', 'fau-elemental'); ?></label>
         </p>
         
         <h4><?php esc_html_e('Hover Effects', 'fau-elemental'); ?></h4>
         <p>
-            <label><input type="checkbox" name="portal_menu_hover_zoom" id="portal_menu_hover_zoom" value="1" <?php checked($hover_zoom, true); ?> />
+            <label><input type="checkbox" name="portal_menu_hover_zoom" id="portal_menu_hover_zoom" value="1" <?php checked($hover_zoom, true); ?>>
             <?php esc_html_e('Zoom', 'fau-elemental'); ?></label>
         </p>
         
         <p>
-            <label><input type="checkbox" name="portal_menu_hover_blur" id="portal_menu_hover_blur" value="1" <?php checked($hover_blur, true); ?> />
+            <label><input type="checkbox" name="portal_menu_hover_blur" id="portal_menu_hover_blur" value="1" <?php checked($hover_blur, true); ?>>
             <?php esc_html_e('Blur', 'fau-elemental'); ?></label>
         </p>
         
         <h4><?php esc_html_e('Appearance', 'fau-elemental'); ?></h4>
         <p>
-            <label><input type="checkbox" name="portal_menu_is_dark" id="portal_menu_is_dark" value="1" <?php checked($is_dark, true); ?> />
+            <label><input type="checkbox" name="portal_menu_is_dark" id="portal_menu_is_dark" value="1" <?php checked($is_dark, true); ?>>
             <?php esc_html_e('Dark Style', 'fau-elemental'); ?></label>
         </p>
         
