@@ -101,7 +101,7 @@ if ($menu_obj) {
     echo '</h2>';
 }
 
-echo '<nav class="' . esc_attr($menu_classes) . '" role="navigation" aria-label="' . esc_attr__('Portal Menu', 'fau-elemental') . '">';
+echo '<nav class="' . esc_attr($menu_classes) . '" aria-label="' . esc_attr__('Portal Menu', 'fau-elemental') . '">';
 
 // Render the menu
 wp_nav_menu([
