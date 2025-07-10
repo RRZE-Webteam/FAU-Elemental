@@ -43,9 +43,6 @@ export default function Edit( { attributes, setAttributes } ) {
 	const selectedMenu = menus.find(
 		( menu ) => menu.value === attributes.menuId
 	);
-	const selectedMenuName = selectedMenu
-		? selectedMenu.label
-		: attributes.menuId;
 
 	// Effect to store menu name when menuId changes
 	useEffect( () => {
@@ -123,10 +120,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			<div { ...blockProps }>
 				{ attributes.menuId ? (
-					<EditorPreview
-						attributes={ attributes }
-						selectedMenuName={ selectedMenuName }
-					/>
+					<EditorPreview attributes={ attributes } />
 				) : (
 					<Placeholder
 						label={ __( 'FAU Portal Menu', 'fau-elemental' ) }

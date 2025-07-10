@@ -4,12 +4,16 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
+// TODO Get the theme URL from WordPress data
+const FALLBACK_IMAGE =
+	'/wp-content/themes/fau-elemental/assets/images/logo.svg';
+
 /**
  * Editor preview component for FAU Portal Menu block
  * Matches the frontend WCAG 2.2 Level II compliant structure exactly
  * Shows actual menu items from the selected menu
  */
-const EditorPreview = ( { attributes, selectedMenuName } ) => {
+const EditorPreview = ( { attributes } ) => {
 	// Configuration classes that match the backend config
 	const CSS_CLASSES = {
 		container: 'contentmenu',
@@ -30,13 +34,6 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 		hover_zoom: 'hover-zoom',
 		hover_blur: 'hover-blur',
 		dark_style: 'is-style-dark',
-	};
-
-	// Type configurations that match the backend
-	const TYPES = {
-		1: { css_class: 'size_2-1', aspect_ratio: '2/1' },
-		2: { css_class: 'size_3-2', aspect_ratio: '3/2' },
-		3: { css_class: 'size_3-4', aspect_ratio: '3/4' },
 	};
 
 	// Fetch actual menu items
@@ -151,40 +148,6 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 		[ attributes.menuId ]
 	);
 
-	// Build CSS classes based on attributes - matches backend logic exactly
-	const getContentClasses = () => {
-		let classes = CSS_CLASSES.container;
-
-		// Add type-specific class
-		const type = attributes.type || 1;
-		const typeConfig = TYPES[ type ] || TYPES[ 1 ];
-		classes += ' ' + typeConfig.css_class;
-
-		// Add optional classes using configuration
-		if ( attributes.listView ) {
-			classes += ' ' + CSS_CLASSES.list_view;
-		}
-		if ( attributes.noThumbs ) {
-			classes += ' ' + CSS_CLASSES.no_thumb;
-		}
-		if ( attributes.hoverZoom ) {
-			classes += ' ' + CSS_CLASSES.hover_zoom;
-		}
-		if ( attributes.hoverBlur ) {
-			classes += ' ' + CSS_CLASSES.hover_blur;
-		}
-		if ( attributes.isDark ) {
-			classes += ' ' + CSS_CLASSES.dark_style;
-		}
-
-		return classes;
-	};
-
-	// Get column class based on default 3 columns
-	const getColumnClass = () => {
-		return 'portal-column-3'; // Default to 3 columns like backend
-	};
-
 	// Get featured image for menu item if available
 	const getMenuItemImage = ( item ) => {
 		// Use the pre-fetched featured image URL
@@ -225,17 +188,43 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 			__( 'Menu Item', 'fau-elemental' );
 
 		return (
-			<li
-				key={ item.id }
-				className={ `${
-					CSS_CLASSES.portal_item
-				} ${ getColumnClass() }` }
-			>
+			<div key={ item.id } className="fau-portal-item">
 				{ ! attributes.noThumbs && (
-					<div className={ CSS_CLASSES.portal_thumbnail }>
-						<div
-							onClick={ ( e ) => e.preventDefault() }
-							className={ CSS_CLASSES.image_link }
+					<div className="fau-portal-thumbnail">
+						{ itemImage ? (
+							<img
+								src={ itemImage }
+								alt={ sprintf(
+									// translators: %s: Menu item title
+									__(
+										'Featured image for %s',
+										'fau-elemental'
+									),
+									itemTitle
+								) }
+								loading="lazy"
+							/>
+						) : (
+							<img
+								src={ FALLBACK_IMAGE }
+								alt={ sprintf(
+									// translators: %s: Menu item title
+									__(
+										'No image available for %s',
+										'fau-elemental'
+									),
+									itemTitle
+								) }
+								loading="lazy"
+							/>
+						) }
+					</div>
+				) }
+
+				<div className="fau-portal-wrapper">
+					<div className="fau-portal-content">
+						{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
+						<a
 							role="link"
 							aria-label={ sprintf(
 								// translators: %s: Menu item title
@@ -243,241 +232,120 @@ const EditorPreview = ( { attributes, selectedMenuName } ) => {
 								itemTitle
 							) }
 							tabIndex="0"
-							onKeyDown={ ( e ) => {
-								if ( e.key === 'Enter' || e.key === ' ' ) {
-									e.preventDefault();
-								}
-							} }
-						>
-							{ itemImage ? (
-								<img
-									src={ itemImage }
-									alt={ sprintf(
-										// translators: %s: Menu item title
-										__(
-											'Featured image for %s',
-											'fau-elemental'
-										),
-										itemTitle
-									) }
-									loading="lazy"
-								/>
-							) : (
-								<div
-									className="portal-placeholder-image"
-									role="img"
-									aria-label={ sprintf(
-										// translators: %s: Menu item title
-										__(
-											'No image available for %s',
-											'fau-elemental'
-										),
-										itemTitle
-									) }
-								>
-									<span>
-										{ __( 'No Image', 'fau-elemental' ) }
-									</span>
-								</div>
-							) }
-						</div>
-					</div>
-				) }
-
-				<div className={ CSS_CLASSES.portal_content }>
-					<h3 className={ CSS_CLASSES.portal_title }>
-						<div
 							onClick={ ( e ) => e.preventDefault() }
-							className={ CSS_CLASSES.portal_main_link }
-							role="link"
-							aria-label={ sprintf(
-								// translators: %s: Menu item title
-								__( 'Go to main page: %s', 'fau-elemental' ),
-								itemTitle
-							) }
-							tabIndex="0"
 							onKeyDown={ ( e ) => {
 								if ( e.key === 'Enter' || e.key === ' ' ) {
 									e.preventDefault();
 								}
 							} }
 						>
-							{ itemTitle }
-						</div>
-					</h3>
+							<h3>{ itemTitle }</h3>
+							<span></span>
+						</a>
 
-					{ showSubs && (
-						<div
-							className={ CSS_CLASSES.portal_submenu }
-							role="list"
-						>
-							{ hasChildren &&
-								item.children.map( ( child ) => {
-									const childTitle =
-										child.title?.rendered ||
-										child.title ||
-										__( 'Submenu Item', 'fau-elemental' );
-									return (
-										<div
-											key={ child.id }
-											className={
-												CSS_CLASSES.portal_subitem
-											}
-											role="listitem"
-										>
+						{ showSubs && (
+							<div
+								className={ CSS_CLASSES.portal_submenu }
+								role="list"
+							>
+								{ hasChildren &&
+									item.children.map( ( child ) => {
+										const childTitle =
+											child.title?.rendered ||
+											child.title ||
+											__(
+												'Submenu Item',
+												'fau-elemental'
+											);
+										return (
 											<div
-												onClick={ ( e ) =>
-													e.preventDefault()
-												}
+												key={ child.id }
 												className={
-													CSS_CLASSES.portal_sublink
+													CSS_CLASSES.portal_subitem
 												}
-												role="link"
-												aria-label={ sprintf(
-													// translators: %s: Submenu item title
-													__(
-														'Go to %s',
-														'fau-elemental'
-													),
-													childTitle
-												) }
-												tabIndex="0"
-												onKeyDown={ ( e ) => {
-													if (
-														e.key === 'Enter' ||
-														e.key === ' '
-													) {
-														e.preventDefault();
-													}
-												} }
+												role="listitem"
 											>
-												<span className="portal-link-text">
-													{ childTitle }
-												</span>
-												<span
-													className="portal-link-button"
-													aria-hidden="true"
-												></span>
+												<div
+													onClick={ ( e ) =>
+														e.preventDefault()
+													}
+													className={
+														CSS_CLASSES.portal_sublink
+													}
+													role="link"
+													aria-label={ sprintf(
+														// translators: %s: Submenu item title
+														__(
+															'Go to %s',
+															'fau-elemental'
+														),
+														childTitle
+													) }
+													tabIndex="0"
+													onKeyDown={ ( e ) => {
+														if (
+															e.key === 'Enter' ||
+															e.key === ' '
+														) {
+															e.preventDefault();
+														}
+													} }
+												>
+													<span className="portal-link-text">
+														{ childTitle }
+													</span>
+													<span
+														className="portal-link-button"
+														aria-hidden="true"
+													></span>
+												</div>
 											</div>
-										</div>
-									);
-								} ) }
-						</div>
-					) }
+										);
+									} ) }
+							</div>
+						) }
+					</div>
 				</div>
-			</li>
+			</div>
 		);
 	};
 
-	// Show loading state while menu items are being fetched
-	if ( attributes.menuId && ! menuItems ) {
-		return (
-			<section
-				className="wp-block-fau-elemental-portalmenu"
-				aria-labelledby="portal-menu-heading"
-			>
-				<h2
-					id="portal-menu-heading"
-					className={ CSS_CLASSES.screen_reader_text }
-				>
-					{ /* translators: %s: Menu name */ }
-					{ __( 'Portal Menu:', 'fau-elemental' ) }{ ' ' }
-					{ selectedMenuName }
-				</h2>
-				<nav
-					className={ getContentClasses() }
-					role="navigation"
-					aria-label={ __( 'Portal Menu', 'fau-elemental' ) }
-				>
-					<div
-						className="portal-loading-state"
-						role="status"
-						aria-live="polite"
-					>
-						{ __( 'Loading menu items…', 'fau-elemental' ) }
-					</div>
-				</nav>
-			</section>
-		);
-	}
-
-	// Show message if no menu items found
-	if ( attributes.menuId && menuItems && menuItems.length === 0 ) {
-		return (
-			<section
-				className="wp-block-fau-elemental-portalmenu"
-				aria-labelledby="portal-menu-heading"
-			>
-				<h2
-					id="portal-menu-heading"
-					className={ CSS_CLASSES.screen_reader_text }
-				>
-					{ /* translators: %s: Menu name */ }
-					{ __( 'Portal Menu:', 'fau-elemental' ) }{ ' ' }
-					{ selectedMenuName }
-				</h2>
-				<nav
-					className={ getContentClasses() }
-					role="navigation"
-					aria-label={ __( 'Portal Menu', 'fau-elemental' ) }
-				>
-					<div
-						className="portal-empty-state"
-						role="status"
-						aria-live="polite"
-					>
-						{ __(
-							'This menu has no items. Please add items to the menu in Appearance → Menus.',
-							'fau-elemental'
-						) }
-					</div>
-				</nav>
-			</section>
-		);
-	}
-
 	return (
-		<section
-			className="wp-block-fau-elemental-portalmenu"
-			aria-labelledby="portal-menu-heading"
+		<div
+			className="fau-portal-menu"
+			aria-label={ __( 'Portal Menu', 'fau-elemental' ) }
 		>
-			{ /* Hidden heading for screen readers - matches frontend exactly */ }
-			<h2
-				id="portal-menu-heading"
-				className={ CSS_CLASSES.screen_reader_text }
-			>
-				{ /* translators: %s: Menu name */ }
-				{ __( 'Portal Menu:', 'fau-elemental' ) } { selectedMenuName }
-			</h2>
-
-			{ /* Navigation with semantic markup - matches frontend exactly */ }
-			<nav
-				className={ getContentClasses() }
-				role="navigation"
-				aria-label={ __( 'Portal Menu', 'fau-elemental' ) }
-			>
-				<ul className={ CSS_CLASSES.menu_list }>
-					{ menuItems && menuItems.length > 0 ? (
-						menuItems.map( ( item ) => renderMenuItem( item ) )
-					) : (
-						// Fallback to sample items if no menu items
-						<li
-							className={ `${
-								CSS_CLASSES.portal_item
-							} ${ getColumnClass() }` }
-						>
-							<div
-								className="portal-no-menu-state"
-								role="status"
-								aria-live="polite"
-							>
-								{ __( 'No menu selected', 'fau-elemental' ) }
-							</div>
-						</li>
+			{ menuItems && menuItems.length > 0 ? (
+				menuItems.map( ( item ) => renderMenuItem( item ) )
+			) : menuItems && menuItems.length === 0 ? (
+				<div
+					className="fau-portal-empty-state"
+					role="status"
+					aria-live="polite"
+				>
+					{ __(
+						'This menu has no items. Please add items to the menu in Appearance → Menus.',
+						'fau-elemental'
 					) }
-				</ul>
-			</nav>
-		</section>
+				</div>
+			) : attributes.menuId && ! menuItems ? (
+				<div
+					className="fau-portal-loading-state"
+					role="status"
+					aria-live="polite"
+				>
+					{ __( 'Loading menu items…', 'fau-elemental' ) }
+				</div>
+			) : (
+				<div
+					className="fau-portal-no-menu-state"
+					role="status"
+					aria-live="polite"
+				>
+					{ __( 'No menu selected', 'fau-elemental' ) }
+				</div>
+			) }
+		</div>
 	);
 };
 
