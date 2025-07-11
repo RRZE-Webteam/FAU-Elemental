@@ -1,9 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl } from '@wordpress/components';
+import { PanelBody, SelectControl, TextControl } from '@wordpress/components';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { width } = attributes;
+	const { width, heading } = attributes;
 
 	const blockProps = useBlockProps( {
 		className: `fau-global-search-wrapper fau-global-search-wrapper--${ width }`,
@@ -13,9 +13,24 @@ export default function Edit( { attributes, setAttributes } ) {
 		setAttributes( { width: newWidth } );
 	};
 
+	const onChangeHeading = ( newHeading ) => {
+		setAttributes( { heading: newHeading } );
+	};
+
 	return (
 		<>
 			<InspectorControls>
+				<PanelBody title={ __( 'Content Settings', 'fau-elemental' ) }>
+					<TextControl
+						label={ __( 'Heading', 'fau-elemental' ) }
+						value={ heading }
+						onChange={ onChangeHeading }
+						help={ __(
+							'Optional heading text to display above the search form',
+							'fau-elemental'
+						) }
+					/>
+				</PanelBody>
 				<PanelBody title={ __( 'Layout Settings', 'fau-elemental' ) }>
 					<SelectControl
 						label={ __( 'Width', 'fau-elemental' ) }
@@ -46,12 +61,16 @@ export default function Edit( { attributes, setAttributes } ) {
 			</InspectorControls>
 
 			<div { ...blockProps }>
+				{ heading && (
+					<h3 className="fau-global-search__heading">{ heading }</h3>
+				) }
 				<form className="fau-global-search fau-global-search__form">
 					<div className="fau-global-search__input-wrapper">
 						<input
 							type="search"
 							className="fau-global-search__input"
 							placeholder={ __( 'Search…', 'fau-elemental' ) }
+							autoComplete="off"
 							disabled
 						/>
 						<button

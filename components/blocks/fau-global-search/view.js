@@ -15,15 +15,37 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			return;
 		}
 
+		// Check if form is inside menu modal
+		const isInMenuModal = form.closest( '.menu-modal__content' ) !== null;
+
 		// Initialize advanced features
 		if ( form.dataset.enableAutocomplete === 'true' ) {
 			// Initialize in order: autocomplete first (creates structure), then features that depend on it
-			initializeAutocomplete( input, form );
-			initializeSearchOptionsMenu( form, input );
-			initializeFrequentSearches( input, form );
+			initializeAutocomplete( input, form, isInMenuModal );
+			// Only initialize search options menu if NOT in dropdown context
+			if ( isInMenuModal ) {
+				initializeSearchOptionsMenu( form, input );
+			}
+			initializeFrequentSearches( input, form, isInMenuModal );
 		}
 	} );
 } );
+
+/**
+ * Position dropdown relative to input
+ */
+function positionDropdown( container, inputElement ) {
+	const inputRect = inputElement.getBoundingClientRect();
+	const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+	const scrollLeft =
+		window.pageXOffset || document.documentElement.scrollLeft;
+
+	container.style.position = 'absolute';
+	container.style.top = inputRect.bottom + scrollTop + 'px';
+	container.style.left = inputRect.left + scrollLeft + 'px';
+	container.style.width = inputRect.width + 'px';
+	container.style.zIndex = '9999';
+}
 
 /**
  * Get translatable message from hidden elements
@@ -59,7 +81,7 @@ function getTranslatableMessage( form, messageType ) {
 /**
  * Initialize autocomplete functionality
  */
-function initializeAutocomplete( input, form ) {
+function initializeAutocomplete( input, form, isInMenuModal ) {
 	// Prevent multiple initializations
 	if ( form._autocompleteInitialized ) {
 		return;
@@ -87,32 +109,53 @@ function initializeAutocomplete( input, form ) {
 		suggestionsContainer.className = 'fau-global-search__suggestions';
 		suggestionsContainer.style.display = 'none';
 
-		// Insert after the radio buttons (scope container)
-		const scopeContainer = form.querySelector(
-			'.fau-global-search__scope'
-		);
-		if ( scopeContainer && scopeContainer.parentNode ) {
-			scopeContainer.parentNode.insertBefore(
-				suggestionsContainer,
-				scopeContainer.nextSibling
+		if ( isInMenuModal ) {
+			// Original behavior: insert after scope container
+			const scopeContainer = form.querySelector(
+				'.fau-global-search__scope'
 			);
-		} else {
-			// Fallback: insert after the input wrapper
-			const inputWrapper = form.querySelector(
-				'.fau-global-search__input-wrapper'
-			);
-			if ( inputWrapper && inputWrapper.parentNode ) {
-				inputWrapper.parentNode.insertBefore(
+			if ( scopeContainer && scopeContainer.parentNode ) {
+				scopeContainer.parentNode.insertBefore(
 					suggestionsContainer,
-					inputWrapper.nextSibling
+					scopeContainer.nextSibling
 				);
 			} else {
-				form.parentNode.insertBefore(
-					suggestionsContainer,
-					form.nextSibling
+				// Fallback: insert after the input wrapper
+				const inputWrapper = form.querySelector(
+					'.fau-global-search__input-wrapper'
 				);
+				if ( inputWrapper && inputWrapper.parentNode ) {
+					inputWrapper.parentNode.insertBefore(
+						suggestionsContainer,
+						inputWrapper.nextSibling
+					);
+				} else {
+					form.parentNode.insertBefore(
+						suggestionsContainer,
+						form.nextSibling
+					);
+				}
 			}
+		} else {
+			// Dropdown behavior: position as overlay
+			suggestionsContainer.classList.add(
+				'fau-global-search__suggestions--dropdown'
+			);
+			document.body.appendChild( suggestionsContainer );
+
+			// Position the dropdown
+			positionDropdown( suggestionsContainer, input );
+
+			// Reposition on window resize/scroll
+			const repositionHandler = () =>
+				positionDropdown( suggestionsContainer, input );
+			window.addEventListener( 'resize', repositionHandler );
+			window.addEventListener( 'scroll', repositionHandler );
+
+			// Store handlers for cleanup
+			suggestionsContainer._repositionHandlers = repositionHandler;
 		}
+
 		return suggestionsContainer;
 	}
 
@@ -236,19 +279,6 @@ function initializeAutocomplete( input, form ) {
 		let html = '<div class="fau-global-search__suggestions-list">';
 
 		limitedResults.forEach( ( result ) => {
-			// Handle both old format (subtype) and new format (type)
-			const pageText = getTranslatableMessage( form, 'page' );
-			const postText = getTranslatableMessage( form, 'post' );
-			const type =
-				result.type ||
-				( result.subtype === 'page' ? pageText : postText );
-
-			// Show site name for network results
-			const siteIndicator =
-				result.site_name && ! result.is_current_site
-					? `<span class="fau-global-search__suggestion-site">${ result.site_name }</span>`
-					: '';
-
 			const currentSiteClass = result.is_current_site
 				? ' fau-global-search__suggestion-item--current-site'
 				: '';
@@ -257,13 +287,7 @@ function initializeAutocomplete( input, form ) {
 				<div class="fau-global-search__suggestion-item${ currentSiteClass }" data-url="${
 					result.link || result.url
 				}">
-					<div class="fau-global-search__suggestion-content">
-						<span class="fau-global-search__suggestion-title">${ result.title }</span>
-						<div class="fau-global-search__suggestion-meta">
-							<span class="fau-global-search__suggestion-type">${ type }</span>
-							${ siteIndicator }
-						</div>
-					</div>
+					<span class="fau-global-search__suggestion-title">${ result.title }</span>
 				</div>
 			`;
 		} );
@@ -304,10 +328,26 @@ function initializeAutocomplete( input, form ) {
 	function hideSuggestions() {
 		if ( suggestionsContainer ) {
 			suggestionsContainer.style.display = 'none';
+
+			// Clean up event listeners for dropdown
+			if ( suggestionsContainer._repositionHandlers ) {
+				window.removeEventListener(
+					'resize',
+					suggestionsContainer._repositionHandlers
+				);
+				window.removeEventListener(
+					'scroll',
+					suggestionsContainer._repositionHandlers
+				);
+			}
 		}
 
-		// Show search options menu again if input is empty
-		if ( input.value.trim().length === 0 && input._showSearchOptionsMenu ) {
+		// Show search options menu again if input is empty (only in modal context)
+		if (
+			isInMenuModal &&
+			input.value.trim().length === 0 &&
+			input._showSearchOptionsMenu
+		) {
 			input._showSearchOptionsMenu();
 		}
 	}
@@ -347,7 +387,7 @@ function initializeAutocomplete( input, form ) {
 /**
  * Initialize frequent searches functionality
  */
-function initializeFrequentSearches( input, form ) {
+function initializeFrequentSearches( input, form, isInMenuModal ) {
 	// Prevent multiple initializations
 	if ( form._frequentSearchesInitialized ) {
 		return;
@@ -366,32 +406,53 @@ function initializeFrequentSearches( input, form ) {
 		frequentContainer.className = 'fau-global-search__frequent';
 		frequentContainer.style.display = 'none';
 
-		// Insert after the radio buttons (scope container)
-		const scopeContainer = form.querySelector(
-			'.fau-global-search__scope'
-		);
-		if ( scopeContainer && scopeContainer.parentNode ) {
-			scopeContainer.parentNode.insertBefore(
-				frequentContainer,
-				scopeContainer.nextSibling
+		if ( isInMenuModal ) {
+			// Original behavior: insert after scope container
+			const scopeContainer = form.querySelector(
+				'.fau-global-search__scope'
 			);
-		} else {
-			// Fallback: insert after the input wrapper
-			const inputWrapper = form.querySelector(
-				'.fau-global-search__input-wrapper'
-			);
-			if ( inputWrapper && inputWrapper.parentNode ) {
-				inputWrapper.parentNode.insertBefore(
+			if ( scopeContainer && scopeContainer.parentNode ) {
+				scopeContainer.parentNode.insertBefore(
 					frequentContainer,
-					inputWrapper.nextSibling
+					scopeContainer.nextSibling
 				);
 			} else {
-				form.parentNode.insertBefore(
-					frequentContainer,
-					form.nextSibling
+				// Fallback: insert after the input wrapper
+				const inputWrapper = form.querySelector(
+					'.fau-global-search__input-wrapper'
 				);
+				if ( inputWrapper && inputWrapper.parentNode ) {
+					inputWrapper.parentNode.insertBefore(
+						frequentContainer,
+						inputWrapper.nextSibling
+					);
+				} else {
+					form.parentNode.insertBefore(
+						frequentContainer,
+						form.nextSibling
+					);
+				}
 			}
+		} else {
+			// Dropdown behavior: position as overlay
+			frequentContainer.classList.add(
+				'fau-global-search__frequent--dropdown'
+			);
+			document.body.appendChild( frequentContainer );
+
+			// Position the dropdown
+			positionDropdown( frequentContainer, input );
+
+			// Reposition on window resize/scroll
+			const repositionHandler = () =>
+				positionDropdown( frequentContainer, input );
+			window.addEventListener( 'resize', repositionHandler );
+			window.addEventListener( 'scroll', repositionHandler );
+
+			// Store handlers for cleanup
+			frequentContainer._repositionHandlers = repositionHandler;
 		}
+
 		return frequentContainer;
 	}
 
@@ -521,10 +582,22 @@ function initializeFrequentSearches( input, form ) {
 	function hideFrequentSearches() {
 		if ( frequentContainer ) {
 			frequentContainer.style.display = 'none';
+
+			// Clean up event listeners for dropdown
+			if ( frequentContainer._repositionHandlers ) {
+				window.removeEventListener(
+					'resize',
+					frequentContainer._repositionHandlers
+				);
+				window.removeEventListener(
+					'scroll',
+					frequentContainer._repositionHandlers
+				);
+			}
 		}
 
-		// Show search options menu again when hiding frequent searches (if input is empty)
-		if ( input.value.trim().length === 0 ) {
+		// Show search options menu again when hiding frequent searches (if input is empty and in modal context)
+		if ( isInMenuModal && input.value.trim().length === 0 ) {
 			showSearchOptionsMenu();
 		}
 	}

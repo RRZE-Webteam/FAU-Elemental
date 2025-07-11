@@ -21,6 +21,10 @@
 			"type": "string",
 			"default": "content-size",
 			"enum": [ "content-size", "full-grid" ]
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"textdomain": "fau-elemental",

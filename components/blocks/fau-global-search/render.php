@@ -9,6 +9,7 @@
 
 // Get block attributes
 $width = isset($attributes['width']) ? esc_attr($attributes['width']) : 'content-size';
+$heading = isset($attributes['heading']) ? esc_html($attributes['heading']) : '';
 // Automatically enable search scope and advanced features for content-size
 $show_search_scope = ($width === 'content-size');
 $enable_advanced_features = ($width === 'content-size');
@@ -23,6 +24,9 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
+	<?php if (!empty($heading)): ?>
+		<h3 class="fau-global-search__heading"><?php echo $heading; ?></h3>
+	<?php endif; ?>
 	<form 
 		class="fau-global-search fau-global-search__form" 
 		method="get" 
@@ -37,7 +41,7 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 						name="s"
 						placeholder="<?php echo __('Search...', 'fau-elemental'); ?>"
 						value="<?php echo esc_attr(get_search_query()); ?>"
-						autocomplete="<?php echo ($width === 'content-size') ? 'on' : 'off'; ?>"
+						autocomplete="off"
 						id="<?php echo $form_id; ?>-input"
 					/>
 					<button
@@ -84,12 +88,6 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 						</div>
 						<div class="fau-global-search__message-no-results">
 							<?php echo __('No results found for "%s"', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-page">
-							<?php echo __('Page', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-post">
-							<?php echo __('Post', 'fau-elemental'); ?>
 						</div>
 						<div class="fau-global-search__message-frequent-searches">
 							<?php echo __('Frequent Searches', 'fau-elemental'); ?>
