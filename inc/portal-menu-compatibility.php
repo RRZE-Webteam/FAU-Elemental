@@ -324,14 +324,6 @@ function fau_elemental_portalmenu_shortcode($atts) {
     $hide_subs = filter_var($atts['nosub'] ?: $atts['hidesubs'], FILTER_VALIDATE_BOOLEAN);
     $is_dark = filter_var($atts['is-style-dark'] ?: $atts['dark'], FILTER_VALIDATE_BOOLEAN);
     
-    // Setup CSS classes using configuration
-    $menu_classes = 'fau-portal-menu';
-    
-    // Add optional classes using configuration
-    if ($is_dark) {
-        $menu_classes .= ' is-style-dark';
-    }
-    
     // Load our menu walker class
     if (!class_exists('Walker_Content_Menu')) {
         require_once get_template_directory() . '/inc/class-walker-content-menu.php';
@@ -343,7 +335,8 @@ function fau_elemental_portalmenu_shortcode($atts) {
     // Buffer the output and return it
     ob_start();
 
-    echo '<div class="' . $menu_classes . '" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
+    echo '<div class="wp-block-group' . ($is_dark ? ' is-style-dark' : '') . '">' . "\n";
+    echo '<div class="fau-portal-menu" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
 
     wp_nav_menu([
         'menu' => $menu_id,
@@ -359,7 +352,7 @@ function fau_elemental_portalmenu_shortcode($atts) {
         ]),
     ]);
     
-    echo '</div>';
+    echo '</div></div>';
     
     return ob_get_clean();
 }

@@ -267,46 +267,47 @@ const EditorPreview = ( { attributes } ) => {
 		);
 	};
 
-	let menuClasses = 'fau-portal-menu';
-	if ( attributes.isDark ) {
-		menuClasses += ' is-style-dark';
-	}
-
 	return (
 		<div
-			className={ menuClasses }
-			aria-label={ __( 'Portal Menu', 'fau-elemental' ) }
+			className={ `wp-block-group${
+				attributes.isDark ? ' is-style-dark' : ''
+			}` }
 		>
-			{ menuItems && menuItems.length > 0 ? (
-				menuItems.map( ( item ) => renderMenuItem( item ) )
-			) : menuItems && menuItems.length === 0 ? (
-				<div
-					className="fau-portal-empty-state"
-					role="status"
-					aria-live="polite"
-				>
-					{ __(
-						'This menu has no items. Please add items to the menu in Appearance → Menus.',
-						'fau-elemental'
-					) }
-				</div>
-			) : attributes.menuId && ! menuItems ? (
-				<div
-					className="fau-portal-loading-state"
-					role="status"
-					aria-live="polite"
-				>
-					{ __( 'Loading menu items…', 'fau-elemental' ) }
-				</div>
-			) : (
-				<div
-					className="fau-portal-no-menu-state"
-					role="status"
-					aria-live="polite"
-				>
-					{ __( 'No menu selected', 'fau-elemental' ) }
-				</div>
-			) }
+			<div
+				className="fau-portal-menu"
+				aria-label={ __( 'Portal Menu', 'fau-elemental' ) }
+			>
+				{ menuItems && menuItems.length > 0 ? (
+					menuItems.map( ( item ) => renderMenuItem( item ) )
+				) : menuItems && menuItems.length === 0 ? (
+					<div
+						className="fau-portal-empty-state"
+						role="status"
+						aria-live="polite"
+					>
+						{ __(
+							'This menu has no items. Please add items to the menu in Appearance → Menus.',
+							'fau-elemental'
+						) }
+					</div>
+				) : attributes.menuId && ! menuItems ? (
+					<div
+						className="fau-portal-loading-state"
+						role="status"
+						aria-live="polite"
+					>
+						{ __( 'Loading menu items…', 'fau-elemental' ) }
+					</div>
+				) : (
+					<div
+						className="fau-portal-no-menu-state"
+						role="status"
+						aria-live="polite"
+					>
+						{ __( 'No menu selected', 'fau-elemental' ) }
+					</div>
+				) }
+			</div>
 		</div>
 	);
 };

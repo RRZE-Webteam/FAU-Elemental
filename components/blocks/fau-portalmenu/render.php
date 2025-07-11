@@ -32,14 +32,6 @@ $show_subs = isset($attributes['showSubs']) ? !empty($attributes['showSubs']) : 
 $no_thumbs = isset($attributes['noThumbs']) ? !empty($attributes['noThumbs']) : FAU_Elemental_Portal_Menu_Config::get_default('hide_thumbs');
 $is_dark =   isset($attributes['isDark'])   ? !empty($attributes['isDark'])   : FAU_Elemental_Portal_Menu_Config::get_default('is_dark');
 
-
-$portal_classes = array('fau-portal-menu');
-
-// Add classes based on options
-if ($is_dark) {
-    $portal_classes[] = 'is-style-dark';
-}
-
 // Create Walker instance with settings
 $walker = new Walker_Content_Menu([
     'showsubs' => $show_subs,
@@ -57,7 +49,8 @@ if (is_numeric($menu)) {
     }
 }
 
-echo '<div class="' . implode(' ', $portal_classes) . '" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
+echo '<div class="wp-block-group' . ($is_dark ? ' is-style-dark' : '') . '">' . "\n";
+echo '<div class="fau-portal-menu" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
 
 // Render the menu
 wp_nav_menu([
@@ -71,4 +64,4 @@ wp_nav_menu([
     'walker' => $walker
 ]);
 
-echo '</div>';
+echo '</div></div>';
