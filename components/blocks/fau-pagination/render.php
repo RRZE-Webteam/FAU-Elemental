@@ -12,16 +12,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 
-if ( ! function_exists( 'render_block_fau_pagination' ) ) {
-    /**
-     * Renders the `fau-elemental/fau-pagination` block on the server.
-     *
-     * @param array    $attributes Block attributes.
-     * @param string   $content    Block default content.
-     * @param WP_Block $block      Block instance.
-     * @return string Returns the pagination HTML.
-     */
-    function render_block_fau_pagination( $attributes, $content, $block ) {
+/**
+ * Renders the `fau-elemental/fau-pagination` block on the server.
+ *
+ * @param array    $attributes Block attributes.
+ * @param string   $content    Block default content.
+ * @param WP_Block $block      Block instance.
+ * @return string Returns the pagination HTML.
+ */
+function render_block_fau_pagination( $attributes, $content, $block ) {
 
         
         $variant = $attributes['variant'] ?? 'basic';
@@ -95,17 +94,15 @@ if ( ! function_exists( 'render_block_fau_pagination' ) ) {
         $output .= '</div>';
         return $output;
     }
-}
 
-if ( ! function_exists( 'fau_elemental_get_load_more_script' ) ) {
-    /**
-     * Generates inline JavaScript for load more functionality.
-     *
-     * @param string $pagination_id The unique ID of the pagination container.
-     * @param array  $teaser_attributes The teaser grid attributes for AJAX.
-     * @return string The inline script HTML.
-     */
-    function fau_elemental_get_load_more_script($pagination_id, $teaser_attributes = []) {
+/**
+ * Generates inline JavaScript for load more functionality.
+ *
+ * @param string $pagination_id The unique ID of the pagination container.
+ * @param array  $teaser_attributes The teaser grid attributes for AJAX.
+ * @return string The inline script HTML.
+ */
+function fau_elemental_get_load_more_script($pagination_id, $teaser_attributes = []) {
         $ajax_url = admin_url('admin-ajax.php');
         $nonce = wp_create_nonce('fau_load_more_nonce');
         
@@ -214,9 +211,8 @@ if ( ! function_exists( 'fau_elemental_get_load_more_script' ) ) {
         
         return sprintf('<script type="text/javascript">%s</script>', $script_content);
     }
-}
 
-if ( ! function_exists( 'fau_elemental_generate_pagination_url' ) ) {
+
     /**
      * Generates a pretty permalink pagination URL.
      *
@@ -239,9 +235,7 @@ if ( ! function_exists( 'fau_elemental_generate_pagination_url' ) ) {
         // Generate pretty permalink: /page/2/
         return $base_url . '/page/' . $page_number . '/';
     }
-}
 
-if ( ! function_exists( 'fau_elemental_generate_advanced_pagination' ) ) {
     /**
      * Generates advanced pagination HTML with previous/next buttons and ellipsis.
      *
@@ -337,9 +331,6 @@ if ( ! function_exists( 'fau_elemental_generate_advanced_pagination' ) ) {
 
         return $output;
     }
-}
-
-if ( ! function_exists( 'fau_elemental_generate_page_link' ) ) {
     /**
      * Generates a single page link.
      *
@@ -371,7 +362,6 @@ if ( ! function_exists( 'fau_elemental_generate_page_link' ) ) {
             );
         }
     }
-}
 
 // Enqueue the view script
 wp_enqueue_script('fau-pagination-view', get_template_directory_uri() . '/build/blocks/fau-pagination/view.js', [], '1.0.0-' . time(), true);
