@@ -61,10 +61,14 @@ function render_block_fau_pagination( $attributes, $content, $block ) {
                 esc_html__('Load More', 'fau-elemental')
             );
             
-            // Add inline JavaScript for load more functionality
-            // Pass the teaser grid attributes if available (for when called from teaser grid)
+            // Store teaser attributes in a data attribute for the JavaScript to access
             $teaser_attributes = $attributes['teaserAttributes'] ?? [];
-            $output .= fau_elemental_get_load_more_script($pagination_id, $teaser_attributes);
+            if (!empty($teaser_attributes)) {
+                $output .= sprintf('<script type="application/json" id="%s-data">%s</script>', 
+                    esc_attr($pagination_id), 
+                    wp_json_encode($teaser_attributes)
+                );
+            }
         } else {
             // Basic pagination - create container that will be controlled by filter JavaScript
             $output .= '<div class="pagination-controls">';
@@ -95,122 +99,7 @@ function render_block_fau_pagination( $attributes, $content, $block ) {
         return $output;
     }
 
-/**
- * Generates inline JavaScript for load more functionality.
- *
- * @param string $pagination_id The unique ID of the pagination container.
- * @param array  $teaser_attributes The teaser grid attributes for AJAX.
- * @return string The inline script HTML.
- */
-function fau_elemental_get_load_more_script($pagination_id, $teaser_attributes = []) {
-        $ajax_url = admin_url('admin-ajax.php');
-        $nonce = wp_create_nonce('fau_load_more_nonce');
-        
-        // Escape values for JavaScript
-        $escaped_pagination_id = esc_js($pagination_id);
-        $escaped_ajax_url = esc_js($ajax_url);
-        $escaped_nonce = esc_js($nonce);
-        
-        // Properly encode attributes for JavaScript
-        $attributes_json = json_encode($teaser_attributes);
-        $escaped_teaser_attributes = addslashes($attributes_json);
-        
-        // Get the script content with proper escaping
-        $script_content = "
-(function() {
-    const paginationContainer = document.getElementById('{$escaped_pagination_id}');
-    if (!paginationContainer) {
-        return;
-    }
 
-    const loadMoreButton = paginationContainer.querySelector('.load-more-button');
-    if (!loadMoreButton) {
-        return;
-    }
-
-    loadMoreButton.addEventListener('click', async function(e) {
-        e.preventDefault();
-        
-        const currentPage = parseInt(this.dataset.currentPage);
-        const totalPages = parseInt(this.dataset.totalPages);
-        
-        if (currentPage >= totalPages) {
-            this.disabled = true;
-            return;
-        }
-
-        // Find the teaser grid container
-        const parentSection = paginationContainer.parentElement;
-        
-        if (!parentSection) {
-            return;
-        }
-        
-        // Find the teaser grid container within the section
-        let itemsContainer = parentSection.querySelector('.fau-teaser-grid');
-        
-        if (!itemsContainer) {
-            // Alternative: look for any container with teaser items
-            itemsContainer = parentSection.querySelector('[class*=\"teaser-grid\"]');
-        }
-        
-        if (!itemsContainer) {
-            // Last resort: look for any container with teaser-item children
-            const allDivs = parentSection.querySelectorAll('div');
-            for (const div of allDivs) {
-                if (div.querySelector('.teaser-item')) {
-                    itemsContainer = div;
-                    break;
-                }
-            }
-        }
-        
-        if (!itemsContainer) {
-            return;
-        }
-        
-        try {
-            const formData = new FormData();
-            formData.append('action', 'fau_load_more_content');
-            formData.append('nonce', '{$escaped_nonce}');
-            formData.append('blockType', 'fau-teaser-grid');
-            formData.append('page', currentPage + 1);
-            formData.append('attributes', '{$escaped_teaser_attributes}');
-            
-            const response = await fetch('{$escaped_ajax_url}', {
-                method: 'POST',
-                body: formData
-            });
-            
-            if (!response.ok) {
-                return;
-            }
-            
-            const newItems = await response.text();
-            
-            if (!newItems || newItems.trim() === '') {
-                return;
-            }
-            
-            // Append the new items
-            itemsContainer.insertAdjacentHTML('beforeend', newItems);
-            
-            // Update the current page
-            this.dataset.currentPage = currentPage + 1;
-            
-            // Disable the button if we've reached the last page
-            if (currentPage + 1 >= totalPages) {
-                this.disabled = true;
-            }
-        } catch (error) {
-            // Silently handle errors
-        }
-    });
-})();
-        ";
-        
-        return sprintf('<script type="text/javascript">%s</script>', $script_content);
-    }
 
 
     /**

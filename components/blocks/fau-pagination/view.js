@@ -10,6 +10,10 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	);
 
 	paginationBlocks.forEach( initializePaginationBlock );
+
+	// Initialize load more functionality
+	const loadMoreButtons = document.querySelectorAll('.load-more-button');
+	loadMoreButtons.forEach( initializeLoadMoreButton );
 } );
 
 function initializePaginationBlock( paginationElement ) {
@@ -589,10 +593,100 @@ function updateBrowserURL( pageNumber ) {
 	}
 }
 
+function initializeLoadMoreButton( loadMoreButton ) {
+	const paginationContainer = loadMoreButton.closest('.wp-block-fau-elemental-fau-pagination');
+	if (!paginationContainer) {
+		return;
+	}
+
+	loadMoreButton.addEventListener('click', async function(e) {
+		e.preventDefault();
+		
+		const currentPage = parseInt(this.dataset.currentPage);
+		const totalPages = parseInt(this.dataset.totalPages);
+		
+		if (currentPage >= totalPages) {
+			this.disabled = true;
+			return;
+		}
+
+		// Find the teaser grid container
+		const parentSection = paginationContainer.parentElement;
+		
+		if (!parentSection) {
+			return;
+		}
+		
+		// Find the teaser grid container within the section
+		let itemsContainer = parentSection.querySelector('.fau-teaser-grid');
+		
+		if (!itemsContainer) {
+			// Alternative: look for any container with teaser items
+			itemsContainer = parentSection.querySelector('[class*="teaser-grid"]');
+		}
+		
+		if (!itemsContainer) {
+			// Last resort: look for any container with teaser-item children
+			const allDivs = parentSection.querySelectorAll('div');
+			for (const div of allDivs) {
+				if (div.querySelector('.teaser-item')) {
+					itemsContainer = div;
+					break;
+				}
+			}
+		}
+		
+		if (!itemsContainer) {
+			return;
+		}
+		
+		try {
+			const formData = new FormData();
+			formData.append('action', 'fau_load_more_content');
+			formData.append('nonce', window.fauPaginationAjax?.nonce || '');
+			formData.append('blockType', 'fau-teaser-grid');
+			formData.append('page', currentPage + 1);
+			
+			// Get teaser attributes from the grid container
+			const teaserAttributes = itemsContainer.getAttribute('data-teaser-attributes');
+			formData.append('attributes', teaserAttributes || '{}');
+			
+			const response = await fetch(window.fauPaginationAjax?.ajaxUrl || '/wp-admin/admin-ajax.php', {
+				method: 'POST',
+				body: formData
+			});
+			
+			if (!response.ok) {
+				return;
+			}
+			
+			const newItems = await response.text();
+			
+			if (!newItems || newItems.trim() === '') {
+				return;
+			}
+			
+			// Append the new items
+			itemsContainer.insertAdjacentHTML('beforeend', newItems);
+			
+			// Update the current page
+			this.dataset.currentPage = currentPage + 1;
+			
+			// Disable the button if we've reached the last page
+			if (currentPage + 1 >= totalPages) {
+				this.disabled = true;
+			}
+		} catch (error) {
+			// Silently handle errors
+		}
+	});
+}
+
 // Export functions for use by other scripts
 window.fauPagination = {
 	initializePaginationBlock,
 	updateGridForPage,
 	updatePaginationState,
 	updateBrowserURL,
+	initializeLoadMoreButton,
 };
