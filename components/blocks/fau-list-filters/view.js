@@ -120,16 +120,16 @@ function initializeFilterBlock( blockElement ) {
 	function handleViewChange( event ) {
 		event.preventDefault();
 		event.stopPropagation();
-		
+
 		// Find the actual button element (in case user clicked on icon or text inside)
 		const clickedButton = event.target.closest( '.view-button' );
-		
+
 		if ( ! clickedButton ) {
 			return;
 		}
-		
+
 		const newView = clickedButton.dataset.view;
-		
+
 		if ( ! newView || ! associatedGrid ) {
 			return;
 		}
@@ -142,13 +142,18 @@ function initializeFilterBlock( blockElement ) {
 		} );
 
 		// Update grid view classes
-		const gridContainer = associatedGrid.querySelector( '.fau-teaser-grid' );
+		const gridContainer =
+			associatedGrid.querySelector( '.fau-teaser-grid' );
 		if ( gridContainer ) {
 			// Remove existing view classes
-			gridContainer.classList.remove( 'view-cards', 'view-table', 'view-list' );
+			gridContainer.classList.remove(
+				'view-cards',
+				'view-table',
+				'view-list'
+			);
 			// Add new view class
 			gridContainer.classList.add( `view-${ newView }` );
-			
+
 			// Add is-table-view class to all article elements when table view is selected
 			const articles = gridContainer.querySelectorAll( 'article' );
 			articles.forEach( ( article ) => {
@@ -160,8 +165,6 @@ function initializeFilterBlock( blockElement ) {
 			} );
 		}
 	}
-
-
 
 	function loadInitialData() {
 		updateFilterChips();
