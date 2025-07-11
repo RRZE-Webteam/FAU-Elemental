@@ -299,8 +299,8 @@ function fau_list_filters_render_filter_section($filter_fields, $show_more_filte
         $output .= sprintf(
             '<button type="button" class="show-more-filters" aria-expanded="false" data-available-filters="%s"><span class="show-more-text">%s</span><span class="show-less-text" style="display: none;">%s</span></button>',
             esc_attr( wp_json_encode( $available_options ) ),
-            esc_html__( 'Weitere Filtermöglichkeiten +', 'fau-elemental' ),
-            esc_html__( 'Weniger Filter –', 'fau-elemental' )
+            esc_html__( 'More filters +', 'fau-elemental' ),
+            esc_html__( 'Less filters –', 'fau-elemental' )
         );
     }
 
