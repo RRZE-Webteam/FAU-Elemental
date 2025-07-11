@@ -105,15 +105,16 @@
 			border: 0.0625rem solid var(--FAU-Col-FAU-Dunkelblau-100);
 			border-right: none;
 			background-color: var(--FAU-Col-FAU-Weiss-100);
-			background-image: var(--icon-search-dunkelblau);
+			background-image: var(--icon-search-schwarz);
 			background-repeat: no-repeat;
 			background-position: var(--Spacing-4x) center;
+			background-size: var(--Spacing-4x) var(--Spacing-4x);
 			color: var(--FAU-Col-FAU-Dunkelblau-100);
 			border-radius: 0;
 			outline: none;
 
 			&::placeholder {
-				color: var(--FAU-Col-FAU-Dunkelblau-50);
+				color: var(--FAU-Col-FAU-Schwarz-62_5);
 				opacity: 1;
 			}
 
