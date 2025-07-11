@@ -257,5 +257,11 @@ $asset_file = get_template_directory() . '/build/blocks/fau-pagination/view.asse
 $asset_data = file_exists($asset_file) ? include $asset_file : ['dependencies' => [], 'version' => '1.0.0'];
 wp_enqueue_script('fau-pagination-view', get_template_directory_uri() . '/build/blocks/fau-pagination/view.js', $asset_data['dependencies'], $asset_data['version'], true);
 
+// Localize script for AJAX URL
+wp_localize_script('fau-pagination-view', 'fauPaginationAjax', array(
+    'ajaxUrl' => admin_url('admin-ajax.php'),
+    'nonce' => wp_create_nonce('fau_load_more_nonce')
+));
+
 // Actually render the block
 echo render_block_fau_pagination($attributes, $content, $block); 
