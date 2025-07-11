@@ -61,6 +61,15 @@
 				this.openModal( modalId, targetItemId, targetUrl );
 			} );
 
+			// Handle search form submission in search modal
+			$( document ).on(
+				'submit',
+				'#search-modal .fau-global-search',
+				( e ) => {
+					this.handleSearchFormSubmission( e );
+				}
+			);
+
 			$( document ).on(
 				'click',
 				'.menu-modal__close-btn, .menu-meta-nav__modal__close-btn, .menu-website-modal__close-btn',
@@ -740,6 +749,33 @@
 					$announcements.empty();
 				}, 1000 );
 			}
+		}
+
+		handleSearchFormSubmission( e ) {
+			e.preventDefault(); // Prevent default form submission
+
+			const $form = $( e.currentTarget );
+
+			// Get the search query
+			const searchQuery = $form.find( 'input[name="s"]' ).val();
+			const searchScope =
+				$form.find( 'input[name="fau_search_scope"]:checked' ).val() ||
+				'current-site';
+
+			// Close the modal
+			this.closeCurrentModal();
+
+			// Build search URL
+			const homeUrl = window.location.origin + '/';
+			const searchUrl =
+				homeUrl +
+				'?s=' +
+				encodeURIComponent( searchQuery ) +
+				'&fau_search_scope=' +
+				encodeURIComponent( searchScope );
+
+			// Navigate to search results page
+			window.location.href = searchUrl;
 		}
 	}
 

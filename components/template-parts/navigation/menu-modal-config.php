@@ -55,6 +55,19 @@ Menu_Modal::get_instance()->register_modal('menu-website', array(
     'show_close_button' => true,
 ));
 
+// Configure Search Modal (Special modal for search functionality)
+Menu_Modal::get_instance()->register_modal('search', array(
+    'theme_locations' => array(), // No menu locations needed for search
+    'use_global_menu' => false,
+    'modal_class' => 'menu-modal',
+    'menu_class' => 'menu-modal__menu',
+    'aria_label' => __('Search', 'fau-elemental'),
+    'depth' => 0,
+    'walker' => null,
+    'show_back_button' => false,
+    'show_close_button' => true,
+));
+
 /**
  * Helper functions to check if menus exist (for use in navigation components)
  */
@@ -103,3 +116,5 @@ function fau_elemental_get_services_menu_items() {
 function fau_elemental_get_structure_menu_items() {
     return Menu_Modal::get_instance()->get_main_site_menu('top_header_nav_structure');
 } 
+
+

@@ -91,6 +91,8 @@ function faue_enqueue_block_view_scripts() {
     // Get all block folders
     $block_folders = glob(get_theme_file_path('build/blocks/*'), GLOB_ONLYDIR);
 
+    $localized = false;
+    
     foreach ($block_folders as $block_folder) {
         $block_name = basename($block_folder);
         $view_script_path = $block_folder . '/view.js';
@@ -99,13 +101,31 @@ function faue_enqueue_block_view_scripts() {
         if (file_exists($view_script_path) && file_exists($view_asset_path)) {
             $view_asset = include $view_asset_path;
             
+            $script_handle = 'faue-' . $block_name . '-view';
+            
             wp_enqueue_script(
-                'faue-' . $block_name . '-view',
+                $script_handle,
                 get_theme_file_uri('build/blocks/' . $block_name . '/view.js'),
                 $view_asset['dependencies'],
                 $view_asset['version'],
                 true
             );
+            
+            // Localize script data for the first script only
+            if (!$localized) {
+                wp_localize_script(
+                    $script_handle,
+                    'fauElemental',
+                    array(
+                        'themeUrl' => get_template_directory_uri(),
+                        'websiteType' => get_theme_mod('faue_website_type', 'fau'),
+                        'facultyType' => get_theme_mod('faue_faculty', 'phil'),
+                        'nonce' => wp_create_nonce('fau_elemental_nonce'),
+                        'ajaxUrl' => admin_url('admin-ajax.php'),
+                    )
+                );
+                $localized = true;
+            }
         }
     }
 }

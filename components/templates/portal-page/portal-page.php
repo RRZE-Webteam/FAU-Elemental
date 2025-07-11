@@ -34,14 +34,8 @@ if (!$menu_name) {
 }
 
 // Get display options
-$display_type = get_post_meta(get_the_ID(), 'portal_menu_type', true) ?: 1;
-$columns = 3; // Always use 3 columns
 $show_subs = !get_post_meta(get_the_ID(), 'portal_menu_hide_subs', true);
-$list_view = get_post_meta(get_the_ID(), 'portal_menu_list_view', true) ?: false;
 $no_thumbs = get_post_meta(get_the_ID(), 'portal_menu_hide_thumbs', true) ?: false;
-$no_fallback = get_post_meta(get_the_ID(), 'portal_menu_no_fallback', true) ?: false;
-$hover_zoom = get_post_meta(get_the_ID(), 'portal_menu_hover_zoom', true) ?: false;
-$hover_blur = get_post_meta(get_the_ID(), 'portal_menu_hover_blur', true) ?: false;
 $is_dark = get_post_meta(get_the_ID(), 'portal_menu_is_dark', true) ?: false;
 ?>
 
@@ -65,18 +59,10 @@ $is_dark = get_post_meta(get_the_ID(), 'portal_menu_is_dark', true) ?: false;
         if ($menu_name) {
             $shortcode = '[portalmenu';
             $shortcode .= ' menu="' . esc_attr($menu_name) . '"';
-            $shortcode .= ' type="' . intval($display_type) . '"';
-            $shortcode .= ' columns="' . intval($columns) . '"';
             $shortcode .= ' showsubs="' . ($show_subs ? 'true' : 'false') . '"';
-            $shortcode .= ' listview="' . ($list_view ? 'true' : 'false') . '"';
             $shortcode .= ' nothumbs="' . ($no_thumbs ? 'true' : 'false') . '"';
-            $shortcode .= ' nofallback="' . ($no_fallback ? 'true' : 'false') . '"';
-            $shortcode .= ' hoverzoom="' . ($hover_zoom ? 'true' : 'false') . '"';
-            $shortcode .= ' hoverblur="' . ($hover_blur ? 'true' : 'false') . '"';
-            $shortcode .= ' is-style-dark="' . ($is_dark ? 'true' : 'false') . '"';
+            $shortcode .= ' theme="' . ($is_dark ? 'dark' : 'light') . '"';
             $shortcode .= ']';
-            
-         
             
             // Output the shortcode
             echo do_shortcode($shortcode);

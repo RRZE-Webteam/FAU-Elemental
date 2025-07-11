@@ -101,6 +101,10 @@
 					.fau-navigation__structure-icon {
 						background-image: var(--icon-structure-dunkelblau);
 					}
+
+					.fau-navigation__search-icon {
+						background-image: var(--icon-search-dunkelblau);
+					}
 				}
 
 				span {
@@ -188,8 +192,8 @@
 				color: var(--FAU-Col-FAU-Dunkelblau-100);
 			}
 
-			.main-navigation__toggle-icon {
-				background-image: var(--icon-hamburger-fau-blau);
+			.main-navigation__toggle-icon > span {
+				background-color: var(--FAU-Col-FAU-Blau-100);
 			}
 
 			.main-navigation__direct-links ul li a::after {
@@ -357,20 +361,24 @@
 		}
 
 		&-icon {
-			display: inline-block;
+			display: flex;
+			flex-direction: column;
 			width: 1.125rem;
-			height: 0.875rem;
-			background-image: var(--icon-hamburger-weiss);
-			background-repeat: no-repeat;
-			background-size: contain;
+			gap: 0.1875rem;
 			transition: var(--basic-animation);
+
+			> span {
+				display: block;
+				height: 0.125rem;
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+			}
 		}
 
 		&:hover,
 		&:focus-visible {
 
 			.main-navigation__toggle-icon {
-				transform: scale(1.1);
+				gap: 0.3125rem;
 				transition: var(--basic-animation);
 			}
 		}
@@ -499,7 +507,8 @@ body.modal-open {
 		letter-spacing: var(--letter-spacing-small);
 
 		.menu-website-modal__close-icon,
-		.menu-meta-nav__modal__close-icon {
+		.menu-meta-nav__modal__close-icon,
+		.menu-modal__close-icon {
 			display: inline-block;
 			width: 0.625rem;
 			height: 0.625rem;
@@ -544,7 +553,8 @@ body.modal-open {
 		&:focus-visible {
 
 			.menu-website-modal__close-icon,
-			.menu-meta-nav__modal__close-icon {
+			.menu-meta-nav__modal__close-icon,
+			.menu-modal__close-icon {
 				transform: rotate(90deg);
 			}
 		}
@@ -647,6 +657,10 @@ body.modal-open {
 				border: none;
 			}
 		}
+	}
+
+	&__search-heading {
+		padding: 0 var(--Spacing-6x);
 	}
 
 	&__submenu-toggle {
@@ -801,7 +815,10 @@ body.home.fauorg-fakultaet.faculty-rw {
 					}
 
 					.main-navigation__toggle-icon {
-						background-image: var(--icon-hamburger-fau-blau);
+
+						span {
+							background-color: var(--FAU-Col-FAU-Blau-100);
+						}
 					}
 				}
 			}
