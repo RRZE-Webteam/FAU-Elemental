@@ -146,17 +146,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
 
     // Add CSS for JavaScript pagination if needed
     if ($use_js_pagination) {
-        $output .= '<style>
-            .fau-teaser-grid .js-paginated-item.hidden {
-                display: none !important;
-            }
-            .fau-teaser-grid .js-paginated-item {
-                transition: opacity 0.3s ease-in-out;
-            }
-            .fau-teaser-grid .js-paginated-hidden {
-                display: none !important;
-            }
-        </style>';
+    
         
         // Generate fallback IDs if they're empty
         if (empty($custom_block_id)) {

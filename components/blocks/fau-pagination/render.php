@@ -202,7 +202,10 @@ if ( ! function_exists( 'render_block_fau_pagination' ) ) {
             if ($is_js_pagination) {
                 // For JS pagination, show a placeholder that will be replaced by JavaScript
                 $output .= '<div class="pagination-placeholder" aria-live="polite">';
-                $output .= '<span class="loading-pagination">' . esc_html__('Loading pagination...', 'fau-elemental') . '</span>';
+                // Only show loading pagination if we have more than 1 page (meaning more than ~6 posts)
+                if ($total_pages > 1) {
+                    $output .= '<span class="loading-pagination">' . esc_html__('Loading pagination...', 'fau-elemental') . '</span>';
+                }
                 $output .= '</div>';
             } elseif ($total_pages > 1) {
                 // For server-side pagination (fallback for template-based pagination)
