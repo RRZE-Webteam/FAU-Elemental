@@ -111,6 +111,58 @@ function initializeFilterBlock( blockElement ) {
 		clearAllButton.addEventListener( 'click', clearAllFilters );
 	}
 
+	// Add view switching functionality
+	const viewButtons = blockElement.querySelectorAll( '.view-button' );
+	viewButtons.forEach( ( button ) => {
+		button.addEventListener( 'click', handleViewChange );
+	} );
+
+	function handleViewChange( event ) {
+		event.preventDefault();
+		event.stopPropagation();
+		
+		// Find the actual button element (in case user clicked on icon or text inside)
+		const clickedButton = event.target.closest( '.view-button' );
+		
+		if ( ! clickedButton ) {
+			return;
+		}
+		
+		const newView = clickedButton.dataset.view;
+		
+		if ( ! newView || ! associatedGrid ) {
+			return;
+		}
+
+		// Update button states
+		viewButtons.forEach( ( button ) => {
+			const isActive = button.dataset.view === newView;
+			button.classList.toggle( 'active', isActive );
+			button.setAttribute( 'aria-pressed', isActive ? 'true' : 'false' );
+		} );
+
+		// Update grid view classes
+		const gridContainer = associatedGrid.querySelector( '.fau-teaser-grid' );
+		if ( gridContainer ) {
+			// Remove existing view classes
+			gridContainer.classList.remove( 'view-cards', 'view-table', 'view-list' );
+			// Add new view class
+			gridContainer.classList.add( `view-${ newView }` );
+			
+			// Add is-table-view class to all article elements when table view is selected
+			const articles = gridContainer.querySelectorAll( 'article' );
+			articles.forEach( ( article ) => {
+				if ( newView === 'table' ) {
+					article.classList.add( 'is-table-view' );
+				} else {
+					article.classList.remove( 'is-table-view' );
+				}
+			} );
+		}
+	}
+
+
+
 	function loadInitialData() {
 		updateFilterChips();
 		if ( isJsPagination ) {
