@@ -19,6 +19,11 @@
 		.fau-global-search__scope-option {
 			color: var(--FAU-Col-FAU-Weiss-100);
 		}
+
+		@include respond-to("small") {
+			max-width: 100%;
+			width: calc(100% - var(--Spacing-16x));
+		}
 	}
 
 	&--full-grid {
@@ -434,12 +439,4 @@
 		display: none;
 	}
 
-	// Responsive adjustments
-	@media (max-width: var(--sm)) {
-
-		&__scope {
-			flex-direction: column;
-			gap: var(--Spacing-2x);
-		}
-	}
 }
