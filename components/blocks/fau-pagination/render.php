@@ -85,7 +85,7 @@ function render_block_fau_pagination( $attributes, $content, $block ) {
                 // For server-side pagination (fallback for template-based pagination)
                 $output .= fau_elemental_generate_advanced_pagination($current_page, $total_pages, $base_url, $page_param);
             } else {
-                $output .= '<div class="no-pagination">All results shown</div>';
+                $output .= '<div class="no-pagination">' . esc_html__('All results shown', 'fau-elemental') . '</div>';
             }
             
             $output .= '</div>';
