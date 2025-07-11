@@ -232,7 +232,19 @@ class Menu_Modal {
      *
      * @param array $config The modal configuration
      */
-    private function render_menu_content($config) {
+    private function render_menu_content($modal_id, $config) {
+        // Special handling for search modal
+        if ($modal_id === 'search') {
+            // Use WordPress's block rendering system to render the fau-global-search block
+            $block_content = '<!-- wp:fau-elemental/fau-global-search {"title":"' . esc_attr(__('Search', 'fau-elemental')) . '","searchScope":"fau-wide"} /-->';
+            
+            echo '<div class="menu-modal__search-wrapper">';
+            echo '<h4 class="menu-modal__search-heading">' . __('Search all pages and documents:', 'fau-elemental') . '</h4>';
+            echo do_blocks($block_content);
+            echo '</div>';
+            return;
+        }
+
         $theme_locations = $config['theme_locations'];
         $use_global_menu = $config['use_global_menu'];
         $menu_class = $config['menu_class'];
@@ -346,7 +358,7 @@ class Menu_Modal {
                     <?php endif; ?>
                 </div>
                 <div class="<?php echo esc_attr($modal_class); ?>__content" role="navigation" aria-label="<?php echo esc_attr($aria_label); ?>">
-                    <?php $this->render_menu_content($config); ?>
+                    <?php $this->render_menu_content($modal_id, $config); ?>
                 </div>
             </div>
         </div>
