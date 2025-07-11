@@ -65,7 +65,7 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
     // Add hidden date meta for pages (for sorting purposes)
     if ($variant === 'page') {
         $output .= sprintf(
-            '<time datetime="%s" style="display: none;" data-created="%s" data-modified="%s"></time>',
+            '<time datetime="%s" class="date-meta-hidden" data-created="%s" data-modified="%s"></time>',
             esc_attr($post->post_date),
             esc_attr($post->post_date),
             esc_attr($post->post_modified)
