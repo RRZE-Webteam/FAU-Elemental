@@ -105,7 +105,7 @@
 			border: 0.0625rem solid var(--FAU-Col-FAU-Dunkelblau-100);
 			border-right: none;
 			background-color: var(--FAU-Col-FAU-Weiss-100);
-			background-image: url(data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E);
+			background-image: var(--icon-search-dunkelblau);
 			background-repeat: no-repeat;
 			background-position: var(--Spacing-4x) center;
 			color: var(--FAU-Col-FAU-Dunkelblau-100);
