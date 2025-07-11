@@ -8,8 +8,8 @@
 
 .fau-portal-menu {
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: var(--Spacing-8x);
+	grid-template-columns: repeat(2, 1fr);
+	gap: 0 var(--Spacing-8x);
 	max-width: var(--wide-max-width);
 	margin: 0 auto;
 	padding: var(--Spacing-10x);
@@ -18,6 +18,8 @@
 		display: flex;
 		align-items: center;
 		flex-direction: column;
+		padding-bottom: var(--Spacing-6x);
+		border-bottom: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-37_5);
 
 		.fau-portal-thumbnail {
 			width: 100%;
@@ -31,16 +33,15 @@
 		}
 
 		.fau-portal-wrapper {
-			position: relative;
-			bottom: var(--Spacing-10x);
-			width: 90%;
+			width: 100%;
 
 			.fau-portal-content {
-				padding: var(--Spacing-4x) 0 var(--Spacing-4x) var(--Spacing-6x);
+				padding: var(--Spacing-8x) var(--Spacing-8x) 0 0;
 				background-color: var(--FAU-Col-FAU-Weiss-100);
 
 				a {
 					text-decoration: none;
+					font-size: 1rem;
 					letter-spacing: var(--letter-spacing-big);
 				}
 
@@ -51,11 +52,13 @@
 
 					h3 {
 						margin: 0;
+						font-size: 1.25rem;
 					}
 
 					span {
 						position: relative;
 						display: block;
+						transform: translateX(var(--Spacing-8x));
 						padding: 0;
 						height: 2.5rem;
 						width: 2.5rem;
@@ -124,21 +127,69 @@
 				}
 			}
 		}
+
+		.fau-portal-thumbnail + .fau-portal-wrapper {
+			position: relative;
+			bottom: var(--Spacing-10x);
+			width: 90%;
+		}
+	}
+
+	// Style when Thumbnail is active
+	&:has(.fau-portal-thumbnail) {
+		grid-template-columns: repeat(3, 1fr);
+
+		.fau-portal-item {
+			padding-bottom: 0;
+			border-bottom: none;
+
+			.fau-portal-wrapper .fau-portal-content {
+				padding: var(--Spacing-4x) var(--Spacing-8x) 0 var(--Spacing-4x);
+			}
+		}
+	}
+}
+
+// ToDo: Add faculty colors
+
+//Dark Mode
+.fau-portal-menu.is-style-dark {
+	background-color: var(--FAU-Col-FAU-Blau-100);
+
+	.fau-portal-item .fau-portal-wrapper .fau-portal-content {
+		background-color: var(--FAU-Col-FAU-Blau-100);
+
+		ul li a::before {
+			background-image: var(--icon-arrow-weiss);
+		}
+
+		> a span {
+			background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+
+			&::before {
+				background-image: var(--icon-arrow-fau-blau);
+			}
+		}
 	}
 }
 
 // Responsive
 @media screen and (max-width: 999px) {
 
-	.fau-portal-menu {
+	.fau-portal-menu:has(.fau-portal-thumbnail) {
 		grid-template-columns: repeat(2, 1fr);
 	}
 }
 
-@include respond-to("small") {
+@media screen and (max-width: 599px) {
 
-	.fau-portal-menu {
+	.fau-portal-menu,
+	.fau-portal-menu:has(.fau-portal-thumbnail) {
 		grid-template-columns: 1fr;
+	}
+
+	.fau-portal-menu .fau-portal-item .fau-portal-wrapper .fau-portal-content {
+		padding: var(--Spacing-6x) var(--Spacing-8x) 0 0;
 	}
 }
 
