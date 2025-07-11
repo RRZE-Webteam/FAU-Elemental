@@ -253,7 +253,9 @@ function render_block_fau_pagination( $attributes, $content, $block ) {
     }
 
 // Enqueue the view script
-wp_enqueue_script('fau-pagination-view', get_template_directory_uri() . '/build/blocks/fau-pagination/view.js', [], '1.0.0-' . time(), true);
+$asset_file = get_template_directory() . '/build/blocks/fau-pagination/view.asset.php';
+$asset_data = file_exists($asset_file) ? include $asset_file : ['dependencies' => [], 'version' => '1.0.0'];
+wp_enqueue_script('fau-pagination-view', get_template_directory_uri() . '/build/blocks/fau-pagination/view.js', $asset_data['dependencies'], $asset_data['version'], true);
 
 // Actually render the block
 echo render_block_fau_pagination($attributes, $content, $block); 
