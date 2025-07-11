@@ -89,7 +89,9 @@ function render_block_fau_list_filters( $attributes, $content, $block ) {
 
     // Add AJAX data for frontend filtering
     if (!wp_script_is('fau-list-filters-script', 'enqueued')) {
-        wp_enqueue_script('fau-list-filters-script', get_template_directory_uri() . '/build/blocks/fau-list-filters/view.js', [], '2.0.0-' . time(), true);
+        $asset_file = get_template_directory() . '/build/blocks/fau-list-filters/view.asset.php';
+        $asset_data = file_exists($asset_file) ? include $asset_file : ['dependencies' => [], 'version' => '1.0.0'];
+        wp_enqueue_script('fau-list-filters-script', get_template_directory_uri() . '/build/blocks/fau-list-filters/view.js', $asset_data['dependencies'], $asset_data['version'], true);
     }
     
     wp_localize_script('fau-list-filters-script', 'fauListFilters', [
