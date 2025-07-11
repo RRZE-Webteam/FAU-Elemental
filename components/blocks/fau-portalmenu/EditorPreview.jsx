@@ -14,28 +14,6 @@ const FALLBACK_IMAGE =
  * Shows actual menu items from the selected menu
  */
 const EditorPreview = ( { attributes } ) => {
-	// Configuration classes that match the backend config
-	const CSS_CLASSES = {
-		container: 'contentmenu',
-		menu_list: 'subpages-menu',
-		portal_item: 'portal-item',
-		portal_thumbnail: 'portal-thumbnail',
-		portal_content: 'portal-content',
-		portal_title: 'portal-title',
-		portal_main_link: 'portal-main-link',
-		portal_button_arrow: 'portal-button-arrow',
-		portal_submenu: 'portal-submenu',
-		portal_subitem: 'portal-subitem',
-		portal_sublink: 'portal-sublink',
-		screen_reader_text: 'screen-reader-text',
-		image_link: 'image-link',
-		list_view: 'listview',
-		no_thumb: 'no-thumb',
-		hover_zoom: 'hover-zoom',
-		hover_blur: 'hover-blur',
-		dark_style: 'is-style-dark',
-	};
-
 	// Fetch actual menu items
 	const menuItems = useSelect(
 		( select ) => {
@@ -243,66 +221,45 @@ const EditorPreview = ( { attributes } ) => {
 							<span></span>
 						</a>
 
-						{ showSubs && (
-							<div
-								className={ CSS_CLASSES.portal_submenu }
-								role="list"
-							>
-								{ hasChildren &&
-									item.children.map( ( child ) => {
-										const childTitle =
-											child.title?.rendered ||
-											child.title ||
-											__(
-												'Submenu Item',
-												'fau-elemental'
-											);
-										return (
-											<div
-												key={ child.id }
-												className={
-													CSS_CLASSES.portal_subitem
+						{ showSubs && hasChildren && (
+							<ul>
+								{ item.children.map( ( child ) => {
+									const childTitle =
+										child.title?.rendered ||
+										child.title ||
+										__( 'Submenu Item', 'fau-elemental' );
+									return (
+										<li key={ child.id }>
+											{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
+											<a
+												role="link"
+												aria-label={ sprintf(
+													// translators: %s: Submenu item title
+													__(
+														'Go to %s',
+														'fau-elemental'
+													),
+													childTitle
+												) }
+												tabIndex="0"
+												onClick={ ( e ) =>
+													e.preventDefault()
 												}
-												role="listitem"
+												onKeyDown={ ( e ) => {
+													if (
+														e.key === 'Enter' ||
+														e.key === ' '
+													) {
+														e.preventDefault();
+													}
+												} }
 											>
-												<div
-													onClick={ ( e ) =>
-														e.preventDefault()
-													}
-													className={
-														CSS_CLASSES.portal_sublink
-													}
-													role="link"
-													aria-label={ sprintf(
-														// translators: %s: Submenu item title
-														__(
-															'Go to %s',
-															'fau-elemental'
-														),
-														childTitle
-													) }
-													tabIndex="0"
-													onKeyDown={ ( e ) => {
-														if (
-															e.key === 'Enter' ||
-															e.key === ' '
-														) {
-															e.preventDefault();
-														}
-													} }
-												>
-													<span className="portal-link-text">
-														{ childTitle }
-													</span>
-													<span
-														className="portal-link-button"
-														aria-hidden="true"
-													></span>
-												</div>
-											</div>
-										);
-									} ) }
-							</div>
+												{ childTitle }
+											</a>
+										</li>
+									);
+								} ) }
+							</ul>
 						) }
 					</div>
 				</div>
@@ -310,9 +267,14 @@ const EditorPreview = ( { attributes } ) => {
 		);
 	};
 
+	let menuClasses = 'fau-portal-menu';
+	if ( attributes.isDark ) {
+		menuClasses += ' is-style-dark';
+	}
+
 	return (
 		<div
-			className="fau-portal-menu"
+			className={ menuClasses }
 			aria-label={ __( 'Portal Menu', 'fau-elemental' ) }
 		>
 			{ menuItems && menuItems.length > 0 ? (
