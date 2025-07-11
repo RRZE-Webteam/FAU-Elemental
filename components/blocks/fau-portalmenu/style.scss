@@ -3,3 +3,202 @@
  */
 
 /* Portal Menu styles will be implemented here */
+
+@use "../../ui/mixins/mixins" as *;
+
+.fau-portal-menu {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 0 var(--Spacing-8x);
+	max-width: var(--base-max-width);
+	padding: var(--Spacing-10x);
+
+	.fau-portal-item {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		padding-bottom: var(--Spacing-6x);
+		border-bottom: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-37_5);
+
+		.fau-portal-thumbnail {
+			width: 100%;
+
+			img {
+				aspect-ratio: 3/2;
+				object-fit: cover;
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		.fau-portal-wrapper {
+			width: 100%;
+
+			.fau-portal-content {
+				padding: var(--Spacing-8x) var(--Spacing-8x) 0 0;
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+
+				a {
+					text-decoration: none;
+					font-size: 1rem;
+					letter-spacing: var(--letter-spacing-big);
+				}
+
+				> a {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+
+					h3 {
+						margin: 0;
+						font-size: 1.25rem;
+					}
+
+					span {
+						position: relative;
+						display: block;
+						transform: translateX(var(--Spacing-8x));
+						padding: 0;
+						height: 2.5rem;
+						width: 2.5rem;
+						border-radius: 0;
+						background-color: var(--FAU-Col-FAU-Blau-100);
+
+						&::before {
+							content: "";
+							position: absolute;
+							top: calc(50% - 0.375rem);
+							top: calc(50% - 0.375rem);
+							left: calc(50% - 0.5rem);
+							width: 1rem;
+							height: 0.75rem;
+							background-image: var(--icon-arrow-weiss);
+							background-repeat: no-repeat;
+							transition: all 0.2s linear;
+						}
+					}
+
+					&:hover,
+					&:focus-visible {
+
+						span::before {
+							left: calc(50% - 0.3rem);
+						}
+					}
+				}
+
+				ul {
+					display: flex;
+					flex-direction: column;
+					gap: 1rem;
+					padding-left: unset;
+					list-style: none;
+					margin: var(--Spacing-6x) 0 0 0;
+
+					li {
+
+						a {
+							position: relative;
+
+							&::before {
+								content: "";
+								position: absolute;
+								top: calc(50% - 0.375rem);
+								right: -1.6rem;
+								width: 1rem;
+								height: 0.75rem;
+								background-image: var(--icon-arrow-fau-blau);
+								background-repeat: no-repeat;
+								color: var(--FAU-Col-FAU-Blau-100);
+								transition: all 0.2s ease-in-out;
+								border-left: 1rem solid transparent;
+							}
+
+							&:hover,
+							&:focus-visible {
+
+								&::before {
+									right: -1.8rem;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.fau-portal-thumbnail + .fau-portal-wrapper {
+			position: relative;
+			bottom: var(--Spacing-10x);
+			width: 90%;
+		}
+	}
+
+	// Style when Thumbnail is active
+	&:has(.fau-portal-thumbnail) {
+		grid-template-columns: repeat(3, 1fr);
+		max-width: var(--wide-max-width);
+
+		.fau-portal-item {
+			padding-bottom: 0;
+			border-bottom: none;
+
+			.fau-portal-wrapper .fau-portal-content {
+				padding: var(--Spacing-4x) var(--Spacing-8x) 0 var(--Spacing-4x);
+			}
+		}
+	}
+}
+
+// ToDo: Add faculty colors
+
+//Dark Mode
+.is-style-dark {
+
+	.fau-portal-menu {
+		background-color: var(--FAU-Col-FAU-Blau-100);
+
+		.fau-portal-item .fau-portal-wrapper .fau-portal-content {
+			background-color: var(--FAU-Col-FAU-Blau-100);
+
+			ul li a::before {
+				background-image: var(--icon-arrow-weiss);
+			}
+
+			> a span {
+				background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+
+				&::before {
+					background-image: var(--icon-arrow-fau-blau);
+				}
+			}
+		}
+	}
+}
+
+// Responsive
+@media screen and (max-width: 999px) {
+
+	.fau-portal-menu:has(.fau-portal-thumbnail) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media screen and (max-width: 599px) {
+
+	.fau-portal-menu,
+	.fau-portal-menu:has(.fau-portal-thumbnail) {
+		grid-template-columns: 1fr;
+	}
+
+	.fau-portal-menu .fau-portal-item .fau-portal-wrapper .fau-portal-content {
+		padding: var(--Spacing-6x) var(--Spacing-8x) 0 0;
+	}
+}
+
+@include respond-to("x-small") {
+
+	.fau-portal-menu {
+		padding: var(--Spacing-5x);
+	}
+}

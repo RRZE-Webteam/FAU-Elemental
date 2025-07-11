@@ -29,6 +29,9 @@
 @use "../core-blocks/tag-cloud/style" as *;
 @use "../core-blocks/verse/style" as *;
 
+// Blocks-Styles that are required outside of blocks
+@use "../blocks/fau-portalmenu/style.scss" as *;
+
 // Pattern Styles
 @use "../patterns/hero-fau/style" as *;
 @use "../patterns/hero-portal/style" as *;
