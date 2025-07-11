@@ -69,61 +69,10 @@ function fau_elemental_register_page_templates($templates) {
     // Register the portal page template
     $templates[FAU_Elemental_Portal_Menu_Config::TEMPLATE] = __('Portal Page', 'fau-elemental');
     
-    // Dynamically register all templates from components/templates/
-    $template_base_dir = get_theme_file_path('components/templates');
-    
-    if (is_dir($template_base_dir)) {
-        // Get all PHP files in components/templates/
-        $template_files = glob($template_base_dir . '/*.php');
-        
-        foreach ($template_files as $template_file) {
-            $template_path = 'components/templates/' . basename($template_file);
-            
-            // Extract template data from file headers
-            $template_data = get_file_data($template_file, array(
-                'template_name' => 'Template Name',
-                'description' => 'Description',
-            ));
-            
-            // Use template name from header or generate from filename
-            $template_name = !empty($template_data['template_name']) 
-                ? $template_data['template_name'] 
-                : ucwords(str_replace(['-', '_'], ' ', basename($template_file, '.php')));
-            
-            $templates[$template_path] = $template_name;
-        }
-        
-        // Also check subdirectories (like portal-page/)
-        $template_dirs = glob($template_base_dir . '/*', GLOB_ONLYDIR);
-        foreach ($template_dirs as $template_dir) {
-            $template_files = glob($template_dir . '/*.php');
-            foreach ($template_files as $template_file) {
-                $template_path = 'components/templates/' . basename($template_dir) . '/' . basename($template_file);
-                
-                // Extract template data from file headers
-                $template_data = get_file_data($template_file, array(
-                    'template_name' => 'Template Name',
-                    'description' => 'Description',
-                ));
-                
-                // Use template name from header or generate from filename
-                $template_name = !empty($template_data['template_name']) 
-                    ? $template_data['template_name'] 
-                    : ucwords(str_replace(['-', '_'], ' ', basename($template_file, '.php')));
-                
-                $templates[$template_path] = $template_name;
-            }
-        }
-    }
-    
-    // Force flush the template cache if we're in admin
-    if (is_admin()) {
-        $cache_key = 'page_templates-' . md5(get_theme_root() . '/' . get_stylesheet());
-        $old_templates = wp_cache_get($cache_key, 'themes');
-        if (is_array($old_templates)) {
-            wp_cache_delete($cache_key, 'themes');
-        }
-    }
+    // Manually register specific page templates
+    $templates['components/templates/pages/page-all-posts.php'] = __('All Posts', 'fau-elemental');
+    $templates['components/templates/pages/page-all-pages.php'] = __('All Pages', 'fau-elemental');
+    $templates['components/templates/pages/page-archive.php'] = __('Archive Page', 'fau-elemental');
     
     return $templates;
 }
