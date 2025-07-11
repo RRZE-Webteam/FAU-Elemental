@@ -1,7 +1,9 @@
 @use "../../ui/mixins/mixins" as *;
 
 @include respond-to("small") {
+
 	.mini-list-file {
+
 		.wp-block-buttons {
 			padding: 0 var(--Spacing-10x);
 		}
@@ -9,7 +11,9 @@
 }
 
 @include respond-to("x-small") {
+
 	.mini-list-file {
+
 		.wp-block-buttons {
 			padding: 0 var(--Spacing-5x);
 		}

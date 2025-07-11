@@ -1,16 +1,16 @@
 .faue-is-file-block-selected {
 
-    .block-editor-block-inspector {
-        // hide "Link zu" selection
-        .components-input-base {
-            display: none;
-        }
-    }
+	.block-editor-block-inspector {
+		// hide "Link zu" selection
+		.components-input-base {
+			display: none;
+		}
+	}
 
-    .block-editor-block-toolbar {
-        // hide rich text format options
-        .components-toolbar-group:nth-last-child(3) {
-            display: none;
-        }
-    }
+	.block-editor-block-toolbar {
+		// hide rich text format options
+		.components-toolbar-group:nth-last-child(3) {
+			display: none;
+		}
+	}
 }
