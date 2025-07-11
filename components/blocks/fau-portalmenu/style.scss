@@ -10,8 +10,7 @@
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 0 var(--Spacing-8x);
-	max-width: var(--wide-max-width);
-	margin: 0 auto;
+	max-width: var(--base-max-width);
 	padding: var(--Spacing-10x);
 
 	.fau-portal-item {
@@ -138,6 +137,7 @@
 	// Style when Thumbnail is active
 	&:has(.fau-portal-thumbnail) {
 		grid-template-columns: repeat(3, 1fr);
+		max-width: var(--wide-max-width);
 
 		.fau-portal-item {
 			padding-bottom: 0;
@@ -153,21 +153,24 @@
 // ToDo: Add faculty colors
 
 //Dark Mode
-.fau-portal-menu.is-style-dark {
-	background-color: var(--FAU-Col-FAU-Blau-100);
+.is-style-dark {
 
-	.fau-portal-item .fau-portal-wrapper .fau-portal-content {
+	.fau-portal-menu {
 		background-color: var(--FAU-Col-FAU-Blau-100);
 
-		ul li a::before {
-			background-image: var(--icon-arrow-weiss);
-		}
+		.fau-portal-item .fau-portal-wrapper .fau-portal-content {
+			background-color: var(--FAU-Col-FAU-Blau-100);
 
-		> a span {
-			background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+			ul li a::before {
+				background-image: var(--icon-arrow-weiss);
+			}
 
-			&::before {
-				background-image: var(--icon-arrow-fau-blau);
+			> a span {
+				background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+
+				&::before {
+					background-image: var(--icon-arrow-fau-blau);
+				}
 			}
 		}
 	}
