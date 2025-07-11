@@ -655,8 +655,8 @@ body.modal-open {
 		}
 	}
 
-	&__search-wrapper {
-		padding: 0 1.25rem;
+	&__search-heading {
+		padding: 0 var(--Spacing-6x);
 	}
 
 	&__submenu-toggle {

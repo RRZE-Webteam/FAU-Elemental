@@ -164,11 +164,6 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		clearTimeout( autocompleteTimeout );
 		const query = this.value.trim();
 
-		// Hide frequent searches when typing starts
-		if ( input._hideFrequentSearches ) {
-			input._hideFrequentSearches();
-		}
-
 		// Hide search options menu when typing
 		if ( query.length > 0 && input._hideSearchOptionsMenu ) {
 			input._hideSearchOptionsMenu();
@@ -176,11 +171,25 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 
 		if ( query.length < 3 ) {
 			hideSuggestions();
+
 			// Show search options menu again if input becomes empty
 			if ( query.length === 0 && input._showSearchOptionsMenu ) {
 				input._showSearchOptionsMenu();
 			}
+			// Show frequent searches if input has 1-2 characters
+			else if (
+				query.length > 0 &&
+				query.length < 3 &&
+				input._showFrequentSearches
+			) {
+				input._showFrequentSearches();
+			}
 			return;
+		}
+
+		// Hide frequent searches when we reach 3 characters (switching to suggestions)
+		if ( input._hideFrequentSearches ) {
+			input._hideFrequentSearches();
 		}
 
 		autocompleteTimeout = setTimeout( () => {
@@ -246,6 +255,22 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			} );
 	}
 
+	// Highlight matching text in title
+	function highlightMatchingText( title, query ) {
+		if ( ! query || query.length === 0 ) {
+			return title;
+		}
+
+		// Escape special regex characters in the query
+		const escapedQuery = query.replace( /[.*+?^${}()|[\]\\]/g, '\\$&' );
+
+		// Create regex for case-insensitive matching
+		const regex = new RegExp( `(${ escapedQuery })`, 'gi' );
+
+		// Replace matches with highlighted version
+		return title.replace( regex, '<b>$1</b>' );
+	}
+
 	// Display search suggestions
 	function displaySuggestions( results, query, container ) {
 		if ( ! results || results.length === 0 ) {
@@ -283,11 +308,17 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 				? ' fau-global-search__suggestion-item--current-site'
 				: '';
 
+			// Highlight matching text in the title
+			const highlightedTitle = highlightMatchingText(
+				result.title,
+				query
+			);
+
 			html += `
 				<div class="fau-global-search__suggestion-item${ currentSiteClass }" data-url="${
 					result.link || result.url
 				}">
-					<span class="fau-global-search__suggestion-title">${ result.title }</span>
+					<span class="fau-global-search__suggestion-title">${ highlightedTitle }</span>
 				</div>
 			`;
 		} );
@@ -395,6 +426,8 @@ function initializeFrequentSearches( input, form, isInMenuModal ) {
 	form._frequentSearchesInitialized = true;
 
 	let frequentContainer;
+	let cachedFrequentSearches = null; // Cache for frequent searches data
+	let isLoadingFrequentSearches = false; // Prevent multiple concurrent requests
 
 	// Create frequent searches container
 	function createFrequentContainer() {
@@ -463,7 +496,40 @@ function initializeFrequentSearches( input, form, isInMenuModal ) {
 
 		const container = createFrequentContainer();
 
-		// Show loading state
+		// If we have cached data, display it immediately
+		if ( cachedFrequentSearches !== null ) {
+			if ( cachedFrequentSearches.length > 0 ) {
+				displayFrequentSearches( cachedFrequentSearches, container );
+			} else {
+				// Show "no data" message
+				const frequentSearchesText = getTranslatableMessage(
+					form,
+					'frequent-searches'
+				);
+				const noSearchDataText = getTranslatableMessage(
+					form,
+					'no-search-data'
+				);
+				container.innerHTML = `
+					<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>
+					<div class="fau-global-search__frequent-list">
+						<div>
+							${ noSearchDataText }
+						</div>
+					</div>
+				`;
+			}
+			container.style.display = 'block';
+			return;
+		}
+
+		// If already loading, just show the container without triggering another request
+		if ( isLoadingFrequentSearches ) {
+			container.style.display = 'block';
+			return;
+		}
+
+		// Show loading state only on first load
 		const frequentSearchesText = getTranslatableMessage(
 			form,
 			'frequent-searches'
@@ -479,12 +545,15 @@ function initializeFrequentSearches( input, form, isInMenuModal ) {
 		`;
 		container.style.display = 'block';
 
-		// Fetch real frequent searches from WordPress
+		// Fetch real frequent searches from WordPress (only if not cached)
 		fetchFrequentSearches( container );
 	}
 
 	// Fetch frequent searches from WordPress analytics
 	function fetchFrequentSearches( container ) {
+		// Set loading flag to prevent concurrent requests
+		isLoadingFrequentSearches = true;
+
 		const ajaxUrl =
 			window.fauElemental?.ajaxUrl || '/wp-admin/admin-ajax.php';
 		const formData = new FormData();
@@ -497,14 +566,24 @@ function initializeFrequentSearches( input, form, isInMenuModal ) {
 		} )
 			.then( ( response ) => response.json() )
 			.then( ( data ) => {
+				isLoadingFrequentSearches = false;
+
 				if (
 					data.success &&
 					data.data.searches &&
 					data.data.searches.length > 0
 				) {
-					displayFrequentSearches( data.data.searches, container );
+					// Cache the results
+					cachedFrequentSearches = data.data.searches;
+					displayFrequentSearches(
+						cachedFrequentSearches,
+						container
+					);
 				} else {
-					// No search data available yet - hide the container
+					// Cache empty results
+					cachedFrequentSearches = [];
+
+					// No search data available yet
 					const frequentSearchesText = getTranslatableMessage(
 						form,
 						'frequent-searches'
@@ -524,6 +603,9 @@ function initializeFrequentSearches( input, form, isInMenuModal ) {
 				}
 			} )
 			.catch( () => {
+				isLoadingFrequentSearches = false;
+				// Cache empty results on error
+				cachedFrequentSearches = [];
 				// Hide container on error
 				container.style.display = 'none';
 			} );
@@ -686,50 +768,25 @@ function initializeSearchOptionsMenu( form, input ) {
  * Fetch search options menu from WordPress
  */
 function fetchSearchOptionsMenu( container, form ) {
-	// Show loading state
-	const loadingOptionsText = getTranslatableMessage(
-		form,
-		'loading-options'
-	);
-	container.innerHTML = `
-		<div class="fau-global-search__menu-loading">
-			<span>${ loadingOptionsText }</span>
-		</div>
-	`;
+	// Hide container by default - only show if menu exists
+	container.style.display = 'none';
 
-	// Create a simple REST API endpoint call to get menu items
-	// Since WordPress doesn't have a direct menu REST endpoint, we'll use a custom approach
-	const menuUrl =
-		'/wp-json/wp/v2/menu-items?menus=search_options_menu&per_page=100';
-
-	fetch( menuUrl )
-		.then( ( response ) => {
-			if ( ! response.ok ) {
-				// If REST API doesn't work, try an alternative approach
-				return fetchSearchOptionsMenuFallback( container, form );
-			}
-			return response.json();
-		} )
-		.then( ( menuItems ) => {
-			if ( Array.isArray( menuItems ) && menuItems.length > 0 ) {
-				displaySearchOptionsMenu( menuItems, container, form );
-			} else {
-				// Try fallback approach
-				fetchSearchOptionsMenuFallback( container, form );
-			}
-		} )
-		.catch( () => {
-			// Fallback approach
-			fetchSearchOptionsMenuFallback( container, form );
-		} );
+	// Start the AJAX request immediately to check if menu exists
+	fetchSearchOptionsMenuFallback( container, form );
 }
 
 /**
  * Fallback method to fetch menu using a simpler approach
  */
-function fetchSearchOptionsMenuFallback( container, form ) {
+function fetchSearchOptionsMenuFallback( container ) {
 	// Try to get menu via admin-ajax
 	const ajaxUrl = window.fauElemental?.ajaxUrl || '/wp-admin/admin-ajax.php';
+
+	// If no AJAX URL is available, container stays hidden
+	if ( ! ajaxUrl ) {
+		return;
+	}
+
 	const formData = new FormData();
 	formData.append( 'action', 'get_search_options_menu' );
 	formData.append( 'nonce', window.fauElemental?.nonce || '' );
@@ -738,98 +795,33 @@ function fetchSearchOptionsMenuFallback( container, form ) {
 		method: 'POST',
 		body: formData,
 	} )
-		.then( ( response ) => response.json() )
-		.then( ( data ) => {
-			if ( data.success && data.data.menu_html ) {
-				container.innerHTML = data.data.menu_html;
-				addMenuClickHandlers( container );
-			} else {
-				// No menu found or error - hide the container
-				container.style.display = 'none';
+		.then( ( response ) => {
+			// Check if response is ok first
+			if ( ! response.ok ) {
+				throw new Error(
+					`HTTP ${ response.status }: ${ response.statusText }`
+				);
 			}
+			return response.json();
+		} )
+		.then( ( data ) => {
+			// Check for successful response with menu content
+			if (
+				data &&
+				data.success &&
+				data.data &&
+				data.data.menu_html &&
+				data.data.menu_html.trim()
+			) {
+				container.innerHTML = data.data.menu_html;
+				container.style.display = 'block';
+				addMenuClickHandlers( container );
+			}
+			// If no menu found, container stays hidden (no need to explicitly hide)
 		} )
 		.catch( () => {
-			// If all fails, show some default options or hide
-			const searchOptionsText = getTranslatableMessage(
-				form,
-				'search-options'
-			);
-			const advancedSearchText = getTranslatableMessage(
-				form,
-				'advanced-search'
-			);
-			container.innerHTML = `
-				<div class="fau-global-search__menu-header">${ searchOptionsText }</div>
-				<div class="fau-global-search__menu-item">
-					<a href="/search/">${ advancedSearchText }</a>
-				</div>
-			`;
-			addMenuClickHandlers( container );
+			// Network error, action doesn't exist, or invalid JSON - container stays hidden
 		} );
-}
-
-/**
- * Display search options menu items
- */
-function displaySearchOptionsMenu( menuItems, container, form ) {
-	if ( ! menuItems || menuItems.length === 0 ) {
-		container.style.display = 'none';
-		return;
-	}
-
-	const searchOptionsText = getTranslatableMessage( form, 'search-options' );
-	let html = `<div class="fau-global-search__menu-header">${ searchOptionsText }</div>`;
-	html += '<div class="fau-global-search__menu-list">';
-
-	// Build menu structure (handle parent/child relationships)
-	const topLevelItems = menuItems.filter(
-		( item ) => ! item.menu_item_parent || item.menu_item_parent === '0'
-	);
-
-	topLevelItems.forEach( ( item ) => {
-		const children = menuItems.filter(
-			( child ) => child.menu_item_parent === item.ID
-		);
-		const hasChildren = children.length > 0;
-
-		html += `
-			<div class="fau-global-search__menu-item${
-				hasChildren ? ' has-children' : ''
-			}" data-url="${ item.url }">
-				<span class="fau-global-search__menu-title">${ item.title }</span>
-				${
-					item.description
-						? `<span class="fau-global-search__menu-description">${ item.description }</span>`
-						: ''
-				}
-			</div>
-		`;
-
-		// Add children if any
-		if ( hasChildren ) {
-			html += '<div class="fau-global-search__menu-submenu">';
-			children.forEach( ( child ) => {
-				html += `
-					<div class="fau-global-search__menu-item fau-global-search__menu-item--child" data-url="${
-						child.url
-					}">
-						<span class="fau-global-search__menu-title">${ child.title }</span>
-						${
-							child.description
-								? `<span class="fau-global-search__menu-description">${ child.description }</span>`
-								: ''
-						}
-					</div>
-				`;
-			} );
-			html += '</div>';
-		}
-	} );
-
-	html += '</div>';
-	container.innerHTML = html;
-
-	addMenuClickHandlers( container );
 }
 
 /**
