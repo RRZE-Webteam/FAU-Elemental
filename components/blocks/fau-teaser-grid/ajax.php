@@ -123,9 +123,28 @@ function fau_teaser_grid_ajax_filter() {
     $posts_per_page = absint($_POST['posts_per_page'] ?? 15);
     $current_page = absint($_POST['page'] ?? 1);
     $search_query = sanitize_text_field($_POST['search'] ?? '');
-    $filters = $_POST['filters'] ?? [];
+    
+    // Decode filters from JSON string
+    $filters_json = $_POST['filters'] ?? '[]';
+    
+    // Clean up the JSON string in case it has extra escaping
+    $filters_json_clean = stripslashes($filters_json);
+    
+    $filters = json_decode($filters_json_clean, true);
+    
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        // Try decoding the original string as well
+        $filters_fallback = json_decode($filters_json, true);
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $filters = $filters_fallback;
+        } else {
+            $filters = [];
+        }
+    }
+    
     $sort = sanitize_text_field($_POST['sort'] ?? 'date');
     $sort_order = sanitize_text_field($_POST['sort_order'] ?? 'DESC');
+    
     $display_style = sanitize_text_field($_POST['display_style'] ?? 'teaser-grid');
     $teaser_layout = sanitize_text_field($_POST['teaser_layout'] ?? '3m');
     $heading_level = sanitize_text_field($_POST['heading_level'] ?? 'h4');
@@ -153,23 +172,48 @@ function fau_teaser_grid_ajax_filter() {
 
     // Add filters (categories, tags, etc.)
     if (!empty($filters) && is_array($filters)) {
-        foreach ($filters as $filter_type => $filter_value) {
-            if (!empty($filter_value)) {
+        foreach ($filters as $filter) {
+            if (!empty($filter['value']) && !empty($filter['type'])) {
+                $filter_type = $filter['type'];
+                $filter_value = $filter['value'];
+                
                 switch ($filter_type) {
-                    case 'category':
-                        $args['cat'] = absint($filter_value);
+                    case 'categories':
+                        // Find category by slug
+                        $category = get_category_by_slug($filter_value);
+                        if ($category) {
+                            $args['cat'] = $category->term_id;
+                        }
                         break;
-                    case 'tag':
-                        $args['tag_id'] = absint($filter_value);
+                    case 'tags':
+                        // Find tag by slug
+                        $tag = get_term_by('slug', $filter_value, 'post_tag');
+                        if ($tag) {
+                            $args['tag_id'] = $tag->term_id;
+                        }
+                        break;
+                    case 'authors':
+                        // Find user by nicename
+                        $user = get_user_by('slug', $filter_value);
+                        if ($user) {
+                            $args['author'] = $user->ID;
+                        }
+                        break;
+                    case 'years':
+                        // Filter by year
+                        $args['year'] = intval($filter_value);
                         break;
                     default:
                         // Handle custom taxonomies
                         if (taxonomy_exists($filter_type)) {
-                            $args['tax_query'][] = [
-                                'taxonomy' => $filter_type,
-                                'field' => 'term_id',
-                                'terms' => absint($filter_value)
-                            ];
+                            $term = get_term_by('slug', $filter_value, $filter_type);
+                            if ($term) {
+                                $args['tax_query'][] = [
+                                    'taxonomy' => $filter_type,
+                                    'field' => 'term_id',
+                                    'terms' => $term->term_id
+                                ];
+                            }
                         }
                         break;
                 }
@@ -195,8 +239,8 @@ function fau_teaser_grid_ajax_filter() {
     $response = [
         'success' => true,
         'data' => [
-            'html' => '',
-            'found_posts' => $query->found_posts,
+            'posts' => '',
+            'total_posts' => $query->found_posts,
             'max_num_pages' => $query->max_num_pages,
             'current_page' => $current_page,
             'results_text' => sprintf(
@@ -215,9 +259,9 @@ function fau_teaser_grid_ajax_filter() {
             $teaser_items[] = fau_elemental_render_teaser_item(get_post(), $variant, $grid_classes, $heading_level);
         }
         wp_reset_postdata();
-        $response['data']['html'] = fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
+        $response['data']['posts'] = fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
     } else {
-        $response['data']['html'] = sprintf(
+        $response['data']['posts'] = sprintf(
             '<p role="status" class="no-items-found">%s</p>',
             esc_html__('No items found', 'fau-elemental')
         );

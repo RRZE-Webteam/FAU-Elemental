@@ -94,7 +94,7 @@ function render_block_fau_list_filters( $attributes, $content, $block ) {
     
     wp_localize_script('fau-list-filters-script', 'fauListFilters', [
         'ajaxUrl' => admin_url('admin-ajax.php'),
-        'nonce' => wp_create_nonce('fau_filter_nonce'),
+        'nonce' => wp_create_nonce('fau_teaser_grid_filter'),
     ]);
 
     return $output;

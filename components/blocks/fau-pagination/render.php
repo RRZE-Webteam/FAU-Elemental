@@ -191,13 +191,9 @@ if ( ! function_exists( 'render_block_fau_pagination' ) ) {
             // Basic pagination - create container that will be controlled by filter JavaScript
             $output .= '<div class="pagination-controls">';
             
-            // Determine if we should use JavaScript pagination:
-            // 1. If connected to a grid (via grid_block_id)
-            // 2. If we have multiple pages and this is likely a block editor pagination
-            //    (as opposed to a template-based pagination)
-            $has_grid_connection = !empty($grid_block_id);
-            $is_block_editor_context = !empty($custom_block_id); // Block editor blocks have custom IDs
-            $is_js_pagination = $has_grid_connection || ($total_pages > 1 && $is_block_editor_context);
+            // Always use server-side pagination
+            // Client-side JavaScript pagination has been disabled for performance and reliability
+            $is_js_pagination = false;
             
             if ($is_js_pagination) {
                 // For JS pagination, show a placeholder that will be replaced by JavaScript

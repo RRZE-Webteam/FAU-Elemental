@@ -4,13 +4,15 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	const filterBlocks = document.querySelectorAll(
 		'.wp-block-fau-elemental-fau-list-filters'
 	);
-	filterBlocks.forEach( initializeFilterBlock );
+	filterBlocks.forEach( ( block ) => {
+		initializeFilterBlock( block );
+	} );
 } );
 
 function initializeFilterBlock( blockElement ) {
 	const blockId = blockElement.getAttribute( 'data-block-id' );
-
 	const associatedGrid = findAssociatedGrid( blockId );
+
 	if ( ! associatedGrid ) {
 		const resultsContainer = blockElement.querySelector(
 			'.fau-list-filters__sort-section'
@@ -71,7 +73,6 @@ function initializeFilterBlock( blockElement ) {
 	let currentPage = 1;
 	let availableFilters = {};
 	const teaserGrid = associatedGrid.querySelector( '.fau-teaser-grid' );
-	const isJsPagination = teaserGrid?.dataset.jsPagination === 'true';
 	const postsPerPage =
 		parseInt( associatedGrid.dataset.postsPerPage, 10 ) || 6;
 
@@ -80,7 +81,7 @@ function initializeFilterBlock( blockElement ) {
 			availableFilters =
 				JSON.parse( showMoreButton.dataset.availableFilters ) || {};
 		} catch ( e ) {
-			// Do nothing, just prevent crash
+			// Prevent crash on malformed JSON
 		}
 	}
 
@@ -117,11 +118,40 @@ function initializeFilterBlock( blockElement ) {
 		button.addEventListener( 'click', handleViewChange );
 	} );
 
+	// Listen for pagination changes from associated pagination blocks
+	const gridId = associatedGrid.dataset.customBlockId;
+	if ( gridId ) {
+		document.addEventListener( 'fau-pagination-change', function ( e ) {
+			if ( e.detail.gridId === gridId ) {
+				performSearch( e.detail.page );
+			}
+		} );
+
+		// Attach click handlers to existing pagination immediately
+		const paginationBlocks = document.querySelectorAll(
+			`.wp-block-fau-elemental-fau-pagination[data-grid-block-id="${ gridId }"]`
+		);
+
+		paginationBlocks.forEach( ( paginationBlock ) => {
+			let paginationContainer =
+				paginationBlock.querySelector( '.pagination' );
+			if (
+				! paginationContainer &&
+				paginationBlock.classList.contains( 'pagination' )
+			) {
+				paginationContainer = paginationBlock;
+			}
+
+			if ( paginationContainer ) {
+				attachPaginationClickHandlers( paginationContainer );
+			}
+		} );
+	}
+
 	function handleViewChange( event ) {
 		event.preventDefault();
 		event.stopPropagation();
 
-		// Find the actual button element (in case user clicked on icon or text inside)
 		const clickedButton = event.target.closest( '.view-button' );
 
 		if ( ! clickedButton ) {
@@ -145,13 +175,11 @@ function initializeFilterBlock( blockElement ) {
 		const gridContainer =
 			associatedGrid.querySelector( '.fau-teaser-grid' );
 		if ( gridContainer ) {
-			// Remove existing view classes
 			gridContainer.classList.remove(
 				'view-cards',
 				'view-table',
 				'view-list'
 			);
-			// Add new view class
 			gridContainer.classList.add( `view-${ newView }` );
 
 			// Add is-table-view class to all article elements when table view is selected
@@ -168,32 +196,51 @@ function initializeFilterBlock( blockElement ) {
 
 	function loadInitialData() {
 		updateFilterChips();
-		if ( isJsPagination ) {
-			performClientSideFilter();
-		} else {
-			performSearch( true );
+
+		// Read current page from pagination if available
+		let initialPage = 1;
+		const currentGridId = associatedGrid.dataset.customBlockId;
+		if ( currentGridId ) {
+			const paginationBlocks = document.querySelectorAll(
+				`.wp-block-fau-elemental-fau-pagination[data-grid-block-id="${ currentGridId }"]`
+			);
+
+			if ( paginationBlocks.length > 0 ) {
+				const paginationBlock = paginationBlocks[ 0 ];
+				let paginationContainer =
+					paginationBlock.querySelector( '.pagination' );
+				if (
+					! paginationContainer &&
+					paginationBlock.classList.contains( 'pagination' )
+				) {
+					paginationContainer = paginationBlock;
+				}
+
+				if ( paginationContainer ) {
+					const currentPageAttr =
+						paginationContainer.getAttribute( 'data-current-page' );
+					if ( currentPageAttr ) {
+						initialPage = parseInt( currentPageAttr ) || 1;
+					}
+				}
+			}
 		}
+
+		currentPage = initialPage;
+		performSearch( initialPage );
 	}
 
 	function handleFilterChange() {
 		currentPage = 1;
 		updateFilterChips();
-		if ( isJsPagination ) {
-			performClientSideFilter();
-		} else {
-			performSearch( false, 1 );
-		}
+		performSearch( 1 );
 	}
 
 	function handleSearch() {
 		currentPage = 1;
 		updateSearchClearButton();
 		updateFilterChips();
-		if ( isJsPagination ) {
-			performClientSideFilter();
-		} else {
-			performSearch( false, 1 );
-		}
+		performSearch( 1 );
 	}
 
 	function clearSearch() {
@@ -224,11 +271,7 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function handleSortChange() {
-		if ( isJsPagination ) {
-			performClientSideFilter();
-		} else {
-			performSearch( false, currentPage );
-		}
+		performSearch( currentPage );
 	}
 
 	function updateSearchClearButton() {
@@ -241,168 +284,217 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function findAssociatedGrid( filterId ) {
-		const grid = document.querySelector(
-			`.wp-block-fau-elemental-fau-teaser-grid[data-filter-block-id="${ filterId }"]`
-		);
-		if ( ! grid ) {
-			// Do nothing if grid not found
-		}
-		return grid;
+		const selector = `.wp-block-fau-elemental-fau-teaser-grid[data-filter-block-id="${ filterId }"]`;
+		return document.querySelector( selector );
 	}
 
-	function performClientSideFilter() {
-		const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-		const sortValue = sortSelect ? sortSelect.value : 'date';
-		const allFilterSelects =
-			blockElement.querySelectorAll( '.filter-select' );
+	function updatePaginationFromResponse( responseData ) {
+		const responseGridId = associatedGrid.dataset.customBlockId;
 
-		const activeFilters = Array.from( allFilterSelects )
-			.filter( ( select ) => select.value !== '' )
-			.map( ( select ) => ( {
-				value: select.value.toLowerCase(),
-				type: select.dataset.filterType,
-				taxonomy: select.dataset.taxonomy,
-			} ) );
+		if ( ! responseGridId ) {
+			return;
+		}
 
-		const allItems = Array.from(
-			associatedGrid.querySelectorAll( '.teaser-item' )
+		const paginationBlocks = document.querySelectorAll(
+			`.wp-block-fau-elemental-fau-pagination[data-grid-block-id="${ responseGridId }"]`
 		);
-		const visibleItems = [];
 
-		allItems.forEach( ( item ) => {
-			const title =
-				item
-					.querySelector(
-						'.teaser-content h2, .teaser-content h3, .teaser-content h4'
-					)
-					?.textContent.toLowerCase() || '';
-			const excerpt =
-				item.querySelector( '.excerpt' )?.textContent.toLowerCase() ||
-				'';
-			const categories = Array.from(
-				item.querySelectorAll( '.category' )
-			).map( ( el ) => el.textContent.trim().toLowerCase() );
-			const tags = Array.from( item.querySelectorAll( '.tag' ) ).map(
-				( el ) => el.textContent.trim().toLowerCase()
+		paginationBlocks.forEach( ( paginationBlock ) => {
+			let paginationContainer =
+				paginationBlock.querySelector( '.pagination' );
+			if (
+				! paginationContainer &&
+				paginationBlock.classList.contains( 'pagination' )
+			) {
+				paginationContainer = paginationBlock;
+			}
+
+			if ( ! paginationContainer ) {
+				return;
+			}
+
+			// Update pagination attributes
+			paginationContainer.setAttribute(
+				'data-current-page',
+				responseData.current_page || 1
 			);
-			const author = item.dataset.author?.toLowerCase() || '';
-			const yearString =
-				item.querySelector( 'time' )?.getAttribute( 'datetime' ) || '';
-			const year = yearString
-				? new Date( yearString ).getFullYear().toString()
-				: '';
+			paginationContainer.setAttribute(
+				'data-total-pages',
+				responseData.max_num_pages || 1
+			);
 
-			const searchMatch =
-				! searchTerm ||
-				title.includes( searchTerm ) ||
-				excerpt.includes( searchTerm );
-
-			const filterMatch = activeFilters.every( ( filter ) => {
-				switch ( filter.type ) {
-					case 'categories':
-						return categories.includes( filter.value );
-					case 'tags':
-						return tags.includes( filter.value );
-					case 'authors':
-						return author === filter.value;
-					case 'years':
-						return year === filter.value;
-					case 'taxonomy':
-						return (
-							categories.includes( filter.value ) ||
-							tags.includes( filter.value )
-						);
-					default:
-						return true;
-				}
-			} );
-
-			if ( searchMatch && filterMatch ) {
-				visibleItems.push( item );
-			}
-		} );
-
-		const getSortableValue = ( item, type ) => {
-			switch ( type ) {
-				case 'title':
-					return (
-						item
-							.querySelector(
-								'.teaser-content h2, .teaser-content h3, .teaser-content h4'
-							)
-							?.textContent.trim() || ''
-					);
-				case 'modified':
-					// For pages, use the data-modified attribute, for posts use datetime
-					const timeElement = item.querySelector( 'time' );
-					if ( timeElement ) {
-						return (
-							timeElement.getAttribute( 'data-modified' ) ||
-							timeElement.getAttribute( 'datetime' ) ||
-							'0'
-						);
-					}
-					return '0';
-				case 'date':
-				default:
-					// For pages, use the data-created attribute, for posts use datetime
-					const timeEl = item.querySelector( 'time' );
-					if ( timeEl ) {
-						return (
-							timeEl.getAttribute( 'data-created' ) ||
-							timeEl.getAttribute( 'datetime' ) ||
-							'0'
-						);
-					}
-					return '0';
-			}
-		};
-
-		visibleItems.sort( ( a, b ) => {
-			const valA = getSortableValue( a, sortValue );
-			const valB = getSortableValue( b, sortValue );
-
-			if ( sortValue === 'title' ) {
-				return valA.localeCompare( valB );
-			}
-			return new Date( valB ) - new Date( valA );
-		} );
-
-		visibleItems.forEach( ( item ) => {
-			teaserGrid.appendChild( item );
-		} );
-		allItems
-			.filter( ( item ) => ! visibleItems.includes( item ) )
-			.forEach( ( item ) => {
-				teaserGrid.appendChild( item );
-			} );
-
-		allItems.forEach( ( item ) => {
-			const isVisible = visibleItems.includes( item );
-
-			if ( ! isVisible ) {
-				item.style.display = 'none';
-				item.classList.add( 'filtered-out' );
-				item.classList.add( 'js-paginated-hidden' );
+			// If the pagination system has an update function, call it
+			if (
+				typeof window.fauPagination?.updatePaginationState ===
+				'function'
+			) {
+				window.fauPagination.updatePaginationState(
+					paginationContainer,
+					responseData.current_page
+				);
+				attachPaginationClickHandlers( paginationContainer );
 			} else {
-				item.classList.remove( 'filtered-out' );
-				const visibleIndex = visibleItems.indexOf( item );
-				const isOnCurrentPage =
-					visibleIndex >= ( currentPage - 1 ) * postsPerPage &&
-					visibleIndex < currentPage * postsPerPage;
-
-				if ( isOnCurrentPage ) {
-					item.style.display = '';
-					item.classList.remove( 'js-paginated-hidden' );
-				} else {
-					item.style.display = 'none';
-					item.classList.add( 'js-paginated-hidden' );
-				}
+				updatePaginationDisplay(
+					paginationContainer,
+					responseData.current_page,
+					responseData.max_num_pages
+				);
 			}
 		} );
+	}
 
-		updateResultsCount( visibleItems.length );
-		dispatchFilterUpdateEvent( visibleItems.length );
+	function updatePaginationDisplay(
+		paginationContainer,
+		displayCurrentPage,
+		totalPages
+	) {
+		paginationContainer.setAttribute(
+			'data-current-page',
+			displayCurrentPage
+		);
+		paginationContainer.setAttribute( 'data-total-pages', totalPages );
+
+		const pageNumbersContainer =
+			paginationContainer.querySelector( '.page-numbers' );
+		if ( pageNumbersContainer ) {
+			pageNumbersContainer.innerHTML = generatePaginationHTML(
+				displayCurrentPage,
+				totalPages
+			);
+		}
+
+		// Update prev/next button states
+		const prevButton =
+			paginationContainer.querySelector( '.page-nav.prev' );
+		const nextButton =
+			paginationContainer.querySelector( '.page-nav.next' );
+
+		if ( prevButton ) {
+			if ( displayCurrentPage <= 1 ) {
+				prevButton.classList.add( 'disabled' );
+				prevButton.setAttribute( 'aria-disabled', 'true' );
+			} else {
+				prevButton.classList.remove( 'disabled' );
+				prevButton.removeAttribute( 'aria-disabled' );
+			}
+		}
+
+		if ( nextButton ) {
+			if ( displayCurrentPage >= totalPages ) {
+				nextButton.classList.add( 'disabled' );
+				nextButton.setAttribute( 'aria-disabled', 'true' );
+			} else {
+				nextButton.classList.remove( 'disabled' );
+				nextButton.removeAttribute( 'aria-disabled' );
+			}
+		}
+
+		paginationContainer.dispatchEvent( new Event( 'pagination-updated' ) );
+		attachPaginationClickHandlers( paginationContainer );
+	}
+
+	function attachPaginationClickHandlers( paginationContainer ) {
+		// Remove existing handlers first
+		const existingHandlers = paginationContainer.querySelectorAll(
+			'[data-filter-pagination-handler]'
+		);
+		existingHandlers.forEach( ( el ) => {
+			el.removeAttribute( 'data-filter-pagination-handler' );
+		} );
+
+		const paginationControls = paginationContainer.querySelectorAll(
+			'.page-nav, .page-numbers a, .page-numbers span.page-number, .page-numbers button, a.page-number'
+		);
+
+		paginationControls.forEach( ( control ) => {
+			if (
+				control.classList.contains( 'disabled' ) ||
+				control.classList.contains( 'page-ellipsis' )
+			) {
+				return;
+			}
+
+			control.setAttribute( 'data-filter-pagination-handler', 'true' );
+
+			control.addEventListener( 'click', function ( e ) {
+				e.preventDefault();
+				e.stopPropagation();
+
+				let targetPage = 1;
+				const clickCurrentPage =
+					parseInt(
+						paginationContainer.getAttribute( 'data-current-page' )
+					) || 1;
+				const clickTotalPages =
+					parseInt(
+						paginationContainer.getAttribute( 'data-total-pages' )
+					) || 1;
+
+				if ( control.classList.contains( 'prev' ) ) {
+					targetPage = Math.max( 1, clickCurrentPage - 1 );
+				} else if ( control.classList.contains( 'next' ) ) {
+					targetPage = Math.min(
+						clickTotalPages,
+						clickCurrentPage + 1
+					);
+				} else {
+					const dataPage = control.getAttribute( 'data-page' );
+					if ( dataPage ) {
+						targetPage = parseInt( dataPage );
+					} else {
+						const pageText = control.textContent.trim();
+						const pageNum = parseInt( pageText );
+						if ( ! isNaN( pageNum ) ) {
+							targetPage = pageNum;
+						}
+					}
+				}
+
+				if ( targetPage === clickCurrentPage ) {
+					return;
+				}
+
+				performSearch( targetPage );
+			} );
+		} );
+	}
+
+	function generatePaginationHTML( displayCurrentPage, totalPages ) {
+		let html = '';
+
+		if ( totalPages <= 1 ) {
+			return html;
+		}
+
+		if ( totalPages <= 6 ) {
+			for ( let i = 1; i <= totalPages; i++ ) {
+				if ( i === displayCurrentPage ) {
+					html += `<span class="page-number current" aria-current="page">${ i }</span>`;
+				} else {
+					const goToPageLabel = sprintf(
+						/* translators: %s: page number */
+						__( 'Go to page %s', 'fau-elemental' ),
+						i
+					);
+					html += `<a href="#" class="page-number" aria-label="${ goToPageLabel }" data-page="${ i }">${ i }</a>`;
+				}
+			}
+		} else {
+			for ( let i = 1; i <= totalPages; i++ ) {
+				if ( i === displayCurrentPage ) {
+					html += `<span class="page-number current" aria-current="page">${ i }</span>`;
+				} else {
+					const goToPageLabel = sprintf(
+						/* translators: %s: page number */
+						__( 'Go to page %s', 'fau-elemental' ),
+						i
+					);
+					html += `<a href="#" class="page-number" aria-label="${ goToPageLabel }" data-page="${ i }">${ i }</a>`;
+				}
+			}
+		}
+
+		return html;
 	}
 
 	function performSearch( page = 1 ) {
@@ -411,40 +503,54 @@ function initializeFilterBlock( blockElement ) {
 		const allFilterSelects =
 			blockElement.querySelectorAll( '.filter-select' );
 
+		const filters = Array.from( allFilterSelects )
+			.filter( ( s ) => s.value )
+			.map( ( s ) => ( {
+				name: s.dataset.filterName,
+				type: s.dataset.filterType,
+				taxonomy: s.dataset.taxonomy,
+				value: s.value,
+			} ) );
+
+		const filtersJson = JSON.stringify( filters );
+
 		const ajaxData = {
-			action: 'fau_filter_teaser_grid',
-			nonce: window.fauElemental?.nonce || '',
+			action: 'fau_teaser_grid_filter',
+			nonce: window.fauListFilters?.nonce || '',
 			search: searchInput ? searchInput.value : '',
-			filters: JSON.stringify(
-				Array.from( allFilterSelects )
-					.filter( ( s ) => s.value )
-					.map( ( s ) => ( {
-						name: s.dataset.filterName,
-						type: s.dataset.filterType,
-						taxonomy: s.dataset.taxonomy,
-						value: s.value,
-					} ) )
-			),
+			filters: filtersJson,
 			sort: sortSelect ? sortSelect.value : 'date',
+			sort_order: 'DESC',
 			page,
 			posts_per_page: postsPerPage,
-			post_type: associatedGrid.dataset.variant || 'post',
+			variant: associatedGrid.dataset.variant || 'post',
 			category: parseInt( associatedGrid.dataset.category, 10 ) || 0,
+			display_style: associatedGrid.dataset.displayStyle || 'teaser-grid',
+			teaser_layout: associatedGrid.dataset.teaserLayout || '3m',
+			heading_level: associatedGrid.dataset.headingLevel || 'h4',
 		};
 
-		fetch( window.fauElemental?.ajaxUrl || '', {
+		const urlParams = new URLSearchParams();
+		for ( const key in ajaxData ) {
+			urlParams.append( key, ajaxData[ key ] );
+		}
+
+		fetch( window.fauListFilters?.ajaxUrl || '', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			body: new URLSearchParams( ajaxData ),
+			body: urlParams,
 		} )
 			.then( ( response ) => response.json() )
 			.then( ( data ) => {
 				updateLoadingState( false );
 				if ( data.success && data.data ) {
-					teaserGrid.innerHTML = data.data.posts;
+					if ( teaserGrid ) {
+						teaserGrid.innerHTML = data.data.posts;
+					}
 					updateResultsCount( data.data.total_posts );
+					updatePaginationFromResponse( data.data );
 					dispatchFilterUpdateEvent( data.data.total_posts );
 				} else {
 					showError();
@@ -605,7 +711,11 @@ function initializeFilterBlock( blockElement ) {
 		let hasActiveFilter = false;
 
 		if ( searchInput && searchInput.value ) {
-			createFilterChip( 'Search', searchInput.value, 'search' );
+			createFilterChip(
+				__( 'Search', 'fau-elemental' ),
+				searchInput.value,
+				'search'
+			);
 			hasActiveFilter = true;
 		}
 
@@ -702,15 +812,15 @@ function initializeFilterBlock( blockElement ) {
 	}
 
 	function dispatchFilterUpdateEvent( visibleCount ) {
-		const gridId = associatedGrid.dataset.customBlockId;
-		if ( ! gridId ) {
+		const eventGridId = associatedGrid.dataset.customBlockId;
+		if ( ! eventGridId ) {
 			return;
 		}
 
 		document.dispatchEvent(
 			new CustomEvent( 'fau-filter-update', {
 				detail: {
-					gridId,
+					gridId: eventGridId,
 					visibleCount,
 					resetToPage1: true,
 				},

@@ -80,8 +80,9 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
         }
     }
     
-    // Also enable JS pagination if we're in the all-posts template (fallback)
-    $use_js_pagination = $has_filter_integration || $has_pagination_integration || $is_all_posts_template;
+    // Always use server-side pagination and filtering
+    // Client-side JavaScript pagination has been disabled for performance and reliability
+    $use_js_pagination = false;
     
 
     
