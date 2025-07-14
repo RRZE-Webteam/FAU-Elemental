@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The template for displaying pages
  *
@@ -7,9 +6,13 @@
  */
 
 get_header();
-?>
 
-<?php get_template_part('components/template-parts/hero-page/hero-page'); ?>
+if (have_posts()) {
+    the_post();
+    get_template_part('components/template-parts/hero-page/hero-page');
+    rewind_posts();
+}
+?>
 
 <main>
     <?php while (have_posts()) : the_post(); ?>
@@ -19,6 +22,7 @@ get_header();
         </div>
 
     <?php endwhile; ?>
+
 </main>
 
 <?php

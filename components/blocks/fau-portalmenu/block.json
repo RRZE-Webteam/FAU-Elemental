@@ -19,35 +19,11 @@
 			"type": "string",
 			"default": ""
 		},
-		"isMegaNav": {
-			"type": "boolean",
-			"default": false
-		},
 		"showSubs": {
 			"type": "boolean",
 			"default": true
 		},
 		"noThumbs": {
-			"type": "boolean",
-			"default": false
-		},
-		"noFallback": {
-			"type": "boolean",
-			"default": false
-		},
-		"type": {
-			"type": "number",
-			"default": 1
-		},
-		"listView": {
-			"type": "boolean",
-			"default": false
-		},
-		"hoverZoom": {
-			"type": "boolean",
-			"default": false
-		},
-		"hoverBlur": {
 			"type": "boolean",
 			"default": false
 		},
@@ -59,6 +35,5 @@
 	"textdomain": "fau-elemental",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./editor.css",
-	"style": "file:./style-theme.css",
 	"render": "file:./render.php"
 }

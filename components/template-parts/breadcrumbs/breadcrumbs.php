@@ -109,7 +109,7 @@ function faue_breadcrumbs(): void {
         echo '<a href="' . esc_url($parent_url) . '" class="breadcrumbs__link" itemprop="item" title="' . esc_attr($parent_title) . '">';
         echo '<span itemprop="name">' . esc_html($truncated_parent) . '</span>';
         echo '</a>';
-        echo '<meta itemprop="position" content="' . ($total_items - 1) . '" />';
+        echo '<meta itemprop="position" content="' . ($total_items - 1) . '">';
         echo '</li>';
     } else {
         echo '<li class="breadcrumbs__item breadcrumbs__item--mobile" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">';
@@ -117,7 +117,7 @@ function faue_breadcrumbs(): void {
         echo '<a href="' . esc_url(home_url('/')) . '" class="breadcrumbs__link" itemprop="item">';
         echo '<span itemprop="name">' . esc_html__('Start', 'fau-elemental') . '</span>';
         echo '</a>';
-        echo '<meta itemprop="position" content="1" />';
+        echo '<meta itemprop="position" content="1">';
         echo '</li>';
     }
 
@@ -126,7 +126,7 @@ function faue_breadcrumbs(): void {
     echo '<a href="' . esc_url(home_url('/')) . '" class="breadcrumbs__link" itemprop="item">';
     echo '<span itemprop="name">' . esc_html__('Start', 'fau-elemental') . '</span>';
     echo '</a>';
-    echo '<meta itemprop="position" content="1" />';
+    echo '<meta itemprop="position" content="1">';
     echo '</li>';
     
     $position = 2;
@@ -147,7 +147,7 @@ function faue_breadcrumbs(): void {
         echo '<a href="' . esc_url($url) . '" class="breadcrumbs__link" itemprop="item" title="' . esc_attr($title) . '">';
         echo '<span itemprop="name">' . esc_html($truncated_title) . '</span>';
         echo '</a>';
-        echo '<meta itemprop="position" content="' . $position . '" />';
+        echo '<meta itemprop="position" content="' . $position . '">';
         echo '</li>';
         $position++;
     }
@@ -171,7 +171,7 @@ function faue_breadcrumbs(): void {
     echo '<span class="breadcrumbs__current" itemprop="item" title="' . esc_attr($current_title) . '">';
     echo '<span itemprop="name">' . esc_html($truncated_current) . '</span>';
     echo '</span>';
-    echo '<meta itemprop="position" content="' . $position . '" />';
+    echo '<meta itemprop="position" content="' . $position . '">';
     echo '</li>';
 
     echo '</ol>';

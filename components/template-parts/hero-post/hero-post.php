@@ -83,7 +83,7 @@
         
         // Create the inner HTML for the image
         $inner_html = sprintf(
-            '<figure class="wp-block-image size-large is-style-large has-overlay"><img src="%s" alt="%s" class="wp-image-%d"/>',
+            '<figure class="wp-block-image size-large is-style-large has-overlay"><img src="%s" alt="%s" class="wp-image-%d">',
             esc_url($image_src[0]),
             esc_attr($image_alt),
             $thumbnail_id

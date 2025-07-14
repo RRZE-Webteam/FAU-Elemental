@@ -15,7 +15,7 @@ $has_structure = fau_elemental_has_structure_menu();
 $website_type = get_theme_mod('faue_website_type', 'fau');
 ?>
 
-<nav class="fau-navigation" role="navigation" aria-label="<?php esc_attr_e('FAU Navigation', 'fau-elemental'); ?>">
+<nav class="fau-navigation" aria-label="<?php esc_attr_e('FAU Navigation', 'fau-elemental'); ?>">
     <?php if ($website_type !== 'fau'): ?>
     <a href="https://www.fau.de" class="fau-navigation__fau-link">
         <span class="fau-navigation__back-icon"></span>
@@ -41,8 +41,11 @@ $website_type = get_theme_mod('faue_website_type', 'fau');
                 <span class="fau-navigation__structure-icon"></span>
             </button>
         <?php endif; ?>
-            <button class="fau-navigation__button" aria-label="Search" aria-expanded="false">
-                Search
+            <button class="fau-navigation__button menu-modal__open-btn"
+                data-modal-target="search"
+                aria-label="<?php esc_attr_e('Search', 'fau-elemental'); ?>"
+                aria-expanded="false">
+                <?php esc_html_e('Search', 'fau-elemental'); ?>
                 <span class="fau-navigation__search-icon"></span>
             </button>
     </div>

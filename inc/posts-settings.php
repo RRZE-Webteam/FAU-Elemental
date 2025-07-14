@@ -41,7 +41,7 @@ function render_post_header_options_meta_box($post) {
     ?>
     <div class="post-header-options">        
         <label>
-            <input type="checkbox" name="show_categories" value="1" <?php checked($show_categories, '1'); ?> />
+            <input type="checkbox" name="show_categories" value="1" <?php checked($show_categories, '1'); ?>>
             <strong><?php esc_html_e('Show categories', 'fau-elemental'); ?></strong>
         </label>
     </div>

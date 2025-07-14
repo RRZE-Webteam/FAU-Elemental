@@ -25,6 +25,7 @@ function fau_elemental_register_all_menus() {
 			'header_menu_links' => esc_html__('Header Menu Links', 'fau-elemental'),
 			'top_header_nav_services' => esc_html__('Top Header Nav Services', 'fau-elemental'),
 			'top_header_nav_structure' => esc_html__('Top Header Nav Structure', 'fau-elemental'),
+			'search_options_menu' => esc_html__('Search Options Menu', 'fau-elemental'),
 			'footer-menu'            => esc_html__( 'Footer Menu', 'fau-elemental' ),
 			'footer-lists-menu'      => esc_html__( 'Footer Lists Menu', 'fau-elemental' ),
 			'footer-important-links' => esc_html__( 'Footer Important Links', 'fau-elemental' ),

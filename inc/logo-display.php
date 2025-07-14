@@ -148,6 +148,7 @@ function fau_elemental_display_logo_title() {
     }
 
     // Output the logo and title
+    echo '<div itemscope itemtype="https://schema.org/Organization">';
     if (!is_front_page()) {
         echo '<a itemprop="url" rel="home" class="generated" href="' . esc_url(home_url('/')) . '">';
     }
@@ -200,4 +201,5 @@ function fau_elemental_display_logo_title() {
     if (!is_front_page()) {
         echo '</a>';
     }
+    echo '</div>'; // Close microdata Organization context
 } 

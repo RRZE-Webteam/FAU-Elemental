@@ -19,6 +19,9 @@ require_once get_template_directory() . '/inc/theme-setup.php';
 // Asset management
 require_once get_template_directory() . '/inc/enqueue-assets.php';
 
+// Search API endpoints
+require_once get_template_directory() . '/inc/search-api.php';
+
 // Customizer
 require_once get_template_directory() . '/inc/customizer.php';
 
