@@ -36,22 +36,18 @@ add_action('template_redirect', function() {
 
 get_header(); ?>
 
-<main class="wp-block-group all-pages-page">
-    <header class="page-header">
-        <h1 class="page-title">
+<main id="primary" class="site-main">
+    <header class="blog-header">
+        <h1 class="blog-title">
             <?php echo esc_html(get_the_title()); ?>
         </h1>
-        
-        <p class="page-description">
-            <?php 
-            $page_description = get_post_meta(get_the_ID(), 'page_description', true);
-            if (empty($page_description)) {
-                $page_description = __('Browse and filter through all our pages using the options below. Use pagination to navigate through multiple pages.', 'fau-elemental');
-            }
-            echo esc_html($page_description);
-            ?>
-        </p>
     </header>
+
+    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+        <div class="is-layout-flow">
+            <?php the_content(); ?>
+        </div>
+    <?php endwhile; endif; ?>
 
     <section class="content-filters" aria-label="<?php esc_attr_e('Filter and search options', 'fau-elemental'); ?>">
         <?php
