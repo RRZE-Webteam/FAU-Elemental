@@ -26,10 +26,9 @@ if (!$post instanceof WP_Post) {
 $use_dark_theme = function_exists('faue_post_meta_dark_theme') && faue_post_meta_dark_theme();
 $theme_class = $use_dark_theme ? 'is-style-dark' : '';
 
-// Get all post meta at once to avoid duplicate database calls
-$post_meta = get_post_meta($post->ID);
-$use_custom_date = isset($post_meta['_faue_use_custom_last_updated'][0]) ? $post_meta['_faue_use_custom_last_updated'][0] : '';
-$custom_date = isset($post_meta['_faue_custom_last_updated'][0]) ? $post_meta['_faue_custom_last_updated'][0] : '';
+// Only fetch needed post meta keys
+$use_custom_date = get_post_meta($post->ID, '_faue_use_custom_last_updated', true);
+$custom_date = get_post_meta($post->ID, '_faue_custom_last_updated', true);
 
 // Determine the date to display and get timestamp
 $timestamp = false;
@@ -44,22 +43,20 @@ if ($use_custom_date === '1' && !empty($custom_date)) {
 }
 
 // Fall back to WordPress modified date if no custom date or invalid custom date
-if (empty($display_date)) {
-    $timestamp = strtotime(get_the_modified_date('c', $post));
+if (empty($display_date) || $timestamp === false) {
+    $timestamp = get_the_modified_time('U', $post);
     $display_date = wp_date(get_option('date_format') . ' - ' . get_option('time_format'), $timestamp, wp_timezone());
 }
 
-// Ensure we have a valid timestamp for the datetime attribute
-if ($timestamp === false) {
-    $timestamp = strtotime(get_the_modified_date('c', $post));
-}
+// Use date_i18n(DATE_W3C, $timestamp) for datetime attribute (site timezone)
+$datetime_iso = date_i18n(DATE_W3C, $timestamp);
 ?>
 <div class="post-meta <?php echo esc_attr($theme_class); ?>">
     <div class="post-meta-wrapper">
         <div class="post-meta-inner">
             <div class="post-last-update">
                 <span class="date-label"><?php esc_html_e('Last update:', 'fau-elemental'); ?></span>
-                <time datetime="<?php echo esc_attr(gmdate('c', $timestamp)); ?>" class="post-date">
+                <time datetime="<?php echo esc_attr($datetime_iso); ?>" class="post-date">
                     <?php echo esc_html($display_date); ?>
                 </time>
             </div>
