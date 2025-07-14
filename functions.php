@@ -75,7 +75,7 @@ function fau_elemental_register_page_templates($templates) {
     // Manually register specific page templates
     $templates['components/templates/pages/page-all-posts.php'] = __('All Posts', 'fau-elemental');
     $templates['components/templates/pages/page-all-pages.php'] = __('All Pages', 'fau-elemental');
-    $templates['components/templates/pages/page-archive.php'] = __('Archive Page', 'fau-elemental');
+   
     
     return $templates;
 }
