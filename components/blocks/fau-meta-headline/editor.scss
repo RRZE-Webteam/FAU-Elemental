@@ -1,6 +1,36 @@
+@use "../../ui/mixins/mixins" as *;
+
 /**
  * Editor-specific styles for the copyright info block
  * This file is required by the build process
  */
 
 // Editor styles are already defined in style.scss
+
+
+// Responsive
+@include respond-to("medium") {
+
+	.is-root-container .wp-block-fau-elemental-fau-meta-headline {
+		margin-left: 10rem !important; // Necessary to override WP style that already uses !important
+
+		&::before {
+			left: calc(-100vh - 1rem);
+		}
+	}
+}
+
+@media screen and (max-width: 499px) {
+
+	.is-root-container .wp-block-fau-elemental-fau-meta-headline {
+		margin-left: 6rem !important; // Necessary to override WP style that already uses !important
+	}
+}
+
+@include respond-to("x-small") {
+
+	.is-root-container .wp-block-fau-elemental-fau-meta-headline {
+		padding: var(--Spacing-6x) 0;
+		margin-left: 3rem !important; // Necessary to override WP style that already uses !important
+	}
+}
