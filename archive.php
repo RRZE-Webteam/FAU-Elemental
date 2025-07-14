@@ -100,40 +100,15 @@ get_header(); ?>
             }
             ?>
         </h1>
-        
-        <p class="archive-description">
-            <?php 
-            $description = '';
-            if (is_category()) {
-                $description = category_description();
-                if (empty($description)) {
-                    $description = sprintf(__('Browse all posts in the %s category. Use the filters below to refine your search.', 'fau-elemental'), single_cat_title('', false));
-                }
-            } elseif (is_tag()) {
-                $description = tag_description();
-                if (empty($description)) {
-                    $description = sprintf(__('Browse all posts tagged with %s. Use the filters below to refine your search.', 'fau-elemental'), single_tag_title('', false));
-                }
-            } elseif (is_author()) {
-                $description = get_the_author_meta('description');
-                if (empty($description)) {
-                    $description = sprintf(__('Browse all posts by %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_author());
-                }
-            } elseif (is_date()) {
-                if (is_year()) {
-                    $description = sprintf(__('Browse all posts from %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date('Y'));
-                } elseif (is_month()) {
-                    $description = sprintf(__('Browse all posts from %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date('F Y'));
-                } elseif (is_day()) {
-                    $description = sprintf(__('Browse all posts from %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date());
-                }
-            } else {
-                $description = __('Browse and filter through all posts using the options below. Use pagination to navigate through multiple pages.', 'fau-elemental');
-            }
-            echo wp_kses_post($description);
-            ?>
-        </p>
     </header>
+
+    <?php if (is_category() && category_description()) : ?>
+        <div class="is-layout-flow">
+            <div class="category-description">
+                <?php echo wp_kses_post(category_description()); ?>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <section class="content-filters" aria-label="<?php esc_attr_e('Filter and search options', 'fau-elemental'); ?>">
         <?php

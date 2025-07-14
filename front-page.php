@@ -52,18 +52,22 @@ if (is_home() && is_front_page()) {
                 echo esc_html($page_title);
                 ?>
             </h1>
-            
-            <p class="blog-description">
-                <?php 
-                $blog_description = get_bloginfo('description');
-                $description = get_theme_mod('blog_homepage_description', $blog_description);
-                if (empty($description)) {
-                    $description = __('Welcome to our blog. Browse and filter through all our posts using the options below.', 'fau-elemental');
-                }
-                echo wp_kses_post($description);
-                ?>
-            </p>
         </header>
+
+        <?php 
+        // Check if there's a front page set and get its content
+        $front_page_id = get_option('page_on_front');
+        if ($front_page_id) {
+            $front_page = get_post($front_page_id);
+            if ($front_page && !empty($front_page->post_content)) {
+                ?>
+                <div class="is-layout-flow">
+                    <?php echo apply_filters('the_content', $front_page->post_content); ?>
+                </div>
+                <?php
+            }
+        }
+        ?>
 
         <section class="content-filters" aria-label="<?php esc_attr_e('Filter and search options', 'fau-elemental'); ?>">
             <?php
