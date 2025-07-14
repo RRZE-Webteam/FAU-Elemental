@@ -17,8 +17,12 @@ get_header();
             ?>
             <article id="post-<?php echo esc_attr(get_the_ID()); ?>" <?php post_class(); ?>>
                 <?php
-                // Include the post header template part
-                get_template_part('components/template-parts/hero-post/hero-post');
+                // Use standard partials schema for hero post
+                if (locate_template('template-parts/hero-post.php')) {
+                    get_template_part('template-parts/hero', 'post');
+                } else {
+                    get_template_part('components/template-parts/hero-post/hero-post');
+                }
                 ?>
 
                 <div class="is-layout-flow">
@@ -26,8 +30,12 @@ get_header();
                 </div>
 
                 <?php
-                // Include post meta (conditionally displayed)
-                get_template_part('components/template-parts/post-meta/post-meta');
+                // Use standard partials schema for post meta
+                if (locate_template('template-parts/post-meta.php')) {
+                    get_template_part('template-parts/post', 'meta');
+                } else {
+                    get_template_part('components/template-parts/post-meta/post-meta');
+                }
                 ?>
             </article>
             <?php
