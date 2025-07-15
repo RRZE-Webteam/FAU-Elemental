@@ -65,16 +65,28 @@ $post_id = get_the_ID();
     <?php if (has_post_thumbnail()) : 
         // Get featured image data
         $thumbnail_id = get_post_thumbnail_id();
+        $attachment = get_post($thumbnail_id);
+        $caption = $attachment ? $attachment->post_excerpt : '';
         
-        // Use wp_get_attachment_image for proper responsive image handling
-        echo wp_get_attachment_image(
-            $thumbnail_id, 
-            'large', 
-            false, 
-            array(
-                'class' => 'wp-image-' . $thumbnail_id . ' is-style-large has-overlay',
-                'loading' => 'lazy'
-            )
-        );
-    endif; ?>
+        // Output image block structure with proper WordPress image handling
+        ?>
+        <figure class="wp-block-image alignfull is-style-large has-overlay">
+            <div class="image-wrapper">
+                <?php 
+               
+                echo wp_get_attachment_image(
+                    $thumbnail_id, 
+                    'large', 
+                    false, 
+                    array(
+                        'class' => 'wp-image-' . $thumbnail_id . ' is-style-large has-overlay'
+                    )
+                );
+                ?>
+            </div>
+            <?php if (!empty($caption)) : ?>
+                <figcaption><?php echo wp_kses_post($caption); ?></figcaption>
+            <?php endif; ?>
+        </figure>
+    <?php endif; ?>
 </div> 
