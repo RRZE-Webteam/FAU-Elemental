@@ -24,4 +24,4 @@ function fau_elemental_register_blocks() {
         register_block_type($block_folder, $block_json);
     }
 }
-add_action('init', 'fau_elemental_register_blocks');
+add_action('init', 'fau_elemental_register_blocks'); 

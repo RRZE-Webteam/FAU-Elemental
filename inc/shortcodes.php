@@ -333,13 +333,13 @@ class FAU_Elemental_Shortcodes {
                     }
                 }
                 
-                // If we found logos for the specific category, return them
-                if (!empty($logos)) {
-                    return $logos;
+                // If no logos found for the specific category, return empty array
+                if (empty($logos)) {
+                    return array();
                 }
                 
-                // If no logos found for the specific category, return empty array
-                return array();
+                // Return the found logos
+                return $logos;
                 
             } else {
                 // No category specified - use all migrated links
@@ -387,13 +387,9 @@ class FAU_Elemental_Shortcodes {
                 }
             }
         }
-
+        
         return $logos;
     }
-
-
-
-
 }
 
 // Initialize shortcodes

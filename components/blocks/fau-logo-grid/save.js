@@ -4,7 +4,6 @@ import { useBlockProps } from '@wordpress/block-editor';
  * Save function for frontend rendering
  */
 export default function Save( { attributes } ) {
-	const blockProps = useBlockProps.save();
 	const { logos = [] } = attributes;
 
 	// Create class attribute
@@ -16,8 +15,12 @@ export default function Save( { attributes } ) {
 		className += ' align' + attributes.align;
 	}
 
+	const blockProps = useBlockProps.save( {
+		className: className,
+	} );
+
 	return (
-		<div { ...blockProps } className={ className }>
+		<div { ...blockProps }>
 			{ logos.length > 0 && (
 				<div className="fau-logo-grid__container">
 					{ logos.map( ( logo, index ) => {

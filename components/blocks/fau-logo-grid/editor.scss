@@ -7,8 +7,8 @@
 
 	// Style for selected logo item in editor
 	.fau-logo-grid__item--selected {
-		outline: 2px solid #007cba;
-		outline-offset: -2px;
+		outline: 0.125rem solid #007cba;
+		outline-offset: -0.125rem;
 	}
 
 	// Style for the image upload button when no image is selected
@@ -19,7 +19,7 @@
 		align-items: center;
 		justify-content: center;
 		background: #f0f0f0;
-		border: 1px dashed #999;
+		border: 0.0625rem dashed #999;
 		cursor: pointer;
 
 		&:hover {
@@ -49,7 +49,7 @@
 	.fau-logo-grid__preview-image {
 		max-width: 100%;
 		height: auto;
-		border: 1px solid #ccc;
+		border: 0.0625rem solid #ccc;
 	}
 
 	// Style for the migration notice
