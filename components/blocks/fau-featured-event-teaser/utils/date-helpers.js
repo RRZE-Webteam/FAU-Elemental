@@ -3,34 +3,18 @@ import { __ } from '@wordpress/i18n';
 /**
  * Processes event date string and returns formatted display and machine-readable data
  *
- * @param {string} eventDate - Date string in format "DD MM YYYY" or "DD MMM YYYY"
+ * @param {string} eventDate - Date string in format "DD MM YYYY"
  * @return {Object} Object containing day, monthYear, and datetimeAttr
  */
 export function processEventDate( eventDate ) {
 	// Split the date into day and month/year
 	const dateParts = eventDate
 		? eventDate.split( ' ' ).filter( ( part ) => part.trim() !== '' )
-		: [ '01', __( 'Oct', 'fau-elemental' ), '2024' ];
+		: [ '01', '1', '2024' ];
 
 	const day = dateParts[ 0 ] || '';
-	let month = dateParts[ 1 ] || '';
+	const month = dateParts[ 1 ] || '';
 	const year = dateParts[ 2 ] || '';
-
-	// Convert month abbreviations to numbers for machine-readable format
-	const monthToNumber = {
-		[ __( 'Jan', 'fau-elemental' ) ]: '01',
-		[ __( 'Feb', 'fau-elemental' ) ]: '02',
-		[ __( 'Mar', 'fau-elemental' ) ]: '03',
-		[ __( 'Apr', 'fau-elemental' ) ]: '04',
-		[ __( 'May', 'fau-elemental' ) ]: '05',
-		[ __( 'Jun', 'fau-elemental' ) ]: '06',
-		[ __( 'Jul', 'fau-elemental' ) ]: '07',
-		[ __( 'Aug', 'fau-elemental' ) ]: '08',
-		[ __( 'Sep', 'fau-elemental' ) ]: '09',
-		[ __( 'Oct', 'fau-elemental' ) ]: '10',
-		[ __( 'Nov', 'fau-elemental' ) ]: '11',
-		[ __( 'Dec', 'fau-elemental' ) ]: '12',
-	};
 
 	// Convert numeric months to localized abbreviations for display
 	const numberToMonth = {
@@ -57,17 +41,15 @@ export function processEventDate( eventDate ) {
 		9: __( 'Sep', 'fau-elemental' ),
 	};
 
-	// If month is numeric, convert to localized abbreviation for display
-	if ( month && numberToMonth[ month ] ) {
-		month = numberToMonth[ month ];
-	}
+	// Convert numeric month to localized abbreviation for display
+	const localizedMonth = numberToMonth[ month ] || month;
 
 	// Build monthYear string, handling incomplete dates gracefully
 	let monthYear = '';
-	if ( month && year ) {
-		monthYear = `${ month } ${ year }`;
-	} else if ( month ) {
-		monthYear = month;
+	if ( localizedMonth && year ) {
+		monthYear = `${ localizedMonth } ${ year }`;
+	} else if ( localizedMonth ) {
+		monthYear = localizedMonth;
 	} else if ( year ) {
 		monthYear = year;
 	}
@@ -76,9 +58,8 @@ export function processEventDate( eventDate ) {
 	let datetimeAttr = '';
 	if ( eventDate && day && month && year ) {
 		const yearValue = year;
-		const monthNumber =
-			monthToNumber[ month ] || month?.padStart( 2, '0' ) || '01';
-		const dayPadded = day?.padStart( 2, '0' ) || '01';
+		const monthNumber = month.padStart( 2, '0' );
+		const dayPadded = day.padStart( 2, '0' );
 		datetimeAttr = `${ yearValue }-${ monthNumber }-${ dayPadded }`;
 	}
 

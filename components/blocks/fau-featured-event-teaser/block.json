@@ -30,6 +30,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"imageId": {
+			"type": "number",
+			"default": 0
+		},
 		"imageAlt": {
 			"type": "string",
 			"default": ""

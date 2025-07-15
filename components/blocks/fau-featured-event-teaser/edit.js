@@ -11,69 +11,85 @@ import {
 	PanelBody,
 	TextControl,
 	BaseControl,
+	ToolbarGroup,
 	ToolbarButton,
+	DatePicker,
+	Button,
 } from '@wordpress/components';
-import { processEventDate } from './utils/date-helpers';
 import { useState, useEffect } from '@wordpress/element';
+import { processEventDate } from './utils/date-helpers';
 
-// Custom Date Picker Component
-function DatePicker( { label, value, onChange, help } ) {
-	const [ dateValue, setDateValue ] = useState( '' );
+// Custom Date Picker Component using WordPress DatePicker
+function DatePickerField( { label, value, onChange, help } ) {
+	const [ showDatePicker, setShowDatePicker ] = useState( false );
+	const [ displayValue, setDisplayValue ] = useState( '' );
 
-	// Convert the current eventDate format to HTML5 date format (YYYY-MM-DD)
-	useEffect( () => {
-		if ( value ) {
-			const { datetimeAttr } = processEventDate( value );
-			setDateValue( datetimeAttr || '' );
-		} else {
-			setDateValue( '' );
+	// Convert the current eventDate format to Date object for WordPress DatePicker
+	const getDateFromString = ( dateString ) => {
+		if ( ! dateString || dateString.trim() === '' ) {
+			return null;
 		}
+		const { datetimeAttr } = processEventDate( dateString );
+		return datetimeAttr ? new Date( datetimeAttr ) : null;
+	};
+
+	// Update display value when value changes
+	useEffect( () => {
+		setDisplayValue( value || '' );
 	}, [ value ] );
 
-	// Convert HTML5 date format back to the required format
-	const handleDateChange = ( newDateValue ) => {
-		setDateValue( newDateValue );
-
-		if ( newDateValue ) {
-			const date = new Date( newDateValue );
-			const day = date.getDate().toString();
-			const month = date.toLocaleDateString( 'en-US', {
-				month: 'short',
-			} );
-			const year = date.getFullYear().toString();
-
-			// Convert English month to localized month
-			const englishToLocalized = {
-				Jan: __( 'Jan', 'fau-elemental' ),
-				Feb: __( 'Feb', 'fau-elemental' ),
-				Mar: __( 'Mar', 'fau-elemental' ),
-				Apr: __( 'Apr', 'fau-elemental' ),
-				May: __( 'May', 'fau-elemental' ),
-				Jun: __( 'Jun', 'fau-elemental' ),
-				Jul: __( 'Jul', 'fau-elemental' ),
-				Aug: __( 'Aug', 'fau-elemental' ),
-				Sep: __( 'Sep', 'fau-elemental' ),
-				Oct: __( 'Oct', 'fau-elemental' ),
-				Nov: __( 'Nov', 'fau-elemental' ),
-				Dec: __( 'Dec', 'fau-elemental' ),
-			};
-
-			const localizedMonth = englishToLocalized[ month ] || month;
-			const formattedDate = `${ day } ${ localizedMonth } ${ year }`;
-			onChange( formattedDate );
-		} else {
+	// Convert Date object back to the required format
+	const handleDateChange = ( date ) => {
+		// WordPress DatePicker returns an ISO string, not a Date object
+		if ( ! date ) {
 			onChange( '' );
+			setDisplayValue( '' );
+			setShowDatePicker( false );
+			return;
 		}
+
+		// Convert ISO string to Date object
+		const dateObj = new Date( date );
+
+		if ( isNaN( dateObj.getTime() ) ) {
+			onChange( '' );
+			setDisplayValue( '' );
+			setShowDatePicker( false );
+			return;
+		}
+
+		const day = dateObj.getDate();
+		const month = dateObj.getMonth() + 1; // getMonth() returns 0-11
+		const year = dateObj.getFullYear();
+
+		// Format as "DD MM YYYY" - date-helpers.js will handle the localization
+		const formattedDate = `${ day } ${ month } ${ year }`;
+		onChange( formattedDate );
+		setDisplayValue( formattedDate );
+		setShowDatePicker( false );
 	};
 
 	return (
 		<BaseControl label={ label } help={ help } id="fau-event-date-picker">
-			<input
-				type="date"
-				value={ dateValue }
-				onChange={ ( e ) => handleDateChange( e.target.value ) }
-				className="components-text-control__input fau-date-picker"
-			/>
+			<div className="fau-date-picker-container">
+				<Button
+					variant="secondary"
+					onClick={ () => setShowDatePicker( ! showDatePicker ) }
+					className="fau-date-picker-button"
+					aria-label={ __( 'Open date picker', 'fau-elemental' ) }
+				>
+					{ displayValue || __( 'Event Date', 'fau-elemental' ) }
+				</Button>
+				{ showDatePicker && (
+					<div className="fau-date-picker-dropdown">
+						<DatePicker
+							currentDate={ getDateFromString( value ) }
+							onChange={ handleDateChange }
+							locale={ 'en' }
+						/>
+					</div>
+				) }
+			</div>
 		</BaseControl>
 	);
 }
@@ -86,44 +102,66 @@ export default function Edit( { attributes, setAttributes } ) {
 		buttonText,
 		buttonUrl,
 		imageUrl,
+		imageId,
 		imageAlt,
 	} = attributes;
 
 	// Process the date using shared utility
 	const { day, monthYear, datetimeAttr } = processEventDate( eventDate );
 
+	const onSelectImage = ( media ) => {
+		setAttributes( {
+			imageUrl: media.url,
+			imageId: media.id,
+			imageAlt: media.alt,
+		} );
+	};
+
+	const removeImage = () => {
+		setAttributes( {
+			imageUrl: '',
+			imageId: 0,
+			imageAlt: '',
+		} );
+	};
+
 	return (
 		<>
 			<BlockControls>
-				<MediaUploadCheck>
-					<MediaUpload
-						onSelect={ ( media ) =>
-							setAttributes( {
-								imageUrl: media.url,
-								imageAlt: media.alt,
-							} )
-						}
-						allowedTypes={ [ 'image' ] }
-						value={ imageUrl }
-						render={ ( { open } ) => (
-							<ToolbarButton
-								icon={ imageUrl ? undefined : 'plus' }
-								label={
-									imageUrl
-										? __( 'Replace Image', 'fau-elemental' )
-										: __( 'Add Image', 'fau-elemental' )
-								}
-								onClick={ open }
-							>
-								{ imageUrl && __( 'Replace', 'fau-elemental' ) }
-							</ToolbarButton>
-						) }
-					/>
-				</MediaUploadCheck>
+				<ToolbarGroup>
+					<MediaUploadCheck>
+						<MediaUpload
+							onSelect={ onSelectImage }
+							allowedTypes={ [ 'image' ] }
+							value={ imageId }
+							render={ ( { open } ) => (
+								<ToolbarButton
+									icon="format-image"
+									label={
+										imageUrl
+											? __(
+													'Replace Image',
+													'fau-elemental'
+											  )
+											: __( 'Add Image', 'fau-elemental' )
+									}
+									onClick={ open }
+								/>
+							) }
+						/>
+					</MediaUploadCheck>
+					{ imageUrl && (
+						<ToolbarButton
+							icon="no"
+							label={ __( 'Remove Image', 'fau-elemental' ) }
+							onClick={ removeImage }
+						/>
+					) }
+				</ToolbarGroup>
 			</BlockControls>
 			<InspectorControls>
 				<PanelBody title={ __( 'Event Details', 'fau-elemental' ) }>
-					<DatePicker
+					<DatePickerField
 						label={ __( 'Event Date', 'fau-elemental' ) }
 						value={ eventDate }
 						onChange={ ( value ) =>
@@ -149,50 +187,41 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 					/>
 				</PanelBody>
-				<PanelBody title={ __( 'Image Settings', 'fau-elemental' ) }>
+				<PanelBody
+					title={ __( 'Image Settings', 'fau-elemental' ) }
+					initialOpen={ false }
+				>
 					<MediaUploadCheck>
 						<MediaUpload
-							onSelect={ ( media ) =>
-								setAttributes( {
-									imageUrl: media.url,
-									imageAlt: media.alt,
-								} )
-							}
+							onSelect={ onSelectImage }
 							allowedTypes={ [ 'image' ] }
-							value={ imageUrl }
+							value={ imageId }
 							render={ ( { open } ) => (
-								<div className="fau-image-controls">
-									<button onClick={ open }>
-										{ imageUrl
-											? __(
-													'Replace Image',
-													'fau-elemental'
-											  )
-											: __(
-													'Select Image',
-													'fau-elemental'
-											  ) }
-									</button>
-									{ imageUrl && (
-										<button
-											onClick={ () =>
-												setAttributes( {
-													imageUrl: '',
-													imageAlt: '',
-												} )
-											}
-											className="fau-remove-image-button"
-										>
-											{ __(
-												'Remove Image',
+								<Button
+									onClick={ open }
+									variant="secondary"
+									className="fau-featured-event-teaser__image-select-button"
+								>
+									{ imageUrl
+										? __( 'Replace Image', 'fau-elemental' )
+										: __(
+												'Select Image',
 												'fau-elemental'
-											) }
-										</button>
-									) }
-								</div>
+										  ) }
+								</Button>
 							) }
 						/>
 					</MediaUploadCheck>
+
+					{ imageUrl && (
+						<Button
+							onClick={ removeImage }
+							variant="tertiary"
+							isDestructive
+						>
+							{ __( 'Remove Image', 'fau-elemental' ) }
+						</Button>
+					) }
 				</PanelBody>
 			</InspectorControls>
 
