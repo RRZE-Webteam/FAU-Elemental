@@ -197,18 +197,32 @@ export default function Edit( { attributes, setAttributes } ) {
 							allowedTypes={ [ 'image' ] }
 							value={ imageId }
 							render={ ( { open } ) => (
-								<Button
-									onClick={ open }
-									variant="secondary"
-									className="fau-featured-event-teaser__image-select-button"
-								>
-									{ imageUrl
-										? __( 'Replace Image', 'fau-elemental' )
-										: __(
-												'Select Image',
-												'fau-elemental'
-										  ) }
-								</Button>
+								<>
+									<Button
+										onClick={ open }
+										variant="secondary"
+										className="fau-featured-event-teaser__image-select-button"
+									>
+										{ imageUrl
+											? __(
+													'Replace Image',
+													'fau-elemental'
+											  )
+											: __(
+													'Select Image',
+													'fau-elemental'
+											  ) }
+									</Button>
+									{ imageUrl && (
+										<div className="fau-featured-event-teaser__image-preview">
+											<img
+												src={ imageUrl }
+												alt={ imageAlt }
+												className="fau-featured-event-teaser__preview-image"
+											/>
+										</div>
+									) }
+								</>
 							) }
 						/>
 					</MediaUploadCheck>
