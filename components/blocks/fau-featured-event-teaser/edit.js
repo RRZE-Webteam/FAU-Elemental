@@ -16,7 +16,7 @@ import {
 	DatePicker,
 	Button,
 } from '@wordpress/components';
-import { useState, useEffect } from '@wordpress/element';
+import { useEffect } from '@wordpress/element';
 import { processEventDate } from './utils/date-helpers';
 
 // Custom Date Picker Component using WordPress DatePicker
