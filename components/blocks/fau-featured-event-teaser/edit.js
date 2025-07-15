@@ -21,9 +21,6 @@ import { processEventDate } from './utils/date-helpers';
 
 // Custom Date Picker Component using WordPress DatePicker
 function DatePickerField( { label, value, onChange, help } ) {
-	const [ showDatePicker, setShowDatePicker ] = useState( false );
-	const [ displayValue, setDisplayValue ] = useState( '' );
-
 	// Convert the current eventDate format to Date object for WordPress DatePicker
 	const getDateFromString = ( dateString ) => {
 		if ( ! dateString || dateString.trim() === '' ) {
@@ -33,18 +30,11 @@ function DatePickerField( { label, value, onChange, help } ) {
 		return datetimeAttr ? new Date( datetimeAttr ) : null;
 	};
 
-	// Update display value when value changes
-	useEffect( () => {
-		setDisplayValue( value || '' );
-	}, [ value ] );
-
 	// Convert Date object back to the required format
 	const handleDateChange = ( date ) => {
 		// WordPress DatePicker returns an ISO string, not a Date object
 		if ( ! date ) {
 			onChange( '' );
-			setDisplayValue( '' );
-			setShowDatePicker( false );
 			return;
 		}
 
@@ -53,8 +43,6 @@ function DatePickerField( { label, value, onChange, help } ) {
 
 		if ( isNaN( dateObj.getTime() ) ) {
 			onChange( '' );
-			setDisplayValue( '' );
-			setShowDatePicker( false );
 			return;
 		}
 
@@ -65,31 +53,15 @@ function DatePickerField( { label, value, onChange, help } ) {
 		// Format as "DD MM YYYY" - date-helpers.js will handle the localization
 		const formattedDate = `${ day } ${ month } ${ year }`;
 		onChange( formattedDate );
-		setDisplayValue( formattedDate );
-		setShowDatePicker( false );
 	};
 
 	return (
 		<BaseControl label={ label } help={ help } id="fau-event-date-picker">
-			<div className="fau-date-picker-container">
-				<Button
-					variant="secondary"
-					onClick={ () => setShowDatePicker( ! showDatePicker ) }
-					className="fau-date-picker-button"
-					aria-label={ __( 'Open date picker', 'fau-elemental' ) }
-				>
-					{ displayValue || __( 'Event Date', 'fau-elemental' ) }
-				</Button>
-				{ showDatePicker && (
-					<div className="fau-date-picker-dropdown">
-						<DatePicker
-							currentDate={ getDateFromString( value ) }
-							onChange={ handleDateChange }
-							locale={ 'en' }
-						/>
-					</div>
-				) }
-			</div>
+			<DatePicker
+				currentDate={ getDateFromString( value ) }
+				onChange={ handleDateChange }
+				locale={ 'en' }
+			/>
 		</BaseControl>
 	);
 }
@@ -105,6 +77,18 @@ export default function Edit( { attributes, setAttributes } ) {
 		imageId,
 		imageAlt,
 	} = attributes;
+
+	// Set current date if eventDate is empty (new block)
+	useEffect( () => {
+		if ( ! eventDate || eventDate.trim() === '' ) {
+			const today = new Date();
+			const day = today.getDate();
+			const month = today.getMonth() + 1; // getMonth() returns 0-11
+			const year = today.getFullYear();
+			const formattedDate = `${ day } ${ month } ${ year }`;
+			setAttributes( { eventDate: formattedDate } );
+		}
+	}, [] ); // Empty dependency array means this runs once when component mounts
 
 	// Process the date using shared utility
 	const { day, monthYear, datetimeAttr } = processEventDate( eventDate );
