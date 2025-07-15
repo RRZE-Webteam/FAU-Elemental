@@ -56,25 +56,7 @@ function faue_enqueue_editor_assets() {
 }
 add_action('enqueue_block_editor_assets', 'faue_enqueue_editor_assets');
 
-// Enqueue Frontend Scripts
-function faue_enqueue_scripts() {
-    // Post meta script for share functionality
-    if (is_singular()) {
-        $post_meta_asset_path = get_theme_file_path('build/js/template-parts-post-meta.asset.php');
-        if (file_exists($post_meta_asset_path)) {
-            $post_meta_asset = include $post_meta_asset_path;
-            
-            wp_enqueue_script(
-                'faue-post-meta',
-                get_theme_file_uri('build/js/template-parts-post-meta.js'),
-                $post_meta_asset['dependencies'],
-                $post_meta_asset['version'],
-                true
-            );
-        }
-    }
-}
-add_action('wp_enqueue_scripts', 'faue_enqueue_scripts');
+
 
 // Enqueue Editor Scripts
 function faue_enqueue_block_editor_script() {
@@ -109,6 +91,8 @@ function faue_enqueue_block_view_scripts() {
     // Get all block folders
     $block_folders = glob(get_theme_file_path('build/blocks/*'), GLOB_ONLYDIR);
 
+    $localized = false;
+    
     foreach ($block_folders as $block_folder) {
         $block_name = basename($block_folder);
         $view_script_path = $block_folder . '/view.js';
@@ -117,14 +101,49 @@ function faue_enqueue_block_view_scripts() {
         if (file_exists($view_script_path) && file_exists($view_asset_path)) {
             $view_asset = include $view_asset_path;
             
+            $script_handle = 'faue-' . $block_name . '-view';
+            
             wp_enqueue_script(
-                'faue-' . $block_name . '-view',
+                $script_handle,
                 get_theme_file_uri('build/blocks/' . $block_name . '/view.js'),
                 $view_asset['dependencies'],
                 $view_asset['version'],
                 true
             );
+            
+            // Localize script data for the first script only
+            if (!$localized) {
+                wp_localize_script(
+                    $script_handle,
+                    'fauElemental',
+                    array(
+                        'themeUrl' => get_template_directory_uri(),
+                        'websiteType' => get_theme_mod('faue_website_type', 'fau'),
+                        'facultyType' => get_theme_mod('faue_faculty', 'phil'),
+                        'nonce' => wp_create_nonce('fau_elemental_nonce'),
+                        'ajaxUrl' => admin_url('admin-ajax.php'),
+                    )
+                );
+                $localized = true;
+            }
         }
     }
 }
-add_action('wp_enqueue_scripts', 'faue_enqueue_block_view_scripts'); 
+add_action('wp_enqueue_scripts', 'faue_enqueue_block_view_scripts');
+
+// Enqueue Menu Modal Script
+function faue_enqueue_menu_modal_script() {
+    $script_asset_path = get_theme_file_path('build/js/menu-modal.asset.php');
+    if (file_exists($script_asset_path)) {
+        $script_asset = include $script_asset_path;
+        
+        wp_enqueue_script(
+            'faue-menu-modal',
+            get_theme_file_uri('build/js/menu-modal.js'),
+            array_merge($script_asset['dependencies'], array('jquery')),
+            $script_asset['version'],
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'faue_enqueue_menu_modal_script'); 

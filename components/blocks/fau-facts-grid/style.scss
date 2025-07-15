@@ -1,0 +1,81 @@
+@use "../../ui/mixins/mixins" as *;
+
+.wp-block-fau-elemental-fau-facts-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: var(--Spacing-20x);
+	max-width: var(--wide-max-width);
+	padding: 0 var(--Spacing-10x);
+
+	.fau-facts-grid-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+
+		.fau-facts-grid-item-icon {
+
+			img {
+				width: auto;
+				height: 3rem;
+			}
+		}
+
+		.fau-facts-grid-item-content {
+			display: flex;
+			flex-direction: column;
+			gap: 0.8rem;
+
+			.fau-facts-grid-item-text {
+				font-size: 1.125rem;
+				color: var(--FAU-Col-FAU-Schwarz-90);
+				font-weight: 400;
+				line-height: 1.5;
+				hyphens: auto;
+				overflow-wrap: break-word;
+				word-break: break-word;
+			}
+		}
+	}
+}
+
+// Dark Mode
+.is-style-dark {
+
+	.wp-block-fau-elemental-fau-facts-grid {
+		padding-top: var(--Spacing-6x);
+		padding-bottom: var(--Spacing-6x);
+
+		.fau-facts-grid-item-content .fau-facts-grid-item-text {
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+	}
+}
+
+// Responsive
+@media screen and (max-width: 999px) {
+
+	.wp-block-fau-elemental-fau-facts-grid {
+		gap: var(--Spacing-8x);
+	}
+}
+
+@include respond-to("small") {
+
+	.wp-block-fau-elemental-fau-facts-grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: var(--Spacing-12x);
+
+
+		.fau-facts-grid-item .fau-facts-grid-item-content .fau-facts-grid-item-text {
+			font-size: 1rem;
+		}
+	}
+}
+
+@include respond-to("x-small") {
+
+	.wp-block-fau-elemental-fau-facts-grid {
+		gap: var(--Spacing-8x);
+		padding: 0 var(--Spacing-5x);
+	}
+}

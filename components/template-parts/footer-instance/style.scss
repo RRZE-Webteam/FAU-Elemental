@@ -95,7 +95,7 @@
 				}
 			}
 
-			.footer-important-links {
+			.footer-important-links-container {
 				flex-basis: 33%;
 
 				.important-links-list {
@@ -297,7 +297,7 @@
 			.footer-instance-contact {
 				flex-wrap: wrap;
 
-				.footer-important-links {
+				.footer-important-links-container {
 
 					.important-links-list {
 						flex-direction: row;
@@ -307,7 +307,7 @@
 				}
 
 				.contact-address,
-				.footer-important-links {
+				.footer-important-links-container {
 					flex-basis: 100%;
 				}
 			}

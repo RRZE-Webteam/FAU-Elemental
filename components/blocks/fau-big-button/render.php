@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Ensure the shared rendering function is available
-require_once get_template_directory() . '/components/blocks/fau-big-button/big-button.php';
+require_once get_stylesheet_directory() . '/components/blocks/fau-big-button/big-button.php';
 
 // Set default attributes
 $attributes = wp_parse_args($attributes, [

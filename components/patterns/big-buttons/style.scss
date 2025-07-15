@@ -1,0 +1,17 @@
+.big-buttons {
+	max-width: var(--wide-max-width);
+
+	> h2 {
+		margin-block-start: var(--Spacing-8x);
+		margin-left: 0;
+	}
+
+	> p {
+		margin-block-start: var(--Spacing-4x);
+		margin-left: 0;
+	}
+
+	> .fau-big-button-teaser-group {
+		margin-block-start: var(--Spacing-12x);
+	}
+}

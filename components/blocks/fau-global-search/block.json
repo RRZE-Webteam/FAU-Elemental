@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "fau-elemental/fau-global-search",
+	"version": "1.0.0",
+	"title": "FAU Global Search",
+	"category": "fau-elemental/FAU",
+	"icon": "search",
+	"description": "A global search component for FAU websites with configurable width and target page",
+	"keywords": [ "search", "global", "fau" ],
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"width": {
+			"type": "string",
+			"default": "content-size",
+			"enum": [ "content-size", "full-grid" ]
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"textdomain": "fau-elemental",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style-theme.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}
