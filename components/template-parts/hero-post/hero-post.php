@@ -67,7 +67,7 @@ $post_id = get_the_ID();
             'blockName' => 'core/post-featured-image',
             'attrs' => array(
                 'align' => 'full',
-                'className' => 'wp-block-image is-style-large has-overlay'
+                'className' => 'wp-block-image is-style-large'
             )
         ));
     endif; ?>
