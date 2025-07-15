@@ -63,8 +63,6 @@ $post_id = get_the_ID();
     </div>
     
     <?php if (has_post_thumbnail()) : 
-        // Use the core/post-featured-image block with proper styling
-        // The theme already handles captions via fau_add_caption_to_featured_image filter
         echo render_block(array(
             'blockName' => 'core/post-featured-image',
             'attrs' => array(
