@@ -26,10 +26,6 @@
 			"type": "string",
 			"default": "#"
 		},
-		"showImage": {
-			"type": "boolean",
-			"default": false
-		},
 		"imageUrl": {
 			"type": "string",
 			"default": ""

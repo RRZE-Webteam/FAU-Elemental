@@ -8,7 +8,6 @@ export default function Save( { attributes } ) {
 		eventDate,
 		buttonText,
 		buttonUrl,
-		showImage,
 		imageUrl,
 		imageAlt,
 	} = attributes;
@@ -37,7 +36,7 @@ export default function Save( { attributes } ) {
 						<span className="date-day">{ day }</span>
 						<span className="date-month-year">{ monthYear }</span>
 					</time>
-					{ showImage && imageUrl && (
+					{ imageUrl && (
 						<div className="featured-event-image">
 							<img src={ imageUrl } alt={ imageAlt } />
 						</div>

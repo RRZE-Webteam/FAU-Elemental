@@ -5,9 +5,78 @@ import {
 	InspectorControls,
 	MediaUpload,
 	MediaUploadCheck,
+	BlockControls,
 } from '@wordpress/block-editor';
-import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
+import {
+	PanelBody,
+	TextControl,
+	BaseControl,
+	ToolbarButton,
+} from '@wordpress/components';
 import { processEventDate } from './utils/date-helpers';
+import { useState, useEffect } from '@wordpress/element';
+
+// Custom Date Picker Component
+function DatePicker( { label, value, onChange, help } ) {
+	const [ dateValue, setDateValue ] = useState( '' );
+
+	// Convert the current eventDate format to HTML5 date format (YYYY-MM-DD)
+	useEffect( () => {
+		if ( value ) {
+			const { datetimeAttr } = processEventDate( value );
+			setDateValue( datetimeAttr || '' );
+		} else {
+			setDateValue( '' );
+		}
+	}, [ value ] );
+
+	// Convert HTML5 date format back to the required format
+	const handleDateChange = ( newDateValue ) => {
+		setDateValue( newDateValue );
+
+		if ( newDateValue ) {
+			const date = new Date( newDateValue );
+			const day = date.getDate().toString();
+			const month = date.toLocaleDateString( 'en-US', {
+				month: 'short',
+			} );
+			const year = date.getFullYear().toString();
+
+			// Convert English month to localized month
+			const englishToLocalized = {
+				Jan: __( 'Jan', 'fau-elemental' ),
+				Feb: __( 'Feb', 'fau-elemental' ),
+				Mar: __( 'Mar', 'fau-elemental' ),
+				Apr: __( 'Apr', 'fau-elemental' ),
+				May: __( 'May', 'fau-elemental' ),
+				Jun: __( 'Jun', 'fau-elemental' ),
+				Jul: __( 'Jul', 'fau-elemental' ),
+				Aug: __( 'Aug', 'fau-elemental' ),
+				Sep: __( 'Sep', 'fau-elemental' ),
+				Oct: __( 'Oct', 'fau-elemental' ),
+				Nov: __( 'Nov', 'fau-elemental' ),
+				Dec: __( 'Dec', 'fau-elemental' ),
+			};
+
+			const localizedMonth = englishToLocalized[ month ] || month;
+			const formattedDate = `${ day } ${ localizedMonth } ${ year }`;
+			onChange( formattedDate );
+		} else {
+			onChange( '' );
+		}
+	};
+
+	return (
+		<BaseControl label={ label } help={ help } id="fau-event-date-picker">
+			<input
+				type="date"
+				value={ dateValue }
+				onChange={ ( e ) => handleDateChange( e.target.value ) }
+				className="components-text-control__input fau-date-picker"
+			/>
+		</BaseControl>
+	);
+}
 
 export default function Edit( { attributes, setAttributes } ) {
 	const {
@@ -16,7 +85,6 @@ export default function Edit( { attributes, setAttributes } ) {
 		eventDate,
 		buttonText,
 		buttonUrl,
-		showImage,
 		imageUrl,
 		imageAlt,
 	} = attributes;
@@ -26,25 +94,43 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	return (
 		<>
-			<InspectorControls>
-				<PanelBody title={ __( 'Display Settings', 'fau-elemental' ) }>
-					<ToggleControl
-						label={ __( 'Show Image', 'fau-elemental' ) }
-						checked={ showImage }
-						onChange={ ( value ) =>
-							setAttributes( { showImage: value } )
+			<BlockControls>
+				<MediaUploadCheck>
+					<MediaUpload
+						onSelect={ ( media ) =>
+							setAttributes( {
+								imageUrl: media.url,
+								imageAlt: media.alt,
+							} )
 						}
+						allowedTypes={ [ 'image' ] }
+						value={ imageUrl }
+						render={ ( { open } ) => (
+							<ToolbarButton
+								icon={ imageUrl ? undefined : 'plus' }
+								label={
+									imageUrl
+										? __( 'Replace Image', 'fau-elemental' )
+										: __( 'Add Image', 'fau-elemental' )
+								}
+								onClick={ open }
+							>
+								{ imageUrl && __( 'Replace', 'fau-elemental' ) }
+							</ToolbarButton>
+						) }
 					/>
-				</PanelBody>
+				</MediaUploadCheck>
+			</BlockControls>
+			<InspectorControls>
 				<PanelBody title={ __( 'Event Details', 'fau-elemental' ) }>
-					<TextControl
+					<DatePicker
 						label={ __( 'Event Date', 'fau-elemental' ) }
 						value={ eventDate }
 						onChange={ ( value ) =>
 							setAttributes( { eventDate: value } )
 						}
 						help={ __(
-							'Enter date in format: DD MM YYYY or DD MMM YYYY (e.g. 01 12 2025 or 01 Dec 2025)',
+							'Select the event date using the date picker.',
 							'fau-elemental'
 						) }
 					/>
@@ -63,21 +149,19 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 					/>
 				</PanelBody>
-				{ showImage && (
-					<PanelBody
-						title={ __( 'Image Settings', 'fau-elemental' ) }
-					>
-						<MediaUploadCheck>
-							<MediaUpload
-								onSelect={ ( media ) =>
-									setAttributes( {
-										imageUrl: media.url,
-										imageAlt: media.alt,
-									} )
-								}
-								allowedTypes={ [ 'image' ] }
-								value={ imageUrl }
-								render={ ( { open } ) => (
+				<PanelBody title={ __( 'Image Settings', 'fau-elemental' ) }>
+					<MediaUploadCheck>
+						<MediaUpload
+							onSelect={ ( media ) =>
+								setAttributes( {
+									imageUrl: media.url,
+									imageAlt: media.alt,
+								} )
+							}
+							allowedTypes={ [ 'image' ] }
+							value={ imageUrl }
+							render={ ( { open } ) => (
+								<div className="fau-image-controls">
 									<button onClick={ open }>
 										{ imageUrl
 											? __(
@@ -89,11 +173,27 @@ export default function Edit( { attributes, setAttributes } ) {
 													'fau-elemental'
 											  ) }
 									</button>
-								) }
-							/>
-						</MediaUploadCheck>
-					</PanelBody>
-				) }
+									{ imageUrl && (
+										<button
+											onClick={ () =>
+												setAttributes( {
+													imageUrl: '',
+													imageAlt: '',
+												} )
+											}
+											className="fau-remove-image-button"
+										>
+											{ __(
+												'Remove Image',
+												'fau-elemental'
+											) }
+										</button>
+									) }
+								</div>
+							) }
+						/>
+					</MediaUploadCheck>
+				</PanelBody>
 			</InspectorControls>
 
 			<div
@@ -114,6 +214,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								'Enter event title…',
 								'fau-elemental'
 							) }
+							allowedFormats={ [] }
 						/>
 						<RichText
 							tagName="p"
@@ -126,21 +227,24 @@ export default function Edit( { attributes, setAttributes } ) {
 								'Enter event description…',
 								'fau-elemental'
 							) }
+							allowedFormats={ [] }
 						/>
-						<div className="wp-block-button">
-							<RichText
-								tagName="a"
-								className="wp-block-button__link"
-								value={ buttonText }
-								onChange={ ( value ) =>
-									setAttributes( { buttonText: value } )
-								}
-								placeholder={ __(
-									'Button text…',
-									'fau-elemental'
-								) }
-								allowedFormats={ [] }
-							/>
+						<div className="wp-block-buttons">
+							<div className="wp-block-button">
+								<RichText
+									tagName="a"
+									className="wp-block-button__link"
+									value={ buttonText }
+									onChange={ ( value ) =>
+										setAttributes( { buttonText: value } )
+									}
+									placeholder={ __(
+										'Button text…',
+										'fau-elemental'
+									) }
+									allowedFormats={ [] }
+								/>
+							</div>
 						</div>
 					</div>
 					<div className="content-right">
@@ -150,7 +254,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								{ monthYear }
 							</span>
 						</time>
-						{ showImage && imageUrl && (
+						{ imageUrl && (
 							<div className="featured-event-image">
 								<img src={ imageUrl } alt={ imageAlt } />
 							</div>

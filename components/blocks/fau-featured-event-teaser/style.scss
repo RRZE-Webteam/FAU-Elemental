@@ -94,3 +94,27 @@
 		}
 	}
 }
+
+// Editor-specific styles
+.fau-date-picker {
+	width: 100%;
+	padding: 6px 8px;
+	border: 1px solid #8c8f94;
+	border-radius: 4px;
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.fau-image-controls {
+	display: flex;
+	gap: 8px;
+}
+
+.fau-remove-image-button {
+	background-color: #dc3232;
+	color: #fff;
+	border: none;
+	padding: 6px 12px;
+	border-radius: 4px;
+	cursor: pointer;
+}
