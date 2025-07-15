@@ -35,4 +35,33 @@
 		border: none;
 		background: none;
 	}
+
+	// Style for the image select button in inspector
+	.fau-logo-grid__image-select-button {
+		margin-bottom: 1rem;
+	}
+
+	// Style for the image preview in inspector
+	.fau-logo-grid__image-preview {
+		margin-bottom: 1rem;
+	}
+
+	.fau-logo-grid__preview-image {
+		max-width: 100%;
+		height: auto;
+		border: 1px solid #ccc;
+	}
+
+	// Style for the migration notice
+	.fau-logo-grid__migration-notice {
+		margin-top: 1rem;
+		padding: 0.75rem;
+		background-color: #f6f7f7;
+		border-radius: 0.25rem;
+	}
+
+	// Style for the remove button
+	.fau-logo-grid__remove-button {
+		margin-top: 1rem;
+	}
 }

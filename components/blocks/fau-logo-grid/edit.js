@@ -164,8 +164,8 @@ export default function Edit( { attributes, setAttributes } ) {
 									<>
 										<Button
 											onClick={ open }
-											isSecondary
-											style={ { marginBottom: '16px' } }
+											variant="secondary"
+											className="fau-logo-grid__image-select-button"
 										>
 											{ logos[ selectedLogoIndex ]
 												.imageUrl
@@ -180,11 +180,7 @@ export default function Edit( { attributes, setAttributes } ) {
 										</Button>
 										{ logos[ selectedLogoIndex ]
 											.imageUrl && (
-											<div
-												style={ {
-													marginBottom: '16px',
-												} }
-											>
+											<div className="fau-logo-grid__image-preview">
 												<img
 													src={
 														logos[
@@ -192,11 +188,7 @@ export default function Edit( { attributes, setAttributes } ) {
 														].imageUrl
 													}
 													alt=""
-													style={ {
-														maxWidth: '100%',
-														height: 'auto',
-														border: '1px solid #ccc',
-													} }
+													className="fau-logo-grid__preview-image"
 												/>
 											</div>
 										) }
@@ -212,14 +204,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						/>
 
 						{ logos[ selectedLogoIndex ].migrated && (
-							<div
-								style={ {
-									marginTop: '16px',
-									padding: '12px',
-									backgroundColor: '#f6f7f7',
-									borderRadius: '4px',
-								} }
-							>
+							<div className="fau-logo-grid__migration-notice">
 								{ logos[ selectedLogoIndex ].category && (
 									<>
 										<strong>
@@ -242,8 +227,10 @@ export default function Edit( { attributes, setAttributes } ) {
 						) }
 
 						<Button
+							variant="tertiary"
 							isDestructive
 							onClick={ () => removeLogo( selectedLogoIndex ) }
+							className="fau-logo-grid__remove-button"
 						>
 							{ __( 'Remove Logo', 'fau-elemental' ) }
 						</Button>
