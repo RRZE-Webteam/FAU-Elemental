@@ -38,6 +38,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								imageUrl: link.imageUrl || '',
 								link: link.link || '',
 								category: link.category || '',
+								migrated: true, // Mark as migrated
 							} )
 						);
 						setAttributes( { logos: convertedLogos } );
@@ -50,6 +51,7 @@ export default function Edit( { attributes, setAttributes } ) {
 									imageUrl: '',
 									link: '',
 									category: '',
+									migrated: false, // Not migrated
 								},
 							],
 						} );
@@ -64,6 +66,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								imageUrl: '',
 								link: '',
 								category: '',
+								migrated: false, // Not migrated
 							},
 						],
 					} );
@@ -208,7 +211,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							onChange={ updateLogoLink }
 						/>
 
-						{ logos[ selectedLogoIndex ].category && (
+						{ logos[ selectedLogoIndex ].migrated && (
 							<div
 								style={ {
 									marginTop: '16px',
@@ -217,14 +220,18 @@ export default function Edit( { attributes, setAttributes } ) {
 									borderRadius: '4px',
 								} }
 							>
-								<strong>
-									{ __(
-										'Original Category:',
-										'fau-elemental'
-									) }
-								</strong>{ ' ' }
-								{ logos[ selectedLogoIndex ].category }
-								<br />
+								{ logos[ selectedLogoIndex ].category && (
+									<>
+										<strong>
+											{ __(
+												'Original Category:',
+												'fau-elemental'
+											) }
+										</strong>{ ' ' }
+										{ logos[ selectedLogoIndex ].category }
+										<br />
+									</>
+								) }
 								<small>
 									{ __(
 										'This logo was migrated from the previous theme.',

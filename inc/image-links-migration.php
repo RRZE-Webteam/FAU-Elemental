@@ -16,12 +16,9 @@ if (!defined('ABSPATH')) {
  * Main migration orchestrator - synchronizes with current imagelink posts
  */
 function fau_elemental_migrate_image_links() {
-    error_log('FAU Elemental: Starting image links migration...');
-    
     $current_posts = fau_elemental_get_current_imagelink_posts();
     
     if (empty($current_posts)) {
-        error_log('FAU Elemental: No current image links found');
         // Clear any existing migrated data since no imagelinks exist
         update_option('fau_elemental_migrated_image_links', array());
         return;
@@ -29,7 +26,6 @@ function fau_elemental_migrate_image_links() {
     
     $migrated_logos = fau_elemental_process_imagelink_posts($current_posts);
     fau_elemental_save_current_migrated_data($migrated_logos, count($current_posts));
-    fau_elemental_migrate_page_settings_once();
 }
 
 /**
@@ -42,7 +38,6 @@ function fau_elemental_get_current_imagelink_posts() {
         'post_status' => array('publish', 'private', 'draft')
     ));
     
-    error_log('FAU Elemental: Found ' . count($current_posts) . ' current imagelink posts');
     return $current_posts;
 }
 
@@ -82,7 +77,8 @@ function fau_elemental_convert_post_to_logo($post) {
         'link' => $link_url,
         'category' => $category_data['name'],
         'originalId' => $post->ID,
-        'originalCategoryId' => $category_data['id']
+        'originalCategoryId' => $category_data['id'],
+        'migrated' => true
     );
 }
 
@@ -140,17 +136,6 @@ function fau_elemental_get_category_data($post_id) {
  */
 function fau_elemental_save_current_migrated_data($migrated_logos, $total_count) {
     update_option('fau_elemental_migrated_image_links', $migrated_logos);
-    error_log("FAU Elemental: Successfully synchronized $total_count image links");
-}
-
-/**
- * Migrate page settings only once
- */
-function fau_elemental_migrate_page_settings_once() {
-    if (!get_option('fau_elemental_page_settings_migrated', false)) {
-        fau_elemental_migrate_page_imagelink_settings();
-        update_option('fau_elemental_page_settings_migrated', true);
-    }
 }
 
 /**
@@ -173,52 +158,6 @@ function fau_elemental_has_migrated_image_links() {
 }
 
 /**
- * Migrate page-level image links settings from old theme
- * This migrates the settings that determined which category of image links to show on each page
- */
-function fau_elemental_migrate_page_imagelink_settings() {
-    // Get all pages that have image link category settings
-    $pages_with_imagelinks = get_posts(array(
-        'post_type' => 'page',
-        'posts_per_page' => -1,
-        'post_status' => 'any',
-        'meta_query' => array(
-            array(
-                'key' => 'fauval_imagelink_catid',
-                'compare' => 'EXISTS'
-            )
-        )
-    ));
-    
-    $migrated_count = 0;
-    foreach ($pages_with_imagelinks as $page) {
-        $cat_id = get_post_meta($page->ID, 'fauval_imagelink_catid', true);
-        $size = get_post_meta($page->ID, 'fauval_imagelink_size', true);
-        
-        if (!empty($cat_id)) {
-            // Store in new meta field for potential future use
-            update_post_meta($page->ID, 'fau_elemental_legacy_imagelink_catid', $cat_id);
-            update_post_meta($page->ID, 'fau_elemental_legacy_imagelink_size', $size);
-            
-            // Add a note that this page had automatic image links
-            update_post_meta($page->ID, 'fau_elemental_had_auto_imagelinks', true);
-            
-            $migrated_count++;
-        }
-    }
-    
-    if ($migrated_count > 0) {
-        error_log("FAU Elemental: Migrated image link settings for $migrated_count pages");
-        
-        // Set transient for admin notice
-        set_transient('fau_elemental_image_links_pages_migrated', 1, 60);
-        set_transient('fau_elemental_image_links_pages_count', $migrated_count, 60);
-    }
-    
-    return $migrated_count;
-}
-
-/**
  * Manual migration function that can be called from admin
  * 
  * @param bool $force Whether to force migration even if already done
@@ -227,8 +166,6 @@ function fau_elemental_migrate_page_imagelink_settings() {
 function fau_elemental_force_image_links_migration($force = false) {
     if ($force) {
         delete_option('fau_elemental_migrated_image_links');
-        delete_option('fau_elemental_page_settings_migrated');
-        error_log('FAU Elemental: Cleared migration data, forcing full re-migration');
     }
     
     fau_elemental_migrate_image_links();
@@ -249,174 +186,200 @@ function fau_elemental_run_scheduled_migration() {
 add_action('wp_loaded', 'fau_elemental_run_scheduled_migration');
 
 /**
- * Register the migrated image links option for REST API access
+ * Register imagelinks_category taxonomy for backward compatibility
  */
-function fau_elemental_register_image_links_rest_setting() {
-    register_setting(
-        'general',
-        'fau_elemental_migrated_image_links',
-        array(
-            'type' => 'array',
-            'default' => array(),
-            'show_in_rest' => array(
-                'schema' => array(
-                    'type' => 'array',
-                    'items' => array(
-                        'type' => 'object',
-                        'properties' => array(
-                            'imageId' => array('type' => 'integer'),
-                            'imageUrl' => array('type' => 'string'),
-                            'link' => array('type' => 'string'),
-                            'title' => array('type' => 'string'),
-                            'description' => array('type' => 'string'),
-                            'category' => array('type' => 'string'),
-                            'originalId' => array('type' => 'integer'),
-                            'originalCategoryId' => array('type' => 'integer')
-                        )
-                    )
+function fau_elemental_register_imagelinks_taxonomy() {
+    // Only register if it doesn't already exist
+    if (!taxonomy_exists('imagelinks_category')) {
+        register_taxonomy(
+            'imagelinks_category',
+            'imagelink',
+            array(
+                'hierarchical' => true,
+                'query_var' => true,
+                'show_tagcloud' => false,
+                'show_in_quick_edit' => false,
+                'show_in_rest' => false,
+                'show_in_nav_menus' => false,
+                'rewrite' => array(
+                    'slug' => 'imagelinks',
+                    'with_front' => false
+                ),
+                'labels' => array(
+                    'name' => __('Image Link Categories', 'fau-elemental'),
+                    'singular_name' => __('Image Link Category', 'fau-elemental'),
+                    'menu_name' => __('Categories', 'fau-elemental'),
                 )
             )
-        )
-    );
-}
-add_action('rest_api_init', 'fau_elemental_register_image_links_rest_setting');
-
-/**
- * Add admin notice about available image links migration
- */
-function fau_elemental_image_links_migration_notice() {
-    // Only show on themes page and only if migration hasn't been done
-    $screen = get_current_screen();
-    if (!$screen || $screen->id !== 'themes' || get_option('fau_elemental_image_links_migrated', false)) {
-        return;
-    }
-    
-    // Check if there are any image links to migrate
-    $check_posts = get_posts(array(
-        'post_type' => array('imagelink', 'image-links', 'imagelinks', 'image_links', 'logo_links', 'logos'),
-        'posts_per_page' => 1,
-        'post_status' => 'publish'
-    ));
-    
-    // Also check if the imagelinks_category taxonomy exists
-    if (empty($check_posts)) {
-        $check_taxonomy = taxonomy_exists('imagelinks_category');
-        if ($check_taxonomy) {
-            // If taxonomy exists, there might be image links
-            $check_posts = array('found_taxonomy');
-        }
-    }
-    
-    if (empty($check_posts)) {
-        return;
-    }
-    
-    $migration_url = wp_nonce_url(
-        add_query_arg('fau-migrate-image-links', '1', admin_url('themes.php')),
-        'fau-migrate-image-links'
-    );
-    
-    ?>
-    <div class="notice notice-info is-dismissible">
-        <p>
-            <strong><?php _e('FAU Elemental Theme:', 'fau-elemental'); ?></strong>
-            <?php _e('Image links from your previous theme were detected.', 'fau-elemental'); ?>
-            <a href="<?php echo esc_url($migration_url); ?>" class="button button-secondary">
-                <?php _e('Migrate Image Links', 'fau-elemental'); ?>
-            </a>
-        </p>
-    </div>
-    <?php
-}
-add_action('admin_notices', 'fau_elemental_image_links_migration_notice');
-
-/**
- * Handle manual migration request from admin
- */
-function fau_elemental_process_image_links_migration_request() {
-    if (isset($_GET['fau-migrate-image-links']) && isset($_GET['_wpnonce']) && wp_verify_nonce($_GET['_wpnonce'], 'fau-migrate-image-links')) {
-        // Force migration
-        $migrated = fau_elemental_force_image_links_migration(true);
-        
-        // Set transient for admin notice
-        if ($migrated) {
-            set_transient('fau_elemental_image_links_migrated_success', 1, 60);
-        } else {
-            set_transient('fau_elemental_image_links_migrated_none', 1, 60);
-        }
-        
-        // Redirect back to themes page
-        wp_redirect(admin_url('themes.php'));
-        exit;
+        );
     }
 }
-add_action('admin_init', 'fau_elemental_process_image_links_migration_request');
+add_action('init', 'fau_elemental_register_imagelinks_taxonomy', 0);
 
 /**
- * Show migration result notices for image links
+ * Content filter to convert [imagelink] shortcodes to logo grid blocks
+ * This provides backward compatibility for old content
  */
-function fau_elemental_image_links_migration_success_notice() {
-    if (get_transient('fau_elemental_image_links_migrated_success')) {
-        delete_transient('fau_elemental_image_links_migrated_success');
-        $migrated_links = fau_elemental_get_migrated_image_links();
-        $count = count($migrated_links);
-        
-        // Get categories for more detailed info
-        $categories = array();
-        foreach ($migrated_links as $link) {
-            if (!empty($link['category'])) {
-                $categories[$link['category']] = ($categories[$link['category']] ?? 0) + 1;
+function fau_elemental_convert_imagelink_shortcodes($content) {
+    // Only process if content contains the shortcode
+    if (strpos($content, '[imagelink') === false) {
+        return $content;
+    }
+
+    // Get the shortcode regex pattern
+    $pattern = get_shortcode_regex(array('imagelink'));
+    
+    // Replace shortcodes with block markup
+    $content = preg_replace_callback('/' . $pattern . '/', 'fau_elemental_convert_imagelink_shortcode_to_block', $content);
+    
+    return $content;
+}
+add_filter('the_content', 'fau_elemental_convert_imagelink_shortcodes', 20);
+
+/**
+ * Convert a single [imagelink] shortcode to block markup
+ */
+function fau_elemental_convert_imagelink_shortcode_to_block($matches) {
+    $shortcode = $matches[0];
+    $atts = shortcode_parse_atts($matches[3]);
+    
+    // Parse attributes - only support what the new block actually uses
+    $category = isset($atts['cat']) ? $atts['cat'] : '';
+    $catid = isset($atts['catid']) ? intval($atts['catid']) : 0;
+    
+    // Determine category ID
+    $category_id = 0;
+    if ($catid > 0) {
+        $category_id = $catid;
+    } elseif (!empty($category)) {
+        if (taxonomy_exists('imagelinks_category')) {
+            $term = get_term_by('name', $category, 'imagelinks_category');
+            if (!$term) {
+                $term = get_term_by('slug', $category, 'imagelinks_category');
+            }
+            if ($term) {
+                $category_id = $term->term_id;
             }
         }
-        
-        ?>
-        <div class="notice notice-success is-dismissible">
-            <p>
-                <strong><?php _e('FAU Elemental Theme:', 'fau-elemental'); ?></strong>
-                <?php printf(__('Successfully migrated %d image links from your previous theme!', 'fau-elemental'), $count); ?>
-            </p>
-            <?php if (!empty($categories)): ?>
-                <p>
-                    <?php _e('Migrated categories:', 'fau-elemental'); ?>
-                    <?php 
-                    $cat_list = array();
-                    foreach ($categories as $cat_name => $cat_count) {
-                        $cat_list[] = sprintf('%s (%d)', $cat_name, $cat_count);
-                    }
-                    echo implode(', ', $cat_list);
-                    ?>
-                </p>
-            <?php endif; ?>
-            <p>
-                <em><?php _e('These logos are now available when you add a Logo Grid block to your pages.', 'fau-elemental'); ?></em>
-            </p>
-        </div>
-        <?php
-    } elseif (get_transient('fau_elemental_image_links_migrated_none')) {
-        delete_transient('fau_elemental_image_links_migrated_none');
-        ?>
-        <div class="notice notice-warning is-dismissible">
-            <p>
-                <strong><?php _e('FAU Elemental Theme:', 'fau-elemental'); ?></strong>
-                <?php _e('No image links from your previous theme were found to migrate.', 'fau-elemental'); ?>
-            </p>
-        </div>
-        <?php
-    } elseif (get_transient('fau_elemental_image_links_pages_migrated')) {
-        delete_transient('fau_elemental_image_links_pages_migrated');
-        $page_count = get_transient('fau_elemental_image_links_pages_count');
-        delete_transient('fau_elemental_image_links_pages_count');
-        ?>
-        <div class="notice notice-info is-dismissible">
-            <p>
-                <strong><?php _e('FAU Elemental Theme:', 'fau-elemental'); ?></strong>
-                <?php printf(__('Found %d pages that had automatic image links in the previous theme.', 'fau-elemental'), $page_count); ?>
-            </p>
-            <p>
-                <em><?php _e('You can now add Logo Grid blocks to these pages manually for more flexible logo placement.', 'fau-elemental'); ?></em>
-            </p>
-        </div>
-        <?php
     }
-}
-add_action('admin_notices', 'fau_elemental_image_links_migration_success_notice'); 
+    
+    // Get logos
+    $logos = array();
+    
+    // Try migrated data first
+    if (function_exists('fau_elemental_get_migrated_image_links')) {
+        $migrated_links = fau_elemental_get_migrated_image_links();
+        
+        if ($category_id > 0) {
+            // Filter by category - only return logos from the specified category
+            foreach ($migrated_links as $link) {
+                if (isset($link['originalCategoryId']) && $link['originalCategoryId'] == $category_id) {
+                    $logos[] = array(
+                        'imageId' => $link['imageId'] ?? 0,
+                        'imageUrl' => $link['imageUrl'] ?? '',
+                        'link' => $link['link'] ?? '',
+                        'category' => $link['category'] ?? '',
+                        'title' => $link['title'] ?? '',
+                        'migrated' => true
+                    );
+                }
+            }
+            
+            // If no logos found for the specific category, return empty
+            if (empty($logos)) {
+                return '';
+            }
+        } else {
+            // No category specified - use all migrated links
+            foreach ($migrated_links as $link) {
+                $logos[] = array(
+                    'imageId' => $link['imageId'] ?? 0,
+                    'imageUrl' => $link['imageUrl'] ?? '',
+                    'link' => $link['link'] ?? '',
+                    'category' => $link['category'] ?? '',
+                    'title' => $link['title'] ?? '',
+                    'migrated' => true
+                );
+            }
+        }
+    }
+    
+    // If no migrated data found, try current posts
+    if (empty($logos) && post_type_exists('imagelink')) {
+        $args = array(
+            'post_type' => 'imagelink',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+            'orderby' => 'name',
+            'order' => 'ASC'
+        );
+        
+        // Only add taxonomy query if a specific category is requested
+        if ($category_id > 0 && taxonomy_exists('imagelinks_category')) {
+            $args['tax_query'] = array(
+                array(
+                    'taxonomy' => 'imagelinks_category',
+                    'field' => 'term_id',
+                    'terms' => $category_id
+                )
+            );
+        }
+        
+        $imagelink_posts = get_posts($args);
+        
+        foreach ($imagelink_posts as $post) {
+            $logo_data = fau_elemental_convert_post_to_logo($post);
+            if ($logo_data) {
+                $logos[] = array(
+                    'imageId' => $logo_data['imageId'],
+                    'imageUrl' => $logo_data['imageUrl'],
+                    'link' => $logo_data['link'],
+                    'category' => $logo_data['category'],
+                    'title' => $logo_data['title'] ?? '',
+                    'migrated' => true
+                );
+            }
+        }
+    }
+    
+    // If no logos found, return empty
+    if (empty($logos)) {
+        return '';
+    }
+    
+    // Build block attributes - only include what the block actually supports
+    $block_attributes = array(
+        'logos' => $logos
+    );
+    
+    // Create block markup
+    $block_markup = '<!-- wp:fau/logo-grid ' . json_encode($block_attributes) . ' -->';
+    $block_markup .= '<div class="fau-logo-grid">';
+    $block_markup .= '<div class="fau-logo-grid__container">';
+    
+    foreach ($logos as $logo) {
+        if (empty($logo['imageUrl'])) {
+            continue;
+        }
+        
+        $block_markup .= '<div class="fau-logo-grid__item">';
+        
+        if (!empty($logo['link'])) {
+            $block_markup .= '<a href="' . esc_url($logo['link']) . '" class="fau-logo-grid__link">';
+        }
+        
+        $block_markup .= '<img src="' . esc_url($logo['imageUrl']) . '" alt="" class="fau-logo-grid__image" loading="lazy" />';
+        
+        if (!empty($logo['link'])) {
+            $block_markup .= '</a>';
+        }
+        
+        $block_markup .= '</div>';
+    }
+    
+    $block_markup .= '</div>';
+    $block_markup .= '</div>';
+    $block_markup .= '<!-- /wp:fau/logo-grid -->';
+    
+    return $block_markup;
+} 
