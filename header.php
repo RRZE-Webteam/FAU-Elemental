@@ -19,45 +19,18 @@
 
 <div id="page" class="site">
     <header id="masthead" class="site-header">
-        <div class="site-branding">
-            <?php if (has_custom_logo()) : ?>
-                <div class="site-logo">
-                    <?php the_custom_logo(); ?>
-                </div>
-            <?php endif; ?>
-            
-            <div class="site-identity">
-                <?php if (is_front_page() && is_home()) : ?>
-                    <h1 class="site-title">
-                        <a href="<?php echo esc_url(home_url('/')); ?>" rel="home">
-                            <?php bloginfo('name'); ?>
-                        </a>
-                    </h1>
-                <?php else : ?>
-                    <p class="site-title">
-                        <a href="<?php echo esc_url(home_url('/')); ?>" rel="home">
-                            <?php bloginfo('name'); ?>
-                        </a>
-                    </p>
-                <?php endif; ?>
-                
-                <?php $description = get_bloginfo('description', 'display'); ?>
-                <?php if ($description || is_customize_preview()) : ?>
-                    <p class="site-description"><?php echo $description; ?></p>
-                <?php endif; ?>
-            </div>
-        </div>
-
         <nav id="site-navigation" class="main-navigation">
-            <button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false">
-                <?php esc_html_e('Primary Menu', 'fau-elemental'); ?>
-            </button>
-            <?php
-            wp_nav_menu(array(
-                'theme_location' => 'menu-1',
-                'menu_id' => 'primary-menu',
-            ));
-            ?>
+            <!-- Top Navigation -->
+            <div class="site-header__top">
+                <div class="site-header-top__wrapper">
+                    <?php get_template_part('components/template-parts/navigation/fau-navigation'); ?>
+                </div>
+            </div>
+
+            <!-- Main Navigation -->
+            <div class="site-header__main">
+                <?php get_template_part('components/template-parts/navigation/main-navigation'); ?>
+            </div>
         </nav>
     </header>
 

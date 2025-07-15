@@ -38,7 +38,7 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
     $output .= '<div class="teaser-image-wrapper">';
     $output .= '<div class="teaser-image">';
     $output .= sprintf(
-        '<img src="%s" alt="%s" loading="lazy" />',
+        '<img src="%s" alt="%s" loading="lazy">',
         esc_url($image),
         esc_attr($title)
     );

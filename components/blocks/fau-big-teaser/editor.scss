@@ -1,0 +1,61 @@
+/**
+ * Feature Teaser Block Editor Styles
+ * Editor-specific styles for the Gutenberg editor
+ */
+
+// Editor preview layout to match frontend
+
+@use "../../ui/mixins/mixins" as *;
+
+.fau-big-teaser-editor-preview {
+	box-sizing: content-box;
+	display: flex;
+	gap: var(--Spacing-10x);
+	margin: 0 auto;
+	margin-right: auto;
+	margin-left: auto;
+	max-width: var(--wide-max-width);
+	padding: var(--Spacing-8x) var(--Spacing-10x);
+
+	.fau-big-teaser__content {
+
+		h3 {
+			min-width: calc(100% + 5.5rem) !important; // Override WP inline style
+		}
+
+		.wp-block-button__link {
+			width: auto;
+		}
+	}
+}
+
+// Dark Mode
+.is-style-dark {
+
+	.fau-big-teaser-editor-preview .fau-big-teaser__content h3 {
+		background-color: var(--FAU-Col-FAU-Blau-100);
+	}
+}
+
+// Responsive
+@media screen and (max-width: 899px) {
+
+	.fau-big-teaser-editor-preview {
+		flex-direction: column-reverse;
+		gap: unset;
+
+		.fau-big-teaser__content {
+
+			h3 {
+				min-width: unset !important;
+			}
+		}
+	}
+}
+
+@include respond-to("x-small") {
+
+	.fau-big-teaser-editor-preview {
+		padding: unset;
+	}
+}

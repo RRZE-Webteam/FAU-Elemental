@@ -7,9 +7,7 @@
  */
 
 // Ensure the shared rendering function is available
-if (!function_exists('render_big_button_teaser_group_html')) {
-    require_once get_theme_file_path('components/blocks/fau-big-button-teaser-group/render.php');
-}
+require_once get_template_directory() . '/components/blocks/fau-big-button/big-button.php';
 
 /**
  * Render footer target groups with big button styling
@@ -31,6 +29,7 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
                 'title' => $group['title'],
                 'excerpt' => $group['description'],
                 'url' => !empty($group['link']) ? $group['link'] : '#'
+                // No faculty_color set - will always use FAU blue colors
             ];
         }
     }
@@ -38,9 +37,10 @@ function render_footer_target_groups($target_groups = [], $variant = 'outline', 
     $options = [
         'variant' => $variant,
         'teaser_size' => $size,
-        'faculty_color' => 'default',
+        'force_fau_colors' => true,       
         'max_items' => count($items)
     ];
 
-    return render_big_button_teaser_group_html($items, $options);
+    // Use the shared rendering function
+    return render_big_button_html($items, $options);
 } 

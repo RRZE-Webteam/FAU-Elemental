@@ -7,24 +7,25 @@
  */
 ?>
 
-<div class="hero-page">
+<section class="hero-page" role="region" aria-label="<?php esc_attr_e('Page Hero', 'fau-elemental'); ?>">
 
-  <div class="faue-featured-image">
-    <?php if (has_post_thumbnail()) : ?>
+  <?php if (has_post_thumbnail()) : ?>
+    <div class="faue-featured-image">
       <?php
       $featured_img_id = get_post_thumbnail_id();
-      $featured_img_src = wp_get_attachment_image_src($featured_img_id, 'full');
       $featured_img_alt = get_post_meta($featured_img_id, '_wp_attachment_image_alt', true);
-      $featured_img_srcset = wp_get_attachment_image_srcset($featured_img_id, 'full');
-      $featured_img_sizes = wp_get_attachment_image_sizes($featured_img_id, 'full');
+      $alt = $featured_img_alt ?: get_the_title();
       ?>
-      <img width="<?php echo $featured_img_src[1]; ?>" height="<?php echo $featured_img_src[2]; ?>" src="<?php echo esc_url($featured_img_src[0]); ?>" class="wp-block-cover__image-background wp-post-image" alt="<?php echo esc_attr($featured_img_alt); ?>" data-object-fit="cover" decoding="async" fetchpriority="high" <?php if ($featured_img_srcset) : ?> srcset="<?php echo esc_attr($featured_img_srcset); ?>" <?php endif; ?><?php if ($featured_img_sizes) : ?> sizes="<?php echo esc_attr($featured_img_sizes); ?>" <?php endif; ?>>
-    <?php endif; ?>
-  </div>
+      <?php echo wp_get_attachment_image($featured_img_id, 'full', false, [
+        'alt' => $alt,
+        'sizes' => '(max-width: 393px) 100vw, (max-width: 1199px) 90vw, 1320px'
+      ]); ?>
+    </div>
+  <?php endif; ?>
 
 
-  <div class="wp-block-group alignfull is-layout-flow wp-block-group-is-layout-flow">
+  <div>
     <h1 class="wp-block-post-title"><?php the_title(); ?></h1>
   </div>
 
-</div>
+</section>

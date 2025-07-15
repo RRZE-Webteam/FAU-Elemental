@@ -22,7 +22,6 @@ function fau_elemental_register_blocks() {
     foreach ($block_folders as $block_folder) {
         $block_json = json_decode(file_get_contents($block_folder . '/block.json'), true);
         register_block_type($block_folder, $block_json);
-
     }
 }
 add_action('init', 'fau_elemental_register_blocks');

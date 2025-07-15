@@ -3,7 +3,7 @@
     <!-- wp:cover {"url":"<?php echo esc_url(get_theme_file_uri('assets/images/hero-faculty.jpg')); ?>","id":99,"dimRatio":50,"customOverlayColor":"#537f89","isUserOverlayColor":false,"layout":{"type":"constrained"}} -->
     <div class="wp-block-cover">
         <span aria-hidden="true" class="wp-block-cover__background has-background-dim" style="background-color:#537f89"></span>
-        <img class="wp-block-cover__image-background wp-image-99" alt="" src="<?php echo esc_url(get_theme_file_uri('assets/images/hero-faculty.jpg')); ?>" data-object-fit="cover" />
+        <img class="wp-block-cover__image-background wp-image-99" alt="" src="<?php echo esc_url(get_theme_file_uri('assets/images/hero-faculty.jpg')); ?>" data-object-fit="cover">
         <div class="wp-block-cover__inner-container">
             <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|small","bottom":"var:preset|spacing|small","left":"var:preset|spacing|small"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"left"}} -->
             <div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--small);padding-bottom:var(--wp--preset--spacing--small);padding-left:var(--wp--preset--spacing--small)">

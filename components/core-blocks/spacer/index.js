@@ -44,8 +44,7 @@ addFilter(
 			return settings;
 		}
 
-		// Set default height to 1rem (16px) - index 4 in our spacing values
-		const defaultSpacing = SPACING_VALUES[ 4 ]; // 1rem
+		const defaultSpacing = SPACING_VALUES[ 6 ]; // 1rem
 		const defaultHeight = remToPx( defaultSpacing.value );
 
 		return {
@@ -111,6 +110,8 @@ addFilter(
 										'Select from predefined spacing values',
 										'fau-elemental'
 									) }
+									__next40pxDefaultSize={ true }
+									__nextHasNoMarginBottom={ true }
 								/>
 								<div
 									style={ {

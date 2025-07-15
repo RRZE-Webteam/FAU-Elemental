@@ -1,0 +1,491 @@
+@use "./style" as *;
+
+// Editor-specific styles for FAU Big Button Teaser Group
+
+.fau-big-button-teaser-group {
+	// Editor preview styles
+	.block-editor & {
+
+		// Make buttons non-interactive in editor
+		.fau-big-button-teaser-group__button-link {
+			pointer-events: none;
+			cursor: default;
+		}
+
+		// Show URL in editor for debugging
+		.fau-big-button-teaser-group__button-url {
+			display: block;
+			font-size: 0.75rem;
+			color: #666;
+			font-style: italic;
+			padding: 0.25rem 0;
+			border-top: 0.0625rem solid #eee;
+			margin-top: 0.5rem;
+		}
+
+		// Editor-specific hover effects (disabled)
+		.fau-big-button-teaser-group__button-content {
+			transition: none;
+		}
+
+		.fau-big-button-teaser-group__button-link:hover {
+			transform: none;
+			box-shadow: none;
+		}
+
+		// Button container positioning
+		&__button {
+			position: relative;
+			cursor: default;
+
+			&:hover {
+
+				.fau-big-button-teaser-group__inline-controls {
+					opacity: 1;
+				}
+			}
+
+			// Focus indicator for editor preview
+			&:focus-visible {
+				outline: 0.125rem solid #007cba;
+				outline-offset: 0.125rem;
+				border-radius: 0.125rem;
+			}
+		}
+
+		// Inline controls container
+		&__inline-controls {
+			position: absolute;
+			top: 0.5rem;
+			right: 0.5rem;
+			z-index: 15;
+			display: flex;
+			gap: 0.25rem;
+
+			.components-button {
+				background-color: rgba(255, 255, 255, 0.95);
+				border: 0.0625rem solid #ddd;
+				min-width: 1.5rem;
+				height: 1.5rem;
+				box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.1);
+
+				&:hover {
+					background-color: rgba(255, 255, 255, 1);
+					border-color: #999;
+				}
+			}
+		}
+
+		// Move buttons specific styling
+		&__move-up,
+		&__move-down {
+			background-color: rgba(255, 255, 255, 0.9);
+			border: 0.0625rem solid #ddd;
+		}
+
+		// Add button styling
+		&__add-button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 0.125rem dashed #ddd;
+			border-radius: 0.25rem;
+			background-color: #f9f9f9;
+
+			&--small {
+				min-height: 7.5rem;
+			}
+
+			&--large {
+				min-height: 7.5rem;
+			}
+
+
+		}
+
+		// URL preview styling
+		&__url-preview {
+			margin-top: 0.5rem;
+			font-size: 0.75rem;
+			opacity: 0.7;
+
+			strong {
+				font-weight: 600;
+			}
+		}
+
+		// RichText editing states
+		.rich-text {
+			cursor: text;
+
+			&:focus,
+			&.is-selected {
+				outline: 0.0625rem solid #007cba;
+				outline-offset: 0.0625rem;
+			}
+		}
+	}
+
+	// Selected state in editor
+	.block-editor &.is-selected {
+		border-color: #007cba;
+		box-shadow: 0 0 0 0.0625rem #007cba;
+
+		&::before {
+			color: #007cba;
+		}
+	}
+}
+
+// Individual button faculty colors for faculty showcase mode in editor
+.block-editor .fau-big-button-teaser-group.fau-big-button-teaser-group--faculty-showcase {
+
+	.fau-big-button-teaser-group__buttons {
+
+		// Individual button faculty colors
+		@each $faculty, $color in (
+			"fau": var(--FAU-Col-FAU-Blau-100),
+			"phil": var(--FAU-Col-Phil-Gelb-100),
+			"nat": var(--FAU-Col-Nat-Gruen-100),
+			"med": var(--FAU-Col-Med-Blau-100),
+			"rw": var(--FAU-Col-RW-Rot-100),
+			"tf": var(--FAU-Col-TF-Metallic-100)
+		) {
+			.fau-big-button-teaser-group__button--#{$faculty} a {
+				background-color: $color;
+
+				h3 {
+					color: var(--FAU-Col-FAU-Blau-100);
+				}
+
+				p {
+					color: var(--FAU-Col-FAU-Schwarz-90);
+				}
+
+				.arrow-link {
+					background-color: var(--FAU-Col-FAU-Weiss-100);
+
+					&::before {
+						background-image: var(--icon-arrow-fau-blau);
+					}
+				}
+			}
+		}
+
+		// Special handling for FAU faculty buttons
+		.fau-big-button-teaser-group__button--fau a {
+
+			h3,
+			p {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+
+			.arrow-link {
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+				right: 0;
+
+				&::before {
+					background-image: var(--icon-arrow-fau-blau);
+				}
+			}
+		}
+
+		// Special handling for RW faculty buttons
+		.fau-big-button-teaser-group__button--rw a {
+
+			h3,
+			p {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+
+			.arrow-link {
+				background-color: var(--FAU-Col-FAU-Blau-100);
+				right: 0;
+
+				&::before {
+					background-image: var(--icon-arrow-weiss);
+				}
+			}
+		}
+	}
+
+	// Outline variation for individual buttons in editor
+	&.fau-big-button-teaser-group--outline {
+
+		.fau-big-button-teaser-group__buttons {
+
+			@each $faculty, $color in (
+				"fau": var(--FAU-Col-FAU-Blau-100),
+				"phil": var(--FAU-Col-Phil-Gelb-100),
+				"nat": var(--FAU-Col-Nat-Gruen-100),
+				"med": var(--FAU-Col-Med-Blau-100),
+				"rw": var(--FAU-Col-RW-Rot-100),
+				"tf": var(--FAU-Col-TF-Metallic-100)
+			) {
+				.fau-big-button-teaser-group__button--#{$faculty} a {
+					background-color: var(--FAU-Col-FAU-Weiss-100);
+					border: 0.0625rem solid $color;
+
+					h3 {
+						color: var(--FAU-Col-FAU-Blau-100);
+					}
+
+					p {
+						color: var(--FAU-Col-FAU-Schwarz-90);
+					}
+
+					.arrow-link {
+						background-color: $color;
+
+						&::before {
+							background-image: var(--icon-arrow-fau-blau);
+						}
+					}
+				}
+			}
+
+			// Special handling for FAU faculty outline buttons
+			.fau-big-button-teaser-group__button--fau a {
+
+				.arrow-link {
+					right: -0.0625rem;
+
+					&::before {
+						background-image: var(--icon-arrow-weiss);
+					}
+				}
+			}
+
+			// Special handling for RW faculty outline buttons
+			.fau-big-button-teaser-group__button--rw a {
+
+				.arrow-link {
+					right: -0.0625rem;
+
+					&::before {
+						background-image: var(--icon-arrow-weiss);
+					}
+				}
+			}
+		}
+	}
+
+	// Dark mode for individual faculty buttons in editor
+	&.is-style-dark {
+
+		.fau-big-button-teaser-group__buttons {
+
+			@each $faculty, $color in (
+				"fau": var(--FAU-Col-FAU-Blau-100),
+				"phil": var(--FAU-Col-Phil-Gelb-100),
+				"nat": var(--FAU-Col-Nat-Gruen-100),
+				"med": var(--FAU-Col-Med-Blau-100),
+				"rw": var(--FAU-Col-RW-Rot-100),
+				"tf": var(--FAU-Col-TF-Metallic-100)
+			) {
+				.fau-big-button-teaser-group__button--#{$faculty} a {
+					border: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
+
+					h3,
+					p {
+						color: var(--FAU-Col-FAU-Weiss-100);
+					}
+				}
+			}
+		}
+
+		// Outline variation for dark mode in editor
+		&.fau-big-button-teaser-group--outline {
+
+			.fau-big-button-teaser-group__buttons {
+
+				@each $faculty, $color in (
+					"fau": var(--FAU-Col-FAU-Blau-100),
+					"phil": var(--FAU-Col-Phil-Gelb-100),
+					"nat": var(--FAU-Col-Nat-Gruen-100),
+					"med": var(--FAU-Col-Med-Blau-100),
+					"rw": var(--FAU-Col-RW-Rot-100),
+					"tf": var(--FAU-Col-TF-Metallic-100)
+				) {
+					.fau-big-button-teaser-group__button--#{$faculty} a {
+						background-color: $color;
+						border: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
+
+						h3,
+						p {
+							color: var(--FAU-Col-FAU-Weiss-100);
+						}
+
+						.arrow-link {
+							background-color: var(--FAU-Col-FAU-Weiss-100);
+
+							&::before {
+								background-image: var(--icon-arrow-fau-blau);
+							}
+						}
+					}
+				}
+
+				// Special handling for FAU faculty in dark mode outline
+				.fau-big-button-teaser-group__button--fau a {
+
+					h3,
+					p {
+						color: var(--FAU-Col-FAU-Weiss-100);
+					}
+
+					.arrow-link {
+						background-color: var(--FAU-Col-FAU-Weiss-100);
+						right: -0.0625rem;
+
+						&::before {
+							background-image: var(--icon-arrow-fau-blau);
+						}
+					}
+				}
+
+				// Special handling for RW faculty in dark mode outline
+				.fau-big-button-teaser-group__button--rw a {
+
+					h3,
+					p {
+						color: var(--FAU-Col-FAU-Weiss-100);
+					}
+
+					.arrow-link {
+						background-color: var(--FAU-Col-FAU-Weiss-100);
+						right: -0.0625rem;
+
+						&::before {
+							background-image: var(--icon-arrow-fau-blau);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// Editor-specific styles for placeholder buttons
+.fau-big-button-teaser-group__button--placeholder {
+	opacity: 0.6;
+	border: 0.125rem dashed #ddd;
+
+	.fau-big-button-teaser-group__button-content {
+		text-align: center;
+		padding: 2rem;
+	}
+
+	.fau-big-button-teaser-group__button-title {
+		color: #666;
+		font-style: italic;
+	}
+
+	.fau-big-button-teaser-group__button-text {
+		color: #888;
+		font-size: 0.875rem;
+	}
+}
+
+// Editor-specific styles for selected pages list
+.selected-pages-list {
+	margin-top: 1rem;
+
+	.selected-page-item {
+		background: #f8f9fa;
+		border-radius: 0.375rem;
+
+		&:hover {
+			background: #f0f1f2;
+		}
+	}
+}
+
+.fau-big-button-faculty-info {
+	font-style: italic;
+	color: #666;
+	font-size: 0.75rem;
+}
+
+.fau-big-button-empty-info {
+	font-style: italic;
+	color: #666;
+}
+
+.fau-big-button-title-placeholder {
+	color: #999;
+}
+
+.fau-big-button-text-placeholder {
+	color: #999;
+}
+
+// Sidebar controls styling
+.fau-big-button-sidebar-add-button {
+	margin-bottom: 1rem;
+}
+
+.fau-big-button-sidebar-controls {
+	margin-bottom: 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	.components-button-group {
+		margin-right: 0.5rem;
+	}
+
+	button {
+		border: 0.0625rem solid;
+	}
+}
+
+// Validation and feedback styling
+.fau-big-button-validation-notice {
+	background-color: #fff3cd;
+	border: 0.0625rem solid #ffeaa7;
+	border-radius: 0.25rem;
+	padding: 0.75rem;
+	margin-top: 0.5rem;
+
+	p {
+		margin: 0 0 0.5rem 0;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	ul {
+		margin: 0.5rem 0;
+		padding-left: 1rem;
+
+		li {
+			color: #856404;
+			margin-bottom: 0.25rem;
+		}
+	}
+
+	em {
+		color: #6c757d;
+		font-size: 0.875rem;
+	}
+}
+
+// Incomplete item styling in preview
+
+.fau-big-button-incomplete-notice {
+	background-color: rgba(255, 193, 7, 0.1);
+	border: 0.0625rem solid #ffc107;
+	border-radius: 0.25rem;
+	padding: 0.5rem;
+	margin-top: 0.5rem;
+	text-align: center;
+	font-size: 0.875rem;
+	color: #cc9e1a;
+
+	strong {
+		display: block;
+		margin-bottom: 0.25rem;
+	}
+}

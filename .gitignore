@@ -60,5 +60,11 @@ launch.json
 .intelephense/
 .vscode/
 
+# Cursor IDE files
+.cursor/
+.cursorrules
+cursor.rules
+.cursor-tutor/
+
 # Ignore build directory
 build/

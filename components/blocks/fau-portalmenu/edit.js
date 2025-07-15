@@ -8,7 +8,6 @@ import {
 	PanelBody,
 	SelectControl,
 	ToggleControl,
-	RadioControl,
 	Placeholder,
 } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
@@ -40,20 +39,10 @@ export default function Edit( { attributes, setAttributes } ) {
 		...menus,
 	];
 
-	// Add type options
-	const typeOptions = [
-		{ label: __( 'Type 1 (2:1 Ratio)', 'fau-elemental' ), value: '1' },
-		{ label: __( 'Type 2 (3:2 Ratio)', 'fau-elemental' ), value: '2' },
-		{ label: __( 'Type 3 (3:4 Ratio)', 'fau-elemental' ), value: '3' },
-	];
-
 	// Get the currently selected menu name for display
 	const selectedMenu = menus.find(
 		( menu ) => menu.value === attributes.menuId
 	);
-	const selectedMenuName = selectedMenu
-		? selectedMenu.label
-		: attributes.menuId;
 
 	// Effect to store menu name when menuId changes
 	useEffect( () => {
@@ -75,39 +64,27 @@ export default function Edit( { attributes, setAttributes } ) {
 						value={ attributes.menuId }
 						options={ menuOptions }
 						onChange={ ( menuId ) => setAttributes( { menuId } ) }
+						help={ __(
+							'Select the navigation menu to display as portal menu.',
+							'fau-elemental'
+						) }
 					/>
+				</PanelBody>
 
-					<RadioControl
-						label={ __( 'Display Type', 'fau-elemental' ) }
-						selected={ attributes.type?.toString() || '1' }
-						options={ typeOptions }
-						onChange={ ( type ) =>
-							setAttributes( { type: parseInt( type ) } )
-						}
-					/>
-
+				<PanelBody
+					title={ __( 'Display Options', 'fau-elemental' ) }
+					initialOpen={ false }
+				>
 					<ToggleControl
 						label={ __( 'Show Submenus', 'fau-elemental' ) }
 						checked={ attributes.showSubs !== false }
 						onChange={ ( showSubs ) =>
 							setAttributes( { showSubs } )
 						}
-					/>
-
-					<ToggleControl
-						label={ __( 'Mega Navigation', 'fau-elemental' ) }
-						checked={ !! attributes.isMegaNav }
-						onChange={ ( isMegaNav ) =>
-							setAttributes( { isMegaNav } )
-						}
-					/>
-
-					<ToggleControl
-						label={ __( 'List View', 'fau-elemental' ) }
-						checked={ !! attributes.listView }
-						onChange={ ( listView ) =>
-							setAttributes( { listView } )
-						}
+						help={ __(
+							'Display submenu items below each main menu item.',
+							'fau-elemental'
+						) }
 					/>
 
 					<ToggleControl
@@ -116,30 +93,20 @@ export default function Edit( { attributes, setAttributes } ) {
 						onChange={ ( noThumbs ) =>
 							setAttributes( { noThumbs } )
 						}
+						help={ __(
+							'Hide thumbnail images for all menu items.',
+							'fau-elemental'
+						) }
 					/>
 
 					<ToggleControl
-						label={ __( 'No Fallback Images', 'fau-elemental' ) }
-						checked={ !! attributes.noFallback }
-						onChange={ ( noFallback ) =>
-							setAttributes( { noFallback } )
-						}
-					/>
-
-					<ToggleControl
-						label={ __( 'Hover Zoom Effect', 'fau-elemental' ) }
-						checked={ !! attributes.hoverZoom }
-						onChange={ ( hoverZoom ) =>
-							setAttributes( { hoverZoom } )
-						}
-					/>
-
-					<ToggleControl
-						label={ __( 'Hover Blur Effect', 'fau-elemental' ) }
-						checked={ !! attributes.hoverBlur }
-						onChange={ ( hoverBlur ) =>
-							setAttributes( { hoverBlur } )
-						}
+						label={ __( 'Dark Style', 'fau-elemental' ) }
+						checked={ !! attributes.isDark }
+						onChange={ ( isDark ) => setAttributes( { isDark } ) }
+						help={ __(
+							'Use dark background styling for the portal menu.',
+							'fau-elemental'
+						) }
 					/>
 				</PanelBody>
 			</Panel>
@@ -153,17 +120,15 @@ export default function Edit( { attributes, setAttributes } ) {
 
 			<div { ...blockProps }>
 				{ attributes.menuId ? (
-					<EditorPreview
-						attributes={ attributes }
-						selectedMenuName={ selectedMenuName }
-					/>
+					<EditorPreview attributes={ attributes } />
 				) : (
 					<Placeholder
 						label={ __( 'FAU Portal Menu', 'fau-elemental' ) }
 						instructions={ __(
-							'Please select a menu in the block settings panel.',
+							'Please select a menu in the block settings panel to display as a portal menu.',
 							'fau-elemental'
 						) }
+						icon="menu"
 					/>
 				) }
 			</div>
