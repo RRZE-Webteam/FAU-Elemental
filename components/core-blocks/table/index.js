@@ -51,14 +51,9 @@ addFilter(
 			},
 			save: ( props ) => {
 				const { attributes } = props;
-				const blockProps = wp.blockEditor.useBlockProps.save( {
-					className: 'wp-block-table-wrapper',
-				} );
 
-				// Get the original saved content
 				const originalSaveElement = originalGetSaveElement( props );
 
-				// Add footer-active class if footer exists
 				if ( attributes.foot && attributes.foot.length > 0 ) {
 					// Need to clone the original element to modify it
 					const modifiedElement = {
@@ -71,10 +66,18 @@ addFilter(
 						},
 					};
 
-					return <div { ...blockProps }>{ modifiedElement }</div>;
+					return (
+						<div className="wp-block-table-wrapper">
+							{ modifiedElement }
+						</div>
+					);
 				}
 
-				return <div { ...blockProps }>{ originalSaveElement }</div>;
+				return (
+					<div className="wp-block-table-wrapper">
+						{ originalSaveElement }
+					</div>
+				);
 			},
 		};
 	}
