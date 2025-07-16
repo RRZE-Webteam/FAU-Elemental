@@ -509,8 +509,95 @@ function fau_customizer_settings($wp_customize) {
             return get_theme_mod('faue_show_post_meta', true);
         },
     ));
+
+    // Add Pagination Settings Section
+    $wp_customize->add_section('faue_pagination_settings', array(
+        'title'    => esc_html__('Pagination Settings', 'fau-elemental'),
+        'priority' => 130,
+    ));
+
+    // Pagination Type Setting
+    $wp_customize->add_setting('faue_pagination_type', array(
+        'default'           => 'numbers',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'faue_sanitize_pagination_type',
+    ));
+
+    $wp_customize->add_control('faue_pagination_type', array(
+        'label'       => esc_html__('Pagination Type', 'fau-elemental'),
+        'section'     => 'faue_pagination_settings',
+        'type'        => 'select',
+        'choices'     => array(
+            'numbers'   => esc_html__('Page Numbers', 'fau-elemental'),
+            'load-more' => esc_html__('Load More Button', 'fau-elemental'),
+        ),
+        'description' => esc_html__('Choose how pagination is displayed on archive pages and teaser grids.', 'fau-elemental'),
+    ));
+
+    // Items Per Page Setting
+    $wp_customize->add_setting('faue_items_per_page', array(
+        'default'           => 6,
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'faue_sanitize_items_per_page',
+    ));
+
+    $wp_customize->add_control('faue_items_per_page', array(
+        'label'       => esc_html__('Items Per Page', 'fau-elemental'),
+        'section'     => 'faue_pagination_settings',
+        'type'        => 'number',
+        'description' => esc_html__('Number of items to display per page in archive pages and teaser grids.', 'fau-elemental'),
+        'input_attrs' => array(
+            'min'  => 1,
+            'max'  => 50,
+            'step' => 1,
+        ),
+    ));
 }
 add_action('customize_register', 'fau_customizer_settings');
+
+/**
+ * Sanitize pagination type input
+ */
+function faue_sanitize_pagination_type($input) {
+    $valid_types = array('numbers', 'load-more');
+    
+    if (!in_array($input, $valid_types)) {
+        return 'numbers';
+    }
+    
+    return $input;
+}
+
+/**
+ * Sanitize items per page input
+ */
+function faue_sanitize_items_per_page($input) {
+    $input = intval($input);
+    
+    if ($input < 1) {
+        return 6;
+    }
+    
+    if ($input > 50) {
+        return 50;
+    }
+    
+    return $input;
+}
+
+/**
+ * Get theme pagination settings
+ */
+function faue_get_pagination_type() {
+    return get_theme_mod('faue_pagination_type', 'numbers');
+}
+
+/**
+ * Get theme items per page setting
+ */
+function faue_get_items_per_page() {
+    return get_theme_mod('faue_items_per_page', 6);
+}
 
 /**
  * Migrate address information from old theme (FAU-Einrichtungen) to new theme (FAU-Elemental)
