@@ -16,7 +16,7 @@ add_action('template_redirect', function() {
     $current_page = max(1, get_query_var('paged', 1));
     
     // Calculate total pages for validation
-    $posts_per_page = 6;
+    $posts_per_page = faue_get_items_per_page();
     $query_args = [
         'post_type' => 'post',
         'post_status' => 'publish',
@@ -70,25 +70,17 @@ if (is_home() && is_front_page()) {
         ?>
 
         <?php
-        // Generate unique block IDs for front page posts
-        $grid_block_id = 'fau-teaser-grid-front-page';
-        $pagination_block_id = 'fau-pagination-front-page';
-        
         // Get pagination variables (validation already handled in template_redirect)
         $current_page = max(1, get_query_var('paged', 1));
+        $pagination_type = faue_get_pagination_type();
+        $items_per_page = faue_get_items_per_page();
         ?>
 
         <section class="content-grid" aria-label="<?php esc_attr_e('Posts listing', 'fau-elemental'); ?>">
             <?php
-            echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":6,"orderBy":"date","order":"DESC","headingLevel":"h2","showLoadMore":false,"showPagination":true,"currentPage":' . $current_page . ',"customBlockId":"' . $grid_block_id . '","paginationBlockId":"' . $pagination_block_id . '"} /-->');
+            echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":' . $items_per_page . ',"orderBy":"date","order":"DESC","headingLevel":"h2","showPagination":true,"paginationType":"' . $pagination_type . '","currentPage":' . $current_page . '} /-->');
             ?>
         </section>
-
-        <nav class="content-pagination" aria-label="<?php esc_attr_e('Posts pagination', 'fau-elemental'); ?>">
-            <?php
-            echo do_blocks('<!-- wp:fau-elemental/fau-pagination {"variant":"basic","currentPage":' . $current_page . ',"totalPages":' . $total_pages . ',"customBlockId":"' . $pagination_block_id . '","gridBlockId":"' . $grid_block_id . '"} /-->');
-            ?>
-        </nav>
     </main>
     <?php
 } else {

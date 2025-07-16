@@ -15,7 +15,7 @@ add_action('template_redirect', function() {
     $current_page = max(1, get_query_var('paged', 1));
     
     // Calculate total pages for validation
-    $posts_per_page = 6;
+    $posts_per_page = faue_get_items_per_page();
     $query_args = [
         'post_type' => 'post',
         'post_status' => 'publish',
@@ -110,35 +110,12 @@ get_header(); ?>
         </div>
     <?php endif; ?>
 
-    <section class="content-filters" aria-label="<?php esc_attr_e('Filter and search options', 'fau-elemental'); ?>">
-        <?php
-        // Generate unique block IDs based on archive type
-        $archive_type = '';
-        if (is_category()) {
-            $archive_type = 'category-' . get_queried_object_id();
-        } elseif (is_tag()) {
-            $archive_type = 'tag-' . get_queried_object_id();
-        } elseif (is_author()) {
-            $archive_type = 'author-' . get_queried_object_id();
-        } elseif (is_date()) {
-            if (is_year()) {
-                $archive_type = 'year-' . get_query_var('year');
-            } elseif (is_month()) {
-                $archive_type = 'month-' . get_query_var('year') . '-' . get_query_var('monthnum');
-            } elseif (is_day()) {
-                $archive_type = 'day-' . get_query_var('year') . '-' . get_query_var('monthnum') . '-' . get_query_var('day');
-            }
-        } else {
-            $archive_type = 'general-archive';
-        }
-        
-        $grid_block_id = 'fau-teaser-grid-archive-' . $archive_type;
-        $pagination_block_id = 'fau-pagination-archive-' . $archive_type;
-        
-        // Get pagination variables (validation already handled in template_redirect)
-        $current_page = max(1, get_query_var('paged', 1));
-        ?>
-    </section>
+    <?php
+    // Get pagination variables (validation already handled in template_redirect)
+    $current_page = max(1, get_query_var('paged', 1));
+    $pagination_type = faue_get_pagination_type();
+    $items_per_page = faue_get_items_per_page();
+    ?>
 
     <section class="content-grid" aria-label="<?php esc_attr_e('Posts listing', 'fau-elemental'); ?>">
         <?php
@@ -152,15 +129,9 @@ get_header(); ?>
             $filter_params = ',"selectedAuthor":' . get_queried_object_id();
         }
         
-        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":6,"orderBy":"date","order":"DESC","headingLevel":"h2","showLoadMore":false,"showPagination":true,"currentPage":' . $current_page . ',"customBlockId":"' . $grid_block_id . '","paginationBlockId":"' . $pagination_block_id . '"' . $filter_params . '} /-->');
+        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":' . $items_per_page . ',"orderBy":"date","order":"DESC","headingLevel":"h2","showPagination":true,"paginationType":"' . $pagination_type . '","currentPage":' . $current_page . $filter_params . '} /-->');
         ?>
     </section>
-
-    <nav class="content-pagination" aria-label="<?php esc_attr_e('Posts pagination', 'fau-elemental'); ?>">
-        <?php
-        echo do_blocks('<!-- wp:fau-elemental/fau-pagination {"variant":"basic","currentPage":' . $current_page . ',"totalPages":' . $total_pages . ',"customBlockId":"' . $pagination_block_id . '","gridBlockId":"' . $grid_block_id . '"} /-->');
-        ?>
-    </nav>
 </main>
 
 <?php get_footer(); ?>

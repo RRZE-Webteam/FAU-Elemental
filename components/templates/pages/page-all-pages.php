@@ -15,7 +15,7 @@ add_action('template_redirect', function() {
     $current_page = max(1, get_query_var('paged', 1));
     
     // Calculate total pages for validation
-    $posts_per_page = 6;
+    $posts_per_page = faue_get_items_per_page();
     $count_query = new WP_Query([
         'post_type' => 'page',
         'post_status' => 'publish',
@@ -50,24 +50,17 @@ get_header(); ?>
     <?php endwhile; endif; ?>
 
     <?php
-    $grid_block_id = 'fau-teaser-grid-all-pages-page';
-    $pagination_block_id = 'fau-pagination-all-pages-page';
-    
     // Get pagination variables (validation already handled in template_redirect)
     $current_page = max(1, get_query_var('paged', 1));
+    $pagination_type = faue_get_pagination_type();
+    $items_per_page = faue_get_items_per_page();
     ?>
 
     <section class="content-grid" aria-label="<?php esc_attr_e('Pages listing', 'fau-elemental'); ?>">
         <?php
-        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"page","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":6,"selectedCategory":0,"orderBy":"title","order":"ASC","headingLevel":"h2","showLoadMore":false,"showPagination":true,"currentPage":' . $current_page . ',"customBlockId":"' . $grid_block_id . '","paginationBlockId":"' . $pagination_block_id . '"} /-->');
+        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"page","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":' . $items_per_page . ',"selectedCategory":0,"orderBy":"title","order":"ASC","headingLevel":"h2","showPagination":true,"paginationType":"' . $pagination_type . '","currentPage":' . $current_page . '} /-->');
         ?>
     </section>
-
-    <nav class="content-pagination" aria-label="<?php esc_attr_e('Pages pagination', 'fau-elemental'); ?>">
-        <?php
-        echo do_blocks('<!-- wp:fau-elemental/fau-pagination {"variant":"basic","currentPage":' . $current_page . ',"totalPages":' . $total_pages . ',"customBlockId":"' . $pagination_block_id . '","gridBlockId":"' . $grid_block_id . '"} /-->');
-        ?>
-    </nav>
 </main>
 
 <?php get_footer(); ?> 
