@@ -94,6 +94,10 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
     public function end_el(&$output, $item, $depth = 0, $args = array()) {
         $indent = str_repeat("\t", $depth + 1);
 
+        if (!$this->settings['showsubs'] && $depth !== 0) {
+            return;
+        }
+
         if ($depth === 0) {
             // Parent item (top level)
             $output .= $indent . "\t</div></div>\n";
