@@ -155,13 +155,17 @@ function loadMorePosts( gridId, page, loadMoreBtn ) {
 			} else {
 				console.error( 'Error loading more posts:', data.data );
 				loadMoreBtn.disabled = false;
-				loadMoreBtn.textContent = 'Error loading posts';
+				loadMoreBtn.textContent =
+					fauTeaserGrid.strings?.errorLoadingPosts ||
+					'Error loading posts';
 			}
 		} )
 		.catch( ( error ) => {
 			console.error( 'AJAX error:', error );
 			loadMoreBtn.disabled = false;
-			loadMoreBtn.textContent = 'Error loading posts';
+			loadMoreBtn.textContent =
+				fauTeaserGrid.strings?.errorLoadingPosts ||
+				'Error loading posts';
 		} );
 }
 

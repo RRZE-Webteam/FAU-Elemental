@@ -182,6 +182,10 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
             wp_localize_script('fau-teaser-grid-view', 'fauTeaserGrid', [
                 'ajaxUrl' => admin_url('admin-ajax.php'),
                 'nonce' => wp_create_nonce('fau_load_more_nonce'),
+                'strings' => [
+                    'errorLoadingPosts' => __('Error loading posts', 'fau-elemental'),
+                    'loadingError' => __('Loading error', 'fau-elemental'),
+                ],
             ]);
         }
     }
