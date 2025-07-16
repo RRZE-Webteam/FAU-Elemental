@@ -58,7 +58,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 $thumbnail = false;
                 $thumbnail_id = get_post_thumbnail_id($item->object_id);
                 if ($thumbnail_id) {
-                    $img_src = wp_get_attachment_image_src($thumbnail_id, 'medium');
+                    $img_src = wp_get_attachment_image_src($thumbnail_id, 'medium_large');
                     $thumbnail = $img_src ? $img_src[0] : false;
                 }
 

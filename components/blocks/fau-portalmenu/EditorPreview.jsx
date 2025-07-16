@@ -54,7 +54,7 @@ const EditorPreview = ( { attributes } ) => {
 							media.media_details.sizes
 						) {
 							const imageSize =
-								media.media_details.sizes.medium ||
+								media.media_details.sizes.medium_large ||
 								media.media_details.sizes.full;
 							if ( imageSize ) {
 								featuredImageUrl = imageSize.source_url;
