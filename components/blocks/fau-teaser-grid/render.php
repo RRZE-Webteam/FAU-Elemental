@@ -35,7 +35,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     $order = $attributes['order'] ?? 'DESC';
     $heading_level = $attributes['headingLevel'] ?? 'h4';
     $show_load_more = $attributes['showLoadMore'] ?? false;
-    $filter_block_id = $attributes['filterBlockId'] ?? '';
+
     $pagination_block_id = $attributes['paginationBlockId'] ?? '';
     $custom_block_id = $attributes['customBlockId'] ?? '';
     
@@ -51,24 +51,16 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     // Generate unique ID for this grid instance, or use custom ID if provided
     $grid_id = !empty($custom_block_id) ? $custom_block_id : 'fau-teaser-grid-' . uniqid();
     
-    // Determine if we should use JavaScript-based pagination/filtering
-    $has_filter_integration = !empty($filter_block_id);
+    // Determine if we should use JavaScript-based pagination
     $has_pagination_integration = !empty($pagination_block_id);
     
-    // Also check if filter or pagination blocks exist on the same page/post
+    // Also check if pagination blocks exist on the same page/post
     // This helps when blocks are manually added in the editor
-    if (!$has_filter_integration || !$has_pagination_integration) {
+    if (!$has_pagination_integration) {
         global $post;
         if ($post && function_exists('has_blocks') && has_blocks($post->post_content)) { // phpcs:ignore
             $blocks = function_exists('parse_blocks') ? parse_blocks($post->post_content) : []; // phpcs:ignore
             foreach ($blocks as $block) {
-                if (!$has_filter_integration && $block['blockName'] === 'fau-elemental/fau-list-filters') {
-                    $has_filter_integration = true;
-                    // Try to get the filter block's ID if available
-                    if (empty($filter_block_id) && !empty($block['attrs']['customBlockId'])) {
-                        $filter_block_id = $block['attrs']['customBlockId'];
-                    }
-                }
                 if (!$has_pagination_integration && $block['blockName'] === 'fau-elemental/fau-pagination') {
                     $has_pagination_integration = true;
                     // Try to get the pagination block's ID if available
@@ -116,7 +108,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
         'data-show-load-more' => $show_load_more ? 'true' : 'false',
         'data-nonce' => wp_create_nonce('fau_load_more_nonce'),
         'data-filterable' => 'true',
-        'data-filter-block-id' => $filter_block_id,
+
         'data-pagination-block-id' => $pagination_block_id
     ]);
 
@@ -154,9 +146,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
             $custom_block_id = 'fau-teaser-grid-' . uniqid();
             $grid_id = $custom_block_id;
         }
-        if (empty($filter_block_id)) {
-            $filter_block_id = 'fau-list-filters-' . uniqid();
-        }
+
         if (empty($pagination_block_id)) {
             $pagination_block_id = 'fau-pagination-' . uniqid();
         }

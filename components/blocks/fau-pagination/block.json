@@ -44,11 +44,7 @@
 			"type": "string",
 			"default": ""
 		},
-		"gridBlockId": {
-			"type": "string",
-			"default": ""
-		},
-		"filterBlockId": {
+				"gridBlockId": {
 			"type": "string",
 			"default": ""
 		}

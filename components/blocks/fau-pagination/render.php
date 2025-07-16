@@ -29,7 +29,7 @@ function render_block_fau_pagination( $attributes, $content, $block ) {
         $base_url = $attributes['baseUrl'] ?? '';
         $page_param = $attributes['pageParam'] ?? 'paged';
         $grid_block_id = $attributes['gridBlockId'] ?? '';
-        $filter_block_id = $attributes['filterBlockId'] ?? '';
+
         $custom_block_id = $attributes['customBlockId'] ?? '';
 
         // Use custom block ID if provided, otherwise generate unique ID
@@ -48,7 +48,7 @@ function render_block_fau_pagination( $attributes, $content, $block ) {
             esc_attr($current_page),
             esc_attr($total_pages),
             esc_attr($grid_block_id),
-            esc_attr($filter_block_id)
+            ''
         );
 
         $output = sprintf('<div %s>', $wrapper_attributes);

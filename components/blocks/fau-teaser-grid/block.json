@@ -87,10 +87,7 @@
 			"type": "string",
 			"default": "h4"
 		},
-		"filterBlockId": {
-			"type": "string",
-			"default": ""
-		},
+
 		"customBlockId": {
 			"type": "string",
 			"default": ""

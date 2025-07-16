@@ -32,16 +32,7 @@ function initializePaginationBlock( paginationElement ) {
 		teaserGrid &&
 		teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
 
-	const filterBlockId = paginationElement.getAttribute(
-		'data-filter-block-id'
-	);
 
-	// If a filter block ID is present AND this is server-side pagination,
-	// do not initialize this script - the fau-list-filters view.js will handle it.
-	// But if this is JavaScript pagination, we need to initialize to listen for grid events.
-	if ( filterBlockId && ! isJsPagination ) {
-		return;
-	}
 
 	// Function to attach click handlers to pagination controls
 	function attachClickHandlers() {

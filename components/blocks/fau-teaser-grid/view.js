@@ -23,14 +23,7 @@ function initializeTeaserGrid( gridContainer ) {
 	const isJsPagination =
 		teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
 
-	const filterBlockId = gridContainer.getAttribute( 'data-filter-block-id' );
 
-	// If the grid is controlled by a filter block AND this is server-side pagination,
-	// do not initialize client-side JS - the filter block's view.js will handle all interactions.
-	// But if this is JavaScript pagination, we need to initialize to emit pagination events.
-	if ( filterBlockId && ! isJsPagination ) {
-		return;
-	}
 
 	if ( ! isJsPagination ) {
 		return; // This grid uses server-side pagination

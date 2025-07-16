@@ -65,7 +65,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		headingLevel,
 		showLoadMore,
 		customBlockId,
-		filterBlockId,
+
 		paginationBlockId,
 	} = attributes;
 
@@ -86,19 +86,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		const { getBlocks } = select( 'core/block-editor' );
 		const allBlocks = getBlocks();
 
-		// Find filter and pagination blocks
-		const filterBlock = allBlocks.find(
-			( block ) => block.name === 'fau-elemental/fau-list-filters'
-		);
+		// Find pagination blocks
 		const paginationBlock = allBlocks.find(
 			( block ) => block.name === 'fau-elemental/fau-pagination'
 		);
 
 		return {
 			nearbyBlocks: {
-				filter: filterBlock,
 				pagination: paginationBlock,
-				hasFilters: !! filterBlock,
 				hasPagination: !! paginationBlock,
 			},
 		};
@@ -106,9 +101,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	// Connection status indicator
 	const ConnectionIndicator = () => {
-		const { hasFilters, hasPagination } = nearbyBlocks;
+		const { hasPagination } = nearbyBlocks;
 
-		if ( ! hasFilters && ! hasPagination ) {
+		if ( ! hasPagination ) {
 			return null;
 		}
 
@@ -116,11 +111,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 		return (
 			<div className="teaser-grid-connections">
-				{ hasFilters && (
-					<span className="connection-badge connection-badge--filters">
-						✓ { __( 'Filters', 'fau-elemental' ) }
-					</span>
-				) }
 				{ hasPagination && totalPages > 1 && (
 					<span className="connection-badge connection-badge--pagination">
 						✓ { __( 'Pagination', 'fau-elemental' ) } (
@@ -141,15 +131,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		let hasChanges = false;
 		const updates = {};
 
-		if (
-			nearbyBlocks.filter &&
-			nearbyBlocks.filter.attributes.customBlockId &&
-			filterBlockId !== nearbyBlocks.filter.attributes.customBlockId
-		) {
-			updates.filterBlockId =
-				nearbyBlocks.filter.attributes.customBlockId;
-			hasChanges = true;
-		}
+
 
 		if (
 			nearbyBlocks.pagination &&
@@ -165,7 +147,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		if ( hasChanges ) {
 			setAttributes( updates );
 		}
-	}, [ nearbyBlocks, filterBlockId, paginationBlockId, setAttributes ] );
+	}, [ nearbyBlocks, paginationBlockId, setAttributes ] );
 
 	const gridRef = useRef( null );
 	const [ searchTerm, setSearchTerm ] = useState( '' );
