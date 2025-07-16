@@ -29,11 +29,20 @@ export default function Save( { attributes } ) {
 							return null;
 						}
 
-						// Check if logo has an image
-						const hasImage = logo.imageId || logo.imageUrl;
-						if ( ! hasImage ) {
+						// Check if logo has an image URL (imageId is only used in editor)
+						if ( ! logo.imageUrl ) {
 							return null;
 						}
+
+						// Create image element once to avoid duplication
+						const imageElement = (
+							<img
+								src={ logo.imageUrl }
+								alt=""
+								className="fau-logo-grid__image"
+								loading="lazy"
+							/>
+						);
 
 						return (
 							<div key={ index } className="fau-logo-grid__item">
@@ -42,23 +51,11 @@ export default function Save( { attributes } ) {
 										href={ logo.link }
 										className="fau-logo-grid__link"
 									>
-										{ logo.imageUrl ? (
-											<img
-												src={ logo.imageUrl }
-												alt=""
-												className="fau-logo-grid__image"
-												loading="lazy"
-											/>
-										) : null }
+										{ imageElement }
 									</a>
-								) : logo.imageUrl ? (
-									<img
-										src={ logo.imageUrl }
-										alt=""
-										className="fau-logo-grid__image"
-										loading="lazy"
-									/>
-								) : null }
+								) : (
+									imageElement
+								) }
 							</div>
 						);
 					} ) }
