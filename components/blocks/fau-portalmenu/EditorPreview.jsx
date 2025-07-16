@@ -5,7 +5,8 @@ import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
 const FALLBACK_IMAGE =
-	'/wp-content/themes/fau-elemental/assets/images/logo.svg';
+	( ( window.fauElemental && window.fauElemental.themeUrl ) ??
+		'/wp-content/themes/fau-elemental' ) + '/assets/images/logo.svg';
 
 /**
  * Editor preview component for FAU Portal Menu block
