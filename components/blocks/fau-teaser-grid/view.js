@@ -3,6 +3,8 @@
  * Handles integrated pagination and load-more functionality
  */
 
+/* global fauTeaserGrid */
+
 document.addEventListener( 'DOMContentLoaded', function () {
 	// Initialize all FAU Teaser Grid blocks on the page
 	const teaserGrids = document.querySelectorAll(
