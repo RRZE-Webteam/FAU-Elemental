@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import {
 	useBlockProps,
 	InspectorControls,
@@ -13,11 +13,10 @@ import {
 	SelectControl,
 } from '@wordpress/components';
 import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
 
 import PostTeaser from './components/PostTeaser';
 import PageTeaser from './components/PageTeaser';
-import { createPagination, updateGridClasses } from './utils/helpers';
+import { updateGridClasses } from './utils/helpers';
 import { DisplaySettings } from './components/editor/DisplaySettings';
 import { SelectionMode } from './components/editor/SelectionMode';
 import { ContentSettings } from './components/editor/ContentSettings';
@@ -25,7 +24,6 @@ import {
 	usePostTypes,
 	useCategories,
 	usePosts,
-	useAvailablePosts,
 	useTotalItems,
 } from './components/editor/useTeaserData';
 
@@ -58,7 +56,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		postsPerPage,
 		selectedCategory,
 		currentPage,
-		totalPosts,
 		orderBy,
 		order,
 		selectedPosts,
@@ -81,10 +78,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		}
 	}, [ customBlockId, clientId, setAttributes ] );
 
-
-
 	const gridRef = useRef( null );
-	const [ searchTerm, setSearchTerm ] = useState( '' );
+	const [ searchTerm ] = useState( '' );
 
 	// Effect to update grid classes when display style or layout changes
 	useEffect( () => {
@@ -113,7 +108,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	);
 
 	const { items, isLoading } = usePosts( variant, queryParams );
-	const availablePosts = useAvailablePosts( searchTerm, variant );
 	const { totalItems } = useTotalItems( variant, selectedCategory );
 
 	// Memoize options
@@ -137,22 +131,27 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		[ categories ]
 	);
 
-	const calculatedTotalPosts = useMemo( () => {
+	// Calculate visible items based on pagination
+	const visibleItems = useMemo( () => {
 		if ( selectionMode === 'manual' ) {
-			return selectedPosts.length;
+			return selectedPosts.slice( 0, postsPerPage );
 		}
-		return totalItems;
-	}, [ selectionMode, selectedPosts, totalItems ] );
+		return items;
+	}, [ items, selectedPosts, selectionMode, postsPerPage ] );
 
 	const blockProps = useBlockProps( {
-		className: `fau-teaser-grid-editor ${ displayStyle }`,
+		className: 'fau-teaser-grid-editor',
 	} );
 
 	if ( isLoading ) {
 		return (
 			<div { ...blockProps }>
-				<Placeholder label={ __( 'Loading...', 'fau-elemental' ) }>
+				<Placeholder
+					icon="grid-view"
+					label={ __( 'FAU Teaser Grid', 'fau-elemental' ) }
+				>
 					<Spinner />
+					<p>{ __( 'Loading content…', 'fau-elemental' ) }</p>
 				</Placeholder>
 			</div>
 		);
@@ -161,194 +160,117 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	return (
 		<div { ...blockProps }>
 			<InspectorControls>
+				<ContentSettings
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					postTypeOptions={ postTypeOptions }
+					categoryOptions={ categoryOptions }
+				/>
 				<DisplaySettings
-					displayStyle={ displayStyle }
-					teaserLayout={ teaserLayout }
+					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
-
 				<SelectionMode
-					selectionMode={ selectionMode }
+					attributes={ attributes }
 					setAttributes={ setAttributes }
+					searchTerm={ searchTerm }
+					variant={ variant }
 				/>
 
-				{ selectionMode === 'auto' && (
-					<ContentSettings
-						variant={ variant }
-						postsPerPage={ postsPerPage }
-						selectedCategory={ selectedCategory }
-						orderBy={ orderBy }
-						order={ order }
-						setAttributes={ setAttributes }
-						postTypeOptions={ postTypeOptions }
-						categoryOptions={ categoryOptions }
-						categories={ categories }
+				<PanelBody
+					title={ __( 'Pagination Settings', 'fau-elemental' ) }
+					initialOpen={ false }
+				>
+					<ToggleControl
+						label={ __( 'Show Pagination', 'fau-elemental' ) }
+						checked={ showPagination }
+						onChange={ ( value ) =>
+							setAttributes( { showPagination: value } )
+						}
 					/>
-				) }
 
-				{ selectionMode === 'auto' && (
-					<PanelBody
-						title={ __( 'Pagination Settings', 'fau-elemental' ) }
-					>
-						<ToggleControl
-							label={ __(
-								'Show Pagination',
-								'fau-elemental'
-							) }
-							checked={ showPagination }
+					{ showPagination && (
+						<SelectControl
+							label={ __( 'Pagination Type', 'fau-elemental' ) }
+							value={ paginationType }
+							options={ [
+								{
+									label: __(
+										'Page Numbers',
+										'fau-elemental'
+									),
+									value: 'numbers',
+								},
+								{
+									label: __(
+										'Load More Button',
+										'fau-elemental'
+									),
+									value: 'load-more',
+								},
+							] }
 							onChange={ ( value ) =>
-								setAttributes( { showPagination: value } )
+								setAttributes( { paginationType: value } )
 							}
-							help={ __(
-								'Display pagination controls below the grid.',
-								'fau-elemental'
-							) }
 						/>
-
-						{ showPagination && (
-							<SelectControl
-								label={ __(
-									'Pagination Type',
-									'fau-elemental'
-								) }
-								value={ paginationType }
-								options={ [
-									{
-										label: __(
-											'Page Numbers',
-											'fau-elemental'
-										),
-										value: 'numbers',
-									},
-									{
-										label: __(
-											'Load More Button',
-											'fau-elemental'
-										),
-										value: 'load-more',
-									},
-								] }
-								onChange={ ( value ) =>
-									setAttributes( { paginationType: value } )
-								}
-								help={ __(
-									'Choose how pagination is displayed.',
-									'fau-elemental'
-								) }
-							/>
-						) }
-					</PanelBody>
-				) }
-
-				<PanelBody title={ __( 'Accessibility', 'fau-elemental' ) }>
-					<p>
-						{ __(
-							'To ensure good accessibility and SEO, please make sure that there is only one H1 heading on the page. If you already have an H1 heading, use a different heading level for the teasers in this block.',
-							'fau-elemental'
-						) }
-					</p>
+					) }
 				</PanelBody>
 			</InspectorControls>
 
-			<BlockControls group="block">
+			<BlockControls>
 				<DropdownMenu
-					icon="heading"
-					label={ __( 'Change heading level', 'fau-elemental' ) }
-					controls={ [
-						{
-							title: __( 'Heading 2', 'fau-elemental' ),
-							onClick: () =>
-								setAttributes( { headingLevel: 'h2' } ),
-							isActive: headingLevel === 'h2',
-						},
-						{
-							title: __( 'Heading 3', 'fau-elemental' ),
-							onClick: () =>
-								setAttributes( { headingLevel: 'h3' } ),
-							isActive: headingLevel === 'h3',
-						},
-						{
-							title: __( 'Heading 4', 'fau-elemental' ),
-							onClick: () =>
-								setAttributes( { headingLevel: 'h4' } ),
-							isActive: headingLevel === 'h4',
-						},
-						{
-							title: __( 'Heading 5', 'fau-elemental' ),
-							onClick: () =>
-								setAttributes( { headingLevel: 'h5' } ),
-							isActive: headingLevel === 'h5',
-						},
-						{
-							title: __( 'Heading 6', 'fau-elemental' ),
-							onClick: () =>
-								setAttributes( { headingLevel: 'h6' } ),
-							isActive: headingLevel === 'h6',
-						},
-					] }
-				/>
+					icon="admin-settings"
+					label={ __( 'Settings', 'fau-elemental' ) }
+				>
+					{ ( { onClose } ) => (
+						<div style={ { padding: '16px' } }>
+							<p>{ __( 'Quick settings', 'fau-elemental' ) }</p>
+							<button
+								className="button"
+								onClick={ () => {
+									setAttributes( {
+										displayStyle: 'teaser-grid',
+										teaserLayout: '3m',
+									} );
+									onClose();
+								} }
+							>
+								{ __( 'Reset to default', 'fau-elemental' ) }
+							</button>
+						</div>
+					) }
+				</DropdownMenu>
 			</BlockControls>
 
-			<div
-				ref={ gridRef }
-				className={ `fau-teaser-grid ${ displayStyle } ${
-					displayStyle === 'teaser-grid'
-						? `layout-${ teaserLayout }`
-						: displayStyle === 'mini-list'
-						? 'style-mini-list'
-						: ''
-				}` }
-				role="list"
-				aria-label={ __( 'Content grid', 'fau-elemental' ) }
-			>
-				{ ! isLoading ? (
-					selectionMode === 'manual' ? (
-						selectedPosts.length > 0 ? (
-							wrapTeaserItems(
-								selectedPosts.map( ( selectedPost ) => {
-									const fullPost = items.find(
-										( item ) => item.id === selectedPost.id
-									);
+			<div className="fau-teaser-grid-preview">
+				<div className="teaser-grid-header">
+					<h3 className="grid-title">
+						{ __( 'FAU Teaser Grid', 'fau-elemental' ) }
+					</h3>
+					<div className="grid-info">
+						<span className="item-count">
+							{ sprintf(
+								/* translators: %1$d: number of visible items, %2$d: total number of items */
+								__(
+									'Showing %1$d of %2$d items',
+									'fau-elemental'
+								),
+								visibleItems.length,
+								totalItems
+							) }
+						</span>
+					</div>
+				</div>
 
-									const postData = fullPost || {
-										id: selectedPost.id,
-										title: {
-											rendered: selectedPost.title,
-										},
-										excerpt: {
-											rendered: '',
-										},
-										_embedded: {
-											'wp:featuredmedia': [],
-											'wp:term': [],
-										},
-									};
-
-									return variant === 'post' ? (
-										<PostTeaser
-											key={ postData.id }
-											post={ postData }
-											headingLevel={ headingLevel }
-											size={ selectedPost.size }
-										/>
-									) : (
-										<PageTeaser
-											key={ postData.id }
-											page={ postData }
-											headingLevel={ headingLevel }
-											size={ selectedPost.size }
-										/>
-									);
-								} ),
-								teaserLayout
-							)
-						) : (
-							<p>{ __( 'No posts selected', 'fau-elemental' ) }</p>
-						)
-					) : (
+				<div
+					ref={ gridRef }
+					className={ `fau-teaser-grid ${ displayStyle }` }
+					data-layout={ teaserLayout }
+				>
+					{ visibleItems.length > 0 ? (
 						<>
 							{ wrapTeaserItems(
-								items.map( ( item ) => {
+								visibleItems.map( ( item ) => {
 									return variant === 'post' ? (
 										<PostTeaser
 											key={ item.id }
@@ -367,39 +289,67 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							) }
 							{ showPagination && (
 								<div className="pagination-preview">
-								
 									<div className="pagination-preview-controls">
 										{ paginationType === 'numbers' && (
 											<>
 												<span className="page-number prev disabled">
-													{ __( 'Previous', 'fau-elemental' ) }
+													{ __(
+														'Previous',
+														'fau-elemental'
+													) }
 												</span>
-												<span className="page-number current">1</span>
-												<span className="page-number">2</span>
-												<span className="page-number">3</span>
-												<span className="page-ellipsis">...</span>
-												<span className="page-number">8</span>
-												<span className="page-number">9</span>
-												<span className="page-number">10</span>
+												<span className="page-number current">
+													1
+												</span>
+												<span className="page-number">
+													2
+												</span>
+												<span className="page-number">
+													3
+												</span>
+												<span className="page-ellipsis">
+													…
+												</span>
+												<span className="page-number">
+													8
+												</span>
+												<span className="page-number">
+													9
+												</span>
+												<span className="page-number">
+													10
+												</span>
 												<span className="page-number next">
-													{ __( 'Next', 'fau-elemental' ) }
+													{ __(
+														'Next',
+														'fau-elemental'
+													) }
 												</span>
 											</>
 										) }
 										{ paginationType === 'simple' && (
 											<>
 												<span className="page-number prev disabled">
-													{ __( 'Previous', 'fau-elemental' ) }
+													{ __(
+														'Previous',
+														'fau-elemental'
+													) }
 												</span>
 												<span className="page-number next">
-													{ __( 'Next', 'fau-elemental' ) }
+													{ __(
+														'Next',
+														'fau-elemental'
+													) }
 												</span>
 											</>
 										) }
 										{ paginationType === 'load-more' && (
 											<div className="wp-block-button">
 												<button className="wp-block-button__link load-more-button">
-													{ __( 'Load More', 'fau-elemental' ) }
+													{ __(
+														'Load More',
+														'fau-elemental'
+													) }
 												</button>
 											</div>
 										) }
@@ -407,12 +357,20 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								</div>
 							) }
 						</>
-					)
-				) : (
-					<Placeholder label={ __( 'Loading...', 'fau-elemental' ) }>
-						<Spinner />
-					</Placeholder>
-				) }
+					) : (
+						<Placeholder
+							icon="grid-view"
+							label={ __( 'No items found', 'fau-elemental' ) }
+						>
+							<p>
+								{ __(
+									'No items match your current selection. Try adjusting your filters or add some content.',
+									'fau-elemental'
+								) }
+							</p>
+						</Placeholder>
+					) }
+				</div>
 			</div>
 		</div>
 	);

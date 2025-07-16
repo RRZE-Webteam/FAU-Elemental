@@ -35,7 +35,7 @@
 		"paginationType": {
 			"type": "string",
 			"default": "numbers",
-			"enum": ["numbers", "load-more"]
+			"enum": [ "numbers", "load-more" ]
 		},
 		"selectedCategory": {
 			"type": "number",
