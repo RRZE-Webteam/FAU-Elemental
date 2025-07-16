@@ -1,36 +1,92 @@
-<!-- wp:group {"style":{"spacing":{"padding":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"}} -->
-<div id="hero" class="wp-block-group" style="padding-top:0;padding-bottom:0">
-    <!-- wp:cover {"url":"<?php echo esc_url(get_theme_file_uri('assets/images/hero-faculty.jpg')); ?>","id":99,"dimRatio":50,"customOverlayColor":"#537f89","isUserOverlayColor":false,"layout":{"type":"constrained"}} -->
-    <div class="wp-block-cover">
-        <span aria-hidden="true" class="wp-block-cover__background has-background-dim" style="background-color:#537f89"></span>
-        <img class="wp-block-cover__image-background wp-image-99" alt="" src="<?php echo esc_url(get_theme_file_uri('assets/images/hero-faculty.jpg')); ?>" data-object-fit="cover">
-        <div class="wp-block-cover__inner-container">
-            <!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|small","bottom":"var:preset|spacing|small","left":"var:preset|spacing|small"}}},"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"left"}} -->
-            <div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--small);padding-bottom:var(--wp--preset--spacing--small);padding-left:var(--wp--preset--spacing--small)">
-                <!-- wp:site-logo {"width":200} /-->
-            </div>
-            <!-- /wp:group -->
+<?php
+/**
+ * Title: Hero: Faculty
+ * Slug: fau-elemental/hero-faculty
+ * Categories: hero, fau-elemental
+ * Website Types: faculty
+ * Viewport Width: 1376
+ * Block Types: core/post-content
+ * Post Types: page
+ * Description: Hero pattern for faculty websites
+ */
+?>
+<?php
+// Get the current faculty
+$current_faculty = get_theme_mod('faue_faculty', 'phil');
 
-            <!-- wp:paragraph {"align":"center","placeholder":"Write title…","fontSize":"large"} -->
-            <p class="has-text-align-center has-large-font-size"></p>
+// Faculty-specific content
+$faculty_content = [
+    'phil' => [
+        'title' => 'Die Philosophische Fakultät und Fachbereich Theologie',
+        'description' => 'Die Philosophische Fakultät der FAU gehört zu den forschungsstärksten philosophischen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
+        'img' => '/assets/images/hero-faculty-phil.png'
+    ],
+    'nat' => [
+        'title' => 'Die Naturwissenschaftliche Fakultät',
+        'description' => 'Die Naturwissenschaftliche Fakultät der FAU gehört zu den forschungsstärksten naturwissenschaftlichen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
+        'img' => '/assets/images/hero-faculty.jpg'
+    ],
+    'med' => [
+        'title' => 'Die Medizinische Fakultät',
+        'description' => 'Die Medizinische Fakultät der FAU gehört zu den forschungsstärksten medizinischen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
+        'img' => '/assets/images/hero-faculty.jpg'
+
+    ],
+    'rw' => [
+        'title' => 'Die Rechts- und Wirtschaftswissenschaftliche Fakultät',
+        'description' => 'Die Rechts- und Wirtschaftswissenschaftliche Fakultät der FAU gehört zu den forschungsstärksten rechts- und wirtschaftswissenschaftlichen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
+        'img' => '/assets/images/hero-faculty-rw.png'
+    ],
+    'tf' => [
+        'title' => 'Die Technische Fakultät',
+        'description' => 'Die Technische Fakultät der FAU gehört zu den forschungsstärksten technischen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
+        'img' => '/assets/images/hero-faculty-tf.png'
+    ]
+];
+
+$current_content = $faculty_content[$current_faculty] ?? $faculty_content['phil'];
+?>
+<!-- wp:columns {"align":"wide","templateLock":"all", "className": "hero-faculty"} -->
+<div class="wp-block-columns alignwide hero-faculty faculty-<?php echo esc_attr($current_faculty); ?>">
+    <!-- wp:column {"layout":{"type":"constrained"},"className":"hero-faculty-left"} -->
+    <div class="wp-block-column hero-faculty-left">
+
+        <!-- wp:heading {"level":2} -->
+        <h2 class="wp-block-heading"><?php echo esc_html($current_content['title']); ?></h2>
+        <!-- /wp:heading -->
+
+        <!-- wp:group {"className":"hero-mobile-optional"} -->
+        <div class="wp-block-group hero-mobile-optional">
+            <!-- wp:paragraph {"className":"hero-text"} -->
+            <p class="hero-text"><?php echo esc_html($current_content['description']); ?></p>
             <!-- /wp:paragraph -->
 
-            <!-- wp:group {"backgroundColor":"phil-gelb-100","layout":{"type":"flex","orientation":"vertical"}} -->
-            <div class="wp-block-group has-phil-gelb-100-background-color has-background">
-                <!-- wp:heading -->
-                <h2 class="wp-block-heading">Wir bewegen Wissen</h2>
-                <!-- /wp:heading -->
-
-                <!-- wp:paragraph -->
-                <p>Die FAU bietet Ihnen mit über 270 Studiengängen eine inspirierende Lernumgebung, studentische Gemeinschaft und zahlreiche Möglichkeiten, Ihre Leidenschaft zu entdecken.</p>
-                <!-- /wp:paragraph -->
-
-                <!-- wp:fau-elemental/fau-button {"className":"is-style-tertiary"} /-->
-
+            <!-- wp:buttons -->
+            <div class="wp-block-buttons">
+                 <!-- wp:button {"className":"is-style-tertiary"} -->
+                 <div class="wp-block-button is-style-tertiary"><a class="wp-block-button__link wp-element-button">Mehr erfahren</a></div>
+                <!-- /wp:button -->
             </div>
-            <!-- /wp:group -->
+            <!-- /wp:buttons -->
         </div>
+        <!-- /wp:group -->
     </div>
-    <!-- /wp:cover -->
+    <!-- /wp:column -->
+
+    <!-- wp:column  -->
+    <div class="wp-block-column" >
+        <!-- wp:cover {"url":"<?php echo esc_url(get_theme_file_uri($current_content['img']));?>","dimRatio":0,"contentPosition":"center","className":"is-dark-theme"} -->
+        <div class="wp-block-cover is-dark-theme">
+            <span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span>
+            <img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(get_theme_file_uri($current_content['img'])); ?>" data-object-fit="cover">
+            <div class="wp-block-cover__inner-container">
+                <!-- wp:paragraph {"align":"center","placeholder":"Write title…","fontSize":"large","className":"hideParagraph"} -->
+                <p class="has-text-align-center has-large-font-size hideParagraph"></p>
+                <!-- /wp:paragraph -->
+            </div>
+        </div>
+        <!-- /wp:cover -->
+    </div>
+    <!-- /wp:column -->
 </div>
-<!-- /wp:group -->
+<!-- /wp:columns --> 

@@ -1,0 +1,103 @@
+
+@use "sass:map";
+
+// Faculty color map
+$faculty-colors: (
+	"phil": var(--FAU-Col-Phil-Gelb-100),
+	"nat": var(--FAU-Col-Nat-Gruen-100),
+	"med": var(--FAU-Col-Med-Blau-100),
+	"rw": var(--FAU-Col-RW-Rot-100),
+	"tf": var(--FAU-Col-TF-Metallic-100)
+);
+
+
+// Common styles for both frontend and editor
+.hero-faculty {
+	position: relative;
+	width: 100%;
+
+	// Generate faculty-specific styles using the maps
+	@each $faculty, $color in $faculty-colors {
+		&.faculty-#{$faculty} {
+			background-color: $color;
+
+			// Style the cover block for faculty-specific appearance
+			.wp-block-cover {
+				position: relative;
+				min-height: 400px;
+
+				// Ensure the cover image is properly positioned
+				.wp-block-cover__image-background {
+					object-fit: cover;
+					width: 100%;
+					height: 100%;
+				}
+
+				// Style the overlay
+				.wp-block-cover__background {
+					position: absolute;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					opacity: 0.5; // Adjust overlay opacity as needed
+				}
+
+				// Ensure content is above the overlay
+				.wp-block-cover__inner-container {
+					position: relative;
+					z-index: 3;
+				}
+			}
+		}
+	}
+
+	// Faculty-specific text colors for better contrast
+	&.faculty-phil,
+	&.faculty-nat,
+	&.faculty-med,
+	&.faculty-tf {
+
+		.hero-faculty-left {
+
+			.wp-block-heading {
+				color: var(--FAU-Col-FAU-Blau-100);
+			}
+
+			.hero-text {
+				color: var(--FAU-Col-FAU-Schwarz-90);
+			}
+
+			.hero-link {
+				color: var(--FAU-Col-FAU-Blau-100);
+
+				&:hover {
+					color: var(--FAU-Col-FAU-Dunkelblau-100);
+				}
+			}
+		}
+	}
+
+	// Special styling for RW faculty (red background)
+	&.faculty-rw {
+
+		.hero-faculty-left {
+
+			.wp-block-heading {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+
+			.hero-text {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+
+			.hero-link {
+				color: var(--FAU-Col-FAU-Weiss-100);
+
+				&:hover {
+					color: var(--FAU-Col-FAU-Schwarz-12_5);
+				}
+			}
+		}
+	}
+}
