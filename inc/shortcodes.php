@@ -97,7 +97,6 @@ class FAU_Elemental_Shortcodes {
                 'menu' => $slug,
                 'echo' => false,
                 'container' => true,
-                'items_wrap' => '%3$s',
                 'link_before' => '',
                 'link_after' => '',
                 'item_spacing' => 'discard',

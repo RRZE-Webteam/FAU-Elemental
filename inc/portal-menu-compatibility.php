@@ -342,7 +342,6 @@ function fau_elemental_portalmenu_shortcode($atts) {
         'menu' => $menu_id,
         'echo' => true,
         'container' => true,
-        'items_wrap' => '%3$s',
         'link_before' => '',
         'link_after' => '',
         'item_spacing' => 'discard',

@@ -51,7 +51,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
         
         // Start element based on depth
         if ($depth === 0) {   
-            $output .= $indent . '<div class="fau-portal-item">' . "\n";
+            $output .= $indent . '<li class="fau-portal-item">' . "\n";
             
             // Image section
             if (!$this->settings['nothumbs']) {
@@ -101,7 +101,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
         if ($depth === 0) {
             // Parent item (top level)
             $output .= $indent . "\t</div></div>\n";
-            $output .= $indent . "</div>\n";
+            $output .= $indent . "</li>\n";
         } else {
             // Child items (sublinks)
             $output .= $indent . "\t\t</li>\n";

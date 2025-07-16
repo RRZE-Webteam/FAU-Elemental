@@ -7,6 +7,10 @@
 @use "../../ui/mixins/mixins" as *;
 
 .fau-portal-menu {
+	max-width: fit-content;
+}
+
+.fau-portal-menu > ul {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 0 var(--Spacing-8x);
@@ -155,7 +159,7 @@
 //Dark Mode
 .is-style-dark {
 
-	.fau-portal-menu {
+	.fau-portal-menu > ul {
 		background-color: var(--FAU-Col-FAU-Blau-100);
 
 		.fau-portal-item .fau-portal-wrapper .fau-portal-content {
@@ -179,15 +183,15 @@
 // Responsive
 @media screen and (max-width: 999px) {
 
-	.fau-portal-menu:has(.fau-portal-thumbnail) {
+	.fau-portal-menu:has(.fau-portal-thumbnail) > ul {
 		grid-template-columns: repeat(2, 1fr);
 	}
 }
 
 @media screen and (max-width: 599px) {
 
-	.fau-portal-menu,
-	.fau-portal-menu:has(.fau-portal-thumbnail) {
+	.fau-portal-menu > ul,
+	.fau-portal-menu:has(.fau-portal-thumbnail) > ul {
 		grid-template-columns: 1fr;
 	}
 
@@ -198,7 +202,7 @@
 
 @include respond-to("x-small") {
 
-	.fau-portal-menu {
+	.fau-portal-menu > ul {
 		padding: var(--Spacing-5x);
 	}
 }

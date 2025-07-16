@@ -166,7 +166,7 @@ const EditorPreview = ( { attributes } ) => {
 			__( 'Menu Item', 'fau-elemental' );
 
 		return (
-			<div key={ item.id } className="fau-portal-item">
+			<li key={ item.id } className="fau-portal-item">
 				{ ! attributes.noThumbs && (
 					<div className="fau-portal-thumbnail">
 						{ itemImage ? (
@@ -263,7 +263,7 @@ const EditorPreview = ( { attributes } ) => {
 						) }
 					</div>
 				</div>
-			</div>
+			</li>
 		);
 	};
 
@@ -278,7 +278,9 @@ const EditorPreview = ( { attributes } ) => {
 				aria-label={ __( 'Portal Menu', 'fau-elemental' ) }
 			>
 				{ menuItems && menuItems.length > 0 ? (
-					menuItems.map( ( item ) => renderMenuItem( item ) )
+					<ul>
+						{ menuItems.map( ( item ) => renderMenuItem( item ) ) }
+					</ul>
 				) : menuItems && menuItems.length === 0 ? (
 					<div
 						className="fau-portal-empty-state"

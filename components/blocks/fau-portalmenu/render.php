@@ -57,7 +57,6 @@ wp_nav_menu([
     'menu' => $menu,
     'echo' => true,
     'container' => true,
-    'items_wrap' => '%3$s',
     'link_before' => '',
     'link_after' => '',
     'item_spacing' => 'discard',
