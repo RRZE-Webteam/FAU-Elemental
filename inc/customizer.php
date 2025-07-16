@@ -573,16 +573,7 @@ function faue_sanitize_pagination_type($input) {
  */
 function faue_sanitize_items_per_page($input) {
     $input = intval($input);
-    
-    if ($input < 1) {
-        return 6;
-    }
-    
-    if ($input > 50) {
-        return 50;
-    }
-    
-    return $input;
+    return max(1, min(50, $input)) ?: 6;
 }
 
 /**
