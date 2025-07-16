@@ -223,7 +223,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					label={ __( 'Settings', 'fau-elemental' ) }
 				>
 					{ ( { onClose } ) => (
-						<div style={ { padding: '16px' } }>
+						<div className="fau-teaser-grid-settings-dropdown">
 							<p>{ __( 'Quick settings', 'fau-elemental' ) }</p>
 							<button
 								className="button"

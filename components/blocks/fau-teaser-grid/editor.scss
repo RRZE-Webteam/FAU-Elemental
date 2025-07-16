@@ -5,6 +5,11 @@
 	max-width: var(--wide-max-width);
 	margin: 0 auto;
 
+	// Settings dropdown styling
+	.fau-teaser-grid-settings-dropdown {
+		padding: var(--Spacing-4x);
+	}
+
 	// Connection indicator badges
 	.teaser-grid-connections {
 		display: flex;
