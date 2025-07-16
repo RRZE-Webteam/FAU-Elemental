@@ -34,25 +34,20 @@ get_header(); ?>
         </div>
     </header>
 
-    <section class="content-filters" aria-label="<?php esc_attr_e('Filter and search options', 'fau-elemental'); ?>">
-        <?php
-        $category_id = get_queried_object_id();
-        $filter_block_id = 'fau-list-filters-category-' . $category_id;
-        $grid_block_id = 'fau-teaser-grid-category-' . $category_id;
-        $pagination_block_id = 'fau-pagination-category-' . $category_id;
-        
-        $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
-        if ($current_page === 1) {
-            $current_page = get_query_var('paged') ? get_query_var('paged') : 1;
-        }
-        
-        echo do_blocks('<!-- wp:fau-elemental/fau-list-filters {"enableSearch":true,"searchPlaceholder":"' . esc_attr__('Search in this category...', 'fau-elemental') . '","enableFilters":true,"filterFields":[{"name":"tags","label":"' . esc_attr__('All Tags', 'fau-elemental') . '","type":"taxonomy","taxonomy":"post_tag"},{"name":"authors","label":"' . esc_attr__('All Authors', 'fau-elemental') . '","type":"author"},{"name":"date_range","label":"' . esc_attr__('All Dates', 'fau-elemental') . '","type":"date"}],"showMoreFiltersButton":true,"enableViewSwitcher":true,"availableViews":["cards","table"],"defaultView":"cards","enableSorting":true,"sortOptions":[{"value":"date","label":"' . esc_attr__('Latest First', 'fau-elemental') . '"},{"value":"title","label":"' . esc_attr__('Alphabetical', 'fau-elemental') . '"},{"value":"modified","label":"' . esc_attr__('Recently Updated', 'fau-elemental') . '"},{"value":"comment_count","label":"' . esc_attr__('Most Discussed', 'fau-elemental') . '"}],"defaultSort":"date","showResultsCount":true,"resultsPerPage":6,"gridWidth":"12","customBlockId":"' . $filter_block_id . '"} /-->');
-        ?>
-    </section>
+    <?php
+    $category_id = get_queried_object_id();
+    $grid_block_id = 'fau-teaser-grid-category-' . $category_id;
+    $pagination_block_id = 'fau-pagination-category-' . $category_id;
+    
+    $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+    if ($current_page === 1) {
+        $current_page = get_query_var('paged') ? get_query_var('paged') : 1;
+    }
+    ?>
 
     <section class="content-grid" aria-label="<?php esc_attr_e('Category posts listing', 'fau-elemental'); ?>">
         <?php
-        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":6,"selectedCategory":' . $category_id . ',"orderBy":"date","order":"DESC","headingLevel":"h2","showLoadMore":false,"showPagination":true,"currentPage":' . $current_page . ',"customBlockId":"' . $grid_block_id . '","filterBlockId":"' . $filter_block_id . '","paginationBlockId":"' . $pagination_block_id . '"} /-->');
+        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":6,"selectedCategory":' . $category_id . ',"orderBy":"date","order":"DESC","headingLevel":"h2","showLoadMore":false,"showPagination":true,"currentPage":' . $current_page . ',"customBlockId":"' . $grid_block_id . '","paginationBlockId":"' . $pagination_block_id . '"} /-->');
         ?>
     </section>
 
@@ -70,7 +65,7 @@ get_header(); ?>
         wp_reset_postdata();
         $total_pages = max(1, ceil($total_posts / $posts_per_page));
         
-        echo do_blocks('<!-- wp:fau-elemental/fau-pagination {"variant":"basic","currentPage":' . $current_page . ',"totalPages":' . $total_pages . ',"customBlockId":"' . $pagination_block_id . '","gridBlockId":"' . $grid_block_id . '","filterBlockId":"' . $filter_block_id . '"} /-->');
+        echo do_blocks('<!-- wp:fau-elemental/fau-pagination {"variant":"basic","currentPage":' . $current_page . ',"totalPages":' . $total_pages . ',"customBlockId":"' . $pagination_block_id . '","gridBlockId":"' . $grid_block_id . '"} /-->');
         ?>
     </nav>
 
