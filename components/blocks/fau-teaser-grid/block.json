@@ -27,17 +27,15 @@
 			"type": "number",
 			"default": 6
 		},
-		"showLoadMore": {
-			"type": "boolean",
-			"default": false
-		},
+
 		"showPagination": {
 			"type": "boolean",
-			"default": false
+			"default": true
 		},
-		"paginationBlockId": {
+		"paginationType": {
 			"type": "string",
-			"default": ""
+			"default": "numbers",
+			"enum": ["numbers", "load-more"]
 		},
 		"selectedCategory": {
 			"type": "number",
@@ -87,7 +85,6 @@
 			"type": "string",
 			"default": "h4"
 		},
-
 		"customBlockId": {
 			"type": "string",
 			"default": ""
@@ -99,7 +96,8 @@
 			"postsPerPage": 6,
 			"displayStyle": "teaser-grid",
 			"teaserLayout": "3m",
-			"showLoadMore": true
+			"showPagination": true,
+			"paginationType": "numbers"
 		}
 	}
 }

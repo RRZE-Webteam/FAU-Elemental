@@ -1,7 +1,6 @@
 /**
  * Frontend JavaScript for FAU Teaser Grid block
- * Handles client-side pagination when integrated with filter/pagination
- * blocks
+ * Handles integrated pagination and load-more functionality
  */
 
 document.addEventListener( 'DOMContentLoaded', function () {
@@ -20,172 +19,189 @@ function initializeTeaserGrid( gridContainer ) {
 		return;
 	}
 
-	const isJsPagination =
-		teaserGrid.getAttribute( 'data-js-pagination' ) === 'true';
+	// Read configuration from data attributes
+	const showPagination = gridContainer.getAttribute( 'data-show-pagination' ) === 'true';
+	const paginationType = gridContainer.getAttribute( 'data-pagination-type' ) || 'numbers';
+	const postsPerPage = parseInt( gridContainer.getAttribute( 'data-posts-per-page' ) ) || 6;
+	const currentPage = parseInt( gridContainer.getAttribute( 'data-current-page' ) ) || 1;
 
-
-
-	if ( ! isJsPagination ) {
-		return; // This grid uses server-side pagination
+	// Skip initialization if no pagination
+	if ( ! showPagination ) {
+		return;
 	}
 
-	// Read posts per page from the wrapper container (where it's stored)
-	const postsPerPage =
-		parseInt( gridContainer.getAttribute( 'data-posts-per-page' ) ) || 6;
-	const customBlockId = gridContainer.getAttribute( 'data-custom-block-id' );
+	// Initialize load-more functionality if needed
+	if ( paginationType === 'load-more' ) {
+		initializeLoadMore( gridContainer );
+	}
 
 	// Store pagination data on the grid element
-	teaserGrid.jsPaginationData = {
+	teaserGrid.paginationData = {
 		postsPerPage,
-		currentPage: 1,
-		totalItems: 0,
+		currentPage,
+		paginationType,
+	
+		showPagination,
 	};
-
-	// Count initial items
-	updatePaginationDisplay( teaserGrid );
-
-	// Listen for pagination events
-	if ( customBlockId ) {
-		// Listen for pagination clicks from associated pagination blocks
-		document.addEventListener( 'fau-pagination-change', function ( e ) {
-			if ( e.detail.gridId === customBlockId ) {
-				showPage( teaserGrid, e.detail.page );
-			}
-		} );
-
-		// Listen for filter changes that might affect pagination
-		document.addEventListener( 'fau-filter-update', function ( e ) {
-			if ( e.detail.gridId === customBlockId ) {
-				// Reset to page 1 when filters change (if requested)
-				if ( e.detail.resetToPage1 ) {
-					teaserGrid.jsPaginationData.currentPage = 1;
-				}
-
-				// Update pagination display to reflect filtered items
-				updatePaginationDisplay( teaserGrid );
-			}
-		} );
-
-		// Listen for filter clear event
-		document.addEventListener( 'fau-filter-clear', function ( e ) {
-			if ( e.detail.gridId === customBlockId ) {
-				// Reset to page 1
-				teaserGrid.jsPaginationData.currentPage = 1;
-
-				// Remove filtered-out class from all items
-				const allItems = teaserGrid.querySelectorAll( '.teaser-item' );
-				allItems.forEach( ( item ) => {
-					item.classList.remove( 'filtered-out' );
-					item.style.display = '';
-				} );
-
-				// Update pagination display
-				updatePaginationDisplay( teaserGrid );
-			}
-		} );
-	}
 }
 
-function showPage( teaserGrid, pageNumber ) {
-	const paginationData = teaserGrid.jsPaginationData;
-	if ( ! paginationData ) {
+function initializeLoadMore( gridContainer ) {
+	const loadMoreBtn = gridContainer.querySelector( '.load-more-button' );
+
+	if ( ! loadMoreBtn ) {
 		return;
 	}
 
-	const postsPerPage = paginationData.postsPerPage;
-	const startIndex = ( pageNumber - 1 ) * postsPerPage;
-	const endIndex = startIndex + postsPerPage;
+	loadMoreBtn.addEventListener( 'click', function ( e ) {
+		e.preventDefault();
+		
+		const gridId = loadMoreBtn.getAttribute( 'data-grid-id' );
+		const currentPage = parseInt( loadMoreBtn.getAttribute( 'data-current-page' ) );
+		const totalPages = parseInt( loadMoreBtn.getAttribute( 'data-total-pages' ) );
+		const nextPage = currentPage + 1;
 
-	// Get all teaser items (including filtered ones)
-	const allTeaserItems = teaserGrid.querySelectorAll( '.teaser-item' );
+		// Disable button during loading
+		loadMoreBtn.disabled = true;
+		loadMoreBtn.textContent = loadMoreBtn.getAttribute( 'data-loading-text' ) || 'Loading...';
 
-	// Get all visible teaser items (not filtered out)
-	const visibleItems = Array.from(
-		teaserGrid.querySelectorAll( '.teaser-item:not(.filtered-out)' )
-	);
-
-	// First, hide ALL items (including filtered ones)
-	allTeaserItems.forEach( ( item ) => {
-		item.classList.add( 'js-paginated-hidden' );
-		item.style.display = 'none';
+		// Make AJAX request to load more posts
+		loadMorePosts( gridId, nextPage, loadMoreBtn );
 	} );
+}
 
-	// Then show only the items for the current page (from visible items only)
-	visibleItems.forEach( ( item, index ) => {
-		if ( index >= startIndex && index < endIndex ) {
-			// Show this item
-			item.classList.remove( 'js-paginated-hidden' );
-			item.style.display = '';
+function loadMorePosts( gridId, page, loadMoreBtn ) {
+	const gridContainer = document.getElementById( gridId );
+	
+	if ( ! gridContainer ) {
+		console.error( 'Grid container not found for ID:', gridId );
+		return;
+	}
+
+	const teaserGrid = gridContainer.querySelector( '.fau-teaser-grid' );
+	const nonce = gridContainer.getAttribute( 'data-nonce' );
+	const variant = gridContainer.getAttribute( 'data-variant' );
+	const postsPerPage = gridContainer.getAttribute( 'data-posts-per-page' );
+	const selectedCategory = gridContainer.getAttribute( 'data-category' );
+	const orderBy = gridContainer.getAttribute( 'data-order-by' );
+	const order = gridContainer.getAttribute( 'data-order' );
+	const headingLevel = gridContainer.getAttribute( 'data-heading-level' );
+	const displayStyle = gridContainer.getAttribute( 'data-display-style' );
+	const teaserLayout = gridContainer.getAttribute( 'data-teaser-layout' );
+
+	// Prepare form data
+	const formData = new FormData();
+	formData.append( 'action', 'fau_load_more_posts' );
+	formData.append( 'nonce', nonce );
+	formData.append( 'variant', variant );
+	formData.append( 'page', page );
+	formData.append( 'posts_per_page', postsPerPage );
+	formData.append( 'selected_category', selectedCategory );
+	formData.append( 'order_by', orderBy );
+	formData.append( 'order', order );
+	formData.append( 'heading_level', headingLevel );
+	formData.append( 'display_style', displayStyle );
+	formData.append( 'teaser_layout', teaserLayout );
+
+	// Make AJAX request
+	fetch( fauTeaserGrid.ajaxUrl, {
+		method: 'POST',
+		body: formData,
+	} )
+	.then( response => response.json() )
+	.then( data => {
+		if ( data.success ) {
+			// Append new posts to the grid
+			teaserGrid.insertAdjacentHTML( 'beforeend', data.data.html );
+
+			// Update button state
+			const currentPage = parseInt( loadMoreBtn.getAttribute( 'data-current-page' ) );
+			const totalPages = parseInt( loadMoreBtn.getAttribute( 'data-total-pages' ) );
+			const nextPage = currentPage + 1;
+
+			loadMoreBtn.setAttribute( 'data-current-page', nextPage );
+			loadMoreBtn.disabled = false;
+			loadMoreBtn.textContent = loadMoreBtn.getAttribute( 'data-default-text' ) || 'Load More';
+
+			// Hide button if no more pages
+			if ( nextPage >= totalPages ) {
+				loadMoreBtn.style.display = 'none';
+			}
+
+			// Trigger event for analytics or other integrations
+			document.dispatchEvent(
+				new CustomEvent( 'fau-load-more-complete', {
+					detail: {
+						gridId,
+						currentPage: nextPage,
+						totalPages,
+						newItemsCount: data.data.count,
+					},
+				} )
+			);
+		} else {
+			console.error( 'Error loading more posts:', data.data );
+			loadMoreBtn.disabled = false;
+			loadMoreBtn.textContent = 'Error loading posts';
 		}
+	} )
+	.catch( error => {
+		console.error( 'AJAX error:', error );
+		loadMoreBtn.disabled = false;
+		loadMoreBtn.textContent = 'Error loading posts';
 	} );
+}
 
-	// Update current page
-	paginationData.currentPage = pageNumber;
+// Handle pagination navigation (for numbers and simple pagination)
+function handlePaginationNavigation() {
+	const paginationLinks = document.querySelectorAll( '.fau-pagination .page-number:not(.disabled)' );
 
-	// Emit event for pagination blocks to update
-	const customBlockId = teaserGrid
-		.closest( '.wp-block-fau-elemental-fau-teaser-grid' )
-		.getAttribute( 'data-custom-block-id' );
-	if ( customBlockId ) {
-		document.dispatchEvent(
-			new CustomEvent( 'fau-grid-page-change', {
-				detail: {
-					gridId: customBlockId,
-					currentPage: pageNumber,
-					totalPages: Math.ceil( visibleItems.length / postsPerPage ),
-				},
-			} )
-		);
+	paginationLinks.forEach( link => {
+		link.addEventListener( 'click', function ( e ) {
+			// Let the browser handle the navigation naturally
+			// This function is here for future enhancements if needed
+		} );
+	} );
+}
+
+// Initialize pagination navigation
+document.addEventListener( 'DOMContentLoaded', function () {
+	handlePaginationNavigation();
+} );
+
+// Scroll to top of grid after pagination (for better UX)
+function scrollToGrid( gridId ) {
+	const gridContainer = document.getElementById( gridId );
+	if ( gridContainer ) {
+		gridContainer.scrollIntoView( {
+			behavior: 'smooth',
+			block: 'start',
+		} );
 	}
 }
 
-function updatePaginationDisplay( teaserGrid ) {
-	const paginationData = teaserGrid.jsPaginationData;
-	if ( ! paginationData ) {
-		return;
+// Check if we need to scroll to grid on page load (after pagination)
+document.addEventListener( 'DOMContentLoaded', function () {
+	const urlParams = new URLSearchParams( window.location.search );
+	const paged = urlParams.get( 'paged' );
+	
+	if ( paged && paged > 1 ) {
+		// Find the first teaser grid and scroll to it
+		const firstGrid = document.querySelector( '.wp-block-fau-elemental-fau-teaser-grid' );
+		if ( firstGrid ) {
+			setTimeout( () => {
+				firstGrid.scrollIntoView( {
+					behavior: 'smooth',
+					block: 'start',
+				} );
+			}, 100 );
+		}
 	}
-
-	// Count visible items (not filtered out)
-	const visibleItems = teaserGrid.querySelectorAll(
-		'.teaser-item:not(.filtered-out)'
-	);
-	const totalPages = Math.ceil(
-		visibleItems.length / paginationData.postsPerPage
-	);
-
-	paginationData.totalItems = visibleItems.length;
-
-	// Ensure current page is valid for the number of visible items
-	if ( paginationData.currentPage > totalPages && totalPages > 0 ) {
-		paginationData.currentPage = totalPages;
-	} else if ( paginationData.currentPage < 1 ) {
-		paginationData.currentPage = 1;
-	}
-
-	// Show the appropriate page
-	showPage( teaserGrid, paginationData.currentPage );
-
-	// Emit event for pagination blocks to update
-	const customBlockId = teaserGrid
-		.closest( '.wp-block-fau-elemental-fau-teaser-grid' )
-		.getAttribute( 'data-custom-block-id' );
-	if ( customBlockId ) {
-		document.dispatchEvent(
-			new CustomEvent( 'fau-grid-pagination-ready', {
-				detail: {
-					gridId: customBlockId,
-					totalPages,
-					currentPage: paginationData.currentPage,
-					totalItems: visibleItems.length,
-				},
-			} )
-		);
-	}
-}
+} );
 
 // Export functions for use by other scripts
 window.fauTeaserGrid = {
 	initializeTeaserGrid,
-	showPage,
-	updatePaginationDisplay,
+	loadMorePosts,
+	scrollToGrid,
+	ajaxUrl: typeof fauTeaserGrid !== 'undefined' ? fauTeaserGrid.ajaxUrl : '/wp-admin/admin-ajax.php',
 };

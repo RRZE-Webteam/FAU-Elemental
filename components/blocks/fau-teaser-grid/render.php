@@ -23,6 +23,7 @@ require_once get_template_directory() . '/components/blocks/fau-teaser-grid/teas
  */
 if ( ! function_exists( 'render_block_fau_teaser_grid' ) ) {
 function render_block_fau_teaser_grid( $attributes, $content, $block ) {
+    // Extract attributes with new pagination integration
     $variant = $attributes['variant'] ?? 'post';
     $selection_mode = $attributes['selectionMode'] ?? 'auto';
     $selected_posts = $attributes['selectedPosts'] ?? [];
@@ -34,62 +35,33 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     $order_by = $attributes['orderBy'] ?? 'date';
     $order = $attributes['order'] ?? 'DESC';
     $heading_level = $attributes['headingLevel'] ?? 'h4';
-    $show_load_more = $attributes['showLoadMore'] ?? false;
 
-    $pagination_block_id = $attributes['paginationBlockId'] ?? '';
+    $show_pagination = $attributes['showPagination'] ?? true;
+    $pagination_type = $attributes['paginationType'] ?? 'numbers';
     $custom_block_id = $attributes['customBlockId'] ?? '';
-    
 
-    
-    // Fallback detection: Check if we're in a template that should use JavaScript pagination
-    $template_file = function_exists('get_page_template_slug') ? get_page_template_slug() : ''; // phpcs:ignore
-    $is_all_posts_template = (strpos($template_file, 'page-all-posts') !== false) || 
-                            (function_exists('is_page') && is_page() && function_exists('get_page_template_slug') && get_page_template_slug() === 'page-all-posts.php'); // phpcs:ignore
-    
-
-    
-    // Generate unique ID for this grid instance, or use custom ID if provided
+    // Generate unique ID for this grid instance
     $grid_id = !empty($custom_block_id) ? $custom_block_id : 'fau-teaser-grid-' . uniqid();
-    
-    // Determine if we should use JavaScript-based pagination
-    $has_pagination_integration = !empty($pagination_block_id);
-    
-    // Also check if pagination blocks exist on the same page/post
-    // This helps when blocks are manually added in the editor
-    if (!$has_pagination_integration) {
-        global $post;
-        if ($post && function_exists('has_blocks') && has_blocks($post->post_content)) { // phpcs:ignore
-            $blocks = function_exists('parse_blocks') ? parse_blocks($post->post_content) : []; // phpcs:ignore
-            foreach ($blocks as $block) {
-                if (!$has_pagination_integration && $block['blockName'] === 'fau-elemental/fau-pagination') {
-                    $has_pagination_integration = true;
-                    // Try to get the pagination block's ID if available
-                    if (empty($pagination_block_id) && !empty($block['attrs']['customBlockId'])) {
-                        $pagination_block_id = $block['attrs']['customBlockId'];
-                    }
-                }
-            }
-        }
-    }
-    
-    // Always use server-side pagination and filtering
-    // Client-side JavaScript pagination has been disabled for performance and reliability
-    $use_js_pagination = false;
-    
 
-    
     // Ensure it's a valid heading tag
     $allowed_headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
     if (!in_array($heading_level, $allowed_headings)) {
-        $heading_level = 'h4'; // Default to h4 if not valid
+        $heading_level = 'h4';
     }
-    
+
+    // Get current page from URL parameters
+    $url_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+    if ($url_page === 1) {
+        $url_page = get_query_var('paged') ? get_query_var('paged') : 1;
+    }
+    $current_page = max(1, $url_page);
+
     // Start building the output
     $wrapper_classes = ['fau-list-item'];
-    if ($show_load_more) {
+    if ($show_pagination && $pagination_type === 'load-more') {
         $wrapper_classes[] = 'has-load-more';
     }
-    
+
     $wrapper_attributes = get_block_wrapper_attributes([
         'class' => implode(' ', $wrapper_classes),
         'role' => 'region',
@@ -105,11 +77,11 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
         'data-order-by' => $order_by,
         'data-order' => $order,
         'data-heading-level' => $heading_level,
-        'data-show-load-more' => $show_load_more ? 'true' : 'false',
-        'data-nonce' => wp_create_nonce('fau_load_more_nonce'),
-        'data-filterable' => 'true',
 
-        'data-pagination-block-id' => $pagination_block_id
+        'data-show-pagination' => $show_pagination ? 'true' : 'false',
+        'data-pagination-type' => $pagination_type,
+        'data-nonce' => wp_create_nonce('fau_load_more_nonce'),
+        'data-current-page' => $current_page
     ]);
 
     $grid_classes = ['fau-teaser-grid', $display_style];
@@ -128,125 +100,83 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     $output = sprintf('<section %s>', $wrapper_attributes);
     
     $output .= sprintf(
-        '<div class="%s" aria-label="%s" data-variant="%s" data-filter-block-id="%s" data-pagination-block-id="%s" data-js-pagination="%s">', 
+        '<div class="%s" aria-label="%s" data-variant="%s">', 
         esc_attr(implode(' ', $grid_classes)),
         esc_attr__('Content items', 'fau-elemental'),
-        esc_attr($variant),
-        esc_attr($filter_block_id),
-        esc_attr($pagination_block_id),
-        esc_attr($use_js_pagination ? 'true' : 'false')
+        esc_attr($variant)
     );
 
-    // Add CSS for JavaScript pagination if needed
-    if ($use_js_pagination) {
+    // Generate teaser items
+    $teaser_items = [];
+    $total_posts = 0;
     
-        
-        // Generate fallback IDs if they're empty
-        if (empty($custom_block_id)) {
-            $custom_block_id = 'fau-teaser-grid-' . uniqid();
-            $grid_id = $custom_block_id;
-        }
-
-        if (empty($pagination_block_id)) {
-            $pagination_block_id = 'fau-pagination-' . uniqid();
-        }
-    }
-
     if ($selection_mode === 'manual' && !empty($selected_posts)) {
         // Handle manually selected posts
-        $teaser_items = [];
         foreach ($selected_posts as $selected_post) {
             $post = get_post($selected_post['id']);
             if ($post) {
+                $variant = $post->post_type === 'post' ? 'post' : 'page';
+                $grid_classes = [$teaser_layout];
                 $teaser_items[] = fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level);
             }
         }
-        $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
+        $total_posts = count($teaser_items);
     } else {
-        // Handle automatic posts
-        // When integrated with filters or pagination blocks, load ALL posts and let JavaScript handle pagination
-        if ($use_js_pagination) {
-            // Load ALL posts for JavaScript-based filtering and pagination
-            $args = [
-                'post_type' => $variant,
-                'posts_per_page' => -1, // Load all posts
-                'orderby' => $order_by,
-                'order' => $order,
-            ];
-            
+        // Handle automatic posts selection
+        $query_args = [
+            'post_type' => $variant,
+            'post_status' => 'publish',
+            'orderby' => $order_by,
+            'order' => $order,
+            'posts_per_page' => $posts_per_page,
+            'paged' => $current_page,
+        ];
 
-        } else {
-            // Use traditional server-side pagination
-            $paged = $current_page;
-            if ($paged <= 1) {
-                $paged = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
-            }
-            
-            $args = [
-                'post_type' => $variant,
-                'posts_per_page' => $posts_per_page,
-                'paged' => $paged,
-                'orderby' => $order_by,
-                'order' => $order,
-            ];
-            
-
+        if ($selected_category > 0) {
+            $query_args['cat'] = $selected_category;
         }
 
-        if ($selected_category) {
-            $args['cat'] = $selected_category;
-        }
-
-        $query = new WP_Query($args);
+        $query = new WP_Query($query_args);
+        $total_posts = $query->found_posts;
 
         if ($query->have_posts()) {
-            $teaser_items = [];
-            $item_index = 0;
             while ($query->have_posts()) {
                 $query->the_post();
-                $item_classes = [];
-                
-                // When using JavaScript pagination, don't add any pagination classes here
-                // The JavaScript will handle showing/hiding items based on filters and pagination
-                
-                $teaser_items[] = fau_elemental_render_teaser_item(get_post(), $variant, $grid_classes, $heading_level);
-                $item_index++;
+                $post = get_post();
+                $variant = $post->post_type === 'post' ? 'post' : 'page';
+                $grid_classes = [$teaser_layout];
+                $teaser_items[] = fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level);
             }
             wp_reset_postdata();
-            $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
-            
-
-        } else {
-            $output .= sprintf(
-                '<p role="status" class="no-items-found">%s</p>',
-                esc_html__('No items found', 'fau-elemental')
-            );
         }
     }
 
-    $output .= '</div>'; // Close teaser grid
-    
-    // Add Load More button outside the grid if enabled and there are more posts
-    if ($selection_mode === 'auto' && $show_load_more && isset($query) && $query->max_num_pages > 1) {
-        $output .= '<div class="fau-teaser-grid__load-more-wrapper">';
-        $output .= '<div class="wp-block-button">';
-        $output .= '<button class="wp-block-button__link wp-element-button fau-teaser-grid__load-more-button" ';
-        $output .= 'data-page="1" data-max-pages="' . esc_attr($query->max_num_pages) . '" ';
-        $output .= 'aria-label="' . esc_attr__('Load more posts', 'fau-elemental') . '">';
-        $output .= __('Load More', 'fau-elemental');
-        $output .= '</button>';
-        $output .= '</div>';
-        $output .= '<div class="load-more-spinner" role="status" aria-live="polite">';
-        $output .= '<span class="loading-text">' . esc_html__('Loading...', 'fau-elemental') . '</span>';
-        $output .= '</div>';
-        $output .= '</div>';
+    // Output teaser items
+    if (!empty($teaser_items)) {
+        // Show paginated items
+        $items_to_show = array_slice($teaser_items, 0, $posts_per_page);
+        $output .= implode('', $items_to_show);
+    } else {
+        $output .= '<p class="no-posts">' . __('No items found.', 'fau-elemental') . '</p>';
     }
-    
-    $output .= '</section>'; // Close fau-list-item section
 
-    // Enqueue script for JavaScript pagination and load more functionality
-    if ($use_js_pagination || $show_load_more) {
-        // Only enqueue if not already enqueued
+    $output .= '</div>'; // Close fau-teaser-grid
+
+    // Add pagination if enabled
+    if ($show_pagination && $total_posts > $posts_per_page) {
+        $total_pages = ceil($total_posts / $posts_per_page);
+        
+        if ($pagination_type === 'load-more') {
+            $output .= fau_elemental_generate_load_more($current_page, $total_pages, $grid_id);
+        } else {
+            $output .= fau_elemental_generate_pagination($current_page, $total_pages, $pagination_type);
+        }
+    }
+
+    $output .= '</section>'; // Close wrapper
+
+    // Enqueue JavaScript if needed
+    if ($show_pagination && $pagination_type === 'load-more') {
         if (!wp_script_is('fau-teaser-grid-view', 'enqueued')) {
             wp_enqueue_script('fau-teaser-grid-view', get_template_directory_uri() . '/build/blocks/fau-teaser-grid/view.js', [], '1.0.0-' . time(), true);
             wp_localize_script('fau-teaser-grid-view', 'fauTeaserGrid', [
@@ -261,52 +191,146 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
 }
 
 /**
- * Generates pagination HTML.
+ * Generates smart pagination HTML with first 3 ... last 3 pattern for >7 pages.
  *
  * @param int $current_page Current page number.
  * @param int $total_pages Total number of pages.
+ * @param string $pagination_type Type of pagination ('numbers' or 'simple').
  * @return string The pagination HTML.
  */
 if ( ! function_exists( 'fau_elemental_generate_pagination' ) ) {
-function fau_elemental_generate_pagination($current_page, $total_pages) {
-    $output = '<div class="pagination">';
+function fau_elemental_generate_pagination($current_page, $total_pages, $pagination_type = 'numbers') {
+    if ($total_pages <= 1) {
+        return '';
+    }
+
+    $output = '<nav class="fau-pagination" role="navigation" aria-label="' . esc_attr__('Posts pagination', 'fau-elemental') . '">';
+    $output .= '<div class="pagination-wrapper">';
 
     // Previous button
-    $prev_disabled = $current_page === 1 ? ' disabled' : '';
-    $prev_url = $current_page > 1 ? add_query_arg('page', $current_page - 1) : '#';
-    $output .= sprintf(
-        '<a href="%s" class="page-number prev%s"%s>Prev</a>',
-        esc_url($prev_url),
-        $prev_disabled,
-        $prev_disabled ? ' disabled' : ''
-    );
+    if ($current_page > 1) {
+        $prev_url = add_query_arg('paged', $current_page - 1, get_pagenum_link());
+        $output .= sprintf(
+            '<a href="%s" class="page-number prev" aria-label="%s">%s</a>',
+            esc_url($prev_url),
+            esc_attr__('Previous page', 'fau-elemental'),
+            esc_html__('Previous', 'fau-elemental')
+        );
+    } else {
+        $output .= '<span class="page-number prev disabled" aria-disabled="true">' . esc_html__('Previous', 'fau-elemental') . '</span>';
+    }
 
-    // Page numbers
-    for ($i = 1; $i <= $total_pages; $i++) {
-        if ($i === 1 || $i === $total_pages || ($i >= $current_page - 1 && $i <= $current_page + 1)) {
-            $active = $current_page === $i ? ' active' : '';
-            $page_url = add_query_arg('page', $i);
-            $output .= sprintf(
-                '<a href="%s" class="page-number%s">%d</a>',
-                esc_url($page_url),
-                $active,
-                $i
-            );
-        } elseif ($i === $current_page - 2 || $i === $current_page + 2) {
-            $output .= '<span class="page-ellipsis">...</span>';
+    if ($pagination_type === 'numbers') {
+        // Smart pagination logic
+        if ($total_pages <= 7) {
+            // Show all pages if 7 or fewer
+            for ($i = 1; $i <= $total_pages; $i++) {
+                if ($i === $current_page) {
+                    $output .= sprintf(
+                        '<span class="page-number current" aria-current="page">%d</span>',
+                        $i
+                    );
+                } else {
+                    $page_url = add_query_arg('paged', $i, get_pagenum_link());
+                    $output .= sprintf(
+                        '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                        esc_url($page_url),
+                        esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                        $i
+                    );
+                }
+            }
+        } else {
+            // Show first 3 ... last 3 pattern
+            
+            // First 3 pages
+            for ($i = 1; $i <= 3; $i++) {
+                if ($i === $current_page) {
+                    $output .= sprintf(
+                        '<span class="page-number current" aria-current="page">%d</span>',
+                        $i
+                    );
+                } else {
+                    $page_url = add_query_arg('paged', $i, get_pagenum_link());
+                    $output .= sprintf(
+                        '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                        esc_url($page_url),
+                        esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                        $i
+                    );
+                }
+            }
+
+            // Ellipsis
+            if ($total_pages > 6) {
+                $output .= '<span class="page-ellipsis" aria-hidden="true">...</span>';
+            }
+
+            // Last 3 pages
+            for ($i = $total_pages - 2; $i <= $total_pages; $i++) {
+                if ($i === $current_page) {
+                    $output .= sprintf(
+                        '<span class="page-number current" aria-current="page">%d</span>',
+                        $i
+                    );
+                } else {
+                    $page_url = add_query_arg('paged', $i, get_pagenum_link());
+                    $output .= sprintf(
+                        '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                        esc_url($page_url),
+                        esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                        $i
+                    );
+                }
+            }
         }
     }
 
     // Next button
-    $next_disabled = $current_page === $total_pages ? ' disabled' : '';
-    $next_url = $current_page < $total_pages ? add_query_arg('page', $current_page + 1) : '#';
-    $output .= sprintf(
-        '<a href="%s" class="page-number next%s"%s>Next</a>',
-        esc_url($next_url),
-        $next_disabled,
-        $next_disabled ? ' disabled' : ''
-    );
+    if ($current_page < $total_pages) {
+        $next_url = add_query_arg('paged', $current_page + 1, get_pagenum_link());
+        $output .= sprintf(
+            '<a href="%s" class="page-number next" aria-label="%s">%s</a>',
+            esc_url($next_url),
+            esc_attr__('Next page', 'fau-elemental'),
+            esc_html__('Next', 'fau-elemental')
+        );
+    } else {
+        $output .= '<span class="page-number next disabled" aria-disabled="true">' . esc_html__('Next', 'fau-elemental') . '</span>';
+    }
 
+    $output .= '</div>';
+    $output .= '</nav>';
+    return $output;
+}
+}
+
+/**
+ * Generates load more button HTML.
+ *
+ * @param int $current_page Current page number.
+ * @param int $total_pages Total number of pages.
+ * @param string $grid_id Grid ID for JavaScript targeting.
+ * @return string The load more HTML.
+ */
+if ( ! function_exists( 'fau_elemental_generate_load_more' ) ) {
+function fau_elemental_generate_load_more($current_page, $total_pages, $grid_id) {
+    if ($current_page >= $total_pages) {
+        return '';
+    }
+
+    $output = '<div class="fau-teaser-grid__load-more-wrapper">';
+    $output .= '<div class="wp-block-button">';
+    $output .= sprintf(
+        '<button class="wp-block-button__link load-more-button" data-grid-id="%s" data-current-page="%d" data-total-pages="%d" data-default-text="%s" data-loading-text="%s">%s</button>',
+        esc_attr($grid_id),
+        $current_page,
+        $total_pages,
+        esc_attr__('Load More', 'fau-elemental'),
+        esc_attr__('Loading...', 'fau-elemental'),
+        esc_html__('Load More', 'fau-elemental')
+    );
+    $output .= '</div>';
     $output .= '</div>';
     return $output;
 }
