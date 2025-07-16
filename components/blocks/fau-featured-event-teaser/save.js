@@ -27,7 +27,10 @@ export default function Save( { attributes } ) {
 					<p>{ eventDescription }</p>
 					<div className="wp-block-buttons">
 						<div className="wp-block-button">
-							<a className="wp-block-button__link" href={ buttonUrl }>
+							<a
+								className="wp-block-button__link"
+								href={ buttonUrl }
+							>
 								{ buttonText }
 							</a>
 						</div>
