@@ -4,7 +4,6 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
-// TODO Get the theme URL from WordPress data
 const FALLBACK_IMAGE =
 	'/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
