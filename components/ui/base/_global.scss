@@ -1,11 +1,7 @@
-// ============================================================================
-// GLOBAL WORDPRESS STYLES
-// ============================================================================
-// Global styles that apply across the entire theme but don't belong to
-// specific components
+@use "../../ui/mixins/mixins" as *;
 
 // Global content container styles
-.site-content {
+main {
 	min-height: 100vh;
 }
 

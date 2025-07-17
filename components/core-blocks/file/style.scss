@@ -14,11 +14,11 @@ div.wp-block-file {
 		align-items: center;
 		position: relative;
 		gap: var(--Spacing-8x);
-		border: 1px solid var(--FAU-Col-FAU-Blau-100);
+		border: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
 		padding: var(--Spacing-8x);
 
 		.is-style-dark & {
-			border: 1px solid var(--FAU-Col-FAU-Weiss-100);
+			border: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 		}
 
 		@include respond-to("x-small") {
@@ -35,7 +35,7 @@ div.wp-block-file {
 				font-weight: 400;
 
 				.is-style-dark & {
-					color: 1px solid var(--FAU-Col-FAU-Weiss-100);
+					color: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 				}
 
 				@include respond-to("small") {
@@ -50,20 +50,18 @@ div.wp-block-file {
 						color: var(--FAU-Col-FAU-Dunkelblau-100);
 
 						.is-style-dark & {
-							color: 1px solid var(--FAU-Col-FAU-Weiss-100);
+							color: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 						}
 					}
 				}
 
 				.file-info-wrapper {
-
 					color: var(--FAU-Col-FAU-Schwarz-100);
-
 
 					.file-info-list {
 						display: flex;
 						flex-direction: row;
-						gap: 10px;
+						gap: 0.625rem;
 						margin: 0;
 						padding: 0;
 						list-style: none;
@@ -71,8 +69,12 @@ div.wp-block-file {
 						.file-info-item {
 							display: flex;
 							flex-direction: row;
-							gap: 5px;
+							gap: 0.3125rem;
 							align-items: center;
+
+							.is-style-dark & {
+								color: var(--FAU-Col-FAU-Weiss-100);
+							}
 
 							.file-info-term {
 								display: none;
@@ -86,8 +88,8 @@ div.wp-block-file {
 
 						@include respond-to("small") {
 							flex-direction: column;
-							gap: 5px;
-							padding-right: 40px;
+							gap: 0.3125rem;
+							padding-right: 2.5rem;
 						}
 					}
 				}
@@ -97,9 +99,9 @@ div.wp-block-file {
 				position: absolute;
 				background-color: var(--FAU-Col-FAU-Blau-100);
 				right: 0;
-				top: calc(50% - 20px);
-				width: 40px;
-				height: 40px;
+				top: calc(50% - 1.25rem);
+				width: 2.5rem;
+				height: 2.5rem;
 				border-radius: 0;
 				padding: unset;
 
@@ -107,10 +109,20 @@ div.wp-block-file {
 					content: "";
 					background-image: var(--icon-download-weiss);
 					position: absolute;
-					height: 14px;
-					width: 14px;
-					top: calc(50% - 7px);
-					left: calc(50% - 7px);
+					height: 0.875rem;
+					width: 0.875rem;
+					top: calc(50% - 0.4375rem);
+					left: calc(50% - 0.4375rem);
+					transition: var(--basic-animation);
+				}
+
+				&:hover,
+				&:focus-visible {
+					opacity: unset;
+
+					&::before {
+						top: calc(50% - 0.25rem);
+					}
 				}
 
 				.is-style-dark & {
@@ -127,7 +139,7 @@ div.wp-block-file {
 
 			img {
 				display: block;
-				max-width: 100px;
+				max-width: 6.25rem;
 			}
 		}
 	}

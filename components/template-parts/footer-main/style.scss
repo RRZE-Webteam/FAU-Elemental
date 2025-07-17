@@ -38,7 +38,7 @@ footer.wp-block-template-part {
 
 			&:hover,
 			&:focus-visible {
-				bottom: 2px;
+				bottom: 0.125rem;
 
 				&::after {
 					transform: scaleX(1);
@@ -151,13 +151,13 @@ footer.wp-block-template-part {
 
 				img {
 					display: block;
-					max-width: 160px;
+					max-width: 10rem;
 				}
 			}
 
 			.footer-logo-tagline {
 				position: relative;
-				top: -5px;
+				top: -0.3125rem;
 				color: var(--FAU-Col-FAU-Weiss-100);
 				font-size: 1rem;
 				font-weight: 500;
@@ -234,18 +234,18 @@ footer.wp-block-template-part {
 
 			// Improved focus visibility for WCAG compliance
 			&:focus-visible {
-				outline: 2px solid var(--FAU-Col-FAU-Weiss-100);
-				outline-offset: 2px;
-				border-radius: 2px;
+				outline: 0.125rem solid var(--FAU-Col-FAU-Weiss-100);
+				outline-offset: 0.125rem;
+				border-radius: 0.125rem;
 			}
 
 			// Screen reader only text
 			.sr-only {
 				position: absolute;
-				width: 1px;
-				height: 1px;
+				width: 0.0625rem;
+				height: 0.0625rem;
 				padding: 0;
-				margin: -1px;
+				margin: -0.0625rem;
 				overflow: hidden;
 				clip: rect(0, 0, 0, 0);
 				white-space: nowrap;
@@ -254,56 +254,56 @@ footer.wp-block-template-part {
 
 			&.xing {
 				background-image: var(--icon-xing);
-				width: 24px;
-				height: 30px;
+				width: 1.5rem;
+				height: 1.875rem;
 			}
 
 			&.x {
 				background-image: var(--icon-x);
-				width: 28px;
-				height: 26px;
+				width: 1.75rem;
+				height: 1.625rem;
 			}
 
 			&.tiktok {
 				background-image: var(--icon-tiktok);
-				width: 28px;
-				height: 32px;
+				width: 1.75rem;
+				height: 2rem;
 			}
 
 			&.linkedin {
 				background-image: var(--icon-linkedin);
-				width: 27px;
-				height: 28px;
+				width: 1.6875rem;
+				height: 1.75rem;
 			}
 
 			&.bluesky {
 				background-image: var(--icon-bluesky);
-				width: 36px;
-				height: 32px;
+				width: 2.25rem;
+				height: 2rem;
 			}
 
 			&.youtube {
 				background-image: var(--icon-youtube);
-				width: 34px;
-				height: 24px;
+				width: 2.125rem;
+				height: 1.5rem;
 			}
 
 			&.mastodon {
 				background-image: var(--icon-mastodon);
-				width: 26px;
-				height: 28px;
+				width: 1.625rem;
+				height: 1.75rem;
 			}
 
 			&.facebook {
 				background-image: var(--icon-facebook);
-				width: 32px;
-				height: 32px;
+				width: 2rem;
+				height: 2rem;
 			}
 
 			&.instagram {
 				background-image: var(--icon-instagram);
-				width: 28px;
-				height: 28px;
+				width: 1.75rem;
+				height: 1.75rem;
 			}
 		}
 	}
@@ -347,11 +347,11 @@ footer.wp-block-template-part {
 				gap: var(--Spacing-3x);
 
 				.footer-logo img {
-					max-width: 90px;
+					max-width: 5.625rem;
 				}
 
 				.footer-logo-tagline {
-					top: -4px;
+					top: -0.25rem;
 					font-size: 0.75rem;
 				}
 			}

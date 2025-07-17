@@ -21,12 +21,14 @@
 
 			h3 {
 				margin: 0;
+				padding: 0;
 				color: var(--FAU-Col-FAU-Weiss-100);
 				font-size: 1.25rem;
 			}
 
 			p {
 				margin: 0;
+				padding: 0;
 				max-width: unset;
 				color: var(--FAU-Col-FAU-Weiss-100);
 			}
@@ -78,7 +80,6 @@
 
 		.fau-big-button-teaser-group__buttons {
 			grid-template-columns: repeat(3, 1fr);
-			padding: 0;
 		}
 	}
 
