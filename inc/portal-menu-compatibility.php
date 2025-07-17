@@ -328,32 +328,15 @@ function fau_elemental_portalmenu_shortcode($atts) {
     if (!class_exists('Walker_Content_Menu')) {
         require_once get_template_directory() . '/inc/class-walker-content-menu.php';
     }
-    
-    // Get menu object for accessibility
-    $menu_obj = wp_get_nav_menu_object($menu_id);
-    
-    // Buffer the output and return it
-    ob_start();
 
-    echo '<div class="wp-block-group' . ($is_dark ? ' is-style-dark' : '') . '">' . "\n";
-    echo '<div class="fau-portal-menu" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
+    // Set up walker settings
+    $walker_settings = array(
+        'showsubs' => !$hide_subs,
+        'nothumbs' => $hide_thumbs,
+        'theme'    => $is_dark ? 'dark' : 'light',
+    );
 
-    wp_nav_menu([
-        'menu' => $menu_id,
-        'echo' => true,
-        'container' => true,
-        'link_before' => '',
-        'link_after' => '',
-        'item_spacing' => 'discard',
-        'walker' => new Walker_Content_Menu([
-            'showsubs' => !$hide_subs,
-            'nothumbs' => $hide_thumbs,
-        ]),
-    ]);
-    
-    echo '</div></div>';
-    
-    return ob_get_clean();
+    return Walker_Content_Menu::render_portalmenu($menu_id, $walker_settings);
 }
 add_shortcode('portalmenu', 'fau_elemental_portalmenu_shortcode');
 

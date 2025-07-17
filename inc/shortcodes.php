@@ -73,8 +73,6 @@ class FAU_Elemental_Shortcodes {
         if (!$term) {
             return $error;
         }
-        
-        $slug = $term->slug;
 
         // Include Walker_Content_Menu class if not already included
         if (!class_exists('Walker_Content_Menu')) {
@@ -85,28 +83,10 @@ class FAU_Elemental_Shortcodes {
         $walker_settings = array(
             'showsubs' => $showsubs,
             'nothumbs' => $nothumbs,
-        );
-        
-        $out = "\n";
-        $out .= '<div class="wp-block-group' . ($theme === 'dark' ? ' is-style-dark' : '') . '">' . "\n";
-        $out .= '<div class="fau-portal-menu" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
-        
-        // Generate menu HTML
-        $out .= wp_nav_menu(
-            array(
-                'menu' => $slug,
-                'echo' => false,
-                'container' => true,
-                'link_before' => '',
-                'link_after' => '',
-                'item_spacing' => 'discard',
-                'walker' => new Walker_Content_Menu($walker_settings)
-            )
+            'theme'    => $theme,
         );
 
-        $out .= "</div>\n</div>\n";
-
-        return $out;
+        return Walker_Content_Menu::render_portalmenu($term->slug, $walker_settings);
     }
 }
 
