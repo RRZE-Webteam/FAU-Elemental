@@ -482,30 +482,28 @@
 		margin: 0;
 	}
 
-	// Pagination styles > Interim solution, will be reworked later
-	.pagination {
+
+	.fau-pagination {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		gap: var(--Spacing-2x);
 		margin-top: var(--Spacing-8x);
 
-		a.page-numbers,
-		button.page-numbers,
-		span.page-numbers {
-			display: inline-flex;
+		a.page-number,
+		button.page-number,
+		span.page-number {
+			display: inline-block;
 			cursor: pointer;
-			align-items: center;
-			justify-content: center;
-			min-width: 40px;
-			height: 40px;
-			padding: 0 var(--Spacing-2x);
-			background-color: var(--FAU-Col-FAU-Weiss-100);
-			border: 1px solid var(--FAU-Col-FAU-Blau-100);
+			text-align: center;
+			vertical-align: middle;
+			padding: var(--Spacing-2x) var(--Spacing-4x);
+			background-color: transparent;
+			border: none;
 			color: var(--FAU-Col-FAU-Blau-100);
 			text-decoration: none;
 			font-weight: 600;
-			transition: all 0.2s linear;
+			transition: var(--basic-animation);
 
 			&:hover:not(.current) {
 				background-color: var(--FAU-Col-FAU-Blau-100);
@@ -519,13 +517,79 @@
 
 			&.prev,
 			&.next {
-				padding: 0 var(--Spacing-4x);
+				padding: var(--Spacing-2x);
 			}
 
-			&.dots {
-				border: none;
-				background: none;
-				color: var(--FAU-Col-FAU-Schwarz-90);
+			&.disabled {
+				cursor: not-allowed;
+				background-color: transparent;
+			}
+		}
+
+		// Specific overrides for disabled state
+		span.page-number.disabled {
+			background-color: transparent;
+			background-image: none;
+		}
+
+		// Reset all possible button backgrounds with highest specificity
+		.fau-pagination span.page-number.disabled,
+		.fau-pagination span.page-number.prev.disabled,
+		.fau-pagination span.page-number.next.disabled {
+			background-color: transparent;
+			background-image: none;
+			box-shadow: none;
+			border: none;
+			outline: none;
+		}
+
+		.page-ellipsis {
+			border: none;
+			background: none;
+			color: var(--FAU-Col-FAU-Schwarz-90);
+			padding: 0 var(--Spacing-2x);
+		}
+
+		.pagination-icon {
+			display: inline-block;
+			width: var(--Spacing-5x);
+			height: var(--Spacing-5x);
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: contain;
+			vertical-align: middle;
+
+			&-prev {
+				background-image: var(--icon-chevron-left-fau-blau);
+			}
+
+			&-next {
+				background-image: var(--icon-chevron-right-fau-blau);
+			}
+		}
+
+		// Icon color changes on hover/active
+
+		a.page-number:hover,
+		button.page-number:hover {
+
+			.pagination-icon-prev {
+				background-image: var(--icon-chevron-left-weiss);
+			}
+
+			.pagination-icon-next {
+				background-image: var(--icon-chevron-right-weiss);
+			}
+		}
+
+		.page-number.current {
+
+			.pagination-icon-prev {
+				background-image: var(--icon-chevron-left-weiss);
+			}
+
+			.pagination-icon-next {
+				background-image: var(--icon-chevron-right-weiss);
 			}
 		}
 	}

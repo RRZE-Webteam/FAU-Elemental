@@ -215,13 +215,12 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
     if ($current_page > 1) {
         $prev_url = add_query_arg('paged', $current_page - 1, get_pagenum_link());
         $output .= sprintf(
-            '<a href="%s" class="page-number prev" aria-label="%s">%s</a>',
+            '<a href="%s" class="page-number prev" aria-label="%s"><span class="pagination-icon pagination-icon-prev"></span></a>',
             esc_url($prev_url),
-            esc_attr__('Previous page', 'fau-elemental'),
-            esc_html__('Previous', 'fau-elemental')
+            esc_attr__('Previous page', 'fau-elemental')
         );
     } else {
-        $output .= '<span class="page-number prev disabled" aria-disabled="true">' . esc_html__('Previous', 'fau-elemental') . '</span>';
+        $output .= '<span class="page-number prev disabled" aria-disabled="true" aria-label="' . esc_attr__('Previous page', 'fau-elemental') . '"><span class="pagination-icon pagination-icon-prev"></span></span>';
     }
 
     if ($pagination_type === 'numbers') {
@@ -294,13 +293,12 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
     if ($current_page < $total_pages) {
         $next_url = add_query_arg('paged', $current_page + 1, get_pagenum_link());
         $output .= sprintf(
-            '<a href="%s" class="page-number next" aria-label="%s">%s</a>',
+            '<a href="%s" class="page-number next" aria-label="%s"><span class="pagination-icon pagination-icon-next"></span></a>',
             esc_url($next_url),
-            esc_attr__('Next page', 'fau-elemental'),
-            esc_html__('Next', 'fau-elemental')
+            esc_attr__('Next page', 'fau-elemental')
         );
     } else {
-        $output .= '<span class="page-number next disabled" aria-disabled="true">' . esc_html__('Next', 'fau-elemental') . '</span>';
+        $output .= '<span class="page-number next disabled" aria-disabled="true" aria-label="' . esc_attr__('Next page', 'fau-elemental') . '"><span class="pagination-icon pagination-icon-next"></span></span>';
     }
 
     $output .= '</div>';
