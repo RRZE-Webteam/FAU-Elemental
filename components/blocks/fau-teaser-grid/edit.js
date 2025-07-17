@@ -49,6 +49,113 @@ const wrapTeaserItems = ( items, layout ) => {
 	return wrappedItems;
 };
 
+// Generate pagination preview similar to render.php logic
+const generatePaginationPreview = ( currentPage, totalPages, paginationType ) => {
+	if ( totalPages <= 1 ) {
+		return null;
+	}
+
+	const pages = [];
+
+	// Previous button
+	if ( currentPage > 1 ) {
+		pages.push(
+			<span key="prev" className="page-number prev">
+				<span className="pagination-icon pagination-icon-prev"></span>
+			</span>
+		);
+	} else {
+		pages.push(
+			<span key="prev" className="page-number prev disabled">
+				<span className="pagination-icon pagination-icon-prev"></span>
+			</span>
+		);
+	}
+
+	if ( paginationType === 'numbers' ) {
+		if ( totalPages <= 7 ) {
+			// Show all pages if 7 or fewer
+			for ( let i = 1; i <= totalPages; i++ ) {
+				if ( i === currentPage ) {
+					pages.push(
+						<span key={ i } className="page-number current" aria-current="page">
+							{ i }
+						</span>
+					);
+				} else {
+					pages.push(
+						<span key={ i } className="page-number">
+							{ i }
+						</span>
+					);
+				}
+			}
+		} else {
+			// Show first 3 ... last 3 pattern
+			
+			// First 3 pages
+			for ( let i = 1; i <= 3; i++ ) {
+				if ( i === currentPage ) {
+					pages.push(
+						<span key={ i } className="page-number current" aria-current="page">
+							{ i }
+						</span>
+					);
+				} else {
+					pages.push(
+						<span key={ i } className="page-number">
+							{ i }
+						</span>
+					);
+				}
+			}
+
+			// Ellipsis
+			if ( totalPages > 6 ) {
+				pages.push(
+					<span key="ellipsis" className="page-ellipsis" aria-hidden="true">
+						...
+					</span>
+				);
+			}
+
+			// Last 3 pages
+			for ( let i = totalPages - 2; i <= totalPages; i++ ) {
+				if ( i === currentPage ) {
+					pages.push(
+						<span key={ i } className="page-number current" aria-current="page">
+							{ i }
+						</span>
+					);
+				} else {
+					pages.push(
+						<span key={ i } className="page-number">
+							{ i }
+						</span>
+					);
+				}
+			}
+		}
+	}
+
+	// Next button
+	if ( currentPage < totalPages ) {
+		pages.push(
+			<span key="next" className="page-number next">
+				<span className="pagination-icon pagination-icon-next"></span>
+			</span>
+		);
+	} else {
+		pages.push(
+			<span key="next" className="page-number next disabled">
+				<span className="pagination-icon pagination-icon-next"></span>
+			</span>
+		);
+	}
+
+	return pages;
+};
+
 export default function Edit( { attributes, setAttributes, clientId } ) {
 	const {
 		displayStyle,
@@ -57,7 +164,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		postsPerPage,
 		selectedCategory,
 		currentPage,
-		totalPosts,
 		orderBy,
 		order,
 		selectedPosts,
@@ -134,11 +240,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		[ categories ]
 	);
 
-	// Calculate total pages
+	// Calculate total pages for pagination preview
 	const calculatedTotalPosts =
-		totalPosts > 0 ? Math.min( totalPosts, totalItems ) : totalItems;
-	const calculatedTotalPages = Math.ceil(
-		calculatedTotalPosts / postsPerPage
+		selectionMode === 'manual'
+			? selectedPosts.length
+			: totalItems; // Use actual total items for pagination calculation
+	const calculatedTotalPages = Math.max(
+		1,
+		Math.ceil( calculatedTotalPosts / postsPerPage )
 	);
 
 	// Post selection handlers
@@ -421,59 +530,46 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						</Placeholder>
 					) }
 
-					{ showPagination && (
-						<div className="pagination-preview">
-							<div className="pagination-preview-controls">
-								{ paginationType === 'numbers' && (
-									<>
-										<span className="page-number prev disabled">
-											{ __(
-												'Previous',
-												'fau-elemental'
+					{ calculatedTotalPages > 1 && (
+						<div className={ `pagination-preview ${ ! showPagination ? 'pagination-disabled' : '' }` }>
+							{ ! showPagination && (
+								<div className="pagination-status-notice">
+									<small>
+										{ __(
+											'Pagination disabled - enable in block settings',
+											'fau-elemental'
+										) }
+									</small>
+								</div>
+							) }
+							<nav className="fau-pagination" role="navigation" aria-label={ __( 'Posts pagination', 'fau-elemental' ) }>
+								<div className="pagination-wrapper">
+									{ paginationType === 'numbers' && (
+										<>
+											{ generatePaginationPreview(
+												currentPage,
+												calculatedTotalPages,
+												paginationType
 											) }
-										</span>
-										<span className="page-number current">
-											1
-										</span>
-										<span className="page-number">2</span>
-										<span className="page-number">3</span>
-										<span className="page-ellipsis">…</span>
-										<span className="page-number">8</span>
-										<span className="page-number">9</span>
-										<span className="page-number">10</span>
-										<span className="page-number next">
-											{ __( 'Next', 'fau-elemental' ) }
-										</span>
-									</>
-								) }
-								{ paginationType === 'load-more' && (
-									<div className="wp-block-button">
-										<button className="wp-block-button__link load-more-button">
-											{ __(
-												'Load More',
-												'fau-elemental'
-											) }
-										</button>
-									</div>
-								) }
-							</div>
+										</>
+									) }
+									{ paginationType === 'load-more' && (
+										<div className="wp-block-button">
+											<button className="wp-block-button__link load-more-button">
+												{ __(
+													'Load More',
+													'fau-elemental'
+												) }
+											</button>
+										</div>
+									) }
+								</div>
+							</nav>
 						</div>
 					) }
 				</div>
 
-				{ calculatedTotalPages > 1 && selectionMode === 'auto' && (
-					<nav
-						role="navigation"
-						aria-label={ __( 'Pagination', 'fau-elemental' ) }
-					>
-						{ createPagination(
-							currentPage,
-							calculatedTotalPages,
-							( newPage ) =>
-								setAttributes( { currentPage: newPage } )
-						) }
-					</nav>
-				) }
+
 			</div>
 		</div>
 	);
