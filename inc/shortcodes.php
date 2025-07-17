@@ -189,13 +189,23 @@ class FAU_Elemental_Shortcodes {
                 continue;
             }
             
+            // Generate meaningful alt text for accessibility
+            $alt_text = '';
+            if (!empty($logo['title'])) {
+                $alt_text = esc_attr($logo['title']);
+            } elseif (!empty($logo['category'])) {
+                $alt_text = sprintf(__('Logo from %s', 'fau-elemental'), esc_attr($logo['category']));
+            } else {
+                $alt_text = __('Logo', 'fau-elemental');
+            }
+            
             $block_markup .= '<div class="fau-logo-grid__item">';
             
             if (!empty($logo['link'])) {
-                $block_markup .= '<a href="' . esc_url($logo['link']) . '" class="fau-logo-grid__link">';
+                $block_markup .= '<a href="' . esc_url($logo['link']) . '" class="fau-logo-grid__link" aria-label="' . $alt_text . '">';
             }
             
-            $block_markup .= '<img src="' . esc_url($logo['imageUrl']) . '" alt="" class="fau-logo-grid__image" loading="lazy" />';
+            $block_markup .= '<img src="' . esc_url($logo['imageUrl']) . '" alt="' . $alt_text . '" class="fau-logo-grid__image" loading="lazy" />';
             
             if (!empty($logo['link'])) {
                 $block_markup .= '</a>';
@@ -234,6 +244,7 @@ class FAU_Elemental_Shortcodes {
             'imageId' => $thumbnail_id,
             'imageUrl' => $thumbnail_url,
             'link' => $link_url,
+            'title' => $post->post_title,
             'category' => $category_data['name']
         );
     }
