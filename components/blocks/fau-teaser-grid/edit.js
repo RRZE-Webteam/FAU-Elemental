@@ -583,7 +583,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 										</>
 									) }
 									{ paginationType === 'load-more' && (
-										<div className="wp-block-button">
+										<div className="wp-block-button is-style-secondary">
 											<button className="wp-block-button__link load-more-button">
 												{ __(
 													'Load More',
