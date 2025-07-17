@@ -10,40 +10,8 @@
 		padding: var(--Spacing-4x);
 	}
 
-	// Connection indicator badges
-	.teaser-grid-connections {
-		display: flex;
-		gap: var(--Spacing-2x);
-		margin-bottom: var(--Spacing-4x);
-		flex-wrap: wrap;
 
-		.connection-badge {
-			display: inline-block;
-			padding: var(--Spacing-1x) var(--Spacing-3x);
-			border-radius: var(--Spacing-1x);
-			font-size: 0.8rem;
-			font-weight: 600;
-			white-space: nowrap;
-
-			&--filters {
-				background-color: #e8f4fd;
-				color: var(--FAU-Col-FAU-Blau-100);
-				border: 1px solid var(--FAU-Col-FAU-Blau-100);
-			}
-
-			&--pagination {
-				background-color: #e8f5e8;
-				color: #2e7d2e;
-				border: 1px solid #4caf50;
-			}
-
-			&--pagination-hidden {
-				background-color: #f5f5f5;
-				color: var(--FAU-Col-FAU-Schwarz-62_5);
-				border: 1px solid var(--FAU-Col-FAU-Schwarz-25);
-			}
-		}
-	}
+	
 }
 
 .fau-teaser-grid {
@@ -116,7 +84,7 @@
 		justify-content: center;
 		align-items: center;
 		gap: var(--Spacing-2x);
-		margin-top: var(--Spacing-8x);
+	
 
 		a.page-number,
 		button.page-number,
@@ -231,29 +199,3 @@
 }
 
 
-// Styles for the panel UI
-.components-panel {
-
-	.search-instructions {
-		font-style: italic;
-		color: #757575;
-		margin-top: 4px;
-		font-size: 13px;
-	}
-
-	.no-results-message {
-		color: #d94f4f;
-		margin-top: 4px;
-		font-size: 13px;
-	}
-
-	.selected-posts-list div {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 8px;
-		padding: 6px 8px;
-		background: #f0f0f0;
-		border-radius: 4px;
-	}
-}
