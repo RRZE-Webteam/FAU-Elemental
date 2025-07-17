@@ -5,38 +5,6 @@
  * @package Fau-Elemental
  */
 
-// Handle pagination validation for posts display
-add_action('template_redirect', function() {
-    // Only run when front page is set to show posts
-    if (!is_front_page() || !is_home()) {
-        return;
-    }
-    
-    // Use WordPress standard pagination query var
-    $current_page = max(1, get_query_var('paged', 1));
-    
-    // Calculate total pages for validation
-    $posts_per_page = faue_get_items_per_page();
-    $query_args = [
-        'post_type' => 'post',
-        'post_status' => 'publish',
-        'posts_per_page' => -1,
-        'fields' => 'ids'
-    ];
-    
-    $count_query = new WP_Query($query_args);
-    $total_posts = $count_query->found_posts; 
-    wp_reset_postdata();
-    $total_pages = max(1, ceil($total_posts / $posts_per_page));
-    
-    // Validate current page and redirect if necessary
-    if ($current_page > $total_pages && $total_pages > 0) {
-        // Redirect to last valid page
-        wp_safe_redirect(home_url('/page/' . $total_pages . '/'));
-        exit;
-    }
-});
-
 get_header();
 
 // Check if we should show posts or a static page
@@ -70,7 +38,7 @@ if (is_home() && is_front_page()) {
         ?>
 
         <?php
-        // Get pagination variables (validation already handled in template_redirect)
+        // Get pagination variables
         $current_page = max(1, get_query_var('paged', 1));
         $pagination_type = faue_get_pagination_type();
         $items_per_page = faue_get_items_per_page();

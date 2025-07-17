@@ -591,6 +591,21 @@ function faue_get_items_per_page() {
 }
 
 /**
+ * Synchronize WordPress's posts_per_page setting with theme's custom setting
+ * This ensures pagination URLs work correctly
+ */
+function faue_sync_posts_per_page($query) {
+    // Only apply to main query on archive pages and front page
+    if (!is_admin() && $query->is_main_query()) {
+        if (is_home() || is_archive() || is_category() || is_tag() || is_author() || is_date()) {
+            $theme_posts_per_page = faue_get_items_per_page();
+            $query->set('posts_per_page', $theme_posts_per_page);
+        }
+    }
+}
+add_action('pre_get_posts', 'faue_sync_posts_per_page');
+
+/**
  * Migrate address information from old theme (FAU-Einrichtungen) to new theme (FAU-Elemental)
  * This ensures backward compatibility for footer contact information
  * 
