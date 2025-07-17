@@ -30,7 +30,7 @@
 
 		"showPagination": {
 			"type": "boolean",
-			"default": true
+			"default": false
 		},
 		"paginationType": {
 			"type": "string",
@@ -96,7 +96,7 @@
 			"postsPerPage": 6,
 			"displayStyle": "teaser-grid",
 			"teaserLayout": "3m",
-			"showPagination": true,
+			"showPagination": false,
 			"paginationType": "numbers"
 		}
 	}
