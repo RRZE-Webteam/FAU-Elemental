@@ -76,8 +76,7 @@
 
 // Pagination preview styles - copy from frontend
 .pagination-preview {
-	margin-top: var(--Spacing-4x);
-	margin: auto;
+	margin: var(--Spacing-4x) auto 0;
 	
 	&.pagination-disabled {
 	

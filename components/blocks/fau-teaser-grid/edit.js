@@ -16,7 +16,7 @@ import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
 
 import PostTeaser from './components/PostTeaser';
 import PageTeaser from './components/PageTeaser';
-import { createPagination, updateGridClasses } from './utils/helpers';
+import { updateGridClasses } from './utils/helpers';
 import { DisplaySettings } from './components/editor/DisplaySettings';
 import { SelectionMode } from './components/editor/SelectionMode';
 import { ContentSettings } from './components/editor/ContentSettings';
@@ -50,7 +50,11 @@ const wrapTeaserItems = ( items, layout ) => {
 };
 
 // Generate pagination preview similar to render.php logic
-const generatePaginationPreview = ( currentPage, totalPages, paginationType ) => {
+const generatePaginationPreview = (
+	currentPage,
+	totalPages,
+	paginationType
+) => {
 	if ( totalPages <= 1 ) {
 		return null;
 	}
@@ -78,7 +82,11 @@ const generatePaginationPreview = ( currentPage, totalPages, paginationType ) =>
 			for ( let i = 1; i <= totalPages; i++ ) {
 				if ( i === currentPage ) {
 					pages.push(
-						<span key={ i } className="page-number current" aria-current="page">
+						<span
+							key={ i }
+							className="page-number current"
+							aria-current="page"
+						>
 							{ i }
 						</span>
 					);
@@ -92,12 +100,16 @@ const generatePaginationPreview = ( currentPage, totalPages, paginationType ) =>
 			}
 		} else {
 			// Show first 3 ... last 3 pattern
-			
+
 			// First 3 pages
 			for ( let i = 1; i <= 3; i++ ) {
 				if ( i === currentPage ) {
 					pages.push(
-						<span key={ i } className="page-number current" aria-current="page">
+						<span
+							key={ i }
+							className="page-number current"
+							aria-current="page"
+						>
 							{ i }
 						</span>
 					);
@@ -113,7 +125,11 @@ const generatePaginationPreview = ( currentPage, totalPages, paginationType ) =>
 			// Ellipsis
 			if ( totalPages > 6 ) {
 				pages.push(
-					<span key="ellipsis" className="page-ellipsis" aria-hidden="true">
+					<span
+						key="ellipsis"
+						className="page-ellipsis"
+						aria-hidden="true"
+					>
 						...
 					</span>
 				);
@@ -123,7 +139,11 @@ const generatePaginationPreview = ( currentPage, totalPages, paginationType ) =>
 			for ( let i = totalPages - 2; i <= totalPages; i++ ) {
 				if ( i === currentPage ) {
 					pages.push(
-						<span key={ i } className="page-number current" aria-current="page">
+						<span
+							key={ i }
+							className="page-number current"
+							aria-current="page"
+						>
 							{ i }
 						</span>
 					);
@@ -242,9 +262,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	// Calculate total pages for pagination preview
 	const calculatedTotalPosts =
-		selectionMode === 'manual'
-			? selectedPosts.length
-			: totalItems; // Use actual total items for pagination calculation
+		selectionMode === 'manual' ? selectedPosts.length : totalItems; // Use actual total items for pagination calculation
 	const calculatedTotalPages = Math.max(
 		1,
 		Math.ceil( calculatedTotalPosts / postsPerPage )
@@ -531,7 +549,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					) }
 
 					{ calculatedTotalPages > 1 && (
-						<div className={ `pagination-preview ${ ! showPagination ? 'pagination-disabled' : '' }` }>
+						<div
+							className={ `pagination-preview ${
+								! showPagination ? 'pagination-disabled' : ''
+							}` }
+						>
 							{ ! showPagination && (
 								<div className="pagination-status-notice">
 									<small>
@@ -542,7 +564,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 									</small>
 								</div>
 							) }
-							<nav className="fau-pagination" role="navigation" aria-label={ __( 'Posts pagination', 'fau-elemental' ) }>
+							<nav
+								className="fau-pagination"
+								role="navigation"
+								aria-label={ __(
+									'Posts pagination',
+									'fau-elemental'
+								) }
+							>
 								<div className="pagination-wrapper">
 									{ paginationType === 'numbers' && (
 										<>
@@ -568,8 +597,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						</div>
 					) }
 				</div>
-
-
 			</div>
 		</div>
 	);
