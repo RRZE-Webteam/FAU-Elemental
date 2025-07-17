@@ -32,7 +32,7 @@
 	figcaption {
 		box-sizing: border-box;
 		position: relative;
-		bottom: 47px;
+		bottom: var(--Spacing-12x);
 		left: 50%;
 		background-color: var(--FAU-Col-FAU-Weiss-100);
 		padding: var(--Spacing-6x) var(--Spacing-8x);
@@ -60,8 +60,8 @@
 		background: rgba(0, 0, 0, 0.5);
 		color: transparent;
 		cursor: pointer;
-		width: 48px;
-		height: 48px;
+		width: 3rem;
+		height: 3rem;
 		background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
 		z-index: 9;
 		border: 0;
@@ -70,10 +70,10 @@
 			content: "";
 			background-image: var(--icon-open-in-full);
 			position: absolute;
-			width: 20px;
-			height: 20px;
-			top: 14px;
-			right: 14px;
+			width: 1.25rem;
+			height: 1.25rem;
+			top: 0.875rem;
+			right: 0.875rem;
 			transition: var(--basic-animation);
 		}
 
@@ -115,19 +115,19 @@
 		color: transparent;
 		border: none;
 		cursor: pointer;
-		width: 48px;
-		height: 48px;
-		top: 14px;
-		right: 14px;
+		width: 3rem;
+		height: 3rem;
+		top: 0.875rem;
+		right: 0.875rem;
 
 		&::before {
 			content: "";
 			background-image: var(--icon-close-fullscreen);
 			position: absolute;
-			width: 20px;
-			height: 20px;
-			top: 14px;
-			right: 14px;
+			width: 1.25rem;
+			height: 1.25rem;
+			top: 0.875rem;
+			right: 0.875rem;
 			transition: var(--basic-animation);
 		}
 
@@ -174,15 +174,15 @@
 		padding: 0 var(--Spacing-5x);
 
 		.image-fullscreen-btn {
-			width: 40px;
-			height: 40px;
+			width: 2.5rem;
+			height: 2.5rem;
 			right: var(--Spacing-5x);
 
 			&::before {
-				width: 16px;
-				height: 16px;
-				top: 12px;
-				right: 12px;
+				width: 1rem;
+				height: 1rem;
+				top: 0.75rem;
+				right: 0.75rem;
 			}
 		}
 
@@ -195,7 +195,7 @@
 		}
 
 		figcaption {
-			padding: var(--Spacing-6x);
+			padding: var(--Spacing-4x) var(--Spacing-6x);
 		}
 	}
 }

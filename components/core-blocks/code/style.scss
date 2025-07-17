@@ -1,19 +1,17 @@
-/**
- * Core Code Block Styles
- */
+@use "../../ui/mixins/mixins" as *;
 
 .wp-block-code {
-	font-family: "Source Code Pro", monospace;
-	overflow-x: auto;
-	white-space: pre;
 	max-width: var(--small-max-width);
-	background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
-	color: var(--FAU-Col-FAU-Schwarz-100);
-	padding: var(--Spacing-6x) 0;
+	padding: 0 var(--Spacing-10x);
+	box-sizing: content-box;
+
+	@include respond-to("x-small") {
+		padding: 0 var(--Spacing-5x);
+	}
 
 	// Ensure proper scrollbar appearance across browsers
 	&::-webkit-scrollbar {
-		height: 8px;
+		height: 0.5rem;
 	}
 
 	&::-webkit-scrollbar-track {
@@ -22,7 +20,7 @@
 
 	&::-webkit-scrollbar-thumb {
 		background: #888;
-		border-radius: 10px;
+		border-radius: 0.625rem;
 
 		&:hover {
 			background: #555;
@@ -31,15 +29,22 @@
 
 	code {
 		display: block;
+		overflow-x: auto;
 		white-space: pre;
+		padding: var(--Spacing-4x);
+		font-family: "Source Code Pro", monospace;
+		color: var(--FAU-Col-FAU-Schwarz-100);
 		font-size: 1rem;
 		font-weight: 400;
 		line-height: 1.5;
+		background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
 	}
+}
 
-	// Dark mode
-	.is-style-dark &,
-	&.is-style-dark {
+// Dark mode
+.is-style-dark .wp-block-code {
+
+	code {
 		background-color: var(--FAU-Col-FAU-Dunkelblau-100);
 		color: var(--FAU-Col-FAU-Schwarz-5);
 	}

@@ -5,18 +5,6 @@ main {
 	min-height: 100vh;
 }
 
-main > .is-layout-flow > pre,
-main .is-layout-constrained > pre,	
-
-main >.is-layout-flow > .wp-block-table,
-main .is-layout-constrained > .wp-block-table {
-	padding: 0 var(--Spacing-10x);
-
-	@include respond-to("xs") {
-		padding: 0 var(--Spacing-5x);
-	}
-}
-
 // Screen reader text utility
 .screen-reader-text {
 	visibility: hidden;

@@ -11,7 +11,7 @@
 		justify-content: flex-start;
 		align-items: flex-end;
 		padding: 3.75rem;
-		min-height: 800px;
+		min-height: 50rem;
 
 		.wp-block-cover__inner-container {
 			width: unset;
@@ -19,7 +19,7 @@
 			.hero-content {
 				background-color: var(--FAU-Col-FAU-Blau-100);
 				padding: var(--Spacing-4x) var(--Spacing-6x);
-				max-width: 770px;
+				max-width: 48.125rem;
 				gap: var(--Spacing-5x);
 
 				.hero-front-page-title {
@@ -27,6 +27,14 @@
 					line-height: 1.2;
 					font-weight: 700;
 					letter-spacing: var(--letter-spacing-big);
+				}
+
+				.hero-text {
+					padding: 0;
+				}
+
+				.wp-block-buttons {
+					padding: 0;
 				}
 			}
 		}
@@ -46,10 +54,10 @@
 				content: "";
 				position: absolute;
 				display: block;
-				width: 18px;
-				height: 12px;
-				right: -26px;
-				top: 5px;
+				width: 1.125rem;
+				height: 0.75rem;
+				right: -1.625rem;
+				top: 0.3125rem;
 				background-image: var(--icon-arrow-weiss);
 				background-repeat: no-repeat;
 				transition: var(--basic-animation);
@@ -59,7 +67,7 @@
 			&:focus-visible {
 
 				&::after {
-					right: -30px;
+					right: -1.875rem;
 					transition: var(--basic-animation);
 				}
 			}
@@ -71,10 +79,10 @@
 @include respond-to("medium") {
 
 	.hero-fau .wp-block-cover {
-		min-height: 750px;
+		min-height: 46.875rem;
 
 		.wp-block-cover__inner-container .hero-content {
-			max-width: 750px;
+			max-width: 46.875rem;
 		}
 	}
 }
@@ -83,10 +91,10 @@
 
 	.hero-fau .wp-block-cover {
 		padding: var(--Spacing-10x);
-		min-height: 600px;
+		min-height: 37.5rem;
 
 		.wp-block-cover__inner-container .hero-content {
-			max-width: 500px;
+			max-width: 31.25rem;
 			gap: var(--Spacing-4x);
 
 			.hero-link-wrapper {
@@ -106,7 +114,7 @@
 		padding-left: unset;
 
 		&.no-text-and-link {
-			padding-bottom: 130px;
+			padding-bottom: 8.125rem;
 		}
 
 		.wp-block-cover__inner-container .hero-content {
