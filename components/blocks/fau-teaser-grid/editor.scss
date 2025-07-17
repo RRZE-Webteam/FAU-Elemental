@@ -223,6 +223,14 @@
 	}
 }
 
+// Load More Button - replace arrow with plus icon for secondary buttons
+.pagination-preview .wp-block-button.is-style-secondary .wp-block-button__link.load-more-button::before {
+	background-image: var(--icon-plus-weiss);
+	height: var(--Spacing-6x);
+	width: var(--Spacing-6x);
+}
+
+
 // Styles for the panel UI
 .components-panel {
 

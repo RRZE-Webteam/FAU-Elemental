@@ -322,7 +322,7 @@ function fau_elemental_generate_load_more($current_page, $total_pages, $grid_id)
     }
 
     $output = '<div class="fau-teaser-grid__load-more-wrapper">';
-    $output .= '<div class="wp-block-button">';
+    $output .= '<div class="wp-block-button is-style-secondary">';
     $output .= sprintf(
         '<button class="wp-block-button__link load-more-button" data-grid-id="%s" data-current-page="%d" data-total-pages="%d" data-default-text="%s" data-loading-text="%s">%s</button>',
         esc_attr($grid_id),
