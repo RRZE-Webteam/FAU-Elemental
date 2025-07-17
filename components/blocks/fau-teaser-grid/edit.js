@@ -548,7 +548,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						</Placeholder>
 					) }
 
-					{ calculatedTotalPages > 1 && (
+					{ calculatedTotalPages > 1 && paginationType === 'numbers' && (
 						<div
 							className={ `pagination-preview ${
 								! showPagination ? 'pagination-disabled' : ''
@@ -573,27 +573,36 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								) }
 							>
 								<div className="pagination-wrapper">
-									{ paginationType === 'numbers' && (
-										<>
-											{ generatePaginationPreview(
-												currentPage,
-												calculatedTotalPages,
-												paginationType
-											) }
-										</>
-									) }
-									{ paginationType === 'load-more' && (
-										<div className="wp-block-button is-style-secondary">
-											<button className="wp-block-button__link load-more-button">
-												{ __(
-													'Load More',
-													'fau-elemental'
-												) }
-											</button>
-										</div>
+									{ generatePaginationPreview(
+										currentPage,
+										calculatedTotalPages,
+										paginationType
 									) }
 								</div>
 							</nav>
+						</div>
+					) }
+
+					{ calculatedTotalPages > 1 && paginationType === 'load-more' && (
+						<div className="load-more-preview">
+							{ ! showPagination && (
+								<div className="pagination-status-notice">
+									<small>
+										{ __(
+											'Load More disabled - enable in block settings',
+											'fau-elemental'
+										) }
+									</small>
+								</div>
+							) }
+							<div className="wp-block-button is-style-secondary">
+								<button className="wp-block-button__link load-more-button">
+									{ __(
+										'Load More',
+										'fau-elemental'
+									) }
+								</button>
+							</div>
 						</div>
 					) }
 				</div>

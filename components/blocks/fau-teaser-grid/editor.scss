@@ -192,10 +192,28 @@
 }
 
 // Load More Button - replace arrow with plus icon for secondary buttons
-.pagination-preview .wp-block-button.is-style-secondary .wp-block-button__link.load-more-button::before {
+.wp-block-button.is-style-secondary .wp-block-button__link.load-more-button::before {
 	background-image: var(--icon-plus-weiss);
 	height: var(--Spacing-6x);
 	width: var(--Spacing-6x);
+}
+
+// Load More Preview Styles - separate from pagination
+.load-more-preview {
+	margin-top: var(--Spacing-4x);
+	width: 100%;
+	text-align: right;
+	grid-column: 1 / -1; // Span across all grid columns
+
+	.pagination-status-notice {
+		text-align: center;
+		margin-bottom: var(--Spacing-2x);
+
+		small {
+			color: #666;
+			font-style: italic;
+		}
+	}
 }
 
 
