@@ -41,39 +41,10 @@
 
 // Pagination preview styles - copy from frontend
 .pagination-preview {
-	margin: var(--Spacing-4x) auto 0;
+	margin: 0 auto 0;
 	width: 100%;
 	text-align: center;
 	grid-column: 1 / -1; // Span across all grid columns
-
-	&.pagination-disabled {
-
-
-		.pagination-preview-controls {
-			position: relative;
-
-			&::after {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				background: rgba(255, 255, 255, 0.3);
-				pointer-events: none;
-			}
-		}
-	}
-
-	.pagination-status-notice {
-		text-align: center;
-		margin-bottom: var(--Spacing-2x);
-
-		small {
-			color: #666;
-			font-style: italic;
-		}
-	}
 
 	// Frontend pagination styles copied for exact preview
 	.fau-pagination {
@@ -197,19 +168,8 @@
 
 // Load More Preview Styles - separate from pagination
 .load-more-preview {
-	margin-top: var(--Spacing-4x);
 	width: 100%;
 	text-align: right;
 	grid-column: 1 / -1; // Span across all grid columns
-
-	.pagination-status-notice {
-		text-align: center;
-		margin-bottom: var(--Spacing-2x);
-
-		small {
-			color: #666;
-			font-style: italic;
-		}
-	}
 }
 
