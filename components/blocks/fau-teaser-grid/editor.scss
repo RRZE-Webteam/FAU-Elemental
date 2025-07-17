@@ -77,15 +77,18 @@
 // Pagination preview styles - copy from frontend
 .pagination-preview {
 	margin: var(--Spacing-4x) auto 0;
-	
+	width: 100%;
+	text-align: center;
+	grid-column: 1 / -1; // Span across all grid columns
+
 	&.pagination-disabled {
-	
-		
+
+
 		.pagination-preview-controls {
 			position: relative;
-			
+
 			&::after {
-				content: '';
+				content: "";
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -96,11 +99,11 @@
 			}
 		}
 	}
-	
+
 	.pagination-status-notice {
 		text-align: center;
 		margin-bottom: var(--Spacing-2x);
-		
+
 		small {
 			color: #666;
 			font-style: italic;
@@ -109,7 +112,7 @@
 
 	// Frontend pagination styles copied for exact preview
 	.fau-pagination {
-		display: flex;
+		display: inline-flex;
 		justify-content: center;
 		align-items: center;
 		gap: var(--Spacing-2x);
