@@ -213,7 +213,7 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
 
     // Previous button
     if ($current_page > 1) {
-        $prev_url = add_query_arg('paged', $current_page - 1, get_pagenum_link());
+        $prev_url = get_pagenum_link($current_page - 1);
         $output .= sprintf(
             '<a href="%s" class="page-number prev" aria-label="%s"><span class="pagination-icon pagination-icon-prev"></span></a>',
             esc_url($prev_url),
@@ -234,7 +234,7 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                         $i
                     );
                 } else {
-                    $page_url = add_query_arg('paged', $i, get_pagenum_link());
+                    $page_url = get_pagenum_link($i);
                     $output .= sprintf(
                         '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                         esc_url($page_url),
@@ -254,7 +254,7 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                         $i
                     );
                 } else {
-                    $page_url = add_query_arg('paged', $i, get_pagenum_link());
+                    $page_url = get_pagenum_link($i);
                     $output .= sprintf(
                         '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                         esc_url($page_url),
@@ -277,7 +277,7 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                         $i
                     );
                 } else {
-                    $page_url = add_query_arg('paged', $i, get_pagenum_link());
+                    $page_url = get_pagenum_link($i);
                     $output .= sprintf(
                         '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                         esc_url($page_url),
@@ -291,7 +291,7 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
 
     // Next button
     if ($current_page < $total_pages) {
-        $next_url = add_query_arg('paged', $current_page + 1, get_pagenum_link());
+        $next_url = get_pagenum_link($current_page + 1);
         $output .= sprintf(
             '<a href="%s" class="page-number next" aria-label="%s"><span class="pagination-icon pagination-icon-next"></span></a>',
             esc_url($next_url),
