@@ -90,7 +90,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 					{ width === 'content-size' && (
 						<div className="fau-global-search__scope">
-							<label
+							{ /* <label
 								className="fau-global-search__scope-option"
 								htmlFor="scope-global-preview"
 							>
@@ -105,7 +105,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								<span>
 									{ __( 'Global Search', 'fau-elemental' ) }
 								</span>
-							</label>
+							</label> */ }
 							<label
 								className="fau-global-search__scope-option"
 								htmlFor="scope-website-preview"
@@ -115,6 +115,7 @@ export default function Edit( { attributes, setAttributes } ) {
 									name="scope"
 									value="website"
 									id="scope-website-preview"
+									defaultChecked
 									disabled
 								/>
 								<span>
