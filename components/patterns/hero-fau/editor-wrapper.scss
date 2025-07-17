@@ -5,13 +5,6 @@
 		pointer-events: none !important; // override WP CSS
 	}
 
-	// hide block lock toolbar
-	.block-editor-block-lock-toolbar,
-    // hide block mover
-	.block-editor-block-mover {
-		display: none;
-	}
-
 	&.faue-is-group-block-selected,
 	&.faue-is-heading-block-selected,
 	&.faue-is-paragraph-block-selected,
