@@ -510,9 +510,9 @@ function fau_customizer_settings($wp_customize) {
         },
     ));
 
-    // Add Pagination Settings Section
+    // Add Archive Pagination Settings Section
     $wp_customize->add_section('faue_pagination_settings', array(
-        'title'    => esc_html__('Pagination Settings', 'fau-elemental'),
+        'title'    => esc_html__('Archive pages settings', 'fau-elemental'),
         'priority' => 130,
     ));
 
