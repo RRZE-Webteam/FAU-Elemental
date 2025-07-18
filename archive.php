@@ -37,6 +37,12 @@ get_header(); ?>
                 <?php echo wp_kses_post(category_description()); ?>
             </div>
         </div>
+    <?php elseif (is_tag() && tag_description()) : ?>
+        <div class="is-layout-flow">
+            <div class="tag-description">
+                <?php echo wp_kses_post(tag_description()); ?>
+            </div>
+        </div>
     <?php endif; ?>
 
     <?php

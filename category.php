@@ -49,32 +49,6 @@ get_header(); ?>
         echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":' . $items_per_page . ',"selectedCategory":' . $category_id . ',"orderBy":"date","order":"DESC","headingLevel":"h2","showPagination":true,"paginationType":"' . $pagination_type . '","currentPage":' . $current_page . '} /-->');
         ?>
     </section>
-
-    <aside class="related-categories" aria-labelledby="related-categories-heading">
-        <?php
-        $related_categories = get_categories([
-            'exclude' => $category_id,
-            'number' => 5,
-            'orderby' => 'count',
-            'order' => 'DESC'
-        ]);
-        
-        if (!empty($related_categories)) : ?>
-            <h2 id="related-categories-heading" class="related-categories-title">
-                <?php _e('Explore Other Categories', 'fau-elemental'); ?>
-            </h2>
-            
-            <div class="category-links">
-                <?php foreach ($related_categories as $related_cat) : ?>
-                    <a href="<?php echo esc_url(get_category_link($related_cat->term_id)); ?>" 
-                       class="category-link">
-                        <?php echo esc_html($related_cat->name); ?>
-                        <span class="category-count">(<?php echo $related_cat->count; ?>)</span>
-                    </a>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
-    </aside>
 </main>
 
 <?php get_footer(); ?> 
