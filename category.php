@@ -69,14 +69,16 @@ get_header(); ?>
             <div class="archive-sorting">
                 <form method="get" class="sorting-form">
                     <label for="category-sort"><?php _e('Sort by:', 'fau-elemental'); ?></label>
-                    <select name="orderby" id="category-sort" onchange="this.form.submit()">
-                        <option value="date" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'date', 'date'); ?>>
-                            <?php _e('Date', 'fau-elemental'); ?>
-                        </option>
-                        <option value="title" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'date', 'title'); ?>>
-                            <?php _e('Title', 'fau-elemental'); ?>
-                        </option>
-                    </select>
+                    <div class="select-wrapper">
+                        <select name="orderby" id="category-sort" onchange="this.form.submit()">
+                            <option value="date" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'date', 'date'); ?>>
+                                <?php _e('Date', 'fau-elemental'); ?>
+                            </option>
+                            <option value="title" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'date', 'title'); ?>>
+                                <?php _e('Title', 'fau-elemental'); ?>
+                            </option>
+                        </select>
+                    </div>
                     <input type="hidden" name="order" value="<?php echo esc_attr(isset($_GET['order']) ? $_GET['order'] : 'DESC'); ?>">
                     <?php if (isset($_GET['paged'])) : ?>
                         <input type="hidden" name="paged" value="<?php echo esc_attr($_GET['paged']); ?>">

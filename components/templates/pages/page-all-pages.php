@@ -97,17 +97,19 @@ get_header(); ?>
             <div class="archive-sorting">
                 <form method="get" class="sorting-form">
                     <label for="pages-sort"><?php _e('Sort by:', 'fau-elemental'); ?></label>
-                    <select name="orderby" id="pages-sort" onchange="this.form.submit()">
-                        <option value="title" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'title', 'title'); ?>>
-                            <?php _e('Title', 'fau-elemental'); ?>
-                        </option>
-                        <option value="date" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'title', 'date'); ?>>
-                            <?php _e('Date', 'fau-elemental'); ?>
-                        </option>
-                        <option value="menu_order" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'title', 'menu_order'); ?>>
-                            <?php _e('Menu Order', 'fau-elemental'); ?>
-                        </option>
-                    </select>
+                    <div class="select-wrapper">
+                        <select name="orderby" id="pages-sort" onchange="this.form.submit()">
+                            <option value="title" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'title', 'title'); ?>>
+                                <?php _e('Title', 'fau-elemental'); ?>
+                            </option>
+                            <option value="date" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'title', 'date'); ?>>
+                                <?php _e('Date', 'fau-elemental'); ?>
+                            </option>
+                            <option value="menu_order" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'title', 'menu_order'); ?>>
+                                <?php _e('Menu Order', 'fau-elemental'); ?>
+                            </option>
+                        </select>
+                    </div>
                     <input type="hidden" name="order" value="<?php echo esc_attr(isset($_GET['order']) ? $_GET['order'] : 'ASC'); ?>">
                     <?php if (isset($_GET['paged'])) : ?>
                         <input type="hidden" name="paged" value="<?php echo esc_attr($_GET['paged']); ?>">

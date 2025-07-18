@@ -70,18 +70,17 @@
 		align-items: center;
 		margin-bottom: var(--Spacing-4x);
 
-		        .posts-count,
-        .pagination-info {
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 150%;
-            letter-spacing: 0.01em;
-            color: var(--FAU-Col-FAU-Schwarz-90);
-            
-            .pagination-number {
-                font-weight: 700;
-            }
-        }
+		.posts-count,
+		.pagination-info {
+			font-weight: 400;
+			font-size: var(--P-Caption);
+			letter-spacing: 0.01em;
+			color: var(--FAU-Col-FAU-Schwarz-90);
+
+			.pagination-number {
+				font-weight: 700;
+			}
+		}
 
 		.archive-sorting {
 			display: flex;
@@ -100,34 +99,42 @@
 					margin: 0;
 				}
 
-				select {
-					padding: var(--Spacing-1x) var(--Spacing-8x) var(--Spacing-1x) var(--Spacing-3x);
-					border: 1px solid var(--FAU-Col-FAU-Schwarz-12_5);
-					border-radius: var(--Spacing-1x);
-					background-color: var(--FAU-Col-FAU-Weiss-100);
-					appearance: none;
-					font-size: var(--P-Caption);
-					cursor: pointer;
+				.select-wrapper {
 					position: relative;
+					display: inline-block;
+
+					select {
+						padding: var(--Spacing-1x) var(--Spacing-8x) var(--Spacing-1x) var(--Spacing-3x);
+						border: none;
+						border-radius: var(--Spacing-1x);
+						background-color: var(--FAU-Col-FAU-Weiss-100);
+						appearance: none;
+						font-size: var(--P-Caption);
+						color: var(--FAU-Col-FAU-Blau-100);
+						cursor: pointer;
+
+
+						&:focus {
+							outline: none;
+							border: none;
+							box-shadow: none;
+						}
+					}
 
 					&::after {
 						content: "";
 						position: absolute;
 						top: 50%;
 						right: var(--Spacing-2x);
-						width: 0;
-						height: 0;
-						border-left: 6px solid transparent;
-						border-right: 6px solid transparent;
-						border-top: 6px solid #6b7280;
+						width: 16px;
+						height: 16px;
+						background-image: var(--icon-arrow-down-a-z);
+						background-size: contain;
+						background-repeat: no-repeat;
+						background-position: center;
 						transform: translateY(-50%);
 						pointer-events: none;
-					}
-
-					&:focus {
-						outline: none;
-						border-color: var(--FAU-Col-FAU-Blau-100);
-						box-shadow: 0 0 0 3px rgba(4, 49, 106, 0.1);
+						z-index: 1;
 					}
 				}
 			}
