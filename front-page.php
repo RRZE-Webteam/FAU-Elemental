@@ -12,7 +12,7 @@ if (is_home() && is_front_page()) {
     // Front page is set to show latest posts
     ?>
     <main class="wp-block-group blog-homepage">
-        <header class="blog-header">
+        <header class="blog-header is-layout-flow">
             <h1 class="blog-title">
                 <?php 
                 $blog_title = get_bloginfo('name');

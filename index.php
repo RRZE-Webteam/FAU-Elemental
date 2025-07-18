@@ -34,7 +34,7 @@ add_action('template_redirect', function() {
 get_header(); ?>
 
 <main class="wp-block-group blog-homepage">
-    <header class="blog-header">
+    <header class="blog-header is-layout-flow">
         <h1 class="blog-title">
             <?php 
             if (is_home()) {
