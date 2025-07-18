@@ -47,6 +47,8 @@ require_once get_template_directory() . '/inc/shortcodes-loader.php';
 // Portal menu compatibility with old theme
 require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
 
+// Image links migration from old themes
+require_once get_template_directory() . '/inc/image-links-migration.php';
 // Portal menu configuration
 require_once get_template_directory() . '/inc/portal-menu-config.php';
 
@@ -256,6 +258,10 @@ add_action('after_switch_theme', function() {
     if (function_exists('fau_elemental_migrate_address_information')) {
         fau_elemental_migrate_address_information();
     }
+    
+    // Schedule image links migration to run after WordPress is fully loaded
+    // This prevents critical errors during theme activation
+    update_option('fau_elemental_schedule_image_links_migration', true);
 });
 
 /**
