@@ -32,21 +32,10 @@
  */
 
 /**
- * Sanitize checkbox values
- * @param bool $checked Whether the checkbox is checked
- * @return bool Sanitized boolean value
+ * Sanitize checkbox input
  */
-function fau_sanitize_checkbox($checked) {
-    // Debug logging
-    error_log('FAU Elemental: Sanitizing checkbox value - Input: ' . var_export($checked, true));
-    
-    // WordPress sends "1" for checked checkboxes, empty for unchecked
-    $result = !empty($checked);
-    
-    // Debug logging
-    error_log('FAU Elemental: Sanitizing checkbox value - Output: ' . var_export($result, true));
-    
-    return $result;
+function sanitize_checkbox( $checked ) {
+    return ( ( isset( $checked ) && true == $checked ) ? true : false );
 }
 
 /**
@@ -117,7 +106,7 @@ function fau_customizer_settings($wp_customize) {
     $wp_customize->add_setting('footer_dark_style', [
         'default' => false,
         'transport' => 'refresh',
-        'sanitize_callback' => 'fau_sanitize_checkbox',
+        'sanitize_callback' => 'sanitize_checkbox',
     ]);
     
     $wp_customize->add_control('footer_dark_style', [
@@ -253,7 +242,7 @@ function fau_customizer_settings($wp_customize) {
     $wp_customize->add_setting('display_footer_address', [
         'default' => faue_get_default('display_footer_address'),
         'transport' => 'refresh',
-        'sanitize_callback' => 'fau_sanitize_checkbox',
+        'sanitize_callback' => 'sanitize_checkbox',
     ]);
     
     $wp_customize->add_control('display_footer_address', [
@@ -347,7 +336,7 @@ function fau_customizer_settings($wp_customize) {
     $wp_customize->add_setting('hide_fau_info_section', [
         'default' => false,
         'transport' => 'refresh',
-        'sanitize_callback' => 'fau_sanitize_checkbox',
+        'sanitize_callback' => 'sanitize_checkbox',
     ]);
                 
     $wp_customize->add_control('hide_fau_info_section', [
@@ -520,8 +509,101 @@ function fau_customizer_settings($wp_customize) {
             return get_theme_mod('faue_show_post_meta', true);
         },
     ));
+
+    // Add Archive Pagination Settings Section
+    $wp_customize->add_section('faue_pagination_settings', array(
+        'title'    => esc_html__('Archive pages settings', 'fau-elemental'),
+        'priority' => 130,
+    ));
+
+    // Pagination Type Setting
+    $wp_customize->add_setting('faue_pagination_type', array(
+        'default'           => 'numbers',
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'faue_sanitize_pagination_type',
+    ));
+
+    $wp_customize->add_control('faue_pagination_type', array(
+        'label'       => esc_html__('Pagination Type', 'fau-elemental'),
+        'section'     => 'faue_pagination_settings',
+        'type'        => 'select',
+        'choices'     => array(
+            'numbers'   => esc_html__('Page Numbers', 'fau-elemental'),
+            'load-more' => esc_html__('Load More Button', 'fau-elemental'),
+        ),
+        'description' => esc_html__('Choose how pagination is displayed on archive pages and teaser grids.', 'fau-elemental'),
+    ));
+
+    // Items Per Page Setting
+    $wp_customize->add_setting('faue_items_per_page', array(
+        'default'           => 6,
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'faue_sanitize_items_per_page',
+    ));
+
+    $wp_customize->add_control('faue_items_per_page', array(
+        'label'       => esc_html__('Items Per Page', 'fau-elemental'),
+        'section'     => 'faue_pagination_settings',
+        'type'        => 'number',
+        'description' => esc_html__('Number of items to display per page in archive pages and teaser grids.', 'fau-elemental'),
+        'input_attrs' => array(
+            'min'  => 1,
+            'max'  => 50,
+            'step' => 1,
+        ),
+    ));
 }
 add_action('customize_register', 'fau_customizer_settings');
+
+/**
+ * Sanitize pagination type input
+ */
+function faue_sanitize_pagination_type($input) {
+    $valid_types = array('numbers', 'load-more');
+    
+    if (!in_array($input, $valid_types)) {
+        return 'numbers';
+    }
+    
+    return $input;
+}
+
+/**
+ * Sanitize items per page input
+ */
+function faue_sanitize_items_per_page($input) {
+    $input = intval($input);
+    return max(1, min(50, $input)) ?: 6;
+}
+
+/**
+ * Get theme pagination settings
+ */
+function faue_get_pagination_type() {
+    return get_theme_mod('faue_pagination_type', 'numbers');
+}
+
+/**
+ * Get theme items per page setting
+ */
+function faue_get_items_per_page() {
+    return get_theme_mod('faue_items_per_page', 6);
+}
+
+/**
+ * Synchronize WordPress's posts_per_page setting with theme's custom setting
+ * This ensures pagination URLs work correctly
+ */
+function faue_sync_posts_per_page($query) {
+    // Only apply to main query on archive pages and front page
+    if (!is_admin() && $query->is_main_query()) {
+        if (is_home() || is_archive() || is_category() || is_tag() || is_author() || is_date()) {
+            $theme_posts_per_page = faue_get_items_per_page();
+            $query->set('posts_per_page', $theme_posts_per_page);
+        }
+    }
+}
+add_action('pre_get_posts', 'faue_sync_posts_per_page');
 
 /**
  * Migrate address information from old theme (FAU-Einrichtungen) to new theme (FAU-Elemental)
@@ -548,41 +630,27 @@ function fau_elemental_migrate_address_information($force = false) {
     $old_address_ort = isset($old_theme_mods['contact_address_ort']) ? $old_theme_mods['contact_address_ort'] : '';
     $old_address_country = isset($old_theme_mods['contact_address_country']) ? $old_theme_mods['contact_address_country'] : '';
     
-    // Log what we found for debugging
-    error_log('FAU Elemental Migration - Found old theme data:');
-    error_log('Display address: ' . var_export($old_display_address, true));
-    error_log('Address name: ' . var_export($old_address_name, true));
-    error_log('Address name2: ' . var_export($old_address_name2, true));
-    error_log('Address street: ' . var_export($old_address_street, true));
-    error_log('Address PLZ: ' . var_export($old_address_plz, true));
-    error_log('Address Ort: ' . var_export($old_address_ort, true));
-    error_log('Address Country: ' . var_export($old_address_country, true));
-    
     $migration_performed = false;
     
     // Migrate display address setting
     if ($old_display_address !== false) {
         set_theme_mod('display_footer_address', $old_display_address);
-        error_log('FAU Elemental: Migrated display_footer_address = ' . var_export($old_display_address, true));
         $migration_performed = true;
     }
     
     // Migrate address fields if they exist
     if (!empty($old_address_name)) {
         set_theme_mod('instance_university_name', $old_address_name);
-        error_log('FAU Elemental: Migrated instance_university_name = ' . $old_address_name);
         $migration_performed = true;
     }
     
     if (!empty($old_address_name2)) {
         set_theme_mod('instance_faculty_name', $old_address_name2);
-        error_log('FAU Elemental: Migrated instance_faculty_name = ' . $old_address_name2);
         $migration_performed = true;
     }
     
     if (!empty($old_address_street)) {
         set_theme_mod('instance_street', $old_address_street);
-        error_log('FAU Elemental: Migrated instance_street = ' . $old_address_street);
         $migration_performed = true;
     }
     
@@ -590,14 +658,12 @@ function fau_elemental_migrate_address_information($force = false) {
         $city_combined = trim($old_address_plz . ' ' . $old_address_ort);
         if (!empty($city_combined)) {
             set_theme_mod('instance_city', $city_combined);
-            error_log('FAU Elemental: Migrated instance_city = ' . $city_combined);
             $migration_performed = true;
         }
     }
     
     if (!empty($old_address_country)) {
         set_theme_mod('instance_country', $old_address_country);
-        error_log('FAU Elemental: Migrated instance_country = ' . $old_address_country);
         $migration_performed = true;
     }
     
@@ -624,7 +690,6 @@ function fau_elemental_migrate_address_information($force = false) {
     // Set default university name only if no data was migrated
     if (empty($old_address_name) && empty(get_theme_mod('instance_university_name'))) {
         set_theme_mod('instance_university_name', 'Friedrich-Alexander-Universität Erlangen-Nürnberg');
-        error_log('FAU Elemental: Set default instance_university_name');
     }
     
     // Mark as migrated
@@ -632,10 +697,8 @@ function fau_elemental_migrate_address_information($force = false) {
     
     if ($migration_performed) {
         set_transient('fau_elemental_address_migrated_success', true, 30);
-        error_log('FAU Elemental: Address migration completed successfully');
     } else {
         set_transient('fau_elemental_address_migrated_none', true, 30);
-        error_log('FAU Elemental: No address data found to migrate');
     }
     
     return $migration_performed;

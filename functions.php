@@ -71,14 +71,10 @@ function fau_elemental_register_page_templates($templates) {
     // Register the portal page template
     $templates[FAU_Elemental_Portal_Menu_Config::TEMPLATE] = __('Portal Page', 'fau-elemental');
     
-    // Force flush the template cache if we're in admin
-    if (is_admin()) {
-        $cache_key = 'page_templates-' . md5(get_theme_root() . '/' . get_stylesheet());
-        $old_templates = wp_cache_get($cache_key, 'themes');
-        if (is_array($old_templates)) {
-            wp_cache_delete($cache_key, 'themes');
-        }
-    }
+    // Manually register specific page templates
+    $templates['components/templates/pages/page-all-posts.php'] = __('All Posts', 'fau-elemental');
+    $templates['components/templates/pages/page-all-pages.php'] = __('All Pages', 'fau-elemental');
+   
     
     return $templates;
 }

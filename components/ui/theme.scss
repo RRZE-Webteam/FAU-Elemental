@@ -49,3 +49,6 @@
 
 // Plugin Integrations
 @use "plugins/index" as *;
+
+// Template Styles
+@use "../templates/pages/style" as *;

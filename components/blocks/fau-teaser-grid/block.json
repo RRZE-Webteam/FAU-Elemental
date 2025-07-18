@@ -25,15 +25,25 @@
 		},
 		"postsPerPage": {
 			"type": "number",
-			"default": 3
+			"default": 6
 		},
-		"showLoadMore": {
+
+		"showPagination": {
 			"type": "boolean",
 			"default": false
+		},
+		"paginationType": {
+			"type": "string",
+			"default": "numbers",
+			"enum": [ "numbers", "load-more" ]
 		},
 		"selectedCategory": {
 			"type": "number",
 			"default": 0
+		},
+		"selectedTags": {
+			"type": "array",
+			"default": []
 		},
 		"selectedTaxonomy": {
 			"type": "string",
@@ -78,6 +88,10 @@
 		"headingLevel": {
 			"type": "string",
 			"default": "h4"
+		},
+		"customBlockId": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"example": {
@@ -86,7 +100,8 @@
 			"postsPerPage": 6,
 			"displayStyle": "teaser-grid",
 			"teaserLayout": "3m",
-			"showLoadMore": true
+			"showPagination": false,
+			"paginationType": "numbers"
 		}
 	}
 }
