@@ -16,7 +16,7 @@ get_header(); ?>
             <?php 
             $description = category_description();
             if (empty($description)) {
-                $description = sprintf(__('Browse all posts in the %s category. Use the filters below to refine your search and find exactly what you\'re looking for.', 'fau-elemental'), single_cat_title('', false));
+                $description = sprintf(__('Browse all posts in the %s category.', 'fau-elemental'), single_cat_title('', false));
             }
             echo wp_kses_post($description);
             ?>
