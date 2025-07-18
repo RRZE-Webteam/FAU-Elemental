@@ -85,8 +85,7 @@ get_header(); ?>
                     );
                 } else {
                     printf(
-                        '%1$s (<span class="pagination-number">%2$s</span> %3$s)',
-                        __('All posts', 'fau-elemental'),
+                        '<span class="pagination-number">%1$s</span> %2$s',
                         number_format_i18n($total_posts),
                         __('total', 'fau-elemental')
                     );
