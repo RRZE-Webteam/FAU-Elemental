@@ -66,7 +66,7 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 							/>
 							<span><?php echo __('FAU-wide Search', 'fau-elemental'); ?></span>
 						</label> -->
-						<label class="fau-global-search__scope-option">
+						<!-- <label class="fau-global-search__scope-option">
 							<input 
 								type="radio" 
 								name="fau_search_scope" 
@@ -74,7 +74,7 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 								checked="checked"
 							/>
 							<span><?php echo __('Current Site Only', 'fau-elemental'); ?></span>
-						</label>
+						</label> -->
 					</div>
 				<?php endif; ?>
 

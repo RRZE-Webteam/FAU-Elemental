@@ -26,7 +26,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			if ( isInMenuModal ) {
 				initializeSearchOptionsMenu( form, input );
 			}
-			initializeFrequentSearches( input, form, isInMenuModal );
+			// initializeFrequentSearches( input, form, isInMenuModal );
 		}
 	} );
 } );
@@ -418,6 +418,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 /**
  * Initialize frequent searches functionality
  */
+/*
 function initializeFrequentSearches( input, form, isInMenuModal ) {
 	// Prevent multiple initializations
 	if ( form._frequentSearchesInitialized ) {
@@ -702,6 +703,7 @@ function initializeFrequentSearches( input, form, isInMenuModal ) {
 		}
 	}
 }
+*/
 
 /**
  * Initialize search options menu (loads when block appears)
