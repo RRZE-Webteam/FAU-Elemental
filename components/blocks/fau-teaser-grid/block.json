@@ -41,6 +41,10 @@
 			"type": "number",
 			"default": 0
 		},
+		"selectedTags": {
+			"type": "array",
+			"default": []
+		},
 		"selectedTaxonomy": {
 			"type": "string",
 			"default": ""

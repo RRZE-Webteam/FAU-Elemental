@@ -32,6 +32,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     $current_page = $attributes['currentPage'] ?? 1;
     $posts_per_page = $attributes['postsPerPage'] ?? 6;
     $selected_category = $attributes['selectedCategory'] ?? 0;
+    $selected_tags = $attributes['selectedTags'] ?? [];
     $order_by = $attributes['orderBy'] ?? 'date';
     $order = $attributes['order'] ?? 'DESC';
     $heading_level = $attributes['headingLevel'] ?? 'h4';
@@ -71,6 +72,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
         'data-custom-block-id' => $custom_block_id,
         'data-variant' => $variant,
         'data-category' => $selected_category,
+        'data-tags' => !empty($selected_tags) ? implode(',', $selected_tags) : '',
         'data-posts-per-page' => $posts_per_page,
         'data-display-style' => $display_style,
         'data-teaser-layout' => $teaser_layout,
@@ -134,6 +136,10 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
 
         if ($selected_category > 0) {
             $query_args['cat'] = $selected_category;
+        }
+
+        if (!empty($selected_tags)) {
+            $query_args['tag__in'] = $selected_tags;
         }
 
         $query = new WP_Query($query_args);
