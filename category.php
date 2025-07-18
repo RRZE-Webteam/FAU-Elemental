@@ -49,15 +49,18 @@ get_header(); ?>
                 <?php
                 if ($post_count > $items_per_page) {
                     printf(
-                        __('%1$s to %2$s of %3$s', 'fau-elemental'),
+                        '<span class="pagination-number">%1$s</span> %2$s <span class="pagination-number">%3$s</span> %4$s <span class="pagination-number">%5$s</span>',
                         number_format_i18n($start_item),
+                        __('to', 'fau-elemental'),
                         number_format_i18n($end_item),
+                        __('of', 'fau-elemental'),
                         number_format_i18n($post_count)
                     );
                 } else {
                     printf(
-                        __('%s total', 'fau-elemental'),
-                        number_format_i18n($post_count)
+                        '<span class="pagination-number">%1$s</span> %2$s',
+                        number_format_i18n($post_count),
+                        __('total', 'fau-elemental')
                     );
                 }
                 ?>
