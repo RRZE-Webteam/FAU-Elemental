@@ -1,11 +1,14 @@
+@use "../../ui/mixins/mixins" as *;
+
 details.wp-block-details {
 	max-width: var(--small-max-width);
-	border-bottom: 1px solid var(--FAU-Col-FAU-Blau-100);
-	padding-bottom: 20px;
-	padding-top: 20px;
+	border-bottom: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
+	padding-bottom: 1.25rem;
+	padding-top: 1.25rem;
+	width: calc(100% - var(--Spacing-20x));
 
 	&:first-of-type {
-		border-top: 1px solid var(--FAU-Col-FAU-Blau-100);
+		border-top: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
 	}
 
 	summary {
@@ -15,12 +18,11 @@ details.wp-block-details {
 		font-size: var(--H-Heading-4);
 		font-weight: 700;
 		color: var(--FAU-Col-FAU-Blau-100);
-		padding-right: 80px;
+		padding-right: var(--Spacing-20x);
 
 		&::-webkit-details-marker {
 			display: none; // Hide default arrow
 		}
-
 
 		// Chevron
 		&::before {
@@ -30,29 +32,30 @@ details.wp-block-details {
 			background-repeat: no-repeat;
 			transform: rotate(90deg);
 			z-index: 1;
-			height: 15px;
-			width: 9px;
-			right: 15px;
-			top: 8px;
+			height: 0.9375rem;
+			width: 0.5625rem;
+			right: 0.9375rem;
+			top: 0.5rem;
 			transition: var(--basic-animation);
 		}
 
 		// Box for chevron
 		&::after {
+
 			content: "";
 			position: absolute;
 			background-color: var(--FAU-Col-FAU-Blau-100);
-			height: 40px;
-			width: 40px;
+			height: 2.5rem;
+			width: 2.5rem;
 			right: 0;
-			top: -5px;
+			top: -0.3125rem;
 		}
 
 		&:hover,
 		&:focus-visible {
 
 			&::before {
-				top: 12px;
+				top: 0.75rem;
 				transition: var(--basic-animation);
 			}
 		}
@@ -80,7 +83,7 @@ details.wp-block-details {
 	}
 
 	p {
-		padding-right: 80px;
+		padding: 0 var(--Spacing-20x) 0 0;
 	}
 
 	// Flip chevron when active
@@ -99,10 +102,10 @@ details.wp-block-details {
 .is-style-dark {
 
 	details.wp-block-details {
-		border-bottom: 1px solid var(--FAU-Col-FAU-Weiss-100);
+		border-bottom: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 
 		&:first-of-type {
-			border-top: 1px solid var(--FAU-Col-FAU-Weiss-100);
+			border-top: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 		}
 
 		summary {
@@ -116,5 +119,13 @@ details.wp-block-details {
 				background-color: var(--FAU-Col-FAU-Weiss-100);
 			}
 		}
+	}
+}
+
+// Responsive
+@include respond-to("x-small") {
+
+	details.wp-block-details {
+		width: calc(100% - var(--Spacing-10x));
 	}
 }

@@ -55,7 +55,11 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 					</button>
 				</div>
 				
-				<?php if ($width === 'content-size'): ?>
+				<?php 
+				//FAU-wide Search for Global and Inline Search is supposed to be some kind of google search which might get implemented in the future;
+				// Keeping code commented out for future implementation rather than deletion
+				/*
+				if ($width === 'content-size'): ?>
 					<div class="fau-global-search__scope">
 						<label class="fau-global-search__scope-option">
 							<input 
@@ -71,11 +75,14 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 								type="radio" 
 								name="fau_search_scope" 
 								value="current-site"
+								checked="checked"
 							/>
 							<span><?php echo __('Current Site Only', 'fau-elemental'); ?></span>
 						</label>
 					</div>
-				<?php endif; ?>
+				<?php endif; 
+				*/
+				?>
 
 				<?php if ($width === 'content-size'): ?>
 					<!-- Hidden elements for JavaScript to use (translatable) -->

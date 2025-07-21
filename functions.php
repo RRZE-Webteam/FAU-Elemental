@@ -47,6 +47,8 @@ require_once get_template_directory() . '/inc/shortcodes-loader.php';
 // Portal menu compatibility with old theme
 require_once get_template_directory() . '/inc/portal-menu-compatibility.php';
 
+// Image links migration from old themes
+require_once get_template_directory() . '/inc/image-links-migration.php';
 // Portal menu configuration
 require_once get_template_directory() . '/inc/portal-menu-config.php';
 
@@ -69,14 +71,10 @@ function fau_elemental_register_page_templates($templates) {
     // Register the portal page template
     $templates[FAU_Elemental_Portal_Menu_Config::TEMPLATE] = __('Portal Page', 'fau-elemental');
     
-    // Force flush the template cache if we're in admin
-    if (is_admin()) {
-        $cache_key = 'page_templates-' . md5(get_theme_root() . '/' . get_stylesheet());
-        $old_templates = wp_cache_get($cache_key, 'themes');
-        if (is_array($old_templates)) {
-            wp_cache_delete($cache_key, 'themes');
-        }
-    }
+    // Manually register specific page templates
+    $templates['components/templates/pages/page-all-posts.php'] = __('All Posts', 'fau-elemental');
+    $templates['components/templates/pages/page-all-pages.php'] = __('All Pages', 'fau-elemental');
+   
     
     return $templates;
 }
@@ -256,6 +254,10 @@ add_action('after_switch_theme', function() {
     if (function_exists('fau_elemental_migrate_address_information')) {
         fau_elemental_migrate_address_information();
     }
+    
+    // Schedule image links migration to run after WordPress is fully loaded
+    // This prevents critical errors during theme activation
+    update_option('fau_elemental_schedule_image_links_migration', true);
 });
 
 /**
@@ -331,3 +333,28 @@ function fau_elemental_register_teaser_grid_ajax() {
     require_once get_template_directory() . '/components/blocks/fau-teaser-grid/ajax.php';
 }
 add_action('init', 'fau_elemental_register_teaser_grid_ajax');
+
+/**
+ * TBD
+ * Control block locking permissions
+ * 
+ * This function restricts who can lock and unlock blocks in the editor.
+ * By default, only users with 'edit_theme_options' capability can lock/unlock blocks.
+ * You can modify this logic based on your needs.
+ */
+function fau_elemental_control_block_locking_permissions($settings, $context) {
+    // Option 1: Completely disable block locking for all users
+    $settings['canLockBlocks'] = false;
+    
+    // Option 2: Only allow users with theme editing capabilities to lock/unlock blocks
+    // $settings['canLockBlocks'] = current_user_can('edit_theme_options');
+    
+    // Option 3: Only allow administrators to lock/unlock blocks
+    // $settings['canLockBlocks'] = current_user_can('manage_options');
+    
+    // Option 4: Custom logic - only allow specific user roles
+    // $settings['canLockBlocks'] = current_user_can('administrator') || current_user_can('editor');
+    
+    return $settings;
+}
+add_filter('block_editor_settings_all', 'fau_elemental_control_block_locking_permissions', 10, 2);

@@ -19,7 +19,8 @@ import EditorPreview from './EditorPreview';
  */
 export default function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps( {
-		className: 'wp-block-fau-elemental-portalmenu',
+		className: 'fau-portal-menu',
+		'aria-label': __( 'Portal Menu', 'fau-elemental' ),
 	} );
 
 	// Get available menus
@@ -95,16 +96,6 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 						help={ __(
 							'Hide thumbnail images for all menu items.',
-							'fau-elemental'
-						) }
-					/>
-
-					<ToggleControl
-						label={ __( 'Dark Style', 'fau-elemental' ) }
-						checked={ !! attributes.isDark }
-						onChange={ ( isDark ) => setAttributes( { isDark } ) }
-						help={ __(
-							'Use dark background styling for the portal menu.',
 							'fau-elemental'
 						) }
 					/>

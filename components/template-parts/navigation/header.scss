@@ -720,11 +720,16 @@ body.modal-open {
 	.menu-website-modal__language-switcher {
 		display: none;
 	}
+
+	// prevents double usage of border-bottom
+	li li:not([style*="none"]):has(ul:not([style*="none"])) {
+		border-bottom: none;
+	}
 }
 
 // Exception for front page
 
-.home .site-content {
+.home main {
 	padding-top: 2.8125rem; // Compensate for height of Header top
 }
 
@@ -997,7 +1002,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 	}
 
 	// Exception for front page
-	.home .site-content {
+	.home main {
 		padding-top: unset;
 	}
 

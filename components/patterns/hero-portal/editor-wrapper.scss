@@ -1,10 +1,5 @@
 .faue-is-hero-portal-pattern-selected {
 
-	.block-editor-block-lock-toolbar,
-	.block-editor-block-mover {
-		display: none;
-	}
-
 	.block-editor-block-inspector {
 
 		>:not(.block-editor-block-card) {
@@ -29,11 +24,6 @@
 			>.block-editor-block-toolbar__slot {
 				display: none;
 			}
-			// hide block options dropdown
-			>.components-toolbar-group:nth-last-child(1) {
-				display: none;
-			}
-
 		}
 	}
 
@@ -42,16 +32,6 @@
 		.block-editor-block-toolbar {
 			// hide all toolbar groups
 			>.components-toolbar-group {
-				display: none;
-			}
-		}
-	}
-
-	&.faue-is-button-block-selected {
-
-		.block-editor-block-toolbar {
-			// hide block options dropdown
-			>.components-toolbar-group:nth-last-child(1) {
 				display: none;
 			}
 		}

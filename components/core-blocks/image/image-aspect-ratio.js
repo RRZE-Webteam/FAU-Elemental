@@ -2,7 +2,7 @@
 	// Function to enforce 3:2 aspect ratio maximum
 	function enforceAspectRatio() {
 		// Select images that are in wp-block-image but not in wp-block-gallery
-		$( '.wp-block-image:not(.wp-block-gallery .wp-block-image)' ).each(
+		$( 'main .wp-block-image:not(.wp-block-gallery .wp-block-image)' ).each(
 			function () {
 				const xSmallWidth = 393;
 				const $block = $( this );

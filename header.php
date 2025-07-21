@@ -40,5 +40,3 @@
         faue_breadcrumbs();
     }
     ?>
-
-    <div id="content" class="site-content"> 
