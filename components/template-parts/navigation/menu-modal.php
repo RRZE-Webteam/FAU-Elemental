@@ -346,13 +346,13 @@ class Menu_Modal {
                     <?php if ($show_back_button): ?>
                         <button class="<?php echo esc_attr($modal_class); ?>__back-btn" aria-label="<?php esc_attr_e('Back to main menu', 'fau-elemental'); ?>" style="display: none;">
                             <span class="<?php echo esc_attr($modal_class); ?>__back-icon" aria-hidden="true"></span>
-                            <span class="<?php echo esc_attr($modal_class); ?>__back-text"><?php esc_html_e('Zurück', 'fau-elemental'); ?></span>
+                            <span class="<?php echo esc_attr($modal_class); ?>__back-text"><?php esc_html_e('Back', 'fau-elemental'); ?></span>
                         </button>
                     <?php endif; ?>
                     
                     <?php if ($show_close_button): ?>
                         <button class="<?php echo esc_attr($modal_class); ?>__close-btn" aria-label="<?php esc_attr_e('Close menu', 'fau-elemental'); ?>">
-                            <span><?php esc_html_e('Schließen', 'fau-elemental'); ?></span>
+                            <span><?php esc_html_e('Close', 'fau-elemental'); ?></span>
                             <span class="<?php echo esc_attr($modal_class); ?>__close-icon" aria-hidden="true"></span>
                         </button>
                     <?php endif; ?>
@@ -515,7 +515,3 @@ class Menu_Modal_Hierarchy_Walker extends Walker_Nav_Menu {
         $output .= "</li>\n";
     }
 }
-
-// Initialize the unified component and make it globally accessible
-global $menu_modal;
-$menu_modal = new Menu_Modal(); 
