@@ -515,7 +515,3 @@ class Menu_Modal_Hierarchy_Walker extends Walker_Nav_Menu {
         $output .= "</li>\n";
     }
 }
-
-// Initialize the unified component and make it globally accessible
-global $menu_modal;
-$menu_modal = new Menu_Modal(); 
