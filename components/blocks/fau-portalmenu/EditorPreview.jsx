@@ -4,9 +4,9 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
-// TODO Get the theme URL from WordPress data
 const FALLBACK_IMAGE =
-	'/wp-content/themes/fau-elemental/assets/images/logo.svg';
+	( ( window.fauElemental && window.fauElemental.themeUrl ) ??
+		'/wp-content/themes/fau-elemental' ) + '/assets/images/logo.svg';
 
 /**
  * Editor preview component for FAU Portal Menu block
@@ -54,7 +54,7 @@ const EditorPreview = ( { attributes } ) => {
 							media.media_details.sizes
 						) {
 							const imageSize =
-								media.media_details.sizes.medium ||
+								media.media_details.sizes.medium_large ||
 								media.media_details.sizes.full;
 							if ( imageSize ) {
 								featuredImageUrl = imageSize.source_url;
@@ -161,12 +161,13 @@ const EditorPreview = ( { attributes } ) => {
 		const showSubs = attributes.showSubs !== false;
 		const itemImage = getMenuItemImage( item );
 		const itemTitle =
+			item.title?.raw ||
 			item.title?.rendered ||
 			item.title ||
 			__( 'Menu Item', 'fau-elemental' );
 
 		return (
-			<div key={ item.id } className="fau-portal-item">
+			<li key={ item.id } className="fau-portal-item">
 				{ ! attributes.noThumbs && (
 					<div className="fau-portal-thumbnail">
 						{ itemImage ? (
@@ -225,6 +226,7 @@ const EditorPreview = ( { attributes } ) => {
 							<ul>
 								{ item.children.map( ( child ) => {
 									const childTitle =
+										child.title?.raw ||
 										child.title?.rendered ||
 										child.title ||
 										__( 'Submenu Item', 'fau-elemental' );
@@ -263,52 +265,43 @@ const EditorPreview = ( { attributes } ) => {
 						) }
 					</div>
 				</div>
-			</div>
+			</li>
 		);
 	};
 
 	return (
-		<div
-			className={ `wp-block-group${
-				attributes.isDark ? ' is-style-dark' : ''
-			}` }
-		>
-			<div
-				className="fau-portal-menu"
-				aria-label={ __( 'Portal Menu', 'fau-elemental' ) }
-			>
-				{ menuItems && menuItems.length > 0 ? (
-					menuItems.map( ( item ) => renderMenuItem( item ) )
-				) : menuItems && menuItems.length === 0 ? (
-					<div
-						className="fau-portal-empty-state"
-						role="status"
-						aria-live="polite"
-					>
-						{ __(
-							'This menu has no items. Please add items to the menu in Appearance → Menus.',
-							'fau-elemental'
-						) }
-					</div>
-				) : attributes.menuId && ! menuItems ? (
-					<div
-						className="fau-portal-loading-state"
-						role="status"
-						aria-live="polite"
-					>
-						{ __( 'Loading menu items…', 'fau-elemental' ) }
-					</div>
-				) : (
-					<div
-						className="fau-portal-no-menu-state"
-						role="status"
-						aria-live="polite"
-					>
-						{ __( 'No menu selected', 'fau-elemental' ) }
-					</div>
-				) }
-			</div>
-		</div>
+		<>
+			{ menuItems && menuItems.length > 0 ? (
+				<ul>{ menuItems.map( ( item ) => renderMenuItem( item ) ) }</ul>
+			) : menuItems && menuItems.length === 0 ? (
+				<div
+					className="fau-portal-empty-state"
+					role="status"
+					aria-live="polite"
+				>
+					{ __(
+						'This menu has no items. Please add items to the menu in Appearance → Menus.',
+						'fau-elemental'
+					) }
+				</div>
+			) : attributes.menuId && ! menuItems ? (
+				<div
+					className="fau-portal-loading-state"
+					role="status"
+					aria-live="polite"
+				>
+					{ __( 'Loading menu items…', 'fau-elemental' ) }
+				</div>
+			) : (
+				<div
+					className="fau-portal-no-menu-state"
+					role="status"
+					aria-live="polite"
+				>
+					{ __( 'No menu selected', 'fau-elemental' ) }
+				</div>
+			) }
+		</>
 	);
 };
 

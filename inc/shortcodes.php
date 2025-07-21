@@ -58,7 +58,6 @@ class FAU_Elemental_Shortcodes {
                 'menu'     => '',
                 'showsubs' => true,
                 'nothumbs' => false,
-                'theme'    => 'light', // Theme: light, dark
             ), 
         $atts);
 
@@ -74,7 +73,6 @@ class FAU_Elemental_Shortcodes {
         // Convert attribute types
         $showsubs = is_bool($atts['showsubs']) ? $atts['showsubs'] : ($atts['showsubs'] === 'true' || $atts['showsubs'] === '1');
         $nothumbs = is_bool($atts['nothumbs']) ? $atts['nothumbs'] : ($atts['nothumbs'] === 'true' || $atts['nothumbs'] === '1');
-        $theme = $atts['theme'] === 'dark' ? 'dark' : 'light';
 
         // Find menu by ID, slug, or name
         $term = null;
@@ -91,8 +89,6 @@ class FAU_Elemental_Shortcodes {
         if (!$term) {
             return $error;
         }
-        
-        $slug = $term->slug;
 
         // Include Walker_Content_Menu class if not already included
         if (!class_exists('Walker_Content_Menu')) {
@@ -104,28 +100,8 @@ class FAU_Elemental_Shortcodes {
             'showsubs' => $showsubs,
             'nothumbs' => $nothumbs,
         );
-        
-        $out = "\n";
-        $out .= '<div class="wp-block-group' . ($theme === 'dark' ? ' is-style-dark' : '') . '">' . "\n";
-        $out .= '<div class="fau-portal-menu" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
-        
-        // Generate menu HTML
-        $out .= wp_nav_menu(
-            array(
-                'menu' => $slug,
-                'echo' => false,
-                'container' => true,
-                'items_wrap' => '%3$s',
-                'link_before' => '',
-                'link_after' => '',
-                'item_spacing' => 'discard',
-                'walker' => new Walker_Content_Menu($walker_settings)
-            )
-        );
 
-        $out .= "</div>\n</div>\n";
-
-        return $out;
+        return Walker_Content_Menu::render_portalmenu($term->slug, $walker_settings);
     }
 
     /**

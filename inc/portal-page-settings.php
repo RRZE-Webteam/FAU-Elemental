@@ -9,6 +9,32 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+define('FAUE_NAV_MENUS_CACHE_KEY', 'fau_elemental_nav_menus');
+
+/**
+ * Returns cached menus
+ */
+function fau_elemental_get_nav_menus() {
+    $menus = wp_cache_get( FAUE_NAV_MENUS_CACHE_KEY, 'theme' );
+    if ( false === $menus ) {
+        $menus = get_terms(
+            array(
+                'taxonomy'   => 'nav_menu',
+                'fields'     => 'id=>name', // ID -> Name-Map
+                'hide_empty' => false,
+                'orderby'    => 'name',
+            )
+        );
+        wp_cache_set( FAUE_NAV_MENUS_CACHE_KEY, $menus, 'theme', 3 * HOUR_IN_SECONDS );
+    }
+    return $menus;
+}
+
+/**
+ * Clear cache on navigation menu change
+ */
+add_action( 'wp_update_nav_menu', fn() => wp_cache_delete( FAUE_NAV_MENUS_CACHE_KEY, 'theme' ) );
+
 /**
  * Add meta boxes for portal page settings
  */
@@ -33,13 +59,13 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
     wp_nonce_field('fau_elemental_portal_menu_meta_box', 'fau_elemental_portal_menu_meta_box_nonce');
 
     // Get the saved values
-    $menu_id = get_post_meta($post->ID, 'portal_menu_id', true);
+    $selected_menu_id = get_post_meta($post->ID, 'portal_menu_id', true);
     $hide_subs = get_post_meta($post->ID, 'portal_menu_hide_subs', true);
     $hide_thumbs = get_post_meta($post->ID, 'portal_menu_hide_thumbs', true);
     $is_dark = get_post_meta($post->ID, 'portal_menu_is_dark', true);
 
     // Get all menus
-    $menus = wp_get_nav_menus();
+    $menus = fau_elemental_get_nav_menus();
 
     ?>
     <div class="fau-portal-menu-settings">
@@ -47,9 +73,9 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
             <label for="portal_menu_id"><strong><?php esc_html_e('Menu', 'fau-elemental'); ?>:</strong></label>
             <select name="portal_menu_id" id="portal_menu_id" class="widefat">
                 <option value=""><?php esc_html_e('- Select Menu -', 'fau-elemental'); ?></option>
-                <?php foreach ($menus as $menu) : ?>
-                    <option value="<?php echo esc_attr($menu->term_id); ?>" <?php selected($menu_id, $menu->term_id); ?>>
-                        <?php echo esc_html($menu->name); ?>
+                <?php foreach ($menus as $menu_id => $menu_name) : ?>
+                    <option value="<?php echo esc_attr($menu_id); ?>" <?php selected($selected_menu_id, $menu_id); ?>>
+                        <?php echo esc_html($menu_name); ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -70,7 +96,7 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
             <?php esc_html_e('Dark Style', 'fau-elemental'); ?></label>
         </p>
         
-        <code>[portalmenu menu="<?php echo ($menu_id ? esc_attr($menu_id) : 'menu-id-or-name'); ?>" showsubs="<?php echo esc_attr($hide_subs ? "false" : "true"); ?>" nothumbs="<?php echo esc_attr($hide_thumbs ? "true" : "false") ?>"]</code>
+        <code>[portalmenu menu="<?php echo ($selected_menu_id ? esc_attr($selected_menu_id) : 'menu-id-or-name'); ?>" showsubs="<?php echo esc_attr($hide_subs ? "false" : "true"); ?>" nothumbs="<?php echo esc_attr($hide_thumbs ? "true" : "false") ?>"]</code>
     </div>
     <?php
 }
