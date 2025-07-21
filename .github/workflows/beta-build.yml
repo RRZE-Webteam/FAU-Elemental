@@ -18,6 +18,9 @@ jobs:
           node-version: 'latest'
           cache: 'npm'
 
+      - name: Setup WP-CLI
+        uses: godaddy-wordpress/setup-wp-cli@1
+
       - name: Install dependencies
         run: npm install
       
