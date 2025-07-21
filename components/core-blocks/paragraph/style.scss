@@ -28,18 +28,6 @@ p {
 	}
 
 	> a {
-		position: relative;
-		color: var(--FAU-Col-FAU-Blau-100);
-		text-underline-offset: var(--Spacing-1x);
-		text-decoration-thickness: var(--Spacing-05x);
-		font-weight: 600;
-		transition: all 0.2s ease-in-out;
-
-		&:hover,
-		&:focus {
-			text-decoration-thickness: var(--Spacing-1x);
-			transition: all 0.2s ease-in-out;
-		}
 
 		&[target="_blank"] {
 
@@ -67,6 +55,22 @@ p {
 				}
 			}
 		}
+	}
+}
+
+// TODO: daniel
+a {
+	position: relative;
+	color: var(--FAU-Col-FAU-Blau-100);
+	text-underline-offset: var(--Spacing-1x);
+	text-decoration-thickness: var(--Spacing-05x);
+	font-weight: 600;
+	transition: all 0.2s ease-in-out;
+
+	&:hover,
+	&:focus {
+		text-decoration-thickness: var(--Spacing-1x);
+		transition: all 0.2s ease-in-out;
 	}
 }
 
