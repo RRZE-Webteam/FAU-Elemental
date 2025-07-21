@@ -143,7 +143,7 @@ if (!function_exists('render_block_fau_copyright_info')) {
         }
 
         $output = '<div class="wp-block-fau-elemental-copyright-info">';
-        $output .= '<span class="copyright-info-label">' . esc_html__('Bildnachweise:', 'fau-elemental') . '</span>';
+        $output .= '<span class="copyright-info-label">' . esc_html__('Image sources:', 'fau-elemental') . '</span>';
         $output .= '<ul class="copyright-info-list">';
         
         foreach ($copyright_info as $info) {

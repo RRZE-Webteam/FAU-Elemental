@@ -44,11 +44,7 @@ msgstr ""
 
 #: 404.php:15
 msgid "Back to Homepage"
-msgstr ""
-
-#: components/blocks/fau-copyright-info/render.php:146
-msgid "Bildnachweise:"
-msgstr ""
+msgstr "Zurück zur Startseite"
 
 #: components/blocks/fau-portalmenu/render.php:25
 msgid "Please select a menu to display."
@@ -60,7 +56,7 @@ msgstr ""
 
 #: components/blocks/fau-teaser-grid/ajax.php:30
 msgid "Security check failed"
-msgstr ""
+msgstr "Sicherheitsprüfung fehlgeschlagen"
 
 #: components/blocks/fau-teaser-grid/render.php:69
 #: components/blocks/fau-teaser-grid/edit.js:468
@@ -75,12 +71,12 @@ msgstr ""
 #: components/blocks/fau-teaser-grid/render.php:339
 #: components/blocks/fau-teaser-grid/edit.js:580
 msgid "Load More"
-msgstr ""
+msgstr "Mehr laden"
 
 #: components/blocks/fau-global-search/render.php:96
 #: components/blocks/fau-teaser-grid/render.php:338
 msgid "Loading..."
-msgstr ""
+msgstr "Lade..."
 
 #: components/blocks/fau-teaser-grid/teaser-item.php:120
 msgid "Read more about"
@@ -98,7 +94,7 @@ msgstr ""
 #: components/template-parts/breadcrumbs/breadcrumbs.php:163
 #: search.php:229
 msgid "Search Results"
-msgstr ""
+msgstr "Suchergebnisse"
 
 #: components/template-parts/footer-instance/footer-instance.php:16
 msgid "Contact and Directions"
@@ -110,7 +106,7 @@ msgstr ""
 
 #: components/template-parts/footer-instance/footer-instance.php:83
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #: components/template-parts/footer-instance/footer-instance.php:93
 msgid "Mail"
@@ -193,16 +189,16 @@ msgstr ""
 
 #: components/template-parts/post-meta/post-meta.php:58
 msgid "Last update:"
-msgstr ""
+msgstr "Zuletzt aktualisiert"
 
 #: functions.php:318
 msgid "Show less"
-msgstr ""
+msgstr "Weniger anzeigen"
 
 #: inc/block-patterns.php:36
 #: inc/blocks/category.php:23
 msgid "FAU Elemental"
-msgstr ""
+msgstr "FAU Elemental"
 
 #: inc/block-patterns.php:40
 msgid "Hero"
@@ -210,11 +206,11 @@ msgstr ""
 
 #: inc/customizer.php:72
 msgid "Footer Settings"
-msgstr ""
+msgstr "Footer-Einstellungen"
 
 #: inc/customizer.php:74
 msgid "Settings for the footer"
-msgstr ""
+msgstr "Einstellungen, die den Footer betreffen"
 
 #: inc/customizer.php:85
 msgid "Claim"
@@ -366,19 +362,19 @@ msgstr ""
 
 #: inc/customizer.php:354
 msgid "Section 1"
-msgstr ""
+msgstr "Abschnitt 1"
 
 #: inc/customizer.php:355
 msgid "Section 2"
-msgstr ""
+msgstr "Abschnitt 2"
 
 #: inc/customizer.php:356
 msgid "Section 3"
-msgstr ""
+msgstr "Abschnitt 3"
 
 #: inc/customizer.php:357
 msgid "Section 4"
-msgstr ""
+msgstr "Abschnitt 4"
 
 #: inc/customizer.php:400
 msgid "Focus, Mission, Reputation, Successes, etc."
@@ -778,7 +774,7 @@ msgstr ""
 #: components/blocks/fau-global-search/render.php:52
 #: components/template-parts/navigation/fau-navigation.php:46
 #: components/template-parts/navigation/fau-navigation.php:48
-#: components/template-parts/navigation/menu-modal-config.php:64
+#: components/template-parts/navigation/menu-modal-config.php:65
 #: components/template-parts/navigation/menu-modal.php:239
 #: search.php:248
 #: components/blocks/fau-global-search/edit.js:82
@@ -1027,15 +1023,15 @@ msgstr ""
 msgid "Main Navigation"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal-config.php:25
+#: components/template-parts/navigation/menu-modal-config.php:26
 msgid "Services"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal-config.php:38
+#: components/template-parts/navigation/menu-modal-config.php:39
 msgid "Structure"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal-config.php:51
+#: components/template-parts/navigation/menu-modal-config.php:52
 msgid "Website Menu"
 msgstr ""
 
@@ -1053,19 +1049,11 @@ msgstr ""
 
 #: components/template-parts/navigation/menu-modal.php:347
 msgid "Back to main menu"
-msgstr ""
-
-#: components/template-parts/navigation/menu-modal.php:349
-msgid "Zurück"
-msgstr ""
+msgstr "Zurück zum Hauptmenü"
 
 #: components/template-parts/navigation/menu-modal.php:354
 msgid "Close menu"
-msgstr ""
-
-#: components/template-parts/navigation/menu-modal.php:355
-msgid "Schließen"
-msgstr ""
+msgstr "Menü schließen"
 
 #: components/template-parts/navigation/menu-modal.php:426
 #: components/template-parts/navigation/menu-modal.php:493
@@ -1077,16 +1065,16 @@ msgstr ""
 
 #: components/template-parts/navigation/mixed-navigation-walker.php:313
 msgid "Pages"
-msgstr ""
+msgstr "Seiten"
 
 #. Template Name of the theme
 #: functions.php:76
 msgid "All Pages"
-msgstr ""
+msgstr "Alle Seiten"
 
 #: components/templates/pages/page-all-pages.php:108
 msgid "Menu Order"
-msgstr ""
+msgstr "Menüsortierung"
 
 #: components/templates/pages/page-all-pages.php:121
 msgid "Pages listing"
@@ -1095,12 +1083,12 @@ msgstr ""
 #. Template Name of the theme
 #: functions.php:75
 msgid "All Posts"
-msgstr ""
+msgstr "Alle Beiträge"
 
 #. Template Name of the theme
 #: functions.php:72
 msgid "Portal Page"
-msgstr ""
+msgstr "Portalseite"
 
 #: components/templates/portal-page/portal-page.php:53
 msgid "Portal Page Notice"
@@ -1138,7 +1126,7 @@ msgstr ""
 #: inc/class-walker-content-menu.php:171
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
-msgstr ""
+msgstr "Portalmenü"
 
 #: inc/customizer.php:81
 msgid "This section is managed centrally by FAU and cannot be edited by faculties."
@@ -1527,29 +1515,41 @@ msgstr ""
 #: theme.json
 msgctxt "Color name"
 msgid "Default"
-msgstr ""
+msgstr "Standard"
 
 #: theme.json
 msgctxt "Color name"
 msgid "Success"
-msgstr ""
+msgstr "Erfolg"
 
 #: theme.json
 msgctxt "Color name"
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: theme.json
 msgctxt "Color name"
 msgid "Warning"
-msgstr ""
+msgstr "Warnung"
 
 #: theme.json
 msgctxt "Color name"
 msgid "Danger"
-msgstr ""
+msgstr "Gefahr"
 
 #. Theme URI of the theme
 #: style.css
 msgid "https://github.com/RRZE-Webteam/FAU-Elemental"
 msgstr ""
+
+#: components/blocks/fau-copyright-info/render.php:146
+msgid "Image sources:"
+msgstr "Bildnachweise:"
+
+#: components/template-parts/navigation/menu-modal.php:349
+msgid "Back"
+msgstr "Zurück"
+
+#: components/template-parts/navigation/menu-modal.php:355
+msgid "Close"
+msgstr "Schließen"
