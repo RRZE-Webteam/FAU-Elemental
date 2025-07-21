@@ -372,10 +372,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			suggestionsContainer &&
 			suggestionsContainer.contains( event.target );
 
-		if (
-			! clickedInsideForm &&
-			! clickedInsideSuggestions
-		) {
+		if ( ! clickedInsideForm && ! clickedInsideSuggestions ) {
 			hideSuggestions();
 		}
 	} );

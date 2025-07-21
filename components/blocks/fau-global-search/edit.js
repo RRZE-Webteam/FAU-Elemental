@@ -87,8 +87,8 @@ export default function Edit( { attributes, setAttributes } ) {
 							></span>
 						</button>
 					</div>
-				
-					{/* 
+
+					{ /* 
 					//FAU-wide Search for Global and Inline Search is supposed to be some kind of google search which might get implemented in the future;
 					//Keeping code commented out for future implementation rather than deletion
 				
@@ -128,7 +128,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							</label>
 						</div>
 					) 
-					*/}
+					*/ }
 				</form>
 			</div>
 		</>
