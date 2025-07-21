@@ -137,16 +137,6 @@ if (is_home() && is_front_page()) {
             the_post();
             ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                <?php
-                // Show title if the page has one (some front pages might want to hide it)
-                $show_title = get_post_meta(get_the_ID(), 'hide_title', true) !== '1';
-                if ($show_title && get_the_title()) :
-                ?>
-                <header class="entry-header">
-                    <h1 class="entry-title"><?php the_title(); ?></h1>
-                </header>
-                <?php endif; ?>
-
                 <div class="entry-content">
                     <?php
                     the_content();
