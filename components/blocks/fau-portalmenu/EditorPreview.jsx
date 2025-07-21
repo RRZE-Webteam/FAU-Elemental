@@ -161,6 +161,7 @@ const EditorPreview = ( { attributes } ) => {
 		const showSubs = attributes.showSubs !== false;
 		const itemImage = getMenuItemImage( item );
 		const itemTitle =
+			item.title?.raw ||
 			item.title?.rendered ||
 			item.title ||
 			__( 'Menu Item', 'fau-elemental' );
@@ -225,6 +226,7 @@ const EditorPreview = ( { attributes } ) => {
 							<ul>
 								{ item.children.map( ( child ) => {
 									const childTitle =
+										child.title?.raw ||
 										child.title?.rendered ||
 										child.title ||
 										__( 'Submenu Item', 'fau-elemental' );
