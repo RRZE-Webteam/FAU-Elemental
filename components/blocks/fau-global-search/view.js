@@ -26,7 +26,6 @@ document.addEventListener( 'DOMContentLoaded', function () {
 			if ( isInMenuModal ) {
 				initializeSearchOptionsMenu( form, input );
 			}
-			// initializeFrequentSearches( input, form, isInMenuModal );
 		}
 	} );
 } );
@@ -176,20 +175,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			if ( query.length === 0 && input._showSearchOptionsMenu ) {
 				input._showSearchOptionsMenu();
 			}
-			// Show frequent searches if input has 1-2 characters
-			else if (
-				query.length > 0 &&
-				query.length < 3 &&
-				input._showFrequentSearches
-			) {
-				input._showFrequentSearches();
-			}
 			return;
-		}
-
-		// Hide frequent searches when we reach 3 characters (switching to suggestions)
-		if ( input._hideFrequentSearches ) {
-			input._hideFrequentSearches();
 		}
 
 		autocompleteTimeout = setTimeout( () => {
@@ -201,12 +187,8 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 	input.addEventListener( 'focus', function () {
 		const query = this.value.trim();
 
-		// Show frequent searches only if input is empty
-		if ( query.length === 0 && input._showFrequentSearches ) {
-			input._showFrequentSearches();
-		}
 		// If there's text and it's 3+ chars, show live suggestions
-		else if ( query.length >= 3 ) {
+		if ( query.length >= 3 ) {
 			fetchSuggestions( query );
 		}
 	} );
@@ -389,321 +371,20 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		const clickedInsideSuggestions =
 			suggestionsContainer &&
 			suggestionsContainer.contains( event.target );
-		const clickedInsideFrequent =
-			input._getFrequentContainer &&
-			input._getFrequentContainer() &&
-			input._getFrequentContainer().contains( event.target );
 
 		if (
 			! clickedInsideForm &&
-			! clickedInsideSuggestions &&
-			! clickedInsideFrequent
+			! clickedInsideSuggestions
 		) {
 			hideSuggestions();
-			if ( input._hideFrequentSearches ) {
-				input._hideFrequentSearches();
-			}
 		}
 	} );
 
 	// Hide suggestions on form submit
 	form.addEventListener( 'submit', function () {
 		hideSuggestions();
-		if ( input._hideFrequentSearches ) {
-			input._hideFrequentSearches();
-		}
 	} );
 }
-
-/**
- * Initialize frequent searches functionality
- */
-/*
-function initializeFrequentSearches( input, form, isInMenuModal ) {
-	// Prevent multiple initializations
-	if ( form._frequentSearchesInitialized ) {
-		return;
-	}
-	form._frequentSearchesInitialized = true;
-
-	let frequentContainer;
-	let cachedFrequentSearches = null; // Cache for frequent searches data
-	let isLoadingFrequentSearches = false; // Prevent multiple concurrent requests
-
-	// Create frequent searches container
-	function createFrequentContainer() {
-		if ( frequentContainer ) {
-			return frequentContainer;
-		}
-
-		frequentContainer = document.createElement( 'div' );
-		frequentContainer.className = 'fau-global-search__frequent';
-		frequentContainer.style.display = 'none';
-
-		if ( isInMenuModal ) {
-			// Original behavior: insert after scope container
-			const scopeContainer = form.querySelector(
-				'.fau-global-search__scope'
-			);
-			if ( scopeContainer && scopeContainer.parentNode ) {
-				scopeContainer.parentNode.insertBefore(
-					frequentContainer,
-					scopeContainer.nextSibling
-				);
-			} else {
-				// Fallback: insert after the input wrapper
-				const inputWrapper = form.querySelector(
-					'.fau-global-search__input-wrapper'
-				);
-				if ( inputWrapper && inputWrapper.parentNode ) {
-					inputWrapper.parentNode.insertBefore(
-						frequentContainer,
-						inputWrapper.nextSibling
-					);
-				} else {
-					form.parentNode.insertBefore(
-						frequentContainer,
-						form.nextSibling
-					);
-				}
-			}
-		} else {
-			// Dropdown behavior: position as overlay
-			frequentContainer.classList.add(
-				'fau-global-search__frequent--dropdown'
-			);
-			document.body.appendChild( frequentContainer );
-
-			// Position the dropdown
-			positionDropdown( frequentContainer, input );
-
-			// Reposition on window resize/scroll
-			const repositionHandler = () =>
-				positionDropdown( frequentContainer, input );
-			window.addEventListener( 'resize', repositionHandler );
-			window.addEventListener( 'scroll', repositionHandler );
-
-			// Store handlers for cleanup
-			frequentContainer._repositionHandlers = repositionHandler;
-		}
-
-		return frequentContainer;
-	}
-
-	// Show frequent searches
-	function showFrequentSearches() {
-		// Hide search options menu when showing frequent searches
-		hideSearchOptionsMenu();
-
-		const container = createFrequentContainer();
-
-		// If we have cached data, display it immediately
-		if ( cachedFrequentSearches !== null ) {
-			if ( cachedFrequentSearches.length > 0 ) {
-				displayFrequentSearches( cachedFrequentSearches, container );
-			} else {
-				// Show "no data" message
-				const frequentSearchesText = getTranslatableMessage(
-					form,
-					'frequent-searches'
-				);
-				const noSearchDataText = getTranslatableMessage(
-					form,
-					'no-search-data'
-				);
-				container.innerHTML = `
-					<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>
-					<div class="fau-global-search__frequent-list">
-						<div>
-							${ noSearchDataText }
-						</div>
-					</div>
-				`;
-			}
-			container.style.display = 'block';
-			return;
-		}
-
-		// If already loading, just show the container without triggering another request
-		if ( isLoadingFrequentSearches ) {
-			container.style.display = 'block';
-			return;
-		}
-
-		// Show loading state only on first load
-		const frequentSearchesText = getTranslatableMessage(
-			form,
-			'frequent-searches'
-		);
-		const loadingText = getTranslatableMessage( form, 'loading' );
-		container.innerHTML = `
-			<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>
-			<div class="fau-global-search__frequent-list">
-				<div class="fau-global-search__frequent-item">
-					<span>${ loadingText }</span>
-				</div>
-			</div>
-		`;
-		container.style.display = 'block';
-
-		// Fetch real frequent searches from WordPress (only if not cached)
-		fetchFrequentSearches( container );
-	}
-
-	// Fetch frequent searches from WordPress analytics
-	function fetchFrequentSearches( container ) {
-		// Set loading flag to prevent concurrent requests
-		isLoadingFrequentSearches = true;
-
-		const ajaxUrl =
-			window.fauElemental?.ajaxUrl || '/wp-admin/admin-ajax.php';
-		const formData = new FormData();
-		formData.append( 'action', 'get_frequent_searches' );
-		formData.append( 'nonce', window.fauElemental?.nonce || '' );
-
-		fetch( ajaxUrl, {
-			method: 'POST',
-			body: formData,
-		} )
-			.then( ( response ) => response.json() )
-			.then( ( data ) => {
-				isLoadingFrequentSearches = false;
-
-				if (
-					data.success &&
-					data.data.searches &&
-					data.data.searches.length > 0
-				) {
-					// Cache the results
-					cachedFrequentSearches = data.data.searches;
-					displayFrequentSearches(
-						cachedFrequentSearches,
-						container
-					);
-				} else {
-					// Cache empty results
-					cachedFrequentSearches = [];
-
-					// No search data available yet
-					const frequentSearchesText = getTranslatableMessage(
-						form,
-						'frequent-searches'
-					);
-					const noSearchDataText = getTranslatableMessage(
-						form,
-						'no-search-data'
-					);
-					container.innerHTML = `
-					<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>
-					<div class="fau-global-search__frequent-list">
-						<div>
-							${ noSearchDataText }
-						</div>
-					</div>
-				`;
-				}
-			} )
-			.catch( () => {
-				isLoadingFrequentSearches = false;
-				// Cache empty results on error
-				cachedFrequentSearches = [];
-				// Hide container on error
-				container.style.display = 'none';
-			} );
-	}
-
-	// Display frequent searches with click handlers
-	function displayFrequentSearches( searches, container ) {
-		const frequentSearchesText = getTranslatableMessage(
-			form,
-			'frequent-searches'
-		);
-		let html = `<div class="fau-global-search__frequent-header">${ frequentSearchesText }</div>`;
-		html += '<div class="fau-global-search__frequent-list">';
-
-		searches.forEach( ( query ) => {
-			html += `
-				<div class="fau-global-search__frequent-item" data-query="${ query }">
-					<span>${ query }</span>
-				</div>
-			`;
-		} );
-
-		html += '</div>';
-		container.innerHTML = html;
-
-		// Add click handlers
-		container
-			.querySelectorAll( '.fau-global-search__frequent-item' )
-			.forEach( ( item ) => {
-				item.addEventListener( 'click', function ( e ) {
-					e.preventDefault();
-					e.stopPropagation();
-
-					const query = this.dataset.query;
-					input.value = query;
-					hideFrequentSearches();
-
-					// Focus the input first
-					input.focus();
-
-					// Trigger live suggestions for the selected query
-					if ( query.length >= 3 ) {
-						// Find the autocomplete functionality and trigger it
-						input.dispatchEvent(
-							new Event( 'input', { bubbles: true } )
-						);
-					} else {
-						// If query is short, just submit
-						form.submit();
-					}
-				} );
-			} );
-	}
-
-	// Hide frequent searches
-	function hideFrequentSearches() {
-		if ( frequentContainer ) {
-			frequentContainer.style.display = 'none';
-
-			// Clean up event listeners for dropdown
-			if ( frequentContainer._repositionHandlers ) {
-				window.removeEventListener(
-					'resize',
-					frequentContainer._repositionHandlers
-				);
-				window.removeEventListener(
-					'scroll',
-					frequentContainer._repositionHandlers
-				);
-			}
-		}
-
-		// Show search options menu again when hiding frequent searches (if input is empty and in modal context)
-		if ( isInMenuModal && input.value.trim().length === 0 ) {
-			showSearchOptionsMenu();
-		}
-	}
-
-	// Expose functions to the autocomplete module
-	input._showFrequentSearches = showFrequentSearches;
-	input._hideFrequentSearches = hideFrequentSearches;
-	input._getFrequentContainer = () => frequentContainer;
-
-	// Get search options menu functions from the form
-	function hideSearchOptionsMenu() {
-		if ( input._hideSearchOptionsMenu ) {
-			input._hideSearchOptionsMenu();
-		}
-	}
-
-	function showSearchOptionsMenu() {
-		if ( input._showSearchOptionsMenu ) {
-			input._showSearchOptionsMenu();
-		}
-	}
-}
-*/
 
 /**
  * Initialize search options menu (loads when block appears)
@@ -752,7 +433,7 @@ function initializeSearchOptionsMenu( form, input ) {
 	// Fetch the search options menu
 	fetchSearchOptionsMenu( menuContainer, form );
 
-	// Expose show/hide functions for the frequent searches module
+	// Expose show/hide functions for the search options menu
 	input._showSearchOptionsMenu = function () {
 		if ( menuContainer ) {
 			menuContainer.style.display = 'block';

@@ -87,10 +87,14 @@ export default function Edit( { attributes, setAttributes } ) {
 							></span>
 						</button>
 					</div>
-
-					{ width === 'content-size' && (
+				
+					{/* 
+					//FAU-wide Search for Global and Inline Search is supposed to be some kind of google search which might get implemented in the future;
+					//Keeping code commented out for future implementation rather than deletion
+				
+					width === 'content-size' && (
 						<div className="fau-global-search__scope">
-							{ /* <label
+							<label
 								className="fau-global-search__scope-option"
 								htmlFor="scope-global-preview"
 							>
@@ -105,7 +109,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								<span>
 									{ __( 'Global Search', 'fau-elemental' ) }
 								</span>
-							</label> */ }
+							</label>
 							<label
 								className="fau-global-search__scope-option"
 								htmlFor="scope-website-preview"
@@ -123,7 +127,8 @@ export default function Edit( { attributes, setAttributes } ) {
 								</span>
 							</label>
 						</div>
-					) }
+					) 
+					*/}
 				</form>
 			</div>
 		</>
