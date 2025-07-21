@@ -7,14 +7,18 @@
 @use "../../ui/mixins/mixins" as *;
 
 .fau-portal-menu {
-	max-width: fit-content;
+	max-width: var(--base-max-width);
+
+	&:has(.fau-portal-thumbnail) {
+		max-width: var(--wide-max-width);
+	}
 }
 
 .fau-portal-menu > ul {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 0 var(--Spacing-8x);
-	max-width: var(--base-max-width);
+	width: 100%;
 	padding: var(--Spacing-10x);
 
 	.fau-portal-item {
@@ -141,7 +145,6 @@
 	// Style when Thumbnail is active
 	&:has(.fau-portal-thumbnail) {
 		grid-template-columns: repeat(3, 1fr);
-		max-width: var(--wide-max-width);
 
 		.fau-portal-item {
 			padding-bottom: 0;
