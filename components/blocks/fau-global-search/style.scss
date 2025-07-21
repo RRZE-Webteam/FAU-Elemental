@@ -136,7 +136,7 @@
 		background-repeat: no-repeat;
 		background-position: var(--Spacing-4x) center;
 		background-size: 1.2rem;
-		color: var(--FAU-Col-FAU-Dunkelblau-100);
+		color: var(--FAU-Col-FAU-Schwarz-100);
 		border-radius: 0;
 		outline: none;
 
@@ -151,7 +151,7 @@
 
 		.is-style-dark & {
 			background-color: var(--FAU-Col-FAU-Weiss-100);
-			color: var(--FAU-Col-FAU-Dunkelblau-100);
+			color: var(--FAU-Col-FAU-Schwarz-100);
 			border-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
 
 			&::placeholder {
@@ -218,7 +218,7 @@
 		gap: var(--Spacing-1x);
 		cursor: pointer;
 		font-size: var(--Text-Regular);
-		color: var(--FAU-Col-FAU-Dunkelblau-100);
+		color: var(--FAU-Col-FAU-Schwarz-100);
 
 		input[type="radio"] {
 			margin: 0;
@@ -226,7 +226,7 @@
 		}
 
 		.is-style-dark & {
-			color: var(--FAU-Col-FAU-Weiss-100);
+			color: var(--FAU-Col-FAU-Schwarz-100);
 		}
 	}
 
