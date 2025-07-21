@@ -26,10 +26,6 @@
 		"noThumbs": {
 			"type": "boolean",
 			"default": false
-		},
-		"isDark": {
-			"type": "boolean",
-			"default": false
 		}
 	},
 	"textdomain": "fau-elemental",

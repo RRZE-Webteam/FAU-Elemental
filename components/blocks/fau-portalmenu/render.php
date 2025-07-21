@@ -30,13 +30,11 @@ if (empty($menu)) {
 // Parse attributes with defaults from config
 $show_subs = isset($attributes['showSubs']) ? !empty($attributes['showSubs']) : FAU_Elemental_Portal_Menu_Config::get_default('show_subs');
 $no_thumbs = isset($attributes['noThumbs']) ? !empty($attributes['noThumbs']) : FAU_Elemental_Portal_Menu_Config::get_default('hide_thumbs');
-$is_dark =   isset($attributes['isDark'])   ? !empty($attributes['isDark'])   : FAU_Elemental_Portal_Menu_Config::get_default('is_dark');
 
 // Set up walker settings
 $walker_settings = array(
     'showsubs' => $show_subs,
     'nothumbs' => $no_thumbs,
-    'theme'    => $is_dark ? 'dark' : 'light',
 );
 
 echo Walker_Content_Menu::render_portalmenu($menu, $walker_settings);

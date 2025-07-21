@@ -168,7 +168,6 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
 
         // Generate menu HTML
         $out = "\n";
-        $out .= '<div class="wp-block-group' . (($settings["theme"] ?? "") === 'dark' ? ' is-style-dark' : '') . '">' . "\n";
         $out .= '<div class="fau-portal-menu" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
         $out .= wp_nav_menu(
             array(
@@ -181,7 +180,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 'walker' => new Walker_Content_Menu($settings)
             )
         );
-        $out .= "</div>\n</div>\n";
+        $out .= "</div>\n";
 
         remove_filter('wp_nav_menu_objects', $menu_filter);
 

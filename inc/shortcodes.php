@@ -40,7 +40,6 @@ class FAU_Elemental_Shortcodes {
                 'menu'     => '',
                 'showsubs' => true,
                 'nothumbs' => false,
-                'theme'    => 'light', // Theme: light, dark
             ), 
         $atts);
 
@@ -56,7 +55,6 @@ class FAU_Elemental_Shortcodes {
         // Convert attribute types
         $showsubs = is_bool($atts['showsubs']) ? $atts['showsubs'] : ($atts['showsubs'] === 'true' || $atts['showsubs'] === '1');
         $nothumbs = is_bool($atts['nothumbs']) ? $atts['nothumbs'] : ($atts['nothumbs'] === 'true' || $atts['nothumbs'] === '1');
-        $theme = $atts['theme'] === 'dark' ? 'dark' : 'light';
 
         // Find menu by ID, slug, or name
         $term = null;
@@ -83,7 +81,6 @@ class FAU_Elemental_Shortcodes {
         $walker_settings = array(
             'showsubs' => $showsubs,
             'nothumbs' => $nothumbs,
-            'theme'    => $theme,
         );
 
         return Walker_Content_Menu::render_portalmenu($term->slug, $walker_settings);

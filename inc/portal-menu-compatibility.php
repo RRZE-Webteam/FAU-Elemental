@@ -253,9 +253,6 @@ function fau_elemental_portalmenu_shortcode($atts) {
         'nothumbnails' => FAU_Elemental_Portal_Menu_Config::get_default('hide_thumbs'),
         'nosub' => !FAU_Elemental_Portal_Menu_Config::get_default('show_subs'),
         'hidesubs' => !FAU_Elemental_Portal_Menu_Config::get_default('show_subs'),
-        'is-style-dark' => FAU_Elemental_Portal_Menu_Config::get_default('is_dark'),
-        'dark' => FAU_Elemental_Portal_Menu_Config::get_default('is_dark'),
-        'theme' => FAU_Elemental_Portal_Menu_Config::get_default('is_dark') ? "dark" : "light",
     ];
     
     $atts = shortcode_atts($defaults, $atts, 'portalmenu');
@@ -322,7 +319,6 @@ function fau_elemental_portalmenu_shortcode($atts) {
     // Handle boolean attributes that might have different formats
     $hide_thumbs = filter_var($atts['nothumbs'] ?: $atts['nothumbnails'], FILTER_VALIDATE_BOOLEAN);
     $hide_subs = filter_var($atts['nosub'] ?: $atts['hidesubs'], FILTER_VALIDATE_BOOLEAN);
-    $is_dark = filter_var($atts['is-style-dark'] ?: $atts['dark'], FILTER_VALIDATE_BOOLEAN);
     
     // Load our menu walker class
     if (!class_exists('Walker_Content_Menu')) {
@@ -333,7 +329,6 @@ function fau_elemental_portalmenu_shortcode($atts) {
     $walker_settings = array(
         'showsubs' => !$hide_subs,
         'nothumbs' => $hide_thumbs,
-        'theme'    => $is_dark ? 'dark' : 'light',
     );
 
     return Walker_Content_Menu::render_portalmenu($menu_id, $walker_settings);

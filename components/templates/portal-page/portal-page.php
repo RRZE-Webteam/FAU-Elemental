@@ -57,15 +57,23 @@ $is_dark = get_post_meta(get_the_ID(), 'portal_menu_is_dark', true) ?: false;
         
         // Display the portal menu if a menu is selected
         if ($menu_name) {
+
+            if ($is_dark) {
+                echo '<div class="wp-block-group is-style-dark">';
+            }
+
             $shortcode = '[portalmenu';
             $shortcode .= ' menu="' . esc_attr($menu_name) . '"';
             $shortcode .= ' showsubs="' . ($show_subs ? 'true' : 'false') . '"';
             $shortcode .= ' nothumbs="' . ($no_thumbs ? 'true' : 'false') . '"';
-            $shortcode .= ' theme="' . ($is_dark ? 'dark' : 'light') . '"';
             $shortcode .= ']';
             
             // Output the shortcode
             echo do_shortcode($shortcode);
+
+            if ($is_dark) {
+                echo '</div>';
+            }
         }
         ?>
     </div>
