@@ -69,5 +69,7 @@ cursor.rules
 # Ignore build directory
 build/
 
-# Ignore compiled I18n .mo files
+# Ignore compiled I18n .mo,.php and .json files
 languages/*.mo
+languages/*.l10n.php
+languages/*.json
