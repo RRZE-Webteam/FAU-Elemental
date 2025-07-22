@@ -76,6 +76,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
             
             // Use proper heading hierarchy (h3 for portal items)
             $output .= $indent . "\t\t";
+            // translators: Menu item title
             $output .= '<a href="' . esc_url($permalink) . '" aria-label="' . esc_attr(sprintf(__('Go to %s', 'fau-elemental'), $title)) . '">';
             $output .= '<h3>';
             $output .= esc_html($title);

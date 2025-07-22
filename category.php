@@ -16,6 +16,7 @@ get_header(); ?>
             <?php 
             $description = category_description();
             if (empty($description)) {
+                // translators: name of the wordpress category
                 $description = sprintf(__('Browse all posts in the %s category.', 'fau-elemental'), single_cat_title('', false));
             }
             echo wp_kses_post($description);

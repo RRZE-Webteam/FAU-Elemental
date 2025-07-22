@@ -28,7 +28,7 @@ import { validateUrl } from '../../utils/urlValidation';
  * @param {string} more     Trailing text
  * @return {string} Trimmed text
  */
-function trimTextSmart( text, maxChars = 80, more = '...' ) {
+function trimTextSmart( text, maxChars = 80, more = '…' ) {
 	if ( ! text || typeof text !== 'string' ) {
 		return '';
 	}

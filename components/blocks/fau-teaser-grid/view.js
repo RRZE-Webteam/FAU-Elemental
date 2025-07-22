@@ -70,7 +70,7 @@ function initializeLoadMore( gridContainer ) {
 		// Disable button during loading
 		loadMoreBtn.disabled = true;
 		loadMoreBtn.textContent =
-			loadMoreBtn.getAttribute( 'data-loading-text' ) || 'Loading...';
+			loadMoreBtn.getAttribute( 'data-loading-text' ) || 'Loading…';
 
 		// Make AJAX request to load more posts
 		loadMorePosts( gridId, nextPage, loadMoreBtn );

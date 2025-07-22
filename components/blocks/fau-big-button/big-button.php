@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $more Trailing text
  * @return string Trimmed text
  */
-function fau_trim_text_big_button($text, $max_chars = 80, $more = '...') {
+function fau_trim_text_big_button($text, $max_chars = 80, $more = '…') {
     if (empty($text) || !is_string($text)) {
         return '';
     }
@@ -137,7 +137,7 @@ function render_big_button_html($items, $options = []) {
                     </h3>
                     <?php if (!empty($excerpt)) : ?>
                         <p>
-                            <?php echo esc_html(fau_trim_text_big_button($excerpt, 80, '...')); ?>
+                            <?php echo esc_html(fau_trim_text_big_button($excerpt, 80, '…')); ?>
                         </p>
                     <?php endif; ?>
                     <span class="arrow-link" aria-hidden="true"></span>
