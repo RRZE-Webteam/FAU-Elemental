@@ -3,7 +3,6 @@
 .site-header {
 
 	.site-header-top__wrapper {
-		max-width: 1800px;
 		margin: 0 auto;
 	}
 
@@ -86,6 +85,7 @@
 				align-items: center;
 				gap: 0.5rem;
 				font-size: 0.875rem;
+				font-weight: 600;
 				line-height: 1.5;
 				font-family: var(--font-family-base);
 				letter-spacing: var(--letter-spacing-small);
@@ -95,15 +95,15 @@
 					color: var(--FAU-Col-FAU-Dunkelblau-100);
 
 					.fau-navigation__services-icon {
-						background-image: var(--icon-services-dunkelblau);
+						background-image: var(--icon-services-fau-blau);
 					}
 
 					.fau-navigation__structure-icon {
-						background-image: var(--icon-structure-dunkelblau);
+						background-image: var(--icon-structure-fau-blau);
 					}
 
 					.fau-navigation__search-icon {
-						background-image: var(--icon-search-dunkelblau);
+						background-image: var(--icon-search-fau-blau);
 					}
 				}
 
@@ -752,11 +752,11 @@ body.home.fauorg-fakultaet.faculty-rw {
 		&__top {
 
 			.site-header-top__wrapper {
-				margin: 0;
+				margin: 0 auto;
 				padding-right: var(--Spacing-6x);
 
 				.fau-navigation {
-					padding-right: 0;
+					padding-right: 3.75rem;
 				}
 			}
 		}
@@ -796,7 +796,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 				}
 
 				&__menu-container {
-					padding: 1rem var(--Spacing-6x);
+					padding: 1rem var(--Spacing-8x);
 
 					&::before {
 						left: 0.8rem;
@@ -958,7 +958,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 					position: fixed;
 					bottom: 0;
 					width: 100%;
-					background-color: var(--FAU-Col-FAU-Blau-100);
+					background-color: var(--FAU-Col-FAU-Dunkelblau-100);
 
 					button {
 						justify-content: center;
@@ -966,7 +966,21 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 						&.is-active {
 							background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+							color: var(--FAU-Col-FAU-Blau-100);
 						}
+					}
+
+					// Reorder buttons for mobile: Structure, Services, Search
+					button[data-modal-target="structure-modal"] {
+						order: 1;
+					}
+
+					button[data-modal-target="services-modal"] {
+						order: 2;
+					}
+
+					button[data-modal-target="search"] {
+						order: 3;
 					}
 				}
 
@@ -1065,6 +1079,25 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 		.main-navigation__logo {
 			left: var(--Spacing-4x);
+		}
+	}
+}
+
+@include respond-to("large") {
+
+	.home {
+
+		.site-header {
+
+			&__top {
+
+				.site-header-top__wrapper {
+
+					.fau-navigation {
+						padding-right: 0;
+					}
+				}
+			}
 		}
 	}
 }
