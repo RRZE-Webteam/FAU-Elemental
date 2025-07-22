@@ -777,7 +777,6 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 			.site-header-top__wrapper {
 				margin: 0 auto;
-				padding-right: var(--Spacing-6x);
 
 				.fau-navigation {
 					padding-right: 0;
@@ -873,16 +872,6 @@ body.home.fauorg-fakultaet.faculty-rw {
 	}
 }
 
-@include respond-to("large") {
-
-	.main-navigation {
-
-		&__logo {
-			left: 3.75rem;
-		}
-	}
-}
-
 @include respond-to("medium") {
 
 	.menu-modal,
@@ -892,6 +881,26 @@ body.home.fauorg-fakultaet.faculty-rw {
 		&__container {
 			width: 500px;
 		}
+	}
+}
+
+@media screen and (max-width: 1919px) {
+
+	.site-header-top__wrapper {
+		padding-right: var(--Spacing-6x);
+	}
+
+	.main-navigation__logo {
+		left: 3.75rem;
+	}
+}
+
+@media screen and (min-width: 1920px) {
+
+	.site-header__main {
+		left: 50%;
+		max-width: 1800px;
+		transform: translateX(-50%);
 	}
 }
 
