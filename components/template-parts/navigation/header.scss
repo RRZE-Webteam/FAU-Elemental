@@ -3,6 +3,7 @@
 .site-header {
 
 	.site-header-top__wrapper {
+		max-width: 1800px;
 		margin: 0 auto;
 	}
 
@@ -779,7 +780,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 				padding-right: var(--Spacing-6x);
 
 				.fau-navigation {
-					padding-right: 3.75rem;
+					padding-right: 0;
 				}
 			}
 		}
@@ -803,7 +804,6 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 				&__logo {
 					position: absolute;
-					left: 3.75rem;
 
 					.baselogo {
 
@@ -855,7 +855,13 @@ body.home.fauorg-fakultaet.faculty-rw {
 }
 
 // Responsive
-@media screen and (min-width: 1921px) {
+@media screen and (min-width: 1920px) {
+
+	.site-header__main {
+		max-width: 1800px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
 
 	.menu-modal,
 	.menu-meta-nav__modal,
@@ -863,6 +869,16 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 		&__container {
 			width: 780px;
+		}
+	}
+}
+
+@include respond-to("large") {
+
+	.main-navigation {
+
+		&__logo {
+			left: 3.75rem;
 		}
 	}
 }
@@ -981,7 +997,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 					position: fixed;
 					bottom: 0;
 					width: 100%;
-					background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+					background-color: var(--FAU-Col-FAU-Blau-100);
 
 					button {
 						justify-content: center;
@@ -1102,25 +1118,6 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 		.main-navigation__logo {
 			left: var(--Spacing-4x);
-		}
-	}
-}
-
-@include respond-to("large") {
-
-	.home {
-
-		.site-header {
-
-			&__top {
-
-				.site-header-top__wrapper {
-
-					.fau-navigation {
-						padding-right: 0;
-					}
-				}
-			}
 		}
 	}
 }
