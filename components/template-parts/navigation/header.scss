@@ -576,7 +576,18 @@ body.modal-open {
 		margin-top: 1rem;
 
 		li {
-			border-bottom: 0.0625rem solid var(--FAU-Col-FAU-Blau-25);
+			position: relative;
+
+			// Add separator line using ::after pseudo-element
+			&::after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				left: 1.25rem;
+				right: 1rem;
+				height: 0.0625rem;
+				background-color: var(--FAU-Col-FAU-Blau-25);
+			}
 
 			a {
 				display: inline-block;
@@ -601,12 +612,15 @@ body.modal-open {
 			}
 		}
 
-		> li:first-child {
-			border-top: 0.0625rem solid var(--FAU-Col-FAU-Blau-25);
-
-			&:has(h2) {
-				border-top: none;
-			}
+		// Add top separator for first item (if not a heading)
+		> li:first-child:not(:has(h2))::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 1.25rem;
+			right: 1rem;
+			height: 0.0625rem;
+			background-color: var(--FAU-Col-FAU-Blau-25);
 		}
 
 		.sub-menu {
@@ -614,7 +628,10 @@ body.modal-open {
 			li {
 
 				&:last-child {
-					border-bottom: none;
+
+					&::after {
+						display: none;
+					}
 				}
 			}
 		}
@@ -648,6 +665,12 @@ body.modal-open {
 
 		li {
 			border: none;
+
+			// Remove separator lines for header menu links
+			&::before,
+			&::after {
+				display: none;
+			}
 
 			a {
 				font-weight: 600;
