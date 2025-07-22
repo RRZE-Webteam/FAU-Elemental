@@ -20,7 +20,7 @@
 		align-items: center;
 		background: #f5f5f5;
 		transition: var(--basic-animation);
-		min-height: 10rem;
+		aspect-ratio: 16/9;
 
 		&:hover {
 			transform: translateY(-0.125rem);
@@ -50,10 +50,6 @@
 
 	.fau-logo-grid {
 		padding: 0 var(--Spacing-12x);
-
-		&__item {
-			min-height: 10rem;
-		}
 	}
 }
 
@@ -77,10 +73,6 @@
 
 		&__container {
 			grid-template-columns: repeat(2, 1fr);
-		}
-
-		&__item {
-			min-height: 6.5rem;
 		}
 	}
 }
