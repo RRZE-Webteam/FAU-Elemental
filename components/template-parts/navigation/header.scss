@@ -86,6 +86,7 @@
 				align-items: center;
 				gap: 0.5rem;
 				font-size: 0.875rem;
+				font-weight: 600;
 				line-height: 1.5;
 				font-family: var(--font-family-base);
 				letter-spacing: var(--letter-spacing-small);
@@ -95,15 +96,15 @@
 					color: var(--FAU-Col-FAU-Dunkelblau-100);
 
 					.fau-navigation__services-icon {
-						background-image: var(--icon-services-dunkelblau);
+						background-image: var(--icon-services-fau-blau);
 					}
 
 					.fau-navigation__structure-icon {
-						background-image: var(--icon-structure-dunkelblau);
+						background-image: var(--icon-structure-fau-blau);
 					}
 
 					.fau-navigation__search-icon {
-						background-image: var(--icon-search-dunkelblau);
+						background-image: var(--icon-search-fau-blau);
 					}
 				}
 
@@ -576,7 +577,18 @@ body.modal-open {
 		margin-top: 1rem;
 
 		li {
-			border-bottom: 0.0625rem solid var(--FAU-Col-FAU-Blau-25);
+			position: relative;
+
+			// Add separator line using ::after pseudo-element
+			&::after {
+				content: "";
+				position: absolute;
+				bottom: 0;
+				left: 1.25rem;
+				right: 1rem;
+				height: 0.0625rem;
+				background-color: var(--FAU-Col-FAU-Blau-25);
+			}
 
 			a {
 				display: inline-block;
@@ -601,12 +613,15 @@ body.modal-open {
 			}
 		}
 
-		> li:first-child {
-			border-top: 0.0625rem solid var(--FAU-Col-FAU-Blau-25);
-
-			&:has(h2) {
-				border-top: none;
-			}
+		// Add top separator for first item (if not a heading)
+		> li:first-child:not(:has(h2))::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 1.25rem;
+			right: 1rem;
+			height: 0.0625rem;
+			background-color: var(--FAU-Col-FAU-Blau-25);
 		}
 
 		.sub-menu {
@@ -614,7 +629,10 @@ body.modal-open {
 			li {
 
 				&:last-child {
-					border-bottom: none;
+
+					&::after {
+						display: none;
+					}
 				}
 			}
 		}
@@ -648,6 +666,12 @@ body.modal-open {
 
 		li {
 			border: none;
+
+			// Remove separator lines for header menu links
+			&::before,
+			&::after {
+				display: none;
+			}
 
 			a {
 				font-weight: 600;
@@ -752,8 +776,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 		&__top {
 
 			.site-header-top__wrapper {
-				margin: 0;
-				padding-right: var(--Spacing-6x);
+				margin: 0 auto;
 
 				.fau-navigation {
 					padding-right: 0;
@@ -780,7 +803,6 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 				&__logo {
 					position: absolute;
-					left: 3.75rem;
 
 					.baselogo {
 
@@ -796,7 +818,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 				}
 
 				&__menu-container {
-					padding: 1rem var(--Spacing-6x);
+					padding: 1rem var(--Spacing-8x);
 
 					&::before {
 						left: 0.8rem;
@@ -832,7 +854,13 @@ body.home.fauorg-fakultaet.faculty-rw {
 }
 
 // Responsive
-@media screen and (min-width: 1921px) {
+@media screen and (min-width: 1920px) {
+
+	.site-header__main {
+		max-width: 1800px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
 
 	.menu-modal,
 	.menu-meta-nav__modal,
@@ -853,6 +881,26 @@ body.home.fauorg-fakultaet.faculty-rw {
 		&__container {
 			width: 500px;
 		}
+	}
+}
+
+@media screen and (max-width: 1919px) {
+
+	.site-header-top__wrapper {
+		padding-right: var(--Spacing-6x);
+	}
+
+	.main-navigation__logo {
+		left: 3.75rem;
+	}
+}
+
+@media screen and (min-width: 1920px) {
+
+	.site-header__main {
+		left: 50%;
+		max-width: 1800px;
+		transform: translateX(-50%);
 	}
 }
 
@@ -966,7 +1014,21 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 						&.is-active {
 							background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+							color: var(--FAU-Col-FAU-Blau-100);
 						}
+					}
+
+					// Reorder buttons for mobile: Structure, Services, Search
+					button[data-modal-target="structure-modal"] {
+						order: 1;
+					}
+
+					button[data-modal-target="services-modal"] {
+						order: 2;
+					}
+
+					button[data-modal-target="search"] {
+						order: 3;
 					}
 				}
 
