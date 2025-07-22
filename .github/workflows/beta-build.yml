@@ -18,13 +18,18 @@ jobs:
           node-version: 'latest'
           cache: 'npm'
 
+      - name: Setup WP-CLI
+        uses: godaddy-wordpress/setup-wp-cli@1
+
       - name: Install dependencies
         run: npm install
       
       - name: Build project
         run: |
           rm -rf ./build
+          rm -rf ./languages/*.mo ./languages/*.l10n.php ./languages/*.json
           npm run build
+          npm run i18n:build
       
       - name: Commit build output
         shell: bash
@@ -32,6 +37,7 @@ jobs:
           git config --local user.email "mondula@users.noreply.github.com"
           git config --local user.name "Build Bot"
           git add -f ./build
+          git add -f ./languages/*.mo ./languages/*.l10n.php ./languages/*.json
           if git diff --staged --quiet ; then
             echo "No changes in build to commit."
           else

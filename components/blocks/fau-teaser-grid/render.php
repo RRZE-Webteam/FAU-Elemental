@@ -244,6 +244,7 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                     $output .= sprintf(
                         '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                         esc_url($page_url),
+                        // translators: page number
                         esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
                         $i
                     );
@@ -335,7 +336,7 @@ function fau_elemental_generate_load_more($current_page, $total_pages, $grid_id)
         $current_page,
         $total_pages,
         esc_attr__('Load More', 'fau-elemental'),
-        esc_attr__('Loading...', 'fau-elemental'),
+        esc_attr__('Loading…', 'fau-elemental'),
         esc_html__('Load More', 'fau-elemental')
     );
     $output .= '</div>';

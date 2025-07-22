@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: 'latest'
           cache: 'npm'
+      
+      - name: Setup WP-CLI
+        uses: godaddy-wordpress/setup-wp-cli@1
 
       - name: Check if no build directory exists
         shell: bash
@@ -47,6 +50,9 @@ jobs:
       
       - name: Lint CSS
         run: npm run lint:css
+      
+      - name: Check I18n
+        run: npm run i18n:check
       
       - name: Webpack Build
         run: npm run build -- --fail-on-warnings

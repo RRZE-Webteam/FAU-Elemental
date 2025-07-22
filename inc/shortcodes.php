@@ -170,6 +170,7 @@ class FAU_Elemental_Shortcodes {
             if (!empty($logo['title'])) {
                 $alt_text = esc_attr($logo['title']);
             } elseif (!empty($logo['category'])) {
+                // translators: owner/organization of the logo
                 $alt_text = sprintf(__('Logo from %s', 'fau-elemental'), esc_attr($logo['category']));
             } else {
                 $alt_text = __('Logo', 'fau-elemental');

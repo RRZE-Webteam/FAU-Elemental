@@ -23,6 +23,7 @@ $search_config = array(
             <?php 
             $has_results = have_posts();
             if ($has_results) {
+                // translators: search query
                 printf(__('Search Results for: %s', 'fau-elemental'), '<span class="search-query">' . get_search_query() . '</span>'); 
             } else {
                 echo __('Search Results', 'fau-elemental');
@@ -135,6 +136,7 @@ $search_config = array(
                 <p role="status" aria-live="polite"><?php 
                     $total_results = count($current_site_custom_results);
                     printf(
+                        // translators: number of results
                         _nx(
                             '%s result found',
                             '%s results found', 
@@ -158,7 +160,10 @@ $search_config = array(
                     ?>
                     <article class="search-result-item search-result-item--current-site" itemscope itemtype="https://schema.org/Article">
                         <h3 class="screen-reader-text">
-                            <?php printf(__('Search Result %d', 'fau-elemental'), $result_counter); ?>
+                            <?php 
+                                // translators: index of the search result
+                                printf(__('Search Result %d', 'fau-elemental'), $result_counter);
+                            ?>
                         </h3>
                         <header class="result-header">
                             <time class="result-date" 
@@ -210,12 +215,15 @@ $search_config = array(
                                 </h4>
                                 
                                 <div class="result-excerpt" itemprop="description">
-                                    <?php echo esc_html(wp_trim_words($formatted_result['excerpt'], $search_config['excerpt_length'], '...')); ?>
+                                    <?php echo esc_html(wp_trim_words($formatted_result['excerpt'], $search_config['excerpt_length'], '…')); ?>
                                 </div>
                                 
                                 <a href="<?php echo esc_url($formatted_result['link']); ?>" 
                                    class="result-read-more">
-                                    <span class="screen-reader-text"><?php printf(__('Read more about %s', 'fau-elemental'), $formatted_result['title']); ?></span>
+                                    <span class="screen-reader-text"><?php
+                                        // translators: title of the search result
+                                        printf(__('Read more about %s', 'fau-elemental'), $formatted_result['title']); 
+                                    ?></span>
                                     <span aria-hidden="true"><?php _e('Read more', 'fau-elemental'); ?> <?php echo $search_config['arrow']; ?></span>
                                 </a>
                             </div>

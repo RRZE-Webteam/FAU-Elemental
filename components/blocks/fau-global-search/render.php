@@ -39,7 +39,7 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 						type="search"
 						class="fau-global-search__input"
 						name="s"
-						placeholder="<?php echo __('Search...', 'fau-elemental'); ?>"
+						placeholder="<?php echo __('Search…', 'fau-elemental'); ?>"
 						value="<?php echo esc_attr(get_search_query()); ?>"
 						autocomplete="off"
 						id="<?php echo $form_id; ?>-input"
@@ -88,25 +88,28 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 					<!-- Hidden elements for JavaScript to use (translatable) -->
 					<div class="fau-global-search__hidden-messages fau-global-search__hidden">
 						<div class="fau-global-search__message-searching">
-							<?php echo __('Searching...', 'fau-elemental'); ?>
+							<?php echo __('Searching…', 'fau-elemental'); ?>
 						</div>
 						<div class="fau-global-search__message-no-suggestions">
 							<?php echo __('No suggestions found', 'fau-elemental'); ?>
 						</div>
 						<div class="fau-global-search__message-no-results">
-							<?php echo __('No results found for "%s"', 'fau-elemental'); ?>
+							<?php
+								// translators: search query
+								echo __('No results found for "%s"', 'fau-elemental'); 
+							?>
 						</div>
 						<div class="fau-global-search__message-frequent-searches">
 							<?php echo __('Frequent Searches', 'fau-elemental'); ?>
 						</div>
 						<div class="fau-global-search__message-loading">
-							<?php echo __('Loading...', 'fau-elemental'); ?>
+							<?php echo __('Loading…', 'fau-elemental'); ?>
 						</div>
 						<div class="fau-global-search__message-no-search-data">
 							<?php echo __('No search data available yet', 'fau-elemental'); ?>
 						</div>
 						<div class="fau-global-search__message-loading-options">
-							<?php echo __('Loading search options...', 'fau-elemental'); ?>
+							<?php echo __('Loading search options…', 'fau-elemental'); ?>
 						</div>
 						<div class="fau-global-search__message-search-options">
 							<?php echo __('Search Options', 'fau-elemental'); ?>
