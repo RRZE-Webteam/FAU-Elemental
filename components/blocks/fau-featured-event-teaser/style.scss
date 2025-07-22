@@ -26,8 +26,8 @@
 				font-size: var(--H-Heading-Big-Teaser);
 				background-color: var(--FAU-Col-FAU-Weiss-100);
 				margin: 0;
-				max-width: calc(100% + 8rem);
-				min-width: calc(100% + 2rem);
+				max-width: calc(100% + 16rem);
+				min-width: calc(100% + 5.5rem);
 				padding: var(--Spacing-6x) var(--Spacing-8x) var(--Spacing-6x) 0;
 				box-sizing: border-box;
 				position: relative;
@@ -149,7 +149,7 @@
 				}
 
 				h2 {
-					margin-top: -11rem;
+					bottom: 4.5rem;
 					max-width: unset;
 					min-width: unset;
 					padding: var(--Spacing-4x) var(--Spacing-6x) 0 var(--Spacing-6x);
