@@ -3,6 +3,8 @@
 // Base styles (desktop-first - largest screens)
 .fau-logo-grid {
 	padding: 0 18.78rem;
+	max-width: var(--wide-max-width);
+	margin: 0 auto;
 
 	&__container {
 		display: grid;
@@ -18,7 +20,7 @@
 		align-items: center;
 		background: #f5f5f5;
 		transition: var(--basic-animation);
-		min-height: 12rem;
+		min-height: 10rem;
 
 		&:hover {
 			transform: translateY(-0.125rem);
@@ -50,7 +52,7 @@
 		padding: 0 var(--Spacing-12x);
 
 		&__item {
-			min-height: 12rem;
+			min-height: 10rem;
 		}
 	}
 }
