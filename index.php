@@ -107,25 +107,31 @@ get_header(); ?>
             } elseif (is_category()) {
                 $description = category_description();
                 if (empty($description)) {
+                    // translators: name of the wordpress category
                     $description = sprintf(__('Browse all posts in the %s category. Use the filters below to refine your search.', 'fau-elemental'), single_cat_title('', false));
                 }
             } elseif (is_tag()) {
                 $description = tag_description();
                 if (empty($description)) {
+                    // translators: name of the wordpress tag
                     $description = sprintf(__('Browse all posts tagged with %s. Use the filters below to refine your search.', 'fau-elemental'), single_tag_title('', false));
                 }
             } elseif (is_author()) {
                 $description = get_the_author_meta('description');
                 if (empty($description)) {
+                    // translators: name of the post author
                     $description = sprintf(__('Browse all posts by %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_author());
                 }
             } elseif (is_date()) {
                 if (is_year()) {
-                    $description = sprintf(__('Browse all posts from %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date('Y'));
+                    // translators: year number
+                    $description = sprintf(__('Browse all posts from the year %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date('Y'));
                 } elseif (is_month()) {
+                    // translators: year and month
                     $description = sprintf(__('Browse all posts from %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date('F Y'));
                 } elseif (is_day()) {
-                    $description = sprintf(__('Browse all posts from %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date());
+                    // translators: year, month and date
+                    $description = sprintf(__('Browse all posts from the %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date());
                 }
             } else {
                 $description = __('Browse and filter through all our posts using the options below. Use pagination to navigate through multiple pages.', 'fau-elemental');

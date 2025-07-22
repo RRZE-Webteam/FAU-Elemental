@@ -423,6 +423,7 @@ class Menu_Modal_Walker extends Walker_Nav_Menu {
             $output .= 'aria-expanded="false" ';
             $output .= 'aria-controls="' . esc_attr($submenu_id) . '" ';
             $output .= 'aria-haspopup="true" ';
+            // translators: title of the submenu
             $output .= 'aria-label="' . esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $item->title)) . '" ';
             $output .= 'data-parent-url="' . esc_attr($item->url) . '" ';
             $output .= 'data-parent-title="' . esc_attr($item->title) . '">';
