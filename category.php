@@ -106,7 +106,23 @@ get_header(); ?>
             $order = 'DESC';
         }
         
-        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":' . $items_per_page . ',"selectedCategory":' . $category_id . ',"orderBy":"' . $orderby . '","order":"' . $order . '","headingLevel":"h2","showPagination":true,"paginationType":"' . $pagination_type . '","currentPage":' . $current_page . '} /-->');
+        // Prepare block attributes safely
+        $block_args = [
+            'variant' => 'post',
+            'selectionMode' => 'auto',
+            'displayStyle' => 'teaser-grid',
+            'teaserLayout' => '3m',
+            'postsPerPage' => $items_per_page,
+            'selectedCategory' => $category_id,
+            'orderBy' => $orderby,
+            'order' => $order,
+            'headingLevel' => 'h2',
+            'showPagination' => true,
+            'paginationType' => $pagination_type,
+            'currentPage' => $current_page
+        ];
+        
+        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid ' . wp_json_encode($block_args) . ' /-->');
         ?>
     </section>
 </main>
