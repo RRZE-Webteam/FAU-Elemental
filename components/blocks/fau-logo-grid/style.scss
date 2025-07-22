@@ -74,5 +74,17 @@
 		&__container {
 			grid-template-columns: repeat(2, 1fr);
 		}
+		&__item {
+			padding: var(--Spacing-4x);
+		}
+	}
+}
+// Mobile and smaller (max-width: 768px)
+@include respond-to("x-small") {
+
+	.fau-logo-grid {
+		&__item {
+			padding: var(--Spacing-3x);
+		}
 	}
 }
