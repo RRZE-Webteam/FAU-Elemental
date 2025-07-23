@@ -32,7 +32,7 @@
 				box-sizing: border-box;
 				position: relative;
 				width: max-content;
-				z-index: 1;
+				z-index: 2;
 			}
 
 			p,
@@ -60,7 +60,7 @@
 
 		time {
 			text-align: center;
-			z-index: 2;
+			z-index: 1;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
@@ -90,6 +90,7 @@
 
 		&:not(:has(.featured-event-image)) {
 			background-color: #0f1b4c;
+			min-height: 31.5rem; // desktop/wide screen 1440px width and 1920px
 
 			time .date-day {
 				font-size: 4.5rem;
@@ -149,7 +150,7 @@
 				}
 
 				h2 {
-					margin-top: -6.5rem;
+					margin-top: -2.5rem;
 					max-width: unset;
 					min-width: unset;
 					padding: var(--Spacing-4x) var(--Spacing-6x) 0 var(--Spacing-6x);
@@ -157,11 +158,11 @@
 				}
 
 				p {
-					padding: var(--Spacing-4x) var(--Spacing-6x) var(--Spacing-2x) var(--Spacing-6x);
+					padding: var(--Spacing-4x) var(--Spacing-6x);
 				}
 
 				.wp-block-buttons {
-					padding: var(--Spacing-4x) var(--Spacing-6x);
+					padding: 0 var(--Spacing-6x);
 				}
 			}
 
@@ -192,7 +193,7 @@
 				}
 
 				&:not(:has(.featured-event-image)) {
-					min-height: 28.75rem;
+					min-height: 28.688rem;
 
 					time .date-day {
 						font-size: 3rem;
@@ -210,13 +211,21 @@
 @include respond-to("x-small") {
 
 	.wp-block-fau-elemental-featured-event-teaser {
+		margin: 0;
 
 		.featured-event-content {
 
-			h2,
-			p,
-			.wp-block-buttons {
-				width: calc(100% - 1rem);
+			.content-left {
+
+				h2,
+				p,
+				.wp-block-buttons {
+					width: calc(100% - 1rem);
+				}
+
+				h2 {
+					margin-top: -9.5rem;
+				}
 			}
 
 			.content-right {
