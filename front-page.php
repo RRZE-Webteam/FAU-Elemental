@@ -43,12 +43,12 @@ if (is_home() && is_front_page()) {
         $pagination_type = faue_get_pagination_type();
         $items_per_page = faue_get_items_per_page();
         
-        // Get total post count for pagination info
+        // Get total post count for pagination info - optimized query
         $posts_query = new WP_Query([
             'post_type' => 'post',
             'post_status' => 'publish',
-            'posts_per_page' => -1,
-            'fields' => 'ids'
+            'posts_per_page' => 1,  // Only header query
+            'no_found_rows' => false  // We need found_posts
         ]);
         $total_posts = $posts_query->found_posts;
         wp_reset_postdata();
@@ -123,7 +123,22 @@ if (is_home() && is_front_page()) {
                 $order = 'DESC';
             }
             
-            echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":' . $items_per_page . ',"orderBy":"' . $orderby . '","order":"' . $order . '","headingLevel":"h2","showPagination":true,"paginationType":"' . $pagination_type . '","currentPage":' . $current_page . '} /-->');
+            // Prepare block attributes safely
+            $block_args = [
+                'variant' => 'post',
+                'selectionMode' => 'auto',
+                'displayStyle' => 'teaser-grid',
+                'teaserLayout' => '3m',
+                'postsPerPage' => $items_per_page,
+                'orderBy' => $orderby,
+                'order' => $order,
+                'headingLevel' => 'h2',
+                'showPagination' => true,
+                'paginationType' => $pagination_type,
+                'currentPage' => $current_page
+            ];
+            
+            echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid ' . wp_json_encode($block_args) . ' /-->');
             ?>
         </section>
     </main>
