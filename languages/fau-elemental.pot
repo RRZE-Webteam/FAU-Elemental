@@ -2,16 +2,16 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.2.18\n"
+"Project-Id-Version: FAU-Elemental 0.2.20\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-21T14:08:13+00:00\n"
+"POT-Creation-Date: 2025-07-23T07:48:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.12.0\n"
+"X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
 
 #. Theme Name of the theme
@@ -53,57 +53,57 @@ msgid "Back to Homepage"
 msgstr ""
 
 #: archive.php:108
-#: category.php:54
+#: category.php:55
 #: components/templates/pages/page-all-pages.php:81
 #: components/templates/pages/page-all-posts.php:81
 #: front-page.php:70
-#: index.php:197
+#: index.php:203
 msgid "to"
 msgstr ""
 
 #: archive.php:110
-#: category.php:56
+#: category.php:57
 #: components/templates/pages/page-all-pages.php:83
 #: components/templates/pages/page-all-posts.php:83
 #: front-page.php:72
-#: index.php:199
+#: index.php:205
 msgid "of"
 msgstr ""
 
 #: archive.php:117
-#: category.php:63
+#: category.php:64
 #: components/templates/pages/page-all-pages.php:90
 #: components/templates/pages/page-all-posts.php:90
 #: front-page.php:79
-#: index.php:206
+#: index.php:212
 msgid "total"
 msgstr ""
 
 #: archive.php:125
-#: category.php:71
+#: category.php:72
 #: components/templates/pages/page-all-pages.php:98
 #: components/templates/pages/page-all-posts.php:98
 #: front-page.php:87
-#: index.php:214
+#: index.php:220
 msgid "Sort by:"
 msgstr ""
 
 #: archive.php:129
-#: category.php:75
+#: category.php:76
 #: components/templates/pages/page-all-pages.php:105
 #: components/templates/pages/page-all-posts.php:102
 #: front-page.php:91
-#: index.php:218
+#: index.php:224
 #: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
 msgid "Date"
 msgstr ""
 
 #: archive.php:132
-#: category.php:78
+#: category.php:79
 #: components/templates/pages/page-all-pages.php:102
 #: components/templates/pages/page-all-posts.php:105
 #: front-page.php:94
-#: index.php:221
+#: index.php:227
 #: components/blocks/fau-big-button/edit.js:303
 #: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:17
 msgid "Title"
@@ -112,16 +112,16 @@ msgstr ""
 #: archive.php:146
 #: components/templates/pages/page-all-posts.php:118
 #: front-page.php:108
-#: index.php:235
+#: index.php:241
 msgid "Posts listing"
 msgstr ""
 
-#: category.php:19
-#, php-format
+#. translators: name of the wordpress category
+#: category.php:20
 msgid "Browse all posts in the %s category."
 msgstr ""
 
-#: category.php:91
+#: category.php:92
 msgid "Category posts listing"
 msgstr ""
 
@@ -130,7 +130,8 @@ msgid "Image sources:"
 msgstr ""
 
 #: components/blocks/fau-global-search/render.php:42
-msgid "Search..."
+#: components/blocks/fau-global-search/edit.js:72
+msgid "Search…"
 msgstr ""
 
 #: components/blocks/fau-global-search/render.php:52
@@ -138,55 +139,48 @@ msgstr ""
 #: components/template-parts/navigation/fau-navigation.php:48
 #: components/template-parts/navigation/menu-modal-config.php:65
 #: components/template-parts/navigation/menu-modal.php:239
-#: search.php:248
+#: search.php:38
 #: components/blocks/fau-global-search/edit.js:82
 msgid "Search"
 msgstr ""
 
-#: components/blocks/fau-global-search/render.php:67
-msgid "FAU-wide Search"
+#: components/blocks/fau-global-search/render.php:91
+msgid "Searching…"
 msgstr ""
 
-#: components/blocks/fau-global-search/render.php:75
-msgid "Current Site Only"
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:84
-msgid "Searching..."
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:87
+#: components/blocks/fau-global-search/render.php:94
 msgid "No suggestions found"
 msgstr ""
 
-#: components/blocks/fau-global-search/render.php:90
-#, php-format
+#. translators: search query
+#: components/blocks/fau-global-search/render.php:99
 msgid "No results found for \"%s\""
 msgstr ""
 
-#: components/blocks/fau-global-search/render.php:93
+#: components/blocks/fau-global-search/render.php:103
 msgid "Frequent Searches"
 msgstr ""
 
-#: components/blocks/fau-global-search/render.php:96
-#: components/blocks/fau-teaser-grid/render.php:338
-msgid "Loading..."
+#: components/blocks/fau-global-search/render.php:106
+#: components/blocks/fau-teaser-grid/render.php:339
+#: components/blocks/fau-teaser-grid/edit.js:546
+msgid "Loading…"
 msgstr ""
 
-#: components/blocks/fau-global-search/render.php:99
+#: components/blocks/fau-global-search/render.php:109
 msgid "No search data available yet"
 msgstr ""
 
-#: components/blocks/fau-global-search/render.php:102
-msgid "Loading search options..."
+#: components/blocks/fau-global-search/render.php:112
+msgid "Loading search options…"
 msgstr ""
 
-#: components/blocks/fau-global-search/render.php:105
-#: inc/search-api.php:207
+#: components/blocks/fau-global-search/render.php:115
+#: inc/search-api.php:111
 msgid "Search Options"
 msgstr ""
 
-#: components/blocks/fau-global-search/render.php:108
+#: components/blocks/fau-global-search/render.php:118
 msgid "Advanced Search"
 msgstr ""
 
@@ -233,26 +227,38 @@ msgstr ""
 msgid "Previous page"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:247
-#: components/blocks/fau-teaser-grid/render.php:267
-#: components/blocks/fau-teaser-grid/render.php:290
-#, php-format
+#. translators: page number
+#: components/blocks/fau-teaser-grid/render.php:248
+#: components/blocks/fau-teaser-grid/render.php:268
+#: components/blocks/fau-teaser-grid/render.php:291
 msgid "Page %d"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:304
-#: components/blocks/fau-teaser-grid/render.php:307
+#: components/blocks/fau-teaser-grid/render.php:305
+#: components/blocks/fau-teaser-grid/render.php:308
 msgid "Next page"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:337
-#: components/blocks/fau-teaser-grid/render.php:339
+#: components/blocks/fau-teaser-grid/render.php:338
+#: components/blocks/fau-teaser-grid/render.php:340
 #: components/blocks/fau-teaser-grid/edit.js:580
 msgid "Load More"
 msgstr ""
 
 #: components/blocks/fau-teaser-grid/teaser-item.php:120
 msgid "Read more about"
+msgstr ""
+
+#: components/patterns/hero-portal/pattern.php:19
+msgid "Are you interested in studying natural sciences or mathematics? Then FAU in Erlangen is the right place for you. Friedrich-Alexander-Universität Erlangen-Nürnberg offers degree programs in all areas of natural sciences and mathematics – both as undergraduate Bachelor’s and advanced Master’s programs. The degree programs in food chemistry, pharmacy, and teaching end with a state examination."
+msgstr ""
+
+#: components/patterns/hero-portal/pattern.php:26
+msgid "Learn more"
+msgstr ""
+
+#: components/patterns/hero-portal/pattern.php:39
+msgid "Students at FAU Erlangen-Nürnberg"
 msgstr ""
 
 #: components/template-parts/breadcrumbs/breadcrumbs.php:86
@@ -265,7 +271,7 @@ msgid "Start"
 msgstr ""
 
 #: components/template-parts/breadcrumbs/breadcrumbs.php:163
-#: search.php:229
+#: search.php:29
 msgid "Search Results"
 msgstr ""
 
@@ -412,11 +418,11 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:426
-#: components/template-parts/navigation/menu-modal.php:493
+#. translators: title of the submenu
+#: components/template-parts/navigation/menu-modal.php:427
+#: components/template-parts/navigation/menu-modal.php:494
 #: components/template-parts/navigation/mixed-navigation-walker.php:175
 #: components/template-parts/navigation/mixed-navigation-walker.php:382
-#, php-format
 msgid "Open %s submenu"
 msgstr ""
 
@@ -482,30 +488,26 @@ msgstr ""
 
 #. translators: %s: Menu item title
 #: inc/class-walker-content-menu.php:67
-#: search.php:473
+#: search.php:196
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:178
-#, php-format,js-format
 msgid "Featured image for %s"
 msgstr ""
 
 #. translators: %s: Menu item title
 #: inc/class-walker-content-menu.php:69
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:191
-#, php-format,js-format
 msgid "No image available for %s"
 msgstr ""
 
-#. translators: %s: Menu item title
-#. translators: %s: Submenu item title
-#: inc/class-walker-content-menu.php:79
-#: inc/class-walker-content-menu.php:86
+#. translators: Menu item title
+#: inc/class-walker-content-menu.php:80
+#: inc/class-walker-content-menu.php:87
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:210
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:240
-#, php-format,js-format
 msgid "Go to %s"
 msgstr ""
 
-#: inc/class-walker-content-menu.php:171
+#: inc/class-walker-content-menu.php:172
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
 msgstr ""
@@ -718,7 +720,6 @@ msgstr ""
 
 #. translators: social media platform
 #: inc/customizer.php:467
-#, php-format
 msgid "Enter the %s URL"
 msgstr ""
 
@@ -916,7 +917,7 @@ msgstr ""
 msgid "Show categories"
 msgstr ""
 
-#: inc/search-api.php:214
+#: inc/search-api.php:118
 msgid "No search options menu found"
 msgstr ""
 
@@ -924,12 +925,12 @@ msgstr ""
 msgid "No menu could be found with the specified name"
 msgstr ""
 
-#: inc/shortcodes.php:173
-#, php-format
+#. translators: owner/organization of the logo
+#: inc/shortcodes.php:174
 msgid "Logo from %s"
 msgstr ""
 
-#: inc/shortcodes.php:175
+#: inc/shortcodes.php:176
 msgid "Logo"
 msgstr ""
 
@@ -999,138 +1000,110 @@ msgstr ""
 msgid "Welcome to our blog. Browse and filter through all our posts using the options below."
 msgstr ""
 
-#: index.php:110
-#, php-format
+#. translators: name of the wordpress category
+#: index.php:111
 msgid "Browse all posts in the %s category. Use the filters below to refine your search."
 msgstr ""
 
-#: index.php:115
-#, php-format
+#. translators: name of the wordpress tag
+#: index.php:117
 msgid "Browse all posts tagged with %s. Use the filters below to refine your search."
 msgstr ""
 
-#: index.php:120
-#, php-format
+#. translators: name of the post author
+#: index.php:123
 msgid "Browse all posts by %s. Use the filters below to refine your search."
 msgstr ""
 
-#: index.php:124
-#: index.php:126
+#. translators: year number
 #: index.php:128
-#, php-format
+msgid "Browse all posts from the year %s. Use the filters below to refine your search."
+msgstr ""
+
+#. translators: year and month
+#: index.php:131
 msgid "Browse all posts from %s. Use the filters below to refine your search."
 msgstr ""
 
-#: index.php:131
+#. translators: year, month and date
+#: index.php:134
+msgid "Browse all posts from the %s. Use the filters below to refine your search."
+msgstr ""
+
+#: index.php:137
 msgid "Browse and filter through all our posts using the options below. Use pagination to navigate through multiple pages."
 msgstr ""
 
-#: search.php:226
-#, php-format
-msgid "FAU-wide Search Results for: %s"
-msgstr ""
-
-#: search.php:226
-#, php-format
+#. translators: search query
+#: search.php:27
 msgid "Search Results for: %s"
 msgstr ""
 
-#: search.php:229
-msgid "FAU-wide Search Results"
-msgstr ""
-
-#: search.php:239
-msgid "Search for:"
-msgstr ""
-
-#: search.php:243
-msgid "Enter search term..."
-msgstr ""
-
-#: search.php:247
-msgid "Submit search"
-msgstr ""
-
-#: search.php:252
-msgid "Press Enter to search or use the search button to submit your query"
-msgstr ""
-
-#: search.php:356
-#, php-format
-msgctxt "network search results count"
-msgid "%s result found across FAU network"
-msgid_plural "%s results found across FAU network"
-msgstr[0] ""
-msgstr[1] ""
-
-#: search.php:368
-#, php-format
+#. translators: number of results
+#: search.php:140
 msgctxt "search results count"
 msgid "%s result found"
 msgid_plural "%s results found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: search.php:381
+#: search.php:152
 msgid "Search Results List"
 msgstr ""
 
-#: search.php:391
-#: search.php:443
-#, php-format
+#. translators: index of the search result
+#: search.php:165
 msgid "Search Result %d"
 msgstr ""
 
-#: search.php:427
-#: search.php:500
-#, php-format
+#. translators: title of the search result
+#: search.php:225
 msgid "Read more about %s"
 msgstr ""
 
-#: search.php:428
-#: search.php:501
+#: search.php:227
 #: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:120
 #: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:155
 msgid "Read more"
 msgstr ""
 
-#: search.php:516
+#: search.php:241
 msgid "&laquo; Previous"
 msgstr ""
 
-#: search.php:517
+#: search.php:242
 msgid "Next &raquo;"
 msgstr ""
 
-#: search.php:519
+#: search.php:244
 msgid "Search results navigation"
 msgstr ""
 
-#: search.php:525
+#: search.php:250
 msgid "Search Results Pages"
 msgstr ""
 
-#: search.php:533
+#: search.php:258
 msgid "No Search Results"
 msgstr ""
 
-#: search.php:535
+#: search.php:260
 msgid "No results were found."
 msgstr ""
 
-#: search.php:538
+#: search.php:263
 msgid "Try:"
 msgstr ""
 
-#: search.php:540
+#: search.php:265
 msgid "Check the spelling of your search terms."
 msgstr ""
 
-#: search.php:541
+#: search.php:266
 msgid "Use more general search terms."
 msgstr ""
 
-#: search.php:542
+#: search.php:267
 msgid "Use fewer search terms."
 msgstr ""
 
@@ -1164,7 +1137,6 @@ msgstr ""
 
 #. translators: %s: faculty type
 #: components/blocks/fau-big-button/edit.js:169
-#, js-format
 msgid "Using faculty color: %s"
 msgstr ""
 
@@ -1325,7 +1297,6 @@ msgstr ""
 
 #. translators: %d: current character count
 #: components/blocks/fau-big-teaser/edit.js:92
-#, js-format
 msgid "%d/100 characters"
 msgstr ""
 
@@ -1339,7 +1310,6 @@ msgstr ""
 
 #. translators: %d: current character count
 #: components/blocks/fau-big-teaser/edit.js:114
-#, js-format
 msgid "%d/200 characters"
 msgstr ""
 
@@ -1353,7 +1323,6 @@ msgstr ""
 
 #. translators: %d: current character count
 #: components/blocks/fau-big-teaser/edit.js:137
-#, js-format
 msgid "%d/40 characters"
 msgstr ""
 
@@ -1389,7 +1358,6 @@ msgstr ""
 
 #. translators: %d: fact number
 #: components/blocks/fau-facts-grid/components/FactsGridContent.jsx:40
-#, js-format
 msgid "Edit fact %d"
 msgstr ""
 
@@ -1406,7 +1374,6 @@ msgstr ""
 
 #. translators: %d: fact number
 #: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:38
-#, js-format
 msgid "Fact %d Settings"
 msgstr ""
 
@@ -1576,18 +1543,6 @@ msgstr ""
 
 #: components/blocks/fau-global-search/edit.js:55
 msgid "Content Size: for editorial content, includes search scope selection and advanced features. Full Grid: for wide teaser components, simple search only."
-msgstr ""
-
-#: components/blocks/fau-global-search/edit.js:72
-msgid "Search…"
-msgstr ""
-
-#: components/blocks/fau-global-search/edit.js:106
-msgid "Global Search"
-msgstr ""
-
-#: components/blocks/fau-global-search/edit.js:121
-msgid "Website Search"
 msgstr ""
 
 #: components/blocks/fau-logo-grid/edit.js:141
@@ -1857,7 +1812,6 @@ msgstr ""
 
 #. translators: %1$d: number of visible items, %2$d: total number of items
 #: components/blocks/fau-teaser-grid/edit.js:445
-#, js-format
 msgid "Showing %1$d of %2$d items"
 msgstr ""
 
@@ -1867,10 +1821,6 @@ msgstr ""
 
 #: components/blocks/fau-teaser-grid/edit.js:539
 msgid "No items found"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:546
-msgid "Loading…"
 msgstr ""
 
 #: components/blocks/fau-teaser-grid/utils/helpers.js:64
@@ -1888,7 +1838,6 @@ msgstr ""
 
 #. translators: %s: slide index
 #: components/blocks/fau-testimonial/components/TestimonialCarousel.jsx:85
-#, js-format
 msgid "Go to slide %s"
 msgstr ""
 
