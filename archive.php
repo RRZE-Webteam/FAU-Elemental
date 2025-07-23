@@ -63,12 +63,12 @@ get_header(); ?>
         $author = get_queried_object();
         $total_posts = count_user_posts($author->ID);
     } elseif (is_date()) {
-        // For date archives, we need to query to get the count
+        // For date archives, we need to query to get the count - optimized query
         $date_query_args = [
             'post_type' => 'post',
             'post_status' => 'publish',
-            'posts_per_page' => -1,
-            'fields' => 'ids'
+            'posts_per_page' => 1,  // Only header query
+            'no_found_rows' => false  // We need found_posts
         ];
         
         if (is_year()) {
@@ -171,7 +171,31 @@ get_header(); ?>
             $order = 'DESC';
         }
         
-        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":' . $items_per_page . ',"orderBy":"' . $orderby . '","order":"' . $order . '","headingLevel":"h2","showPagination":true,"paginationType":"' . $pagination_type . '","currentPage":' . $current_page . $filter_params . '} /-->');
+        // Prepare block attributes safely
+        $block_args = [
+            'variant' => 'post',
+            'selectionMode' => 'auto',
+            'displayStyle' => 'teaser-grid',
+            'teaserLayout' => '3m',
+            'postsPerPage' => $items_per_page,
+            'orderBy' => $orderby,
+            'order' => $order,
+            'headingLevel' => 'h2',
+            'showPagination' => true,
+            'paginationType' => $pagination_type,
+            'currentPage' => $current_page
+        ];
+        
+        // Add filter parameters based on archive type
+        if (is_category()) {
+            $block_args['selectedCategory'] = get_queried_object_id();
+        } elseif (is_tag()) {
+            $block_args['selectedTags'] = [get_queried_object_id()];
+        } elseif (is_author()) {
+            $block_args['selectedAuthor'] = get_queried_object_id();
+        }
+        
+        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid ' . wp_json_encode($block_args) . ' /-->');
         ?>
     </section>
 </main>

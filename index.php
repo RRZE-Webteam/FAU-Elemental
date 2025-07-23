@@ -16,8 +16,8 @@ add_action('template_redirect', function() {
     $query_args = [
         'post_type' => 'post',
         'post_status' => 'publish',
-        'posts_per_page' => -1,
-        'fields' => 'ids'
+        'posts_per_page' => 1,  // Only header query
+        'no_found_rows' => false  // We need found_posts
     ];
     
     $count_query = new WP_Query($query_args);
@@ -175,12 +175,12 @@ get_header(); ?>
         $author = get_queried_object();
         $total_posts = count_user_posts($author->ID);
     } else {
-        // For general blog homepage
+        // For general blog homepage - optimized query
         $posts_query = new WP_Query([
             'post_type' => 'post',
             'post_status' => 'publish',
-            'posts_per_page' => -1,
-            'fields' => 'ids'
+            'posts_per_page' => 1,  // Only header query
+            'no_found_rows' => false  // We need found_posts
         ]);
         $total_posts = $posts_query->found_posts;
         wp_reset_postdata();
@@ -266,7 +266,31 @@ get_header(); ?>
             $order = 'DESC';
         }
         
-        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":' . $items_per_page . ',"orderBy":"' . $orderby . '","order":"' . $order . '","headingLevel":"h2","showPagination":true,"paginationType":"' . $pagination_type . '","currentPage":' . $current_page . $filter_params . '} /-->');
+        // Prepare block attributes safely
+        $block_args = [
+            'variant' => 'post',
+            'selectionMode' => 'auto',
+            'displayStyle' => 'teaser-grid',
+            'teaserLayout' => '3m',
+            'postsPerPage' => $items_per_page,
+            'orderBy' => $orderby,
+            'order' => $order,
+            'headingLevel' => 'h2',
+            'showPagination' => true,
+            'paginationType' => $pagination_type,
+            'currentPage' => $current_page
+        ];
+        
+        // Add filter parameters based on page type
+        if (is_category()) {
+            $block_args['selectedCategory'] = get_queried_object_id();
+        } elseif (is_tag()) {
+            $block_args['selectedTags'] = [get_queried_object_id()];
+        } elseif (is_author()) {
+            $block_args['selectedAuthor'] = get_queried_object_id();
+        }
+        
+        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid ' . wp_json_encode($block_args) . ' /-->');
         ?>
     </section>
 </main>
