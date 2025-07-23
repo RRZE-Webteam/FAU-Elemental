@@ -856,7 +856,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 // Responsive
 @media screen and (min-width: 1920px) {
 
-	.site-header__main {
+	.home .site-header__main {
 		max-width: 1800px;
 		left: 50%;
 		transform: translateX(-50%);
@@ -892,15 +892,6 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 	.main-navigation__logo {
 		left: 3.75rem;
-	}
-}
-
-@media screen and (min-width: 1920px) {
-
-	.site-header__main {
-		left: 50%;
-		max-width: 1800px;
-		transform: translateX(-50%);
 	}
 }
 
