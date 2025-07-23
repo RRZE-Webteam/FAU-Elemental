@@ -1,10 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "fau/logo-grid",
+	"name": "fau-elemental/logo-grid",
 	"version": "0.1.0",
 	"title": "FAU Logo Grid",
-	"category": "fau-blocks",
+	"category": "fau-elemental/FAU",
 	"icon": "grid-view",
 	"description": "Display a grid of logos with optional links and roof line",
 	"supports": {
