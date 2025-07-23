@@ -114,6 +114,9 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 						<div class="fau-global-search__message-advanced-search">
 							<?php echo __('Advanced Search', 'fau-elemental'); ?>
 						</div>
+						<div class="fau-global-search__message-search-suggestions">
+							<?php echo __('Search suggestions', 'fau-elemental'); ?>
+						</div>
 					</div>
 				<?php endif; ?>
 	</form>

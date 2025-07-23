@@ -22,6 +22,9 @@ require_once get_template_directory() . '/inc/enqueue-assets.php';
 // Search API endpoints
 require_once get_template_directory() . '/inc/search-api.php';
 
+// Create FULLTEXT index for search performance on theme activation
+add_action('after_switch_theme', 'fau_create_fulltext_index');
+
 // Customizer
 require_once get_template_directory() . '/inc/customizer.php';
 

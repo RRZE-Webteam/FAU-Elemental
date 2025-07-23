@@ -67,6 +67,7 @@ function getTranslatableMessage( form, messageType ) {
 			'loading-options': 'Loading search options...',
 			'search-options': 'Search Options',
 			'advanced-search': 'Advanced Search',
+			'search-suggestions': 'Search suggestions',
 		};
 		return fallbacks[ messageType ] || '';
 	}
@@ -203,9 +204,11 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		// Show loading state
 		const searchingText = getTranslatableMessage( form, 'searching' );
 		container.innerHTML = `
-			<div class="fau-global-search__suggestion-item fau-global-search__suggestion-loading">
-				<span>${ searchingText }</span>
-			</div>
+			<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
+				<li class="fau-global-search__suggestion-item fau-global-search__suggestion-loading" role="option">
+					<span>${ searchingText }</span>
+				</li>
+			</ul>
 		`;
 		container.style.display = 'block';
 
@@ -229,9 +232,11 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 						'no-suggestions'
 					);
 					container.innerHTML = `
-						<div class="fau-global-search__suggestion-item">
-							<span>${ noSuggestionsText }</span>
-						</div>
+						<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
+							<li class="fau-global-search__suggestion-item" role="option">
+								<span>${ noSuggestionsText }</span>
+							</li>
+						</ul>
 					`;
 				}
 			} );
@@ -261,9 +266,11 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 				'no-results'
 			).replace( '%s', query );
 			container.innerHTML = `
-				<div class="fau-global-search__suggestion-item">
-					<span>${ noResultsText }</span>
-				</div>
+				<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
+					<li class="fau-global-search__suggestion-item" role="option">
+						<span>${ noResultsText }</span>
+					</li>
+				</ul>
 			`;
 			return;
 		}
@@ -283,7 +290,10 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		// Limit to 5 results maximum
 		const limitedResults = uniqueResults.slice( 0, 5 );
 
-		let html = '<div class="fau-global-search__suggestions-list">';
+		let html =
+			'<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' +
+			getTranslatableMessage( form, 'search-suggestions' ) +
+			'">';
 
 		limitedResults.forEach( ( result ) => {
 			const currentSiteClass = result.is_current_site
@@ -297,22 +307,35 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			);
 
 			html += `
-				<div class="fau-global-search__suggestion-item${ currentSiteClass }" data-url="${
+				<li class="fau-global-search__suggestion-item${ currentSiteClass }" role="option" data-url="${
 					result.link || result.url
 				}">
-					<span class="fau-global-search__suggestion-title">${ highlightedTitle }</span>
-				</div>
+					<a href="${
+						result.link || result.url
+					}" class="fau-global-search__suggestion-link">
+						<span class="fau-global-search__suggestion-title">${ highlightedTitle }</span>
+					</a>
+				</li>
 			`;
 		} );
 
-		html += '</div>';
+		html += '</ul>';
 		container.innerHTML = html;
 
-		// Add click handlers
+		// Add click handlers for keyboard navigation
 		container
 			.querySelectorAll( '.fau-global-search__suggestion-item' )
 			.forEach( ( item ) => {
-				item.addEventListener( 'click', function () {
+				item.addEventListener( 'click', function ( event ) {
+					// Prevent default if clicking on the link itself
+					if (
+						event.target.closest(
+							'.fau-global-search__suggestion-link'
+						)
+					) {
+						return; // Let the link handle navigation
+					}
+
 					if ( this.dataset.url ) {
 						// Navigate to specific result
 						window.location.href = this.dataset.url;
