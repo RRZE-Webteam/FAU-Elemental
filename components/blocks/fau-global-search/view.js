@@ -68,6 +68,8 @@ function getTranslatableMessage( form, messageType ) {
 			'search-options': 'Search Options',
 			'advanced-search': 'Advanced Search',
 			'search-suggestions': 'Search suggestions',
+			'rate-limit-exceeded': 'Too many search requests. Please wait a moment and try again.',
+			'invalid-search-term': 'Please enter a valid search term.',
 		};
 		return fallbacks[ messageType ] || '';
 	}
@@ -90,6 +92,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 
 	let autocompleteTimeout;
 	let suggestionsContainer;
+	let selectedIndex = -1;
 
 	// Create suggestions container
 	function createSuggestionsContainer() {
@@ -159,7 +162,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		return suggestionsContainer;
 	}
 
-	// Handle input changes
+	// Handle input changes with configurable debouncing
 	input.addEventListener( 'input', function () {
 		clearTimeout( autocompleteTimeout );
 		const query = this.value.trim();
@@ -179,23 +182,30 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			return;
 		}
 
+		// Get debounce delay from config or use default
+		const debounceDelay = window.fauElemental?.searchDebounceDelay || 300;
+		
 		autocompleteTimeout = setTimeout( () => {
 			fetchSuggestions( query );
-		}, 300 );
+		}, debounceDelay );
 	} );
 
-	// Handle input focus
+	// Handle input focus - only show search options menu, don't trigger search
 	input.addEventListener( 'focus', function () {
 		const query = this.value.trim();
 
-		// If there's text and it's 3+ chars, show live suggestions
-		if ( query.length >= 3 ) {
-			fetchSuggestions( query );
+		// Only show search options menu if input is empty
+		if ( query.length === 0 && input._showSearchOptionsMenu ) {
+			input._showSearchOptionsMenu();
 		}
+		// Don't trigger search on focus - let debouncing handle it when user types
 	} );
 
 	// Fetch suggestions from custom title-only search API
 	function fetchSuggestions( query ) {
+		// Reset selection
+		selectedIndex = -1;
+
 		// Hide any existing containers first
 		hideSuggestions();
 
@@ -206,7 +216,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		container.innerHTML = `
 			<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
 				<li class="fau-global-search__suggestion-item fau-global-search__suggestion-loading" role="option">
-					<span>${ searchingText }</span>
+					${ searchingText }
 				</li>
 			</ul>
 		`;
@@ -218,26 +228,68 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			encodeURIComponent( query );
 
 		fetch( searchUrl )
-			.then( ( response ) => response.json() )
+			.then( ( response ) => {
+				// Check if the response is ok (status 200-299)
+				if ( ! response.ok ) {
+					// Handle specific error status codes
+					if ( response.status === 429 ) {
+						// Rate limit exceeded
+						throw new Error( 'rate_limit_exceeded' );
+					} else if ( response.status === 400 ) {
+						// Bad request (invalid search term)
+						throw new Error( 'invalid_search_term' );
+					} else {
+						// Other server errors
+						throw new Error( 'server_error' );
+					}
+				}
+				return response.json();
+			} )
 			.then( ( results ) => {
 				// Double check that this container is still the active one
 				if ( container.parentNode ) {
 					displaySuggestions( results, query, container );
 				}
 			} )
-			.catch( () => {
+			.catch( ( error ) => {
 				if ( container.parentNode ) {
-					const noSuggestionsText = getTranslatableMessage(
-						form,
-						'no-suggestions'
-					);
-					container.innerHTML = `
-						<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
-							<li class="fau-global-search__suggestion-item" role="option">
-								<span>${ noSuggestionsText }</span>
-							</li>
-						</ul>
-					`;
+					let errorMessage;
+					
+					if ( error.message === 'rate_limit_exceeded' ) {
+						errorMessage = getTranslatableMessage( form, 'rate-limit-exceeded' ) || 
+							'Too many search requests. Please wait a moment and try again.';
+						
+						container.innerHTML = `
+							<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
+								<li class="fau-global-search__suggestion-error" role="option">
+									${ errorMessage }
+								</li>
+							</ul>
+						`;
+					} else if ( error.message === 'invalid_search_term' ) {
+						errorMessage = getTranslatableMessage( form, 'invalid-search-term' ) || 
+							'Please enter a valid search term.';
+						
+						container.innerHTML = `
+							<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
+								<li class="fau-global-search__suggestion-error" role="option">
+									${ errorMessage }
+								</li>
+							</ul>
+						`;
+					} else {
+						// Generic error or network issue
+						errorMessage = getTranslatableMessage( form, 'no-suggestions' ) || 
+							'Unable to load search suggestions.';
+						
+						container.innerHTML = `
+							<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
+								<li class="fau-global-search__suggestion-error" role="option">
+									${ errorMessage }
+								</li>
+							</ul>
+						`;
+					}
 				}
 			} );
 	}
@@ -267,8 +319,8 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			).replace( '%s', query );
 			container.innerHTML = `
 				<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
-					<li class="fau-global-search__suggestion-item" role="option">
-						<span>${ noResultsText }</span>
+					<li class="fau-global-search__suggestion-error" role="option">
+						${ noResultsText }
 					</li>
 				</ul>
 			`;
@@ -295,7 +347,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			getTranslatableMessage( form, 'search-suggestions' ) +
 			'">';
 
-		limitedResults.forEach( ( result ) => {
+		limitedResults.forEach( ( result, index ) => {
 			const currentSiteClass = result.is_current_site
 				? ' fau-global-search__suggestion-item--current-site'
 				: '';
@@ -309,7 +361,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			html += `
 				<li class="fau-global-search__suggestion-item${ currentSiteClass }" role="option" data-url="${
 					result.link || result.url
-				}">
+				}" data-index="${ index }" tabindex="-1">
 					<a href="${
 						result.link || result.url
 					}" class="fau-global-search__suggestion-link">
@@ -322,46 +374,183 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		html += '</ul>';
 		container.innerHTML = html;
 
-		// Add click handlers for keyboard navigation
-		container
-			.querySelectorAll( '.fau-global-search__suggestion-item' )
-			.forEach( ( item ) => {
-				item.addEventListener( 'click', function ( event ) {
-					// Prevent default if clicking on the link itself
-					if (
-						event.target.closest(
-							'.fau-global-search__suggestion-link'
-						)
-					) {
-						return; // Let the link handle navigation
+		// Add click handlers and keyboard navigation
+		const suggestionItems = container.querySelectorAll(
+			'.fau-global-search__suggestion-item'
+		);
+
+		// Function to update selected item
+		function updateSelectedItem( newIndex ) {
+			// Remove previous selection
+			if ( selectedIndex >= 0 && suggestionItems[ selectedIndex ] ) {
+				suggestionItems[ selectedIndex ].classList.remove(
+					'fau-global-search__suggestion-item--selected'
+				);
+				suggestionItems[ selectedIndex ].setAttribute(
+					'aria-selected',
+					'false'
+				);
+			}
+
+			// Set new selection
+			selectedIndex = newIndex;
+			if ( selectedIndex >= 0 && suggestionItems[ selectedIndex ] ) {
+				suggestionItems[ selectedIndex ].classList.add(
+					'fau-global-search__suggestion-item--selected'
+				);
+				suggestionItems[ selectedIndex ].setAttribute(
+					'aria-selected',
+					'true'
+				);
+				suggestionItems[ selectedIndex ].focus();
+			}
+		}
+
+		// Function to handle item selection
+		function selectItem( item ) {
+			if ( item.dataset.url ) {
+				// Navigate to specific result
+				window.location.href = item.dataset.url;
+			} else if ( item.dataset.search ) {
+				// Submit search form for all results with FAU-wide scope
+				input.value = item.dataset.search;
+
+				// Set FAU-wide scope if this is the "view all" option
+				if ( item.dataset.fauWide ) {
+					const scopeRadio = form.querySelector(
+						'input[name="fau_search_scope"][value="fau-wide"]'
+					);
+					if ( scopeRadio ) {
+						scopeRadio.checked = true;
 					}
+				}
 
-					if ( this.dataset.url ) {
-						// Navigate to specific result
-						window.location.href = this.dataset.url;
-					} else if ( this.dataset.search ) {
-						// Submit search form for all results with FAU-wide scope
-						input.value = this.dataset.search;
+				hideSuggestions();
+				form.submit();
+			}
+		}
+		// Add keyboard navigation to the input
+		const inputKeydownHandler = function ( event ) {
+			if (
+				! suggestionsContainer ||
+				suggestionsContainer.style.display === 'none'
+			) {
+				return;
+			}
 
-						// Set FAU-wide scope if this is the "view all" option
-						if ( this.dataset.fauWide ) {
-							const scopeRadio = form.querySelector(
-								'input[name="fau_search_scope"][value="fau-wide"]'
-							);
-							if ( scopeRadio ) {
-								scopeRadio.checked = true;
-							}
-						}
+			switch ( event.key ) {
+				case 'ArrowDown':
+					event.preventDefault();
+					if ( selectedIndex < suggestionItems.length - 1 ) {
+						updateSelectedItem( selectedIndex + 1 );
+					} else if ( selectedIndex === -1 ) {
+						// First time pressing arrow down, select first item
+						updateSelectedItem( 0 );
+					}
+					break;
 
-						hideSuggestions();
+				case 'ArrowUp':
+					event.preventDefault();
+					if ( selectedIndex > 0 ) {
+						updateSelectedItem( selectedIndex - 1 );
+					} else if ( selectedIndex === 0 ) {
+						// Move focus back to input
+						updateSelectedItem( -1 );
+						input.focus();
+					}
+					break;
+
+				case 'Enter':
+					event.preventDefault();
+					if (
+						selectedIndex >= 0 &&
+						suggestionItems[ selectedIndex ]
+					) {
+						selectItem( suggestionItems[ selectedIndex ] );
+					} else {
+						// No item selected, submit the form normally
 						form.submit();
 					}
-				} );
+					break;
+
+				case 'Escape':
+					event.preventDefault();
+					hideSuggestions();
+					input.focus();
+					break;
+
+				case 'Tab':
+					// Allow normal tab behavior but hide suggestions
+					hideSuggestions();
+					break;
+			}
+		};
+
+		// Remove any existing keyboard handler to prevent duplicates
+		input.removeEventListener( 'keydown', inputKeydownHandler );
+		input.addEventListener( 'keydown', inputKeydownHandler );
+
+		// Add keyboard navigation to suggestion items
+		suggestionItems.forEach( ( item, index ) => {
+			item.addEventListener( 'keydown', function ( event ) {
+				switch ( event.key ) {
+					case 'Enter':
+					case ' ':
+						event.preventDefault();
+						selectItem( this );
+						break;
+
+					case 'ArrowDown':
+						event.preventDefault();
+						if ( index < suggestionItems.length - 1 ) {
+							updateSelectedItem( index + 1 );
+						}
+						break;
+
+					case 'ArrowUp':
+						event.preventDefault();
+						if ( index > 0 ) {
+							updateSelectedItem( index - 1 );
+						} else {
+							// Move focus back to input
+							updateSelectedItem( -1 );
+							input.focus();
+						}
+						break;
+
+					case 'Escape':
+						event.preventDefault();
+						hideSuggestions();
+						input.focus();
+						break;
+				}
 			} );
+
+			// Add focus/blur handlers for visual feedback
+			item.addEventListener( 'focus', function () {
+				updateSelectedItem( index );
+			} );
+
+			item.addEventListener( 'blur', function () {
+				// Only remove selection if focus is not moving to another suggestion item
+				setTimeout( () => {
+					if (
+						! container.contains(
+							container.ownerDocument.activeElement
+						)
+					) {
+						updateSelectedItem( -1 );
+					}
+				}, 10 );
+			} );
+		} );
 	}
 
 	// Hide suggestions
 	function hideSuggestions() {
+		// Reset selection
+		selectedIndex = -1;
+
 		if ( suggestionsContainer ) {
 			suggestionsContainer.style.display = 'none';
 

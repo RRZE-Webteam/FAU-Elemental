@@ -43,8 +43,9 @@ function fau_validate_search_term($param, $request, $key) {
     }
     
     // Check maximum length
-    if (strlen($param) > 100) {
-        return new WP_Error('invalid_search_term', __('Search term must be less than 100 characters.', 'fau-elemental'), array('status' => 400));
+    $max_length = faue_get_default('faue_search_max_length');
+    if (strlen($param) > $max_length) {
+        return new WP_Error('invalid_search_term', sprintf(__('Search term must be less than %d characters.', 'fau-elemental'), $max_length), array('status' => 400));
     }
     
     // Check for suspicious patterns
@@ -85,8 +86,8 @@ function fau_check_search_rate_limit($request) {
     
     $client_ip = fau_get_client_ip();
     $rate_limit_key = 'fau_search_rate_limit_' . md5($client_ip);
-    $rate_limit_window = 60; // 1 minute window
-    $max_requests = 30; // Max 30 requests per minute
+    $rate_limit_window = faue_get_default('faue_search_rate_limit_window');
+    $max_requests = faue_get_default('faue_search_rate_limit_max_requests');
     
     // Get current rate limit data
     $rate_data = get_transient($rate_limit_key);
@@ -167,28 +168,23 @@ function fau_get_search_suggestions($request) {
     if (false !== $cached_results) {
         $was_cached = true;
         $response = rest_ensure_response($cached_results);
-        fau_set_cache_headers($response, 30); // 30 seconds cache
+        $cache_duration = faue_get_default('faue_search_cache_duration');
+        fau_set_cache_headers($response, $cache_duration);
         fau_log_search_request($search, $client_ip, $was_cached);
         return $response;
     }
     
     $results = array();
     
-    // Try FULLTEXT search first (fastest for large datasets)
-    if (fau_supports_fulltext_search()) {
-        $results = fau_fulltext_search($search);
-    }
+    // Use WP_Query search with FULLTEXT when available
+    $results = fau_wp_query_search($search);
     
-    // Fallback to optimized WP_Query if FULLTEXT not available or no results
-    if (empty($results)) {
-        $results = fau_wp_query_search($search);
-    }
-    
-    // Cache results for 30 seconds
-    set_transient($cache_key, $results, 30);
+    // Cache results using configurable duration
+    $cache_duration = faue_get_default('faue_search_cache_duration');
+    set_transient($cache_key, $results, $cache_duration);
     
     $response = rest_ensure_response($results);
-    fau_set_cache_headers($response, 30);
+    fau_set_cache_headers($response, $cache_duration);
     
     // Log the search request
     fau_log_search_request($search, $client_ip, $was_cached);
@@ -203,8 +199,10 @@ function fau_get_search_suggestions($request) {
  * @param int $cache_duration Cache duration in seconds.
  */
 function fau_set_cache_headers($response, $cache_duration) {
-    $response->header('Cache-Control', 'public, max-age=' . $cache_duration . ', s-maxage=' . $cache_duration);
-    $response->header('Expires', gmdate('D, d M Y H:i:s \G\M\T', time() + $cache_duration));
+    // Use separate browser cache duration (can be much longer than server cache)
+    $browser_cache_duration = faue_get_default('faue_search_browser_cache_duration');
+    $response->header('Cache-Control', 'public, max-age=' . $browser_cache_duration . ', s-maxage=' . $cache_duration);
+    $response->header('Expires', gmdate('D, d M Y H:i:s \G\M\T', time() + $browser_cache_duration));
     $response->header('Vary', 'Accept-Encoding');
     
     // Add rate limit headers
@@ -213,10 +211,12 @@ function fau_set_cache_headers($response, $cache_duration) {
     $rate_data = get_transient($rate_limit_key);
     
     if (false !== $rate_data) {
-        $remaining = max(0, 30 - $rate_data['count']); // 30 is max_requests
-        $reset_time = $rate_data['window_start'] + 60; // 60 is rate_limit_window
+        $max_requests = faue_get_default('faue_search_rate_limit_max_requests');
+        $rate_limit_window = faue_get_default('faue_search_rate_limit_window');
+        $remaining = max(0, $max_requests - $rate_data['count']);
+        $reset_time = $rate_data['window_start'] + $rate_limit_window;
         
-        $response->header('X-RateLimit-Limit', '30');
+        $response->header('X-RateLimit-Limit', $max_requests);
         $response->header('X-RateLimit-Remaining', $remaining);
         $response->header('X-RateLimit-Reset', $reset_time);
     }
@@ -239,123 +239,14 @@ function fau_supports_fulltext_search() {
     
     return !empty($index_exists);
 }
-
 /**
- * Perform FULLTEXT search using MySQL MATCH AGAINST
- *
- * @param string $search The search term.
- * @return array Search results.
- */
-function fau_fulltext_search($search) {
-    global $wpdb;
-    
-    $results = array();
-    $search_terms = explode(' ', trim($search));
-    $search_terms = array_filter($search_terms, function($term) {
-        return strlen($term) >= 3; // MySQL FULLTEXT minimum word length
-    });
-    
-    if (empty($search_terms)) {
-        return $results;
-    }
-    
-    // Build FULLTEXT search query with boolean mode
-    $search_string = implode('* ', $search_terms) . '*';
-    
-    $sql = $wpdb->prepare("
-        SELECT ID, post_title, post_type, post_date,
-               MATCH(post_title) AGAINST(%s IN BOOLEAN MODE) as relevance
-        FROM {$wpdb->posts}
-        WHERE post_status = 'publish'
-        AND post_type IN ('post', 'page')
-        AND MATCH(post_title) AGAINST(%s IN BOOLEAN MODE)
-        ORDER BY relevance DESC, post_date DESC
-        LIMIT 5
-    ", $search_string, $search_string);
-    
-    $posts = $wpdb->get_results($sql);
-    
-    // Cache site name once to avoid repeated function calls
-    $site_name = get_bloginfo('name');
-    
-    foreach ($posts as $post) {
-        $post_type_obj = get_post_type_object($post->post_type);
-        $results[] = array(
-            'title' => $post->post_title,
-            'link' => get_permalink($post->ID),
-            'type' => $post_type_obj ? $post_type_obj->labels->singular_name : $post->post_type,
-            'site_name' => $site_name,
-            'is_current_site' => true
-        );
-    }
-    
-    return $results;
-}
-
-/**
- * Perform optimized WP_Query search with prefix matching
- *
- * @param string $search The search term.
- * @return array Search results.
- */
-function fau_wp_query_search($search) {
-    $results = array();
-    
-    // Use WP_Query with optimized parameters
-    $query_args = array(
-        's' => $search,
-        'posts_per_page' => 5,
-        'post_type' => array('post', 'page'),
-        'post_status' => 'publish',
-        'orderby' => array(
-            'relevance' => 'DESC',
-            'date' => 'DESC'
-        ),
-        'no_found_rows' => true,
-        'update_post_meta_cache' => false,
-        'update_post_term_cache' => false,
-    );
-    
-    // Add optimized title-only search filter
-    add_filter('posts_search', 'fau_optimized_title_search', 10, 2);
-    
-    $query = new WP_Query($query_args);
-    
-    // Remove the filter after query
-    remove_filter('posts_search', 'fau_optimized_title_search', 10);
-    
-    // Cache site name once to avoid repeated function calls
-    $site_name = get_bloginfo('name');
-    
-    if ($query->have_posts()) {
-        while ($query->have_posts()) {
-            $query->the_post();
-            $post_id = get_the_ID();
-            $post_type_obj = get_post_type_object(get_post_type($post_id));
-            
-            $results[] = array(
-                'title' => get_the_title($post_id),
-                'link' => get_permalink($post_id),
-                'type' => $post_type_obj ? $post_type_obj->labels->singular_name : get_post_type($post_id),
-                'site_name' => $site_name,
-                'is_current_site' => true
-            );
-        }
-    }
-    
-    wp_reset_postdata();
-    
-    return $results;
-}
-
-/**
- * Optimized title search filter using prefix matching instead of wildcard
+ * Search filter that uses FULLTEXT when available, otherwise optimized LIKE
  *
  * @param string $search The search SQL query.
  * @param WP_Query $query The WP_Query instance.
  * @return string Modified search query.
  */
-function fau_optimized_title_search($search, $query) {
+function fau_search_filter($search, $query) {
     global $wpdb;
     
     if (!empty($search) && !empty($query->query_vars['search_terms'])) {
@@ -363,54 +254,38 @@ function fau_optimized_title_search($search, $query) {
         $search = '';
         $searchand = '';
         
-        foreach ((array) $q['search_terms'] as $term) {
-            $term = $wpdb->esc_like($term);
+        // Check if FULLTEXT search is available
+        if (fau_supports_fulltext_search()) {
+            // Use FULLTEXT search for better performance
+            $search_terms = array_filter($q['search_terms'], function($term) {
+                return strlen($term) >= 3; // MySQL FULLTEXT minimum word length
+            });
             
-            // Use prefix matching (LIKE 'term%') instead of wildcard (LIKE '%term%')
-            // This allows MySQL to use indexes more effectively
-            $search .= $wpdb->prepare(
-                "{$searchand}(({$wpdb->posts}.post_title LIKE %s OR {$wpdb->posts}.post_title LIKE %s))",
-                $term . '%',  // Prefix match
-                '% ' . $term . '%'  // Word boundary match
-            );
-            $searchand = ' AND ';
-        }
-        
-        if (!empty($search)) {
-            $search = " AND ({$search}) ";
-        }
-    }
-    
-    return $search;
-}
-
-/**
- * Legacy title-only search filter (kept for compatibility)
- *
- * @param string $search The search SQL query.
- * @param WP_Query $query The WP_Query instance.
- * @return string Modified search query.
- */
-function fau_title_only_search($search, $query) {
-    global $wpdb;
-    
-    if (!empty($search) && !empty($query->query_vars['search_terms'])) {
-        $q = $query->query_vars;
-        $n = !empty($q['exact']) ? '' : '%';
-        $search = '';
-        $searchand = '';
-        
-        foreach ((array) $q['search_terms'] as $term) {
-            $term = $wpdb->esc_like($term);
-            $search .= $wpdb->prepare(
-                "{$searchand}(({$wpdb->posts}.post_title LIKE %s))",
-                $n . $term . $n
-            );
-            $searchand = ' AND ';
-        }
-        
-        if (!empty($search)) {
-            $search = " AND ({$search}) ";
+            if (!empty($search_terms)) {
+                $search_string = implode('* ', $search_terms) . '*';
+                $search = $wpdb->prepare(
+                    " AND MATCH({$wpdb->posts}.post_title) AGAINST(%s IN BOOLEAN MODE) ",
+                    $search_string
+                );
+            }
+        } else {
+            // Fallback to optimized LIKE search
+            foreach ((array) $q['search_terms'] as $term) {
+                $term = $wpdb->esc_like($term);
+                
+                // Use prefix matching (LIKE 'term%') instead of wildcard (LIKE '%term%')
+                // This allows MySQL to use indexes more effectively
+                $search .= $wpdb->prepare(
+                    "{$searchand}(({$wpdb->posts}.post_title LIKE %s OR {$wpdb->posts}.post_title LIKE %s))",
+                    $term . '%',  // Prefix match
+                    '% ' . $term . '%'  // Word boundary match
+                );
+                $searchand = ' AND ';
+            }
+            
+            if (!empty($search)) {
+                $search = " AND ({$search}) ";
+            }
         }
     }
     
@@ -424,7 +299,7 @@ function fau_title_only_search($search, $query) {
 function fau_filter_core_search_query($query, $request) {
     // Only apply to our custom search endpoint
     if (strpos($request->get_route(), '/fau/v1/search-suggestions') !== false) {
-        add_filter('posts_search', 'fau_optimized_title_search', 10, 2);
+        add_filter('posts_search', 'fau_unified_search_filter', 10, 2);
     }
     
     return $query;
@@ -575,7 +450,8 @@ function fau_log_search_request($search_term, $client_ip, $was_cached = false) {
     array_unshift($recent_searches, $log_entry);
     $recent_searches = array_slice($recent_searches, 0, 100); // Keep only last 100
     
-    set_transient('fau_recent_searches', $recent_searches, 3600); // 1 hour
+    $recent_searches_duration = faue_get_default('faue_search_recent_searches_duration');
+    set_transient('fau_recent_searches', $recent_searches, $recent_searches_duration);
     
     // Trigger external monitoring
     fau_monitor_search_request($search_term, $client_ip, $was_cached);
@@ -587,11 +463,12 @@ function fau_log_search_request($search_term, $client_ip, $was_cached = false) {
 function fau_cleanup_search_cache() {
     global $wpdb;
     
-    // Clean up old search cache entries (older than 1 hour)
+    // Clean up old search cache entries (older than configured duration)
+    $cache_duration = faue_get_default('faue_search_cache_duration');
     $wpdb->query("
         DELETE FROM {$wpdb->options} 
         WHERE option_name LIKE '_transient_fau_search_%' 
-        AND option_value < " . (time() - 3600)
+        AND option_value < " . (time() - $cache_duration)
     );
     
     // Clean up expired transients
@@ -649,7 +526,8 @@ function fau_track_rate_limit_violation($client_ip) {
         $violations = 0;
     }
     $violations++;
-    set_transient('fau_rate_limit_violations', $violations, 3600); // 1 hour
+    $violations_duration = faue_get_default('faue_search_rate_limit_violations_duration');
+    set_transient('fau_rate_limit_violations', $violations, $violations_duration);
     
     // Log violation for admin review
     if (get_option('fau_search_logging_enabled', false)) {
@@ -724,14 +602,14 @@ function fau_waf_integration_hook($request) {
     $search_term = $request->get_param('search');
     
     /**
-     * Filter to allow external WAF systems to block requests
+     * Filter to allow external systems to block search requests
      * 
      * @param bool $allow_request Whether to allow the request.
      * @param string $client_ip The client IP address.
      * @param string $search_term The search term.
      * @param WP_REST_Request $request The request object.
      */
-    $allow_request = apply_filters('fau_waf_check_request', true, $client_ip, $search_term, $request);
+    $allow_request = apply_filters('fau_check_search_request', true, $client_ip, $search_term, $request);
     
     if (!$allow_request) {
         return new WP_Error(
@@ -952,6 +830,63 @@ function fau_monitor_search_request($search_term, $client_ip, $was_cached) {
 
 // Hook into our logging function
 add_action('fau_search_request_logged', 'fau_monitor_search_request', 10, 3);
+
+/**
+ * Unified WP_Query search that uses FULLTEXT when available, otherwise optimized LIKE
+ * This consolidates both search approaches into a single implementation
+ *
+ * @param string $search The search term.
+ * @return array Search results.
+ */
+function fau_wp_query_search($search) {
+    $results = array();
+    
+    // Use WP_Query with optimized parameters
+    $query_args = array(
+        's' => $search,
+        'posts_per_page' => 5,
+        'post_type' => array('post', 'page'),
+        'post_status' => 'publish',
+        'orderby' => array(
+            'relevance' => 'DESC',
+            'date' => 'DESC'
+        ),
+        'no_found_rows' => true,
+        'update_post_meta_cache' => false,
+        'update_post_term_cache' => false,
+    );
+    
+    // Add search filter that handles FULLTEXT vs LIKE
+    add_filter('posts_search', 'fau_search_filter', 10, 2);
+    
+    $query = new WP_Query($query_args);
+    
+    // Remove the filter after query
+    remove_filter('posts_search', 'fau_search_filter', 10);
+    
+    // Cache site name once to avoid repeated function calls
+    $site_name = get_bloginfo('name');
+    
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $post_id = get_the_ID();
+            $post_type_obj = get_post_type_object(get_post_type($post_id));
+            
+            $results[] = array(
+                'title' => get_the_title($post_id),
+                'link' => get_permalink($post_id),
+                'type' => $post_type_obj ? $post_type_obj->labels->singular_name : get_post_type($post_id),
+                'site_name' => $site_name,
+                'is_current_site' => true
+            );
+        }
+    }
+    
+    wp_reset_postdata();
+    
+    return $results;
+}
 
 
 

@@ -310,8 +310,11 @@
 	&__suggestion-item {
 		padding: var(--Spacing-3x) var(--Spacing-6x);
 		cursor: pointer;
+		outline: none;
 
-		&:hover {
+		&:hover,
+		&:focus,
+		&--selected {
 			background-color: var(--FAU-Col-FAU-Blau-25);
 			position: relative;
 
@@ -331,6 +334,11 @@
 			.fau-global-search__suggestion-title {
 				color: var(--FAU-Col-FAU-Blau-100);
 			}
+		}
+
+		&--selected {
+			background-color: var(--FAU-Col-FAU-Blau-50);
+			padding-left: calc(var(--Spacing-6x) - 0.25rem);
 		}
 	}
 
@@ -396,6 +404,8 @@
 				}
 			}
 		}
+	}.fau-global-search__suggestion-error {
+		padding: var(--Spacing-3x) var(--Spacing-6x);
 	}
 
 	&__suggestions {
@@ -413,8 +423,11 @@
 			.fau-global-search__suggestion-item {
 				padding: var(--Spacing-3x) var(--Spacing-4x);
 				margin: 0;
+				outline: none;
 
-				&:hover {
+				&:hover,
+				&:focus,
+				&--selected {
 					background-color: var(--FAU-Col-FAU-Blau-25);
 					margin: 0;
 
@@ -423,8 +436,13 @@
 					}
 
 					.fau-global-search__suggestion-title {
-						color: var(--FAU-Col-FAU-Weiss-100);
+						color: var(--FAU-Col-FAU-Blau-100);
 					}
+				}
+
+				&--selected {
+					background-color: var(--FAU-Col-FAU-Blau-50);
+					padding-left: calc(var(--Spacing-4x) - 0.25rem);
 				}
 			}
 
