@@ -987,6 +987,10 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 		&__top {
 
+			.site-header-top__wrapper {
+				padding-right: unset;
+			}
+
 			.fau-navigation {
 				padding-right: unset;
 
@@ -997,7 +1001,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 					position: fixed;
 					bottom: 0;
 					width: 100%;
-					background-color: var(--FAU-Col-FAU-Blau-100);
+					background-color: var(--FAU-Col-FAU-Dunkelblau-100);
 
 					button {
 						justify-content: center;
@@ -1036,10 +1040,6 @@ body.home.fauorg-fakultaet.faculty-rw {
 	}
 
 	.home .site-header {
-
-		&__top .site-header-top__wrapper {
-			padding-right: unset;
-		}
 
 		&__main {
 			top: 4rem;
