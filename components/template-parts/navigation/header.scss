@@ -588,9 +588,9 @@ body.modal-open {
 			&::after {
 				content: "";
 				position: absolute;
-				bottom: 0;
+				bottom: -0.0625rem;
 				left: 1.25rem;
-				right: 1rem;
+				right: 1.25rem;
 				height: 0.0625rem;
 				background-color: var(--FAU-Col-FAU-Blau-25);
 			}
@@ -604,7 +604,6 @@ body.modal-open {
 				letter-spacing: var(--letter-spacing-small);
 				padding: 1rem 1.25rem 1rem 1.25rem;
 				box-sizing: border-box;
-
 
 				&:hover,
 				&:focus-visible {
