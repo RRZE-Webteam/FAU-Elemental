@@ -68,7 +68,8 @@ function getTranslatableMessage( form, messageType ) {
 			'search-options': 'Search Options',
 			'advanced-search': 'Advanced Search',
 			'search-suggestions': 'Search suggestions',
-			'rate-limit-exceeded': 'Too many search requests. Please wait a moment and try again.',
+			'rate-limit-exceeded':
+				'Too many search requests. Please wait a moment and try again.',
 			'invalid-search-term': 'Please enter a valid search term.',
 		};
 		return fallbacks[ messageType ] || '';
@@ -184,7 +185,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 
 		// Get debounce delay from config or use default
 		const debounceDelay = window.fauElemental?.searchDebounceDelay || 300;
-		
+
 		autocompleteTimeout = setTimeout( () => {
 			fetchSuggestions( query );
 		}, debounceDelay );
@@ -254,11 +255,15 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			.catch( ( error ) => {
 				if ( container.parentNode ) {
 					let errorMessage;
-					
+
 					if ( error.message === 'rate_limit_exceeded' ) {
-						errorMessage = getTranslatableMessage( form, 'rate-limit-exceeded' ) || 
+						errorMessage =
+							getTranslatableMessage(
+								form,
+								'rate-limit-exceeded'
+							) ||
 							'Too many search requests. Please wait a moment and try again.';
-						
+
 						container.innerHTML = `
 							<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
 								<li class="fau-global-search__suggestion-error" role="option">
@@ -267,9 +272,12 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 							</ul>
 						`;
 					} else if ( error.message === 'invalid_search_term' ) {
-						errorMessage = getTranslatableMessage( form, 'invalid-search-term' ) || 
-							'Please enter a valid search term.';
-						
+						errorMessage =
+							getTranslatableMessage(
+								form,
+								'invalid-search-term'
+							) || 'Please enter a valid search term.';
+
 						container.innerHTML = `
 							<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
 								<li class="fau-global-search__suggestion-error" role="option">
@@ -279,9 +287,10 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 						`;
 					} else {
 						// Generic error or network issue
-						errorMessage = getTranslatableMessage( form, 'no-suggestions' ) || 
+						errorMessage =
+							getTranslatableMessage( form, 'no-suggestions' ) ||
 							'Unable to load search suggestions.';
-						
+
 						container.innerHTML = `
 							<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
 								<li class="fau-global-search__suggestion-error" role="option">
