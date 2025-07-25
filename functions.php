@@ -343,17 +343,8 @@ add_action('init', 'fau_elemental_register_teaser_grid_ajax');
  * You can modify this logic based on your needs.
  */
 function fau_elemental_control_block_locking_permissions($settings, $context) {
-    // Option 1: Completely disable block locking for all users
-    $settings['canLockBlocks'] = false;
     
-    // Option 2: Only allow users with theme editing capabilities to lock/unlock blocks
-    // $settings['canLockBlocks'] = current_user_can('edit_theme_options');
-    
-    // Option 3: Only allow administrators to lock/unlock blocks
-    // $settings['canLockBlocks'] = current_user_can('manage_options');
-    
-    // Option 4: Custom logic - only allow specific user roles
-    // $settings['canLockBlocks'] = current_user_can('administrator') || current_user_can('editor');
+    $settings['canLockBlocks'] = current_user_can('manage_options');
     
     return $settings;
 }
