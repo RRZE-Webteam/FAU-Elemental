@@ -45,6 +45,7 @@ function fau_validate_search_term($param, $request, $key) {
     // Check maximum length
     $max_length = faue_get_default('faue_search_max_length');
     if (strlen($param) > $max_length) {
+        /* translators: %d: maximum number of characters allowed for search term */
         return new WP_Error('invalid_search_term', sprintf(__('Search term must be less than %d characters.', 'fau-elemental'), $max_length), array('status' => 400));
     }
     
