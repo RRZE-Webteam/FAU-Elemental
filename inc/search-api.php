@@ -454,8 +454,14 @@ function fau_log_search_request($search_term, $client_ip, $was_cached = false) {
     $recent_searches_duration = faue_get_default('faue_search_recent_searches_duration');
     set_transient('fau_recent_searches', $recent_searches, $recent_searches_duration);
     
-    // Trigger external monitoring
-    fau_monitor_search_request($search_term, $client_ip, $was_cached);
+    /**
+     * Action hook for external monitoring systems
+     * 
+     * @param string $search_term The search term.
+     * @param string $client_ip The client IP address.
+     * @param bool $was_cached Whether the result was served from cache.
+     */
+    do_action('fau_search_request_logged', $search_term, $client_ip, $was_cached);
 }
 
 /**
@@ -815,22 +821,7 @@ function fau_add_security_headers() {
 }
 add_action('send_headers', 'fau_add_security_headers');
 
-/**
- * Filter to allow external monitoring systems to track search requests
- */
-function fau_monitor_search_request($search_term, $client_ip, $was_cached) {
-    /**
-     * Action hook for external monitoring systems
-     * 
-     * @param string $search_term The search term.
-     * @param string $client_ip The client IP address.
-     * @param bool $was_cached Whether the result was served from cache.
-     */
-    do_action('fau_search_request_logged', $search_term, $client_ip, $was_cached);
-}
 
-// Hook into our logging function
-add_action('fau_search_request_logged', 'fau_monitor_search_request', 10, 3);
 
 /**
  * Unified WP_Query search that uses FULLTEXT when available, otherwise optimized LIKE
