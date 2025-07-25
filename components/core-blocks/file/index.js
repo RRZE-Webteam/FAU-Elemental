@@ -304,15 +304,18 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 		// Save file details to attributes when they change
 		useEffect( () => {
 			if ( fileDetails ) {
+				const filesize =
+					fileDetails.media_details?.filesize ||
+					fileDetails.filesize ||
+					0;
+
 				setAttributes( {
 					fileDetails: {
 						filename:
 							fileDetails.title?.rendered ||
 							fileDetails.filename ||
 							fileDetails.source_url?.split( '/' ).pop(),
-						filesize:
-							fileDetails.media_details?.filesize ||
-							fileDetails.filesize,
+						filesize,
 						mime_type: fileDetails.mime_type,
 					},
 				} );
@@ -445,7 +448,12 @@ const withInspectorControls = createHigherOrderComponent( ( BlockEdit ) => {
 										</dt>
 										<dd className="file-info-definition">
 											{ formatFileSize(
-												fileDetails.filesize
+												fileDetails.media_details
+													?.filesize ||
+													fileDetails.filesize ||
+													fileDetails.file_size ||
+													fileDetails.size ||
+													0
 											) }
 										</dd>
 									</div>
