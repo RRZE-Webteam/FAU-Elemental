@@ -51,6 +51,11 @@
 
 	&.is-style-large {
 		max-width: var(--base-max-width);
+
+		figcaption {
+			max-width: var(--small-max-width);
+			box-sizing: content-box;
+		}
 	}
 
 	.image-fullscreen-btn {
@@ -168,6 +173,14 @@
 }
 
 // Responsive
+
+@include respond-to("small") {
+
+	.wp-block-image.is-style-large figcaption {
+		box-sizing: border-box;
+	}
+}
+
 @include respond-to("x-small") {
 
 	.wp-block-image {
