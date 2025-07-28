@@ -161,7 +161,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     if (!empty($teaser_items)) {
         // Show paginated items
         $items_to_show = array_slice($teaser_items, 0, $posts_per_page);
-        $output .= implode('', $items_to_show);
+        $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
     } else {
         $output .= '<p class="no-posts">' . __('No items found.', 'fau-elemental') . '</p>';
     }
