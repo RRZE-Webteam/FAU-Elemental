@@ -140,10 +140,26 @@ function getPatternClassFromBlock( block ) {
 		'hero-other',
 	];
 
-	const foundPattern = heroPatterns.find( ( pattern ) =>
+	// Check for big-buttons pattern classes
+	const bigButtonsPatterns = [ 'big-buttons', 'big-buttons-faculties' ];
+
+	// Check hero patterns first
+	const foundHeroPattern = heroPatterns.find( ( pattern ) =>
 		className.includes( pattern )
 	);
-	return foundPattern || null;
+	if ( foundHeroPattern ) {
+		return foundHeroPattern;
+	}
+
+	// Check big-buttons patterns
+	const foundBigButtonsPattern = bigButtonsPatterns.find( ( pattern ) =>
+		className.includes( pattern )
+	);
+	if ( foundBigButtonsPattern ) {
+		return foundBigButtonsPattern;
+	}
+
+	return null;
 }
 
 // Remove the text-color format type

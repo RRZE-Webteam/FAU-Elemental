@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.2.27\n"
+"Project-Id-Version: FAU-Elemental 0.2.28\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-07-25T14:17:49+00:00\n"
+"POT-Creation-Date: 2025-07-28T10:37:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -104,7 +104,7 @@ msgstr ""
 #: components/templates/pages/page-all-posts.php:105
 #: front-page.php:94
 #: index.php:227
-#: components/blocks/fau-big-button/edit.js:303
+#: components/blocks/fau-big-button/edit.js:306
 #: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:17
 msgid "Title"
 msgstr ""
@@ -571,7 +571,7 @@ msgstr ""
 #: inc/customizer.php:155
 #: inc/customizer.php:181
 #: inc/customizer.php:409
-#: components/blocks/fau-big-button/edit.js:314
+#: components/blocks/fau-big-button/edit.js:317
 msgid "Description"
 msgstr ""
 
@@ -1107,155 +1107,161 @@ msgstr ""
 msgid "Use fewer search terms."
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:68
+#: components/blocks/fau-big-button/edit.js:71
 msgid "Default"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:69
+#: components/blocks/fau-big-button/edit.js:72
 msgid "FAU"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:70
+#: components/blocks/fau-big-button/edit.js:73
 msgid "Philosophy"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:71
+#: components/blocks/fau-big-button/edit.js:74
 msgid "Law & Economics"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:72
+#: components/blocks/fau-big-button/edit.js:75
 msgid "Medicine"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:73
+#: components/blocks/fau-big-button/edit.js:76
 msgid "Sciences"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:74
+#: components/blocks/fau-big-button/edit.js:77
 msgid "Technology"
 msgstr ""
 
 #. translators: %s: faculty type
-#: components/blocks/fau-big-button/edit.js:169
+#: components/blocks/fau-big-button/edit.js:172
 msgid "Using faculty color: %s"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:170
+#: components/blocks/fau-big-button/edit.js:173
 msgid "Unknown"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:180
+#: components/blocks/fau-big-button/edit.js:183
 msgid "Appearance Settings"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:184
+#: components/blocks/fau-big-button/edit.js:187
 msgid "Buttons Per Row"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:188
+#: components/blocks/fau-big-button/edit.js:191
 msgid "4 buttons"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:192
+#: components/blocks/fau-big-button/edit.js:195
 msgid "3 buttons"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:202
+#: components/blocks/fau-big-button/edit.js:205
 msgid "Variant"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:206
+#: components/blocks/fau-big-button/edit.js:209
 msgid "Filled"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:210
+#: components/blocks/fau-big-button/edit.js:213
 msgid "Outline"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:221
+#: components/blocks/fau-big-button/edit.js:224
 msgid "Items"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:226
-#: components/blocks/fau-big-button/edit.js:570
+#: components/blocks/fau-big-button/edit.js:229
+#: components/blocks/fau-big-button/edit.js:607
 msgid "Add Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:233
-#: components/blocks/fau-big-button/edit.js:239
+#: components/blocks/fau-big-button/edit.js:236
+#: components/blocks/fau-big-button/edit.js:242
 msgid "Untitled Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:234
+#: components/blocks/fau-big-button/edit.js:237
 msgid "Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:255
-#: components/blocks/fau-big-button/edit.js:266
-#: components/blocks/fau-big-button/edit.js:461
+#: components/blocks/fau-big-button/edit.js:258
+#: components/blocks/fau-big-button/edit.js:269
+#: components/blocks/fau-big-button/edit.js:488
 msgid "Move up"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:273
-#: components/blocks/fau-big-button/edit.js:286
-#: components/blocks/fau-big-button/edit.js:480
+#: components/blocks/fau-big-button/edit.js:276
+#: components/blocks/fau-big-button/edit.js:289
+#: components/blocks/fau-big-button/edit.js:507
 msgid "Move down"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:298
+#: components/blocks/fau-big-button/edit.js:301
 msgid "Remove Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:308
+#: components/blocks/fau-big-button/edit.js:311
 msgid "You can also click on the title in the preview to edit it directly."
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:327
-msgid "You can also click on the description in the preview to edit it directly."
+#. translators: %d: maximum character count
+#: components/blocks/fau-big-button/edit.js:332
+msgid "Maximum %d characters recommended. You can also click on the description in the preview to edit it directly."
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:333
+#. translators: %1$d: current character count, %2$d: maximum character count
+#: components/blocks/fau-big-button/edit.js:350
+msgid "%1$d / %2$d characters"
+msgstr ""
+
+#: components/blocks/fau-big-button/edit.js:360
 msgid "URL"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:354
+#: components/blocks/fau-big-button/edit.js:381
 msgid "Required for display:"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:363
+#: components/blocks/fau-big-button/edit.js:390
 msgid "Title is required"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:371
+#: components/blocks/fau-big-button/edit.js:398
 #: components/utils/urlValidation.js:16
 msgid "URL is required"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:384
+#: components/blocks/fau-big-button/edit.js:411
 msgid "This item will not be displayed on the frontend until both title and URL are provided."
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:395
+#: components/blocks/fau-big-button/edit.js:422
 msgid "Color"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:418
+#: components/blocks/fau-big-button/edit.js:445
 msgid "No items added yet. Click \"Add Item\" to get started."
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:498
+#: components/blocks/fau-big-button/edit.js:525
 msgid "Remove item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:524
+#: components/blocks/fau-big-button/edit.js:551
 msgid "Enter title…"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:544
+#: components/blocks/fau-big-button/edit.js:581
 msgid "Add description…"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:565
+#: components/blocks/fau-big-button/edit.js:602
 msgid "Add new item"
 msgstr ""
 
