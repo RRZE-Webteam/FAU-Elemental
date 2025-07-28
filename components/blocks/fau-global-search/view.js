@@ -221,7 +221,10 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		// Show loading state
 		const searchingText = getTranslatableMessage( form, 'searching' );
 		container.innerHTML = `
-			<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${getTranslatableMessage(form, 'search-suggestions')}">
+			<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${ getTranslatableMessage(
+				form,
+				'search-suggestions'
+			) }">
 				<li class="fau-global-search__suggestion-item fau-global-search__suggestion-loading" role="option">
 					${ searchingText }
 				</li>
@@ -263,16 +266,28 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 					let errorMessage;
 
 					if ( error.message === 'rate_limit_exceeded' ) {
-						errorMessage = getTranslatableMessage( form, 'rate-limit-exceeded' );
+						errorMessage = getTranslatableMessage(
+							form,
+							'rate-limit-exceeded'
+						);
 					} else if ( error.message === 'invalid_search_term' ) {
-						errorMessage = getTranslatableMessage( form, 'invalid-search-term' );
+						errorMessage = getTranslatableMessage(
+							form,
+							'invalid-search-term'
+						);
 					} else {
 						// Generic error or network issue
-						errorMessage = getTranslatableMessage( form, 'no-suggestions' );
+						errorMessage = getTranslatableMessage(
+							form,
+							'no-suggestions'
+						);
 					}
 
 					container.innerHTML = `
-						<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${getTranslatableMessage(form, 'search-suggestions')}">
+						<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${ getTranslatableMessage(
+							form,
+							'search-suggestions'
+						) }">
 							<li class="fau-global-search__suggestion-error" role="option">
 								${ errorMessage }
 							</li>
@@ -306,7 +321,10 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 				'no-results'
 			).replace( '%s', query );
 			container.innerHTML = `
-				<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${getTranslatableMessage(form, 'search-suggestions')}">
+				<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${ getTranslatableMessage(
+					form,
+					'search-suggestions'
+				) }">
 					<li class="fau-global-search__suggestion-error" role="option">
 						${ noResultsText }
 					</li>
@@ -330,7 +348,10 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		// Limit to 5 results maximum
 		const limitedResults = uniqueResults.slice( 0, 5 );
 
-		let html = `<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${getTranslatableMessage( form, 'search-suggestions' )}">`;
+		let html = `<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${ getTranslatableMessage(
+			form,
+			'search-suggestions'
+		) }">`;
 
 		limitedResults.forEach( ( result, index ) => {
 			const currentSiteClass = result.is_current_site
@@ -564,7 +585,6 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 	document.addEventListener( 'click', function ( event ) {
 		// If clicking on a suggestion item, let the item's click handler handle it
 		if ( event.target.closest( '.fau-global-search__suggestion-item' ) ) {
-			return;
 		}
 	} );
 
