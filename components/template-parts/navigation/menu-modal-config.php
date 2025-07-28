@@ -19,7 +19,7 @@ require_once get_template_directory() . '/components/template-parts/navigation/m
 add_action('init', function () {
     // Configure Services Modal (Global Menu - replaces menu-meta-nav functionality)
     Menu_Modal::get_instance()->register_modal('services', array(
-        'theme_locations' => array('top_header_nav_services'),
+        'theme_locations' => array('top_header_nav_services', 'header_menu_links'),
         'use_global_menu' => true,
         'modal_class' => 'menu-meta-nav__modal',
         'menu_class' => 'menu-meta-nav__menu',

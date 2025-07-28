@@ -10,7 +10,7 @@
 
 ?>
 
-<!-- wp:group {"className":"big-buttons"} -->
+<!-- wp:group  {"templateLock":"all", "className":"big-buttons"} -->
 <div class="wp-block-group big-buttons">
     <!-- wp:fau-elemental/fau-meta-headline {"headline":"Fakultäten","id":""} -->
     <div class="wp-block-fau-elemental-fau-meta-headline" id="headline-">Fakultäten</div>

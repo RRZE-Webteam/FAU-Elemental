@@ -17,7 +17,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 function initializeTeaserGrid( gridContainer ) {
 	const teaserGrid = gridContainer.querySelector( '.fau-teaser-grid' );
 
-	if ( ! teaserGrid ) {
+	if ( ! teaserGrid || teaserGrid.initialized ) {
 		return;
 	}
 
@@ -49,6 +49,7 @@ function initializeTeaserGrid( gridContainer ) {
 
 		showPagination,
 	};
+	teaserGrid.initialized = true;
 }
 
 function initializeLoadMore( gridContainer ) {

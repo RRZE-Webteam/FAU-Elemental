@@ -25,7 +25,7 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	// Get available menus
 	const menus = useSelect( ( select ) => {
-		const menuItems = select( 'core' ).getMenus();
+		const menuItems = select( 'core' ).getMenus( { per_page: 100 } );
 		return menuItems
 			? menuItems.map( ( menu ) => ( {
 					label: menu.name,

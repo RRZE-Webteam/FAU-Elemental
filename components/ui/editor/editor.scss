@@ -44,6 +44,14 @@ html :where(.editor-styles-wrapper) {
 	margin-bottom: 16px;
 }
 
+.fau-portal-menu-template-not-active {
+	display: none;
+}
+
+.fau-portal-menu-settings select {
+	box-sizing: border-box;
+}
+
 .fau-portal-template-notice {
 	margin: 10px 0;
 	padding: 10px;

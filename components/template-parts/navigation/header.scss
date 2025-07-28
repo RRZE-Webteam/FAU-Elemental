@@ -402,6 +402,14 @@ body.modal-open {
 .menu-website-modal {
 	display: none;
 
+	&__overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
 	&__container {
 		background: var(--FAU-Col-FAU-Weiss-100);
 		width: 540px;
@@ -409,6 +417,7 @@ body.modal-open {
 		margin-bottom: 2.8125rem;
 		box-shadow: 0 0 2.125rem 0 rgba(4, 49, 106, 0.58);
 		overflow-y: scroll;
+		z-index: 1;
 
 		@each $faculty, $color in (
 			"phil": var(--FAU-Col-Phil-Gelb-100),
