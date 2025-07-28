@@ -173,13 +173,19 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			input._hideSearchOptionsMenu();
 		}
 
-		if ( query.length < 3 ) {
+		// Only hide suggestions if input is completely cleared
+		if ( query.length === 0 ) {
 			hideSuggestions();
 
 			// Show search options menu again if input becomes empty
-			if ( query.length === 0 && input._showSearchOptionsMenu ) {
+			if ( input._showSearchOptionsMenu ) {
 				input._showSearchOptionsMenu();
 			}
+			return;
+		}
+
+		// For queries less than 3 characters, don't fetch but keep existing suggestions visible
+		if ( query.length < 3 ) {
 			return;
 		}
 
@@ -215,7 +221,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		// Show loading state
 		const searchingText = getTranslatableMessage( form, 'searching' );
 		container.innerHTML = `
-			<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
+			<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${getTranslatableMessage(form, 'search-suggestions')}">
 				<li class="fau-global-search__suggestion-item fau-global-search__suggestion-loading" role="option">
 					${ searchingText }
 				</li>
@@ -257,48 +263,21 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 					let errorMessage;
 
 					if ( error.message === 'rate_limit_exceeded' ) {
-						errorMessage =
-							getTranslatableMessage(
-								form,
-								'rate-limit-exceeded'
-							) ||
-							'Too many search requests. Please wait a moment and try again.';
-
-						container.innerHTML = `
-							<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
-								<li class="fau-global-search__suggestion-error" role="option">
-									${ errorMessage }
-								</li>
-							</ul>
-						`;
+						errorMessage = getTranslatableMessage( form, 'rate-limit-exceeded' );
 					} else if ( error.message === 'invalid_search_term' ) {
-						errorMessage =
-							getTranslatableMessage(
-								form,
-								'invalid-search-term'
-							) || 'Please enter a valid search term.';
-
-						container.innerHTML = `
-							<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
-								<li class="fau-global-search__suggestion-error" role="option">
-									${ errorMessage }
-								</li>
-							</ul>
-						`;
+						errorMessage = getTranslatableMessage( form, 'invalid-search-term' );
 					} else {
 						// Generic error or network issue
-						errorMessage =
-							getTranslatableMessage( form, 'no-suggestions' ) ||
-							'Unable to load search suggestions.';
-
-						container.innerHTML = `
-							<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
-								<li class="fau-global-search__suggestion-error" role="option">
-									${ errorMessage }
-								</li>
-							</ul>
-						`;
+						errorMessage = getTranslatableMessage( form, 'no-suggestions' );
 					}
+
+					container.innerHTML = `
+						<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${getTranslatableMessage(form, 'search-suggestions')}">
+							<li class="fau-global-search__suggestion-error" role="option">
+								${ errorMessage }
+							</li>
+						</ul>
+					`;
 				}
 			} );
 	}
@@ -327,7 +306,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 				'no-results'
 			).replace( '%s', query );
 			container.innerHTML = `
-				<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' + getTranslatableMessage(form, 'search-suggestions') + '">
+				<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${getTranslatableMessage(form, 'search-suggestions')}">
 					<li class="fau-global-search__suggestion-error" role="option">
 						${ noResultsText }
 					</li>
@@ -351,10 +330,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		// Limit to 5 results maximum
 		const limitedResults = uniqueResults.slice( 0, 5 );
 
-		let html =
-			'<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="' +
-			getTranslatableMessage( form, 'search-suggestions' ) +
-			'">';
+		let html = `<ul class="fau-global-search__suggestions-list" role="listbox" aria-label="${getTranslatableMessage( form, 'search-suggestions' )}">`;
 
 		limitedResults.forEach( ( result, index ) => {
 			const currentSiteClass = result.is_current_site
@@ -584,15 +560,11 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		}
 	}
 
-	// Hide suggestions when clicking outside
+	// Only hide suggestions when clicking on a suggestion item (let the item's click handler handle it)
 	document.addEventListener( 'click', function ( event ) {
-		const clickedInsideForm = form.contains( event.target );
-		const clickedInsideSuggestions =
-			suggestionsContainer &&
-			suggestionsContainer.contains( event.target );
-
-		if ( ! clickedInsideForm && ! clickedInsideSuggestions ) {
-			hideSuggestions();
+		// If clicking on a suggestion item, let the item's click handler handle it
+		if ( event.target.closest( '.fau-global-search__suggestion-item' ) ) {
+			return;
 		}
 	} );
 

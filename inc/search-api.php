@@ -29,15 +29,9 @@ function fau_register_rest_routes() {
 add_action('rest_api_init', 'fau_register_rest_routes');
 
 /**
- * Validate search term to prevent abuse
+ * Validate and sanitize search term
  * 
- * This balanced approach blocks actual security threats while allowing legitimate content.
- * 
- * Examples of what's now allowed:
- * - "JavaScript: How to learn programming" (word + colon, not protocol)
- * - "llm > ml > ai" (comparison operators)
- * - "C++ programming" (language names with symbols)
- * - "HTML <head> tags" (legitimate content with symbols)
+ * This function performs basic validation and sanitization without blocking legitimate searches.
  * 
  * @param string $param The search parameter.
  * @param WP_REST_Request $request The request object.
@@ -57,30 +51,17 @@ function fau_validate_search_term($param, $request, $key) {
         return new WP_Error('invalid_search_term', sprintf(__('Search term must be less than %d characters.', 'fau-elemental'), $max_length), array('status' => 400));
     }
     
-    // Check for actual security threats
-    // This balanced approach blocks actual threats while allowing legitimate content
-    $security_patterns = array(
-        // Only block actual script protocols, not words followed by colons
-        '/^(javascript|data|vbscript):[^a-zA-Z\s]/i', // Protocol followed by non-letter/non-space
-        // Block event handlers but allow legitimate content
-        '/\bon\w+\s*=\s*["\'][^"\']*["\']/i', // Event handlers with quotes
-        // Block HTML tags but allow comparison operators and language names
-        '/<[^>]*>/', // Actual HTML tags with content
-        // Block potential SQL injection patterns
-        '/\b(union|select|insert|update|delete|drop|create|alter)\s+.*\bfrom\b/i',
-        // Block potential XSS patterns
-        '/<script\b[^>]*>/i',
-        // Block JavaScript protocols (more specific)
-        '/javascript\s*:\s*[a-zA-Z]*\s*\(/i', // javascript: function(
-        '/javascript\s*:\s*void\s*\(/i', // javascript: void(
-        '/javascript\s*:\s*alert\s*\(/i', // javascript: alert(
-    );
+    // Basic sanitization: remove null bytes and excessive whitespace
+    $sanitized = str_replace("\0", '', $param);
+    $sanitized = preg_replace('/\s+/', ' ', trim($sanitized));
     
-    foreach ($security_patterns as $pattern) {
-        if (preg_match($pattern, $param)) {
-            return new WP_Error('invalid_search_term', __('Search term contains invalid characters.', 'fau-elemental'), array('status' => 400));
-        }
+    // If sanitization changed the input significantly, reject it
+    if (strlen($sanitized) < 2) {
+        return new WP_Error('invalid_search_term', __('Search term is too short after sanitization.', 'fau-elemental'), array('status' => 400));
     }
+    
+    // Update the request parameter with sanitized value
+    $request->set_param($key, $sanitized);
     
     return true;
 }
@@ -177,7 +158,6 @@ function fau_get_search_suggestions($request) {
         return rest_ensure_response(array());
     }
     
-    $client_ip = fau_get_client_ip();
     $was_cached = false;
     
     // Check cache first
@@ -189,7 +169,7 @@ function fau_get_search_suggestions($request) {
         $response = rest_ensure_response($cached_results);
         $cache_duration = faue_get_default('faue_search_cache_duration');
         fau_set_cache_headers($response, $cache_duration);
-        fau_log_search_request($search, $client_ip, $was_cached);
+        fau_log_search_request($search, fau_get_client_ip(), $was_cached);
         return $response;
     }
     
@@ -206,7 +186,7 @@ function fau_get_search_suggestions($request) {
     fau_set_cache_headers($response, $cache_duration);
     
     // Log the search request
-    fau_log_search_request($search, $client_ip, $was_cached);
+    fau_log_search_request($search, fau_get_client_ip(), $was_cached);
     
     return $response;
 }
@@ -342,7 +322,7 @@ function fau_search_filter($search, $query) {
 function fau_filter_core_search_query($query, $request) {
     // Only apply to our custom search endpoint
     if (strpos($request->get_route(), '/fau/v1/search-suggestions') !== false) {
-        add_filter('posts_search', 'fau_unified_search_filter', 10, 2);
+        add_filter('posts_search', 'fau_search_filter', 10, 2);
     }
     
     return $query;
@@ -486,25 +466,18 @@ add_action('wp_ajax_get_search_options_menu', 'fau_elemental_get_search_options_
 add_action('wp_ajax_nopriv_get_search_options_menu', 'fau_elemental_get_search_options_menu');
 
 /**
- * Log search requests for monitoring and abuse detection
+ * Track recent searches for admin statistics (always enabled)
  *
  * @param string $search_term The search term.
  * @param string $client_ip The client IP address.
  * @param bool $was_cached Whether the result was served from cache.
  */
-function fau_log_search_request($search_term, $client_ip, $was_cached = false) {
-    // Only log if logging is enabled
-    if (!get_option('fau_search_logging_enabled', false)) {
-        return;
-    }
-    
+function fau_track_recent_search($search_term, $client_ip, $was_cached = false) {
     $log_entry = array(
         'timestamp' => current_time('mysql'),
         'search_term' => $search_term,
         'client_ip' => $client_ip,
-        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
         'was_cached' => $was_cached,
-        'referer' => $_SERVER['HTTP_REFERER'] ?? '',
     );
     
     // Store in transient for recent searches (last 100)
@@ -518,6 +491,44 @@ function fau_log_search_request($search_term, $client_ip, $was_cached = false) {
     
     $recent_searches_duration = faue_get_default('faue_search_recent_searches_duration');
     set_transient('fau_recent_searches', $recent_searches, $recent_searches_duration);
+}
+
+/**
+ * Log search requests for monitoring and abuse detection (detailed logging)
+ *
+ * @param string $search_term The search term.
+ * @param string $client_ip The client IP address.
+ * @param bool $was_cached Whether the result was served from cache.
+ */
+function fau_log_search_request($search_term, $client_ip, $was_cached = false) {
+    // Always track recent searches for admin interface
+    fau_track_recent_search($search_term, $client_ip, $was_cached);
+    
+    // Only do detailed logging if logging is enabled
+    if (!get_option('fau_search_logging_enabled', false)) {
+        return;
+    }
+    
+    $log_entry = array(
+        'timestamp' => current_time('mysql'),
+        'search_term' => $search_term,
+        'client_ip' => $client_ip,
+        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+        'was_cached' => $was_cached,
+        'referer' => $_SERVER['HTTP_REFERER'] ?? '',
+    );
+    
+    // Store detailed logs in a separate transient for admin review
+    $detailed_logs = get_transient('fau_detailed_search_logs');
+    if (false === $detailed_logs) {
+        $detailed_logs = array();
+    }
+    
+    array_unshift($detailed_logs, $log_entry);
+    $detailed_logs = array_slice($detailed_logs, 0, 200); // Keep last 200 detailed logs
+    
+    $logs_duration = faue_get_default('faue_search_recent_searches_duration');
+    set_transient('fau_detailed_search_logs', $detailed_logs, $logs_duration);
     
     /**
      * Action hook for external monitoring systems
@@ -528,6 +539,8 @@ function fau_log_search_request($search_term, $client_ip, $was_cached = false) {
      */
     do_action('fau_search_request_logged', $search_term, $client_ip, $was_cached);
 }
+
+
 
 /**
  * Clean up old cache entries periodically
@@ -661,7 +674,14 @@ function fau_search_rate_limit_callback() {
 function fau_search_logging_callback() {
     $enabled = get_option('fau_search_logging_enabled', false);
     echo '<input type="checkbox" name="fau_search_logging_enabled" value="1" ' . checked(1, $enabled, false) . ' />';
-    echo '<p class="description">' . __('Log search requests for monitoring and abuse detection.', 'fau-elemental') . '</p>';
+    echo '<p class="description">' . __('Enable detailed logging with user agent, referer, and other metadata for monitoring and abuse detection. Recent searches are always tracked for admin statistics.', 'fau-elemental') . '</p>';
+    
+    // Show current logging status
+    if ($enabled) {
+        echo '<p class="description"><strong>' . __('Status:', 'fau-elemental') . '</strong> <span class="fau-status-success">' . __('Detailed logging is enabled', 'fau-elemental') . '</span></p>';
+    } else {
+        echo '<p class="description"><strong>' . __('Status:', 'fau-elemental') . '</strong> <span class="fau-status-info">' . __('Only basic search tracking is active', 'fau-elemental') . '</span></p>';
+    }
 }
 
 /**
@@ -698,7 +718,7 @@ function fau_waf_integration_hook($request) {
  * Add admin menu for search protection
  */
 function fau_add_search_protection_menu() {
-    add_submenu_page(
+    $hookname = add_submenu_page(
         'tools.php',
         __('Search Protection', 'fau-elemental'),
         __('Search Protection', 'fau-elemental'),
@@ -706,20 +726,59 @@ function fau_add_search_protection_menu() {
         'fau-search-protection',
         'fau_search_protection_admin_page'
     );
+    
+    // Add admin styles for this page
+    add_action('load-' . $hookname, 'fau_search_protection_admin_styles');
 }
 add_action('admin_menu', 'fau_add_search_protection_menu');
+
+/**
+ * Enqueue admin styles and scripts for search protection page
+ */
+function fau_search_protection_admin_styles() {
+    add_action('admin_head', 'fau_search_protection_inline_styles');
+    add_action('admin_enqueue_scripts', 'fau_search_protection_admin_scripts');
+}
+
+/**
+ * Add inline styles for search protection page
+ */
+function fau_search_protection_inline_styles() {
+    ?>
+    <style>
+    .fau-status-success { color: #46b450; font-weight: bold; }
+    .fau-status-error { color: #dc3232; font-weight: bold; }
+    .fau-status-warning { color: #ffb900; font-weight: bold; }
+    .fau-status-info { color: #0073aa; font-weight: bold; }
+    .cache-options { margin: 15px 0; }
+    .cache-options label { display: block; margin: 8px 0; }
+    .cache-options input[type="checkbox"] { margin-right: 8px; }
+    </style>
+    <?php
+}
+
+/**
+ * Enqueue admin scripts for search protection page
+ */
+function fau_search_protection_admin_scripts() {
+    wp_enqueue_script(
+        'fau-search-protection-admin',
+        get_template_directory_uri() . '/assets/js/search-protection-admin.js',
+        array('jquery'),
+        '1.0.0',
+        true
+    );
+    
+    wp_localize_script('fau-search-protection-admin', 'fauSearchProtection', array(
+        'nonce' => wp_create_nonce('fau_clear_search_cache_ajax'),
+        'fulltextNonce' => wp_create_nonce('fau_create_fulltext_index')
+    ));
+}
 
 /**
  * Admin page for search protection
  */
 function fau_search_protection_admin_page() {
-    if (isset($_POST['action']) && $_POST['action'] === 'clear_cache') {
-        if (wp_verify_nonce($_POST['_wpnonce'], 'fau_clear_search_cache')) {
-            fau_clear_all_search_cache();
-            echo '<div class="notice notice-success"><p>' . __('Search cache cleared successfully.', 'fau-elemental') . '</p></div>';
-        }
-    }
-    
     $stats = fau_get_search_stats();
     ?>
     <div class="wrap">
@@ -773,14 +832,47 @@ function fau_search_protection_admin_page() {
         
         <div class="card">
             <h2><?php _e('Cache Management', 'fau-elemental'); ?></h2>
-            <form method="post">
-                <?php wp_nonce_field('fau_clear_search_cache'); ?>
-                <input type="hidden" name="action" value="clear_cache">
-                <p><?php _e('Clear all search cache entries. This will force all subsequent searches to be processed fresh.', 'fau-elemental'); ?></p>
-                <p class="submit">
-                    <input type="submit" class="button button-secondary" value="<?php _e('Clear Search Cache', 'fau-elemental'); ?>">
+            <p><?php _e('Clear search cache entries and statistics. This will force all subsequent searches to be processed fresh.', 'fau-elemental'); ?></p>
+            
+            <div class="cache-options">
+                <p>
+                    <label>
+                        <input type="checkbox" id="clear-search-results" checked> 
+                        <?php _e('Clear search results cache', 'fau-elemental'); ?>
+                    </label>
                 </p>
-            </form>
+                <p>
+                    <label>
+                        <input type="checkbox" id="clear-recent-searches" checked> 
+                        <?php _e('Clear recent searches history', 'fau-elemental'); ?>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="checkbox" id="clear-rate-limits" checked> 
+                        <?php _e('Clear rate limit data', 'fau-elemental'); ?>
+                    </label>
+                </p>
+                <p>
+                    <label>
+                        <input type="checkbox" id="clear-detailed-logs" checked> 
+                        <?php _e('Clear detailed search logs', 'fau-elemental'); ?>
+                    </label>
+                </p>
+            </div>
+            
+            <p class="submit">
+                <button type="button" id="clear-search-cache" class="button button-secondary">
+                    <?php _e('Clear Selected Cache', 'fau-elemental'); ?>
+                </button>
+                <button type="button" id="clear-all-cache" class="button button-primary">
+                    <?php _e('Clear All Cache', 'fau-elemental'); ?>
+                </button>
+
+                <span id="clear-cache-status"></span>
+            </p>
+            
+
         </div>
         
         <div class="card">
@@ -794,9 +886,9 @@ function fau_search_protection_admin_page() {
                     <th><?php _e('MySQL FULLTEXT Support:', 'fau-elemental'); ?></th>
                     <td>
                         <?php if ($supports_fulltext): ?>
-                            <span style="color: green;">✓ <?php _e('Supported', 'fau-elemental'); ?></span>
+                            <span class="fau-status-success">✓ <?php _e('Supported', 'fau-elemental'); ?></span>
                         <?php else: ?>
-                            <span style="color: red;">✗ <?php _e('Not Supported', 'fau-elemental'); ?></span>
+                            <span class="fau-status-error">✗ <?php _e('Not Supported', 'fau-elemental'); ?></span>
                             <p class="description"><?php _e('Your MySQL version or storage engine does not support FULLTEXT indexes.', 'fau-elemental'); ?></p>
                         <?php endif; ?>
                     </td>
@@ -805,9 +897,9 @@ function fau_search_protection_admin_page() {
                     <th><?php _e('FULLTEXT Index Status:', 'fau-elemental'); ?></th>
                     <td>
                         <?php if ($has_index): ?>
-                            <span style="color: green;">✓ <?php _e('Index Exists', 'fau-elemental'); ?></span>
+                            <span class="fau-status-success">✓ <?php _e('Index Exists', 'fau-elemental'); ?></span>
                         <?php else: ?>
-                            <span style="color: orange;">⚠ <?php _e('Index Missing', 'fau-elemental'); ?></span>
+                            <span class="fau-status-warning">⚠ <?php _e('Index Missing', 'fau-elemental'); ?></span>
                         <?php endif; ?>
                     </td>
                 </tr>
@@ -824,46 +916,11 @@ function fau_search_protection_admin_page() {
                     </p>
                 </div>
                 
-                <script>
-                jQuery(document).ready(function($) {
-                    $('#create-fulltext-index').on('click', function() {
-                        var button = $(this);
-                        var status = $('#create-index-status');
-                        
-                        button.prop('disabled', true).text('<?php _e('Creating...', 'fau-elemental'); ?>');
-                        status.html('<span style="color: blue;"><?php _e('Creating FULLTEXT index...', 'fau-elemental'); ?></span>');
-                        
-                        $.ajax({
-                            url: ajaxurl,
-                            type: 'POST',
-                            data: {
-                                action: 'create_fulltext_index',
-                                nonce: '<?php echo wp_create_nonce('fau_create_fulltext_index'); ?>'
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    status.html('<span style="color: green;">✓ ' + response.data.message + '</span>');
-                                    button.text('<?php _e('Index Created', 'fau-elemental'); ?>').addClass('button-secondary');
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 2000);
-                                } else {
-                                    status.html('<span style="color: red;">✗ ' + response.data.message + '</span>');
-                                    button.prop('disabled', false).text('<?php _e('Retry', 'fau-elemental'); ?>');
-                                }
-                            },
-                            error: function() {
-                                status.html('<span style="color: red;">✗ <?php _e('AJAX request failed. Please try again.', 'fau-elemental'); ?></span>');
-                                button.prop('disabled', false).text('<?php _e('Retry', 'fau-elemental'); ?>');
-                            }
-                        });
-                    });
-                });
-                </script>
+
             <?php elseif ($has_index): ?>
-                <p><span style="color: green;">✓ <?php _e('FULLTEXT index is already created and working.', 'fau-elemental'); ?></span></p>
+                <p><span class="fau-status-success">✓ <?php _e('FULLTEXT index is already created and working.', 'fau-elemental'); ?></span></p>
             <?php else: ?>
-                <p><span style="color: red;">✗ <?php _e('FULLTEXT indexes are not supported on your system.', 'fau-elemental'); ?></span></p>
+                <p><span class="fau-status-error">✗ <?php _e('FULLTEXT indexes are not supported on your system.', 'fau-elemental'); ?></span></p>
             <?php endif; ?>
         </div>
         
@@ -881,28 +938,70 @@ function fau_search_protection_admin_page() {
  * Clear all search cache entries
  */
 function fau_clear_all_search_cache() {
+    fau_clear_search_cache_selective(true, true, true);
+}
+
+/**
+ * Clear search cache selectively
+ *
+ * @param bool $clear_search_results Whether to clear search results cache.
+ * @param bool $clear_recent_searches Whether to clear recent searches history.
+ * @param bool $clear_rate_limits Whether to clear rate limit data.
+ * @param bool $clear_detailed_logs Whether to clear detailed search logs.
+ */
+function fau_clear_search_cache_selective($clear_search_results = true, $clear_recent_searches = true, $clear_rate_limits = true, $clear_detailed_logs = true) {
     global $wpdb;
     
-    // Delete all search-related transients
+    if ($clear_search_results) {
+        // Delete all search-related transients
+        $wpdb->query("
+            DELETE FROM {$wpdb->options} 
+            WHERE option_name LIKE '_transient_fau_search_%'
+        ");
+        
+        $wpdb->query("
+            DELETE FROM {$wpdb->options} 
+            WHERE option_name LIKE '_transient_timeout_fau_search_%'
+        ");
+    }
+    
+    if ($clear_rate_limits) {
+        // Clear rate limit data
+        $wpdb->query("
+            DELETE FROM {$wpdb->options} 
+            WHERE option_name LIKE '_transient_fau_search_rate_limit_%'
+        ");
+        
+        $wpdb->query("
+            DELETE FROM {$wpdb->options} 
+            WHERE option_name LIKE '_transient_timeout_fau_search_rate_limit_%'
+        ");
+        
+        // Clear rate limit violations
+        delete_transient('fau_rate_limit_violations');
+    }
+    
+    if ($clear_recent_searches) {
+        // Clear recent searches data
+        delete_transient('fau_recent_searches');
+    }
+    
+    if ($clear_detailed_logs) {
+        // Clear detailed search logs
+        delete_transient('fau_detailed_search_logs');
+    }
+    
+    // Clear any other search-related transients (always do this for thoroughness)
     $wpdb->query("
         DELETE FROM {$wpdb->options} 
-        WHERE option_name LIKE '_transient_fau_search_%'
+        WHERE option_name LIKE '_transient_fau_%' 
+        AND option_name LIKE '%search%'
     ");
     
     $wpdb->query("
         DELETE FROM {$wpdb->options} 
-        WHERE option_name LIKE '_transient_timeout_fau_search_%'
-    ");
-    
-    // Clear rate limit data
-    $wpdb->query("
-        DELETE FROM {$wpdb->options} 
-        WHERE option_name LIKE '_transient_fau_search_rate_limit_%'
-    ");
-    
-    $wpdb->query("
-        DELETE FROM {$wpdb->options} 
-        WHERE option_name LIKE '_transient_timeout_fau_search_rate_limit_%'
+        WHERE option_name LIKE '_transient_timeout_fau_%' 
+        AND option_name LIKE '%search%'
     ");
 }
 
@@ -920,11 +1019,31 @@ function fau_clear_search_cache_ajax() {
         wp_die('Insufficient permissions');
     }
     
-    fau_clear_all_search_cache();
+    $clear_all = isset($_POST['clear_all']) && $_POST['clear_all'] == 1;
+    $clear_search_results = $clear_all || (isset($_POST['clear_search_results']) && $_POST['clear_search_results'] == 1);
+    $clear_recent_searches = $clear_all || (isset($_POST['clear_recent_searches']) && $_POST['clear_recent_searches'] == 1);
+    $clear_rate_limits = $clear_all || (isset($_POST['clear_rate_limits']) && $_POST['clear_rate_limits'] == 1);
+    $clear_detailed_logs = $clear_all || (isset($_POST['clear_detailed_logs']) && $_POST['clear_detailed_logs'] == 1);
     
-    wp_send_json_success(array('message' => __('Search cache cleared successfully.', 'fau-elemental')));
+    fau_clear_search_cache_selective($clear_search_results, $clear_recent_searches, $clear_rate_limits, $clear_detailed_logs);
+    
+    $message = __('Cache cleared successfully.', 'fau-elemental');
+    if ($clear_all) {
+        $message = __('All search cache cleared successfully.', 'fau-elemental');
+    } else {
+        $parts = array();
+        if ($clear_search_results) $parts[] = __('search results', 'fau-elemental');
+        if ($clear_recent_searches) $parts[] = __('recent searches', 'fau-elemental');
+        if ($clear_rate_limits) $parts[] = __('rate limits', 'fau-elemental');
+        if ($clear_detailed_logs) $parts[] = __('detailed logs', 'fau-elemental');
+        $message = sprintf(__('Cleared: %s', 'fau-elemental'), implode(', ', $parts));
+    }
+    
+    wp_send_json_success(array('message' => $message));
 }
 add_action('wp_ajax_clear_search_cache', 'fau_clear_search_cache_ajax');
+
+
 
 /**
  * Add dashboard widget for search statistics
@@ -969,6 +1088,25 @@ function fau_add_security_headers() {
     }
 }
 add_action('send_headers', 'fau_add_security_headers');
+
+/**
+ * Log search requests from regular WordPress search pages
+ */
+function fau_log_wordpress_search() {
+    // Only log on search results pages
+    if (!is_search()) {
+        return;
+    }
+    
+    $search_query = get_search_query();
+    if (empty($search_query)) {
+        return;
+    }
+    
+    // Log the search request
+    fau_log_search_request($search_query, fau_get_client_ip(), false);
+}
+add_action('wp', 'fau_log_wordpress_search');
 
 
 
@@ -1031,4 +1169,5 @@ function fau_wp_query_search($search) {
 
 
 
+ 
  
