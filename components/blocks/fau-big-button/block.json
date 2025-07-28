@@ -6,7 +6,7 @@
 	"title": "FAU Big Button",
 	"category": "fau-elemental/FAU",
 	"icon": "button",
-	"description": "Display a group of big buttons",
+	"description": "Display a group of big buttons with descriptions limited to 80 characters",
 	"supports": {
 		"html": false,
 		"className": true
@@ -76,8 +76,8 @@
 			"items": [
 				{
 					"id": 1,
-					"title": "Example Button",
-					"description": "This is an example description for the button.",
+					"title": "Student Services",
+					"description": "Access student services and support resources.",
 					"url": "#",
 					"facultyColor": "default"
 				}
