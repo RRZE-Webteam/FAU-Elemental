@@ -402,6 +402,14 @@ body.modal-open {
 .menu-website-modal {
 	display: none;
 
+	&__overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
 	&__container {
 		background: var(--FAU-Col-FAU-Weiss-100);
 		width: 540px;
