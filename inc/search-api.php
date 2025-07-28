@@ -30,7 +30,15 @@ add_action('rest_api_init', 'fau_register_rest_routes');
 
 /**
  * Validate search term to prevent abuse
- *
+ * 
+ * This balanced approach blocks actual security threats while allowing legitimate content.
+ * 
+ * Examples of what's now allowed:
+ * - "JavaScript: How to learn programming" (word + colon, not protocol)
+ * - "llm > ml > ai" (comparison operators)
+ * - "C++ programming" (language names with symbols)
+ * - "HTML <head> tags" (legitimate content with symbols)
+ * 
  * @param string $param The search parameter.
  * @param WP_REST_Request $request The request object.
  * @param string $key The parameter key.
@@ -49,16 +57,26 @@ function fau_validate_search_term($param, $request, $key) {
         return new WP_Error('invalid_search_term', sprintf(__('Search term must be less than %d characters.', 'fau-elemental'), $max_length), array('status' => 400));
     }
     
-    // Check for suspicious patterns
-    $suspicious_patterns = array(
-        '/[<>]/', // HTML tags
-        '/javascript:/i', // JavaScript protocol
-        '/data:/i', // Data protocol
-        '/vbscript:/i', // VBScript protocol
-        '/on\w+\s*=/i', // Event handlers
+    // Check for actual security threats
+    // This balanced approach blocks actual threats while allowing legitimate content
+    $security_patterns = array(
+        // Only block actual script protocols, not words followed by colons
+        '/^(javascript|data|vbscript):[^a-zA-Z\s]/i', // Protocol followed by non-letter/non-space
+        // Block event handlers but allow legitimate content
+        '/\bon\w+\s*=\s*["\'][^"\']*["\']/i', // Event handlers with quotes
+        // Block HTML tags but allow comparison operators and language names
+        '/<[^>]*>/', // Actual HTML tags with content
+        // Block potential SQL injection patterns
+        '/\b(union|select|insert|update|delete|drop|create|alter)\s+.*\bfrom\b/i',
+        // Block potential XSS patterns
+        '/<script\b[^>]*>/i',
+        // Block JavaScript protocols (more specific)
+        '/javascript\s*:\s*[a-zA-Z]*\s*\(/i', // javascript: function(
+        '/javascript\s*:\s*void\s*\(/i', // javascript: void(
+        '/javascript\s*:\s*alert\s*\(/i', // javascript: alert(
     );
     
-    foreach ($suspicious_patterns as $pattern) {
+    foreach ($security_patterns as $pattern) {
         if (preg_match($pattern, $param)) {
             return new WP_Error('invalid_search_term', __('Search term contains invalid characters.', 'fau-elemental'), array('status' => 400));
         }
@@ -231,7 +249,31 @@ function fau_set_cache_headers($response, $cache_duration) {
 function fau_supports_fulltext_search() {
     global $wpdb;
     
-    // Check if FULLTEXT index exists on post_title
+    // Check if MySQL version supports FULLTEXT (5.6+)
+    $mysql_version = $wpdb->db_version();
+    if (version_compare($mysql_version, '5.6', '<')) {
+        return false;
+    }
+    
+    // Check if the posts table uses a storage engine that supports FULLTEXT
+    $table_info = $wpdb->get_row("SHOW CREATE TABLE {$wpdb->posts}");
+    if (!$table_info) {
+        return false;
+    }
+    
+    // Check if the table uses InnoDB or MyISAM (both support FULLTEXT)
+    return strpos($table_info->{'Create Table'}, 'ENGINE=InnoDB') !== false || 
+           strpos($table_info->{'Create Table'}, 'ENGINE=MyISAM') !== false;
+}
+
+/**
+ * Check if the FULLTEXT index exists on post_title
+ *
+ * @return bool True if index exists, false otherwise.
+ */
+function fau_has_fulltext_index() {
+    global $wpdb;
+    
     $index_exists = $wpdb->get_var("
         SHOW INDEX FROM {$wpdb->posts} 
         WHERE Key_name = 'post_title_fulltext' 
@@ -255,8 +297,8 @@ function fau_search_filter($search, $query) {
         $search = '';
         $searchand = '';
         
-        // Check if FULLTEXT search is available
-        if (fau_supports_fulltext_search()) {
+        // Check if FULLTEXT search is available and index exists
+        if (fau_supports_fulltext_search() && fau_has_fulltext_index()) {
             // Use FULLTEXT search for better performance
             $search_terms = array_filter($q['search_terms'], function($term) {
                 return strlen($term) >= 3; // MySQL FULLTEXT minimum word length
@@ -331,25 +373,48 @@ function fau_create_fulltext_index() {
             // Log the index creation
             error_log('FAU Elemental: Created FULLTEXT index on post_title for improved search performance');
             
-            // Add admin notice
-            set_transient('fau_search_performance_notice', true, 60 * 60 * 24); // 24 hours
+            // Clear any failure notices since we succeeded
+            delete_option('fau_search_index_failed');
         } else {
+            // Log the failure
             error_log('FAU Elemental: Failed to create FULLTEXT index on post_title');
+            
+            // Set persistent failure flag
+            update_option('fau_search_index_failed', true);
         }
     }
 }
 
 /**
- * Display admin notice about search performance improvements
+ * Display admin notice about search performance issues
  */
 function fau_search_performance_admin_notice() {
-    if (get_transient('fau_search_performance_notice')) {
-        delete_transient('fau_search_performance_notice');
+    // Only show to administrators
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+    
+    // Check if FULLTEXT search is supported but index is missing
+    if (fau_supports_fulltext_search() && !fau_has_fulltext_index()) {
         ?>
-        <div class="notice notice-success is-dismissible">
+        <div class="notice notice-warning is-dismissible">
             <p>
                 <strong><?php _e('FAU Elemental:', 'fau-elemental'); ?></strong>
-                <?php _e('Search performance has been optimized with MySQL FULLTEXT indexing for faster search suggestions.', 'fau-elemental'); ?>
+                <?php _e('Search performance can be improved with MySQL FULLTEXT indexing. The index is missing and should be created for optimal search performance.', 'fau-elemental'); ?>
+                <a href="<?php echo admin_url('tools.php?page=fau-search-protection'); ?>" class="button button-small"><?php _e('Create Index', 'fau-elemental'); ?></a>
+            </p>
+        </div>
+        <?php
+    }
+    
+    // Check if index creation failed
+    if (get_option('fau_search_index_failed', false)) {
+        ?>
+        <div class="notice notice-error is-dismissible">
+            <p>
+                <strong><?php _e('FAU Elemental:', 'fau-elemental'); ?></strong>
+                <?php _e('Failed to create MySQL FULLTEXT index for search optimization. This may be due to insufficient database permissions or MySQL configuration. Search performance may be degraded.', 'fau-elemental'); ?>
+                <a href="<?php echo admin_url('tools.php?page=fau-search-protection'); ?>" class="button button-small"><?php _e('Retry', 'fau-elemental'); ?></a>
             </p>
         </div>
         <?php
@@ -587,7 +652,7 @@ function fau_search_protection_section_callback() {
 function fau_search_rate_limit_callback() {
     $enabled = get_option('fau_search_rate_limit_enabled', true);
     echo '<input type="checkbox" name="fau_search_rate_limit_enabled" value="1" ' . checked(1, $enabled, false) . ' />';
-    echo '<p class="description">' . __('Limit search requests to 30 per minute per IP address.', 'fau-elemental') . '</p>';
+    echo '<p class="description">' . __('Limit search requests to 20 per 10 seconds per IP address.', 'fau-elemental') . '</p>';
 }
 
 /**
@@ -716,6 +781,90 @@ function fau_search_protection_admin_page() {
                     <input type="submit" class="button button-secondary" value="<?php _e('Clear Search Cache', 'fau-elemental'); ?>">
                 </p>
             </form>
+        </div>
+        
+        <div class="card">
+            <h2><?php _e('FULLTEXT Index Management', 'fau-elemental'); ?></h2>
+            <?php
+            $supports_fulltext = fau_supports_fulltext_search();
+            $has_index = fau_has_fulltext_index();
+            ?>
+            <table class="form-table">
+                <tr>
+                    <th><?php _e('MySQL FULLTEXT Support:', 'fau-elemental'); ?></th>
+                    <td>
+                        <?php if ($supports_fulltext): ?>
+                            <span style="color: green;">✓ <?php _e('Supported', 'fau-elemental'); ?></span>
+                        <?php else: ?>
+                            <span style="color: red;">✗ <?php _e('Not Supported', 'fau-elemental'); ?></span>
+                            <p class="description"><?php _e('Your MySQL version or storage engine does not support FULLTEXT indexes.', 'fau-elemental'); ?></p>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th><?php _e('FULLTEXT Index Status:', 'fau-elemental'); ?></th>
+                    <td>
+                        <?php if ($has_index): ?>
+                            <span style="color: green;">✓ <?php _e('Index Exists', 'fau-elemental'); ?></span>
+                        <?php else: ?>
+                            <span style="color: orange;">⚠ <?php _e('Index Missing', 'fau-elemental'); ?></span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            </table>
+            
+            <?php if ($supports_fulltext && !$has_index): ?>
+                <div id="create-index-section">
+                    <p><?php _e('Create a FULLTEXT index on post titles to improve search performance:', 'fau-elemental'); ?></p>
+                    <p class="submit">
+                        <button type="button" id="create-fulltext-index" class="button button-primary">
+                            <?php _e('Create FULLTEXT Index', 'fau-elemental'); ?>
+                        </button>
+                        <span id="create-index-status"></span>
+                    </p>
+                </div>
+                
+                <script>
+                jQuery(document).ready(function($) {
+                    $('#create-fulltext-index').on('click', function() {
+                        var button = $(this);
+                        var status = $('#create-index-status');
+                        
+                        button.prop('disabled', true).text('<?php _e('Creating...', 'fau-elemental'); ?>');
+                        status.html('<span style="color: blue;"><?php _e('Creating FULLTEXT index...', 'fau-elemental'); ?></span>');
+                        
+                        $.ajax({
+                            url: ajaxurl,
+                            type: 'POST',
+                            data: {
+                                action: 'create_fulltext_index',
+                                nonce: '<?php echo wp_create_nonce('fau_create_fulltext_index'); ?>'
+                            },
+                            success: function(response) {
+                                if (response.success) {
+                                    status.html('<span style="color: green;">✓ ' + response.data.message + '</span>');
+                                    button.text('<?php _e('Index Created', 'fau-elemental'); ?>').addClass('button-secondary');
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 2000);
+                                } else {
+                                    status.html('<span style="color: red;">✗ ' + response.data.message + '</span>');
+                                    button.prop('disabled', false).text('<?php _e('Retry', 'fau-elemental'); ?>');
+                                }
+                            },
+                            error: function() {
+                                status.html('<span style="color: red;">✗ <?php _e('AJAX request failed. Please try again.', 'fau-elemental'); ?></span>');
+                                button.prop('disabled', false).text('<?php _e('Retry', 'fau-elemental'); ?>');
+                            }
+                        });
+                    });
+                });
+                </script>
+            <?php elseif ($has_index): ?>
+                <p><span style="color: green;">✓ <?php _e('FULLTEXT index is already created and working.', 'fau-elemental'); ?></span></p>
+            <?php else: ?>
+                <p><span style="color: red;">✗ <?php _e('FULLTEXT indexes are not supported on your system.', 'fau-elemental'); ?></span></p>
+            <?php endif; ?>
         </div>
         
         <div class="card">

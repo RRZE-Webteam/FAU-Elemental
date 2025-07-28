@@ -373,9 +373,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 				}" data-index="${ index }" tabindex="-1">
 					<a href="${
 						result.link || result.url
-					}" class="fau-global-search__suggestion-link">
-						<span class="fau-global-search__suggestion-title">${ highlightedTitle }</span>
-					</a>
+					}" class="fau-global-search__suggestion-link">${ highlightedTitle }</a>
 				</li>
 			`;
 		} );
