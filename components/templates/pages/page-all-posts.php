@@ -95,7 +95,7 @@ get_header(); ?>
                   
             <div class="archive-sorting">
                 <form method="get" class="sorting-form">
-                    <label for="posts-sort"><?php _e('Sort by:', 'fau-elemental'); ?></label>
+                    <label for="posts-sort"><?php _e('Sort by', 'fau-elemental'); ?></label>
                     <div class="select-wrapper">
                         <select name="orderby" id="posts-sort" onchange="this.form.submit()">
                             <option value="date" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'date', 'date'); ?>>

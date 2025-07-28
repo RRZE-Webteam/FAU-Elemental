@@ -1,12 +1,4 @@
-// ============================================================================
-// TEMPLATE STYLES
-// ============================================================================
-// Placeholder for template styles (page-all-posts, page-all-pages,
-// archive, etc.)
-// Add your custom styles here when ready
-
-// Templates Styles
-// =============================================================================
+@use "../../ui/mixins/mixins" as *;
 
 // Page Templates Base Styles
 .all-posts-page,
@@ -73,8 +65,8 @@
 		.posts-count,
 		.pagination-info {
 			font-weight: 400;
-			font-size: var(--P-Caption);
-			letter-spacing: 0.01em;
+			font-size: 1rem;
+			letter-spacing: var(--letter-spacing-small);
 			color: var(--FAU-Col-FAU-Schwarz-90);
 
 			.pagination-number {
@@ -90,11 +82,11 @@
 			.sorting-form {
 				display: flex;
 				align-items: center;
-				gap: var(--Spacing-2x);
 
 				label {
-					font-size: var(--P-Caption);
-					font-weight: 500;
+					font-size: 1rem;
+					font-weight: 400;
+					letter-spacing: var(--letter-spacing-small);
 					color: var(--FAU-Col-FAU-Dunkelblau-100);
 					margin: 0;
 				}
@@ -109,10 +101,12 @@
 						border-radius: var(--Spacing-1x);
 						background-color: var(--FAU-Col-FAU-Weiss-100);
 						appearance: none;
-						font-size: var(--P-Caption);
+						font-family: var(--font-family-base);
+						font-size: 1rem;
+						font-weight: 700;
+						letter-spacing: var(--letter-spacing-small);
 						color: var(--FAU-Col-FAU-Blau-100);
 						cursor: pointer;
-
 
 						&:focus {
 							outline: none;
@@ -144,58 +138,24 @@
 
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-
-	.archive-info {
-
-		.archive-meta-row {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: var(--Spacing-4x);
-
-			.archive-sorting {
-				align-self: stretch;
-
-				.sorting-form {
-					justify-content: space-between;
-
-					select {
-						flex: 1;
-						max-width: var(--small-max-width);
-					}
-				}
-			}
-
-			.pagination-info {
-				order: -1; /* Put pagination info first on mobile */
-				margin-bottom: var(--Spacing-2x);
-			}
-		}
-	}
-}
-
 /* Global Archive Styles */
 .archive-page,
 .category-archive,
 .blog-homepage {
+	padding: 0;
 
 	.blog-header {
 		margin-bottom: var(--Spacing-8x);
 
 		.blog-title {
-			font-size: var(--H-Heading-Big-Teaser);
-			font-weight: 700;
-			color: var(--FAU-Col-FAU-Dunkelblau-100);
-			margin: var(--Spacing-8x) auto;
-			max-width: var(--small-max-width);
-			line-height: 1.2;
+			padding: var(--Spacing-10x) 0 var(--Spacing-5x) 0;
 		}
 
 		.archive-description {
+			padding: 0;
 			font-size: var(--P-Body-Text);
 			line-height: 1.6;
-			color: var(--FAU-Col-FAU-Schwarz-62_5);
+			color: var(--FAU-Col-FAU-Schwarz-90);
 			margin: var(--Spacing-4x) auto;
 			max-width: var(--small-max-width);
 		}
@@ -207,6 +167,10 @@
 			margin: var(--Spacing-2x) auto;
 			max-width: var(--small-max-width);
 		}
+	}
+
+	.content-grid {
+		padding: 0;
 	}
 
 	// Content sections with is-layout-flow
@@ -255,5 +219,30 @@
 			margin-left: auto;
 			margin-right: auto;
 		}
+	}
+}
+
+// Responsive
+@include respond-to("small") {
+
+	.archive-page .blog-header .blog-title,
+	.category-archive .blog-header .blog-title,
+	.blog-homepage .blog-header .blog-title {
+		font-size: 2.5rem;
+	}
+}
+
+@include respond-to("x-small") {
+
+	.archive-page .blog-header .blog-title,
+	.category-archive .blog-header .blog-title,
+	.blog-homepage .blog-header .blog-title {
+		font-size: 1.75rem;
+	}
+
+	.archive-page .blog-header .archive-description,
+	.category-archive .blog-header .archive-description,
+	.blog-homepage .blog-header .archive-description .archive-description {
+		font-size: 1rem;
 	}
 }
