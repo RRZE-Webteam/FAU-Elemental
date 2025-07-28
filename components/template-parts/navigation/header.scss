@@ -417,6 +417,7 @@ body.modal-open {
 		margin-bottom: 2.8125rem;
 		box-shadow: 0 0 2.125rem 0 rgba(4, 49, 106, 0.58);
 		overflow-y: scroll;
+		z-index: 1;
 
 		@each $faculty, $color in (
 			"phil": var(--FAU-Col-Phil-Gelb-100),
