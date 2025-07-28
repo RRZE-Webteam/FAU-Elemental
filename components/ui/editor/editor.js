@@ -322,3 +322,34 @@ function countFAUHeroOccurrences( blocks ) {
 
 	return count;
 }
+
+const portalMenuSettings = document.getElementById(
+	'fau_elemental_portal_menu_settings'
+);
+if ( portalMenuSettings ) {
+	const portalMenuIdSelect =
+		portalMenuSettings.querySelector( '#portal_menu_id' );
+	let currentTemplate = null;
+	subscribe( () => {
+		const template =
+			select( 'core/editor' ).getEditedPostAttribute( 'template' );
+		if ( template !== currentTemplate ) {
+			currentTemplate = template;
+			if (
+				currentTemplate &&
+				currentTemplate.includes( 'portal-page/portal-page.php' )
+			) {
+				portalMenuSettings.classList.remove(
+					'fau-portal-menu-template-not-active'
+				);
+			} else {
+				portalMenuSettings.classList.add(
+					'fau-portal-menu-template-not-active'
+				);
+				if ( portalMenuIdSelect ) {
+					portalMenuIdSelect.value = '';
+				}
+			}
+		}
+	} );
+}
