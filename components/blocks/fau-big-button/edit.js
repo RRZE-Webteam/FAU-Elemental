@@ -340,7 +340,7 @@ export default function Edit( { attributes, setAttributes } ) {
 									<p
 										className={ `fau-big-button-character-count ${
 											item.description.length >=
-											DESCRIPTION_MAX_LENGTH * 0.9
+											DESCRIPTION_MAX_LENGTH
 												? 'fau-big-button-character-count--warning'
 												: ''
 										}` }

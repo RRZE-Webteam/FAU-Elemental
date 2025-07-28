@@ -6,7 +6,7 @@
 	"title": "FAU Big Button",
 	"category": "fau-elemental/FAU",
 	"icon": "button",
-	"description": "Display a group of big buttons with descriptions limited to 80 characters",
+	"description": "Display a group of big buttons",
 	"supports": {
 		"html": false,
 		"className": true
