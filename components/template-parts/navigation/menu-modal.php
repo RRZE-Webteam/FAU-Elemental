@@ -75,6 +75,8 @@ class Menu_Modal {
             'walker' => null,
             'show_back_button' => true,
             'show_close_button' => true,
+            'location_depths' => array(),
+            'global_locations' => array(),
         );
         
         $this->modal_configs[$modal_id] = wp_parse_args($config, $default_config);
@@ -150,7 +152,7 @@ class Menu_Modal {
      * @param string $walker_class The walker class to use
      * @return string The menu HTML
      */
-    private function build_menu_html($menu_items, $menu_class, $walker_class = null) {
+    private function build_menu_html($menu_items, $menu_class, $walker_class = null, $max_depth = 0) {
         if (empty($menu_items)) {
             return '';
         }
@@ -167,7 +169,7 @@ class Menu_Modal {
         $output .= '<ul class="' . esc_attr($menu_class) . '">';
         
         // Build the menu structure recursively
-        $this->build_menu_items_recursive($menu_items, $output, $walker, 0, 0, $args);
+        $this->build_menu_items_recursive($menu_items, $output, $walker, 0, 0, $args, $max_depth);
         
         // End the menu
         $output .= '</ul>';
@@ -184,8 +186,9 @@ class Menu_Modal {
      * @param int $parent_id The parent item ID (0 for top level)
      * @param int $depth The current depth level
      * @param object $args Optional args object for walker
+     * @param int $max_depth Maximum depth to build (0 = unlimited)
      */
-    private function build_menu_items_recursive($menu_items, &$output, $walker, $parent_id = 0, $depth = 0, $args = null) {
+    private function build_menu_items_recursive($menu_items, &$output, $walker, $parent_id = 0, $depth = 0, $args = null, $max_depth = 0) {
         // Get items for this level
         $current_level_items = array_filter($menu_items, function($item) use ($parent_id) {
             return $item->menu_item_parent == $parent_id;
@@ -215,10 +218,10 @@ class Menu_Modal {
                 'has_children' => $has_children
             ]);
             
-            // If this item has children, create a submenu
-            if ($has_children) {
+            // If this item has children and we haven't reached max depth, create a submenu
+            if ($has_children && ($max_depth === 0 || $depth < $max_depth)) {
                 $walker->start_lvl($output, $depth, $args);
-                $this->build_menu_items_recursive($menu_items, $output, $walker, $item->ID, $depth + 1, $args);
+                $this->build_menu_items_recursive($menu_items, $output, $walker, $item->ID, $depth + 1, $args, $max_depth);
                 $walker->end_lvl($output, $depth, $args);
             }
             
@@ -251,16 +254,24 @@ class Menu_Modal {
         $depth = $config['depth'];
         $walker_class = $config['walker'];
         $modal_class = $config['modal_class'];
+        $location_depths = $config['location_depths'];
+        $global_locations = $config['global_locations'];
 
         $menus_rendered = false;
 
         // Try each theme location and render all that exist
         foreach ($theme_locations as $location) {
-            if ($use_global_menu) {
+            // Get the depth for this specific location, fallback to default depth
+            $location_depth = isset($location_depths[$location]) ? $location_depths[$location] : $depth;
+            
+            // Check if this location should use global menu
+            $is_global_location = in_array($location, $global_locations);
+            
+            if ($use_global_menu && $is_global_location) {
                 // Try global menu first
                 $global_menu_items = $this->get_main_site_menu($location);
                 if ($global_menu_items) {
-                    echo $this->build_menu_html($global_menu_items, $menu_class . ' ' . $menu_class . '--' . str_replace('_', '-', $location), $walker_class);
+                    echo $this->build_menu_html($global_menu_items, $menu_class . ' ' . $menu_class . '--' . str_replace('_', '-', $location), $walker_class, $location_depth);
                     $menus_rendered = true;
                     continue; // Continue to next location instead of returning
                 }
@@ -273,7 +284,7 @@ class Menu_Modal {
                     'menu_class'     => $menu_class . ' ' . $menu_class . '--' . str_replace('_', '-', $location),
                     'container'      => false,
                     'fallback_cb'    => false,
-                    'depth'          => $depth,
+                    'depth'          => $location_depth,
                 );
                 
                 if ($walker_class) {
