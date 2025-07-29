@@ -5,9 +5,12 @@ import {
 	ComboboxControl,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+	SelectControl,
 } from '@wordpress/components';
 
 export const SelectionMode = ( {
+	variant,
+	postTypeOptions,
 	selectionMode,
 	setAttributes,
 	selectedPosts,
@@ -18,6 +21,26 @@ export const SelectionMode = ( {
 } ) => {
 	return (
 		<PanelBody title={ __( 'Selection Mode', 'fau-elemental' ) }>
+			<SelectControl
+				label={ __( 'Content Type', 'fau-elemental' ) }
+				value={ variant }
+				options={ postTypeOptions }
+				onChange={ ( value ) =>
+					setAttributes( {
+						variant: value,
+						selectedCategory: 0,
+						currentPage: 1,
+						selectedPosts: [],
+					} )
+				}
+				help={ __(
+					'Select the type of content to display.',
+					'fau-elemental'
+				) }
+				__nextHasNoMarginBottom={ true }
+				__next40pxDefaultSize={ true }
+			/>
+
 			<ToggleGroupControl
 				label={ __( 'Selection mode options', 'fau-elemental' ) }
 				value={ selectionMode }

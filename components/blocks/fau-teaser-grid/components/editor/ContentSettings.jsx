@@ -8,7 +8,6 @@ export const ContentSettings = ( {
 	orderBy,
 	order,
 	setAttributes,
-	postTypeOptions,
 	categoryOptions,
 	categories,
 } ) => {
@@ -24,25 +23,6 @@ export const ContentSettings = ( {
 
 	return (
 		<PanelBody title={ __( 'Content Settings', 'fau-elemental' ) }>
-			<SelectControl
-				label={ __( 'Content Type', 'fau-elemental' ) }
-				value={ variant }
-				options={ postTypeOptions }
-				onChange={ ( value ) =>
-					setAttributes( {
-						variant: value,
-						selectedCategory: 0,
-						currentPage: 1,
-					} )
-				}
-				help={ __(
-					'Select the type of content to display.',
-					'fau-elemental'
-				) }
-				__nextHasNoMarginBottom={ true }
-				__next40pxDefaultSize={ true }
-			/>
-
 			{ variant === 'post' && categories.length > 0 && (
 				<SelectControl
 					label={ __( 'Category', 'fau-elemental' ) }
