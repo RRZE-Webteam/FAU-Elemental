@@ -210,9 +210,6 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 
 	// Fetch suggestions from custom title-only search API
 	function fetchSuggestions( query ) {
-		// Reset selection
-		selectedIndex = -1;
-
 		// Hide any existing containers first
 		hideSuggestions();
 
@@ -367,7 +364,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			html += `
 				<li class="fau-global-search__suggestion-item${ currentSiteClass }" role="option" data-url="${
 					result.link || result.url
-				}" data-index="${ index }" tabindex="-1">
+				}" data-index="${ index }">
 					<a href="${
 						result.link || result.url
 					}" class="fau-global-search__suggestion-link">${ highlightedTitle }</a>
@@ -406,155 +403,42 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 					'aria-selected',
 					'true'
 				);
-				suggestionItems[ selectedIndex ].focus();
 			}
 		}
 
-		// Function to handle item selection
-		function selectItem( item ) {
-			if ( item.dataset.url ) {
-				// Navigate to specific result
-				window.location.href = item.dataset.url;
-			} else if ( item.dataset.search ) {
-				// Submit search form for all results with FAU-wide scope
-				input.value = item.dataset.search;
-
-				// Set FAU-wide scope if this is the "view all" option
-				if ( item.dataset.fauWide ) {
-					const scopeRadio = form.querySelector(
-						'input[name="fau_search_scope"][value="fau-wide"]'
-					);
-					if ( scopeRadio ) {
-						scopeRadio.checked = true;
-					}
-				}
-
-				hideSuggestions();
-				form.submit();
-			}
-		}
-		// Add keyboard navigation to the input
-		const inputKeydownHandler = function ( event ) {
-			if (
-				! suggestionsContainer ||
-				suggestionsContainer.style.display === 'none'
-			) {
-				return;
-			}
-
-			switch ( event.key ) {
-				case 'ArrowDown':
-					event.preventDefault();
-					if ( selectedIndex < suggestionItems.length - 1 ) {
-						updateSelectedItem( selectedIndex + 1 );
-					} else if ( selectedIndex === -1 ) {
-						// First time pressing arrow down, select first item
-						updateSelectedItem( 0 );
-					}
-					break;
-
-				case 'ArrowUp':
-					event.preventDefault();
-					if ( selectedIndex > 0 ) {
-						updateSelectedItem( selectedIndex - 1 );
-					} else if ( selectedIndex === 0 ) {
-						// Move focus back to input
-						updateSelectedItem( -1 );
-						input.focus();
-					}
-					break;
-
-				case 'Enter':
-					event.preventDefault();
-					if (
-						selectedIndex >= 0 &&
-						suggestionItems[ selectedIndex ]
-					) {
-						selectItem( suggestionItems[ selectedIndex ] );
-					} else {
-						// No item selected, submit the form normally
-						form.submit();
-					}
-					break;
-
-				case 'Escape':
-					event.preventDefault();
-					hideSuggestions();
-					input.focus();
-					break;
-
-				case 'Tab':
-					// Allow normal tab behavior but hide suggestions
-					hideSuggestions();
-					break;
-			}
-		};
-
-		// Remove any existing keyboard handler to prevent duplicates
-		input.removeEventListener( 'keydown', inputKeydownHandler );
-		input.addEventListener( 'keydown', inputKeydownHandler );
-
-		// Add keyboard navigation to suggestion items
+		// Add focus/blur handlers for visual feedback
 		suggestionItems.forEach( ( item, index ) => {
-			item.addEventListener( 'keydown', function ( event ) {
-				switch ( event.key ) {
-					case 'Enter':
-					case ' ':
-						event.preventDefault();
-						selectItem( this );
-						break;
+			const link = item.querySelector(
+				'.fau-global-search__suggestion-link'
+			);
 
-					case 'ArrowDown':
-						event.preventDefault();
-						if ( index < suggestionItems.length - 1 ) {
-							updateSelectedItem( index + 1 );
-						}
-						break;
+			// Make the link tabbable instead of the li
+			if ( link ) {
+				link.setAttribute( 'tabindex', '0' );
 
-					case 'ArrowUp':
-						event.preventDefault();
-						if ( index > 0 ) {
-							updateSelectedItem( index - 1 );
-						} else {
-							// Move focus back to input
+				// Add focus/blur handlers for visual feedback
+				link.addEventListener( 'focus', function () {
+					updateSelectedItem( index );
+				} );
+
+				link.addEventListener( 'blur', function () {
+					// Only remove selection if focus is not moving to another suggestion item
+					setTimeout( () => {
+						if (
+							! container.contains(
+								container.ownerDocument.activeElement
+							)
+						) {
 							updateSelectedItem( -1 );
-							input.focus();
 						}
-						break;
-
-					case 'Escape':
-						event.preventDefault();
-						hideSuggestions();
-						input.focus();
-						break;
-				}
-			} );
-
-			// Add focus/blur handlers for visual feedback
-			item.addEventListener( 'focus', function () {
-				updateSelectedItem( index );
-			} );
-
-			item.addEventListener( 'blur', function () {
-				// Only remove selection if focus is not moving to another suggestion item
-				setTimeout( () => {
-					if (
-						! container.contains(
-							container.ownerDocument.activeElement
-						)
-					) {
-						updateSelectedItem( -1 );
-					}
-				}, 10 );
-			} );
+					}, 10 );
+				} );
+			}
 		} );
 	}
 
 	// Hide suggestions
 	function hideSuggestions() {
-		// Reset selection
-		selectedIndex = -1;
-
 		if ( suggestionsContainer ) {
 			suggestionsContainer.style.display = 'none';
 
@@ -716,12 +600,16 @@ function fetchSearchOptionsMenuFallback( container ) {
 }
 
 /**
- * Add click handlers to menu items
+ * Add click handlers and keyboard support to menu items
  */
 function addMenuClickHandlers( container ) {
 	container
 		.querySelectorAll( '.fau-global-search__menu-item[data-url]' )
 		.forEach( ( item ) => {
+			// Make menu items tabbable
+			item.setAttribute( 'tabindex', '0' );
+
+			// Add click handler
 			item.addEventListener( 'click', function () {
 				const url = this.dataset.url;
 				if ( url && url !== '#' ) {
