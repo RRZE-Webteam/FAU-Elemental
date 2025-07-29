@@ -27,21 +27,39 @@ get_header(); ?>
     </header>
 
     <?php
-    $category_id = get_queried_object_id();
-    $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
-    if ($current_page === 1) {
-        $current_page = get_query_var('paged') ? get_query_var('paged') : 1;
-    }
-    $pagination_type = faue_get_pagination_type();
-    $items_per_page = faue_get_items_per_page();
-    
-    // Get the post count for this category
-    $category = get_queried_object();
-    $post_count = $category->count;
-    
-    // Calculate pagination info for display
-    $start_item = (($current_page - 1) * $items_per_page) + 1;
-    $end_item = min($current_page * $items_per_page, $post_count);
+        $category_id = get_queried_object_id();
+        $current_page = isset($_GET['paged']) ? max(1, intval($_GET['paged'])) : 1;
+        if ($current_page === 1) {
+            $current_page = get_query_var('paged') ? get_query_var('paged') : 1;
+        }
+        $pagination_type = faue_get_pagination_type();
+        $items_per_page = faue_get_items_per_page();
+        
+        // Get the post count for this category
+        $category = get_queried_object();
+        $post_count = $category->count;
+        
+        // Calculate pagination info for display
+        $start_item = (($current_page - 1) * $items_per_page) + 1;
+        $end_item = min($current_page * $items_per_page, $post_count);
+
+        // Get sorting parameters from URL
+        $orderby = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'date';
+        $order = isset($_GET['order']) ? sanitize_text_field($_GET['order']) : 'DESC';
+        
+        // Validate sorting parameters
+        $valid_orderby = ['date', 'title'];
+        $valid_order = ['ASC', 'DESC'];
+        
+        if (!in_array($orderby, $valid_orderby)) {
+            $orderby = 'date';
+        }
+        
+        if (!in_array($order, $valid_order)) {
+            $order = 'DESC';
+        }
+
+        $order_select = "$orderby-$order";
     ?>
 
     <div class="archive-info">
@@ -71,16 +89,23 @@ get_header(); ?>
                 <form method="get" class="sorting-form">
                     <label for="category-sort"><?php _e('Sort by:', 'fau-elemental'); ?></label>
                     <div class="select-wrapper">
-                        <select name="orderby" id="category-sort" onchange="this.form.submit()">
-                            <option value="date" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'date', 'date'); ?>>
-                                <?php _e('Date', 'fau-elemental'); ?>
+                        <select name="" id="category-sort">
+                            <option value="date-DESC" <?php selected($order_select, 'date-DESC'); ?>>
+                                <?php _e('Date - newest first', 'fau-elemental'); ?>
                             </option>
-                            <option value="title" <?php selected(isset($_GET['orderby']) ? $_GET['orderby'] : 'date', 'title'); ?>>
-                                <?php _e('Title', 'fau-elemental'); ?>
+                            <option value="date-ASC" <?php selected($order_select, 'date-ASC'); ?>>
+                                <?php _e('Date - oldest first', 'fau-elemental'); ?>
+                            </option>
+                            <option value="title-ASC" <?php selected($order_select, 'title-ASC'); ?>>
+                                <?php _e('Title - ascending', 'fau-elemental'); ?>
+                            </option>
+                            <option value="title-DESC" <?php selected($order_select, 'title-DESC'); ?>>
+                                <?php _e('Title - descending', 'fau-elemental'); ?>
                             </option>
                         </select>
                     </div>
-                    <input type="hidden" name="order" value="<?php echo esc_attr(isset($_GET['order']) ? $_GET['order'] : 'DESC'); ?>">
+                    <input type="hidden" name="orderby" value="<?php echo esc_attr($orderby); ?>">
+                    <input type="hidden" name="order" value="<?php echo esc_attr($order); ?>">
                     <?php if (isset($_GET['paged'])) : ?>
                         <input type="hidden" name="paged" value="<?php echo esc_attr($_GET['paged']); ?>">
                     <?php endif; ?>
@@ -89,24 +114,20 @@ get_header(); ?>
         </div>
     </div>
 
+    <script>
+        // TODO This MUST be put in a JS file, DO NOT MERGE WITH dev until this is fixed!
+        document.addEventListener( 'DOMContentLoaded', function () {
+            document.getElementById("category-sort").addEventListener("change", function() {
+                const [orderby, order] = this.value.split('-');
+                this.form.elements["order"].value = order;
+                this.form.elements["orderby"].value = orderby;
+                this.form.submit();
+            });
+        });
+    </script>
+
     <section class="content-grid" aria-label="<?php esc_attr_e('Category posts listing', 'fau-elemental'); ?>">
         <?php
-        // Get sorting parameters from URL
-        $orderby = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'date';
-        $order = isset($_GET['order']) ? sanitize_text_field($_GET['order']) : 'DESC';
-        
-        // Validate sorting parameters
-        $valid_orderby = ['date', 'title'];
-        $valid_order = ['ASC', 'DESC'];
-        
-        if (!in_array($orderby, $valid_orderby)) {
-            $orderby = 'date';
-        }
-        
-        if (!in_array($order, $valid_order)) {
-            $order = 'DESC';
-        }
-        
         // Prepare block attributes safely
         $block_args = [
             'variant' => 'post',
