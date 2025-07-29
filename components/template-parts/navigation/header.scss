@@ -597,7 +597,7 @@ body.modal-open {
 			&::after {
 				content: "";
 				position: absolute;
-				bottom: -0.0625rem;
+				bottom: 0;
 				left: 1.25rem;
 				right: 1.25rem;
 				height: 0.0625rem;
@@ -613,6 +613,7 @@ body.modal-open {
 				letter-spacing: var(--letter-spacing-small);
 				padding: 1rem 1.25rem 1rem 1.25rem;
 				box-sizing: border-box;
+				z-index: 1;
 
 				&:hover,
 				&:focus-visible {
@@ -630,7 +631,7 @@ body.modal-open {
 		> li:first-child:not(:has(h2))::before {
 			content: "";
 			position: absolute;
-			top: 0;
+			top: -0.0625rem;
 			left: 1.25rem;
 			right: 1rem;
 			height: 0.0625rem;
