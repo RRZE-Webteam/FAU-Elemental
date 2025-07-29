@@ -28,6 +28,10 @@ add_action('init', function () {
         'walker' => 'Menu_Modal_Walker',
         'show_back_button' => true,
         'show_close_button' => true,
+        'location_depths' => array(
+            'header_menu_links' => 1
+        ),
+        'global_locations' => array('top_header_nav_services'),
     ));
 
     // Configure Structure Modal (Global Menu - replaces menu-meta-nav functionality)
@@ -54,6 +58,9 @@ add_action('init', function () {
         'walker' => 'Mixed_Navigation_Walker',
         'show_back_button' => true,
         'show_close_button' => true,
+        'location_depths' => array(
+            'header_menu_links' => 1
+        ),
     ));
 
     // Configure Search Modal (Special modal for search functionality)
