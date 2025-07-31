@@ -1,0 +1,322 @@
+.is-layout-flow {
+
+	label {
+		font-size: 0.875rem;
+		color: var(--FAU-Col-FAU-Schwarz-90);
+		font-weight: 400;
+	}
+
+	input {
+		width: 100%;
+		font-size: 1rem;
+		box-sizing: border-box;
+		font-family: var(--font-family-base);
+		padding: 0.75rem 1rem;
+		border: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-37_5);
+		border-radius: 0;
+
+		&:focus-visible {
+			border: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
+			outline: 2px solid var(--FAU-Col-FAU-Blau-100);
+		}
+
+		// Placeholder
+		&::placeholder {
+			color: var(--FAU-Col-FAU-Schwarz-37_5);
+		}
+
+		// Disabled State
+		&:disabled {
+			opacity: 0.5;
+		}
+	}
+
+	// Submit
+	input[type="submit"] {
+		width: auto;
+		border: none;
+		background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+		color: var(--FAU-Col-FAU-Weiss-100);
+		font-weight: 600;
+		padding: 1rem 1.5rem;
+		font-size: 1.125rem;
+		letter-spacing: var(--letter-spacing-big);
+	}
+
+	// Input Check
+	input[type="checkbox"] {
+		width: auto;
+		width: 1.25em;
+		height: 1.25rem;
+		accent-color: var(--FAU-Col-FAU-Blau-100);
+	}
+
+	// Input Radio
+	input[type="radio"] {
+		width: auto;
+		width: 1.25em;
+		height: 1.25rem;
+		accent-color: var(--FAU-Col-FAU-Blau-100);
+	}
+
+	select {
+		width: 100%;
+		background: none;
+		padding: 0.75rem 1rem;
+		border: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
+		font-weight: 600;
+		font-size: 1.125rem;
+		color: var(--FAU-Col-FAU-Blau-100);
+		font-family: var(--font-family-base);
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		box-shadow: inset -52px 0 0 0 var(--FAU-Col-FAU-Blau-100);
+
+		/*background:
+            url(https://api.iconify.design/akar-icons/chevron-down.svg) no-repeat center / contain,
+            linear-gradient(to right, var(--FAU-Col-FAU-Blau-100), var(--FAU-Col-FAU-Blau-100));
+        background-position:
+            calc(100% - 20px),
+            100% 0;
+        background-size:
+            20px,
+            60px 60px;
+        background-repeat: no-repeat;*/
+	}
+
+	textarea {
+		width: 100%;
+		box-sizing: border-box;
+	}
+
+	// WS Form Reset
+	.wsf-form input[type="email"].wsf-field,
+	.wsf-form input[type="number"].wsf-field,
+	.wsf-form input[type="tel"].wsf-field,
+	.wsf-form input[type="text"].wsf-field,
+	.wsf-form input[type="url"].wsf-field,
+	.wsf-form select.wsf-field,
+	.wsf-form textarea.wsf-field {
+		-webkit-appearance: unset;
+		background-color: unset;
+		color: unset;
+		font-style: unset;
+		font-weight: unset;
+		height: unset;
+		letter-spacing: unset;
+		line-height: unset;
+		margin: unset;
+		min-height: unset;
+		max-width: unset;
+		opacity: unset;
+		-webkit-text-decoration: unset;
+		text-decoration: unset;
+		-webkit-text-size-adjust: unset;
+		-moz-text-size-adjust: unset;
+		-ms-text-size-adjust: unset;
+		text-size-adjust: unset;
+		text-transform: unset;
+		touch-action: unset;
+		width: unset;
+
+		width: 100%;
+		font-size: 1rem;
+		box-sizing: border-box;
+		font-family: var(--font-family-base);
+		padding: 0.75rem 1rem;
+		border: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-37_5);
+		border-radius: 0;
+	}
+
+	.wsf-form input[type="email"].wsf-field:focus,
+	.wsf-form input[type="number"].wsf-field:focus,
+	.wsf-form input[type="tel"].wsf-field:focus,
+	.wsf-form input[type="text"].wsf-field:focus,
+	.wsf-form input[type="url"].wsf-field:focus,
+	.wsf-form select.wsf-field:focus,
+	.wsf-form textarea.wsf-field:focus {
+		background-color: unset;
+		border: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-37_5);
+		box-shadow: unset;
+		color: unset;
+		outline: unset;
+	}
+
+	.wsf-form input[type="email"].wsf-field:hover:enabled:not(:focus),
+	.wsf-form input[type="number"].wsf-field:hover:enabled:not(:focus),
+	.wsf-form input[type="tel"].wsf-field:hover:enabled:not(:focus),
+	.wsf-form input[type="text"].wsf-field:hover:enabled:not(:focus),
+	.wsf-form input[type="url"].wsf-field:hover:enabled:not(:focus),
+	.wsf-form select.wsf-field:hover:enabled:not(:focus),
+	.wsf-form textarea.wsf-field:hover:enabled:not(:focus) {
+		background-color: unset;
+		border: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-37_5);
+	}
+
+	.wsf-form input[type="email"].wsf-field,
+	.wsf-form input[type="number"].wsf-field,
+	.wsf-form input[type="tel"].wsf-field,
+	.wsf-form input[type="text"].wsf-field,
+	.wsf-form input[type="url"].wsf-field,
+	.wsf-form select.wsf-field,
+	.wsf-form textarea.wsf-field {
+		transition: unset;
+	}
+}
+
+// Specific style for Contact Form 7
+.wpcf7-form {
+
+	label {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	input {
+
+		// Error message
+		&.wpcf7-not-valid {
+			color: #dd0004;
+			border: 2px solid #dd0004;
+
+			&:focus-visible {
+				outline: 1px solid #dd0004;
+			}
+		}
+	}
+
+	// Check & Radio
+	.wpcf7-checkbox,
+	.wpcf7-radio {
+
+		.wpcf7-list-item {
+			margin: 0;
+			display: flex;
+			gap: 0.5rem;
+		}
+	}
+
+	// Select
+	.wpcf7-form-control-wrap:has(select) {
+
+		// Chevron
+		&::before {
+			content: "";
+			position: absolute;
+			width: 0.5625rem;
+			height: 0.875rem;
+			top: 20px;
+			right: 22px;
+			background-image: var(--icon-chevron-weiss);
+			background-repeat: no-repeat;
+			transition: var(--basic-animation);
+			rotate: 90deg;
+		}
+
+		// Hover & Focus Animation
+		&:hover,
+		&:focus-visible {
+
+			&::before {
+				top: 24px;
+			}
+		}
+
+		// Error style
+		&:has(.wpcf7-not-valid-tip) {
+
+			select {
+				color: #dd0004;
+				border: 1px solid #dd0004;
+				box-shadow: inset -52px 0 0 0 #dd0004;
+			}
+		}
+	}
+
+	// Submit
+	p:has(input[type="submit"]) {
+		position: relative;
+		display: inline-block;
+
+		input {
+			width: calc(100% + 52px);
+			text-align: left;
+			box-shadow: inset -52px 0 0 0 var(--FAU-Col-FAU-Blau-100);
+		}
+
+		&::before {
+			content: "";
+			position: absolute;
+			width: 21px;
+			height: 14px;
+			top: 22px;
+			right: -36px;
+			background-image: var(--icon-arrow-weiss);
+			background-repeat: no-repeat;
+			transition: var(--basic-animation);
+		}
+
+		&:hover,
+		&:focus-visible {
+
+			&::before {
+				right: -40px;
+			}
+		}
+	}
+
+	.wpcf7-form-control-wrap {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+
+		.wpcf7-not-valid-tip {
+			font-weight: 400;
+			font-size: 0.875rem;
+		}
+	}
+
+	p {
+		padding: 0;
+	}
+
+	// Hide CF7 Spinner
+	.wpcf7-spinner {
+		display: none;
+	}
+}
+
+// Dark Mode
+.is-layout-flow .is-style-dark {
+
+	label,
+	select {
+		color: var(--FAU-Col-FAU-Weiss-100);
+	}
+
+	select {
+		border: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
+		box-shadow: inset -52px 0 0 0 var(--FAU-Col-FAU-Weiss-100);
+	}
+
+	// CF7 Select
+	.wpcf7-form .wpcf7-form-control-wrap:has(select) {
+
+		&::before {
+			background-image: var(--icon-chevron-fau-blau);
+		}
+	}
+
+	p:has(input[type="submit"]) {
+
+		input {
+			box-shadow: inset -52px 0 0 0 var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		&::before {
+			background-image: var(--icon-arrow-fau-blau);
+		}
+	}
+}
