@@ -1,7 +1,7 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "fau-elemental/logo-grid",
+	"name": "fau-elemental/fau-logo-grid",
 	"version": "0.1.0",
 	"title": "FAU Logo Grid",
 	"category": "fau-elemental/FAU",
@@ -15,7 +15,17 @@
 	"attributes": {
 		"logos": {
 			"type": "array",
-			"default": [],
+			"default": [
+				{
+					"imageId": 0,
+					"imageUrl": "",
+					"link": "",
+					"category": "",
+					"alt": "",
+					"width": null,
+					"height": null
+				}
+			],
 			"items": {
 				"type": "object",
 				"properties": {
@@ -30,9 +40,22 @@
 					},
 					"category": {
 						"type": "string"
+					},
+					"alt": {
+						"type": "string"
+					},
+					"width": {
+						"type": "number"
+					},
+					"height": {
+						"type": "number"
 					}
 				}
 			}
+		},
+		"selectedLogoIndex": {
+			"type": "number",
+			"default": 0
 		}
 	},
 	"textdomain": "fau-elemental",
