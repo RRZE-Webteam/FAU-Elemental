@@ -330,29 +330,6 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
     }
     
     /**
-     * Add page children to existing submenu (for mixed navigation)
-     *
-     * @param string &$output Output string (passed by reference)
-     * @param array $page_children Array of page objects
-     * @param int $depth Current depth
-     * @param bool $add_section_header Whether to add section header
-     */
-    private function add_page_children_to_existing_submenu(&$output, $page_children, $depth = 1, $add_section_header = false) {
-        if (empty($page_children)) {
-            return;
-        }
-        
-        // Add section header for mixed navigation
-        if ($add_section_header) {
-            $output .= '<li class="nav-section-header page-section">';
-            $output .= '<span class="section-title">' . esc_html__('Pages', 'fau-elemental') . '</span>';
-            $output .= '</li>';
-        }
-        
-        $this->add_page_children_to_output($output, $page_children, $depth);
-    }
-    
-    /**
      * Filter out page children that are already handled as menu children
      *
      * @param array $page_children Array of page objects
@@ -486,27 +463,4 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
             $output .= '</li>';
         }
     }
-    
-    /**
-     * Get navigation structure for an item (used by JavaScript)
-     *
-     * @param object $item Menu item
-     * @return array Navigation structure data
-     */
-    public static function get_navigation_data($item) {
-        $walker = new self();
-        
-        $menu_children = $walker->get_menu_children($item);
-        $page_children = $walker->get_page_children($item);
-        
-        return array(
-            'menu_children' => $menu_children,
-            'page_children' => $page_children,
-            'has_menu_children' => !empty($menu_children),
-            'has_page_children' => !empty($page_children),
-            'navigation_type' => !empty($menu_children) && !empty($page_children) ? 'mixed' : 
-                                (!empty($menu_children) ? 'menu' : 
-                                (!empty($page_children) ? 'page' : 'none'))
-        );
-    }
-} 
+}
