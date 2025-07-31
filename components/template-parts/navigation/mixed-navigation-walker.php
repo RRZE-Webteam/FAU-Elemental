@@ -17,12 +17,6 @@ if (!defined('ABSPATH')) {
 class Mixed_Navigation_Walker extends Walker_Nav_Menu {
     
     /**
-     * Current item being processed
-     * @var object
-     */
-    private $current_item;
-    
-    /**
      * All menu items for reference
      * @var array
      */
@@ -33,18 +27,6 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
      * @var array
      */
     private $parent_stack = array();
-    
-    /**
-     * Current depth level
-     * @var int
-     */
-    private $current_depth = 0;
-    
-    /**
-     * Track processed menu items to prevent duplicates
-     * @var array
-     */
-    private $processed_items = array();
     
     /**
      * Constructor - initialize menu items
@@ -86,14 +68,7 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
      * @param int    $depth  Depth of menu item. Used for padding.
      * @param stdClass $args An object of wp_nav_menu() arguments.
      */
-    public function start_lvl(&$output, $depth = 0, $args = null) {
-        $this->current_depth = $depth;
-        
-        // Reset processed items when starting a new top-level menu
-        if ($depth === 0) {
-            $this->processed_items = array();
-        }
-        
+    public function start_lvl(&$output, $depth = 0, $args = null) {        
         $output .= '<ul class="sub-menu" data-depth="' . esc_attr($depth) . '">';
     }
 
@@ -144,13 +119,6 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
         if (empty($this->all_menu_items) && isset($args->menu_items)) {
             $this->all_menu_items = $args->menu_items;
         }
-        
-        $this->current_item = $item;
-        $this->current_depth = $depth;
-        
-        // Track this item as processed to prevent duplicates
-        $item_key = $this->get_item_key($item);
-        $this->processed_items[] = $item_key;
         
         // Track parent items for mixed navigation - maintain proper hierarchy
         // Reset parent stack for deeper levels to avoid confusion
@@ -385,23 +353,6 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
     }
     
     /**
-     * Get a unique key for a menu item or page
-     *
-     * @param object $item Menu item or page object
-     * @return string Unique key
-     */
-    private function get_item_key($item) {
-        if (isset($item->ID) && isset($item->type)) {
-            // For menu items
-            return $item->type . '-' . $item->ID;
-        } else if (isset($item->ID)) {
-            // For page objects
-            return 'page-' . $item->ID;
-        }
-        return 'unknown-' . uniqid();
-    }
-    
-    /**
      * Filter out page children that are already handled as menu children
      *
      * @param array $page_children Array of page objects
@@ -463,9 +414,6 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
         }
         
         foreach ($page_children as $page) {
-            // Track this page as processed to prevent duplicates
-            $page_key = $this->get_item_key($page);
-            $this->processed_items[] = $page_key;
             // Get child pages for this page - filter out hidden ones
             $args = array(
                 'post_type' => 'page',
