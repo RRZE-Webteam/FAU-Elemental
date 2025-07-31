@@ -147,3 +147,19 @@ function faue_enqueue_menu_modal_script() {
     }
 }
 add_action('wp_enqueue_scripts', 'faue_enqueue_menu_modal_script'); 
+
+// Register Archive Page Script
+function faue_register_archive_page_script() {
+    $script_asset_path = get_theme_file_path('build/js/menu-modal.asset.php');
+    if (file_exists($script_asset_path)) {
+        $script_asset = include $script_asset_path;
+        
+        wp_register_script(
+            'faue-template-archive',
+            get_theme_file_uri('build/js/templates-archive.js'),
+            $script_asset['dependencies'],
+            $script_asset['version'],
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'faue_register_archive_page_script'); 
