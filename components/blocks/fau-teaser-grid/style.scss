@@ -19,6 +19,10 @@
 		&.layout-2s-right {
 			grid-template-columns: repeat(3, 1fr);
 
+			.teaser-item-link {
+				text-decoration: none;
+			}
+
 			.teaser-item {
 				display: flex;
 				flex-direction: column;
