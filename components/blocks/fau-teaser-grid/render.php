@@ -301,10 +301,7 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
             }
 
             // Last 3 pages
-            var_dump($current_page);
-            var_dump($total_pages);
             for ($i = $total_pages - 2; $i <= $total_pages; $i++) {
-                var_dump($i);
                 if ($i === $current_page) {
                     $output .= sprintf(
                         '<span class="page-number current" aria-current="page">%d</span>',
