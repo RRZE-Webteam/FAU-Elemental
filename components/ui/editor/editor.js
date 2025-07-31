@@ -143,6 +143,15 @@ function getPatternClassFromBlock( block ) {
 	// Check for big-buttons pattern classes
 	const bigButtonsPatterns = [ 'big-buttons', 'big-buttons-faculties' ];
 
+	// Check for other pattern classes
+	const otherPatterns = [
+		'featured-event-teaser',
+		'big-teaser',
+		'logo-grid',
+		'mini-list-file',
+		'facts-grid-with-header',
+	];
+
 	// Check hero patterns first
 	const foundHeroPattern = heroPatterns.find( ( pattern ) =>
 		className.includes( pattern )
@@ -157,6 +166,16 @@ function getPatternClassFromBlock( block ) {
 	);
 	if ( foundBigButtonsPattern ) {
 		return foundBigButtonsPattern;
+	}
+
+	// Check other patterns (both with and without pattern- prefix)
+	const foundOtherPattern = otherPatterns.find(
+		( pattern ) =>
+			className.includes( pattern ) ||
+			className.includes( `pattern-${ pattern }` )
+	);
+	if ( foundOtherPattern ) {
+		return foundOtherPattern;
 	}
 
 	return null;
