@@ -194,7 +194,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
 
     // Add pagination if enabled
     if ($show_pagination && $total_posts > $posts_per_page) {
-        $total_pages = ceil($total_posts / $posts_per_page);
+        $total_pages = (int) ceil($total_posts / $posts_per_page);
         
         if ($pagination_type === 'load-more') {
             $output .= fau_elemental_generate_load_more($current_page, $total_pages, $grid_id);
@@ -301,7 +301,10 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
             }
 
             // Last 3 pages
+            var_dump($current_page);
+            var_dump($total_pages);
             for ($i = $total_pages - 2; $i <= $total_pages; $i++) {
+                var_dump($i);
                 if ($i === $current_page) {
                     $output .= sprintf(
                         '<span class="page-number current" aria-current="page">%d</span>',
