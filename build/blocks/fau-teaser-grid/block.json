@@ -45,9 +45,21 @@
 			"type": "array",
 			"default": []
 		},
-		"selectedTaxonomy": {
-			"type": "string",
-			"default": ""
+		"selectedAuthor": {
+			"type": "number",
+			"default": 0
+		},
+		"selectedYear": {
+			"type": "number",
+			"default": 0
+		},
+		"selectedMonth": {
+			"type": "number",
+			"default": 0
+		},
+		"selectedDay": {
+			"type": "number",
+			"default": 0
 		},
 		"currentPage": {
 			"type": "number",

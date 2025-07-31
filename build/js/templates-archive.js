@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",(function(){document.getElementById("archive-sort").addEventListener("change",(function(){const[e,t]=this.value.split("-");this.form.elements.order.value=t,this.form.elements.orderby.value=e,this.form.submit()}))}));
