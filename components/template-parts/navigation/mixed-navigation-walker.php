@@ -68,7 +68,7 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
      * @param int    $depth  Depth of menu item. Used for padding.
      * @param stdClass $args An object of wp_nav_menu() arguments.
      */
-    public function start_lvl(&$output, $depth = 0, $args = null) {        
+    public function start_lvl(&$output, $depth = 0, $args = null) {
         $output .= '<ul class="sub-menu" data-depth="' . esc_attr($depth) . '">';
     }
 
