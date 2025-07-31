@@ -33,6 +33,10 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     $posts_per_page = $attributes['postsPerPage'] ?? 6;
     $selected_category = $attributes['selectedCategory'] ?? 0;
     $selected_tags = $attributes['selectedTags'] ?? [];
+    $selected_author = $attributes['selectedAuthor'] ?? 0;
+    $selected_year = $attributes['selectedYear'] ?? 0;
+    $selected_month = $attributes['selectedMonth'] ?? 0;
+    $selected_day = $attributes['selectedDay'] ?? 0;
     $order_by = $attributes['orderBy'] ?? 'date';
     $order = $attributes['order'] ?? 'DESC';
     $heading_level = $attributes['headingLevel'] ?? 'h4';
@@ -73,6 +77,10 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
         'data-variant' => $variant,
         'data-category' => $selected_category,
         'data-tags' => !empty($selected_tags) ? implode(',', $selected_tags) : '',
+        'data-author' => $selected_author,
+        'data-year' => $selected_year,
+        'data-month' => $selected_month,
+        'data-day' => $selected_day,
         'data-posts-per-page' => $posts_per_page,
         'data-display-style' => $display_style,
         'data-teaser-layout' => $teaser_layout,
@@ -140,6 +148,22 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
 
         if (!empty($selected_tags)) {
             $query_args['tag__in'] = $selected_tags;
+        }
+
+        if ($selected_author > 0) {
+            $query_args['author'] = $selected_author;
+        }
+
+        if ($selected_year > 0) {
+            $query_args['year'] = $selected_year;
+        }
+
+        if ($selected_month > 0) {
+            $query_args['monthnum'] = $selected_month;
+        }
+
+        if ($selected_day > 0) {
+            $query_args['day'] = $selected_day;
         }
 
         $query = new WP_Query($query_args);
