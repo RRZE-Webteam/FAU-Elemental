@@ -22,11 +22,8 @@ $attributes = wp_parse_args($attributes, [
 // Sanitize attributes
 $logos = $attributes['logos'];
 
-// Add wrapper classes
-$base_classes = 'fau-logo-grid';
-
 $wrapper_attributes = get_block_wrapper_attributes([
-    'class' => $base_classes
+    'class' => 'fau-logo-grid'
 ]);
 
 // Build the output HTML
@@ -69,7 +66,7 @@ if ( ! empty( $logos ) && is_array( $logos ) ) {
         // Get alt text from logo data or media attachment
         $alt_text = '';
         if ( ! empty( $logo['alt'] ) ) {
-            $alt_text = esc_attr( $logo['alt'] );
+            $alt_text = $logo['alt'];
         } elseif ( ! empty( $logo['imageId'] ) ) {
             // Get alt text from media attachment
             $attachment = get_post( $logo['imageId'] );
@@ -86,17 +83,7 @@ if ( ! empty( $logos ) && is_array( $logos ) ) {
             $alt_text = __( 'Logo', 'fau-elemental' );
         }
         
-        // Determine if this logo should be marked as selected
-        // You can modify this logic based on your needs:
-        // - Mark first logo as selected: $index === 0
-        // - Mark logos with specific category: $logo['category'] === 'featured'
-        // - Mark logos with specific link: strpos($logo['link'], 'current') !== false
-        $is_selected = $index === 0; // Example: mark first logo as selected
-        
         $item_class = 'fau-logo-grid__item';
-        if ( $is_selected ) {
-            $item_class .= ' fau-logo-grid__item--selected';
-        }
         
         $output .= '<div class="' . $item_class . '">';
         
@@ -116,22 +103,22 @@ if ( ! empty( $logos ) && is_array( $logos ) ) {
             }
             
             $output .= '<a ' . $link_attributes . '>';
-            $output .= '<img src="' . $image_url . '" alt="' . $alt_text . '" class="fau-logo-grid__image" loading="lazy"' . 
+            $output .= '<img src="' . $image_url . '" alt="' . esc_attr( $alt_text ) . '" class="fau-logo-grid__image" loading="lazy"' . 
                       ( $image_width ? ' width="' . esc_attr( $image_width ) . '"' : '' ) .
                       ( $image_height ? ' height="' . esc_attr( $image_height ) . '"' : '' ) . ' />';
             $output .= '</a>';
         } else {
-            $output .= '<img src="' . $image_url . '" alt="' . $alt_text . '" class="fau-logo-grid__image" loading="lazy"' . 
+            $output .= '<img src="' . $image_url . '" alt="' . esc_attr( $alt_text ) . '" class="fau-logo-grid__image" loading="lazy"' . 
                       ( $image_width ? ' width="' . esc_attr( $image_width ) . '"' : '' ) .
                       ( $image_height ? ' height="' . esc_attr( $image_height ) . '"' : '' ) . ' />';
         }
         
-        $output .= '</div>';
+        $output .= '</div>'; // Close fau-logo-grid__item
     }
 }
 
-$output .= '</div>';
-$output .= '</div>';
+$output .= '</div>'; // Close fau-logo-grid__container
+$output .= '</div>'; // Close wrapper
 
 // Echo the output
 echo $output; 
