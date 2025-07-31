@@ -175,11 +175,15 @@ module.exports = {
 			process.cwd(),
 			'components/template-parts/navigation/menu-modal.js'
 		),
-
 		// Template Part Scripts
 		'js/template-parts-post-meta': path.resolve(
 			process.cwd(),
 			'components/template-parts/post-meta/post-meta.js'
+		),
+		// Template Scripts
+		'js/templates-archive': path.resolve(
+			process.cwd(),
+			'components/templates/pages/archive.js'
 		),
 	},
 

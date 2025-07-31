@@ -4,6 +4,7 @@
  * @package Fau-Elemental
  */
 
+wp_enqueue_script("faue-template-archive");
 get_header(); ?>
 
 <main class="wp-block-group category-archive">
@@ -113,18 +114,6 @@ get_header(); ?>
             </div>
         </div>
     </div>
-
-    <script>
-        // TODO This MUST be put in a JS file, DO NOT MERGE WITH dev until this is fixed!
-        document.addEventListener( 'DOMContentLoaded', function () {
-            document.getElementById("category-sort").addEventListener("change", function() {
-                const [orderby, order] = this.value.split('-');
-                this.form.elements["order"].value = order;
-                this.form.elements["orderby"].value = orderby;
-                this.form.submit();
-            });
-        });
-    </script>
 
     <section class="content-grid" aria-label="<?php esc_attr_e('Category posts listing', 'fau-elemental'); ?>">
         <?php
