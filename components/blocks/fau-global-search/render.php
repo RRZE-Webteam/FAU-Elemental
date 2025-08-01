@@ -25,7 +25,7 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 
 <div <?php echo $wrapper_attributes; ?>>
 	<?php if (!empty($heading)): ?>
-		<h3 class="fau-global-search__heading"><?php echo $heading; ?></h3>
+		<h3 class="fau-global-search__heading">Finde dein passendes Studienangebot:</h3>
 	<?php endif; ?>
 	<form 
 		class="fau-global-search fau-global-search__form" 
