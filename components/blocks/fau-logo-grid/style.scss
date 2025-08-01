@@ -22,10 +22,14 @@
 		transition: var(--basic-animation);
 		aspect-ratio: 16/9;
 		border: none;
-		overflow: hidden; // For hover zoom effect
 
-		&:hover {
-			transform: scale(1.03);
+		// Only apply hover effect when there's a link
+		&--has-link {
+			overflow: hidden; // For hover zoom effect
+
+			&:hover {
+				transform: scale(1.03);
+			}
 		}
 	}
 

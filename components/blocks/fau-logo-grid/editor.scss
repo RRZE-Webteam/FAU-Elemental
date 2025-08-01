@@ -22,7 +22,8 @@
 				transform: translateY(-0.0625rem);
 
 				&::before {
-					content: "✓";
+					content: "\f147"; // dashicons-yes
+					font-family: dashicons, sans-serif;
 					position: absolute;
 					top: var(--Spacing-2x);
 					right: var(--Spacing-2x);
@@ -37,6 +38,10 @@
 					font-weight: 700;
 					z-index: 5;
 				}
+			}
+
+			.components-button {
+				padding: 0 var(--Spacing-3x);
 			}
 		}
 
@@ -60,7 +65,8 @@
 
 				// Show replace indicator with icon
 				&::after {
-					content: "↻";
+					content: "\f464"; // dashicons-edit
+					font-family: dashicons, sans-serif;
 					position: absolute;
 					top: 50%;
 					left: 50%;

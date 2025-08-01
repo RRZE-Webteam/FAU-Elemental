@@ -83,7 +83,16 @@ if ( ! empty( $logos ) && is_array( $logos ) ) {
             $alt_text = __( 'Logo', 'fau-elemental' );
         }
         
+        // Generate img tag once
+        $img_tag = '<img src="' . $image_url . '" alt="' . esc_attr( $alt_text ) . '" class="fau-logo-grid__image" loading="lazy"' . 
+                  ( $image_width ? ' width="' . esc_attr( $image_width ) . '"' : '' ) .
+                  ( $image_height ? ' height="' . esc_attr( $image_height ) . '"' : '' ) . ' />';
+                
+        // Add modifier class if there's a link
         $item_class = 'fau-logo-grid__item';
+        if ( $link_url ) {
+            $item_class .= ' fau-logo-grid__item--has-link';
+        }
         
         $output .= '<div class="' . $item_class . '">';
         
@@ -103,14 +112,10 @@ if ( ! empty( $logos ) && is_array( $logos ) ) {
             }
             
             $output .= '<a ' . $link_attributes . '>';
-            $output .= '<img src="' . $image_url . '" alt="' . esc_attr( $alt_text ) . '" class="fau-logo-grid__image" loading="lazy"' . 
-                      ( $image_width ? ' width="' . esc_attr( $image_width ) . '"' : '' ) .
-                      ( $image_height ? ' height="' . esc_attr( $image_height ) . '"' : '' ) . ' />';
+            $output .= $img_tag;
             $output .= '</a>';
         } else {
-            $output .= '<img src="' . $image_url . '" alt="' . esc_attr( $alt_text ) . '" class="fau-logo-grid__image" loading="lazy"' . 
-                      ( $image_width ? ' width="' . esc_attr( $image_width ) . '"' : '' ) .
-                      ( $image_height ? ' height="' . esc_attr( $image_height ) . '"' : '' ) . ' />';
+            $output .= $img_tag;
         }
         
         $output .= '</div>'; // Close fau-logo-grid__item
