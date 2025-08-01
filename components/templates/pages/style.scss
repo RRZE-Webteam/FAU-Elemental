@@ -96,7 +96,7 @@
 					display: inline-block;
 
 					select {
-						padding: var(--Spacing-1x) var(--Spacing-8x) var(--Spacing-1x) var(--Spacing-3x);
+						padding: var(--Spacing-1x) 0 var(--Spacing-1x) var(--Spacing-2x);
 						border: none;
 						border-radius: var(--Spacing-1x);
 						background-color: var(--FAU-Col-FAU-Weiss-100);
@@ -104,7 +104,6 @@
 						font-family: var(--font-family-base);
 						font-size: 1rem;
 						font-weight: 700;
-						letter-spacing: var(--letter-spacing-small);
 						color: var(--FAU-Col-FAU-Blau-100);
 						cursor: pointer;
 
