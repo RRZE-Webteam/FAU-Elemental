@@ -194,7 +194,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
 
     // Add pagination if enabled
     if ($show_pagination && $total_posts > $posts_per_page) {
-        $total_pages = ceil($total_posts / $posts_per_page);
+        $total_pages = (int) ceil($total_posts / $posts_per_page);
         
         if ($pagination_type === 'load-more') {
             $output .= fau_elemental_generate_load_more($current_page, $total_pages, $grid_id);
