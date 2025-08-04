@@ -37,7 +37,11 @@ function fau_load_more_posts_handler() {
     $variant = sanitize_text_field($_POST['variant'] ?? 'post');
     $posts_per_page = absint($_POST['posts_per_page'] ?? 3);
     $page = absint($_POST['page'] ?? 1);
-    $category = absint($_POST['category'] ?? 0);
+    $selected_category = absint($_POST['selected_category'] ?? 0);
+    $selected_author = absint($_POST['selected_author'] ?? 0);
+    $selected_year = absint($_POST['selected_year'] ?? 0);
+    $selected_month = absint($_POST['selected_month'] ?? 0);
+    $selected_day = absint($_POST['selected_day'] ?? 0);
     $order_by = sanitize_text_field($_POST['order_by'] ?? 'date');
     $order = sanitize_text_field($_POST['order'] ?? 'DESC');
     $display_style = sanitize_text_field($_POST['display_style'] ?? 'teaser-grid');
@@ -51,7 +55,7 @@ function fau_load_more_posts_handler() {
     }
 
     // Build query args
-    $args = [
+    $query_args = [
         'post_type' => $variant,
         'posts_per_page' => $posts_per_page,
         'paged' => $page,
@@ -60,12 +64,28 @@ function fau_load_more_posts_handler() {
         'post_status' => 'publish'
     ];
 
-    if ($category > 0) {
-        $args['cat'] = $category;
+    if ($selected_category > 0) {
+        $query_args['cat'] = $selected_category;
+    }
+
+    if ($selected_author > 0) {
+        $query_args['author'] = $selected_author;
+    }
+
+    if ($selected_year > 0) {
+        $query_args['year'] = $selected_year;
+    }
+
+    if ($selected_month > 0) {
+        $query_args['monthnum'] = $selected_month;
+    }
+
+    if ($selected_day > 0) {
+        $query_args['day'] = $selected_day;
     }
 
     // Perform query
-    $query = new WP_Query($args);
+    $query = new WP_Query($query_args);
     
     $grid_classes = ['fau-teaser-grid', $display_style];
     if ($display_style === 'teaser-grid') {

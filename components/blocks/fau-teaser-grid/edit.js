@@ -321,6 +321,8 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 				/>
 
 				<SelectionMode
+					variant={ variant }
+					postTypeOptions={ postTypeOptions }
 					selectionMode={ selectionMode }
 					setAttributes={ setAttributes }
 					selectedPosts={ selectedPosts }
@@ -339,7 +341,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 						orderBy={ orderBy }
 						order={ order }
 						setAttributes={ setAttributes }
-						postTypeOptions={ postTypeOptions }
 						categoryOptions={ categoryOptions }
 						categories={ categories }
 					/>
