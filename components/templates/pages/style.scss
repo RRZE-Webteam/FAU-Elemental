@@ -120,22 +120,6 @@
 							box-shadow: none;
 						}
 					}
-
-					&::after {
-						content: "";
-						position: absolute;
-						top: 50%;
-						right: var(--Spacing-2x);
-						width: 16px;
-						height: 16px;
-						background-image: var(--icon-arrow-down-a-z);
-						background-size: contain;
-						background-repeat: no-repeat;
-						background-position: center;
-						transform: translateY(-50%);
-						pointer-events: none;
-						z-index: 1;
-					}
 				}
 			}
 		}
