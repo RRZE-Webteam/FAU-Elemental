@@ -7,6 +7,7 @@
 	&.is-style-dark {
 		background-color: var(--FAU-Col-FAU-Blau-100);
 		color: var(--FAU-Col-FAU-Weiss-100);
+		padding: var(--Spacing-8x) 0;
 	}
 
 	> * {
@@ -14,9 +15,5 @@
 		margin-block-end: 0;
 		margin-left: auto;
 		margin-right: auto;
-	}
-
-	> *:last-child {
-		margin-block-end: var(--Spacing-6x);
 	}
 }
