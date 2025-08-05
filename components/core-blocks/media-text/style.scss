@@ -40,21 +40,6 @@
 }
 
 @media screen and (max-width: 600px) {
-	// Change order of media and text
-	.wp-block-media-text.has-media-on-the-right.is-stacked-on-mobile {
-
-		> .wp-block-media-text__content {
-			grid-row: 1;
-
-			> *:last-child {
-				margin-bottom: 0;
-			}
-		}
-
-		> .wp-block-media-text__media {
-			grid-row: 2;
-		}
-	}
 
 	.wp-block-media-text {
 		gap: var(--Spacing-8x);
