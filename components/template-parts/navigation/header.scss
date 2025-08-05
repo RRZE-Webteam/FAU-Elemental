@@ -392,7 +392,6 @@
 }
 
 // Modal menu
-
 body.modal-open {
 	overflow: hidden; // Prevent scrolling when menu is active
 }
@@ -673,28 +672,7 @@ body.modal-open {
 	}
 
 	&__menu--header-primary-menu {
-		margin-bottom: 3.5rem;
-	}
-
-	&__menu--header-menu-links {
-
-		li {
-			border: none;
-
-			// Remove separator lines for header menu links
-			&::before,
-			&::after {
-				display: none;
-			}
-
-			a {
-				font-weight: 600;
-			}
-
-			&:first-child {
-				border: none;
-			}
-		}
+		margin-bottom: var(--Spacing-14x);
 	}
 
 	&__search-heading {
@@ -765,8 +743,46 @@ body.modal-open {
 	}
 }
 
-// Exception for front page
+// Direct Menu Links
+.menu-meta-nav__modal,
+.menu-website-modal {
 
+	&__content {
+
+		.menu-meta-nav__menu--header-menu-links,
+		.menu-website-modal__menu--header-menu-links {
+
+			li {
+				border: none;
+
+				&::before,
+				&::after {
+					display: none;
+				}
+
+				a,
+				.menu-modal__item-title {
+					font-weight: 600;
+
+				}
+
+				&:first-child {
+					border: none;
+				}
+
+				.menu-modal__submenu-arrow {
+					display: none;
+				}
+			}
+		}
+
+		.menu-meta-nav__menu--top-header-nav-services {
+			margin-bottom: var(--Spacing-14x);
+		}
+	}
+}
+
+// Exception for front page
 .home main {
 	padding-top: 2.8125rem; // Compensate for height of Header top
 }
