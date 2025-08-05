@@ -394,6 +394,21 @@
 // Modal menu
 body.modal-open {
 	overflow: hidden; // Prevent scrolling when menu is active
+	padding-right: 15px; // Compensate for missing scroll bar
+
+	@media screen and (min-width: 1816px) {
+
+		.site-header .site-header-top__wrapper {
+			max-width: calc(1800px - 15px); // Compensate for missing scroll bar
+		}
+	}
+
+	@media screen and (max-width: 1815px) and (min-width: 600px) {
+
+		.site-header__top .fau-navigation {
+			margin-right: 15px; // Compensate for missing scroll bar
+		}
+	}
 }
 
 .menu-modal,
@@ -916,11 +931,11 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 @media screen and (max-width: 1919px) {
 
-	.site-header-top__wrapper {
+	.home .site-header-top__wrapper {
 		padding-right: var(--Spacing-6x);
 	}
 
-	.main-navigation__logo {
+	.home .main-navigation__logo {
 		left: 3.75rem;
 	}
 }
