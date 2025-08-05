@@ -1,17 +1,5 @@
 .faue-is-featured-event-teaser-pattern-selected {
 
-	// Hide all block movers by default - target the specific block mover elements
-	.block-editor-block-mover,
-	.block-editor-block-mover__move-button-container,
-	.block-editor-block-mover__drag-handle {
-		display: none;
-	}
-
-	// Hide block lock toolbar to prevent unlocking pattern blocks
-	.block-editor-block-lock-toolbar {
-		display: none;
-	}
-
 	&.faue-is-group-block-selected,
 	&.faue-is-heading-block-selected,
 	&.faue-is-paragraph-block-selected,
