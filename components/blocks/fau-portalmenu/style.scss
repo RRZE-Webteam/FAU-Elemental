@@ -59,7 +59,7 @@
 
 					span {
 						position: relative;
-						display: block;
+						flex-shrink: 0;
 						transform: translateX(var(--Spacing-8x));
 						padding: 0;
 						height: 2.5rem;
