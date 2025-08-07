@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import {
 	useBlockProps,
 	InspectorControls,
@@ -10,12 +10,13 @@ import {
 	Spinner,
 	DropdownMenu,
 	ToggleControl,
+	SelectControl,
 } from '@wordpress/components';
 import { useState, useEffect, useRef, useMemo } from '@wordpress/element';
 
 import PostTeaser from './components/PostTeaser';
 import PageTeaser from './components/PageTeaser';
-import { createPagination, updateGridClasses } from './utils/helpers';
+import { updateGridClasses } from './utils/helpers';
 import { DisplaySettings } from './components/editor/DisplaySettings';
 import { SelectionMode } from './components/editor/SelectionMode';
 import { ContentSettings } from './components/editor/ContentSettings';
@@ -48,7 +49,134 @@ const wrapTeaserItems = ( items, layout ) => {
 	return wrappedItems;
 };
 
-export default function Edit( { attributes, setAttributes } ) {
+// Generate pagination preview similar to render.php logic
+const generatePaginationPreview = (
+	currentPage,
+	totalPages,
+	paginationType
+) => {
+	if ( totalPages <= 1 ) {
+		return null;
+	}
+
+	const pages = [];
+
+	// Previous button
+	if ( currentPage > 1 ) {
+		pages.push(
+			<span key="prev" className="page-number prev">
+				<span className="pagination-icon pagination-icon-prev"></span>
+			</span>
+		);
+	} else {
+		pages.push(
+			<span key="prev" className="page-number prev disabled">
+				<span className="pagination-icon pagination-icon-prev"></span>
+			</span>
+		);
+	}
+
+	if ( paginationType === 'numbers' ) {
+		if ( totalPages <= 7 ) {
+			// Show all pages if 7 or fewer
+			for ( let i = 1; i <= totalPages; i++ ) {
+				if ( i === currentPage ) {
+					pages.push(
+						<span
+							key={ i }
+							className="page-number current"
+							aria-current="page"
+						>
+							{ i }
+						</span>
+					);
+				} else {
+					pages.push(
+						<span key={ i } className="page-number">
+							{ i }
+						</span>
+					);
+				}
+			}
+		} else {
+			// Show first 3 ... last 3 pattern
+
+			// First 3 pages
+			for ( let i = 1; i <= 3; i++ ) {
+				if ( i === currentPage ) {
+					pages.push(
+						<span
+							key={ i }
+							className="page-number current"
+							aria-current="page"
+						>
+							{ i }
+						</span>
+					);
+				} else {
+					pages.push(
+						<span key={ i } className="page-number">
+							{ i }
+						</span>
+					);
+				}
+			}
+
+			// Ellipsis
+			if ( totalPages > 6 ) {
+				pages.push(
+					<span
+						key="ellipsis"
+						className="page-ellipsis"
+						aria-hidden="true"
+					>
+						...
+					</span>
+				);
+			}
+
+			// Last 3 pages
+			for ( let i = totalPages - 2; i <= totalPages; i++ ) {
+				if ( i === currentPage ) {
+					pages.push(
+						<span
+							key={ i }
+							className="page-number current"
+							aria-current="page"
+						>
+							{ i }
+						</span>
+					);
+				} else {
+					pages.push(
+						<span key={ i } className="page-number">
+							{ i }
+						</span>
+					);
+				}
+			}
+		}
+	}
+
+	// Next button
+	if ( currentPage < totalPages ) {
+		pages.push(
+			<span key="next" className="page-number next">
+				<span className="pagination-icon pagination-icon-next"></span>
+			</span>
+		);
+	} else {
+		pages.push(
+			<span key="next" className="page-number next disabled">
+				<span className="pagination-icon pagination-icon-next"></span>
+			</span>
+		);
+	}
+
+	return pages;
+};
+
+export default function Edit( { attributes, setAttributes, clientId } ) {
 	const {
 		displayStyle,
 		variant,
@@ -56,14 +184,27 @@ export default function Edit( { attributes, setAttributes } ) {
 		postsPerPage,
 		selectedCategory,
 		currentPage,
-		totalPosts,
 		orderBy,
 		order,
 		selectedPosts,
 		selectionMode,
 		headingLevel,
-		showLoadMore,
+		showPagination,
+		paginationType,
+		customBlockId,
 	} = attributes;
+
+	// Generate and set customBlockId if it doesn't exist
+	useEffect( () => {
+		if ( ! customBlockId ) {
+			// Use clientId to create a unique block ID
+			const newBlockId = `fau-teaser-grid-${ clientId.substring(
+				0,
+				8
+			) }`;
+			setAttributes( { customBlockId: newBlockId } );
+		}
+	}, [ customBlockId, clientId, setAttributes ] );
 
 	const gridRef = useRef( null );
 	const [ searchTerm, setSearchTerm ] = useState( '' );
@@ -119,11 +260,12 @@ export default function Edit( { attributes, setAttributes } ) {
 		[ categories ]
 	);
 
-	// Calculate total pages
+	// Calculate total pages for pagination preview
 	const calculatedTotalPosts =
-		totalPosts > 0 ? Math.min( totalPosts, totalItems ) : totalItems;
-	const calculatedTotalPages = Math.ceil(
-		calculatedTotalPosts / postsPerPage
+		selectionMode === 'manual' ? selectedPosts.length : totalItems; // Use actual total items for pagination calculation
+	const calculatedTotalPages = Math.max(
+		1,
+		Math.ceil( calculatedTotalPosts / postsPerPage )
 	);
 
 	// Post selection handlers
@@ -179,6 +321,8 @@ export default function Edit( { attributes, setAttributes } ) {
 				/>
 
 				<SelectionMode
+					variant={ variant }
+					postTypeOptions={ postTypeOptions }
 					selectionMode={ selectionMode }
 					setAttributes={ setAttributes }
 					selectedPosts={ selectedPosts }
@@ -197,32 +341,49 @@ export default function Edit( { attributes, setAttributes } ) {
 						orderBy={ orderBy }
 						order={ order }
 						setAttributes={ setAttributes }
-						postTypeOptions={ postTypeOptions }
 						categoryOptions={ categoryOptions }
 						categories={ categories }
 					/>
 				) }
 
-				{ selectionMode === 'auto' && (
-					<PanelBody
-						title={ __( 'Load More Settings', 'fau-elemental' ) }
-					>
-						<ToggleControl
-							label={ __(
-								'Show Load More Button',
-								'fau-elemental'
-							) }
-							checked={ showLoadMore }
+				<PanelBody
+					title={ __( 'Pagination Settings', 'fau-elemental' ) }
+					initialOpen={ false }
+				>
+					<ToggleControl
+						label={ __( 'Show Pagination', 'fau-elemental' ) }
+						checked={ showPagination }
+						onChange={ ( value ) =>
+							setAttributes( { showPagination: value } )
+						}
+					/>
+
+					{ showPagination && (
+						<SelectControl
+							label={ __( 'Pagination Type', 'fau-elemental' ) }
+							value={ paginationType }
+							options={ [
+								{
+									label: __(
+										'Page Numbers',
+										'fau-elemental'
+									),
+									value: 'numbers',
+								},
+								{
+									label: __(
+										'Load More Button',
+										'fau-elemental'
+									),
+									value: 'load-more',
+								},
+							] }
 							onChange={ ( value ) =>
-								setAttributes( { showLoadMore: value } )
+								setAttributes( { paginationType: value } )
 							}
-							help={ __(
-								'Display a "Load More" button to load additional posts dynamically.',
-								'fau-elemental'
-							) }
 						/>
-					</PanelBody>
-				) }
+					) }
+				</PanelBody>
 
 				<PanelBody title={ __( 'Accessibility', 'fau-elemental' ) }>
 					<p>
@@ -273,111 +434,157 @@ export default function Edit( { attributes, setAttributes } ) {
 				/>
 			</BlockControls>
 
-			<div
-				ref={ gridRef }
-				className={ `fau-teaser-grid ${ displayStyle } ${
-					displayStyle === 'teaser-grid'
-						? `layout-${ teaserLayout }`
-						: displayStyle === 'mini-list'
-						? 'style-mini-list'
-						: ''
-				}` }
-				role="list"
-				aria-label={ __( 'Content grid', 'fau-elemental' ) }
-			>
-				{ ! isLoading ? (
-					selectionMode === 'manual' ? (
-						selectedPosts.length > 0 ? (
+			<div className="fau-teaser-grid-preview">
+				<div className="teaser-grid-header">
+					<h3 className="grid-title">
+						{ __( 'FAU Teaser Grid', 'fau-elemental' ) }
+					</h3>
+					<div className="grid-info">
+						<span className="item-count">
+							{ sprintf(
+								/* translators: %1$d: number of visible items, %2$d: total number of items */
+								__(
+									'Showing %1$d of %2$d items',
+									'fau-elemental'
+								),
+								selectionMode === 'manual'
+									? selectedPosts.length
+									: items.length,
+								totalItems
+							) }
+						</span>
+					</div>
+				</div>
+
+				<div
+					ref={ gridRef }
+					className={ `fau-teaser-grid ${ displayStyle } ${
+						displayStyle === 'teaser-grid'
+							? `layout-${ teaserLayout }`
+							: displayStyle === 'mini-list'
+							? 'style-mini-list'
+							: ''
+					}` }
+					role="list"
+					aria-label={ __( 'Content grid', 'fau-elemental' ) }
+				>
+					{ ! isLoading ? (
+						selectionMode === 'manual' ? (
+							selectedPosts.length > 0 ? (
+								wrapTeaserItems(
+									selectedPosts.map( ( selectedPost ) => {
+										const fullPost = items.find(
+											( item ) =>
+												item.id === selectedPost.id
+										);
+
+										const postData = fullPost || {
+											id: selectedPost.id,
+											title: {
+												rendered: selectedPost.title,
+											},
+											excerpt: {
+												rendered: '',
+											},
+											_embedded: {
+												'wp:featuredmedia': [],
+												'wp:term': [],
+											},
+										};
+
+										return variant === 'post' ? (
+											<PostTeaser
+												key={ postData.id }
+												post={ postData }
+												headingLevel={ headingLevel }
+											/>
+										) : (
+											<PageTeaser
+												key={ postData.id }
+												page={ postData }
+												headingLevel={ headingLevel }
+											/>
+										);
+									} ),
+									teaserLayout
+								)
+							) : (
+								<p role="status">
+									{ __(
+										'No posts selected',
+										'fau-elemental'
+									) }
+								</p>
+							)
+						) : items && items.length > 0 ? (
 							wrapTeaserItems(
-								selectedPosts.map( ( selectedPost ) => {
-									const fullPost = items.find(
-										( item ) => item.id === selectedPost.id
-									);
-
-									const postData = fullPost || {
-										id: selectedPost.id,
-										title: {
-											rendered: selectedPost.title,
-										},
-										excerpt: {
-											rendered: '',
-										},
-										_embedded: {
-											'wp:featuredmedia': [],
-											'wp:term': [],
-										},
-									};
-
-									return variant === 'post' ? (
+								items.map( ( item ) =>
+									variant === 'post' ? (
 										<PostTeaser
-											key={ postData.id }
-											post={ postData }
+											key={ item.id }
+											post={ item }
 											headingLevel={ headingLevel }
 										/>
 									) : (
 										<PageTeaser
-											key={ postData.id }
-											page={ postData }
+											key={ item.id }
+											page={ item }
 											headingLevel={ headingLevel }
 										/>
-									);
-								} ),
+									)
+								),
 								teaserLayout
 							)
 						) : (
 							<p role="status">
-								{ __( 'No posts selected', 'fau-elemental' ) }
+								{ __( 'No items found', 'fau-elemental' ) }
 							</p>
 						)
-					) : items && items.length > 0 ? (
-						wrapTeaserItems(
-							items.map( ( item ) =>
-								variant === 'post' ? (
-									<PostTeaser
-										key={ item.id }
-										post={ item }
-										headingLevel={ headingLevel }
-									/>
-								) : (
-									<PageTeaser
-										key={ item.id }
-										page={ item }
-										headingLevel={ headingLevel }
-									/>
-								)
-							),
-							teaserLayout
-						)
 					) : (
-						<p role="status">
-							{ __( 'No items found', 'fau-elemental' ) }
-						</p>
-					)
-				) : (
-					<Placeholder>
-						<Spinner />
-						<p role="status">
-							{ __( 'Loading…', 'fau-elemental' ) }
-						</p>
-					</Placeholder>
-				) }
-			</div>
+						<Placeholder>
+							<Spinner />
+							<p role="status">
+								{ __( 'Loading…', 'fau-elemental' ) }
+							</p>
+						</Placeholder>
+					) }
 
-			{ calculatedTotalPages > 1 &&
-				selectionMode === 'auto' &&
-				! showLoadMore && (
-					<nav
-						role="navigation"
-						aria-label={ __( 'Pagination', 'fau-elemental' ) }
-					>
-						{ createPagination(
-							currentPage,
-							calculatedTotalPages,
-							( newPage ) =>
-								setAttributes( { currentPage: newPage } )
+					{ calculatedTotalPages > 1 &&
+						paginationType === 'numbers' &&
+						showPagination && (
+							<div className="pagination-preview">
+								<nav
+									className="fau-pagination"
+									role="navigation"
+									aria-label={ __(
+										'Posts pagination',
+										'fau-elemental'
+									) }
+								>
+									<div className="pagination-wrapper">
+										{ generatePaginationPreview(
+											currentPage,
+											calculatedTotalPages,
+											paginationType
+										) }
+									</div>
+								</nav>
+							</div>
 						) }
-					</nav>
-				) }
+
+					{ calculatedTotalPages > 1 &&
+						paginationType === 'load-more' &&
+						showPagination && (
+							<div className="load-more-preview">
+								<div className="wp-block-button is-style-secondary">
+									<button className="wp-block-button__link load-more-button">
+										{ __( 'Load More', 'fau-elemental' ) }
+									</button>
+								</div>
+							</div>
+						) }
+				</div>
+			</div>
 		</div>
 	);
 }

@@ -4,7 +4,8 @@ import { useMemo } from '@wordpress/element';
 
 // Get the theme URL from WordPress data
 const FALLBACK_IMAGE =
-	'/wp-content/themes/fau-elemental/assets/images/logo.svg';
+	( ( window.fauElemental && window.fauElemental.themeUrl ) ??
+		'/wp-content/themes/fau-elemental' ) + '/assets/images/logo.svg';
 
 // Create a stable selector for the REST API base URL
 const getRestBaseUrl = createSelector( () => window.location.origin );

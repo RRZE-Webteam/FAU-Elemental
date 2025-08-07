@@ -1,11 +1,7 @@
-// ============================================================================
-// GLOBAL WORDPRESS STYLES
-// ============================================================================
-// Global styles that apply across the entire theme but don't belong to
-// specific components
+@use "../../ui/mixins/mixins" as *;
 
 // Global content container styles
-.site-content {
+main {
 	min-height: 100vh;
 }
 
@@ -14,7 +10,17 @@
 	visibility: hidden;
 }
 
-:root :where(.is-layout-flow) > * {
+:where(.is-layout-flow) > * {
 	margin-left: auto;
 	margin-right: auto;
+}
+
+:where(.is-layout-flow:not([class*="fau"])) > *:not(.wp-block-group, [class*="fau"]),
+:where(.wp-block-group:not([class*="fau"])) > *:not(.wp-block-group, [class*="fau"]) {
+	max-width: var(--small-max-width);
+	padding: 0 var(--Spacing-10x);
+
+	@include respond-to("x-small") {
+		padding: 0 var(--Spacing-5x);
+	}
 }

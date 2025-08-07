@@ -25,19 +25,41 @@
 		},
 		"postsPerPage": {
 			"type": "number",
-			"default": 3
+			"default": 6
 		},
-		"showLoadMore": {
+
+		"showPagination": {
 			"type": "boolean",
 			"default": false
+		},
+		"paginationType": {
+			"type": "string",
+			"default": "numbers",
+			"enum": [ "numbers", "load-more" ]
 		},
 		"selectedCategory": {
 			"type": "number",
 			"default": 0
 		},
-		"selectedTaxonomy": {
-			"type": "string",
-			"default": ""
+		"selectedTags": {
+			"type": "array",
+			"default": []
+		},
+		"selectedAuthor": {
+			"type": "number",
+			"default": 0
+		},
+		"selectedYear": {
+			"type": "number",
+			"default": 0
+		},
+		"selectedMonth": {
+			"type": "number",
+			"default": 0
+		},
+		"selectedDay": {
+			"type": "number",
+			"default": 0
 		},
 		"currentPage": {
 			"type": "number",
@@ -78,6 +100,10 @@
 		"headingLevel": {
 			"type": "string",
 			"default": "h4"
+		},
+		"customBlockId": {
+			"type": "string",
+			"default": ""
 		}
 	},
 	"example": {
@@ -86,7 +112,8 @@
 			"postsPerPage": 6,
 			"displayStyle": "teaser-grid",
 			"teaserLayout": "3m",
-			"showLoadMore": true
+			"showPagination": false,
+			"paginationType": "numbers"
 		}
 	}
 }

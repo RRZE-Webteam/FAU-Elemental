@@ -1,0 +1,87 @@
+@use "../../ui/mixins/mixins" as *;
+
+// Base styles (desktop-first - largest screens)
+.wp-block-fau-logo-grid {
+	max-width: var(--wide-max-width);
+	margin: 0 auto;
+
+	// Individual logo items
+	.fau-logo-grid__item {
+		// Hover effect for selection
+		&:hover {
+			background: #e8e8e8;
+		}
+
+		// Selected state
+		&--selected {
+			background: #e0e0e0;
+			border-color: var(--wp-admin-theme-color);
+			box-shadow: 0 0 0 2px rgba(var(--wp-admin-theme-color), 0.3);
+			transform: translateY(-1px);
+
+			&::before {
+				content: "✓";
+				position: absolute;
+				top: 8px;
+				right: 8px;
+				background: var(--wp-admin-theme-color);
+				color: var(--FAU-Col-FAU-Weiss-100);
+				width: 20px;
+				height: 20px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 12px;
+				font-weight: 700;
+				z-index: 5;
+			}
+		}
+	}
+
+	// Image button for replacement
+	.fau-logo-grid__image-button {
+		width: 100%;
+		height: 100%;
+		padding: 0;
+		border: none;
+		background: transparent;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		cursor: pointer;
+		position: relative;
+		transition: all 0.2s ease;
+
+		// Hover effect for image replacement
+		&:hover {
+			background: rgba(0, 0, 0, 0.05);
+
+			// Show replace indicator with icon
+			&::after {
+				content: "↻";
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background: rgba(0, 0, 0, 0.9);
+				color: var(--FAU-Col-FAU-Weiss-100);
+				padding: 8px 12px;
+				font-size: 16px;
+				font-weight: 500;
+				pointer-events: none;
+				z-index: 15;
+			}
+
+			// Dim the image slightly
+			img {
+				opacity: 0.7;
+			}
+		}
+
+		// Focus state for accessibility
+		&:focus {
+			outline: 2px solid var(--wp-admin-theme-color);
+			outline-offset: 2px;
+		}
+	}
+}

@@ -55,9 +55,9 @@ figure.wp-block-image:has(figcaption)::before {
 				position: relative;
 				font-size: var(--P-Body-Text-Small);
 				background-color: var(--FAU-Col-FAU-Weiss-100);
-				bottom: 47px;
+				bottom: 3rem;
 				left: 50%;
-				padding: var(--Spacing-6x) 75px var(--Spacing-6x) var(--Spacing-8x);
+				padding: var(--Spacing-6x) 4.6875rem var(--Spacing-6x) var(--Spacing-8x);
 				overflow-wrap: break-word;
 				white-space: pre-wrap;
 
@@ -87,8 +87,8 @@ figure.wp-block-image:has(figcaption)::before {
 
 .gallery-nav-button {
 	position: relative;
-	width: 40px;
-	height: 40px;
+	width: 2.5rem;
+	height: 2.5rem;
 	border: none;
 	color: transparent;
 	background-color: var(--FAU-Col-FAU-Blau-100);
@@ -101,7 +101,7 @@ figure.wp-block-image:has(figcaption)::before {
 	&.prev {
 
 		&::after {
-			right: 12px;
+			right: 0.75rem;
 			transform: rotate(180deg);
 		}
 
@@ -110,7 +110,7 @@ figure.wp-block-image:has(figcaption)::before {
 
 			&::after {
 				transition: var(--basic-animation);
-				right: 16px;
+				right: 1rem;
 			}
 		}
 	}
@@ -118,7 +118,7 @@ figure.wp-block-image:has(figcaption)::before {
 	&.next {
 
 		&::after {
-			left: 13px;
+			left: 0.8125rem;
 		}
 
 		&:hover,
@@ -126,7 +126,7 @@ figure.wp-block-image:has(figcaption)::before {
 
 			&::after {
 				transition: var(--basic-animation);
-				left: 17px;
+				left: 1.0625rem;
 			}
 		}
 	}
@@ -136,9 +136,9 @@ figure.wp-block-image:has(figcaption)::before {
 		position: absolute;
 		background-image: var(--icon-arrow-weiss);
 		background-repeat: no-repeat;
-		width: 15px;
-		height: 11px;
-		top: 14px;
+		width: 0.9375rem;
+		height: 0.6875rem;
+		top: 0.875rem;
 		z-index: 1;
 		transition: var(--basic-animation);
 

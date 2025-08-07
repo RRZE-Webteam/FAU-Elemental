@@ -28,7 +28,7 @@ import { validateUrl } from '../../utils/urlValidation';
  * @param {string} more     Trailing text
  * @return {string} Trimmed text
  */
-function trimTextSmart( text, maxChars = 80, more = '...' ) {
+function trimTextSmart( text, maxChars = 80, more = '…' ) {
 	if ( ! text || typeof text !== 'string' ) {
 		return '';
 	}
@@ -51,6 +51,9 @@ function trimTextSmart( text, maxChars = 80, more = '...' ) {
 
 	return result + more;
 }
+
+// Character limits for the big button block (matching frontend behavior)
+const DESCRIPTION_MAX_LENGTH = 80; // Only descriptions are trimmed in frontend
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -324,11 +327,35 @@ export default function Edit( { attributes, setAttributes } ) {
 										)
 									}
 									rows={ 3 }
-									help={ __(
-										'You can also click on the description in the preview to edit it directly.',
-										'fau-elemental'
+									help={ sprintf(
+										/* translators: %d: maximum character count */
+										__(
+											'Maximum %d characters recommended. You can also click on the description in the preview to edit it directly.',
+											'fau-elemental'
+										),
+										DESCRIPTION_MAX_LENGTH
 									) }
 								/>
+								{ item.description && (
+									<p
+										className={ `fau-big-button-character-count ${
+											item.description.length >=
+											DESCRIPTION_MAX_LENGTH
+												? 'fau-big-button-character-count--warning'
+												: ''
+										}` }
+									>
+										{ sprintf(
+											/* translators: %1$d: current character count, %2$d: maximum character count */
+											__(
+												'%1$d / %2$d characters',
+												'fau-elemental'
+											),
+											item.description.length,
+											DESCRIPTION_MAX_LENGTH
+										) }
+									</p>
+								) }
 								<TextControl
 									label={ __( 'URL', 'fau-elemental' ) }
 									value={ item.url || '' }
@@ -533,7 +560,17 @@ export default function Edit( { attributes, setAttributes } ) {
 								<RichText
 									tagName="p"
 									className="rich-text"
-									value={ item.description || '' }
+									value={
+										item.description &&
+										item.description.length >
+											DESCRIPTION_MAX_LENGTH
+											? trimTextSmart(
+													item.description,
+													DESCRIPTION_MAX_LENGTH,
+													'…'
+											  )
+											: item.description || ''
+									}
 									onChange={ ( value ) =>
 										updateItem(
 											index,

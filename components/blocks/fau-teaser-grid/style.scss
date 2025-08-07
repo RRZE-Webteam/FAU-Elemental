@@ -19,6 +19,10 @@
 		&.layout-2s-right {
 			grid-template-columns: repeat(3, 1fr);
 
+			.teaser-item-link {
+				text-decoration: none;
+			}
+
 			.teaser-item {
 				display: flex;
 				flex-direction: column;
@@ -48,8 +52,8 @@
 						position: absolute;
 						left: 0;
 						top: 0;
-						height: 88px;
-						width: 88px;
+						height: 5.5rem;
+						width: 5.5rem;
 						z-index: 1;
 						background: var(--FAU-Col-FAU-Dunkelblau-100);
 						color: var(--FAU-Col-FAU-Weiss-100);
@@ -59,7 +63,7 @@
 
 						time {
 							position: absolute;
-							top: 11px;
+							top: 0.6875rem;
 
 							.date-day {
 								display: block;
@@ -85,7 +89,7 @@
 				.teaser-content-wrapper {
 					position: relative;
 					width: 90%;
-					bottom: 40px;
+					bottom: 2.5rem;
 
 					.teaser-content {
 						display: flex;
@@ -110,6 +114,7 @@
 							h5,
 							h6 {
 								margin: var(--Spacing-3x) 0;
+								padding: 0;
 								font-size: 1.25rem;
 								font-weight: 700;
 								line-height: 1.3;
@@ -137,8 +142,8 @@
 							.wp-block-button__link {
 								position: relative;
 								display: block;
-								width: 40px;
-								height: 40px;
+								width: 2.5rem;
+								height: 2.5rem;
 								padding: 0;
 								background-color: var(--FAU-Col-FAU-Blau-100);
 								border-radius: 0;
@@ -148,10 +153,10 @@
 									background-image: var(--icon-arrow-weiss);
 									background-repeat: no-repeat;
 									position: absolute;
-									top: calc(50% - 6px);
-									left: calc(50% - 8px);
-									width: 16px;
-									height: 12px;
+									top: calc(50% - 0.375rem);
+									left: calc(50% - 0.5rem);
+									width: 1rem;
+									height: 0.75rem;
 									transition: all 0.2s linear;
 								}
 							}
@@ -164,7 +169,7 @@
 				&:focus-visible {
 
 					.teaser-content .button-teaser .wp-block-button__link::before {
-						left: calc(50% - 5px);
+						left: calc(50% - 0.3125rem);
 					}
 
 					.teaser-image-wrapper .teaser-image img {
@@ -210,8 +215,8 @@
 						grid-area: s;
 
 						.teaser-image-wrapper .teaser-meta {
-							height: 113px;
-							width: 113px;
+							height: 7.0625rem;
+							width: 7.0625rem;
 
 							time {
 
@@ -242,20 +247,20 @@
 						align-self: flex-start;
 
 						.teaser-image-wrapper {
-							width: calc(100% + 80px);
+							width: calc(100% + 5rem);
 
 							.teaser-image img {
-								min-height: 250px;
+								min-height: 15.625rem;
 							}
 						}
 
 						.teaser-content-wrapper {
 							width: 100%;
 							bottom: unset;
-							left: -40px;
+							left: -2.5rem;
 
 							.teaser-content {
-								width: calc(100% + 40px);
+								width: calc(100% + 2.5rem);
 								box-sizing: border-box;
 
 								.content-column {
@@ -282,10 +287,10 @@
 						align-self: flex-start;
 
 						.teaser-image-wrapper {
-							width: calc(100% + 80px);
+							width: calc(100% + 5rem);
 
 							.teaser-image img {
-								min-height: 250px;
+								min-height: 15.625rem;
 							}
 
 							.teaser-meta {
@@ -343,8 +348,8 @@
 				flex-direction: row;
 
 				.teaser-image-wrapper .teaser-meta {
-					height: 113px;
-					width: 113px;
+					height: 7.0625rem;
+					width: 7.0625rem;
 
 					time {
 
@@ -362,7 +367,7 @@
 
 				.teaser-content-wrapper {
 					bottom: unset;
-					left: -80px;
+					left: -5rem;
 
 					.teaser-content {
 						padding: var(--Spacing-6x) 0 var(--Spacing-6x) var(--Spacing-6x);
@@ -405,10 +410,10 @@
 
 				.teaser-content-wrapper {
 					bottom: unset;
-					left: -40px;
+					left: -2.5rem;
 
 					.teaser-content {
-						width: calc(100% + 40px);
+						width: calc(100% + 2.5rem);
 						padding-right: 0;
 						box-sizing: border-box;
 					}
@@ -463,10 +468,10 @@
 
 	.visually-hidden {
 		position: absolute;
-		width: 1px;
-		height: 1px;
+		width: 0.0625rem;
+		height: 0.0625rem;
 		padding: 0;
-		margin: -1px;
+		margin: -0.0625rem;
 		overflow: hidden;
 		clip: rect(0, 0, 0, 0);
 		white-space: nowrap;
@@ -482,34 +487,32 @@
 		margin: 0;
 	}
 
-	// Pagination styles > Interim solution, will be reworked later
-	.pagination {
+	// Pagination Styles
+	.fau-pagination {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		gap: var(--Spacing-2x);
 		margin-top: var(--Spacing-8x);
 
-		a.page-numbers,
-		button.page-numbers,
-		span.page-numbers {
-			display: inline-flex;
-			cursor: pointer;
-			align-items: center;
-			justify-content: center;
-			min-width: 40px;
-			height: 40px;
-			padding: 0 var(--Spacing-2x);
-			background-color: var(--FAU-Col-FAU-Weiss-100);
-			border: 1px solid var(--FAU-Col-FAU-Blau-100);
+		.pagination-wrapper {
+			display: flex;
+		}
+
+		a.page-number,
+		button.page-number,
+		span.page-number {
+			display: flex;
+			padding: var(--Spacing-2x) var(--Spacing-4x);
 			color: var(--FAU-Col-FAU-Blau-100);
 			text-decoration: none;
+			font-size: 1.125rem;
 			font-weight: 600;
-			transition: all 0.2s linear;
+			transition: var(--basic-animation);
 
-			&:hover:not(.current) {
-				background-color: var(--FAU-Col-FAU-Blau-100);
-				color: var(--FAU-Col-FAU-Weiss-100);
+			&:hover:not(.current),
+			&:focus-visible:not(.current) {
+				background-color: var(--FAU-Col-FAU-Blau-25);
 			}
 
 			&.current {
@@ -519,13 +522,100 @@
 
 			&.prev,
 			&.next {
-				padding: 0 var(--Spacing-4x);
+				padding: var(--Spacing-2x);
+
+				&:hover,
+				&:focus-visible {
+					background-color: unset;
+				}
 			}
 
-			&.dots {
-				border: none;
-				background: none;
-				color: var(--FAU-Col-FAU-Schwarz-90);
+			&.prev {
+
+				&:hover,
+				&:focus-visible {
+					transform: translateX(-0.25rem);
+				}
+			}
+
+			&.next {
+
+				&:hover,
+				&:focus-visible {
+					transform: translateX(0.25rem);
+				}
+			}
+
+			&.disabled {
+				cursor: not-allowed;
+				background-color: transparent;
+			}
+		}
+
+		span.page-number.disabled {
+			visibility: hidden;
+		}
+
+		.page-ellipsis {
+			align-self: center;
+			flex-shrink: 0;
+			border: none;
+			background: none;
+			color: var(--FAU-Col-FAU-Blau-100);
+			padding: 0 var(--Spacing-2x);
+		}
+
+		.pagination-icon {
+			width: 1.5rem;
+			height: 1.5rem;
+
+			&-prev {
+				background-image: var(--icon-chevron-left-fau-blau);
+			}
+
+			&-next {
+				background-image: var(--icon-chevron-right-fau-blau);
+			}
+		}
+	}
+
+	// Load More Button Styles
+	.fau-teaser-grid__load-more-wrapper {
+		display: flex;
+		justify-content: center;
+		margin-top: var(--Spacing-5x);
+
+		.load-more-spinner {
+			display: none;
+			margin-left: var(--Spacing-2x);
+
+			&.loading {
+				display: block;
+			}
+
+			.loading-text {
+				font-size: 0.875rem;
+				color: var(--FAU-Col-FAU-Dunkelblau-100);
+			}
+		}
+	}
+
+	.wp-block-button.is-style-secondary .wp-block-button__link.load-more-button {
+		border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
+
+		&::before {
+			background-image: var(--icon-plus-weiss);
+			background-size: contain;
+			height: 1.5rem;
+			width: 1.5rem;
+			right: -36px;
+		}
+
+		&:hover,
+		&:focus-visible {
+
+			&::before {
+				scale: 1.3;
 			}
 		}
 	}
@@ -600,7 +690,7 @@
 							.teaser-image-wrapper {
 
 								.teaser-image img {
-									min-height: 180px;
+									min-height: 11.25rem;
 								}
 
 								.teaser-meta {
@@ -610,10 +700,10 @@
 							}
 
 							.teaser-content-wrapper {
-								left: -40px;
+								left: -2.5rem;
 
 								.teaser-content {
-									width: calc(100% + 40px);
+									width: calc(100% + 2.5rem);
 									padding-right: 0;
 									box-sizing: border-box;
 								}
@@ -623,8 +713,8 @@
 						&:nth-child(1) {
 
 							.teaser-image-wrapper .teaser-meta {
-								height: 80px;
-								width: 80px;
+								height: 5rem;
+								width: 5rem;
 
 								time {
 
@@ -644,8 +734,8 @@
 						&:nth-child(3) {
 
 							.teaser-image-wrapper .teaser-meta {
-								height: 68px;
-								width: 68px;
+								height: 4.25rem;
+								width: 4.25rem;
 
 								time {
 
@@ -673,8 +763,8 @@
 				.teaser-item {
 
 					.teaser-image-wrapper .teaser-meta {
-						height: 80px;
-						width: 80px;
+						height: 5rem;
+						width: 5rem;
 
 						time {
 
@@ -718,8 +808,8 @@
 				.teaser-item {
 
 					.teaser-image-wrapper .teaser-meta {
-						height: 80px;
-						width: 80px;
+						height: 5rem;
+						width: 5rem;
 
 						time {
 
@@ -744,8 +834,8 @@
 					.teaser-image-wrapper {
 
 						.teaser-meta {
-							height: 68px;
-							width: 68px;
+							height: 4.25rem;
+							width: 4.25rem;
 
 							time {
 
@@ -785,7 +875,7 @@
 					}
 
 					.teaser-content-wrapper {
-						left: -40px;
+						left: -2.5rem;
 					}
 				}
 			}
@@ -810,16 +900,16 @@
 					.teaser-image-wrapper {
 
 						.teaser-image {
-							height: 150px;
-							min-width: 150px;
+							height: 9.375rem;
+							min-width: 9.375rem;
 						}
 
 						.teaser-meta {
-							width: 68px;
-							height: 68px;
+							width: 4.25rem;
+							height: 4.25rem;
 
 							time {
-								top: 8px;
+								top: 0.5rem;
 
 								.date-day {
 									font-size: 1.5rem;
@@ -836,10 +926,10 @@
 					.teaser-content-wrapper {
 						width: 100%;
 						bottom: unset;
-						left: -40px;
+						left: -2.5rem;
 
 						.teaser-content {
-							width: calc(100% + 40px);
+							width: calc(100% + 2.5rem);
 							padding: var(--Spacing-4x) var(--Spacing-4x);
 							padding-right: 0;
 							box-sizing: border-box;
@@ -892,20 +982,20 @@
 			}
 
 			&.layout-l2s .teaser-item:first-child {
-				margin-bottom: -40px; // Counter teaser-content offset for first item
+				margin-bottom: -2.5rem; // Counter teaser-content offset for first item
 			}
 
 			&.layout-1xl {
 				position: relative;
-				width: calc(100% + 40px);
-				left: -20px;
+				width: calc(100% + 2.5rem);
+				left: -1.25rem;
 
 				.teaser-item {
 					flex-direction: column;
 
 					.teaser-content-wrapper {
 						left: unset;
-						bottom: 40px;
+						bottom: 2.5rem;
 
 						.teaser-content .content-column .clamp-3 [aria-hidden="true"] {
 							-webkit-line-clamp: 3;
@@ -961,66 +1051,5 @@
 
 	100% {
 		transform: rotate(360deg);
-	}
-}
-
-// Load More Button Styles
-.fau-teaser-grid__load-more-wrapper {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	margin-top: var(--Spacing-5x);
-	width: 100%;
-
-	.load-more-spinner {
-		display: none;
-		margin-left: var(--Spacing-2x);
-
-		&.loading {
-			display: block;
-		}
-
-		.loading-text {
-			font-size: 0.875rem;
-			color: var(--FAU-Col-FAU-Dunkelblau-100);
-		}
-	}
-}
-
-// Responsive adjustments for filtered views
-@media (max-width: 768px) {
-
-	.filterable-grid {
-
-		.fau-teaser-grid {
-
-			&.view-table,
-			&.view-list {
-
-				.teaser-item {
-					flex-direction: column;
-
-					.teaser-image-wrapper {
-						float: none;
-						width: 100%;
-						margin-right: 0;
-						margin-bottom: var(--Spacing-3x);
-					}
-				}
-			}
-		}
-	}
-
-	.fau-teaser-grid__load-more-wrapper {
-		justify-content: center;
-
-		.wp-block-button {
-			width: 100%;
-
-			.wp-block-button__link {
-				width: 100%;
-				text-align: center;
-			}
-		}
 	}
 }

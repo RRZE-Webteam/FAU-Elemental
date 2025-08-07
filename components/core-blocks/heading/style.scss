@@ -16,6 +16,14 @@ h6 {
 	color: var(--FAU-Col-FAU-Blau-100);
 	letter-spacing: var(--letter-spacing-big);
 	font-weight: 700;
+
+	.is-layout-flow & {
+		padding: 0 var(--Spacing-10x);
+
+		@include respond-to("x-small") {
+			padding: 0 var(--Spacing-5x);
+		}
+	}
 }
 
 h2 {

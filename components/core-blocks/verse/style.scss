@@ -2,19 +2,27 @@
  * Core Verse Block Styles
  */
 
+@use "../../ui/mixins/mixins" as *;
+
 .wp-block-verse {
 	max-width: var(--small-max-width);
 	font-size: var(--P-Body-Text);
 	color: var(--FAU-Col-FAU-Schwarz-100);
 	font-weight: 400;
 	line-height: 1.5;
+	padding: 0 var(--Spacing-10x);
+
+	@include respond-to("x-small") {
+		padding: 0 var(--Spacing-5x);
+	}
 
 	pre {
 		white-space: pre-wrap;
 		overflow-wrap: break-word;
 	}
+}
 
-	.is-style-dark & {
-		color: var(--FAU-Col-FAU-Weiss-100);
-	}
+// Dark Mode
+.is-style-dark .wp-block-verse {
+	color: var(--FAU-Col-FAU-Weiss-100);
 }

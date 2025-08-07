@@ -1,16 +1,18 @@
-/**
- * Frontend styles for the FAU Portal Menu block
- */
-
-/* Portal Menu styles will be implemented here */
-
 @use "../../ui/mixins/mixins" as *;
 
 .fau-portal-menu {
+	max-width: var(--base-max-width);
+
+	&:has(.fau-portal-thumbnail) {
+		max-width: var(--wide-max-width);
+	}
+}
+
+.fau-portal-menu > ul {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 0 var(--Spacing-8x);
-	max-width: var(--base-max-width);
+	width: 100%;
 	padding: var(--Spacing-10x);
 
 	.fau-portal-item {
@@ -51,12 +53,13 @@
 
 					h3 {
 						margin: 0;
+						padding: 0;
 						font-size: 1.25rem;
 					}
 
 					span {
 						position: relative;
-						display: block;
+						flex-shrink: 0;
 						transform: translateX(var(--Spacing-8x));
 						padding: 0;
 						height: 2.5rem;
@@ -137,7 +140,6 @@
 	// Style when Thumbnail is active
 	&:has(.fau-portal-thumbnail) {
 		grid-template-columns: repeat(3, 1fr);
-		max-width: var(--wide-max-width);
 
 		.fau-portal-item {
 			padding-bottom: 0;
@@ -150,12 +152,32 @@
 	}
 }
 
-// ToDo: Add faculty colors
+// Faculty colors
+@each $faculty, $color in (
+	"phil": var(--FAU-Col-Phil-Gelb-100),
+	"nat": var(--FAU-Col-Nat-Gruen-100),
+	"med": var(--FAU-Col-Med-Blau-100),
+	"rw": var(--FAU-Col-RW-Rot-100),
+	"tf": var(--FAU-Col-TF-Metallic-100)
+) {
 
-//Dark Mode
+	.fauorg-fakultaet.faculty-#{$faculty} .fau-portal-item .fau-portal-wrapper .fau-portal-content span {
+		background-color: $color;
+
+		&::before {
+			background-image: var(--icon-arrow-fau-blau);
+		}
+	}
+
+	.fauorg-fakultaet.faculty-rw .fau-portal-item .fau-portal-wrapper .fau-portal-content span::before {
+		background-image: var(--icon-arrow-weiss);
+	}
+}
+
+// Dark Mode
 .is-style-dark {
 
-	.fau-portal-menu {
+	.fau-portal-menu > ul {
 		background-color: var(--FAU-Col-FAU-Blau-100);
 
 		.fau-portal-item .fau-portal-wrapper .fau-portal-content {
@@ -179,15 +201,15 @@
 // Responsive
 @media screen and (max-width: 999px) {
 
-	.fau-portal-menu:has(.fau-portal-thumbnail) {
+	.fau-portal-menu:has(.fau-portal-thumbnail) > ul {
 		grid-template-columns: repeat(2, 1fr);
 	}
 }
 
 @media screen and (max-width: 599px) {
 
-	.fau-portal-menu,
-	.fau-portal-menu:has(.fau-portal-thumbnail) {
+	.fau-portal-menu > ul,
+	.fau-portal-menu:has(.fau-portal-thumbnail) > ul {
 		grid-template-columns: 1fr;
 	}
 
@@ -198,7 +220,7 @@
 
 @include respond-to("x-small") {
 
-	.fau-portal-menu {
+	.fau-portal-menu > ul {
 		padding: var(--Spacing-5x);
 	}
 }

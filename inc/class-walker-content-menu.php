@@ -31,7 +31,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
     /**
      * Constructor
      */
-    public function __construct($settings = array()) {
+    protected function __construct($settings = array()) {
         $this->settings = wp_parse_args($settings, $this->defaults);
     }
 
@@ -51,14 +51,14 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
         
         // Start element based on depth
         if ($depth === 0) {   
-            $output .= $indent . '<div class="fau-portal-item">' . "\n";
+            $output .= $indent . '<li class="fau-portal-item">' . "\n";
             
             // Image section
             if (!$this->settings['nothumbs']) {
                 $thumbnail = false;
-                $thumbnail_id = get_post_thumbnail_id($item->object_id);
+                $thumbnail_id = !empty($item->linked_post) ? get_post_thumbnail_id($item->linked_post) : false;
                 if ($thumbnail_id) {
-                    $img_src = wp_get_attachment_image_src($thumbnail_id, 'medium');
+                    $img_src = wp_get_attachment_image_src($thumbnail_id, 'medium_large');
                     $thumbnail = $img_src ? $img_src[0] : false;
                 }
 
@@ -76,6 +76,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
             
             // Use proper heading hierarchy (h3 for portal items)
             $output .= $indent . "\t\t";
+            // translators: Menu item title
             $output .= '<a href="' . esc_url($permalink) . '" aria-label="' . esc_attr(sprintf(__('Go to %s', 'fau-elemental'), $title)) . '">';
             $output .= '<h3>';
             $output .= esc_html($title);
@@ -94,10 +95,14 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
     public function end_el(&$output, $item, $depth = 0, $args = array()) {
         $indent = str_repeat("\t", $depth + 1);
 
+        if (!$this->settings['showsubs'] && $depth !== 0) {
+            return;
+        }
+
         if ($depth === 0) {
             // Parent item (top level)
             $output .= $indent . "\t</div></div>\n";
-            $output .= $indent . "</div>\n";
+            $output .= $indent . "</li>\n";
         } else {
             // Child items (sublinks)
             $output .= $indent . "\t\t</li>\n";
@@ -126,5 +131,60 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
 
         $indent = str_repeat("\t", $depth + 3);
         $output .= "$indent</ul>\n";
+    }
+
+    public static function render_portalmenu($slug, $settings = array()) {
+        $menu_items = wp_get_nav_menu_items($slug);
+        $post_ids = [];
+        foreach ($menu_items as $item) {
+            if ($item->menu_item_parent === 0 && ($item->object === 'page' || $item->object === 'post')) {
+                $post_ids[] = (int) $item->object_id;
+            }
+        }
+        _prime_post_caches($post_ids, false, true);
+
+        $query = new WP_Query([
+            'post__in' => $post_ids,
+            'post_type' => ['page', 'post'],
+            'post_status' => 'publish',
+            'nopaging' => true,
+        ]);
+        update_post_thumbnail_cache($query);
+
+        $linked_posts = [];
+        foreach ($query->posts as $post) {
+            $linked_posts[$post->ID] = $post;
+        }
+
+        $menu_filter = function ($items) use ($linked_posts) {
+            foreach ($items as $item) {
+                if (isset($linked_posts[$item->object_id])) {
+                    $item->linked_post = $linked_posts[$item->object_id];
+                }
+            }
+            return $items;
+        };
+
+        add_filter('wp_nav_menu_objects', $menu_filter);
+
+        // Generate menu HTML
+        $out = "\n";
+        $out .= '<div class="fau-portal-menu" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
+        $out .= wp_nav_menu(
+            array(
+                'menu' => $slug,
+                'echo' => false,
+                'container' => true,
+                'link_before' => '',
+                'link_after' => '',
+                'item_spacing' => 'discard',
+                'walker' => new Walker_Content_Menu($settings)
+            )
+        );
+        $out .= "</div>\n";
+
+        remove_filter('wp_nav_menu_objects', $menu_filter);
+
+        return $out;
     }
 } 

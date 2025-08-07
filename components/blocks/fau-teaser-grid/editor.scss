@@ -4,6 +4,11 @@
 .wp-block-fau-elemental-fau-teaser-grid {
 	max-width: var(--wide-max-width);
 	margin: 0 auto;
+
+	// Settings dropdown styling
+	.fau-teaser-grid-settings-dropdown {
+		padding: var(--Spacing-4x);
+	}
 }
 
 .fau-teaser-grid {
@@ -34,29 +39,137 @@
 	}
 }
 
-// Styles for the panel UI
-.components-panel {
+// Pagination preview styles - copy from frontend
+.pagination-preview {
+	margin: 0 auto 0;
+	width: 100%;
+	text-align: center;
+	grid-column: 1 / -1; // Span across all grid columns
 
-	.search-instructions {
-		font-style: italic;
-		color: #757575;
-		margin-top: 4px;
-		font-size: 13px;
-	}
-
-	.no-results-message {
-		color: #d94f4f;
-		margin-top: 4px;
-		font-size: 13px;
-	}
-
-	.selected-posts-list div {
-		display: flex;
-		justify-content: space-between;
+	// Frontend pagination styles copied for exact preview
+	.fau-pagination {
+		display: inline-flex;
+		justify-content: center;
 		align-items: center;
-		margin-bottom: 8px;
-		padding: 6px 8px;
-		background: #f0f0f0;
-		border-radius: 4px;
+		gap: var(--Spacing-2x);
+
+
+		a.page-number,
+		button.page-number,
+		span.page-number {
+			display: inline-block;
+			cursor: pointer;
+			text-align: center;
+			vertical-align: middle;
+			padding: var(--Spacing-2x) var(--Spacing-4x);
+			background-color: transparent;
+			border: none;
+			color: var(--FAU-Col-FAU-Blau-100);
+			text-decoration: none;
+			font-weight: 600;
+			transition: var(--basic-animation);
+
+			&:hover:not(.current) {
+				background-color: var(--FAU-Col-FAU-Blau-100);
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+
+			&.current {
+				background-color: var(--FAU-Col-FAU-Blau-100);
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+
+			&.prev,
+			&.next {
+				padding: var(--Spacing-2x);
+			}
+
+			&.disabled {
+				cursor: not-allowed;
+				background-color: transparent;
+			}
+		}
+
+		// Specific overrides for disabled state
+		span.page-number.disabled {
+			background-color: transparent;
+			background-image: none;
+		}
+
+		// Reset all possible button backgrounds with highest specificity
+		.fau-pagination span.page-number.disabled,
+		.fau-pagination span.page-number.prev.disabled,
+		.fau-pagination span.page-number.next.disabled {
+			background-color: transparent;
+			background-image: none;
+			box-shadow: none;
+			border: none;
+			outline: none;
+		}
+
+		.page-ellipsis {
+			border: none;
+			background: none;
+			color: var(--FAU-Col-FAU-Schwarz-90);
+			padding: 0 var(--Spacing-2x);
+		}
+
+		.pagination-icon {
+			display: inline-block;
+			width: var(--Spacing-5x);
+			height: var(--Spacing-5x);
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: contain;
+			vertical-align: middle;
+
+			&-prev {
+				background-image: var(--icon-chevron-left-fau-blau);
+			}
+
+			&-next {
+				background-image: var(--icon-chevron-right-fau-blau);
+			}
+		}
+
+		// Icon color changes on hover/active
+
+		a.page-number:hover,
+		button.page-number:hover {
+
+			.pagination-icon-prev {
+				background-image: var(--icon-chevron-left-weiss);
+			}
+
+			.pagination-icon-next {
+				background-image: var(--icon-chevron-right-weiss);
+			}
+		}
+
+		.page-number.current {
+
+			.pagination-icon-prev {
+				background-image: var(--icon-chevron-left-weiss);
+			}
+
+			.pagination-icon-next {
+				background-image: var(--icon-chevron-right-weiss);
+			}
+		}
 	}
 }
+
+// Load More Button - replace arrow with plus icon for secondary buttons
+.wp-block-button.is-style-secondary .wp-block-button__link.load-more-button::before {
+	background-image: var(--icon-plus-weiss);
+	height: var(--Spacing-6x);
+	width: var(--Spacing-6x);
+}
+
+// Load More Preview Styles - separate from pagination
+.load-more-preview {
+	width: 100%;
+	text-align: right;
+	grid-column: 1 / -1; // Span across all grid columns
+}
+
