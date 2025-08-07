@@ -275,7 +275,7 @@ export default function Edit( { attributes, setAttributes } ) {
 									{ item.content
 										? item.content
 												.replace( /<[^>]*>/g, '' )
-												.substring( 0, 50 ) + '...'
+												.substring( 0, 50 ) + '…'
 										: __(
 												'Empty testimonial',
 												'fau-elemental'

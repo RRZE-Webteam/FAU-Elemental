@@ -16,8 +16,8 @@ add_action('template_redirect', function() {
     $query_args = [
         'post_type' => 'post',
         'post_status' => 'publish',
-        'posts_per_page' => -1,
-        'fields' => 'ids'
+        'posts_per_page' => 1,  // Only header query
+        'no_found_rows' => false  // We need found_posts
     ];
     
     $count_query = new WP_Query($query_args);
@@ -107,25 +107,31 @@ get_header(); ?>
             } elseif (is_category()) {
                 $description = category_description();
                 if (empty($description)) {
+                    // translators: name of the wordpress category
                     $description = sprintf(__('Browse all posts in the %s category. Use the filters below to refine your search.', 'fau-elemental'), single_cat_title('', false));
                 }
             } elseif (is_tag()) {
                 $description = tag_description();
                 if (empty($description)) {
+                    // translators: name of the wordpress tag
                     $description = sprintf(__('Browse all posts tagged with %s. Use the filters below to refine your search.', 'fau-elemental'), single_tag_title('', false));
                 }
             } elseif (is_author()) {
                 $description = get_the_author_meta('description');
                 if (empty($description)) {
+                    // translators: name of the post author
                     $description = sprintf(__('Browse all posts by %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_author());
                 }
             } elseif (is_date()) {
                 if (is_year()) {
-                    $description = sprintf(__('Browse all posts from %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date('Y'));
+                    // translators: year number
+                    $description = sprintf(__('Browse all posts from the year %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date('Y'));
                 } elseif (is_month()) {
+                    // translators: year and month
                     $description = sprintf(__('Browse all posts from %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date('F Y'));
                 } elseif (is_day()) {
-                    $description = sprintf(__('Browse all posts from %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date());
+                    // translators: year, month and date
+                    $description = sprintf(__('Browse all posts from the %s. Use the filters below to refine your search.', 'fau-elemental'), get_the_date());
                 }
             } else {
                 $description = __('Browse and filter through all our posts using the options below. Use pagination to navigate through multiple pages.', 'fau-elemental');
@@ -169,12 +175,12 @@ get_header(); ?>
         $author = get_queried_object();
         $total_posts = count_user_posts($author->ID);
     } else {
-        // For general blog homepage
+        // For general blog homepage - optimized query
         $posts_query = new WP_Query([
             'post_type' => 'post',
             'post_status' => 'publish',
-            'posts_per_page' => -1,
-            'fields' => 'ids'
+            'posts_per_page' => 1,  // Only header query
+            'no_found_rows' => false  // We need found_posts
         ]);
         $total_posts = $posts_query->found_posts;
         wp_reset_postdata();
@@ -260,7 +266,31 @@ get_header(); ?>
             $order = 'DESC';
         }
         
-        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid {"variant":"post","selectionMode":"auto","displayStyle":"teaser-grid","teaserLayout":"3m","postsPerPage":' . $items_per_page . ',"orderBy":"' . $orderby . '","order":"' . $order . '","headingLevel":"h2","showPagination":true,"paginationType":"' . $pagination_type . '","currentPage":' . $current_page . $filter_params . '} /-->');
+        // Prepare block attributes safely
+        $block_args = [
+            'variant' => 'post',
+            'selectionMode' => 'auto',
+            'displayStyle' => 'teaser-grid',
+            'teaserLayout' => '3m',
+            'postsPerPage' => $items_per_page,
+            'orderBy' => $orderby,
+            'order' => $order,
+            'headingLevel' => 'h2',
+            'showPagination' => true,
+            'paginationType' => $pagination_type,
+            'currentPage' => $current_page
+        ];
+        
+        // Add filter parameters based on page type
+        if (is_category()) {
+            $block_args['selectedCategory'] = get_queried_object_id();
+        } elseif (is_tag()) {
+            $block_args['selectedTags'] = [get_queried_object_id()];
+        } elseif (is_author()) {
+            $block_args['selectedAuthor'] = get_queried_object_id();
+        }
+        
+        echo do_blocks('<!-- wp:fau-elemental/fau-teaser-grid ' . wp_json_encode($block_args) . ' /-->');
         ?>
     </section>
 </main>

@@ -22,11 +22,16 @@
 				max-width: 48.125rem;
 				gap: var(--Spacing-5x);
 
+				.wp-block-group {
+					padding: 0;
+				}
+
 				.hero-front-page-title {
 					font-size: 3.85rem;
 					line-height: 1.2;
 					font-weight: 700;
 					letter-spacing: var(--letter-spacing-big);
+					padding: 0;
 				}
 
 				.hero-text {
@@ -76,6 +81,21 @@
 }
 
 // Responsive
+@media screen and (min-width: 1920px) {
+
+	.hero-fau .wp-block-cover {
+
+		.wp-block-cover__inner-container {
+			width: 1800px;
+			margin: 0 auto;
+		}
+
+		.hero-content {
+			margin: 0;
+		}
+	}
+}
+
 @include respond-to("medium") {
 
 	.hero-fau .wp-block-cover {

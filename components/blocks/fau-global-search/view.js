@@ -56,15 +56,15 @@ function getTranslatableMessage( form, messageType ) {
 	if ( ! messagesContainer ) {
 		// Fallback for forms without hidden messages
 		const fallbacks = {
-			searching: 'Searching...',
+			searching: 'Searching…',
 			'no-suggestions': 'No suggestions found',
 			'no-results': 'No results found for "%s"',
 			page: 'Page',
 			post: 'Post',
 			'frequent-searches': 'Frequent Searches',
-			loading: 'Loading...',
+			loading: 'Loading…',
 			'no-search-data': 'No search data available yet',
-			'loading-options': 'Loading search options...',
+			'loading-options': 'Loading search options…',
 			'search-options': 'Search Options',
 			'advanced-search': 'Advanced Search',
 			'search-suggestions': 'Search suggestions',

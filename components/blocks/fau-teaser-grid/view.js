@@ -17,7 +17,7 @@ document.addEventListener( 'DOMContentLoaded', function () {
 function initializeTeaserGrid( gridContainer ) {
 	const teaserGrid = gridContainer.querySelector( '.fau-teaser-grid' );
 
-	if ( ! teaserGrid ) {
+	if ( ! teaserGrid || teaserGrid.initialized ) {
 		return;
 	}
 
@@ -49,6 +49,7 @@ function initializeTeaserGrid( gridContainer ) {
 
 		showPagination,
 	};
+	teaserGrid.initialized = true;
 }
 
 function initializeLoadMore( gridContainer ) {
@@ -70,7 +71,7 @@ function initializeLoadMore( gridContainer ) {
 		// Disable button during loading
 		loadMoreBtn.disabled = true;
 		loadMoreBtn.textContent =
-			loadMoreBtn.getAttribute( 'data-loading-text' ) || 'Loading...';
+			loadMoreBtn.getAttribute( 'data-loading-text' ) || 'Loading…';
 
 		// Make AJAX request to load more posts
 		loadMorePosts( gridId, nextPage, loadMoreBtn );
@@ -90,6 +91,10 @@ function loadMorePosts( gridId, page, loadMoreBtn ) {
 	const variant = gridContainer.getAttribute( 'data-variant' );
 	const postsPerPage = gridContainer.getAttribute( 'data-posts-per-page' );
 	const selectedCategory = gridContainer.getAttribute( 'data-category' );
+	const selectedAuthor = gridContainer.getAttribute( 'data-author' );
+	const selectedYear = gridContainer.getAttribute( 'data-year' );
+	const selectedMonth = gridContainer.getAttribute( 'data-month' );
+	const selectedDay = gridContainer.getAttribute( 'data-day' );
 	const orderBy = gridContainer.getAttribute( 'data-order-by' );
 	const order = gridContainer.getAttribute( 'data-order' );
 	const headingLevel = gridContainer.getAttribute( 'data-heading-level' );
@@ -104,6 +109,10 @@ function loadMorePosts( gridId, page, loadMoreBtn ) {
 	formData.append( 'page', page );
 	formData.append( 'posts_per_page', postsPerPage );
 	formData.append( 'selected_category', selectedCategory );
+	formData.append( 'selected_author', selectedAuthor );
+	formData.append( 'selected_year', selectedYear );
+	formData.append( 'selected_month', selectedMonth );
+	formData.append( 'selected_day', selectedDay );
 	formData.append( 'order_by', orderBy );
 	formData.append( 'order', order );
 	formData.append( 'heading_level', headingLevel );

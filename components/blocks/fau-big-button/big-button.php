@@ -10,6 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// Character limits for the big button block (matching frontend behavior)
+define('FAU_BIG_BUTTON_DESCRIPTION_MAX_LENGTH', 80); // Only descriptions are trimmed in frontend
+
 /**
  * Trim text by characters while respecting word boundaries
  *
@@ -18,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $more Trailing text
  * @return string Trimmed text
  */
-function fau_trim_text_big_button($text, $max_chars = 80, $more = '...') {
+function fau_trim_text_big_button($text, $max_chars = 80, $more = '…') {
     if (empty($text) || !is_string($text)) {
         return '';
     }
@@ -137,7 +140,7 @@ function render_big_button_html($items, $options = []) {
                     </h3>
                     <?php if (!empty($excerpt)) : ?>
                         <p>
-                            <?php echo esc_html(fau_trim_text_big_button($excerpt, 80, '...')); ?>
+                            <?php echo esc_html(fau_trim_text_big_button($excerpt, FAU_BIG_BUTTON_DESCRIPTION_MAX_LENGTH, '…')); ?>
                         </p>
                     <?php endif; ?>
                     <span class="arrow-link" aria-hidden="true"></span>

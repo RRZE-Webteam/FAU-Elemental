@@ -33,6 +33,10 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     $posts_per_page = $attributes['postsPerPage'] ?? 6;
     $selected_category = $attributes['selectedCategory'] ?? 0;
     $selected_tags = $attributes['selectedTags'] ?? [];
+    $selected_author = $attributes['selectedAuthor'] ?? 0;
+    $selected_year = $attributes['selectedYear'] ?? 0;
+    $selected_month = $attributes['selectedMonth'] ?? 0;
+    $selected_day = $attributes['selectedDay'] ?? 0;
     $order_by = $attributes['orderBy'] ?? 'date';
     $order = $attributes['order'] ?? 'DESC';
     $heading_level = $attributes['headingLevel'] ?? 'h4';
@@ -73,6 +77,10 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
         'data-variant' => $variant,
         'data-category' => $selected_category,
         'data-tags' => !empty($selected_tags) ? implode(',', $selected_tags) : '',
+        'data-author' => $selected_author,
+        'data-year' => $selected_year,
+        'data-month' => $selected_month,
+        'data-day' => $selected_day,
         'data-posts-per-page' => $posts_per_page,
         'data-display-style' => $display_style,
         'data-teaser-layout' => $teaser_layout,
@@ -142,6 +150,22 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
             $query_args['tag__in'] = $selected_tags;
         }
 
+        if ($selected_author > 0) {
+            $query_args['author'] = $selected_author;
+        }
+
+        if ($selected_year > 0) {
+            $query_args['year'] = $selected_year;
+        }
+
+        if ($selected_month > 0) {
+            $query_args['monthnum'] = $selected_month;
+        }
+
+        if ($selected_day > 0) {
+            $query_args['day'] = $selected_day;
+        }
+
         $query = new WP_Query($query_args);
         $total_posts = $query->found_posts;
 
@@ -161,7 +185,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     if (!empty($teaser_items)) {
         // Show paginated items
         $items_to_show = array_slice($teaser_items, 0, $posts_per_page);
-        $output .= implode('', $items_to_show);
+        $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
     } else {
         $output .= '<p class="no-posts">' . __('No items found.', 'fau-elemental') . '</p>';
     }
@@ -170,7 +194,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
 
     // Add pagination if enabled
     if ($show_pagination && $total_posts > $posts_per_page) {
-        $total_pages = ceil($total_posts / $posts_per_page);
+        $total_pages = (int) ceil($total_posts / $posts_per_page);
         
         if ($pagination_type === 'load-more') {
             $output .= fau_elemental_generate_load_more($current_page, $total_pages, $grid_id);
@@ -244,6 +268,7 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                     $output .= sprintf(
                         '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                         esc_url($page_url),
+                        // translators: page number
                         esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
                         $i
                     );
@@ -335,7 +360,7 @@ function fau_elemental_generate_load_more($current_page, $total_pages, $grid_id)
         $current_page,
         $total_pages,
         esc_attr__('Load More', 'fau-elemental'),
-        esc_attr__('Loading...', 'fau-elemental'),
+        esc_attr__('Loading…', 'fau-elemental'),
         esc_html__('Load More', 'fau-elemental')
     );
     $output .= '</div>';

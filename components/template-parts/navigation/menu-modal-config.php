@@ -19,7 +19,7 @@ require_once get_template_directory() . '/components/template-parts/navigation/m
 add_action('init', function () {
     // Configure Services Modal (Global Menu - replaces menu-meta-nav functionality)
     Menu_Modal::get_instance()->register_modal('services', array(
-        'theme_locations' => array('top_header_nav_services'),
+        'theme_locations' => array('top_header_nav_services', 'header_menu_links'),
         'use_global_menu' => true,
         'modal_class' => 'menu-meta-nav__modal',
         'menu_class' => 'menu-meta-nav__menu',
@@ -28,6 +28,10 @@ add_action('init', function () {
         'walker' => 'Menu_Modal_Walker',
         'show_back_button' => true,
         'show_close_button' => true,
+        'location_depths' => array(
+            'header_menu_links' => 1
+        ),
+        'global_locations' => array('top_header_nav_services'),
     ));
 
     // Configure Structure Modal (Global Menu - replaces menu-meta-nav functionality)
@@ -54,6 +58,9 @@ add_action('init', function () {
         'walker' => 'Mixed_Navigation_Walker',
         'show_back_button' => true,
         'show_close_button' => true,
+        'location_depths' => array(
+            'header_menu_links' => 1
+        ),
     ));
 
     // Configure Search Modal (Special modal for search functionality)

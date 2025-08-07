@@ -12,6 +12,7 @@
 @use "../../core-blocks/file/editor" as *;
 @use "../../core-blocks/verse/editor" as *;
 @use "../../core-blocks/spacer/editor" as *;
+@use "../../core-blocks/group/editor" as *;
 
 /* Patterns */
 @use "../../patterns/hero-fau/editor" as *;
@@ -42,6 +43,14 @@ html :where(.editor-styles-wrapper) {
 	padding: 16px;
 	border: 1px solid #e0e0e0;
 	margin-bottom: 16px;
+}
+
+.fau-portal-menu-template-not-active {
+	display: none;
+}
+
+.fau-portal-menu-settings select {
+	box-sizing: border-box;
 }
 
 .fau-portal-template-notice {

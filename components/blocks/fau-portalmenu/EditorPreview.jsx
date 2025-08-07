@@ -206,7 +206,7 @@ const EditorPreview = ( { attributes } ) => {
 						<a
 							role="link"
 							aria-label={ sprintf(
-								// translators: %s: Menu item title
+								// translators: Menu item title
 								__( 'Go to %s', 'fau-elemental' ),
 								itemTitle
 							) }
@@ -236,7 +236,7 @@ const EditorPreview = ( { attributes } ) => {
 											<a
 												role="link"
 												aria-label={ sprintf(
-													// translators: %s: Submenu item title
+													// translators: Menu item title
 													__(
 														'Go to %s',
 														'fau-elemental'

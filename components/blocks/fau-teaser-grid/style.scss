@@ -19,6 +19,10 @@
 		&.layout-2s-right {
 			grid-template-columns: repeat(3, 1fr);
 
+			.teaser-item-link {
+				text-decoration: none;
+			}
+
 			.teaser-item {
 				display: flex;
 				flex-direction: column;
@@ -483,7 +487,7 @@
 		margin: 0;
 	}
 
-
+	// Pagination Styles
 	.fau-pagination {
 		display: flex;
 		justify-content: center;
@@ -491,25 +495,24 @@
 		gap: var(--Spacing-2x);
 		margin-top: var(--Spacing-8x);
 
+		.pagination-wrapper {
+			display: flex;
+		}
+
 		a.page-number,
 		button.page-number,
 		span.page-number {
-			display: inline-block;
-			cursor: pointer;
-			text-align: center;
-			vertical-align: middle;
+			display: flex;
 			padding: var(--Spacing-2x) var(--Spacing-4x);
-			background-color: transparent;
-			border: none;
 			color: var(--FAU-Col-FAU-Blau-100);
-			margin-left: var(--Spacing-1x);
 			text-decoration: none;
+			font-size: 1.125rem;
 			font-weight: 600;
 			transition: var(--basic-animation);
 
-			&:hover:not(.current) {
-				background-color: var(--FAU-Col-FAU-Blau-100);
-				color: var(--FAU-Col-FAU-Weiss-100);
+			&:hover:not(.current),
+			&:focus-visible:not(.current) {
+				background-color: var(--FAU-Col-FAU-Blau-25);
 			}
 
 			&.current {
@@ -520,6 +523,27 @@
 			&.prev,
 			&.next {
 				padding: var(--Spacing-2x);
+
+				&:hover,
+				&:focus-visible {
+					background-color: unset;
+				}
+			}
+
+			&.prev {
+
+				&:hover,
+				&:focus-visible {
+					transform: translateX(-0.25rem);
+				}
+			}
+
+			&.next {
+
+				&:hover,
+				&:focus-visible {
+					transform: translateX(0.25rem);
+				}
 			}
 
 			&.disabled {
@@ -528,38 +552,22 @@
 			}
 		}
 
-		// Specific overrides for disabled state
 		span.page-number.disabled {
-			background-color: transparent;
-			background-image: none;
-		}
-
-		// Reset all possible button backgrounds with highest specificity
-		.fau-pagination span.page-number.disabled,
-		.fau-pagination span.page-number.prev.disabled,
-		.fau-pagination span.page-number.next.disabled {
-			background-color: transparent;
-			background-image: none;
-			box-shadow: none;
-			border: none;
-			outline: none;
+			visibility: hidden;
 		}
 
 		.page-ellipsis {
+			align-self: center;
+			flex-shrink: 0;
 			border: none;
 			background: none;
-			color: var(--FAU-Col-FAU-Schwarz-90);
+			color: var(--FAU-Col-FAU-Blau-100);
 			padding: 0 var(--Spacing-2x);
 		}
 
 		.pagination-icon {
-			display: inline-block;
-			width: var(--Spacing-5x);
-			height: var(--Spacing-5x);
-			background-repeat: no-repeat;
-			background-position: center;
-			background-size: contain;
-			vertical-align: middle;
+			width: 1.5rem;
+			height: 1.5rem;
 
 			&-prev {
 				background-image: var(--icon-chevron-left-fau-blau);
@@ -569,34 +577,48 @@
 				background-image: var(--icon-chevron-right-fau-blau);
 			}
 		}
+	}
 
-		// Icon color changes on hover/active
+	// Load More Button Styles
+	.fau-teaser-grid__load-more-wrapper {
+		display: flex;
+		justify-content: center;
+		margin-top: var(--Spacing-5x);
 
-		a.page-number:hover,
-		button.page-number:hover {
+		.load-more-spinner {
+			display: none;
+			margin-left: var(--Spacing-2x);
 
-			.pagination-icon-prev {
-				background-image: var(--icon-chevron-left-weiss);
+			&.loading {
+				display: block;
 			}
 
-			.pagination-icon-next {
-				background-image: var(--icon-chevron-right-weiss);
-			}
-		}
-
-		.page-number.current {
-
-			.pagination-icon-prev {
-				background-image: var(--icon-chevron-left-weiss);
-			}
-
-			.pagination-icon-next {
-				background-image: var(--icon-chevron-right-weiss);
+			.loading-text {
+				font-size: 0.875rem;
+				color: var(--FAU-Col-FAU-Dunkelblau-100);
 			}
 		}
 	}
 
+	.wp-block-button.is-style-secondary .wp-block-button__link.load-more-button {
+		border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
 
+		&::before {
+			background-image: var(--icon-plus-weiss);
+			background-size: contain;
+			height: 1.5rem;
+			width: 1.5rem;
+			right: -36px;
+		}
+
+		&:hover,
+		&:focus-visible {
+
+			&::before {
+				scale: 1.3;
+			}
+		}
+	}
 }
 
 // Dark mode
@@ -1031,34 +1053,3 @@
 		transform: rotate(360deg);
 	}
 }
-
-// Load More Button Styles
-.fau-teaser-grid__load-more-wrapper {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	margin-top: var(--Spacing-5x);
-	width: 100%;
-
-	.load-more-spinner {
-		display: none;
-		margin-left: var(--Spacing-2x);
-
-		&.loading {
-			display: block;
-		}
-
-		.loading-text {
-			font-size: 0.875rem;
-			color: var(--FAU-Col-FAU-Dunkelblau-100);
-		}
-	}
-}
-
-// Load More Button - replace arrow with plus icon for secondary buttons
-.wp-block-button.is-style-secondary .wp-block-button__link.load-more-button::before {
-	background-image: var(--icon-plus-weiss);
-	height: var(--Spacing-6x);
-	width: var(--Spacing-6x);
-}
-
