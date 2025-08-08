@@ -1,87 +1,104 @@
 @use "../../ui/mixins/mixins" as *;
 
 // Base styles (desktop-first - largest screens)
-.wp-block-fau-logo-grid {
-	max-width: var(--wide-max-width);
-	margin: 0 auto;
+.wp-block-fau-elemental-fau-logo-grid {
 
-	// Individual logo items
-	.fau-logo-grid__item {
-		// Hover effect for selection
-		&:hover {
-			background: #e8e8e8;
+	.fau-logo-grid__container {
+		max-width: var(--wide-max-width);
+		margin: 0 auto;
+
+		// Individual logo items
+		.fau-logo-grid__item {
+			// Hover effect for selection
+			&:hover {
+				background: var(--FAU-Col-FAU-Schwarz-5);
+			}
+
+			// Selected state
+			&--selected {
+				background: var(--FAU-Col-FAU-Schwarz-12_5);
+				border-color: var(--wp-admin-theme-color);
+				box-shadow: 0 0 0 0.125rem rgba(var(--wp-admin-theme-color), 0.3);
+				transform: translateY(-0.0625rem);
+
+				&::before {
+					content: "\f147"; // dashicons-yes
+					font-family: dashicons, sans-serif;
+					position: absolute;
+					top: var(--Spacing-2x);
+					right: var(--Spacing-2x);
+					background: var(--wp-admin-theme-color);
+					color: var(--FAU-Col-FAU-Weiss-100);
+					width: 1.25rem;
+					height: 1.25rem;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					font-size: 0.75rem;
+					font-weight: 700;
+					z-index: 5;
+				}
+			}
+
+			.components-button {
+				padding: 0 var(--Spacing-3x);
+			}
 		}
 
-		// Selected state
-		&--selected {
-			background: #e0e0e0;
-			border-color: var(--wp-admin-theme-color);
-			box-shadow: 0 0 0 2px rgba(var(--wp-admin-theme-color), 0.3);
-			transform: translateY(-1px);
+		// Image button for replacement
+		.fau-logo-grid__image-button {
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			border: none;
+			background: transparent;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			cursor: pointer;
+			position: relative;
+			transition: all 0.2s ease;
 
-			&::before {
-				content: "✓";
-				position: absolute;
-				top: 8px;
-				right: 8px;
-				background: var(--wp-admin-theme-color);
-				color: var(--FAU-Col-FAU-Weiss-100);
-				width: 20px;
-				height: 20px;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 12px;
-				font-weight: 700;
-				z-index: 5;
+			// Hover effect for image replacement
+			&:hover {
+				background: rgba(0, 0, 0, 0.05);
+
+				// Show replace indicator with icon
+				&::after {
+					content: "\f464"; // dashicons-edit
+					font-family: dashicons, sans-serif;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					background: rgba(0, 0, 0, 0.9);
+					color: var(--FAU-Col-FAU-Weiss-100);
+					padding: var(--Spacing-2x) var(--Spacing-3x);
+					font-size: 1rem;
+					font-weight: 500;
+					pointer-events: none;
+					z-index: 15;
+				}
+
+				// Dim the image slightly
+				img {
+					opacity: 0.7;
+				}
+			}
+
+			// Focus state for accessibility
+			&:focus {
+				outline: 0.0625rem solid var(--wp-admin-theme-color);
+				outline-offset: 0.0625rem;
 			}
 		}
 	}
+}
 
-	// Image button for replacement
-	.fau-logo-grid__image-button {
-		width: 100%;
-		height: 100%;
-		padding: 0;
-		border: none;
-		background: transparent;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		cursor: pointer;
-		position: relative;
-		transition: all 0.2s ease;
+.components-panel__body {
 
-		// Hover effect for image replacement
-		&:hover {
-			background: rgba(0, 0, 0, 0.05);
-
-			// Show replace indicator with icon
-			&::after {
-				content: "↻";
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				background: rgba(0, 0, 0, 0.9);
-				color: var(--FAU-Col-FAU-Weiss-100);
-				padding: 8px 12px;
-				font-size: 16px;
-				font-weight: 500;
-				pointer-events: none;
-				z-index: 15;
-			}
-
-			// Dim the image slightly
-			img {
-				opacity: 0.7;
-			}
-		}
-
-		// Focus state for accessibility
-		&:focus {
-			outline: 2px solid var(--wp-admin-theme-color);
-			outline-offset: 2px;
-		}
+	.components-button {
+		margin-right: var(--Spacing-4x);
+		margin-bottom: var(--Spacing-4x);
 	}
 }
