@@ -3,109 +3,123 @@
  *
  * @package FAU-Elemental
  */
- @use "../../ui/mixins/mixins" as *;
- .search-results-page {
-    .search-results {
-        margin: 0 auto;
-        margin-block-start: 2.5rem;
-        max-width: var(--small-max-width);
-        padding: 0 var(--Spacing-10x);
-    }
-    .search-results-list{
-        display: grid;
-        gap: var(--Spacing-4x);
-    }
-    .search-result-item{
-        background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
-        padding: var(--Spacing-6x);
-        display: grid;
-        gap: var(--Spacing-2x);
-    }
-    .result-date {
-        font-weight: 500;
-        
-        .result-date-icon {
-            display: inline-block;
-            width: 1rem;
-            height: 1.125rem;
-            margin-right: var(--spacing-xs);
-            background-image: var(--icon-calendar);
-            background-repeat: no-repeat;
-            vertical-align: middle;
-        }
-    }
-    .result-title{
-        color: var(--FAU-Col-FAU-Blau-100);
-        font-size: var(	--H-Heading-3);
-    }
-    a{
-        text-decoration: none;
-    }
-    
-    .result-content {
-        display: flex;
-        gap: var(--Spacing-4x);
-        align-items: flex-start;
-        
-        .result-image {
-            flex-shrink: 0;
-            width: 33.333%;
-            aspect-ratio: 16/9;
-            overflow: hidden;
-            border-radius: var(--border-radius-sm);
-            
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-        }
-        
-        .result-text {
-            flex: 1;
-            min-width: 0;
-            display: grid;
-            gap: var(--Spacing-2x);
-            .result-title{
-                margin: 0;
-            }
-        }
-    }
-    .search-query{
-        font-weight: 600;
-        color: var(--FAU_Col_Base-Schwarz_90);
-    }
-    .search-options-menu{
-        display: grid;
-        gap: 1rem;
-        h4{
-            margin-bottom: 0;
-        }
-        ul{
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            display: grid;
-            gap: var(--Spacing-1x);
-            li{
-                padding: var(--Spacing-3x) 0;
-            }
-        }
-    }
-    
-    // Mobile responsive layout
-    @include respond-to("sm") {
-        .result-content {
-            display: block;
-            
-            .result-image {
-                width: 100%;
-                margin-bottom: var(--Spacing-4x);
-            }
-            
-            .result-text {
-                width: 100%;
-            }
-        }
-    }
+@use "../../ui/mixins/mixins" as *;
+
+.search-results-page {
+
+	.search-results {
+		margin: 0 auto;
+		margin-block-start: 2.5rem;
+		max-width: var(--small-max-width);
+		padding: 0 var(--Spacing-10x);
+	}
+
+	.search-results-list {
+		display: grid;
+		gap: var(--Spacing-4x);
+	}
+
+	.search-result-item {
+		background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+		padding: var(--Spacing-6x);
+		display: grid;
+		gap: var(--Spacing-2x);
+	}
+
+	.result-date {
+		font-weight: 500;
+
+		.result-date-icon {
+			display: inline-block;
+			width: 1rem;
+			height: 1.125rem;
+			margin-right: var(--spacing-xs);
+			background-image: var(--icon-calendar);
+			background-repeat: no-repeat;
+			vertical-align: middle;
+		}
+	}
+
+	.result-title {
+		color: var(--FAU-Col-FAU-Blau-100);
+		font-size: var(--H-Heading-3);
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	.result-content {
+		display: flex;
+		gap: var(--Spacing-4x);
+		align-items: flex-start;
+
+		.result-image {
+			flex-shrink: 0;
+			width: 33.333%;
+			aspect-ratio: 16/9;
+			overflow: hidden;
+			border-radius: var(--border-radius-sm);
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+
+		.result-text {
+			flex: 1;
+			min-width: 0;
+			display: grid;
+			gap: var(--Spacing-2x);
+
+			.result-title {
+				margin: 0;
+			}
+		}
+	}
+
+	.search-query {
+		font-weight: 600;
+		color: var(--FAU_Col_Base-Schwarz_90);
+	}
+
+	.search-options-menu {
+		display: grid;
+		gap: 1rem;
+
+		h4 {
+			margin-bottom: 0;
+		}
+
+		ul {
+			list-style-type: none;
+			padding: 0;
+			margin: 0;
+			display: grid;
+			gap: var(--Spacing-1x);
+
+			li {
+				padding: var(--Spacing-3x) 0;
+			}
+		}
+	}
+
+	// Mobile responsive layout
+	@include respond-to("sm") {
+
+		.result-content {
+			display: block;
+
+			.result-image {
+				width: 100%;
+				margin-bottom: var(--Spacing-4x);
+			}
+
+			.result-text {
+				width: 100%;
+			}
+		}
+	}
 }
