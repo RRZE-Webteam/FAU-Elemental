@@ -1,0 +1,21 @@
+.wp-block-cover {
+	background-image: url(/assets/images/hero-faculty-tf.png);
+	background-size: cover;
+	background-position: center;
+	min-height: 400px;
+}
+
+.hero-other-bg {
+	background-color: var(--FAU-Col-FAU-Blau-100);
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	p,
+	.hero-link {
+		color: var(--FAU-Col-FAU-Weiss-100);
+	}
+}
