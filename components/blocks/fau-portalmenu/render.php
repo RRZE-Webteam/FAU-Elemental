@@ -30,38 +30,11 @@ if (empty($menu)) {
 // Parse attributes with defaults from config
 $show_subs = isset($attributes['showSubs']) ? !empty($attributes['showSubs']) : FAU_Elemental_Portal_Menu_Config::get_default('show_subs');
 $no_thumbs = isset($attributes['noThumbs']) ? !empty($attributes['noThumbs']) : FAU_Elemental_Portal_Menu_Config::get_default('hide_thumbs');
-$is_dark =   isset($attributes['isDark'])   ? !empty($attributes['isDark'])   : FAU_Elemental_Portal_Menu_Config::get_default('is_dark');
 
-// Create Walker instance with settings
-$walker = new Walker_Content_Menu([
+// Set up walker settings
+$walker_settings = array(
     'showsubs' => $show_subs,
     'nothumbs' => $no_thumbs,
-]);
+);
 
-// Get menu object for accessibility
-$menu_obj = null;
-if (is_numeric($menu)) {
-    $menu_obj = wp_get_nav_menu_object($menu);
-} else {
-    $menu_obj = get_term_by('name', $menu, 'nav_menu');
-    if (!$menu_obj) {
-        $menu_obj = get_term_by('slug', $menu, 'nav_menu');
-    }
-}
-
-echo '<div class="wp-block-group' . ($is_dark ? ' is-style-dark' : '') . '">' . "\n";
-echo '<div class="fau-portal-menu" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
-
-// Render the menu
-wp_nav_menu([
-    'menu' => $menu,
-    'echo' => true,
-    'container' => true,
-    'items_wrap' => '%3$s',
-    'link_before' => '',
-    'link_after' => '',
-    'item_spacing' => 'discard',
-    'walker' => $walker
-]);
-
-echo '</div></div>';
+echo Walker_Content_Menu::render_portalmenu($menu, $walker_settings);

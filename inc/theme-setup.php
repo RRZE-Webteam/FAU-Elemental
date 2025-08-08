@@ -10,9 +10,6 @@ if (!defined('ABSPATH')) {
 }
 
 function faue_setup() {
-    // Load theme text domain for translations
-    load_theme_textdomain('fau-elemental', get_template_directory() . '/languages');
-
     // Add default posts and comments RSS feed links to head
     add_theme_support('automatic-feed-links');
 

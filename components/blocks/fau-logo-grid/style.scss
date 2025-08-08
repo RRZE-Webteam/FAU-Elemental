@@ -1,0 +1,98 @@
+@use "../../ui/mixins/mixins" as *;
+
+// Base styles (desktop-first - largest screens)
+.fau-logo-grid {
+	padding: 0 18.78rem;
+	max-width: var(--wide-max-width);
+	margin: 0 auto;
+
+	&__container {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: var(--Spacing-8x);
+		align-items: stretch;
+	}
+
+	&__item {
+		padding: var(--Spacing-6x);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: #f5f5f5;
+		transition: var(--basic-animation);
+		aspect-ratio: 16/9;
+		border: none;
+
+		// Only apply hover effect when there's a link
+		&--has-link {
+			overflow: hidden; // For hover zoom effect
+
+			&:hover {
+				transform: scale(1.03);
+			}
+		}
+	}
+
+	&__link {
+		display: flex;
+		width: 100%;
+		height: 100%;
+		text-decoration: none;
+		justify-content: center;
+		align-items: center;
+		color: inherit;
+	}
+
+	&__image {
+		max-width: 100%;
+		height: auto;
+		object-fit: contain;
+		width: auto;
+	}
+}
+
+// Desktop and smaller (max-width: 1920px)
+@include respond-to("large") {
+
+	.fau-logo-grid {
+		padding: 0 var(--Spacing-12x);
+	}
+}
+
+// Tablet and smaller (max-width: 1440px)
+@include respond-to("medium") {
+
+	.fau-logo-grid {
+		padding: 0 var(--Spacing-10x);
+
+		&__container {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+}
+
+// Mobile and smaller (max-width: 768px)
+@include respond-to("small") {
+
+	.fau-logo-grid {
+		padding: 0 var(--Spacing-5x);
+
+		&__container {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		&__item {
+			padding: var(--Spacing-4x);
+		}
+	}
+}
+// Mobile and smaller (max-width: 768px)
+@include respond-to("x-small") {
+
+	.fau-logo-grid {
+
+		&__item {
+			padding: var(--Spacing-3x);
+		}
+	}
+}

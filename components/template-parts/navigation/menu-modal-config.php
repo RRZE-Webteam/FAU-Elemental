@@ -16,57 +16,66 @@ require_once get_template_directory() . '/components/template-parts/navigation/m
 // Include the mixed navigation walker
 require_once get_template_directory() . '/components/template-parts/navigation/mixed-navigation-walker.php';
 
-// Configure Services Modal (Global Menu - replaces menu-meta-nav functionality)
-Menu_Modal::get_instance()->register_modal('services', array(
-    'theme_locations' => array('top_header_nav_services'),
-    'use_global_menu' => true,
-    'modal_class' => 'menu-meta-nav__modal',
-    'menu_class' => 'menu-meta-nav__menu',
-    'aria_label' => __('Services', 'fau-elemental'),
-    'depth' => 0,
-    'walker' => 'Menu_Modal_Walker',
-    'show_back_button' => true,
-    'show_close_button' => true,
-));
+add_action('init', function () {
+    // Configure Services Modal (Global Menu - replaces menu-meta-nav functionality)
+    Menu_Modal::get_instance()->register_modal('services', array(
+        'theme_locations' => array('top_header_nav_services', 'header_menu_links'),
+        'use_global_menu' => true,
+        'modal_class' => 'menu-meta-nav__modal',
+        'menu_class' => 'menu-meta-nav__menu',
+        'aria_label' => __('Services', 'fau-elemental'),
+        'depth' => 0,
+        'walker' => 'Menu_Modal_Walker',
+        'show_back_button' => true,
+        'show_close_button' => true,
+        'location_depths' => array(
+            'header_menu_links' => 1
+        ),
+        'global_locations' => array('top_header_nav_services'),
+    ));
 
-// Configure Structure Modal (Global Menu - replaces menu-meta-nav functionality)
-Menu_Modal::get_instance()->register_modal('structure', array(
-    'theme_locations' => array('top_header_nav_structure'),
-    'use_global_menu' => true,
-    'modal_class' => 'menu-meta-nav__modal',
-    'menu_class' => 'menu-meta-nav__menu menu-meta-nav__menu--hierarchy',
-    'aria_label' => __('Structure', 'fau-elemental'),
-    'depth' => 0,
-    'walker' => 'Menu_Modal_Hierarchy_Walker',
-    'show_back_button' => true,
-    'show_close_button' => true,
-));
+    // Configure Structure Modal (Global Menu - replaces menu-meta-nav functionality)
+    Menu_Modal::get_instance()->register_modal('structure', array(
+        'theme_locations' => array('top_header_nav_structure'),
+        'use_global_menu' => true,
+        'modal_class' => 'menu-meta-nav__modal',
+        'menu_class' => 'menu-meta-nav__menu menu-meta-nav__menu--hierarchy',
+        'aria_label' => __('Structure', 'fau-elemental'),
+        'depth' => 0,
+        'walker' => 'Menu_Modal_Hierarchy_Walker',
+        'show_back_button' => true,
+        'show_close_button' => true,
+    ));
 
-// Configure Website Menu Modal (Local Menu - replaces menu-website functionality)
-Menu_Modal::get_instance()->register_modal('menu-website', array(
-    'theme_locations' => array('header_primary_menu', 'header_menu_links'),
-    'use_global_menu' => false,
-    'modal_class' => 'menu-website-modal',
-    'menu_class' => 'menu-website-modal__menu',
-    'aria_label' => __('Website Menu', 'fau-elemental'),
-    'depth' => 0,
-    'walker' => 'Mixed_Navigation_Walker',
-    'show_back_button' => true,
-    'show_close_button' => true,
-));
+    // Configure Website Menu Modal (Local Menu - replaces menu-website functionality)
+    Menu_Modal::get_instance()->register_modal('menu-website', array(
+        'theme_locations' => array('header_primary_menu', 'header_menu_links'),
+        'use_global_menu' => false,
+        'modal_class' => 'menu-website-modal',
+        'menu_class' => 'menu-website-modal__menu',
+        'aria_label' => __('Website Menu', 'fau-elemental'),
+        'depth' => 0,
+        'walker' => 'Mixed_Navigation_Walker',
+        'show_back_button' => true,
+        'show_close_button' => true,
+        'location_depths' => array(
+            'header_menu_links' => 1
+        ),
+    ));
 
-// Configure Search Modal (Special modal for search functionality)
-Menu_Modal::get_instance()->register_modal('search', array(
-    'theme_locations' => array(), // No menu locations needed for search
-    'use_global_menu' => false,
-    'modal_class' => 'menu-modal',
-    'menu_class' => 'menu-modal__menu',
-    'aria_label' => __('Search', 'fau-elemental'),
-    'depth' => 0,
-    'walker' => null,
-    'show_back_button' => false,
-    'show_close_button' => true,
-));
+    // Configure Search Modal (Special modal for search functionality)
+    Menu_Modal::get_instance()->register_modal('search', array(
+        'theme_locations' => array(), // No menu locations needed for search
+        'use_global_menu' => false,
+        'modal_class' => 'menu-modal',
+        'menu_class' => 'menu-modal__menu',
+        'aria_label' => __('Search', 'fau-elemental'),
+        'depth' => 0,
+        'walker' => null,
+        'show_back_button' => false,
+        'show_close_button' => true,
+    ));
+});
 
 /**
  * Helper functions to check if menus exist (for use in navigation components)

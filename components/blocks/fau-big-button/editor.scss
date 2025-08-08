@@ -2,6 +2,21 @@
 
 // Editor-specific styles for FAU Big Button Teaser Group
 
+// Character count styling for sidebar controls
+.fau-big-button-character-count {
+	font-size: 0.75rem;
+	color: #666;
+	margin: 0.25rem 0 0 0;
+	text-align: right;
+	font-style: italic;
+
+	&--warning {
+		color: #d63638;
+		font-weight: 500;
+	}
+}
+
+
 .fau-big-button-teaser-group {
 	// Editor preview styles
 	.block-editor & {

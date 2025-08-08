@@ -23,7 +23,6 @@
 @use "../core-blocks/list/style" as *;
 @use "../core-blocks/media-text/style" as *;
 @use "../core-blocks/paragraph/style" as *;
-@use "../core-blocks/quote/style" as *;
 @use "../core-blocks/separator/style" as *;
 @use "../core-blocks/table/style" as *;
 @use "../core-blocks/tag-cloud/style" as *;
@@ -37,6 +36,7 @@
 @use "../patterns/hero-portal/style" as *;
 @use "../patterns/big-buttons-faculties/style" as *;
 @use "../patterns/big-buttons/style" as *;
+@use "../patterns/big-teaser/style" as *;
 @use "../patterns/mini-list-file/style" as *;
 
 // Template Part Styles
@@ -50,3 +50,6 @@
 
 // Plugin Integrations
 @use "plugins/index" as *;
+
+// Template Styles
+@use "../templates/pages/style" as *;

@@ -1,0 +1,38 @@
+.faue-is-big-buttons-faculties-pattern-selected {
+
+	// Hide all block movers by default - target the specific block mover elements
+	.block-editor-block-mover,
+	.block-editor-block-mover__move-button-container,
+	.block-editor-block-mover__drag-handle {
+		display: none;
+	}
+
+	// Hide block lock toolbar to prevent unlocking pattern blocks
+	.block-editor-block-lock-toolbar {
+		display: none;
+	}
+
+	&.faue-is-group-block-selected,
+	&.faue-is-heading-block-selected,
+	&.faue-is-paragraph-block-selected,
+	&.faue-is-buttons-block-selected {
+
+		.block-editor-block-toolbar {
+			// hide all toolbar groups
+			>.components-toolbar-group {
+				display: none;
+			}
+		}
+
+		.block-editor-block-inspector {
+
+			// hide all inspector cards except the block card
+			>:not(.block-editor-block-card) {
+				display: none;
+			}
+		}
+
+	}
+
+
+}

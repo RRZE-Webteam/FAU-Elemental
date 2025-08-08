@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string  $heading_level The heading level to use (h1-h6).
  * @return string The rendered teaser item HTML.
  */
+if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
 function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level = 'h4') {
     $image = get_the_post_thumbnail_url($post->ID, 'full') ?: get_template_directory_uri() . '/assets/images/logo.svg';
     $title = get_the_title($post);
@@ -26,7 +27,10 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
     $link = get_permalink($post);
     $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
-    $output = sprintf(
+    // Make whole article clickable
+    $output = sprintf('<a class="teaser-item-link" href="%s">', esc_url($link));
+
+    $output .= sprintf(
         '<article class="teaser-item %s-teaser" data-variant="%s" data-href="%s" tabindex="0" role="button" aria-labelledby="teaser-title-%d">',
         esc_attr($variant),
         esc_attr($variant),
@@ -44,7 +48,7 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
     );
     $output .= '</div>';
 
-    // Add date meta for posts
+    // Add date meta for posts (visible)
     if ($variant === 'post') {
         $date_obj = new DateTime($post->post_date);
         $day = $date_obj->format('d');
@@ -59,6 +63,16 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
         $output .= sprintf('<span class="date-month-year">%s</span>', esc_html($month_year));
         $output .= '</time>';
         $output .= '</div>';
+    }
+    
+    // Add hidden date meta for pages (for sorting purposes)
+    if ($variant === 'page') {
+        $output .= sprintf(
+            '<time datetime="%s" class="date-meta-hidden" data-created="%s" data-modified="%s"></time>',
+            esc_attr($post->post_date),
+            esc_attr($post->post_date),
+            esc_attr($post->post_modified)
+        );
     }
 
     $output .= '</div>'; // Close image wrapper
@@ -86,12 +100,12 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
 
     // Title with specified heading level
     $output .= sprintf(
-        '<%s class="clamp-3" id="teaser-title-%d">',
+        '<%s class="clamp-3" id="teaser-title-%d">%s</%s>',
         esc_attr($heading_level),
-        $post->ID
+        $post->ID,
+        esc_html($title),
+        esc_attr($heading_level)
     );
-    $output .= sprintf('<a href="%s">%s</a>', esc_url($link), esc_html($title));
-    $output .= sprintf('</%s>', esc_attr($heading_level));
 
     // Excerpt
     $output .= '<div class="excerpt clamp-3">';
@@ -104,8 +118,7 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
     // Button
     $output .= '<div class="button-teaser">';
     $output .= sprintf(
-        '<a href="%s" class="wp-block-button__link"><span class="screen-reader-text">%s %s</span></a>',
-        esc_url($link),
+        '<span class="wp-block-button__link"><span class="screen-reader-text">%s %s</span></span>',
         __('Read more about', 'fau-elemental'),
         esc_html($title)
     );
@@ -114,8 +127,10 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
     $output .= '</div>'; // Close teaser-content
     $output .= '</div>'; // Close teaser-content-wrapper
     $output .= '</article>'; // Close teaser-item
-
+    $output .= '</a>'; // Close teaser teaser-item-link
+    
     return $output;
+}
 }
 
 /**
@@ -125,6 +140,7 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
  * @param string $layout The current layout
  * @return string The wrapped teaser items HTML
  */
+if ( ! function_exists( 'fau_elemental_wrap_teaser_items' ) ) {
 function fau_elemental_wrap_teaser_items($items, $layout) {
     // Only wrap for l2s and 2sl layouts
     if (!in_array($layout, ['l2s', '2sl'])) {
@@ -144,4 +160,5 @@ function fau_elemental_wrap_teaser_items($items, $layout) {
     }
     
     return $output;
+}
 } 

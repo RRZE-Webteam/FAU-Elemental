@@ -25,11 +25,14 @@
 
 	.post-description {
 		margin-top: 0;
+		padding: 0;
 		box-sizing: border-box;
 	}
 
 	.wp-block-buttons {
 		margin: var(--Spacing-4x) 0;
+		padding: 0;
+		box-sizing: border-box;
 	}
 
 	.wp-block-cover {
@@ -91,7 +94,7 @@
 		}
 
 		.wp-block-cover {
-			min-height: 350px; // Reduce min-height to keep horizontal aspect ratio
+			min-height: 21.875rem; // Reduce min-height to keep horizontal aspect ratio
 		}
 	}
 }
@@ -99,14 +102,14 @@
 @media screen and (max-width: 599px) {
 
 	.hero-portal .wp-block-cover {
-		min-height: 280px;
+		min-height: 17.5rem;
 	}
 }
 
 @media screen and (max-width: 499px) {
 
 	.hero-portal .wp-block-cover {
-		min-height: 200px;
+		min-height: 12.5rem;
 	}
 }
 

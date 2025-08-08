@@ -140,10 +140,45 @@ function getPatternClassFromBlock( block ) {
 		'hero-other',
 	];
 
-	const foundPattern = heroPatterns.find( ( pattern ) =>
+	// Check for big-buttons pattern classes
+	const bigButtonsPatterns = [ 'big-buttons', 'big-buttons-faculties' ];
+
+	// Check for other pattern classes
+	const otherPatterns = [
+		'featured-event-teaser',
+		'big-teaser',
+		'logo-grid',
+		'mini-list-file',
+		'facts-grid-with-header',
+	];
+
+	// Check hero patterns first
+	const foundHeroPattern = heroPatterns.find( ( pattern ) =>
 		className.includes( pattern )
 	);
-	return foundPattern || null;
+	if ( foundHeroPattern ) {
+		return foundHeroPattern;
+	}
+
+	// Check big-buttons patterns
+	const foundBigButtonsPattern = bigButtonsPatterns.find( ( pattern ) =>
+		className.includes( pattern )
+	);
+	if ( foundBigButtonsPattern ) {
+		return foundBigButtonsPattern;
+	}
+
+	// Check other patterns (both with and without pattern- prefix)
+	const foundOtherPattern = otherPatterns.find(
+		( pattern ) =>
+			className.includes( pattern ) ||
+			className.includes( `pattern-${ pattern }` )
+	);
+	if ( foundOtherPattern ) {
+		return foundOtherPattern;
+	}
+
+	return null;
 }
 
 // Remove the text-color format type
@@ -305,4 +340,35 @@ function countFAUHeroOccurrences( blocks ) {
 	} );
 
 	return count;
+}
+
+const portalMenuSettings = document.getElementById(
+	'fau_elemental_portal_menu_settings'
+);
+if ( portalMenuSettings ) {
+	const portalMenuIdSelect =
+		portalMenuSettings.querySelector( '#portal_menu_id' );
+	let currentTemplate = null;
+	subscribe( () => {
+		const template =
+			select( 'core/editor' ).getEditedPostAttribute( 'template' );
+		if ( template !== currentTemplate ) {
+			currentTemplate = template;
+			if (
+				currentTemplate &&
+				currentTemplate.includes( 'portal-page/portal-page.php' )
+			) {
+				portalMenuSettings.classList.remove(
+					'fau-portal-menu-template-not-active'
+				);
+			} else {
+				portalMenuSettings.classList.add(
+					'fau-portal-menu-template-not-active'
+				);
+				if ( portalMenuIdSelect ) {
+					portalMenuIdSelect.value = '';
+				}
+			}
+		}
+	} );
 }
