@@ -3,7 +3,7 @@
  * Title: Hero: Faculty
  * Slug: fau-elemental/hero-faculty
  * Categories: hero, fau-elemental
- * Website Types: faculty
+ * Website Types: faculty, other
  * Viewport Width: 1376
  * Block Types: core/post-content
  * Post Types: page
@@ -11,7 +11,8 @@
  */
 ?>
 <?php
-// Get the current faculty
+// Get the current website type and faculty
+$current_website_type = get_theme_mod('faue_website_type', 'fau');
 $current_faculty = get_theme_mod('faue_faculty', 'phil');
 
 // Faculty-specific content
@@ -44,10 +45,22 @@ $faculty_content = [
     ]
 ];
 
-$current_content = $faculty_content[$current_faculty] ?? $faculty_content['phil'];
+// Other website type content
+$other_content = [
+    'title' => 'Willkommen bei der FAU',
+    'description' => 'Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist eine der forschungsstärksten Universitäten in Deutschland. Entdecken Sie unsere vielfältigen Angebote und Forschungsschwerpunkte.',
+    'img' => '/assets/images/hero-faculty-tf.png'
+];
+
+// Determine which content to use
+if ($current_website_type === 'other') {
+    $current_content = $other_content;
+} else {
+    $current_content = $faculty_content[$current_faculty] ?? $faculty_content['phil'];
+}
 ?>
 <!-- wp:columns {"align":"wide","templateLock":"all", "className": "hero-faculty"} -->
-<div class="wp-block-columns alignwide hero-faculty faculty-<?php echo esc_attr($current_faculty); ?>">
+<div class="wp-block-columns alignwide hero-faculty <?php echo $current_website_type === 'other' ? 'hero-other' : 'faculty-' . esc_attr($current_faculty); ?>">
     <!-- wp:column {"layout":{"type":"constrained"},"className":"hero-faculty-left"} -->
     <div class="wp-block-column hero-faculty-left">
 
