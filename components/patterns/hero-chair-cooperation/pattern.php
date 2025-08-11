@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Hero: Chair
- * Slug: fau-elemental/hero-chair-coopertation
+ * Slug: fau-elemental/hero-chair-cooperation
  * Categories: hero, fau-elemental
  * Website Types: chair, cooperation
  * Viewport Width: 1376
@@ -34,8 +34,8 @@ if ($current_website_type === 'chair') {
     $current_content = $cooperation_content;
 }
 ?>
-<!-- wp:columns {"templateLock":"all", "className": "hero-chair"} -->
-<div class="wp-block-columns hero-chair-bg hero-chair <?php echo $current_website_type === 'chair' ? 'hero-chair' : 'hero-cooperation'; ?>">
+<!-- wp:columns {"templateLock":"all", "className": "hero-chair-cooperation"} -->
+<div class="wp-block-columns hero-chair-bg hero-chair-cooperation <?php echo $current_website_type === 'chair' ? 'hero-chair' : 'hero-cooperation'; ?>">
     <!-- wp:column {"layout":{"type":"constrained"}} -->
     <div class="wp-block-column">
 

@@ -135,7 +135,7 @@ function getPatternClassFromBlock( block ) {
 		'hero-fau',
 		'hero-portal',
 		'hero-faculty-other',
-		'hero-chair',
+		'hero-chair-cooperation',
 		'hero-cooperation',
 		'hero-other',
 	];
