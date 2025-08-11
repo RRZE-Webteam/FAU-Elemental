@@ -12,7 +12,7 @@ $faculty-colors: (
 
 
 // Common styles for both frontend and editor
-.hero-faculty {
+.hero-faculty-other {
 	position: relative;
 	width: 100%;
 
@@ -24,7 +24,7 @@ $faculty-colors: (
 			// Style the cover block for faculty-specific appearance
 			.wp-block-cover {
 				position: relative;
-				min-height: 400px;
+				min-height: 25rem;
 
 				// Ensure the cover image is properly positioned
 				.wp-block-cover__image-background {

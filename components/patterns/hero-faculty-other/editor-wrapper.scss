@@ -1,32 +1,9 @@
-.faue-is-hero-faculty-pattern-selected {
-
-	&.faue-is-column-block-selected {
-
-		.block-editor-block-toolbar {
-			// hide layout options
-			>.block-editor-block-toolbar__slot {
-				display: none;
-			}
-			// hide block options dropdown
-			>.components-toolbar-group:nth-last-child(1) {
-				display: none;
-			}
-
-		}
-	}
-
+.faue-is-hero-faculty-other-pattern-selected {
 	.block-editor-block-switcher * {
 		// disable block transforms
 		pointer-events: none !important; // override WP CSS
 	}
 
-	// hide block lock toolbar
-	.block-editor-block-lock-toolbar,
-	.block-editor-block-mover {
-		display: none;
-	}
-
-	&.faue-is-columns-block-selected,
 	&.faue-is-group-block-selected,
 	&.faue-is-heading-block-selected,
 	&.faue-is-paragraph-block-selected,
@@ -36,10 +13,6 @@
 			// hide all toolbar groups
 			>.components-toolbar-group {
 				display: none;
-			}
-
-			.block-editor-block-toolbar__slot {
-				display: none !important;
 			}
 		}
 
@@ -96,8 +69,8 @@
 
 		.block-editor-block-toolbar {
 			// hide block options dropdown (only link option remains)
-			>.components-toolbar-group {
-				display: none !important;
+			>.components-toolbar-group:nth-last-child(1) {
+				display: none;
 			}
 		}
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Title: Hero: Faculty
- * Slug: fau-elemental/hero-faculty
+ * Slug: fau-elemental/hero-faculty-other
  * Categories: hero, fau-elemental
  * Website Types: faculty, other
  * Viewport Width: 1376
@@ -59,8 +59,8 @@ if ($current_website_type === 'other') {
     $current_content = $faculty_content[$current_faculty] ?? $faculty_content['phil'];
 }
 ?>
-<!-- wp:columns {"align":"wide","templateLock":"all", "className": "hero-faculty"} -->
-<div class="wp-block-columns alignwide hero-faculty <?php echo $current_website_type === 'other' ? 'hero-other' : 'faculty-' . esc_attr($current_faculty); ?>">
+<!-- wp:columns {"align":"wide","templateLock":"all", "className": "hero-faculty-other"} -->
+<div class="wp-block-columns alignwide hero-faculty-other <?php echo $current_website_type === 'other' ? 'hero-other' : 'faculty-' . esc_attr($current_faculty); ?>">
     <!-- wp:column {"layout":{"type":"constrained"},"className":"hero-faculty-left"} -->
     <div class="wp-block-column hero-faculty-left">
 

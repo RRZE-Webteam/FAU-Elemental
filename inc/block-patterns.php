@@ -126,7 +126,7 @@ function fau_elemental_register_component_patterns() {
 
         // Dynamic title based on website type for specific patterns
         $dynamic_title = $pattern_data['title'];
-        if ($pattern_data['slug'] === 'fau-elemental/hero-faculty') {
+        if ($pattern_data['slug'] === 'fau-elemental/hero-faculty-other') {
             $current_website_type = get_theme_mod('faue_website_type', 'fau');
             if ($current_website_type === 'other') {
                 $dynamic_title = 'Hero: Other';
