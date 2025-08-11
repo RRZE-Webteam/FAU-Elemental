@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.2.30\n"
+"Project-Id-Version: FAU-Elemental 0.2.31\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-05T09:45:07+00:00\n"
+"POT-Creation-Date: 2025-08-11T10:14:16+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -78,10 +78,9 @@ msgid "Search…"
 msgstr ""
 
 #: components/blocks/fau-global-search/render.php:52
-#: components/template-parts/navigation/fau-navigation.php:46
 #: components/template-parts/navigation/fau-navigation.php:48
-#: components/template-parts/navigation/menu-modal-config.php:72
-#: components/template-parts/navigation/menu-modal.php:242
+#: components/template-parts/navigation/menu-modal-config.php:75
+#: components/template-parts/navigation/menu-modal.php:239
 #: search.php:38
 #: components/blocks/fau-global-search/edit.js:82
 msgid "Search"
@@ -125,6 +124,12 @@ msgstr ""
 
 #: components/blocks/fau-global-search/render.php:118
 msgid "Advanced Search"
+msgstr ""
+
+#: components/blocks/fau-logo-grid/render.php:83
+#: inc/shortcodes.php:176
+#: components/blocks/fau-logo-grid/edit.js:276
+msgid "Logo"
 msgstr ""
 
 #: components/blocks/fau-portalmenu/render.php:25
@@ -317,56 +322,150 @@ msgstr ""
 msgid "FAU Navigation"
 msgstr ""
 
-#: components/template-parts/navigation/main-navigation.php:21
-msgid "Main Navigation"
+#: components/template-parts/navigation/fau-navigation.php:22
+#: inc/theme-settings.php:55
+msgid "FAU.de"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal-config.php:26
+#: components/template-parts/navigation/fau-navigation.php:29
+msgid "Open Services menu"
+msgstr ""
+
+#: components/template-parts/navigation/fau-navigation.php:31
+#: components/template-parts/navigation/menu-modal-config.php:29
 msgid "Services"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal-config.php:43
+#: components/template-parts/navigation/fau-navigation.php:38
+msgid "Open Structure menu"
+msgstr ""
+
+#: components/template-parts/navigation/fau-navigation.php:40
+#: components/template-parts/navigation/menu-modal-config.php:46
 msgid "Structure"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal-config.php:56
+#: components/template-parts/navigation/fau-navigation.php:46
+msgid "Open Search"
+msgstr ""
+
+#: components/template-parts/navigation/fau-navigation.php:52
+msgid "Open Language selector"
+msgstr ""
+
+#: components/template-parts/navigation/fau-navigation.php:53
+msgid "DE"
+msgstr ""
+
+#: components/template-parts/navigation/main-navigation.php:45
+msgid "Open menu"
+msgstr ""
+
+#: components/template-parts/navigation/main-navigation.php:46
+#: inc/portal-page-settings.php:73
+#: components/blocks/fau-portalmenu/edit.js:64
+msgid "Menu"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal-config.php:59
 msgid "Website Menu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:245
+#: components/template-parts/navigation/menu-modal.php:242
 msgid "Search all pages and documents:"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:307
+#: components/template-parts/navigation/menu-modal.php:317
 msgid "No menu items found."
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:349
+#: components/template-parts/navigation/menu-modal.php:359
 msgid "Use Tab to navigate through menu items, Enter to select, Escape to close, or use the Close button."
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:358
+#: components/template-parts/navigation/menu-modal.php:368
 msgid "Back to main menu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:360
+#: components/template-parts/navigation/menu-modal.php:370
 msgid "Back"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:365
+#: components/template-parts/navigation/menu-modal.php:375
 msgid "Close menu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:366
+#: components/template-parts/navigation/menu-modal.php:376
 msgid "Close"
 msgstr ""
 
 #. translators: title of the submenu
-#: components/template-parts/navigation/menu-modal.php:438
-#: components/template-parts/navigation/menu-modal.php:505
-#: components/template-parts/navigation/mixed-navigation-walker.php:208
-#: components/template-parts/navigation/mixed-navigation-walker.php:443
+#: components/template-parts/navigation/menu-modal.php:477
+#: components/template-parts/navigation/menu-modal.php:550
+#: components/template-parts/navigation/mixed-navigation-walker.php:383
+#: components/template-parts/navigation/mixed-navigation-walker.php:578
 msgid "Open %s submenu"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:587
+msgid "Overview:"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:588
+msgid "Menu opened"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:589
+msgid "Menu closed"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:590
+msgid "Navigated to"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:591
+msgid "submenu"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:592
+msgid "submenu collapsed"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:593
+msgid "submenu expanded"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:594
+msgid "Navigated back"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:595
+msgid "Moved to last menu item"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:596
+msgid "Moved to close button"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:597
+msgid "Menu breadcrumbs"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:598
+msgid "Go to"
+msgstr ""
+
+#: components/template-parts/navigation/mixed-navigation-walker.php:331
+msgid "mixed-navigation"
+msgstr ""
+
+#: components/template-parts/navigation/mixed-navigation-walker.php:333
+msgid "menu-navigation"
+msgstr ""
+
+#: components/template-parts/navigation/mixed-navigation-walker.php:335
+#: components/template-parts/navigation/mixed-navigation-walker.php:553
+msgid "page-navigation"
 msgstr ""
 
 #: components/template-parts/post-meta/post-meta.php:58
@@ -848,11 +947,6 @@ msgstr ""
 msgid "Portal Menu Settings"
 msgstr ""
 
-#: inc/portal-page-settings.php:73
-#: components/blocks/fau-portalmenu/edit.js:64
-msgid "Menu"
-msgstr ""
-
 #: inc/portal-page-settings.php:75
 msgid "- Select Menu -"
 msgstr ""
@@ -904,10 +998,6 @@ msgstr ""
 msgid "Logo from %s"
 msgstr ""
 
-#: inc/shortcodes.php:176
-msgid "Logo"
-msgstr ""
-
 #: inc/theme-settings.php:18
 msgid "Theme Settings"
 msgstr ""
@@ -926,10 +1016,6 @@ msgstr ""
 
 #: inc/theme-settings.php:51
 msgid "Website Type"
-msgstr ""
-
-#: inc/theme-settings.php:55
-msgid "FAU.de"
 msgstr ""
 
 #: inc/theme-settings.php:56
@@ -1258,7 +1344,7 @@ msgstr ""
 #: components/blocks/fau-big-teaser/edit.js:169
 #: components/blocks/fau-featured-event-teaser/edit.js:126
 #: components/blocks/fau-featured-event-teaser/edit.js:191
-#: components/blocks/fau-logo-grid/edit.js:172
+#: components/blocks/fau-logo-grid/edit.js:129
 #: components/blocks/fau-testimonial/edit.js:196
 msgid "Replace Image"
 msgstr ""
@@ -1540,39 +1626,43 @@ msgstr ""
 msgid "Content Size: for editorial content, includes search scope selection and advanced features. Full Grid: for wide teaser components, simple search only."
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:141
+#: components/blocks/fau-logo-grid/edit.js:104
 msgid "Add Logo"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:150
+#: components/blocks/fau-logo-grid/edit.js:115
 msgid "Selected Logo Settings"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:176
+#: components/blocks/fau-logo-grid/edit.js:130
 msgid "Set Image"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:201
-msgid "Logo Link"
-msgstr ""
-
-#: components/blocks/fau-logo-grid/edit.js:211
-msgid "Original Category:"
-msgstr ""
-
-#: components/blocks/fau-logo-grid/edit.js:221
-msgid "This logo was migrated from the previous theme."
-msgstr ""
-
-#: components/blocks/fau-logo-grid/edit.js:235
+#: components/blocks/fau-logo-grid/edit.js:140
 msgid "Remove Logo"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:259
+#: components/blocks/fau-logo-grid/edit.js:150
+msgid "Logo preview"
+msgstr ""
+
+#: components/blocks/fau-logo-grid/edit.js:169
+msgid "Logo Link"
+msgstr ""
+
+#: components/blocks/fau-logo-grid/edit.js:179
+msgid "Original Category:"
+msgstr ""
+
+#: components/blocks/fau-logo-grid/edit.js:192
+msgid "This logo was migrated from the previous theme."
+msgstr ""
+
+#: components/blocks/fau-logo-grid/edit.js:246
 msgid "Select logo for editing"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:284
+#: components/blocks/fau-logo-grid/edit.js:265
 msgid "Choose Logo"
 msgstr ""
 
