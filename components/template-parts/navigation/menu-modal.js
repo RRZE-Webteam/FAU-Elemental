@@ -3,20 +3,95 @@
  * Handles both global menus (meta-nav) and local menus (website)
  */
 
+// Localized strings are available via fauElementalMenuModal.strings
+
 ( function ( $ ) {
 	'use strict';
+
+	// Safety check for localized strings
+	const strings =
+		typeof window.fauElementalMenuModal !== 'undefined' &&
+		window.fauElementalMenuModal.strings
+			? window.fauElementalMenuModal.strings
+			: {
+					overview: '',
+					menuOpened: '',
+					menuClosed: '',
+					navigatedTo: '',
+					submenu: '',
+					submenuCollapsed: '',
+					submenuExpanded: '',
+					navigatedBack: '',
+					movedToLastMenuItem: '',
+					movedToCloseButton: '',
+					menuBreadcrumbs: '',
+					goTo: '',
+			  };
 
 	class MenuModal {
 		constructor() {
 			this.currentModal = null;
 			this.previouslyFocused = null;
 			this.closeTimeout = null;
+			this.domCache = new Map(); // Cache for DOM query results
+			this.cacheVersion = 0; // Increment when DOM structure changes
+			this.pendingTimeouts = new Set(); // Track all pending timeouts for cleanup
 			this.init();
 		}
 
 		init() {
 			this.bindEvents();
 			this.setupAccessibility();
+		}
+
+		// Cache key generator for DOM queries
+		getCacheKey( modalId, queryType, additionalParams = '' ) {
+			return `${ modalId }-${ queryType }-${ this.cacheVersion }-${ additionalParams }`;
+		}
+
+		// Invalidate cache when DOM structure changes
+		invalidateCache() {
+			this.cacheVersion++;
+			this.domCache.clear();
+		}
+
+		// Cached DOM query with automatic invalidation
+		cachedQuery( $modal, selector, cacheKey ) {
+			if ( this.domCache.has( cacheKey ) ) {
+				return this.domCache.get( cacheKey );
+			}
+
+			const result = $modal.find( selector );
+			this.domCache.set( cacheKey, result );
+			return result;
+		}
+
+		// Safe timeout creation with cleanup tracking
+		safeSetTimeout( callback, delay ) {
+			const timeoutId = setTimeout( () => {
+				this.pendingTimeouts.delete( timeoutId );
+				callback();
+			}, delay );
+			this.pendingTimeouts.add( timeoutId );
+			return timeoutId;
+		}
+
+		// Clear all pending timeouts
+		clearAllTimeouts() {
+			this.pendingTimeouts.forEach( ( timeoutId ) => {
+				clearTimeout( timeoutId );
+			} );
+			this.pendingTimeouts.clear();
+		}
+
+		// HTML escaping function to prevent XSS
+		escapeHtml( text ) {
+			if ( ! text ) {
+				return '';
+			}
+			const div = document.createElement( 'div' );
+			div.textContent = text;
+			return div.innerHTML;
 		}
 
 		isHierarchyMenu( $modal ) {
@@ -30,18 +105,18 @@
 				return '';
 			}
 
-			let breadcrumbsHtml =
-				'<nav class="menu-modal__breadcrumbs" aria-label="Menu breadcrumbs"><ol>';
+			let breadcrumbsHtml = `<nav class="menu-modal__breadcrumbs" aria-label="${ strings.menuBreadcrumbs }"><ol>`;
 
 			navigationStack.forEach( ( item, index ) => {
 				const isLast = index === navigationStack.length - 1;
 				const levelClass = `breadcrumb-level-${ index }`;
+				const safeParentTitle = this.escapeHtml( item.parentTitle );
 
 				if ( isLast ) {
-					breadcrumbsHtml += `<li class="breadcrumb-item ${ levelClass } current" aria-current="location">${ item.parentTitle }</li>`;
+					breadcrumbsHtml += `<li class="breadcrumb-item ${ levelClass } current" aria-current="location">${ safeParentTitle }</li>`;
 				} else {
 					breadcrumbsHtml += `<li class="breadcrumb-item ${ levelClass }">`;
-					breadcrumbsHtml += `<a class="breadcrumb-link" data-level="${ index }" aria-label="Go to ${ item.parentTitle }">${ item.parentTitle }</a>`;
+					breadcrumbsHtml += `<a class="breadcrumb-link" data-level="${ index }" aria-label="${ strings.goTo } ${ safeParentTitle }">${ safeParentTitle }</a>`;
 					breadcrumbsHtml += '</li>';
 				}
 			} );
@@ -145,10 +220,8 @@
 
 			this.closeCurrentModal();
 
-			if ( this.closeTimeout ) {
-				clearTimeout( this.closeTimeout );
-				this.closeTimeout = null;
-			}
+			// Clear all pending timeouts when opening a new modal
+			this.clearAllTimeouts();
 
 			this.currentModal = $modal;
 			this.resetModalState( $modal );
@@ -164,12 +237,12 @@
 			}
 
 			$modal
-				.removeAttr( 'style' )
+				.removeClass( 'u-hidden' )
 				.addClass( 'is-open' )
 				.attr( 'aria-hidden', 'false' );
 			$( 'body' ).addClass( 'modal-open' );
 
-			this.announce( 'Menu opened' );
+			this.announce( strings.menuOpened );
 
 			if ( targetItemId || targetUrl ) {
 				this.navigateToItem( $modal, targetItemId, targetUrl );
@@ -179,7 +252,7 @@
 
 			this.trapFocus( $modal );
 
-			setTimeout( () => {
+			this.safeSetTimeout( () => {
 				const $closeButton = $modal
 					.find(
 						'.menu-modal__close-btn, .menu-meta-nav__modal__close-btn, .menu-website-modal__close-btn'
@@ -302,8 +375,9 @@
 			const parentTitle = $toggle.data( 'parent-title' );
 			if ( parentUrl && parentTitle && parentUrl !== '#' ) {
 				$submenu.find( '.menu-item-overview' ).remove();
+				const safeParentTitle = this.escapeHtml( parentTitle );
 				$submenu.prepend(
-					`<li class="menu-item menu-item-overview"><a href="${ parentUrl }">Übersicht: ${ parentTitle }</a></li>`
+					`<li class="menu-item menu-item-overview"><a href="${ parentUrl }">${ strings.overview } ${ safeParentTitle }</a></li>`
 				);
 			}
 
@@ -322,11 +396,16 @@
 				.find(
 					'.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn'
 				)
-				.show();
+				.removeClass( 'u-hidden' );
 
-			setTimeout( () => {
+			// Invalidate cache due to DOM structure change
+			this.invalidateCache();
+
+			this.safeSetTimeout( () => {
 				this.updateFocusTrap( $modal );
-				this.announce( `Navigated to ${ parentTitle } submenu` );
+				this.announce(
+					strings.navigatedTo + ` ${ parentTitle } ` + strings.submenu
+				);
 			}, 50 );
 		}
 
@@ -364,13 +443,13 @@
 				$toggle
 					.attr( 'aria-expanded', 'false' )
 					.removeClass( 'expanded' );
-				this.announce( `${ parentTitle } submenu collapsed` );
+				this.announce( `${ parentTitle } ` + strings.submenuCollapsed );
 			} else {
 				$submenu.show();
 				$toggle.attr( 'aria-expanded', 'true' ).addClass( 'expanded' );
-				this.announce( `${ parentTitle } submenu expanded` );
+				this.announce( `${ parentTitle } ` + strings.submenuExpanded );
 
-				setTimeout( () => {
+				this.safeSetTimeout( () => {
 					this.updateFocusTrap(
 						$toggle.closest(
 							'.menu-modal, .menu-meta-nav__modal, .menu-website-modal'
@@ -408,7 +487,7 @@
 					.find(
 						'.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn'
 					)
-					.hide();
+					.addClass( 'u-hidden' );
 			}
 
 			if ( this.isHierarchyMenu( $modal ) ) {
@@ -424,16 +503,22 @@
 				);
 
 				if ( $currentToggle.length && currentLevel.parentTitle ) {
+					const safeParentTitle = this.escapeHtml(
+						currentLevel.parentTitle
+					);
 					$currentToggle.after(
-						`<h2 class="menu-modal__level-heading">${ currentLevel.parentTitle }</h2>`
+						`<h2 class="menu-modal__level-heading">${ safeParentTitle }</h2>`
 					);
 				}
 			}
 
-			this.rehighlightCurrentPage( $modal );
-			this.announce( 'Navigated back' );
+			// Invalidate cache due to DOM structure change
+			this.invalidateCache();
 
-			setTimeout( () => {
+			this.rehighlightCurrentPage( $modal );
+			this.announce( strings.navigatedBack );
+
+			this.safeSetTimeout( () => {
 				this.updateFocusTrap( $modal );
 			}, 50 );
 		}
@@ -472,7 +557,8 @@
 
 			const breadcrumbHtml = this.generateBreadcrumbs( navigationStack );
 			const currentLevel = navigationStack[ navigationStack.length - 1 ];
-			const levelHeadingHtml = `<h2 class="menu-modal__level-heading">${ currentLevel.parentTitle }</h2>`;
+			const safeParentTitle = this.escapeHtml( currentLevel.parentTitle );
+			const levelHeadingHtml = `<h2 class="menu-modal__level-heading">${ safeParentTitle }</h2>`;
 
 			// Remove existing breadcrumbs and level heading
 			$breadcrumbContainer.remove();
@@ -496,10 +582,8 @@
 				return;
 			}
 
+			// Use more efficient traversal - only search within the submenu
 			$submenu
-				.closest(
-					'.menu-modal, .menu-meta-nav__modal, .menu-website-modal'
-				)
 				.find( '.current-menu-item-focused, .active' )
 				.removeClass( 'current-menu-item-focused active' );
 
@@ -527,19 +611,46 @@
 					? [ '/' ]
 					: [ currentPath, currentPath + '/' ];
 
-			const $visibleSubmenus = $modal.find( '.sub-menu:visible' );
+			// Use cached query for visible submenus
+			const cacheKey = this.getCacheKey(
+				$modal.attr( 'id' ),
+				'visible-submenus'
+			);
+			const $visibleSubmenus = this.cachedQuery(
+				$modal,
+				'.sub-menu:visible',
+				cacheKey
+			);
+
 			$visibleSubmenus.each( ( _, submenu ) => {
 				this.highlightOverviewLink( $( submenu ) );
 			} );
 
-			const $highlighted = $modal.find(
-				'.current-menu-item-focused, .active'
+			// Use cached query for highlighted items
+			const highlightedCacheKey = this.getCacheKey(
+				$modal.attr( 'id' ),
+				'highlighted-items'
 			);
+			const $highlighted = this.cachedQuery(
+				$modal,
+				'.current-menu-item-focused, .active',
+				highlightedCacheKey
+			);
+
 			if ( ! $highlighted.length ) {
 				let $currentItem = $();
 				for ( const path of searchPaths ) {
-					$currentItem = $modal
-						.find( '.menu-item:visible' )
+					// Use cached query for visible menu items
+					const menuItemsCacheKey = this.getCacheKey(
+						$modal.attr( 'id' ),
+						'visible-menu-items',
+						path
+					);
+					$currentItem = this.cachedQuery(
+						$modal,
+						'.menu-item:visible',
+						menuItemsCacheKey
+					)
 						.filter( function () {
 							const itemUrl = $( this ).attr( 'data-menu-url' );
 							return (
@@ -559,10 +670,13 @@
 		}
 
 		highlightMenuItem( $item ) {
-			$item
-				.closest(
-					'.menu-modal, .menu-meta-nav__modal, .menu-website-modal'
-				)
+			// Use more efficient traversal - find the modal through the item's parents
+			const $modal = $item.closest(
+				'.menu-modal, .menu-meta-nav__modal, .menu-website-modal'
+			);
+
+			// Only search within the modal, not the entire document
+			$modal
 				.find( '.current-menu-item-focused, .active' )
 				.removeClass( 'current-menu-item-focused active' );
 
@@ -583,8 +697,15 @@
 		}
 
 		resetModalState( $modal ) {
-			const $menu = $modal.find(
-				'.menu-modal__menu, .menu-meta-nav__menu, .menu-website-modal__menu'
+			// Cache the menu element to avoid repeated queries
+			const menuCacheKey = this.getCacheKey(
+				$modal.attr( 'id' ),
+				'menu-element'
+			);
+			const $menu = this.cachedQuery(
+				$modal,
+				'.menu-modal__menu, .menu-meta-nav__menu, .menu-website-modal__menu',
+				menuCacheKey
 			);
 
 			$menu.children( '.menu-item' ).show();
@@ -603,8 +724,11 @@
 				.find(
 					'.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn'
 				)
-				.hide();
+				.addClass( 'u-hidden' );
 			$modal.data( 'navigation-stack', [] );
+
+			// Invalidate cache due to DOM structure change
+			this.invalidateCache();
 		}
 
 		closeCurrentModal() {
@@ -614,11 +738,10 @@
 
 			const $modal = this.currentModal;
 
-			this.announce( 'Menu closed' );
+			this.announce( strings.menuClosed );
 
-			if ( this.closeTimeout ) {
-				clearTimeout( this.closeTimeout );
-			}
+			// Clear all pending timeouts when closing modal
+			this.clearAllTimeouts();
 
 			this.resetModalState( $modal );
 
@@ -627,8 +750,8 @@
 				.attr( 'aria-expanded', 'false' );
 
 			$modal.removeClass( 'is-open' ).attr( 'aria-hidden', 'true' );
-			this.closeTimeout = setTimeout( () => {
-				$modal.hide();
+			this.closeTimeout = this.safeSetTimeout( () => {
+				$modal.addClass( 'u-hidden' );
 				this.closeTimeout = null;
 			}, 300 );
 
@@ -641,6 +764,9 @@
 
 			this.currentModal = null;
 			this.previouslyFocused = null;
+
+			// Clear cache when modal is closed
+			this.domCache.clear();
 		}
 
 		trapFocus( $modal ) {
@@ -680,27 +806,34 @@
 					) {
 						e.preventDefault();
 						$lastFocusable.focus();
-						this.announce( 'Moved to last menu item' );
+						this.announce( strings.movedToLastMenuItem );
 					}
 				} else if ( activeElement === $lastFocusable[ 0 ] ) {
 					e.preventDefault();
 					$firstFocusable.focus();
-					this.announce( 'Moved to close button' );
+					this.announce( strings.movedToCloseButton );
 				}
 			} );
 		}
 
 		getFocusableElements( $modal ) {
-			const focusableSelectors = [
-				'button:visible:not([disabled])',
-				'a:visible[href]',
-				'input:visible:not([disabled])',
-				'select:visible:not([disabled])',
-				'textarea:visible:not([disabled])',
-				'[tabindex]:visible:not([tabindex="-1"]):not([disabled])',
-			].join( ', ' );
-
-			const $allFocusable = $modal.find( focusableSelectors );
+			// Use cached query for focusable elements
+			const cacheKey = this.getCacheKey(
+				$modal.attr( 'id' ),
+				'focusable-elements'
+			);
+			const $allFocusable = this.cachedQuery(
+				$modal,
+				[
+					'button:visible:not([disabled])',
+					'a:visible[href]',
+					'input:visible:not([disabled])',
+					'select:visible:not([disabled])',
+					'textarea:visible:not([disabled])',
+					'[tabindex]:visible:not([tabindex="-1"]):not([disabled])',
+				].join( ', ' ),
+				cacheKey
+			);
 
 			const $visibleFocusable = $allFocusable.filter( function () {
 				const $el = $( this );
@@ -712,16 +845,27 @@
 				);
 			} );
 
-			const $closeButton = $modal
-				.find(
-					'.menu-modal__close-btn, .menu-meta-nav__modal__close-btn, .menu-website-modal__close-btn'
-				)
-				.filter( ':visible' );
-			const $backButton = $modal
-				.find(
-					'.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn'
-				)
-				.filter( ':visible' );
+			// Use cached queries for buttons
+			const closeButtonCacheKey = this.getCacheKey(
+				$modal.attr( 'id' ),
+				'close-buttons'
+			);
+			const $closeButton = this.cachedQuery(
+				$modal,
+				'.menu-modal__close-btn, .menu-meta-nav__modal__close-btn, .menu-website-modal__close-btn',
+				closeButtonCacheKey
+			).filter( ':visible' );
+
+			const backButtonCacheKey = this.getCacheKey(
+				$modal.attr( 'id' ),
+				'back-buttons'
+			);
+			const $backButton = this.cachedQuery(
+				$modal,
+				'.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn',
+				backButtonCacheKey
+			).filter( ':visible' );
+
 			const $otherElements = $visibleFocusable
 				.not( $closeButton )
 				.not( $backButton );
@@ -745,9 +889,9 @@
 			);
 			if ( $announcements.length ) {
 				$announcements.text( message );
-				setTimeout( () => {
+				this.safeSetTimeout( () => {
 					$announcements.empty();
-				}, 1000 );
+				}, 3000 );
 			}
 		}
 
@@ -776,6 +920,26 @@
 
 			// Navigate to search results page
 			window.location.href = searchUrl;
+		}
+
+		// Destructor method to clean up all resources
+		disconnect() {
+			// Clear all pending timeouts
+			this.clearAllTimeouts();
+
+			// Clear cache
+			this.domCache.clear();
+
+			// Remove event listeners
+			if ( this.currentModal ) {
+				this.currentModal.off( 'keydown.menu-modal' );
+			}
+
+			// Reset state
+			this.currentModal = null;
+			this.previouslyFocused = null;
+			this.closeTimeout = null;
+			this.cacheVersion = 0;
 		}
 	}
 

@@ -379,7 +379,7 @@ function fau_elemental_convert_imagelink_shortcode_to_block($matches) {
     
     $block_markup .= '</div>';
     $block_markup .= '</div>';
-    $block_markup .= '<!-- /wp:fau/logo-grid -->';
+    $block_markup .= '<!-- /wp:fau-elemental/fau-logo-grid -->';
     
     return $block_markup;
 } 

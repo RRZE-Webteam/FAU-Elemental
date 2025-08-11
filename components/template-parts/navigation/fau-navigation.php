@@ -6,7 +6,7 @@
  */
 
 if (!defined('ABSPATH')) {
-    exit;
+    return;
 }
 
 // Check for Services and Structure menus using unified system
@@ -17,40 +17,40 @@ $website_type = get_theme_mod('faue_website_type', 'fau');
 
 <nav class="fau-navigation" aria-label="<?php esc_attr_e('FAU Navigation', 'fau-elemental'); ?>">
     <?php if ($website_type !== 'fau'): ?>
-    <a href="https://www.fau.de" class="fau-navigation__fau-link">
+    <a href="<?php echo esc_url(set_url_scheme('https://www.fau.de')); ?>" class="fau-navigation__fau-link">
         <span class="fau-navigation__back-icon"></span>
-        FAU.de
+        <?php esc_html_e('FAU.de', 'fau-elemental'); ?>
     </a>
     <?php endif; ?>
     <div class="fau-nav-modals">
         <?php if ($has_services): ?>
-            <button class="fau-navigation__button menu-modal__open-btn"
+            <button type="button" class="fau-navigation__button menu-modal__open-btn"
                 data-modal-target="services-modal"
-                aria-label="Services"
+                aria-label="<?php esc_attr_e('Open Services menu', 'fau-elemental'); ?>"
                 aria-expanded="false">
-                Services
+                <?php esc_html_e('Services', 'fau-elemental'); ?>
                 <span class="fau-navigation__services-icon"></span>
             </button>
         <?php endif; ?>
         <?php if ($has_structure): ?>
-            <button class="fau-navigation__button menu-modal__open-btn"
+            <button type="button" class="fau-navigation__button menu-modal__open-btn"
                 data-modal-target="structure-modal"
-                aria-label="Structure"
+                aria-label="<?php esc_attr_e('Open Structure menu', 'fau-elemental'); ?>"
                 aria-expanded="false">
-                Structure
+                <?php esc_html_e('Structure', 'fau-elemental'); ?>
                 <span class="fau-navigation__structure-icon"></span>
             </button>
         <?php endif; ?>
-            <button class="fau-navigation__button menu-modal__open-btn"
+            <button type="button" class="fau-navigation__button menu-modal__open-btn"
                 data-modal-target="search"
-                aria-label="<?php esc_attr_e('Search', 'fau-elemental'); ?>"
+                aria-label="<?php esc_attr_e('Open Search', 'fau-elemental'); ?>"
                 aria-expanded="false">
                 <?php esc_html_e('Search', 'fau-elemental'); ?>
                 <span class="fau-navigation__search-icon"></span>
             </button>
     </div>
-    <button class="language-switcher fau-navigation__button" aria-label="Language" aria-expanded="false">
-        DE
+    <button type="button" class="language-switcher fau-navigation__button" aria-label="<?php esc_attr_e('Open Language selector', 'fau-elemental'); ?>" aria-expanded="false">
+        <?php esc_html_e('DE', 'fau-elemental'); ?>
         <span class="fau-navigation__language-switcher-icon"></span>
     </button>
 </nav> 

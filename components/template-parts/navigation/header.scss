@@ -394,6 +394,21 @@
 // Modal menu
 body.modal-open {
 	overflow: hidden; // Prevent scrolling when menu is active
+	padding-right: 15px; // Compensate for missing scroll bar
+
+	@media screen and (min-width: 1816px) {
+
+		.site-header .site-header-top__wrapper {
+			max-width: calc(1800px - 15px); // Compensate for missing scroll bar
+		}
+	}
+
+	@media screen and (max-width: 1815px) and (min-width: 600px) {
+
+		.site-header__top .fau-navigation {
+			margin-right: 15px; // Compensate for missing scroll bar
+		}
+	}
 }
 
 .menu-modal,
@@ -519,6 +534,11 @@ body.modal-open {
 		color: var(--FAU-Col-FAU-Blau-100);
 		font-weight: 600;
 		letter-spacing: var(--letter-spacing-small);
+
+		// Override display when u-hidden class is present
+		&.u-hidden {
+			display: none;
+		}
 
 		.menu-website-modal__close-icon,
 		.menu-meta-nav__modal__close-icon,
@@ -916,11 +936,11 @@ body.home.fauorg-fakultaet.faculty-rw {
 
 @media screen and (max-width: 1919px) {
 
-	.site-header-top__wrapper {
+	.home .site-header-top__wrapper {
 		padding-right: var(--Spacing-6x);
 	}
 
-	.main-navigation__logo {
+	.home .main-navigation__logo {
 		left: 3.75rem;
 	}
 }
@@ -1155,4 +1175,13 @@ body.home.fauorg-fakultaet.faculty-rw {
 			left: var(--Spacing-4x);
 		}
 	}
+}
+
+// Utility classes for hiding elements
+.u-hidden {
+	display: none;
+}
+
+.is-hidden {
+	display: none;
 }
