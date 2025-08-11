@@ -9,8 +9,7 @@
  * Post Types: page
  * Description: Hero pattern for faculty websites
  */
-?>
-<?php
+
 // Get the current website type and faculty
 $current_website_type = get_theme_mod('faue_website_type', 'fau');
 $current_faculty = get_theme_mod('faue_faculty', 'phil');
