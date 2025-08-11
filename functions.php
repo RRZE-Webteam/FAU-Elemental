@@ -349,3 +349,45 @@ function fau_elemental_control_block_locking_permissions($settings, $context) {
     return $settings;
 }
 add_filter('block_editor_settings_all', 'fau_elemental_control_block_locking_permissions', 10, 2);
+
+/**
+ * Register custom taxonomy for pages (separate from post categories)
+ * This creates an independent category system for pages
+ */
+function fau_elemental_register_page_categories() {
+    register_taxonomy(
+        'page_category',
+        'page',
+        array(
+            'labels' => array(
+                'name' => __('Page Categories', 'fau-elemental'),
+                'singular_name' => __('Page Category', 'fau-elemental'),
+                'menu_name' => __('Page Categories', 'fau-elemental'),
+                'all_items' => __('All Page Categories', 'fau-elemental'),
+                'edit_item' => __('Edit Page Category', 'fau-elemental'),
+                'view_item' => __('View Page Category', 'fau-elemental'),
+                'update_item' => __('Update Page Category', 'fau-elemental'),
+                'add_new_item' => __('Add New Page Category', 'fau-elemental'),
+                'new_item_name' => __('New Page Category Name', 'fau-elemental'),
+                'parent_item' => __('Parent Page Category', 'fau-elemental'),
+                'parent_item_colon' => __('Parent Page Category:', 'fau-elemental'),
+                'search_items' => __('Search Page Categories', 'fau-elemental'),
+                'not_found' => __('No page categories found', 'fau-elemental'),
+            ),
+            'hierarchical' => true,
+            'public' => true,
+            'show_ui' => true,
+            'show_admin_column' => true,
+            'show_in_nav_menus' => true,
+            'show_in_rest' => true,
+            'show_tagcloud' => false,
+            'query_var' => true,
+            'rewrite' => array(
+                'slug' => 'page-category',
+                'with_front' => false,
+                'hierarchical' => true
+            ),
+        )
+    );
+}
+add_action('init', 'fau_elemental_register_page_categories');

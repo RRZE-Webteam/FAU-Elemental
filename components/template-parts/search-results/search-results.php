@@ -248,10 +248,30 @@ $has_results = !empty($current_site_custom_results);
                             <?php echo esc_html($formatted_result['type']); ?>
                         </span>
                         <?php 
-                        $categories = get_the_category($post_result->ID);
+                        // Handle categories based on post type
+                        $post_type = get_post_type($post_result->ID);
+                        $categories = array();
+                        $category_class = '';
+                        $category_label = '';
+                        
+                        if ($post_type === 'post') {
+                            $categories = get_the_category($post_result->ID);
+                            $category_class = 'result-category result-category--post';
+                            $category_label = __('Post Category', 'fau-elemental');
+                        } elseif ($post_type === 'page') {
+                            $categories = get_the_terms($post_result->ID, 'page_category');
+                            if (is_wp_error($categories)) {
+                                $categories = array();
+                            }
+                            $category_class = 'result-category result-category--page';
+                            $category_label = __('Page Category', 'fau-elemental');
+                        }
+                        
                         if (!empty($categories)) : ?>
                             <span class="result-separator" aria-hidden="true"><?php echo $search_config['separator']; ?></span>
-                            <span class="result-category" itemprop="articleSection">
+                            <span class="<?php echo esc_attr($category_class); ?>" 
+                                  itemprop="articleSection"
+                                  title="<?php echo esc_attr($category_label); ?>">
                                 <?php echo esc_html($categories[0]->name); ?>
                             </span>
                         <?php endif; ?>
