@@ -43,6 +43,18 @@
 				}
 			}
 		}
+
+		&__background {
+			background: linear-gradient(to top left, transparent, transparent, rgba(0, 0, 0, 0.5));
+
+			&.has-background-dim.has-background-dim-0 {
+				opacity: 1; // Always show overlay
+			}
+		}
+
+		.has-background-dim:not([class*="-background-color"]) {
+			background-color: unset; // Reset overlay bg color
+		}
 	}
 
 	// Button
