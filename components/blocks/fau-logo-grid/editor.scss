@@ -95,10 +95,8 @@
 	}
 }
 
-.components-panel__body {
-
-	.components-button {
-		margin-right: var(--Spacing-4x);
-		margin-bottom: var(--Spacing-4x);
-	}
+.fau-logo-grid__image-select-button,
+.fau-logo-grid__remove-button {
+	margin-right: var(--Spacing-4x);
+	margin-bottom: var(--Spacing-4x);
 }
