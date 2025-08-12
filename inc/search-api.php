@@ -130,19 +130,6 @@ function fau_check_search_rate_limit($request) {
  * @return string The client IP address.
  */
 function fau_get_client_ip() {
-    $ip_keys = array('HTTP_CF_CONNECTING_IP', 'HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR');
-    
-    foreach ($ip_keys as $key) {
-        if (array_key_exists($key, $_SERVER) === true) {
-            foreach (explode(',', $_SERVER[$key]) as $ip) {
-                $ip = trim($ip);
-                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
-                    return $ip;
-                }
-            }
-        }
-    }
-    
     return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
 }
 
@@ -736,34 +723,16 @@ add_action('admin_menu', 'fau_add_search_protection_menu');
  * Enqueue admin styles and scripts for search protection page
  */
 function fau_search_protection_admin_styles() {
-    add_action('admin_head', 'fau_search_protection_inline_styles');
-    add_action('admin_enqueue_scripts', 'fau_search_protection_admin_scripts');
-}
-
-/**
- * Add inline styles for search protection page
- */
-function fau_search_protection_inline_styles() {
-    ?>
-    <style>
-    .fau-status-success { color: #46b450; font-weight: bold; }
-    .fau-status-error { color: #dc3232; font-weight: bold; }
-    .fau-status-warning { color: #ffb900; font-weight: bold; }
-    .fau-status-info { color: #0073aa; font-weight: bold; }
-    .cache-options { margin: 15px 0; }
-    .cache-options label { display: block; margin: 8px 0; }
-    .cache-options input[type="checkbox"] { margin-right: 8px; }
-    </style>
-    <?php
-}
-
-/**
- * Enqueue admin scripts for search protection page
- */
-function fau_search_protection_admin_scripts() {
+    wp_enqueue_style(
+        'fau-search-protection-admin',
+        get_template_directory_uri() . '/build/css/admin.css',
+        array(),
+        '1.0.0'
+    );
+    
     wp_enqueue_script(
         'fau-search-protection-admin',
-        get_template_directory_uri() . '/assets/js/search-protection-admin.js',
+        get_template_directory_uri() . '/components/admin/search-protection-admin.js',
         array('jquery'),
         '1.0.0',
         true
@@ -773,6 +742,8 @@ function fau_search_protection_admin_scripts() {
         'fulltextNonce' => wp_create_nonce('fau_create_fulltext_index')
     ));
 }
+
+
 
 /**
  * Admin page for search protection
@@ -900,20 +871,6 @@ function fau_search_dashboard_widget_callback() {
     </div>
     <?php
 }
-
-/**
- * Add security headers for search API responses
- */
-function fau_add_security_headers() {
-    // Only add headers for our search API
-    if (strpos($_SERVER['REQUEST_URI'], '/wp-json/fau/v1/search-suggestions') !== false) {
-        header('X-Content-Type-Options: nosniff');
-        header('X-Frame-Options: DENY');
-        header('X-XSS-Protection: 1; mode=block');
-        header('Referrer-Policy: strict-origin-when-cross-origin');
-    }
-}
-add_action('send_headers', 'fau_add_security_headers');
 
 /**
  * Log search requests from regular WordPress search pages
