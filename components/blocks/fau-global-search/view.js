@@ -18,12 +18,18 @@ document.addEventListener( 'DOMContentLoaded', function () {
 		// Check if form is inside menu modal
 		const isInMenuModal = form.closest( '.menu-modal__content' ) !== null;
 
+		// Check if form is on an error page (404, 403, etc.)
+		const isInErrorPage =
+			document.body.classList.contains( 'error404' ) ||
+			document.body.classList.contains( 'error403' ) ||
+			document.querySelector( '.error-404, .error-403' ) !== null;
+
 		// Initialize advanced features
 		if ( form.dataset.enableAutocomplete === 'true' ) {
 			// Initialize in order: autocomplete first (creates structure), then features that depend on it
-			initializeAutocomplete( input, form, isInMenuModal );
-			// Only initialize search options menu if NOT in dropdown context
-			if ( isInMenuModal ) {
+			initializeAutocomplete( input, form, isInMenuModal, isInErrorPage );
+			// Only initialize search options menu if in modal context OR on error page
+			if ( isInMenuModal || isInErrorPage ) {
 				initializeSearchOptionsMenu( form, input );
 			}
 		}
@@ -80,7 +86,7 @@ function getTranslatableMessage( form, messageType ) {
 /**
  * Initialize autocomplete functionality
  */
-function initializeAutocomplete( input, form, isInMenuModal ) {
+function initializeAutocomplete( input, form, isInMenuModal, isInErrorPage ) {
 	// Prevent multiple initializations
 	if ( form._autocompleteInitialized ) {
 		return;
@@ -108,7 +114,7 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 		suggestionsContainer.className = 'fau-global-search__suggestions';
 		suggestionsContainer.style.display = 'none';
 
-		if ( isInMenuModal ) {
+		if ( isInMenuModal || isInErrorPage ) {
 			// Original behavior: insert after scope container
 			const scopeContainer = form.querySelector(
 				'.fau-global-search__scope'
@@ -355,9 +361,9 @@ function initializeAutocomplete( input, form, isInMenuModal ) {
 			}
 		}
 
-		// Show search options menu again if input is empty (only in modal context)
+		// Show search options menu again if input is empty (only in modal context or error page)
 		if (
-			isInMenuModal &&
+			( isInMenuModal || isInErrorPage ) &&
 			input.value.trim().length === 0 &&
 			input._showSearchOptionsMenu
 		) {
