@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.2.31\n"
+"Project-Id-Version: FAU-Elemental 0.2.32\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-11T10:14:16+00:00\n"
+"POT-Creation-Date: 2025-08-12T12:31:20+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -118,12 +118,24 @@ msgid "Loading search options…"
 msgstr ""
 
 #: components/blocks/fau-global-search/render.php:115
-#: inc/search-api.php:111
+#: inc/search-api.php:442
 msgid "Search Options"
 msgstr ""
 
 #: components/blocks/fau-global-search/render.php:118
 msgid "Advanced Search"
+msgstr ""
+
+#: components/blocks/fau-global-search/render.php:121
+msgid "Search suggestions"
+msgstr ""
+
+#: components/blocks/fau-global-search/render.php:124
+msgid "Too many search requests. Please wait a moment and try again."
+msgstr ""
+
+#: components/blocks/fau-global-search/render.php:127
+msgid "Please enter a valid search term."
 msgstr ""
 
 #: components/blocks/fau-logo-grid/render.php:83
@@ -266,7 +278,7 @@ msgid ""
 msgstr ""
 
 #: components/template-parts/footer-instance/footer-instance.php:191
-#: functions.php:317
+#: functions.php:320
 msgid "Show more"
 msgstr ""
 
@@ -512,7 +524,7 @@ msgid "Title - descending"
 msgstr ""
 
 #. Template Name of the theme
-#: functions.php:76
+#: functions.php:79
 msgid "All Pages"
 msgstr ""
 
@@ -521,12 +533,12 @@ msgid "Pages listing"
 msgstr ""
 
 #. Template Name of the theme
-#: functions.php:75
+#: functions.php:78
 msgid "All Posts"
 msgstr ""
 
 #. Template Name of the theme
-#: functions.php:72
+#: functions.php:75
 msgid "Portal Page"
 msgstr ""
 
@@ -546,7 +558,7 @@ msgstr ""
 msgid "Pages:"
 msgstr ""
 
-#: functions.php:318
+#: functions.php:321
 msgid "Show less"
 msgstr ""
 
@@ -985,8 +997,186 @@ msgstr ""
 msgid "Show categories"
 msgstr ""
 
-#: inc/search-api.php:118
+#: inc/search-api.php:44
+msgid "Search term must be at least 2 characters long."
+msgstr ""
+
+#. translators: %d: maximum number of characters allowed for search term
+#: inc/search-api.php:51
+msgid "Search term must be less than %d characters."
+msgstr ""
+
+#: inc/search-api.php:60
+msgid "Search term is too short after sanitization."
+msgstr ""
+
+#: inc/search-api.php:116
+msgid "Too many search requests. Please try again later."
+msgstr ""
+
+#: inc/search-api.php:369
+#: inc/search-api.php:382
+msgid "FAU Elemental:"
+msgstr ""
+
+#: inc/search-api.php:370
+msgid "Search performance can be improved with MySQL FULLTEXT indexing. The index is missing and should be created for optimal search performance."
+msgstr ""
+
+#: inc/search-api.php:371
+msgid "Create Index"
+msgstr ""
+
+#: inc/search-api.php:383
+msgid "Failed to create MySQL FULLTEXT index for search optimization. This may be due to insufficient database permissions or MySQL configuration. Search performance may be degraded."
+msgstr ""
+
+#: inc/search-api.php:384
+msgid "Retry"
+msgstr ""
+
+#: inc/search-api.php:409
+msgid "FULLTEXT index created successfully."
+msgstr ""
+
+#: inc/search-api.php:411
+msgid "Failed to create FULLTEXT index. Check database permissions."
+msgstr ""
+
+#: inc/search-api.php:449
 msgid "No search options menu found"
+msgstr ""
+
+#: inc/search-api.php:616
+#: inc/search-api.php:755
+msgid "Search API Protection"
+msgstr ""
+
+#: inc/search-api.php:623
+msgid "Enable Rate Limiting"
+msgstr ""
+
+#: inc/search-api.php:631
+msgid "Enable Search Logging"
+msgstr ""
+
+#: inc/search-api.php:646
+msgid "Configure abuse protection for the search API endpoints."
+msgstr ""
+
+#: inc/search-api.php:655
+msgid "Limit search requests to 20 per 10 seconds per IP address."
+msgstr ""
+
+#: inc/search-api.php:664
+msgid "Enable detailed logging with user agent, referer, and other metadata for monitoring and abuse detection. Recent searches are always tracked for admin statistics."
+msgstr ""
+
+#: inc/search-api.php:668
+#: inc/search-api.php:670
+msgid "Status:"
+msgstr ""
+
+#: inc/search-api.php:668
+msgid "Detailed logging is enabled"
+msgstr ""
+
+#: inc/search-api.php:670
+msgid "Only basic search tracking is active"
+msgstr ""
+
+#: inc/search-api.php:696
+msgid "Request blocked by security system."
+msgstr ""
+
+#: inc/search-api.php:710
+#: inc/search-api.php:711
+msgid "Search Protection"
+msgstr ""
+
+#: inc/search-api.php:766
+msgid "Statistics (Last Hour)"
+msgstr ""
+
+#: inc/search-api.php:769
+#: inc/search-api.php:866
+msgid "Total Searches:"
+msgstr ""
+
+#: inc/search-api.php:773
+msgid "Cached Searches:"
+msgstr ""
+
+#: inc/search-api.php:777
+msgid "Rate Limited Requests:"
+msgstr ""
+
+#: inc/search-api.php:788
+msgid "FULLTEXT Index Management"
+msgstr ""
+
+#: inc/search-api.php:795
+msgid "MySQL FULLTEXT Support:"
+msgstr ""
+
+#: inc/search-api.php:798
+msgid "Supported"
+msgstr ""
+
+#: inc/search-api.php:800
+msgid "Not Supported"
+msgstr ""
+
+#: inc/search-api.php:801
+msgid "Your MySQL version or storage engine does not support FULLTEXT indexes."
+msgstr ""
+
+#: inc/search-api.php:806
+msgid "FULLTEXT Index Status:"
+msgstr ""
+
+#: inc/search-api.php:809
+msgid "Index Exists"
+msgstr ""
+
+#: inc/search-api.php:811
+msgid "Index Missing"
+msgstr ""
+
+#: inc/search-api.php:819
+msgid "Create a FULLTEXT index on post titles to improve search performance:"
+msgstr ""
+
+#: inc/search-api.php:822
+msgid "Create FULLTEXT Index"
+msgstr ""
+
+#: inc/search-api.php:830
+msgid "FULLTEXT index is already created and working."
+msgstr ""
+
+#: inc/search-api.php:832
+msgid "FULLTEXT indexes are not supported on your system."
+msgstr ""
+
+#: inc/search-api.php:851
+msgid "Search API Statistics"
+msgstr ""
+
+#: inc/search-api.php:864
+msgid "Last Hour:"
+msgstr ""
+
+#: inc/search-api.php:867
+msgid "Cached:"
+msgstr ""
+
+#: inc/search-api.php:868
+msgid "Rate Limited:"
+msgstr ""
+
+#: inc/search-api.php:870
+msgid "View Details"
 msgstr ""
 
 #: inc/shortcodes.php:66
