@@ -125,6 +125,15 @@ module.exports = {
 		'css/theme': path.resolve( process.cwd(), 'components/ui/theme.scss' ),
 
 		// ============================================================================
+		// ADMIN STYLES
+		// ============================================================================
+		// Admin-specific styles for search protection and other admin pages
+		'css/admin': path.resolve(
+			process.cwd(),
+			'components/admin/search-protection-admin.scss'
+		),
+
+		// ============================================================================
 		// DYNAMIC CUSTOM BLOCKS (Auto-detected from components/blocks/fau-*)
 		// ============================================================================
 		// Block.json and render.php files are copied via CopyWebpackPlugin below

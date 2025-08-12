@@ -352,7 +352,7 @@ if ( portalMenuSettings ) {
 	subscribe( () => {
 		const template =
 			select( 'core/editor' ).getEditedPostAttribute( 'template' );
-		if ( template !== currentTemplate ) {
+		if ( template !== currentTemplate && template !== undefined ) {
 			currentTemplate = template;
 			if (
 				currentTemplate &&
