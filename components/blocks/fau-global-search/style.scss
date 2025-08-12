@@ -5,6 +5,7 @@
 
 .menu-modal__search-heading {
 	margin: var(--Spacing-4x) 0 var(--Spacing-2x) 0;
+	font-size: 1.25rem;
 }
 
 // Results page style
@@ -306,8 +307,11 @@
 	&__suggestion-item {
 		padding: var(--Spacing-3x) var(--Spacing-6x);
 		cursor: pointer;
+		outline: none;
 
-		&:hover {
+		&:hover,
+		&:focus,
+		&--selected {
 			background-color: var(--FAU-Col-FAU-Blau-25);
 			position: relative;
 
@@ -328,12 +332,27 @@
 				color: var(--FAU-Col-FAU-Blau-100);
 			}
 		}
+
+		&--selected {
+			background-color: var(--FAU-Col-FAU-Blau-50);
+			padding-left: calc(var(--Spacing-6x) - 0.25rem);
+		}
 	}
 
-	&__suggestion-title {
+	&__suggestion-link {
+		display: block;
+		text-decoration: none;
+		width: 100%;
+		height: 100%;
 		font-size: var(--P-Body-Text-Small);
 		color: var(--FAU-Col-FAU-Blau-100);
 		font-weight: 400;
+
+		&:hover,
+		&:focus {
+			text-decoration: none;
+			color: inherit;
+		}
 	}
 
 	&__options-menu {
@@ -380,6 +399,10 @@
 		}
 	}
 
+	.fau-global-search__suggestion-error {
+		padding: var(--Spacing-3x) var(--Spacing-6x);
+	}
+
 	&__suggestions {
 		padding: var(--Spacing-6x) 0;
 
@@ -395,8 +418,11 @@
 			.fau-global-search__suggestion-item {
 				padding: var(--Spacing-3x) var(--Spacing-4x);
 				margin: 0;
+				outline: none;
 
-				&:hover {
+				&:hover,
+				&:focus,
+				&--selected {
 					background-color: var(--FAU-Col-FAU-Blau-25);
 					margin: 0;
 
@@ -404,15 +430,21 @@
 						right: var(--Spacing-4x);
 					}
 
-					.fau-global-search__suggestion-title {
-						color: var(--FAU-Col-FAU-Weiss-100);
+					.fau-global-search__suggestion-link {
+						color: var(--FAU-Col-FAU-Blau-100);
 					}
+				}
+
+				&--selected {
+					background-color: var(--FAU-Col-FAU-Blau-50);
+					padding-left: calc(var(--Spacing-4x) - 0.25rem);
 				}
 			}
 
 			.fau-global-search__suggestions-list {
 				padding: 0;
 				margin: 0;
+				list-style: none;
 			}
 		}
 	}

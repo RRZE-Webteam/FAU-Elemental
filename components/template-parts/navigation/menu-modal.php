@@ -239,7 +239,7 @@ class Menu_Modal {
             $block_content = '<!-- wp:fau-elemental/fau-global-search {"title":"' . esc_attr(__('Search', 'fau-elemental')) . '","searchScope":"fau-wide"} /-->';
             
             echo '<div class="menu-modal__search-wrapper">';
-            echo '<h4 class="menu-modal__search-heading">' . __('Search all pages and documents:', 'fau-elemental') . '</h4>';
+            echo '<h3 class="menu-modal__search-heading">' . __('Search all pages and documents:', 'fau-elemental') . '</h3>';
             echo do_blocks($block_content);
             echo '</div>';
             return;
