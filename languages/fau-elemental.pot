@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.2.32\n"
+"Project-Id-Version: FAU-Elemental 0.2.33\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-12T12:31:20+00:00\n"
+"POT-Creation-Date: 2025-08-12T12:45:18+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -795,7 +795,6 @@ msgstr ""
 
 #: inc/customizer.php:422
 #: components/blocks/fau-big-teaser/edit.js:143
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:155
 msgid "Link URL"
 msgstr ""
 
@@ -1627,77 +1626,6 @@ msgstr ""
 msgid "This block will display copyright information from images and other sources in the frontend."
 msgstr ""
 
-#. translators: %d: fact number
-#: components/blocks/fau-facts-grid/components/FactsGridContent.jsx:40
-msgid "Edit fact %d"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsGridContent.jsx:62
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:58
-msgid "Enter fact text…"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsGridContent.jsx:78
-#: components/blocks/fau-facts-grid/save.js:60
-#: components/blocks/fau-testimonial/edit.js:177
-msgid "More"
-msgstr ""
-
-#. translators: %d: fact number
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:38
-msgid "Fact %d Settings"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:45
-msgid "This block displays exactly 4 facts. Click on a fact in the editor to select and edit it."
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:53
-msgid "Fact Text"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:63
-msgid "You can also edit this text by clicking on the fact in the editor."
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:74
-msgid "Icon"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:97
-msgid "Selected icon"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:110
-msgid "Change Icon"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:114
-msgid "Upload Icon"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:141
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:131
-#: components/blocks/fau-testimonial/edit.js:453
-msgid "Remove"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:161
-msgid "https://example.com"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:167
-msgid "A link button will automatically appear when you enter a valid URL."
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:184
-msgid "URL Validation Error:"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/components/FactsInspectorControls.jsx:193
-msgid "Please enter a valid URL (e.g., https://example.com)"
-msgstr ""
-
 #: components/blocks/fau-featured-event-teaser/edit.js:147
 msgid "Event Details"
 msgstr ""
@@ -2033,6 +1961,11 @@ msgstr ""
 msgid "Remove post"
 msgstr ""
 
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:131
+#: components/blocks/fau-testimonial/edit.js:453
+msgid "Remove"
+msgstr ""
+
 #: components/blocks/fau-teaser-grid/edit.js:254
 msgid "All Categories"
 msgstr ""
@@ -2134,6 +2067,10 @@ msgstr ""
 #: components/blocks/fau-testimonial/edit.js:169
 #: components/blocks/fau-testimonial/edit.js:309
 msgid "Move testimonial down"
+msgstr ""
+
+#: components/blocks/fau-testimonial/edit.js:177
+msgid "More"
 msgstr ""
 
 #: components/blocks/fau-testimonial/edit.js:217
@@ -2294,16 +2231,6 @@ msgstr ""
 #: components/blocks/fau-copyright-info/block.json
 msgctxt "block description"
 msgid "Displays copyright information gathered from images and other sources"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/block.json
-msgctxt "block title"
-msgid "FAU Facts Grid"
-msgstr ""
-
-#: components/blocks/fau-facts-grid/block.json
-msgctxt "block description"
-msgid "Display key facts and figures with optional roof line, custom icons, and links"
 msgstr ""
 
 #: components/blocks/fau-featured-event-teaser/block.json
