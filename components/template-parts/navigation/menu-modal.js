@@ -316,6 +316,119 @@
 
 			if ( $currentItem.length ) {
 				this.drillDownToItem( $modal, $currentItem );
+			} else {
+				// Current page not found in menu - it might be hidden
+				// Try to find the parent page and navigate to that level
+				this.navigateToParentOfHiddenPage( $modal );
+			}
+		}
+
+		/**
+		 * Navigate to the parent page when the current page is hidden from menu
+		 *
+		 * @param {jQuery} $modal The modal element
+		 */
+		navigateToParentOfHiddenPage( $modal ) {
+			// Look for the hidden element with parent information that was added by PHP
+			const $parentInfo = $modal.find( '.current-page-parent-info' );
+
+			if ( ! $parentInfo.length ) {
+				return; // No parent info available
+			}
+
+			// Use the first parent info element (in case there are multiple)
+			const $firstParentInfo = $parentInfo.first();
+			const parentPageUrl = $firstParentInfo.data( 'parent-page-url' );
+			const parentPageTitle =
+				$firstParentInfo.data( 'parent-page-title' );
+
+			if ( ! parentPageUrl || ! parentPageTitle ) {
+				return; // Missing required data
+			}
+
+			// Try to find the parent page in the menu
+			let $parentItem = $modal
+				.find( `[data-menu-url="${ parentPageUrl }"]` )
+				.filter( function () {
+					return $( this ).attr( 'data-menu-url' ) !== '';
+				} )
+				.first();
+
+			// If we found the parent page in the menu, navigate to it without highlighting
+			if ( $parentItem.length ) {
+				// Navigate to the parent level but don't highlight it
+				// since the user is on a hidden page, not the parent page
+				this.navigateToParentLevel( $modal, $parentItem );
+				return;
+			}
+
+			// If parent page not found as a direct menu item, try to find it as a page child
+			// This handles cases where the parent is a page child rather than a menu item
+			$parentItem = $modal
+				.find( `[data-menu-url="${ parentPageUrl }"]` )
+				.filter( function () {
+					return $( this ).attr( 'data-menu-url' ) !== '';
+				} )
+				.first();
+
+			if ( $parentItem.length ) {
+				// Find the parent of this page child to navigate to that level
+				const $parentContainer = $parentItem
+					.closest( '.sub-menu' )
+					.prev( '.menu-modal__submenu-toggle' )
+					.closest( '.menu-item' );
+				if ( $parentContainer.length ) {
+					const $toggle = $parentContainer.children(
+						'.menu-modal__submenu-toggle'
+					);
+					if ( $toggle.length ) {
+						this.performDrillDown(
+							$modal,
+							$parentContainer,
+							$toggle
+						);
+						// Don't highlight the parent - user is on a hidden page
+					}
+				}
+			}
+
+			// If no parent found, just stay at the root level
+			// This is the fallback behavior when we can't determine the hierarchy
+		}
+
+		/**
+		 * Navigate to a parent level without highlighting the parent item
+		 * Used when navigating to parent context for hidden pages
+		 *
+		 * @param {jQuery} $modal      The modal element
+		 * @param {jQuery} $parentItem The parent item to navigate to
+		 */
+		navigateToParentLevel( $modal, $parentItem ) {
+			// Get all parent levels up to this item
+			const $parents = $parentItem
+				.parents( '.menu-item' )
+				.get()
+				.reverse();
+
+			// Navigate through each parent level without highlighting
+			$parents.forEach( ( parentItem ) => {
+				const $parent = $( parentItem );
+				const $toggle = $parent.children(
+					'.menu-modal__submenu-toggle'
+				);
+				if ( $toggle.length ) {
+					this.performDrillDown( $modal, $parent, $toggle );
+				}
+			} );
+
+			// Don't highlight the parent item - just show its submenu
+			const $toggle = $parentItem.children(
+				'.menu-modal__submenu-toggle'
+			);
+			const $submenu = $parentItem.children( '.sub-menu' );
+			if ( $submenu.length && $toggle.length ) {
+				this.performDrillDown( $modal, $parentItem, $toggle );
+				// Don't highlight overview link either
 			}
 		}
 
@@ -605,6 +718,27 @@
 		}
 
 		rehighlightCurrentPage( $modal ) {
+			// Check if we're dealing with a hidden page
+			const $parentInfo = $modal.find( '.current-page-parent-info' );
+			if ( $parentInfo.length ) {
+				// We're on a hidden page - don't highlight anything
+				// Just highlight overview links in visible submenus
+				const cacheKey = this.getCacheKey(
+					$modal.attr( 'id' ),
+					'visible-submenus'
+				);
+				const $visibleSubmenus = this.cachedQuery(
+					$modal,
+					'.sub-menu:visible',
+					cacheKey
+				);
+
+				$visibleSubmenus.each( ( _, submenu ) => {
+					this.highlightOverviewLink( $( submenu ) );
+				} );
+				return; // Don't proceed with normal highlighting
+			}
+
 			const currentPath = window.location.pathname.replace( /\/$/, '' );
 			const searchPaths =
 				currentPath === ''
@@ -665,8 +799,41 @@
 
 				if ( $currentItem.length ) {
 					this.highlightMenuItem( $currentItem );
+				} else {
+					// Current page not found - it might be hidden
+					// Try to highlight the parent page instead
+					this.highlightParentOfHiddenPage( $modal );
 				}
 			}
+		}
+
+		/**
+		 * Highlight the parent page when the current page is hidden from menu
+		 *
+		 * @param {jQuery} $modal The modal element
+		 */
+		highlightParentOfHiddenPage( $modal ) {
+			// Look for the hidden element with parent information that was added by PHP
+			const $parentInfo = $modal.find( '.current-page-parent-info' );
+			if ( ! $parentInfo.length ) {
+				return; // No parent info available
+			}
+
+			const parentPageUrl = $parentInfo.data( 'parent-page-url' );
+			if ( ! parentPageUrl ) {
+				return; // Missing required data
+			}
+
+			// Try to find the parent page in the menu
+			$modal
+				.find( `[data-menu-url="${ parentPageUrl }"]` )
+				.filter( function () {
+					return $( this ).attr( 'data-menu-url' ) !== '';
+				} )
+				.first();
+
+			// Don't highlight the parent page - just navigate to its level
+			// The user is on a hidden page, not the parent page
 		}
 
 		highlightMenuItem( $item ) {
