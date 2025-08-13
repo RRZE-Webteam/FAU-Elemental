@@ -272,7 +272,11 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                         $output .= sprintf(
                             '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                             esc_url($page_url),
-                            esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
                             $i
                         );
                     }
@@ -295,7 +299,11 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                         $output .= sprintf(
                             '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                             esc_url($page_url),
-                            esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
                             $i
                         );
                     }
@@ -313,7 +321,11 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                         $output .= sprintf(
                             '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                             esc_url($page_url),
-                            esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
                             $i
                         );
                     }
@@ -336,7 +348,11 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                         $output .= sprintf(
                             '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                             esc_url($page_url),
-                            esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
                             $i
                         );
                     }
@@ -351,7 +367,11 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                     $output .= sprintf(
                         '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                         esc_url($page_url),
-                        esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                        esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
                         $i
                     );
                 }
@@ -373,7 +393,11 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                         $output .= sprintf(
                             '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                             esc_url($page_url),
-                            esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
                             $i
                         );
                     }
@@ -386,7 +410,11 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                     $output .= sprintf(
                         '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                         esc_url($page_url),
-                        esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                        esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
                         $i
                     );
                 }
@@ -408,7 +436,11 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                         $output .= sprintf(
                             '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                             esc_url($page_url),
-                            esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
                             $i
                         );
                     }
@@ -424,7 +456,11 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                 $output .= sprintf(
                     '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                     esc_url(function_exists('get_pagenum_link') ? get_pagenum_link(1) : add_query_arg('paged', 1)),
-                    esc_attr(sprintf(__('Page %d', 'fau-elemental'), 1)),
+                    esc_attr(sprintf(
+                        /* translators: %d: Page number */
+                        __('Page %d', 'fau-elemental'),
+                        1
+                    )),
                     1
                 );
                 
@@ -446,7 +482,11 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                     $output .= sprintf(
                         '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                         esc_url($page_url),
-                        esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                        esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
                         $i
                     );
                 }
@@ -462,7 +502,11 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
                 $output .= sprintf(
                     '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                     esc_url(function_exists('get_pagenum_link') ? get_pagenum_link($total_pages) : add_query_arg('paged', $total_pages)),
-                    esc_attr(sprintf(__('Page %d', 'fau-elemental'), $total_pages)),
+                    esc_attr(sprintf(
+                        /* translators: %d: Page number */
+                        __('Page %d', 'fau-elemental'),
+                        $total_pages
+                    )),
                     $total_pages
                 );
             }
