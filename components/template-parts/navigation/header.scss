@@ -1007,6 +1007,10 @@ body.home.fauorg-fakultaet.faculty-rw {
 			width: 100%;
 			padding-top: 0;
 			margin-bottom: 6.1875rem;
+
+			.logged-in & {
+				padding-top: 46px; // Compensate for WP bar
+			}
 		}
 
 		&__header {
