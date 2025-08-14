@@ -238,12 +238,12 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
         return '';
     }
 
-    $output = '<nav class="fau-pagination" role="navigation" aria-label="' . esc_attr__('Posts pagination', 'fau-elemental') . '">';
+    $output = '<nav class="fau-pagination" aria-label="' . esc_attr__('Posts pagination', 'fau-elemental') . '">';
     $output .= '<div class="pagination-wrapper">';
 
     // Previous button
     if ($current_page > 1) {
-        $prev_url = get_pagenum_link($current_page - 1);
+        $prev_url = function_exists('get_pagenum_link') ? get_pagenum_link($current_page - 1) : add_query_arg('paged', $current_page - 1);
         $output .= sprintf(
             '<a href="%s" class="page-number prev" aria-label="%s"><span class="pagination-icon pagination-icon-prev"></span></a>',
             esc_url($prev_url),
@@ -254,75 +254,268 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
     }
 
     if ($pagination_type === 'numbers') {
-        // Smart pagination logic
-        if ($total_pages <= 7) {
-            // Show all pages if 7 or fewer
-            for ($i = 1; $i <= $total_pages; $i++) {
-                if ($i === $current_page) {
-                    $output .= sprintf(
-                        '<span class="page-number current" aria-current="page">%d</span>',
-                        $i
-                    );
-                } else {
-                    $page_url = get_pagenum_link($i);
+        // Detect mobile device
+        $is_mobile = wp_is_mobile();
+        
+        // Special handling for first and last pages
+        if ($current_page <= 3) {
+            if ($is_mobile) {
+                // Mobile: show 1, 2, 3, ..., last 2
+                for ($i = 1; $i <= 3; $i++) {
+                    if ($i === $current_page) {
+                        $output .= sprintf(
+                            '<span class="page-number current" aria-current="page">%d</span>',
+                            $i
+                        );
+                    } else {
+                        $page_url = function_exists('get_pagenum_link') ? get_pagenum_link($i) : add_query_arg('paged', $i);
+                        $output .= sprintf(
+                            '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                            esc_url($page_url),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
+                            $i
+                        );
+                    }
+                }
+                
+                // Add ellipsis if there are more pages
+                if ($total_pages > 5) {
+                    $output .= '<span class="page-ellipsis" aria-hidden="true">...</span>';
+                }
+                
+                // Show last 2 pages
+                for ($i = $total_pages - 1; $i <= $total_pages; $i++) {
+                    if ($i === $current_page) {
+                        $output .= sprintf(
+                            '<span class="page-number current" aria-current="page">%d</span>',
+                            $i
+                        );
+                    } else {
+                        $page_url = function_exists('get_pagenum_link') ? get_pagenum_link($i) : add_query_arg('paged', $i);
+                        $output .= sprintf(
+                            '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                            esc_url($page_url),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
+                            $i
+                        );
+                    }
+                }
+            } else {
+                // Desktop: show 1, 2, 3, ..., last 3
+                for ($i = 1; $i <= 3; $i++) {
+                    if ($i === $current_page) {
+                        $output .= sprintf(
+                            '<span class="page-number current" aria-current="page">%d</span>',
+                            $i
+                        );
+                    } else {
+                        $page_url = function_exists('get_pagenum_link') ? get_pagenum_link($i) : add_query_arg('paged', $i);
+                        $output .= sprintf(
+                            '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                            esc_url($page_url),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
+                            $i
+                        );
+                    }
+                }
+                
+                // Add ellipsis if there are more pages
+                if ($total_pages > 6) {
+                    $output .= '<span class="page-ellipsis" aria-hidden="true">...</span>';
+                }
+                
+                // Show last 3 pages
+                for ($i = $total_pages - 2; $i <= $total_pages; $i++) {
+                    if ($i === $current_page) {
+                        $output .= sprintf(
+                            '<span class="page-number current" aria-current="page">%d</span>',
+                            $i
+                        );
+                    } else {
+                        $page_url = function_exists('get_pagenum_link') ? get_pagenum_link($i) : add_query_arg('paged', $i);
+                        $output .= sprintf(
+                            '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                            esc_url($page_url),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
+                            $i
+                        );
+                    }
+                }
+            }
+        } elseif ($current_page >= $total_pages - 2) {
+            if ($is_mobile) {
+                // Mobile: show first 2, ..., last 3
+                // Show first 2 pages
+                for ($i = 1; $i <= 2; $i++) {
+                    $page_url = function_exists('get_pagenum_link') ? get_pagenum_link($i) : add_query_arg('paged', $i);
                     $output .= sprintf(
                         '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                         esc_url($page_url),
-                        // translators: page number
-                        esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                        esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
                         $i
                     );
+                }
+                
+                // Add ellipsis if there are more pages
+                if ($total_pages > 5) {
+                    $output .= '<span class="page-ellipsis" aria-hidden="true">...</span>';
+                }
+                
+                // Show last 3 pages
+                for ($i = $total_pages - 2; $i <= $total_pages; $i++) {
+                    if ($i === $current_page) {
+                        $output .= sprintf(
+                            '<span class="page-number current" aria-current="page">%d</span>',
+                            $i
+                        );
+                    } else {
+                        $page_url = function_exists('get_pagenum_link') ? get_pagenum_link($i) : add_query_arg('paged', $i);
+                        $output .= sprintf(
+                            '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                            esc_url($page_url),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
+                            $i
+                        );
+                    }
+                }
+            } else {
+                // Desktop: show first 3, ..., last 3
+                // Show first 3 pages
+                for ($i = 1; $i <= 3; $i++) {
+                    $page_url = function_exists('get_pagenum_link') ? get_pagenum_link($i) : add_query_arg('paged', $i);
+                    $output .= sprintf(
+                        '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                        esc_url($page_url),
+                        esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
+                        $i
+                    );
+                }
+                
+                // Add ellipsis if there are more pages
+                if ($total_pages > 6) {
+                    $output .= '<span class="page-ellipsis" aria-hidden="true">...</span>';
+                }
+                
+                // Show last 3 pages
+                for ($i = $total_pages - 2; $i <= $total_pages; $i++) {
+                    if ($i === $current_page) {
+                        $output .= sprintf(
+                            '<span class="page-number current" aria-current="page">%d</span>',
+                            $i
+                        );
+                    } else {
+                        $page_url = function_exists('get_pagenum_link') ? get_pagenum_link($i) : add_query_arg('paged', $i);
+                        $output .= sprintf(
+                            '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                            esc_url($page_url),
+                            esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
+                            $i
+                        );
+                    }
                 }
             }
         } else {
-            // Show first 3 ... last 3 pattern
+            // Middle pages: show current page with context
+            $start_page = max(1, $current_page - 1);
+            $end_page = min($total_pages, $current_page + 1);
             
-            // First 3 pages
-            for ($i = 1; $i <= 3; $i++) {
+            // Always show first page
+            if ($start_page > 1) {
+                $output .= sprintf(
+                    '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                    esc_url(function_exists('get_pagenum_link') ? get_pagenum_link(1) : add_query_arg('paged', 1)),
+                    esc_attr(sprintf(
+                        /* translators: %d: Page number */
+                        __('Page %d', 'fau-elemental'),
+                        1
+                    )),
+                    1
+                );
+                
+                // Add ellipsis if there's a gap
+                if ($start_page > 2) {
+                    $output .= '<span class="page-ellipsis" aria-hidden="true">...</span>';
+                }
+            }
+            
+            // Show current page and surrounding context
+            for ($i = $start_page; $i <= $end_page; $i++) {
                 if ($i === $current_page) {
                     $output .= sprintf(
                         '<span class="page-number current" aria-current="page">%d</span>',
                         $i
                     );
                 } else {
-                    $page_url = get_pagenum_link($i);
+                    $page_url = function_exists('get_pagenum_link') ? get_pagenum_link($i) : add_query_arg('paged', $i);
                     $output .= sprintf(
                         '<a href="%s" class="page-number" aria-label="%s">%d</a>',
                         esc_url($page_url),
-                        esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
+                        esc_attr(sprintf(
+                                /* translators: %d: Page number */
+                                __('Page %d', 'fau-elemental'),
+                                $i
+                            )),
                         $i
                     );
                 }
             }
-
-            // Ellipsis
-            if ($total_pages > 6) {
-                $output .= '<span class="page-ellipsis" aria-hidden="true">...</span>';
-            }
-
-            // Last 3 pages
-            for ($i = $total_pages - 2; $i <= $total_pages; $i++) {
-                if ($i === $current_page) {
-                    $output .= sprintf(
-                        '<span class="page-number current" aria-current="page">%d</span>',
-                        $i
-                    );
-                } else {
-                    $page_url = get_pagenum_link($i);
-                    $output .= sprintf(
-                        '<a href="%s" class="page-number" aria-label="%s">%d</a>',
-                        esc_url($page_url),
-                        esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)),
-                        $i
-                    );
+            
+            // Always show last page
+            if ($end_page < $total_pages) {
+                // Add ellipsis if there's a gap
+                if ($end_page < $total_pages - 1) {
+                    $output .= '<span class="page-ellipsis" aria-hidden="true">...</span>';
                 }
+                
+                $output .= sprintf(
+                    '<a href="%s" class="page-number" aria-label="%s">%d</a>',
+                    esc_url(function_exists('get_pagenum_link') ? get_pagenum_link($total_pages) : add_query_arg('paged', $total_pages)),
+                    esc_attr(sprintf(
+                        /* translators: %d: Page number */
+                        __('Page %d', 'fau-elemental'),
+                        $total_pages
+                    )),
+                    $total_pages
+                );
             }
         }
     }
 
     // Next button
     if ($current_page < $total_pages) {
-        $next_url = get_pagenum_link($current_page + 1);
+        $next_url = function_exists('get_pagenum_link') ? get_pagenum_link($current_page + 1) : add_query_arg('paged', $current_page + 1);
         $output .= sprintf(
             '<a href="%s" class="page-number next" aria-label="%s"><span class="pagination-icon pagination-icon-next"></span></a>',
             esc_url($next_url),
@@ -335,8 +528,7 @@ function fau_elemental_generate_pagination($current_page, $total_pages, $paginat
     $output .= '</div>';
     $output .= '</nav>';
     return $output;
-}
-}
+}}
 
 /**
  * Generates load more button HTML.
