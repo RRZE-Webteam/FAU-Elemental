@@ -201,10 +201,13 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
      */
     private function build_page_indexes() {
         // Get all pages at once with hierarchical=0 for flat structure
+        // Include menu_order to respect page ordering set in admin
         $this->all_pages = get_pages(array(
             'hierarchical' => 0,
             'post_status' => 'publish',
             'posts_per_page' => -1,
+            'sort_column' => 'menu_order,post_title', // Order by menu_order first, then title
+            'sort_order' => 'ASC',
         ));
         
         if (empty($this->all_pages)) {
