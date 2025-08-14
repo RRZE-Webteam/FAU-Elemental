@@ -952,7 +952,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 	}
 }
 
-@media screen and (max-width: 1049px) {
+@media screen and (max-width: 1080px) {
 
 	.main-navigation__direct-links,
 	.main-navigation__menu-container::before {
@@ -1007,6 +1007,10 @@ body.home.fauorg-fakultaet.faculty-rw {
 			width: 100%;
 			padding-top: 0;
 			margin-bottom: 6.1875rem;
+
+			.logged-in & {
+				padding-top: 46px; // Compensate for WP bar
+			}
 		}
 
 		&__header {
@@ -1183,5 +1187,10 @@ body.home.fauorg-fakultaet.faculty-rw {
 }
 
 .is-hidden {
+	display: none;
+}
+
+// Hide parent info elements for hidden pages
+.current-page-parent-info {
 	display: none;
 }

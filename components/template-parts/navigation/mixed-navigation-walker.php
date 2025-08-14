@@ -85,6 +85,12 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
     private $initialized = false;
     
     /**
+     * Flag to prevent multiple additions of current page parent info
+     * @var bool
+     */
+    private $parent_info_added = false;
+    
+    /**
      * Constructor - no database calls during instantiation
      */
     public function __construct() {
@@ -201,10 +207,13 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
      */
     private function build_page_indexes() {
         // Get all pages at once with hierarchical=0 for flat structure
+        // Include menu_order to respect page ordering set in admin
         $this->all_pages = get_pages(array(
             'hierarchical' => 0,
             'post_status' => 'publish',
             'posts_per_page' => -1,
+            'sort_column' => 'menu_order,post_title', // Order by menu_order first, then title
+            'sort_order' => 'ASC',
         ));
         
         if (empty($this->all_pages)) {
@@ -239,6 +248,85 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
      */
     public function start_lvl(&$output, $depth = 0, $args = null) {
         $output .= '<ul class="sub-menu" data-depth="' . esc_attr($depth) . '">';
+    }
+
+    /**
+     * Override the walk method to add parent info at the beginning
+     *
+     * @param array $elements Elements to walk
+     * @param int $max_depth Maximum depth
+     * @param ...$args Additional arguments
+     * @return string
+     */
+    public function walk($elements, $max_depth, ...$args) {
+        $output = '';
+        
+        // Add current page parent info at the very beginning if needed
+        $this->add_current_page_parent_info($output);
+        
+        // Call the parent walk method
+        $output .= parent::walk($elements, $max_depth, ...$args);
+        
+        return $output;
+    }
+
+
+
+    /**
+     * Add information about the current page's parent when the current page is hidden
+     * This helps JavaScript navigate to the correct level
+     * Traverses up the hierarchy until it finds a visible page
+     *
+     * @param string &$output Output string (passed by reference)
+     */
+    private function add_current_page_parent_info(&$output) {
+        // Only add this info if we're on a single page
+        if (!is_page()) {
+            return;
+        }
+        
+        $current_page_id = get_queried_object_id();
+        if (!$current_page_id) {
+            return;
+        }
+        
+        // Check if current page is hidden from menu
+        $hide_from_menu = get_post_meta($current_page_id, '_fau_hide_from_menu', true);
+        if ($hide_from_menu !== '1') {
+            return;
+        }
+        
+        // Traverse up the hierarchy until we find a visible page
+        $current_page = get_post($current_page_id);
+        $visible_parent = null;
+        $current_parent_id = $current_page->post_parent;
+        
+        while ($current_parent_id !== 0) {
+            $parent_page = get_post($current_parent_id);
+            if (!$parent_page) {
+                break;
+            }
+            
+            // Check if this parent is visible in the menu
+            $parent_hide_from_menu = get_post_meta($parent_page->ID, '_fau_hide_from_menu', true);
+            if ($parent_hide_from_menu !== '1') {
+                // Found a visible parent - use this one
+                $visible_parent = $parent_page;
+                break;
+            }
+            
+            // This parent is also hidden, continue up the hierarchy
+            $current_parent_id = $parent_page->post_parent;
+        }
+        
+        // If we found a visible parent, add the info
+        if ($visible_parent) {
+            $output .= '<div class="current-page-parent-info" ';
+            $output .= 'data-parent-page-id="' . esc_attr($visible_parent->ID) . '" ';
+            $output .= 'data-parent-page-url="' . esc_attr(rtrim(parse_url(get_permalink($visible_parent->ID), PHP_URL_PATH), '/')) . '" ';
+            $output .= 'data-parent-page-title="' . esc_attr($visible_parent->post_title) . '" ';
+            $output .= 'data-current-page-hidden="true"></div>';
+        }
     }
 
     /**
@@ -287,6 +375,12 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
         // Lazy initialize if not already done
         if (!$this->initialized) {
             $this->initialize();
+        }
+        
+        // Add current page parent info when processing the first item (depth 0) and only once
+        if ($depth === 0 && !$this->parent_info_added) {
+            $this->add_current_page_parent_info($output);
+            $this->parent_info_added = true;
         }
         
         // Track parent items for mixed navigation - maintain proper hierarchy
