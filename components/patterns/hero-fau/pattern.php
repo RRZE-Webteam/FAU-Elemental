@@ -9,14 +9,12 @@
  * Post Types: page
  */
 
-$show_text_mobile = get_theme_mod('hero_show_text_mobile', true);
-$no_text_class = $show_text_mobile ? '' : 'no-text-and-link';
 ?>
 
 <!-- wp:group {"templateLock":"all", "className":"hero-fau"} -->
 <div class="wp-block-group hero-fau">
     <!-- wp:cover {"templateLock":"all","url":"<?php echo esc_url(get_theme_file_uri('assets/images/hero-fau.jpg')); ?>","id":99,"dimRatio":50,"isUserOverlayColor":false} -->
-    <div class="wp-block-cover <?php echo esc_attr($no_text_class); ?>">
+    <div class="wp-block-cover">
         <span aria-hidden="true" class="wp-block-cover__background has-background-dim"></span>
         <img class="wp-block-cover__image-background wp-image-99" alt="" src="<?php echo esc_url(get_theme_file_uri('assets/images/hero-fau.jpg')); ?>" data-object-fit="cover">
         <div class="wp-block-cover__inner-container">
