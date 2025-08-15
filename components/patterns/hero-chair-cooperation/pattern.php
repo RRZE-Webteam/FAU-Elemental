@@ -39,8 +39,8 @@ if ($current_website_type === 'chair') {
     <!-- wp:column {"layout":{"type":"constrained"}} -->
     <div class="wp-block-column">
 
-        <!-- wp:heading {"level":2,"className":"hero-front-page-title"} -->
-        <h2 class="wp-block-heading hero-front-page-title"><?php echo esc_html($current_content['title']); ?></h2>
+        <!-- wp:heading {"level":1,"className":"hero-front-page-title"} -->
+        <h1 class="wp-block-heading hero-front-page-title"><?php echo esc_html($current_content['title']); ?></h1>
         <!-- /wp:heading -->
 
         <!-- wp:group {"className":"hero-mobile-optional"} -->
