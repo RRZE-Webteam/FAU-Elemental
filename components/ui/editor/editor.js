@@ -134,7 +134,7 @@ function getPatternClassFromBlock( block ) {
 	const heroPatterns = [
 		'hero-fau',
 		'hero-portal',
-		'hero-faculty',
+		'hero-faculty-other',
 		'hero-chair',
 		'hero-cooperation',
 		'hero-other',

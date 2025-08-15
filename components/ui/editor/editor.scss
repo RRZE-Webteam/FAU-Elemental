@@ -17,6 +17,7 @@
 /* Patterns */
 @use "../../patterns/hero-fau/editor" as *;
 @use "../../patterns/hero-portal/editor" as *;
+@use "../../patterns/hero-faculty-other/editor" as *;
 
 html :where(.editor-styles-wrapper) {
 	font-family: var(--font-family-base);
