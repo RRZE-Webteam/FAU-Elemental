@@ -5,7 +5,8 @@
 		pointer-events: none !important; // override WP CSS
 	}
 
-	&.faue-is-group-block-selected,
+	&.faue-is-columns-block-selected,
+	&.faue-is-column-block-selected,
 	&.faue-is-heading-block-selected,
 	&.faue-is-paragraph-block-selected,
 	&.faue-is-buttons-block-selected {
@@ -13,6 +14,10 @@
 		.block-editor-block-toolbar {
 			// hide all toolbar groups
 			>.components-toolbar-group {
+				display: none;
+			}
+
+			&__slot {
 				display: none;
 			}
 		}
