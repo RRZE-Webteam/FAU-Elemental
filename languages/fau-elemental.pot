@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.2.36\n"
+"Project-Id-Version: FAU-Elemental 0.2.35\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-15T14:12:04+00:00\n"
+"POT-Creation-Date: 2025-08-14T14:54:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -104,7 +104,7 @@ msgid "Frequent Searches"
 msgstr ""
 
 #: components/blocks/fau-global-search/render.php:106
-#: components/blocks/fau-teaser-grid/render.php:555
+#: components/blocks/fau-teaser-grid/render.php:363
 #: components/blocks/fau-teaser-grid/edit.js:547
 msgid "Loading…"
 msgstr ""
@@ -187,28 +187,20 @@ msgstr ""
 msgid "Previous page"
 msgstr ""
 
-#. translators: %d: Page number
-#: components/blocks/fau-teaser-grid/render.php:277
-#: components/blocks/fau-teaser-grid/render.php:304
-#: components/blocks/fau-teaser-grid/render.php:326
-#: components/blocks/fau-teaser-grid/render.php:353
-#: components/blocks/fau-teaser-grid/render.php:372
-#: components/blocks/fau-teaser-grid/render.php:398
-#: components/blocks/fau-teaser-grid/render.php:415
-#: components/blocks/fau-teaser-grid/render.php:441
-#: components/blocks/fau-teaser-grid/render.php:461
-#: components/blocks/fau-teaser-grid/render.php:487
-#: components/blocks/fau-teaser-grid/render.php:507
+#. translators: page number
+#: components/blocks/fau-teaser-grid/render.php:272
+#: components/blocks/fau-teaser-grid/render.php:292
+#: components/blocks/fau-teaser-grid/render.php:315
 msgid "Page %d"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:522
-#: components/blocks/fau-teaser-grid/render.php:525
+#: components/blocks/fau-teaser-grid/render.php:329
+#: components/blocks/fau-teaser-grid/render.php:332
 msgid "Next page"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:554
-#: components/blocks/fau-teaser-grid/render.php:556
+#: components/blocks/fau-teaser-grid/render.php:362
+#: components/blocks/fau-teaser-grid/render.php:364
 #: components/blocks/fau-teaser-grid/edit.js:581
 msgid "Load More"
 msgstr ""
@@ -422,8 +414,8 @@ msgstr ""
 #. translators: title of the submenu
 #: components/template-parts/navigation/menu-modal.php:477
 #: components/template-parts/navigation/menu-modal.php:550
-#: components/template-parts/navigation/mixed-navigation-walker.php:477
-#: components/template-parts/navigation/mixed-navigation-walker.php:672
+#: components/template-parts/navigation/mixed-navigation-walker.php:386
+#: components/template-parts/navigation/mixed-navigation-walker.php:581
 msgid "Open %s submenu"
 msgstr ""
 
@@ -475,16 +467,16 @@ msgstr ""
 msgid "Go to"
 msgstr ""
 
-#: components/template-parts/navigation/mixed-navigation-walker.php:425
+#: components/template-parts/navigation/mixed-navigation-walker.php:334
 msgid "mixed-navigation"
 msgstr ""
 
-#: components/template-parts/navigation/mixed-navigation-walker.php:427
+#: components/template-parts/navigation/mixed-navigation-walker.php:336
 msgid "menu-navigation"
 msgstr ""
 
-#: components/template-parts/navigation/mixed-navigation-walker.php:429
-#: components/template-parts/navigation/mixed-navigation-walker.php:647
+#: components/template-parts/navigation/mixed-navigation-walker.php:338
+#: components/template-parts/navigation/mixed-navigation-walker.php:556
 msgid "page-navigation"
 msgstr ""
 
