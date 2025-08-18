@@ -298,26 +298,30 @@ $has_results = !empty($current_site_custom_results);
                         <?php endif; ?>
                         
                         <div class="result-text">
-                            <h4 class="result-title" itemprop="headline">
+                            <h2 class="result-title" itemprop="headline">
                                 <a href="<?php echo esc_url($formatted_result['link']); ?>" 
                                    class="result-link" 
                                    itemprop="url">
                                     <?php echo esc_html($formatted_result['title']); ?>
                                 </a>
-                            </h4>
+                            </h2>
                             
-                            <div class="result-excerpt" itemprop="description">
+                            <p class="result-excerpt" itemprop="description">
                                 <?php echo esc_html(wp_trim_words($formatted_result['excerpt'], $search_config['excerpt_length'], '…')); ?>
-                            </div>
+                                </p>
                             
-                            <a href="<?php echo esc_url($formatted_result['link']); ?>" 
-                               class="result-read-more">
-                                <span class="screen-reader-text"><?php
-                                    // translators: title of the search result
-                                    printf(__('Read more about %s', 'fau-elemental'), $formatted_result['title']); 
-                                ?></span>
-                                <span aria-hidden="true"><?php _e('Read more', 'fau-elemental'); ?> <?php echo $search_config['arrow']; ?></span>
-                            </a>
+                            <div class="wp-block-buttons">
+                                <div class="wp-block-button is-style-tertiary">
+                                    <a href="<?php echo esc_url($formatted_result['link']); ?>" 
+                                       class="wp-block-button__link result-read-more">
+                                        <span class="screen-reader-text"><?php
+                                            // translators: title of the search result
+                                            printf(__('Read more about %s', 'fau-elemental'), $formatted_result['title']); 
+                                        ?></span>
+                                        <span aria-hidden="true"><?php _e('Read more', 'fau-elemental'); ?> </span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </article>
