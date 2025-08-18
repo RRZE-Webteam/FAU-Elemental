@@ -43,6 +43,7 @@
 		}
 
 		&.prev {
+
 			&:hover,
 			&:focus-visible {
 				transform: translateX(-0.25rem);
@@ -50,6 +51,7 @@
 		}
 
 		&.next {
+
 			&:hover,
 			&:focus-visible {
 				transform: translateX(0.25rem);
