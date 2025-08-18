@@ -159,6 +159,16 @@ if (empty($search_query)) {
 }
 
 $has_results = !empty($current_site_custom_results);
+
+// Pagination setup for custom results
+$results_per_page = 10;
+$total_results = count($current_site_custom_results);
+$current_page = max(1, get_query_var('paged', 1));
+$total_pages = (int) ceil($total_results / $results_per_page);
+
+// Slice the results for the current page
+$offset = ($current_page - 1) * $results_per_page;
+$paged_results = array_slice($current_site_custom_results, $offset, $results_per_page);
 ?>
 
 <div class="search-header">
@@ -225,8 +235,8 @@ $has_results = !empty($current_site_custom_results);
             <?php 
             $result_counter = 1;
             
-            // Display search results using pre-computed custom results
-            foreach ($current_site_custom_results as $formatted_result) : 
+            // Display search results using paged results
+            foreach ($paged_results as $formatted_result) : 
                 $post_result = $formatted_result['post_result'];
                 ?>
                 <article class="search-result-item search-result-item--current-site" itemscope itemtype="https://schema.org/Article">
@@ -330,23 +340,10 @@ $has_results = !empty($current_site_custom_results);
             endforeach; ?>
         </div>
         
-        <?php 
-        // Pagination
-        $pagination_args = array(
-            'mid_size' => 2,
-            'prev_text' => __('&laquo; Previous', 'fau-elemental'),
-            'next_text' => __('Next &raquo;', 'fau-elemental'),
-            'class' => 'search-pagination',
-            'screen_reader_text' => __('Search results navigation', 'fau-elemental')
-        );
-        
-        $pagination = get_the_posts_pagination($pagination_args);
-        if (!empty($pagination)) : ?>
-            <nav class="search-pagination-nav" aria-labelledby="search-pagination-heading">
-                <h2 id="search-pagination-heading" class="screen-reader-text"><?php _e('Search Results Pages', 'fau-elemental'); ?></h2>
-                <?php the_posts_pagination($pagination_args); ?>
-            </nav>
-        <?php endif; ?>
+        <?php
+        // Custom Pagination
+        echo fau_elemental_generate_pagination($current_page, $total_pages, 'numbers');
+        ?>
     </div>
 
 <?php else : ?>

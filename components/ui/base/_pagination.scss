@@ -1,0 +1,90 @@
+// Shared pagination styles for FAU Elemental
+.fau-pagination {
+	// ... moved styles ...
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: var(--Spacing-2x);
+	margin-top: var(--Spacing-8x);
+
+	.pagination-wrapper {
+		display: flex;
+	}
+
+	a.page-number,
+	button.page-number,
+	span.page-number {
+		display: flex;
+		padding: var(--Spacing-2x) var(--Spacing-4x);
+		color: var(--FAU-Col-FAU-Blau-100);
+		text-decoration: none;
+		font-size: 1.125rem;
+		font-weight: 600;
+		transition: var(--basic-animation);
+
+		&:hover:not(.current),
+		&:focus-visible:not(.current) {
+			background-color: var(--FAU-Col-FAU-Blau-25);
+		}
+
+		&.current {
+			background-color: var(--FAU-Col-FAU-Blau-100);
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		&.prev,
+		&.next {
+			padding: var(--Spacing-2x);
+
+			&:hover,
+			&:focus-visible {
+				background-color: unset;
+			}
+		}
+
+		&.prev {
+			&:hover,
+			&:focus-visible {
+				transform: translateX(-0.25rem);
+			}
+		}
+
+		&.next {
+			&:hover,
+			&:focus-visible {
+				transform: translateX(0.25rem);
+			}
+		}
+
+		&.disabled {
+			cursor: not-allowed;
+			background-color: transparent;
+		}
+	}
+
+	span.page-number.disabled {
+		visibility: hidden;
+	}
+
+	.page-ellipsis {
+		align-self: center;
+		flex-shrink: 0;
+		border: none;
+		background: none;
+		color: var(--FAU-Col-FAU-Blau-100);
+		padding: 0 var(--Spacing-2x);
+	}
+
+	.pagination-icon {
+		width: 1.5rem;
+		height: 1.5rem;
+
+		&-prev {
+			background-image: var(--icon-chevron-left-fau-blau);
+		}
+
+		&-next {
+			background-image: var(--icon-chevron-right-fau-blau);
+		}
+	}
+}

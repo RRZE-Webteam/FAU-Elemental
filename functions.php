@@ -67,6 +67,9 @@ require_once get_template_directory() . '/components/template-parts/navigation/i
 // Page meta fields
 require_once get_template_directory() . '/inc/page-meta-fields.php';
 
+require_once get_template_directory() . '/inc/pagination.php';
+
+
 /**
  * Register custom page templates
  */
