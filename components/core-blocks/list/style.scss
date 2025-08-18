@@ -1,7 +1,3 @@
-/**
- * Core List Block Styles
- */
-
 @use "../../ui/mixins/mixins" as *;
 
 .wp-block-list {
@@ -144,6 +140,33 @@ ol.wp-block-list {
 }
 
 @include respond-to("small") {
+
+	.is-layout-flow {
+
+		.wp-block-list {
+			font-size: 1rem;
+
+			li,
+			&:not(.list-icons) > li,
+			&.list-icons > li {
+				margin-bottom: var(--Spacing-4x);
+			}
+		}
+
+		ol.wp-block-list {
+
+			> li::marker {
+				font-size: 1.375rem;
+			}
+
+			&:not(.list-icons) > li {
+				margin-bottom: var(--Spacing-2x);
+			}
+		}
+	}
+}
+
+@include respond-to("x-small") {
 
 	.wp-block-list {
 		font-size: 1rem;
