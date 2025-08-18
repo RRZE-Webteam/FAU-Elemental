@@ -45,6 +45,7 @@ if (!function_exists('fau_elemental_generate_pagination')) {
                             $output .= sprintf('<span class="page-number current" aria-current="page">%d</span>', $i);
                         } else {
                             $page_url = get_pagenum_link($i);
+                            /* translators: %d: page number */
                             $output .= sprintf('<a href="%s" class="page-number" aria-label="%s">%d</a>', esc_url($page_url), esc_attr(sprintf(__('Page %d', 'fau-elemental'), $i)), $i);
                         }
                     }
