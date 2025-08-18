@@ -20,7 +20,9 @@
 		padding: 0 var(--Spacing-10x);
 	}
 
-	.search-results {
+	// Only hide search results when the global search block is present
+	// This prevents hiding search results on the actual search results page
+	.fau-global-search-wrapper + .search-results {
 		display: none;
 	}
 }
