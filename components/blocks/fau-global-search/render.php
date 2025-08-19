@@ -24,7 +24,7 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
-	<?php if (!empty($heading)): ?>
+	<?php if (!empty($heading) && $width !== 'full-grid'): ?>
 		<h3 class="fau-global-search__heading"><?php echo $heading; ?></h3>
 	<?php endif; ?>
 	<form 
@@ -34,26 +34,29 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 		id="<?php echo $form_id; ?>"
 		<?php if ($width === 'content-size'): ?>data-advanced-features="true" data-enable-autocomplete="true"<?php endif; ?>
 	>
-				<div class="fau-global-search__input-wrapper">
-					<input
-						type="search"
-						class="fau-global-search__input"
-						name="s"
-						placeholder="<?php echo __('Search…', 'fau-elemental'); ?>"
-						value="<?php echo esc_attr(get_search_query()); ?>"
-						autocomplete="off"
-						id="<?php echo $form_id; ?>-input"
-					/>
-					<button
-						type="submit"
-						class="fau-global-search__button"
-					>
-						<span class="fau-global-search__button-text">
-							<?php echo __('Search', 'fau-elemental'); ?>
-						</span>
-						<span class="fau-global-search__button-icon" aria-hidden="true"></span>
-					</button>
-				</div>
+		<div class="fau-global-search__input-wrapper<?php if ($width === 'full-grid') echo ' fau-global-search__input-wrapper--inline'; ?>">
+<?php if (!empty($heading) && $width === 'full-grid'): ?>
+			<h3 class="fau-global-search__heading fau-global-search__heading--inline"><?php echo $heading; ?></h3>
+<?php endif; ?>
+			<input
+				type="search"
+				class="fau-global-search__input"
+				name="s"
+				placeholder="<?php echo __('Search…', 'fau-elemental'); ?>"
+				value="<?php echo esc_attr(get_search_query()); ?>"
+				autocomplete="off"
+				id="<?php echo $form_id; ?>-input"
+			/>
+			<button
+				type="submit"
+				class="fau-global-search__button"
+			>
+				<span class="fau-global-search__button-text">
+					<?php echo __('Search', 'fau-elemental'); ?>
+				</span>
+				<span class="fau-global-search__button-icon" aria-hidden="true"></span>
+			</button>
+		</div>
 				
 				<?php 
 				//FAU-wide Search for Global and Inline Search is supposed to be some kind of google search which might get implemented in the future;
@@ -83,50 +86,5 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 				<?php endif; 
 				*/
 				?>
-
-				<?php if ($width === 'content-size'): ?>
-					<!-- Hidden elements for JavaScript to use (translatable) -->
-					<div class="fau-global-search__hidden-messages fau-global-search__hidden">
-						<div class="fau-global-search__message-searching">
-							<?php echo __('Searching…', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-no-suggestions">
-							<?php echo __('No suggestions found', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-no-results">
-							<?php
-								// translators: search query
-								echo __('No results found for "%s"', 'fau-elemental'); 
-							?>
-						</div>
-						<div class="fau-global-search__message-frequent-searches">
-							<?php echo __('Frequent Searches', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-loading">
-							<?php echo __('Loading…', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-no-search-data">
-							<?php echo __('No search data available yet', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-loading-options">
-							<?php echo __('Loading search options…', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-search-options">
-							<?php echo __('Search Options', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-advanced-search">
-							<?php echo __('Advanced Search', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-search-suggestions">
-							<?php echo __('Search suggestions', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-rate-limit-exceeded">
-							<?php echo __('Too many search requests. Please wait a moment and try again.', 'fau-elemental'); ?>
-						</div>
-						<div class="fau-global-search__message-invalid-search-term">
-							<?php echo __('Please enter a valid search term.', 'fau-elemental'); ?>
-						</div>
-					</div>
-				<?php endif; ?>
 	</form>
 </div> 

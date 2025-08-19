@@ -78,10 +78,6 @@
 			min-width: 0;
 			border-color: var(--FAU-Col-FAU-Weiss-100);
 		}
-
-		.fau-global-search__button {
-			background-color: var(--FAU-Col-FAU-Dunkelblau-100);
-		}
 	}
 }
 // Dark style variant - white background with blue text
@@ -170,8 +166,8 @@
 		justify-content: center;
 		width: 3rem;
 		height: 3rem;
-		border: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
-		background-color: var(--FAU-Col-FAU-Blau-100);
+		border: 0.0625rem solid var(--FAU-Col-FAU-Dunkelblau-100);
+		background-color: var(--FAU-Col-FAU-Dunkelblau-100);
 		cursor: pointer;
 		border-radius: 0;
 		position: relative;
@@ -455,6 +451,21 @@
 		display: none;
 	}
 
+}
+
+// Inline heading and input for full-grid
+.fau-global-search__input-wrapper--inline {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.fau-global-search__heading--inline {
+	margin: 0;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--FAU-Col-FAU-Weiss-100);
+	white-space: nowrap;
 }
 
 // Responsive

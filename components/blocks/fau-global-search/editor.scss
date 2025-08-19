@@ -180,6 +180,20 @@
 				accent-color: var(--FAU-Col-FAU-Blau-100);
 			}
 		}
+		// Inline heading and input for full-grid
+		.fau-global-search__input-wrapper--inline {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+
+		.fau-global-search__heading--inline {
+			margin: 0;
+			font-size: 1.5rem;
+			font-weight: 700;
+			color: var(--FAU-Col-FAU-Weiss-100);
+			white-space: nowrap;
+		}
 
 	}
 }

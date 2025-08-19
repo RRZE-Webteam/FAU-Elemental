@@ -61,11 +61,22 @@ export default function Edit( { attributes, setAttributes } ) {
 			</InspectorControls>
 
 			<div { ...blockProps }>
-				{ heading && (
+				{ width !== 'full-grid' && heading && (
 					<h3 className="fau-global-search__heading">{ heading }</h3>
 				) }
 				<form className="fau-global-search fau-global-search__form">
-					<div className="fau-global-search__input-wrapper">
+					<div
+						className={ `fau-global-search__input-wrapper${
+							width === 'full-grid'
+								? ' fau-global-search__input-wrapper--inline'
+								: ''
+						}` }
+					>
+						{ width === 'full-grid' && heading && (
+							<h3 className="fau-global-search__heading fau-global-search__heading--inline">
+								{ heading }
+							</h3>
+						) }
 						<input
 							type="search"
 							className="fau-global-search__input"
