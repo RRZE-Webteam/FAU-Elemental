@@ -6,7 +6,7 @@
 	margin: 0 auto;
 	padding: var(--Spacing-8x) 0;
 	font-size: 1rem;
-	line-height: 1.5;
+	line-height: var(--base-line-height);
 	font-weight: 600;
 	color: var(--FAU-Col-FAU-Dunkelblau-100);
 	letter-spacing: var(--letter-spacing-big);

@@ -4,16 +4,16 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 
-const FALLBACK_IMAGE =
-	( ( window.fauElemental && window.fauElemental.themeUrl ) ??
-		'/wp-content/themes/fau-elemental' ) + '/assets/images/logo.svg';
-
 /**
  * Editor preview component for FAU Portal Menu block
  * Matches the frontend WCAG 2.2 Level II compliant structure exactly
  * Shows actual menu items from the selected menu
  */
 const EditorPreview = ( { attributes } ) => {
+	const FALLBACK_IMAGE =
+		( ( window.fauElemental && window.fauElemental.themeUrl ) ??
+			'/wp-content/themes/fau-elemental' ) + '/assets/images/logo.svg';
+
 	// Fetch actual menu items
 	const menuItems = useSelect(
 		( select ) => {

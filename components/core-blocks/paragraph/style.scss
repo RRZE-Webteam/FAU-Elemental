@@ -9,7 +9,7 @@ p {
 	font-size: var(--P-Body-Text);
 	color: var(--FAU-Col-FAU-Schwarz-100);
 	font-weight: 400;
-	line-height: 1.5;
+	line-height: var(--base-line-height);
 
 	.is-layout-flow & {
 		padding: 0 var(--Spacing-10x);
@@ -89,7 +89,7 @@ a {
 figcaption {
 	font-size: var(--P-Caption);
 	letter-spacing: var(--letter-spacing-small);
-	line-height: 1.5;
+	line-height: var(--base-line-height);
 	font-weight: 400;
 }
 

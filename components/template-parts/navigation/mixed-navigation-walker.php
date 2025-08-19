@@ -470,18 +470,19 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
                 $button_classes .= ' menu-toggle';
             }
             
+            $title = esc_html(wp_strip_all_tags(apply_filters('the_title', $item->title, $item->ID)));
+            $aria = esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $title));
+            
             $output .= '<button type="button" class="' . esc_attr($button_classes) . '" ';
             $output .= 'aria-expanded="false" ';
             $output .= 'aria-controls="' . esc_attr($submenu_id) . '" ';
             $output .= 'aria-haspopup="true" ';
-            $aria = esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $title));
             $output .= 'aria-label="' . $aria . '" ';
             $output .= 'data-parent-url="' . esc_attr($item->url) . '" ';
             $output .= 'data-parent-title="' . esc_attr($item->title) . '" ';
             $output .= 'data-menu-children="' . esc_attr(count($menu_children)) . '" ';
             $output .= 'data-page-children="' . esc_attr(count($page_children)) . '">';
             
-            $title = esc_html(wp_strip_all_tags(apply_filters('the_title', $item->title, $item->ID)));
             $output .= '<span class="menu-modal__item-title">' . $title . '</span>';
             $output .= '<span class="menu-modal__submenu-arrow" aria-hidden="true"></span>';
             $output .= '</button>';
