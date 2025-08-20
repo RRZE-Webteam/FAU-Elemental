@@ -61,6 +61,11 @@ export default function Edit( { attributes, setAttributes } ) {
 			</InspectorControls>
 
 			<div { ...blockProps }>
+				{ width === 'full-grid' && heading && (
+					<h3 className="fau-global-search__heading fau-global-search__heading--full-grid">
+						{ heading }
+					</h3>
+				) }
 				{ width !== 'full-grid' && heading && (
 					<h3 className="fau-global-search__heading">{ heading }</h3>
 				) }
@@ -68,15 +73,10 @@ export default function Edit( { attributes, setAttributes } ) {
 					<div
 						className={ `fau-global-search__input-wrapper${
 							width === 'full-grid'
-								? ' fau-global-search__input-wrapper--inline'
+								? ' fau-global-search__input-wrapper--full-grid'
 								: ''
 						}` }
 					>
-						{ width === 'full-grid' && heading && (
-							<h3 className="fau-global-search__heading fau-global-search__heading--inline">
-								{ heading }
-							</h3>
-						) }
 						<input
 							type="search"
 							className="fau-global-search__input"

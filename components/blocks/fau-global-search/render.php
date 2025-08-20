@@ -24,7 +24,9 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
-	<?php if (!empty($heading) && $width !== 'full-grid'): ?>
+	<?php if (!empty($heading) && $width === 'full-grid'): ?>
+		<h3 class="fau-global-search__heading fau-global-search__heading--full-grid"><?php echo $heading; ?></h3>
+	<?php elseif (!empty($heading) && $width !== 'full-grid'): ?>
 		<h3 class="fau-global-search__heading"><?php echo $heading; ?></h3>
 	<?php endif; ?>
 	<form 
@@ -34,10 +36,7 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 		id="<?php echo $form_id; ?>"
 		<?php if ($width === 'content-size'): ?>data-advanced-features="true" data-enable-autocomplete="true"<?php endif; ?>
 	>
-		<div class="fau-global-search__input-wrapper<?php if ($width === 'full-grid') echo ' fau-global-search__input-wrapper--inline'; ?>">
-<?php if (!empty($heading) && $width === 'full-grid'): ?>
-			<h3 class="fau-global-search__heading fau-global-search__heading--inline"><?php echo $heading; ?></h3>
-<?php endif; ?>
+		<div class="fau-global-search__input-wrapper<?php if ($width === 'full-grid') echo ' fau-global-search__input-wrapper--full-grid'; ?>">
 			<input
 				type="search"
 				class="fau-global-search__input"
