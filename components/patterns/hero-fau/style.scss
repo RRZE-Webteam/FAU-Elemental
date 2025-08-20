@@ -53,7 +53,7 @@
 		}
 
 		.has-background-dim:not([class*="-background-color"]) {
-			background-color: unset; // Reset overlay bg color
+			background-color: unset !important; // Override WP inline styles
 		}
 	}
 
