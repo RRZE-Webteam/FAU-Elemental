@@ -191,7 +191,7 @@ $paged_results = array_slice($current_site_custom_results, $offset, $results_per
     <div class="search-form-container">
         <?php
         // Render the FAU Global Search block with full-grid width for the search results page
-        $block_content = '<!-- wp:fau-elemental/fau-global-search {"width":"full-grid","heading":"' . esc_attr(__('Search', 'fau-elemental')) . '"} /-->';
+        $block_content = '<!-- wp:fau-elemental/fau-global-search {"width":"content-size","heading":"' . esc_attr(__('Search', 'fau-elemental')) . '"} /-->';
         echo do_blocks($block_content);
         ?>
     </div>
