@@ -4,7 +4,7 @@
 @use "../../ui/mixins/mixins" as *;
 
 .menu-modal__search-heading {
-	margin: var(--Spacing-4x) 0 var(--Spacing-2x) 0;
+	margin: var(--Spacing-4x) 0;
 	font-size: 1.25rem;
 }
 
@@ -32,13 +32,16 @@
 	padding: var(--Spacing-6x) var(--Spacing-10x);
 }
 
+
+.fau-global-search__outer-wrapper:has(.fau-global-search-wrapper--content-size){
+	max-width: var(--small-max-width);
+}
+
 .fau-global-search-wrapper {
 	background-color: var(--FAU-Col-FAU-Blau-100);
 	padding: var(--Spacing-10x);
 
 	&--content-size {
-		max-width: var(--small-max-width);
-		margin: auto;
 
 		.fau-global-search__heading {
 			color: var(--FAU-Col-FAU-Weiss-100);
@@ -52,9 +55,6 @@
 	}
 
 	&--full-grid {
-		//max-width: 95%;
-		//margin: auto;
-		//padding: 0;
 		display: grid;
 		grid-template-columns: auto 1fr;
 		align-items: center;
@@ -469,13 +469,11 @@
 	.fau-global-search__outer-wrapper {
 		max-width: var(--wide-max-width);
 	}
+	.fau-global-search__outer-wrapper:has(.fau-global-search-wrapper--content-size){
+		max-width: var(--small-max-width);
+	}
 
 	.fau-global-search-wrapper {
-
-		&--content-size {
-			max-width: var(--small-max-width);
-			margin: 0 8rem;
-		}
 
 		&--full-grid {
 			display: grid;
@@ -493,15 +491,7 @@
 // Responsive
 @include respond-to("small") {
 
-	.fau-global-search__outer-wrapper {
-		padding: var(--Spacing-6x) var(--Spacing-5x);
-	}
-
 	.fau-global-search-wrapper {
-
-		&--content-size {
-			margin: 0;
-		}
 
 		&--full-grid {
 
@@ -519,6 +509,9 @@
 }
 
 @include respond-to("x-small") {
+	.fau-global-search__outer-wrapper {
+		padding: var(--Spacing-6x) var(--Spacing-5x);
+	}
 
 	.fau-global-search-wrapper {
 
