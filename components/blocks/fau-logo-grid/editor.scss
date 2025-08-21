@@ -22,6 +22,12 @@
 		width: 100%;
 		height: auto;
 
+		// Webkit-specific Safari fixes
+		-webkit-transform: translateZ(0);
+		transform: translateZ(0);
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+
 		// Hover effect for selection
 		&:hover {
 			background: var(--FAU-Col-FAU-Schwarz-5);
@@ -56,12 +62,6 @@
 		.components-button {
 			padding: 0 var(--Spacing-3x);
 		}
-
-		// Webkit-specific Safari fixes
-		-webkit-transform: translateZ(0);
-		transform: translateZ(0);
-		-webkit-backface-visibility: hidden;
-		backface-visibility: hidden;
 	}
 
 	// Image button for replacement
