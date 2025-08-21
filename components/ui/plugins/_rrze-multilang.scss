@@ -1,3 +1,7 @@
+.fau-language-switcher-wrapper:has(.rrze-multilang-widget) {
+	padding: var(--Spacing-3x) 0.6rem;
+}
+
 .fau-elemental #site-navigation {
 
 	.rrze-multilang,
@@ -7,6 +11,8 @@
 			display: flex;
 			flex-direction: row;
 			gap: var(--Spacing-4x);
+			margin: 0;
+			padding: 0;
 
 			li a {
 				color: var(--FAU-Col-FAU-Weiss-100);

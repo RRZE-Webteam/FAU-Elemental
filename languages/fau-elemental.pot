@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-21T08:52:04+00:00\n"
+"POT-Creation-Date: 2025-08-21T09:50:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -369,19 +369,11 @@ msgstr ""
 msgid "Open Search"
 msgstr ""
 
-#: components/template-parts/navigation/fau-navigation.php:59
-msgid "Open Language selector"
-msgstr ""
-
-#: components/template-parts/navigation/fau-navigation.php:60
-msgid "DE"
-msgstr ""
-
-#: components/template-parts/navigation/main-navigation.php:45
+#: components/template-parts/navigation/main-navigation.php:46
 msgid "Open menu"
 msgstr ""
 
-#: components/template-parts/navigation/main-navigation.php:46
+#: components/template-parts/navigation/main-navigation.php:47
 #: inc/portal-page-settings.php:73
 #: components/blocks/fau-portalmenu/edit.js:64
 msgid "Menu"
