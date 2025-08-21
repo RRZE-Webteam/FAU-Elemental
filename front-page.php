@@ -70,7 +70,7 @@ if (is_home() && is_front_page()) {
             the_post();
             ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                <div class="entry-content">
+                <div class="is-layout-flow">
                     <?php
                     the_content();
                     

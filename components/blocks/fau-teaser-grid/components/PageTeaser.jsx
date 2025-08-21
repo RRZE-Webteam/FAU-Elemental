@@ -2,11 +2,6 @@ import { __ } from '@wordpress/i18n';
 import { useSelect, createSelector } from '@wordpress/data';
 import { useMemo } from '@wordpress/element';
 
-// Get the theme URL from WordPress data
-const FALLBACK_IMAGE =
-	( ( window.fauElemental && window.fauElemental.themeUrl ) ??
-		'/wp-content/themes/fau-elemental' ) + '/assets/images/logo.svg';
-
 // Create a stable selector for the REST API base URL
 const getRestBaseUrl = createSelector( () => window.location.origin );
 
@@ -15,6 +10,11 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 		return null;
 	}
 
+	// Get the theme URL from WordPress data
+	const FALLBACK_IMAGE =
+		( ( window.fauElemental && window.fauElemental.themeUrl ) ??
+			'/wp-content/themes/fau-elemental' ) + '/assets/images/logo.svg';
+
 	const baseUrl = useSelect( ( select ) => getRestBaseUrl( select ), [] );
 
 	// Memoize derived values
@@ -22,7 +22,7 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 		// Return early with empty object if page isn't properly defined
 		if ( ! page || ! page.title || ! page.excerpt ) {
 			return {
-				image: `${ baseUrl }${ FALLBACK_IMAGE }`,
+				image: FALLBACK_IMAGE,
 				title: '',
 				excerpt: '',
 			};
@@ -33,7 +33,7 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 			page._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url;
 		const imageUrl = hasFeaturedImage
 			? page._embedded[ 'wp:featuredmedia' ][ 0 ].source_url
-			: `${ baseUrl }${ FALLBACK_IMAGE }`;
+			: FALLBACK_IMAGE;
 
 		return {
 			image: imageUrl,

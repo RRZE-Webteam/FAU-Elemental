@@ -69,6 +69,8 @@ require_once get_template_directory() . '/inc/page-meta-fields.php';
 
 require_once get_template_directory() . '/components/template-parts/pagination/pagination.php';
 
+// Widgets
+require_once get_template_directory() . '/inc/widgets.php';
 
 /**
  * Register custom page templates
@@ -94,11 +96,6 @@ add_filter('theme_page_templates', 'fau_elemental_register_page_templates', 11, 
 function fau_elemental_template_include($template) {
     if (is_page()) {
         $template_slug = get_page_template_slug();
-        
-        // Debug output
-        if (defined('FAU_ELEMENTAL_DEBUG') && FAU_ELEMENTAL_DEBUG) {
-            error_log('FAU Elemental Debug: Template include requested for: ' . $template_slug);
-        }
         
         // Priority 1: Use the root template if explicitly selected
         if ($template_slug === FAU_Elemental_Portal_Menu_Config::TEMPLATE) {

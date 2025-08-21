@@ -19,7 +19,7 @@
 			textarea.wsf-field {
 				width: 100%;
 				font-size: 1rem;
-				line-height: 1.5;
+				line-height: var(--base-line-height);
 				box-sizing: border-box;
 				font-family: var(--font-family-base);
 				padding: 0.75rem 1rem;

@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.2.36\n"
+"Project-Id-Version: FAU-Elemental 0.3.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-15T14:27:40+00:00\n"
+"POT-Creation-Date: 2025-08-21T09:53:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -68,7 +68,7 @@ msgstr ""
 msgid "Category posts listing"
 msgstr ""
 
-#: components/blocks/fau-copyright-info/render.php:146
+#: components/blocks/fau-copyright-info/render.php:214
 msgid "Image sources:"
 msgstr ""
 
@@ -81,7 +81,7 @@ msgstr ""
 #: components/template-parts/navigation/fau-navigation.php:48
 #: components/template-parts/navigation/menu-modal-config.php:75
 #: components/template-parts/navigation/menu-modal.php:239
-#: search.php:38
+#: components/template-parts/search-results/search-results.php:184
 #: components/blocks/fau-global-search/edit.js:82
 msgid "Search"
 msgstr ""
@@ -239,7 +239,7 @@ msgid "Start"
 msgstr ""
 
 #: components/template-parts/breadcrumbs/breadcrumbs.php:163
-#: search.php:29
+#: components/template-parts/search-results/search-results.php:175
 msgid "Search Results"
 msgstr ""
 
@@ -286,7 +286,7 @@ msgid ""
 msgstr ""
 
 #: components/template-parts/footer-instance/footer-instance.php:191
-#: functions.php:320
+#: functions.php:318
 msgid "Show more"
 msgstr ""
 
@@ -369,19 +369,11 @@ msgstr ""
 msgid "Open Search"
 msgstr ""
 
-#: components/template-parts/navigation/fau-navigation.php:52
-msgid "Open Language selector"
-msgstr ""
-
-#: components/template-parts/navigation/fau-navigation.php:53
-msgid "DE"
-msgstr ""
-
-#: components/template-parts/navigation/main-navigation.php:45
+#: components/template-parts/navigation/main-navigation.php:46
 msgid "Open menu"
 msgstr ""
 
-#: components/template-parts/navigation/main-navigation.php:46
+#: components/template-parts/navigation/main-navigation.php:47
 #: inc/portal-page-settings.php:73
 #: components/blocks/fau-portalmenu/edit.js:64
 msgid "Menu"
@@ -422,8 +414,8 @@ msgstr ""
 #. translators: title of the submenu
 #: components/template-parts/navigation/menu-modal.php:477
 #: components/template-parts/navigation/menu-modal.php:550
-#: components/template-parts/navigation/mixed-navigation-walker.php:477
-#: components/template-parts/navigation/mixed-navigation-walker.php:672
+#: components/template-parts/navigation/mixed-navigation-walker.php:474
+#: components/template-parts/navigation/mixed-navigation-walker.php:673
 msgid "Open %s submenu"
 msgstr ""
 
@@ -484,12 +476,103 @@ msgid "menu-navigation"
 msgstr ""
 
 #: components/template-parts/navigation/mixed-navigation-walker.php:429
-#: components/template-parts/navigation/mixed-navigation-walker.php:647
+#: components/template-parts/navigation/mixed-navigation-walker.php:648
 msgid "page-navigation"
 msgstr ""
 
 #: components/template-parts/post-meta/post-meta.php:58
 msgid "Last update:"
+msgstr ""
+
+#. translators: search query
+#: components/template-parts/search-results/search-results.php:170
+msgid "Search Results for: %s"
+msgstr ""
+
+#. Template Name of the theme
+#: components/template-parts/search-results/search-results.php:172
+#: functions.php:81
+msgid "All Posts"
+msgstr ""
+
+#. translators: number of results
+#: components/template-parts/search-results/search-results.php:198
+msgctxt "search results count"
+msgid "%s result found"
+msgid_plural "%s results found"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: number of posts
+#: components/template-parts/search-results/search-results.php:210
+msgctxt "posts count"
+msgid "%s post found"
+msgid_plural "%s posts found"
+msgstr[0] ""
+msgstr[1] ""
+
+#: components/template-parts/search-results/search-results.php:223
+msgid "Search Results List"
+msgstr ""
+
+#. translators: index of the search result
+#: components/template-parts/search-results/search-results.php:236
+msgid "Search Result %d"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:260
+msgid "Post Category"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:267
+#: functions.php:365
+msgid "Page Category"
+msgstr ""
+
+#. translators: %s: Menu item title
+#: components/template-parts/search-results/search-results.php:288
+#: inc/class-walker-content-menu.php:67
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:178
+msgid "Featured image for %s"
+msgstr ""
+
+#. translators: title of the search result
+#: components/template-parts/search-results/search-results.php:319
+msgid "Read more about %s"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:321
+#: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
+#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:156
+msgid "Read more"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:337
+msgid "&laquo; Previous"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:338
+msgid "Next &raquo;"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:340
+msgid "Search results navigation"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:346
+msgid "Search Results Pages"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:354
+msgid "No Search Results"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:356
+msgid "Unfortunately, we were unable to find any matching search results for the following query:"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:363
+msgid "Additional search options"
 msgstr ""
 
 #: components/templates/pages/archive-grid-util.php:14
@@ -532,7 +615,7 @@ msgid "Title - descending"
 msgstr ""
 
 #. Template Name of the theme
-#: functions.php:79
+#: functions.php:82
 msgid "All Pages"
 msgstr ""
 
@@ -542,32 +625,60 @@ msgstr ""
 
 #. Template Name of the theme
 #: functions.php:78
-msgid "All Posts"
-msgstr ""
-
-#. Template Name of the theme
-#: functions.php:75
 msgid "Portal Page"
-msgstr ""
-
-#: components/templates/portal-page/portal-page.php:53
-msgid "Portal Page Notice"
-msgstr ""
-
-#: components/templates/portal-page/portal-page.php:53
-msgid "No menu is selected for this portal page. Please edit this page and select a menu in the Portal Menu Settings meta box."
-msgstr ""
-
-#: components/templates/portal-page/portal-page.php:54
-msgid "Edit Page"
 msgstr ""
 
 #: front-page.php:78
 msgid "Pages:"
 msgstr ""
 
-#: functions.php:321
+#: functions.php:319
 msgid "Show less"
+msgstr ""
+
+#: functions.php:364
+#: functions.php:366
+msgid "Page Categories"
+msgstr ""
+
+#: functions.php:367
+msgid "All Page Categories"
+msgstr ""
+
+#: functions.php:368
+msgid "Edit Page Category"
+msgstr ""
+
+#: functions.php:369
+msgid "View Page Category"
+msgstr ""
+
+#: functions.php:370
+msgid "Update Page Category"
+msgstr ""
+
+#: functions.php:371
+msgid "Add New Page Category"
+msgstr ""
+
+#: functions.php:372
+msgid "New Page Category Name"
+msgstr ""
+
+#: functions.php:373
+msgid "Parent Page Category"
+msgstr ""
+
+#: functions.php:374
+msgid "Parent Page Category:"
+msgstr ""
+
+#: functions.php:375
+msgid "Search Page Categories"
+msgstr ""
+
+#: functions.php:376
+msgid "No page categories found"
 msgstr ""
 
 #: inc/block-patterns.php:36
@@ -577,13 +688,6 @@ msgstr ""
 
 #: inc/block-patterns.php:40
 msgid "Hero"
-msgstr ""
-
-#. translators: %s: Menu item title
-#: inc/class-walker-content-menu.php:67
-#: search.php:196
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:178
-msgid "Featured image for %s"
 msgstr ""
 
 #. translators: %s: Menu item title
@@ -1244,6 +1348,10 @@ msgstr ""
 msgid "IPTC Image Metadata"
 msgstr ""
 
+#: inc/widgets.php:17
+msgid "Sprachwechsler im Header der Seite"
+msgstr ""
+
 #: index.php:48
 #: index.php:51
 #: index.php:72
@@ -1304,79 +1412,6 @@ msgstr ""
 #: components/blocks/fau-big-button/edit.js:306
 #: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
 msgid "Title"
-msgstr ""
-
-#. translators: search query
-#: search.php:27
-msgid "Search Results for: %s"
-msgstr ""
-
-#. translators: number of results
-#: search.php:140
-msgctxt "search results count"
-msgid "%s result found"
-msgid_plural "%s results found"
-msgstr[0] ""
-msgstr[1] ""
-
-#: search.php:152
-msgid "Search Results List"
-msgstr ""
-
-#. translators: index of the search result
-#: search.php:165
-msgid "Search Result %d"
-msgstr ""
-
-#. translators: title of the search result
-#: search.php:225
-msgid "Read more about %s"
-msgstr ""
-
-#: search.php:227
-#: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
-#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:156
-msgid "Read more"
-msgstr ""
-
-#: search.php:241
-msgid "&laquo; Previous"
-msgstr ""
-
-#: search.php:242
-msgid "Next &raquo;"
-msgstr ""
-
-#: search.php:244
-msgid "Search results navigation"
-msgstr ""
-
-#: search.php:250
-msgid "Search Results Pages"
-msgstr ""
-
-#: search.php:258
-msgid "No Search Results"
-msgstr ""
-
-#: search.php:260
-msgid "No results were found."
-msgstr ""
-
-#: search.php:263
-msgid "Try:"
-msgstr ""
-
-#: search.php:265
-msgid "Check the spelling of your search terms."
-msgstr ""
-
-#: search.php:266
-msgid "Use more general search terms."
-msgstr ""
-
-#: search.php:267
-msgid "Use fewer search terms."
 msgstr ""
 
 #: components/blocks/fau-big-button/edit.js:71
@@ -2123,6 +2158,18 @@ msgstr ""
 msgid "Tertiary"
 msgstr ""
 
+#: components/core-blocks/cover/index.js:44
+#: components/core-blocks/image/index.js:253
+#: components/core-blocks/media-text/index.js:73
+msgid "Additional Settings"
+msgstr ""
+
+#: components/core-blocks/cover/index.js:51
+#: components/core-blocks/image/index.js:259
+#: components/core-blocks/media-text/index.js:79
+msgid "Copyright Info"
+msgstr ""
+
 #: components/core-blocks/file/index.js:211
 #: components/core-blocks/file/index.js:234
 msgid "Download"
@@ -2143,16 +2190,6 @@ msgstr ""
 
 #: components/core-blocks/image/index.js:33
 msgid "Medium"
-msgstr ""
-
-#: components/core-blocks/image/index.js:253
-#: components/core-blocks/media-text/index.js:73
-msgid "Additional Settings"
-msgstr ""
-
-#: components/core-blocks/image/index.js:259
-#: components/core-blocks/media-text/index.js:79
-msgid "Copyright Info"
 msgstr ""
 
 #: components/core-blocks/image/index.js:270

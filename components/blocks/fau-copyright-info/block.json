@@ -9,7 +9,8 @@
 	"description": "Displays copyright information gathered from images and other sources",
 	"supports": {
 		"html": false,
-		"multiple": false
+		"multiple": false,
+		"inserter": false
 	},
 	"textdomain": "fau-elemental",
 	"editorScript": "file:./index.js",
