@@ -67,7 +67,9 @@ export default function Edit( { attributes, setAttributes } ) {
 						</h3>
 					) }
 					{ width !== 'full-grid' && heading && (
-						<h3 className="fau-global-search__heading">{ heading }</h3>
+						<h3 className="fau-global-search__heading">
+							{ heading }
+						</h3>
 					) }
 					<form className="fau-global-search fau-global-search__form">
 						<div

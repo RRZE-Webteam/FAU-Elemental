@@ -33,7 +33,7 @@
 }
 
 
-.fau-global-search__outer-wrapper:has(.fau-global-search-wrapper--content-size){
+.fau-global-search__outer-wrapper:has(.fau-global-search-wrapper--content-size) {
 	max-width: var(--small-max-width);
 }
 
@@ -469,7 +469,8 @@
 	.fau-global-search__outer-wrapper {
 		max-width: var(--wide-max-width);
 	}
-	.fau-global-search__outer-wrapper:has(.fau-global-search-wrapper--content-size){
+
+	.fau-global-search__outer-wrapper:has(.fau-global-search-wrapper--content-size) {
 		max-width: var(--small-max-width);
 	}
 
@@ -509,6 +510,7 @@
 }
 
 @include respond-to("x-small") {
+
 	.fau-global-search__outer-wrapper {
 		padding: var(--Spacing-6x) var(--Spacing-5x);
 	}
