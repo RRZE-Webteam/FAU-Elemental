@@ -4,6 +4,7 @@
  * @package FAU-Elemental
  */
 @use "../../ui/mixins/mixins" as *;
+@use "../../ui/base/pagination" as *;
 
 .search-results-page {
 
