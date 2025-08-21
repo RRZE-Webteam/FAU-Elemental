@@ -1,1 +1,28 @@
-{"translation-revision-date":"YEAR-MO-DA HO:MI+ZONE","generator":"WP-CLI\/2.12.0","source":"components\/blocks\/fau-featured-event-teaser\/edit.js","domain":"messages","locale_data":{"messages":{"":{"domain":"messages","lang":"en","plural-forms":"nplurals=2; plural=(n != 1);"},"Replace Image":[""],"Add Image":[""],"Remove Image":[""],"Image Settings":[""],"Select Image":[""],"Event Details":[""],"Event Date":[""],"Select the event date using the date picker.":[""],"Button Text":[""],"Button URL":[""],"Enter event title\u2026":[""],"Enter event description\u2026":[""],"Button text\u2026":[""]}}}
+{
+	"translation-revision-date": "YEAR-MO-DA HO:MI+ZONE",
+	"generator": "WP-CLI/2.12.0",
+	"source": "components/blocks/fau-featured-event-teaser/edit.js",
+	"domain": "messages",
+	"locale_data": {
+		"messages": {
+			"": {
+				"domain": "messages",
+				"lang": "en",
+				"plural-forms": "nplurals=2; plural=(n != 1);"
+			},
+			"Replace Image": [ "" ],
+			"Add Image": [ "" ],
+			"Remove Image": [ "" ],
+			"Image Settings": [ "" ],
+			"Select Image": [ "" ],
+			"Event Details": [ "" ],
+			"Event Date": [ "" ],
+			"Select the event date using the date picker.": [ "" ],
+			"Button Text": [ "" ],
+			"Button URL": [ "" ],
+			"Enter event title\u2026": [ "" ],
+			"Enter event description\u2026": [ "" ],
+			"Button text\u2026": [ "" ]
+		}
+	}
+}

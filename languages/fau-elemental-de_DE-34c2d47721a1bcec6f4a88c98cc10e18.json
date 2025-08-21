@@ -1,1 +1,59 @@
-{"translation-revision-date":"YEAR-MO-DA HO:MI+ZONE","generator":"WP-CLI\/2.12.0","source":"components\/blocks\/fau-big-button\/edit.js","domain":"messages","locale_data":{"messages":{"":{"domain":"messages","lang":"en","plural-forms":"nplurals=2; plural=(n != 1);"},"Description":["Beschreibung"],"Title":["Titel"],"Default":[""],"FAU":[""],"Philosophy":[""],"Law & Economics":[""],"Medicine":[""],"Sciences":[""],"Technology":[""],"Using faculty color: %s":[""],"Unknown":[""],"Appearance Settings":[""],"Buttons Per Row":[""],"4 buttons":[""],"3 buttons":[""],"Variant":[""],"Filled":[""],"Outline":[""],"Items":[""],"Add Item":[""],"Untitled Item":[""],"Item":[""],"Move up":[""],"Move down":[""],"Remove Item":[""],"You can also click on the title in the preview to edit it directly.":[""],"You can also click on the description in the preview to edit it directly.":[""],"URL":[""],"Required for display:":[""],"Title is required":[""],"URL is required":[""],"This item will not be displayed on the frontend until both title and URL are provided.":[""],"Color":[""],"No items added yet. Click \"Add Item\" to get started.":[""],"Remove item":[""],"Enter title\u2026":[""],"Add description\u2026":[""],"Add new item":[""]}}}
+{
+	"translation-revision-date": "YEAR-MO-DA HO:MI+ZONE",
+	"generator": "WP-CLI/2.12.0",
+	"source": "components/blocks/fau-big-button/edit.js",
+	"domain": "messages",
+	"locale_data": {
+		"messages": {
+			"": {
+				"domain": "messages",
+				"lang": "en",
+				"plural-forms": "nplurals=2; plural=(n != 1);"
+			},
+			"Description": [ "Beschreibung" ],
+			"Title": [ "Titel" ],
+			"Default": [ "" ],
+			"FAU": [ "" ],
+			"Philosophy": [ "" ],
+			"Law & Economics": [ "" ],
+			"Medicine": [ "" ],
+			"Sciences": [ "" ],
+			"Technology": [ "" ],
+			"Using faculty color: %s": [ "" ],
+			"Unknown": [ "" ],
+			"Appearance Settings": [ "" ],
+			"Buttons Per Row": [ "" ],
+			"4 buttons": [ "" ],
+			"3 buttons": [ "" ],
+			"Variant": [ "" ],
+			"Filled": [ "" ],
+			"Outline": [ "" ],
+			"Items": [ "" ],
+			"Add Item": [ "" ],
+			"Untitled Item": [ "" ],
+			"Item": [ "" ],
+			"Move up": [ "" ],
+			"Move down": [ "" ],
+			"Remove Item": [ "" ],
+			"You can also click on the title in the preview to edit it directly.": [
+				""
+			],
+			"You can also click on the description in the preview to edit it directly.": [
+				""
+			],
+			"URL": [ "" ],
+			"Required for display:": [ "" ],
+			"Title is required": [ "" ],
+			"URL is required": [ "" ],
+			"This item will not be displayed on the frontend until both title and URL are provided.": [
+				""
+			],
+			"Color": [ "" ],
+			"No items added yet. Click \"Add Item\" to get started.": [ "" ],
+			"Remove item": [ "" ],
+			"Enter title\u2026": [ "" ],
+			"Add description\u2026": [ "" ],
+			"Add new item": [ "" ]
+		}
+	}
+}

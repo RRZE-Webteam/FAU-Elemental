@@ -1,1 +1,34 @@
-{"translation-revision-date":"YEAR-MO-DA HO:MI+ZONE","generator":"WP-CLI\/2.12.0","source":"components\/blocks\/fau-big-teaser\/edit.js","domain":"messages","locale_data":{"messages":{"":{"domain":"messages","lang":"en","plural-forms":"nplurals=2; plural=(n != 1);"},"Link URL":["Link URL"],"Replace Image":[""],"Add Image":[""],"Remove Image":[""],"Content":[""],"Headline (max 100 characters)":[""],"Enter headline\u2026":[""],"%d\/100 characters":[""],"Teaser Text (max 200 characters)":[""],"Enter teaser text\u2026":[""],"%d\/200 characters":[""],"Link Text (max 40 characters)":[""],"Enter link text\u2026":[""],"%d\/40 characters":[""],"Enter URL\u2026":[""],"Image Settings":[""],"Select Image":[""],"Add your headline here\u2026":[""],"Add your teaser text here\u2026":[""]}}}
+{
+	"translation-revision-date": "YEAR-MO-DA HO:MI+ZONE",
+	"generator": "WP-CLI/2.12.0",
+	"source": "components/blocks/fau-big-teaser/edit.js",
+	"domain": "messages",
+	"locale_data": {
+		"messages": {
+			"": {
+				"domain": "messages",
+				"lang": "en",
+				"plural-forms": "nplurals=2; plural=(n != 1);"
+			},
+			"Link URL": [ "Link URL" ],
+			"Replace Image": [ "" ],
+			"Add Image": [ "" ],
+			"Remove Image": [ "" ],
+			"Content": [ "" ],
+			"Headline (max 100 characters)": [ "" ],
+			"Enter headline\u2026": [ "" ],
+			"%d/100 characters": [ "" ],
+			"Teaser Text (max 200 characters)": [ "" ],
+			"Enter teaser text\u2026": [ "" ],
+			"%d/200 characters": [ "" ],
+			"Link Text (max 40 characters)": [ "" ],
+			"Enter link text\u2026": [ "" ],
+			"%d/40 characters": [ "" ],
+			"Enter URL\u2026": [ "" ],
+			"Image Settings": [ "" ],
+			"Select Image": [ "" ],
+			"Add your headline here\u2026": [ "" ],
+			"Add your teaser text here\u2026": [ "" ]
+		}
+	}
+}
