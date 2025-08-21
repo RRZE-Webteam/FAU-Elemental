@@ -59,77 +59,49 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 			</InspectorControls>
-
-			<div { ...blockProps }>
-				{ heading && (
-					<h3 className="fau-global-search__heading">{ heading }</h3>
-				) }
-				<form className="fau-global-search fau-global-search__form">
-					<div className="fau-global-search__input-wrapper">
-						<input
-							type="search"
-							className="fau-global-search__input"
-							placeholder={ __( 'Search…', 'fau-elemental' ) }
-							autoComplete="off"
-							disabled
-						/>
-						<button
-							type="submit"
-							className="fau-global-search__button"
-							disabled
+			<div className="fau-global-search__outer-wrapper">
+				<div { ...blockProps }>
+					{ width === 'full-grid' && heading && (
+						<h3 className="fau-global-search__heading fau-global-search__heading--full-grid">
+							{ heading }
+						</h3>
+					) }
+					{ width !== 'full-grid' && heading && (
+						<h3 className="fau-global-search__heading">
+							{ heading }
+						</h3>
+					) }
+					<form className="fau-global-search fau-global-search__form">
+						<div
+							className={ `fau-global-search__input-wrapper${
+								width === 'full-grid'
+									? ' fau-global-search__input-wrapper--full-grid'
+									: ''
+							}` }
 						>
-							<span className="fau-global-search__button-text">
-								{ __( 'Search', 'fau-elemental' ) }
-							</span>
-							<span
-								className="fau-global-search__button-icon"
-								aria-hidden="true"
-							></span>
-						</button>
-					</div>
-
-					{ /* 
-					//FAU-wide Search for Global and Inline Search is supposed to be some kind of google search which might get implemented in the future;
-					//Keeping code commented out for future implementation rather than deletion
-				
-					width === 'content-size' && (
-						<div className="fau-global-search__scope">
-							<label
-								className="fau-global-search__scope-option"
-								htmlFor="scope-global-preview"
+							<input
+								type="search"
+								className="fau-global-search__input"
+								placeholder={ __( 'Search…', 'fau-elemental' ) }
+								autoComplete="off"
+								disabled
+							/>
+							<button
+								type="submit"
+								className="fau-global-search__button"
+								disabled
 							>
-								<input
-									type="radio"
-									name="scope"
-									value="global"
-									id="scope-global-preview"
-									defaultChecked
-									disabled
-								/>
-								<span>
-									{ __( 'Global Search', 'fau-elemental' ) }
+								<span className="fau-global-search__button-text">
+									{ __( 'Search', 'fau-elemental' ) }
 								</span>
-							</label>
-							<label
-								className="fau-global-search__scope-option"
-								htmlFor="scope-website-preview"
-							>
-								<input
-									type="radio"
-									name="scope"
-									value="website"
-									id="scope-website-preview"
-									defaultChecked
-									disabled
-								/>
-								<span>
-									{ __( 'Website Search', 'fau-elemental' ) }
-								</span>
-							</label>
+								<span
+									className="fau-global-search__button-icon"
+									aria-hidden="true"
+								></span>
+							</button>
 						</div>
-					) 
-					*/ }
-				</form>
+					</form>
+				</div>
 			</div>
 		</>
 	);
