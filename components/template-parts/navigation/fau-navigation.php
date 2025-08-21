@@ -49,8 +49,16 @@ $website_type = get_theme_mod('faue_website_type', 'fau');
                 <span class="fau-navigation__search-icon"></span>
             </button>
     </div>
-    <button type="button" class="language-switcher fau-navigation__button" aria-label="<?php esc_attr_e('Open Language selector', 'fau-elemental'); ?>" aria-expanded="false">
-        <?php esc_html_e('DE', 'fau-elemental'); ?>
-        <span class="fau-navigation__language-switcher-icon"></span>
-    </button>
+    <?php
+    // Check if the language switcher widget area has widgets
+    if (is_active_sidebar('language-switcher')): ?>
+        <div class="fau-language-switcher-wrapper">
+            <?php dynamic_sidebar('language-switcher'); ?>
+        </div>
+    <?php else: ?>
+        <button type="button" class="language-switcher fau-navigation__button" aria-label="<?php esc_attr_e('Open Language selector', 'fau-elemental'); ?>" aria-expanded="false">
+            <?php esc_html_e('DE', 'fau-elemental'); ?>
+            <span class="fau-navigation__language-switcher-icon"></span>
+        </button>
+    <?php endif; ?>
 </nav> 
