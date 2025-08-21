@@ -23,67 +23,40 @@ $wrapper_attributes = get_block_wrapper_attributes([
 $form_id = 'fau-global-search-' . wp_unique_id();
 ?>
 
-<div <?php echo $wrapper_attributes; ?>>
-	<?php if (!empty($heading) && $width === 'full-grid'): ?>
-		<h3 class="fau-global-search__heading fau-global-search__heading--full-grid"><?php echo $heading; ?></h3>
-	<?php elseif (!empty($heading) && $width !== 'full-grid'): ?>
-		<h3 class="fau-global-search__heading"><?php echo $heading; ?></h3>
-	<?php endif; ?>
-	<form 
-		class="fau-global-search fau-global-search__form" 
-		method="get" 
-		action="<?php echo home_url('/'); ?>"
-		id="<?php echo $form_id; ?>"
-		<?php if ($width === 'content-size'): ?>data-advanced-features="true" data-enable-autocomplete="true"<?php endif; ?>
-	>
-		<div class="fau-global-search__input-wrapper<?php if ($width === 'full-grid') echo ' fau-global-search__input-wrapper--full-grid'; ?>">
-			<input
-				type="search"
-				class="fau-global-search__input"
-				name="s"
-				placeholder="<?php echo __('Search…', 'fau-elemental'); ?>"
-				value="<?php echo esc_attr(get_search_query()); ?>"
-				autocomplete="off"
-				id="<?php echo $form_id; ?>-input"
-			/>
-			<button
-				type="submit"
-				class="fau-global-search__button"
-			>
-				<span class="fau-global-search__button-text">
-					<?php echo __('Search', 'fau-elemental'); ?>
-				</span>
-				<span class="fau-global-search__button-icon" aria-hidden="true"></span>
-			</button>
-		</div>
-				
-				<?php 
-				//FAU-wide Search for Global and Inline Search is supposed to be some kind of google search which might get implemented in the future;
-				// Keeping code commented out for future implementation rather than deletion
-				/*
-				if ($width === 'content-size'): ?>
-					<div class="fau-global-search__scope">
-						<label class="fau-global-search__scope-option">
-							<input 
-								type="radio" 
-								name="fau_search_scope" 
-								value="fau-wide" 
-								checked="checked"
-							/>
-							<span><?php echo __('FAU-wide Search', 'fau-elemental'); ?></span>
-						</label>
-						<label class="fau-global-search__scope-option">
-							<input 
-								type="radio" 
-								name="fau_search_scope" 
-								value="current-site"
-								checked="checked"
-							/>
-							<span><?php echo __('Current Site Only', 'fau-elemental'); ?></span>
-						</label>
-					</div>
-				<?php endif; 
-				*/
-				?>
-	</form>
+<div class="fau-global-search__outer-wrapper">
+	<div <?php echo $wrapper_attributes; ?>>
+		<?php if (!empty($heading) && $width === 'full-grid'): ?>
+			<h3 class="fau-global-search__heading fau-global-search__heading--full-grid"><?php echo $heading; ?></h3>
+		<?php elseif (!empty($heading) && $width !== 'full-grid'): ?>
+			<h3 class="fau-global-search__heading"><?php echo $heading; ?></h3>
+		<?php endif; ?>
+		<form 
+			class="fau-global-search fau-global-search__form" 
+			method="get" 
+			action="<?php echo home_url('/'); ?>"
+			id="<?php echo $form_id; ?>"
+			<?php if ($width === 'content-size'): ?>data-advanced-features="true" data-enable-autocomplete="true"<?php endif; ?>
+		>
+			<div class="fau-global-search__input-wrapper<?php if ($width === 'full-grid') echo ' fau-global-search__input-wrapper--full-grid'; ?>">
+				<input
+					type="search"
+					class="fau-global-search__input"
+					name="s"
+					placeholder="<?php echo __('Search…', 'fau-elemental'); ?>"
+					value="<?php echo esc_attr(get_search_query()); ?>"
+					autocomplete="off"
+					id="<?php echo $form_id; ?>-input"
+				/>
+				<button
+					type="submit"
+					class="fau-global-search__button"
+				>
+					<span class="fau-global-search__button-text">
+						<?php echo __('Search', 'fau-elemental'); ?>
+					</span>
+					<span class="fau-global-search__button-icon" aria-hidden="true"></span>
+				</button>
+			</div>
+		</form>
+	</div>
 </div> 

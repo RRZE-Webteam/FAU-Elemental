@@ -27,18 +27,22 @@
 	}
 }
 
+.fau-global-search__outer-wrapper {
+	max-width: var(--wide-max-width);
+	padding: var(--Spacing-6x) var(--Spacing-10x);
+}
 
 .fau-global-search-wrapper {
 	background-color: var(--FAU-Col-FAU-Blau-100);
-	padding: var(--Spacing-8x);
+	padding: var(--Spacing-10x);
 
 	&--content-size {
-		max-width: 60%;
+		max-width: var(--small-max-width);
 		margin: auto;
 
 		.fau-global-search__heading {
 			color: var(--FAU-Col-FAU-Weiss-100);
-			margin: 0 0 var(--Spacing-4x) 0;
+			margin: 0 0 var(--Spacing-6x) 0;
 			padding: 0;
 		}
 
@@ -48,17 +52,18 @@
 	}
 
 	&--full-grid {
-		max-width: 95%;
-		margin: auto;
-		padding: var(--Spacing-8x);
+		//max-width: 95%;
+		//margin: auto;
+		//padding: 0;
 		display: grid;
 		grid-template-columns: auto 1fr;
 		align-items: center;
-		gap: var(--Spacing-4x);
+		gap: var(--Spacing-10x);
 		box-sizing: border-box;
 
 		.fau-global-search__heading {
 			margin: 0;
+			padding: 0;
 			font-weight: 700;
 			color: var(--FAU-Col-FAU-Weiss-100);
 			letter-spacing: var(--letter-spacing-big);
@@ -97,6 +102,11 @@
 }
 
 // When block is inside menu modal, use white background
+.menu-modal__content .fau-global-search__outer-wrapper {
+	max-width: var(--small-max-width);
+	padding: 0 var(--Spacing-6x);
+}
+
 .menu-modal__content .fau-global-search-wrapper {
 	background-color: var(--FAU-Col-FAU-Weiss-100);
 	padding: 0;
@@ -456,11 +466,21 @@
 // Responsive
 @include respond-to("medium") {
 
+	.fau-global-search__outer-wrapper {
+		max-width: var(--wide-max-width);
+	}
+
 	.fau-global-search-wrapper {
+
+		&--content-size {
+			max-width: var(--small-max-width);
+			margin: 0 8rem;
+		}
 
 		&--full-grid {
 			display: grid;
 			grid-template-columns: 1fr;
+			gap: var(--Spacing-6x);
 
 			.fau-global-search__heading {
 				font-size: 1.5rem;
@@ -473,10 +493,14 @@
 // Responsive
 @include respond-to("small") {
 
+	.fau-global-search__outer-wrapper {
+		padding: var(--Spacing-6x) var(--Spacing-5x);
+	}
+
 	.fau-global-search-wrapper {
 
 		&--content-size {
-			max-width: 80%;
+			margin: 0;
 		}
 
 		&--full-grid {
