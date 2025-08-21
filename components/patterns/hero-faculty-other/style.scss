@@ -18,21 +18,59 @@ $faculty-colors: (
 		}
 	}
 
-	.hero-faculty-left {
-		display: flex;
-		justify-content: end;
-		flex-direction: column;
-		padding: 3.75rem;
+	.hero-faculty-content-wrapper {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		max-width: 1800px;
+		width: 100%;
+		z-index: 1;
+
+		.hero-faculty-content {
+			display: flex;
+			justify-content: flex-end;
+			flex-direction: column;
+			min-height: 50rem;
+			padding-bottom: 3rem;
+			box-sizing: border-box;
+		}
 
 		h2 {
 			font-size: var(--DI-Display-2);
+			color: var(--FAU-Col-FAU-Dunkelblau-100);
+
+			position: relative;
+			width: -moz-max-content;
+			width: max-content;
+			max-width: calc(50% + 12rem);
+			min-width: calc(50% + 5.5rem);
+			left: calc(-1 * var(--Spacing-6x));
+			z-index: 1;
+			padding: var(--Spacing-5x);
+			margin: var(--Spacing-10x) 0 0 0;
+
+			@each $faculty, $color in $faculty-colors {
+				.faculty-#{$faculty} & {
+					background-color: $color;
+				}
+			}
 		}
 
 		.hero-mobile-optional {
+			margin: 0;
+			max-width: 530px;
+		}
 
-			> * {
-				padding: unset;
+		.wp-block-buttons {
+
+			a {
+				color: var(--FAU-Col-FAU-Dunkelblau-100);
 			}
+		}
+
+		* {
+			max-width: unset;
+			padding: unset;
 		}
 	}
 
