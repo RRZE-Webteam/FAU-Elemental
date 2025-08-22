@@ -66,7 +66,9 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 if ($thumbnail) {
                     $output .= '<img src="' . esc_url($thumbnail) . '" alt="' . esc_attr(sprintf(__('Featured image for %s', 'fau-elemental'), $title)) . '" loading="lazy">';
                 } else {
-                    $output .= '<img src="' . esc_url(get_template_directory_uri() . '/assets/images/logo.svg') . '" alt="' . esc_attr(sprintf(__('No image available for %s', 'fau-elemental'), $title)). '" loading="lazy">';
+                    // Use customizer fallback image if available, otherwise use default logo
+                    $fallback_image_url = faue_get_post_fallback_image(null, 'medium_large');
+                    $output .= '<img src="' . esc_url($fallback_image_url) . '" alt="' . esc_attr(sprintf(__('No image available for %s', 'fau-elemental'), $title)). '" loading="lazy">';
                 }
                 $output .= "</div>\n";
             }

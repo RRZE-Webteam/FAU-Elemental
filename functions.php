@@ -38,6 +38,9 @@ require_once get_template_directory() . '/inc/theme-settings.php';
 // Include post meta functionality
 require_once get_template_directory() . '/inc/post-meta.php';
 
+// Image helper functions
+require_once get_template_directory() . '/inc/image-helpers.php';
+
 // Menu registration
 require_once get_template_directory() . '/inc/menu-registration.php';
 

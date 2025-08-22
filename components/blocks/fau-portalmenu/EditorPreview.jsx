@@ -9,10 +9,11 @@ import { useSelect } from '@wordpress/data';
  * Matches the frontend WCAG 2.2 Level II compliant structure exactly
  * Shows actual menu items from the selected menu
  */
-const EditorPreview = ( { attributes } ) => {
+export default function EditorPreview( { attributes } ) {
+	// Get the fallback image from theme customizer or use default logo
 	const FALLBACK_IMAGE =
-		( ( window.fauElemental && window.fauElemental.themeUrl ) ??
-			'/wp-content/themes/fau-elemental' ) + '/assets/images/logo.svg';
+		( window.fauElemental && window.fauElemental.fallbackImageUrl ) ??
+		'/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
 	// Fetch actual menu items
 	const menuItems = useSelect(
@@ -303,6 +304,4 @@ const EditorPreview = ( { attributes } ) => {
 			) }
 		</>
 	);
-};
-
-export default EditorPreview;
+}

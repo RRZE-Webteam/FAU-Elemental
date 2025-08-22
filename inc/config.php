@@ -29,6 +29,8 @@ $faue_defaults = array(
     'faue_search_rate_limit_violations_duration' => 3600, // 1 hour for rate limit violations
     // Display Footer Address
     'display_footer_address' => true,
+    // Fallback Image
+    'faue_fallback_image' => '',
 );
 
 // Social Media Platforms Configuration

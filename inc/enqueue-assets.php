@@ -80,6 +80,7 @@ function faue_enqueue_block_editor_script() {
                 'themeUrl' => get_template_directory_uri(),
                 'websiteType' => get_theme_mod('faue_website_type', 'fau'),
                 'facultyType' => get_theme_mod('faue_faculty', 'phil'),
+                'fallbackImageUrl' => faue_get_fallback_image(),
             )
         );
     }
@@ -123,6 +124,7 @@ function faue_enqueue_block_view_scripts() {
                         'nonce' => wp_create_nonce('fau_elemental_nonce'),
                         'ajaxUrl' => admin_url('admin-ajax.php'),
                         'searchDebounceDelay' => faue_get_default('faue_search_debounce_delay'),
+                        'fallbackImageUrl' => faue_get_fallback_image(),
                     )
                 );
                 $localized = true;
