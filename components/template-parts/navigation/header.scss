@@ -1006,8 +1006,9 @@ body.home.fauorg-fakultaet.faculty-rw {
 		&__container {
 			width: 100%;
 			padding-top: 0;
-			margin-bottom: 6.1875rem;
-
+			margin-bottom: 0;
+			overflow-y: auto;
+			-webkit-overflow-scrolling: touch; /* Improve scrolling on iOS */
 			.logged-in & {
 				padding-top: 46px; // Compensate for WP bar
 			}
@@ -1020,6 +1021,7 @@ body.home.fauorg-fakultaet.faculty-rw {
 			padding: 1rem 1.5rem;
 			box-sizing: border-box;
 			background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+			z-index: 1000;
 		}
 
 		&__menu,
@@ -1029,6 +1031,10 @@ body.home.fauorg-fakultaet.faculty-rw {
 			> li:first-child {
 				border-top: none;
 			}
+		}
+
+		.menu-website-modal__menu--header-menu-links {
+			margin-bottom: var(--Spacing-30x);
 		}
 
 		&.is-open {
