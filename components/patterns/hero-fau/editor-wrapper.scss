@@ -51,7 +51,7 @@
 				}
 
 				// hide layout settings
-				.components-panel__body {
+				.components-panel__body:not(.faue-additional-settings) {
 					display: none;
 				}
 

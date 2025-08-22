@@ -1,0 +1,37 @@
+.fau-language-switcher-wrapper:has(.rrze-multilang-widget) {
+	padding: var(--Spacing-3x) 0.6rem;
+}
+
+.fau-elemental #site-navigation {
+
+	.rrze-multilang,
+	.rrze-multilang-widget {
+
+		ul {
+			display: flex;
+			flex-direction: row;
+			gap: var(--Spacing-4x);
+			margin: 0;
+			padding: 0;
+
+			li a {
+				color: var(--FAU-Col-FAU-Weiss-100);
+				background: rgba(0, 0, 0, 0);
+				height: inherit;
+				line-height: inherit;
+				margin: inherit;
+				min-width: inherit;
+				min-height: inherit;
+				width: 100%;
+				box-shadow: none;
+				text-decoration: none;
+				transition: none;
+				text-decoration-color: none;
+				padding: inherit;
+				border-radius: var(--border-radius);
+				font-weight: 400;
+				text-transform: capitalize;
+			}
+		}
+	}
+}

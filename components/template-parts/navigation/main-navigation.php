@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Template part for displaying the main navigation
  *
@@ -40,8 +41,8 @@ $has_website_menu = fau_elemental_has_website_menu();
             ?>
         </div>
 
-        <div class="main-navigation__menu-container">
-            <?php if ($has_website_menu): ?>
+        <?php if ($has_website_menu): ?>
+            <div class="main-navigation__menu-container">
                 <button type="button" class="main-navigation__toggle menu-modal__open-btn" aria-expanded="false" aria-controls="menu-website-modal" data-modal-target="menu-website-modal" aria-label="<?php esc_attr_e('Open menu', 'fau-elemental'); ?>">
                     <span class="main-navigation__toggle-text"><?php esc_html_e('Menu', 'fau-elemental'); ?></span>
                     <span class="main-navigation__toggle-icon">
@@ -50,7 +51,7 @@ $has_website_menu = fau_elemental_has_website_menu();
                         <span></span>
                     </span>
                 </button>
-            <?php endif; ?>
-        </div>
+            </div>
+        <?php endif; ?>
     </div>
-</nav> 
+</nav>

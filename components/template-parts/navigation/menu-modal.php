@@ -235,13 +235,19 @@ class Menu_Modal {
     private function render_menu_content($modal_id, $config) {
         // Special handling for search modal
         if ($modal_id === 'search') {
-            // Use WordPress's block rendering system to render the fau-global-search block
-            $block_content = '<!-- wp:fau-elemental/fau-global-search {"title":"' . esc_attr(__('Search', 'fau-elemental')) . '","searchScope":"fau-wide"} /-->';
-            
-            echo '<div class="menu-modal__search-wrapper">';
-            echo '<h4 class="menu-modal__search-heading">' . __('Search all pages and documents:', 'fau-elemental') . '</h4>';
-            echo do_blocks($block_content);
-            echo '</div>';
+            // Check if RRZE Search plugin is active
+            if (is_plugin_active('rrze-search/rrze-search.php')) {
+                // Use the plugin's search sidebar
+                dynamic_sidebar('rrze-search-sidebar');
+            } else {
+                // Use WordPress's block rendering system to render the fau-global-search block
+                $block_content = '<!-- wp:fau-elemental/fau-global-search {"title":"' . esc_attr(__('Search', 'fau-elemental')) . '","searchScope":"fau-wide"} /-->';
+                
+                echo '<div class="menu-modal__search-wrapper">';
+                echo '<h3 class="menu-modal__search-heading">' . __('Search all pages and documents:', 'fau-elemental') . '</h3>';
+                echo do_blocks($block_content);
+                echo '</div>';
+            }
             return;
         }
 

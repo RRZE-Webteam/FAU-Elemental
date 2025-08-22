@@ -19,7 +19,7 @@
 			.post-last-update time {
 				font-size: 0.875rem;
 				color: var(--FAU-Col-FAU-Schwarz-90);
-				line-height: 1.5;
+				line-height: var(--base-line-height);
 				font-weight: 400;
 			}
 		}

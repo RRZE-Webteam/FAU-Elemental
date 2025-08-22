@@ -5,6 +5,7 @@ import { unregisterFormatType } from '@wordpress/rich-text';
 
 // Import all core-blocks
 import '../../core-blocks/button/index.js';
+import '../../core-blocks/cover/index.js';
 import '../../core-blocks/details/index.js';
 import '../../core-blocks/file/index.js';
 import '../../core-blocks/gallery/index.js';
@@ -134,8 +135,8 @@ function getPatternClassFromBlock( block ) {
 	const heroPatterns = [
 		'hero-fau',
 		'hero-portal',
-		'hero-faculty',
-		'hero-chair',
+		'hero-faculty-other',
+		'hero-chair-cooperation',
 		'hero-cooperation',
 		'hero-other',
 	];

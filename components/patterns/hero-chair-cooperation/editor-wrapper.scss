@@ -1,0 +1,91 @@
+.faue-is-hero-chair-cooperation-pattern-selected {
+
+	.block-editor-block-switcher * {
+		// disable block transforms
+		pointer-events: none !important; // override WP CSS
+	}
+
+	&.faue-is-columns-block-selected,
+	&.faue-is-column-block-selected,
+	&.faue-is-heading-block-selected,
+	&.faue-is-paragraph-block-selected,
+	&.faue-is-buttons-block-selected {
+
+		.block-editor-block-toolbar {
+			// hide all toolbar groups
+			>.components-toolbar-group {
+				display: none;
+			}
+
+			&__slot {
+				display: none;
+			}
+		}
+
+		.block-editor-block-inspector {
+
+			// hide all inspector cards except the block card
+			>:not(.block-editor-block-card) {
+				display: none;
+			}
+		}
+
+	}
+
+	&.faue-is-cover-block-selected {
+
+		.components-resizable-box__handle {
+			// hide resize handle
+			display: none;
+		}
+
+		.block-editor-block-toolbar {
+			// hide all toolbar groups except the replace image button
+			>.components-toolbar-group:not(:nth-last-child(2)) {
+				display: none;
+			}
+		}
+
+		.block-editor-block-inspector {
+
+			.block-editor-block-inspector__tabs {
+
+				// hide all tabs except the settings tab
+				> div:not([id*="settings-view"]) {
+					display: none;
+				}
+
+				// hide layout settings
+				.components-panel__body:not(.faue-additional-settings) {
+					display: none;
+				}
+
+				// hide all tools except the focal point picker control
+				.components-tools-panel > .components-tools-panel-item > :not(.components-focal-point-picker-control) {
+					display: none;
+				}
+
+			}
+
+		}
+
+	}
+
+	&.faue-is-button-block-selected {
+
+		.block-editor-block-toolbar {
+			// hide block options dropdown (only link option remains)
+			>.components-toolbar-group:nth-last-child(1) {
+				display: none;
+			}
+		}
+
+		.block-editor-block-inspector {
+
+			// hide all inspector cards except the block card
+			>:not(.block-editor-block-card) {
+				display: none;
+			}
+		}
+	}
+}

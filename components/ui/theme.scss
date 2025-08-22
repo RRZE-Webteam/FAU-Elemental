@@ -38,6 +38,7 @@
 @use "../patterns/big-buttons/style" as *;
 @use "../patterns/big-teaser/style" as *;
 @use "../patterns/mini-list-file/style" as *;
+@use "../patterns/hero-faculty-other/style" as *;
 
 // Template Part Styles
 @use "../template-parts/breadcrumbs/style" as *;
@@ -47,6 +48,7 @@
 @use "../template-parts/hero-post/style" as *;
 @use "../template-parts/post-meta/style" as *;
 @use "../template-parts/navigation/header" as *;
+@use "../template-parts/search-results/style" as *;
 
 // Plugin Integrations
 @use "plugins/index" as *;
