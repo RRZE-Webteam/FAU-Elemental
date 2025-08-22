@@ -22,7 +22,7 @@ function fau_get_svg_path($name, $echo = true) {
         // Check website type to determine logo color
         $website_type = get_theme_mod('faue_website_type', 'fau');
         
-        if ($website_type === 'faculty') {
+        if ($website_type === 'faculty' || $website_type === 'chair') {
             // Use blue logo for faculty websites
             $svg_path = get_template_directory_uri() . '/assets/images/logo.svg';
         } else {
