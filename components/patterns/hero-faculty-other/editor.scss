@@ -1,4 +1,23 @@
+$faculty-colors: (
+	"phil": var(--FAU-Col-Phil-Gelb-100),
+	"nat": var(--FAU-Col-Nat-Gruen-100),
+	"med": var(--FAU-Col-Med-Blau-100),
+	"rw": var(--FAU-Col-RW-Rot-100),
+	"tf": var(--FAU-Col-TF-Metallic-100)
+);
+
 .editor-styles-wrapper .hero-faculty-other {
+	max-width: unset;
+	padding: unset;
+
+	@each $faculty, $color in $faculty-colors {
+		&.faculty-#{$faculty} {
+
+			h2 {
+				background-color: $color !important;
+			}
+		}
+	}
 
 	.wp-block {
 

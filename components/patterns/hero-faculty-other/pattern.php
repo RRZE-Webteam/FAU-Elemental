@@ -98,8 +98,8 @@ if ($current_website_type === 'other') {
     </div>
     <!-- /wp:column -->
 
-    <!-- wp:column  -->
-    <div class="wp-block-column" >
+    <!-- wp:column {"className":"hero-faculty-bg-right"} -->
+    <div class="wp-block-column hero-faculty-bg-right">
         <!-- wp:cover {"url":"<?php echo esc_url(get_theme_file_uri($current_content['img']));?>","dimRatio":0,"contentPosition":"center","className":"is-dark-theme"} -->
         <div class="wp-block-cover is-dark-theme">
             <span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span>

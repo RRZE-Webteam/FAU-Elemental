@@ -1,4 +1,4 @@
-@use "sass:map";
+@use "../../ui/mixins/mixins" as *;
 
 // Faculty color map
 $faculty-colors: (
@@ -9,8 +9,10 @@ $faculty-colors: (
 	"tf": var(--FAU-Col-TF-Metallic-100)
 );
 
+// Heros for Faculties amd Others
 .hero-faculty-other {
 	min-height: 50rem;
+	gap: 0;
 
 	@each $faculty, $color in $faculty-colors {
 		&.faculty-#{$faculty} {
@@ -21,9 +23,9 @@ $faculty-colors: (
 	.hero-faculty-content-wrapper {
 		position: absolute;
 		left: 50%;
-		transform: translateX(-50%);
-		max-width: 1800px;
 		width: 100%;
+		transform: translateX(-50%);
+		max-width: calc(1800px + 7.5rem);
 		z-index: 1;
 
 		.hero-faculty-content {
@@ -32,39 +34,61 @@ $faculty-colors: (
 			flex-direction: column;
 			min-height: 50rem;
 			padding-bottom: 3rem;
+			padding-left: 3.75rem;
 			box-sizing: border-box;
 		}
 
 		h2 {
-			font-size: var(--DI-Display-2);
-			color: var(--FAU-Col-FAU-Dunkelblau-100);
-
 			position: relative;
 			width: -moz-max-content;
 			width: max-content;
-			max-width: calc(50% + 12rem);
-			min-width: calc(50% + 5.5rem);
-			left: calc(-1 * var(--Spacing-6x));
-			z-index: 1;
-			padding: var(--Spacing-5x);
+			max-width: calc(50% + 8rem);
+			min-width: 50%;
+			padding: var(--Spacing-6x) var(--Spacing-6x) var(--Spacing-6x) 0;
 			margin: var(--Spacing-10x) 0 0 0;
+			font-size: var(--DI-Display-2);
+			color: var(--FAU-Col-FAU-Dunkelblau-100);
+			z-index: 1;
 
 			@each $faculty, $color in $faculty-colors {
 				.faculty-#{$faculty} & {
 					background-color: $color;
+				}
+
+				.faculty-rw & {
+					color: var(--FAU-Col-FAU-Weiss-100);
 				}
 			}
 		}
 
 		.hero-mobile-optional {
 			margin: 0;
-			max-width: 530px;
+			max-width: 34rem;
+
+			p {
+				color: var(--FAU-Col-FAU-Dunkelblau-100);
+
+				.faculty-rw & {
+					color: var(--FAU-Col-FAU-Weiss-100);
+				}
+			}
 		}
 
 		.wp-block-buttons {
 
 			a {
 				color: var(--FAU-Col-FAU-Dunkelblau-100);
+
+				.faculty-rw & {
+					color: var(--FAU-Col-FAU-Weiss-100);
+				}
+
+				&::after {
+
+					.faculty-rw & {
+						background-image: var(--icon-arrow-weiss);
+					}
+				}
 			}
 		}
 
@@ -77,5 +101,105 @@ $faculty-colors: (
 	.wp-block-cover {
 		max-width: unset;
 		height: 100%;
+	}
+}
+
+// Hero Other
+.hero-faculty-other.hero-other {
+	background-color: var(--FAU-Col-FAU-Blau-100);
+
+	.hero-faculty-content-wrapper {
+
+		h2 {
+			color: var(--FAU-Col-FAU-Weiss-100);
+			background-color: var(--FAU-Col-FAU-Blau-100);
+		}
+
+		.hero-mobile-optional {
+
+			p,
+			.wp-block-buttons a {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+
+			.wp-block-buttons a::after {
+				background-image: var(--icon-arrow-weiss);
+			}
+		}
+	}
+}
+
+// Responsive
+@media screen and (max-width: 1250px) {
+
+	.hero-faculty-other {
+		flex-direction: column-reverse;
+		gap: 0;
+		min-height: unset;
+
+		.hero-faculty-content-wrapper {
+			position: relative;
+			transform: unset;
+			left: unset;
+			max-width: unset;
+
+			@each $faculty, $color in $faculty-colors {
+				&.faculty-#{$faculty} {
+					background-color: $color;
+				}
+			}
+
+			.hero-faculty-content {
+				min-height: unset;
+				padding: 0 3.75rem;
+				position: relative;
+				bottom: 2.5rem;
+
+				h2 {
+					width: 100%;
+					min-width: unset;
+					max-width: unset;
+					margin: 0;
+					padding: var(--Spacing-6x) var(--Spacing-6x) var(--Spacing-4x) var(--Spacing-6x);
+					box-sizing: border-box;
+					font-size: 2rem;
+				}
+
+				.hero-mobile-optional {
+					max-width: 100%;
+					padding: 0 var(--Spacing-6x);
+
+					.wp-block-buttons {
+						margin-top: var(--Spacing-4x);
+					}
+				}
+			}
+		}
+
+		.hero-faculty-bg-left {
+			display: none;
+		}
+	}
+}
+
+@include respond-to("small") {
+
+	.hero-faculty-other .hero-faculty-content-wrapper .hero-faculty-content {
+		padding: 0 var(--Spacing-10x);
+	}
+}
+
+@include respond-to("x-small") {
+
+	.hero-faculty-other .hero-faculty-content-wrapper .hero-faculty-content {
+		padding: 0 var(--Spacing-5x);
+
+		h2 {
+			padding: var(--Spacing-4x);
+		}
+
+		.hero-mobile-optional {
+			padding: 0 var(--Spacing-4x);
+		}
 	}
 }

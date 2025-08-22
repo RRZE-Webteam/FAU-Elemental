@@ -35,40 +35,51 @@ if ($current_website_type === 'chair') {
 }
 ?>
 <!-- wp:columns {"templateLock":"all", "className": "hero-chair-cooperation"} -->
-<div class="wp-block-columns hero-chair-bg hero-chair-cooperation <?php echo $current_website_type === 'chair' ? 'hero-chair' : 'hero-cooperation'; ?>">
-    <!-- wp:column {"layout":{"type":"constrained"}} -->
-    <div class="wp-block-column">
+<div class="wp-block-columns alignwide hero-chair-cooperation <?php echo $current_website_type === 'chair' ? 'hero-chair' : 'hero-cooperation'; ?>">
 
-        <!-- wp:heading {"level":1,"className":"hero-front-page-title"} -->
-        <h1 class="wp-block-heading hero-front-page-title"><?php echo esc_html($current_content['title']); ?></h1>
-        <!-- /wp:heading -->
+    <!-- wp:column {"className":"hero-chair-content-wrapper"} -->
+    <div class="wp-block-column hero-chair-content-wrapper">
 
-        <!-- wp:group {"className":"hero-mobile-optional"} -->
-        <div class="wp-block-group hero-mobile-optional">
-            <!-- wp:paragraph {"className":"hero-text"} -->
-            <p class="hero-text"><?php echo esc_html($current_content['description']); ?></p>
-            <!-- /wp:paragraph -->
-             
-            <!-- wp:buttons -->
-            <div class="wp-block-buttons">
-                 <!-- wp:button {"className":"is-style-tertiary"} -->
-                 <div class="wp-block-button is-style-tertiary">
-                    <a class="wp-block-button__link wp-element-button">Mehr erfahren</a>
+        <!-- wp:column {"className":"hero-chair-content"} -->
+        <div class="wp-block-column hero-chair-content">
+
+            <!-- wp:heading {"level":2} -->
+            <h2 class="wp-block-heading"><?php echo esc_html($current_content['title']); ?></h2>
+            <!-- /wp:heading -->
+
+            <!-- wp:group {"className":"hero-mobile-optional"} -->
+            <div class="wp-block-group hero-mobile-optional">
+                <!-- wp:paragraph {"className":"hero-text"} -->
+                <p class="hero-text"><?php echo esc_html($current_content['description']); ?></p>
+                <!-- /wp:paragraph -->
+
+                <!-- wp:buttons -->
+                <div class="wp-block-buttons">
+                    <!-- wp:button {"className":"is-style-secondary"} -->
+                    <div class="wp-block-button is-style-secondary"><a class="wp-block-button__link wp-element-button">Mehr erfahren</a></div>
+                    <!-- /wp:button -->
                 </div>
-                <!-- /wp:button -->
+                <!-- /wp:buttons -->
             </div>
-            <!-- /wp:buttons -->
+            <!-- /wp:group -->
+
         </div>
-        <!-- /wp:group -->
+        <!-- /wp:column -->
+
     </div>
     <!-- /wp:column -->
 
-         <!-- wp:column -->
-         <div class="wp-block-column">
-        <!-- wp:cover {"url":"<?php echo esc_url(get_theme_file_uri($current_content['img'])); ?>","dimRatio":0,"isUserOverlayColor":false,"layout":{"type":"constrained"}} -->
-        <div class="wp-block-cover">
-            <span aria-hidden="true" class="wp-block-cover__background  has-background-dim-0 has-background-dim"></span>
-            <img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(get_theme_file_uri($current_content['img'])); ?>" data-object-fit="cover" />
+    <!-- wp:column {"className":"hero-chair-bg-left"} -->
+    <div class="wp-block-column hero-chair-bg-left">
+    </div>
+    <!-- /wp:column -->
+
+    <!-- wp:column {"className":"hero-chair-bg-right"} -->
+    <div class="wp-block-column hero-chair-bg-right">
+        <!-- wp:cover {"url":"<?php echo esc_url(get_theme_file_uri($current_content['img']));?>","dimRatio":0,"contentPosition":"center","className":"is-dark-theme"} -->
+        <div class="wp-block-cover is-dark-theme">
+            <span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span>
+            <img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(get_theme_file_uri($current_content['img'])); ?>" data-object-fit="cover">
             <div class="wp-block-cover__inner-container">
                 <!-- wp:paragraph {"align":"center","placeholder":"Write title…","fontSize":"large","className":"hideParagraph"} -->
                 <p class="has-text-align-center has-large-font-size hideParagraph"></p>
@@ -78,5 +89,6 @@ if ($current_website_type === 'chair') {
         <!-- /wp:cover -->
     </div>
     <!-- /wp:column -->
+
 </div>
 <!-- /wp:columns --> 
