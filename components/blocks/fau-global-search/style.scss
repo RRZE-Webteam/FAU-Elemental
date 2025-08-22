@@ -112,7 +112,8 @@
 
 // When block is on error pages (404, 403), use white background and no padding
 .error-404 .fau-global-search-wrapper,
-.error-403 .fau-global-search-wrapper {
+.error-403 .fau-global-search-wrapper,
+.error-401 .fau-global-search-wrapper {
 	background-color: var(--FAU-Col-FAU-Weiss-100);
 	padding: 0;
 

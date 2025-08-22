@@ -22,7 +22,9 @@ document.addEventListener( 'DOMContentLoaded', function () {
 		const isInErrorPage =
 			document.body.classList.contains( 'error404' ) ||
 			document.body.classList.contains( 'error403' ) ||
-			document.querySelector( '.error-404, .error-403' ) !== null;
+			document.body.classList.contains( 'error401' ) ||
+			document.querySelector( '.error-404, .error-403 , .error-401' ) !==
+				null;
 
 		// Initialize advanced features
 		if ( form.dataset.enableAutocomplete === 'true' ) {
