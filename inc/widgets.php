@@ -12,9 +12,9 @@ global $wp_embed, $options;
 function faue_sidebars_init() {	
     if (apply_filters('rrze_multilang_widget_enabled', false)) {
         register_sidebar( array(
-            'name' => __( 'Sprachwechsler', 'fau' ),
+            'name' => __( 'Language switcher', 'fau-elemental' ),
             'id' => 'language-switcher',
-            'description' => __( 'Sprachwechsler im Header der Seite', 'fau-elemental' ),
+            'description' => __( 'Language switcher in the page header', 'fau-elemental' ),
             'before_widget' => '<div class="meta-widget rrze-multilang-widget">',
             'after_widget' => '</div>',
 

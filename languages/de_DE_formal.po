@@ -2137,41 +2137,41 @@ msgstr "Logo-Vorschau"
 
 #: 401.php:12
 msgid "Error: Unauthorized Access"
-msgstr ""
+msgstr "Fehler: Unautorisierter Zugriff"
 
 #: 401.php:13
 msgid "You are not authorized to access this page. Please log in with appropriate credentials or contact the administrator if you believe this is an error."
-msgstr ""
+msgstr "Sie sind nicht dazu autorisiert diese Seite aufzurufen. Bitte melden Sie sich mit den entsprechenden Zugangsdaten an oder verständigen Sie den Administrator wenn Sie denken, dass dies ein Fehler ist."
 
 #: 401.php:14
 #: 403.php:14
 msgid "Perhaps the search will help you find what you're looking for."
-msgstr ""
+msgstr "Vielleicht hilft Ihnen die Suche dabei, zu finden, wonach Sie suchen."
 
 #: 403.php:12
 msgid "Error: Access Forbidden"
-msgstr ""
+msgstr "Fehler: Zugang verweigert"
 
 #: 403.php:13
 msgid "You do not have permission to access this page. Please contact the administrator if you believe this is an error."
-msgstr ""
+msgstr "Sie haben keine Berechtigung um diese Seite anzusehen. Bitte kontaktieren Sie den Administrator wenn Sie denken, dass dies ein Fehler ist."
 
 #: 404.php:12
 msgid "Error: Page not found"
-msgstr ""
+msgstr "Fehler: Seite nicht gefunden"
 
 #: 404.php:13
 msgid "The page you are trying to access does not exist or its address has changed due to changes in the page structure."
-msgstr ""
+msgstr "Die Seite, die Sie versuchen aufzurufen, existiert nicht oder wurde an einen anderen Ort verschoben."
 
 #: 404.php:14
 msgid "Perhaps the search will help you further."
-msgstr ""
+msgstr "Vielleicht hilft Ihnen die Suche weiter."
 
 #: components/template-parts/error-page/error-page.php:39
 #: components/template-parts/error-page/error-page.php:40
 msgid "Other offers"
-msgstr ""
+msgstr "Andere Angebote"
 
 #. translators: number of posts
 #: components/template-parts/search-results/search-results.php:220
@@ -2184,66 +2184,70 @@ msgstr[1] ""
 
 #: components/template-parts/search-results/search-results.php:270
 msgid "Post Category"
-msgstr ""
+msgstr "Beitragskategorie"
 
 #: components/template-parts/search-results/search-results.php:277
-#: functions.php:376
+#: functions.php:377
 msgid "Page Category"
-msgstr ""
+msgstr "Seitenkategorie"
 
 #: components/template-parts/search-results/search-results.php:353
 msgid "Unfortunately, we were unable to find any matching search results for the following query:"
-msgstr ""
+msgstr "Leider konnten keine Suchergebnisse für die folgende Anfrage gefunden werden:"
 
 #: components/template-parts/search-results/search-results.php:360
 msgid "Additional search options"
-msgstr ""
+msgstr "Weitere Suchoptionen"
 
-#: functions.php:375
-#: functions.php:377
-msgid "Page Categories"
-msgstr ""
-
+#: functions.php:376
 #: functions.php:378
-msgid "All Page Categories"
-msgstr ""
+msgid "Page Categories"
+msgstr "Seitenkategorien"
 
 #: functions.php:379
-msgid "Edit Page Category"
-msgstr ""
+msgid "All Page Categories"
+msgstr "Alle Seitenkategorien"
 
 #: functions.php:380
-msgid "View Page Category"
-msgstr ""
+msgid "Edit Page Category"
+msgstr "Seitenkategorie bearbeiten"
 
 #: functions.php:381
-msgid "Update Page Category"
-msgstr ""
+msgid "View Page Category"
+msgstr "Seitenkategorie ansehen"
 
 #: functions.php:382
-msgid "Add New Page Category"
-msgstr ""
+msgid "Update Page Category"
+msgstr "Seitenkategorie aktualisieren"
 
 #: functions.php:383
-msgid "New Page Category Name"
-msgstr ""
+msgid "Add New Page Category"
+msgstr "Neue Seitenkategorie"
 
 #: functions.php:384
-msgid "Parent Page Category"
-msgstr ""
+msgid "New Page Category Name"
+msgstr "Name der neuen Seitenkategorie"
 
 #: functions.php:385
-msgid "Parent Page Category:"
-msgstr ""
+msgid "Parent Page Category"
+msgstr "Kategorie der Elternseite"
 
 #: functions.php:386
-msgid "Search Page Categories"
-msgstr ""
+msgid "Parent Page Category:"
+msgstr "Kategorie der Elternseite:"
 
 #: functions.php:387
+msgid "Search Page Categories"
+msgstr "Seitenkategorie suchen"
+
+#: functions.php:388
 msgid "No page categories found"
-msgstr ""
+msgstr "Keine Seitenkategorien gefunden"
 
 #: inc/widgets.php:17
-msgid "Sprachwechsler im Header der Seite"
-msgstr ""
+msgid "Language switcher in the page header"
+msgstr "Sprachwechsler im Header der Seite"
+
+#: inc/widgets.php:15
+msgid "Language switcher"
+msgstr "Sprachwechsler"
