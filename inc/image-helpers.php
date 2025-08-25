@@ -49,3 +49,20 @@ function faue_get_post_fallback_image($post_id = null, $size = 'full') {
     // Return default logo as last resort
     return get_template_directory_uri() . '/assets/images/logo.svg';
 }
+
+/**
+ * Handle fallback image changes in customizer
+ * This ensures JavaScript gets updated when the setting changes
+ */
+function faue_customize_save_fallback_image($wp_customize) {
+    // Check if fallback image setting was changed
+    if (isset($_POST['customized']['faue_fallback_image'])) {
+        $new_value = $_POST['customized']['faue_fallback_image'];
+        
+        // If the value is empty, clear the setting
+        if (empty($new_value)) {
+            remove_theme_mod('faue_fallback_image');
+        }
+    }
+}
+add_action('customize_save_after', 'faue_customize_save_fallback_image');

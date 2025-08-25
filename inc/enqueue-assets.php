@@ -80,12 +80,31 @@ function faue_enqueue_block_editor_script() {
                 'themeUrl' => get_template_directory_uri(),
                 'websiteType' => get_theme_mod('faue_website_type', 'fau'),
                 'facultyType' => get_theme_mod('faue_faculty', 'phil'),
-                'fallbackImageUrl' => faue_get_fallback_image(),
+                'fallbackImageUrl' => faue_get_post_fallback_image(),
             )
         );
     }
 }
 add_action('enqueue_block_editor_assets', 'faue_enqueue_block_editor_script');
+
+/**
+ * Refresh JavaScript data when fallback image changes
+ * This ensures editor previews stay in sync with customizer changes
+ */
+function faue_refresh_fallback_image_js() {
+    // Only run in admin/editor context
+    if (!is_admin() && !wp_doing_ajax()) {
+        return;
+    }
+    
+    // Force refresh of editor scripts when fallback image changes
+    add_filter('wp_enqueue_scripts', function() {
+        // Clear any cached data
+        wp_cache_delete('faue_fallback_image', 'theme_mods');
+        return true;
+    }, 1);
+}
+add_action('admin_init', 'faue_refresh_fallback_image_js');
 
 // Add this function to handle block view scripts
 function faue_enqueue_block_view_scripts() {
@@ -124,7 +143,7 @@ function faue_enqueue_block_view_scripts() {
                         'nonce' => wp_create_nonce('fau_elemental_nonce'),
                         'ajaxUrl' => admin_url('admin-ajax.php'),
                         'searchDebounceDelay' => faue_get_default('faue_search_debounce_delay'),
-                        'fallbackImageUrl' => faue_get_fallback_image(),
+                        'fallbackImageUrl' => faue_get_post_fallback_image(),
                     )
                 );
                 $localized = true;

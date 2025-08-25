@@ -110,6 +110,15 @@ function faue_customize_register($wp_customize) {
         'section'     => 'faue_theme_settings',
         'priority'    => 30,
     )));
+    
+    // Add selective refresh for fallback image to update JavaScript
+    if (isset($wp_customize->selective_refresh)) {
+        $wp_customize->selective_refresh->add_partial('faue_fallback_image', array(
+            'selector'        => 'body',
+            'render_callback' => '__return_false',
+            'container_inclusive' => false,
+        ));
+    }
 }
 add_action('customize_register', 'faue_customize_register');
 
