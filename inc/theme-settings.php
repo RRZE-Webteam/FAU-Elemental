@@ -96,6 +96,29 @@ function faue_customize_register($wp_customize) {
             'iptc'  => __('IPTC Image Metadata', 'fau-elemental'),
         ),
     ));
+
+    // Fallback Image Setting
+    $wp_customize->add_setting('faue_fallback_image', array(
+        'default'           => faue_get_default('faue_fallback_image'),
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'esc_url_raw',
+    ));
+
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'faue_fallback_image', array(
+        'label'       => __('Fallback Image', 'fau-elemental'),
+        'description' => __('Choose a default image to use when no featured image is available for posts or pages.', 'fau-elemental'),
+        'section'     => 'faue_theme_settings',
+        'priority'    => 30,
+    )));
+    
+    // Add selective refresh for fallback image to update JavaScript
+    if (isset($wp_customize->selective_refresh)) {
+        $wp_customize->selective_refresh->add_partial('faue_fallback_image', array(
+            'selector'        => 'body',
+            'render_callback' => '__return_false',
+            'container_inclusive' => false,
+        ));
+    }
 }
 add_action('customize_register', 'faue_customize_register');
 

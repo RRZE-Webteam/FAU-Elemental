@@ -10,10 +10,10 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 		return null;
 	}
 
-	// Get the theme URL from WordPress data
+	// Get the fallback image from theme customizer or use default logo
 	const FALLBACK_IMAGE =
-		( ( window.fauElemental && window.fauElemental.themeUrl ) ??
-			'/wp-content/themes/fau-elemental' ) + '/assets/images/logo.svg';
+		( window.fauElemental && window.fauElemental.fallbackImageUrl ) ??
+		'/wp-content/themes/fau-elemental/assets/images/logo.svg';
 
 	const baseUrl = useSelect( ( select ) => getRestBaseUrl( select ), [] );
 

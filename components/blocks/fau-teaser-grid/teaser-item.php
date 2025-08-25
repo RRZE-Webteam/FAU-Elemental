@@ -21,7 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
 function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level = 'h4') {
-    $image = get_the_post_thumbnail_url($post->ID, 'full') ?: get_template_directory_uri() . '/assets/images/logo.svg';
+    // Use the new fallback image functionality
+    $image = get_the_post_thumbnail_url($post->ID, 'full') ?: faue_get_post_fallback_image($post->ID, 'full');
     $title = get_the_title($post);
     $excerpt = get_the_excerpt($post);
     $link = get_permalink($post);

@@ -88,7 +88,8 @@ export const useAvailablePosts = ( searchTerm, variant ) => {
 			const posts =
 				select( 'core' ).getEntityRecords( 'postType', variant, {
 					search: searchTerm,
-					per_page: 20,
+					search_columns: [ 'post_title' ],
+					per_page: 5,
 					_fields: [ 'id', 'title' ],
 					_embed: true,
 				} ) || [];
