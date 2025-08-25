@@ -351,6 +351,19 @@ function fau_elemental_control_block_locking_permissions($settings, $context) {
 add_filter('block_editor_settings_all', 'fau_elemental_control_block_locking_permissions', 10, 2);
 
 /**
+ * As this theme provides its own translations, we need to remap from the WP_LANG_DIR to our /languages dir.
+ * This is currently a wierd WordPress behaviour that might change in the future, rendering this function
+ * useless or even harmful, but until then its the best we can do.
+ */
+function fau_script_translation_location( string $file, string $handle, string $domain ) {
+    if ($domain === 'fau-elemental') {
+        $file = str_replace( WP_LANG_DIR . '/themes', get_template_directory() . '/languages', $file );
+    }
+    return $file;
+}
+add_filter( 'load_script_translation_file', 'fau_script_translation_location', 10, 3 );
+
+/**
  * Register custom taxonomy for pages (separate from post categories)
  * This creates an independent category system for pages
  */

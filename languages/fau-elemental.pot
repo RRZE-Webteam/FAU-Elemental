@@ -2,16 +2,16 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.3.3\n"
+"Project-Id-Version: FAU-Elemental 0.3.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-22T15:02:01+00:00\n"
+"POT-Creation-Date: 2025-08-25T10:37:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: fau-elemental\n"
 
 #. Theme Name of the theme
@@ -39,17 +39,37 @@ msgstr ""
 msgid "TBD - theme author web page"
 msgstr ""
 
+#: 401.php:12
+msgid "Error: Unauthorized Access"
+msgstr ""
+
+#: 401.php:13
+msgid "You are not authorized to access this page. Please log in with appropriate credentials or contact the administrator if you believe this is an error."
+msgstr ""
+
+#: 401.php:14
+#: 403.php:14
+msgid "Perhaps the search will help you find what you're looking for."
+msgstr ""
+
+#: 403.php:12
+msgid "Error: Access Forbidden"
+msgstr ""
+
+#: 403.php:13
+msgid "You do not have permission to access this page. Please contact the administrator if you believe this is an error."
+msgstr ""
+
+#: 404.php:12
+msgid "Error: Page not found"
+msgstr ""
+
 #: 404.php:13
-#: components/template-parts/breadcrumbs/breadcrumbs.php:165
-msgid "404 - Page Not Found"
+msgid "The page you are trying to access does not exist or its address has changed due to changes in the page structure."
 msgstr ""
 
 #: 404.php:14
-msgid "The page you were looking for could not be found."
-msgstr ""
-
-#: 404.php:15
-msgid "Back to Homepage"
+msgid "Perhaps the search will help you further."
 msgstr ""
 
 #: archive.php:97
@@ -61,6 +81,7 @@ msgstr ""
 
 #. translators: name of the wordpress category
 #: category.php:19
+#, php-format
 msgid "Browse all posts in the %s category."
 msgstr ""
 
@@ -164,6 +185,15 @@ msgstr ""
 #: components/template-parts/breadcrumbs/breadcrumbs.php:163
 #: components/template-parts/search-results/search-results.php:185
 msgid "Search Results"
+msgstr ""
+
+#: components/template-parts/breadcrumbs/breadcrumbs.php:165
+msgid "404 - Page Not Found"
+msgstr ""
+
+#: components/template-parts/error-page/error-page.php:39
+#: components/template-parts/error-page/error-page.php:40
+msgid "Other offers"
 msgstr ""
 
 #: components/template-parts/footer-instance/footer-instance.php:16
@@ -339,6 +369,7 @@ msgstr ""
 #: components/template-parts/navigation/menu-modal.php:556
 #: components/template-parts/navigation/mixed-navigation-walker.php:474
 #: components/template-parts/navigation/mixed-navigation-walker.php:673
+#, php-format
 msgid "Open %s submenu"
 msgstr ""
 
@@ -433,6 +464,7 @@ msgstr ""
 #: components/template-parts/pagination/pagination.php:159
 #: components/template-parts/pagination/pagination.php:166
 #: components/template-parts/pagination/pagination.php:170
+#, php-format
 msgid "Page %d"
 msgstr ""
 
@@ -447,6 +479,7 @@ msgstr ""
 
 #. translators: search query
 #: components/template-parts/search-results/search-results.php:180
+#, php-format
 msgid "Search Results for: %s"
 msgstr ""
 
@@ -458,6 +491,7 @@ msgstr ""
 
 #. translators: number of results
 #: components/template-parts/search-results/search-results.php:208
+#, php-format
 msgctxt "search results count"
 msgid "%s result found"
 msgid_plural "%s results found"
@@ -466,6 +500,7 @@ msgstr[1] ""
 
 #. translators: number of posts
 #: components/template-parts/search-results/search-results.php:220
+#, php-format
 msgctxt "posts count"
 msgid "%s post found"
 msgid_plural "%s posts found"
@@ -478,6 +513,7 @@ msgstr ""
 
 #. translators: index of the search result
 #: components/template-parts/search-results/search-results.php:246
+#, php-format
 msgid "Search Result %d"
 msgstr ""
 
@@ -486,7 +522,7 @@ msgid "Post Category"
 msgstr ""
 
 #: components/template-parts/search-results/search-results.php:277
-#: functions.php:364
+#: functions.php:377
 msgid "Page Category"
 msgstr ""
 
@@ -494,11 +530,13 @@ msgstr ""
 #: components/template-parts/search-results/search-results.php:298
 #: inc/class-walker-content-menu.php:67
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:178
+#, php-format,js-format
 msgid "Featured image for %s"
 msgstr ""
 
 #. translators: title of the search result
 #: components/template-parts/search-results/search-results.php:329
+#, php-format
 msgid "Read more about %s"
 msgstr ""
 
@@ -581,48 +619,48 @@ msgstr ""
 msgid "Show less"
 msgstr ""
 
-#: functions.php:363
-#: functions.php:365
+#: functions.php:376
+#: functions.php:378
 msgid "Page Categories"
 msgstr ""
 
-#: functions.php:366
+#: functions.php:379
 msgid "All Page Categories"
 msgstr ""
 
-#: functions.php:367
+#: functions.php:380
 msgid "Edit Page Category"
 msgstr ""
 
-#: functions.php:368
+#: functions.php:381
 msgid "View Page Category"
 msgstr ""
 
-#: functions.php:369
+#: functions.php:382
 msgid "Update Page Category"
 msgstr ""
 
-#: functions.php:370
+#: functions.php:383
 msgid "Add New Page Category"
 msgstr ""
 
-#: functions.php:371
+#: functions.php:384
 msgid "New Page Category Name"
 msgstr ""
 
-#: functions.php:372
+#: functions.php:385
 msgid "Parent Page Category"
 msgstr ""
 
-#: functions.php:373
+#: functions.php:386
 msgid "Parent Page Category:"
 msgstr ""
 
-#: functions.php:374
+#: functions.php:387
 msgid "Search Page Categories"
 msgstr ""
 
-#: functions.php:375
+#: functions.php:388
 msgid "No page categories found"
 msgstr ""
 
@@ -638,6 +676,7 @@ msgstr ""
 #. translators: %s: Menu item title
 #: inc/class-walker-content-menu.php:69
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:191
+#, php-format,js-format
 msgid "No image available for %s"
 msgstr ""
 
@@ -646,6 +685,7 @@ msgstr ""
 #: inc/class-walker-content-menu.php:87
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:210
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:240
+#, php-format,js-format
 msgid "Go to %s"
 msgstr ""
 
@@ -861,6 +901,7 @@ msgstr ""
 
 #. translators: social media platform
 #: inc/customizer.php:467
+#, php-format
 msgid "Enter the %s URL"
 msgstr ""
 
@@ -1059,6 +1100,7 @@ msgstr ""
 
 #. translators: owner/organization of the logo
 #: inc/shortcodes.php:174
+#, php-format
 msgid "Logo from %s"
 msgstr ""
 
@@ -1111,8 +1153,12 @@ msgstr ""
 msgid "IPTC Image Metadata"
 msgstr ""
 
+#: inc/widgets.php:15
+msgid "Language switcher"
+msgstr ""
+
 #: inc/widgets.php:17
-msgid "Sprachwechsler im Header der Seite"
+msgid "Language switcher in the page header"
 msgstr ""
 
 #: index.php:48
@@ -1130,31 +1176,37 @@ msgstr ""
 
 #. translators: name of the wordpress category
 #: index.php:111
+#, php-format
 msgid "Browse all posts in the %s category. Use the filters below to refine your search."
 msgstr ""
 
 #. translators: name of the wordpress tag
 #: index.php:117
+#, php-format
 msgid "Browse all posts tagged with %s. Use the filters below to refine your search."
 msgstr ""
 
 #. translators: name of the post author
 #: index.php:123
+#, php-format
 msgid "Browse all posts by %s. Use the filters below to refine your search."
 msgstr ""
 
 #. translators: year number
 #: index.php:128
+#, php-format
 msgid "Browse all posts from the year %s. Use the filters below to refine your search."
 msgstr ""
 
 #. translators: year and month
 #: index.php:131
+#, php-format
 msgid "Browse all posts from %s. Use the filters below to refine your search."
 msgstr ""
 
 #. translators: year, month and date
 #: index.php:134
+#, php-format
 msgid "Browse all posts from the %s. Use the filters below to refine your search."
 msgstr ""
 
@@ -1207,6 +1259,7 @@ msgstr ""
 
 #. translators: %s: faculty type
 #: components/blocks/fau-big-button/edit.js:172
+#, js-format
 msgid "Using faculty color: %s"
 msgstr ""
 
@@ -1282,11 +1335,13 @@ msgstr ""
 
 #. translators: %d: maximum character count
 #: components/blocks/fau-big-button/edit.js:332
+#, js-format
 msgid "Maximum %d characters recommended. You can also click on the description in the preview to edit it directly."
 msgstr ""
 
 #. translators: %1$d: current character count, %2$d: maximum character count
 #: components/blocks/fau-big-button/edit.js:350
+#, js-format
 msgid "%1$d / %2$d characters"
 msgstr ""
 
@@ -1373,6 +1428,7 @@ msgstr ""
 
 #. translators: %d: current character count
 #: components/blocks/fau-big-teaser/edit.js:92
+#, js-format
 msgid "%d/100 characters"
 msgstr ""
 
@@ -1386,6 +1442,7 @@ msgstr ""
 
 #. translators: %d: current character count
 #: components/blocks/fau-big-teaser/edit.js:114
+#, js-format
 msgid "%d/200 characters"
 msgstr ""
 
@@ -1399,6 +1456,7 @@ msgstr ""
 
 #. translators: %d: current character count
 #: components/blocks/fau-big-teaser/edit.js:137
+#, js-format
 msgid "%d/40 characters"
 msgstr ""
 
@@ -1826,6 +1884,7 @@ msgstr ""
 
 #. translators: %1$d: number of visible items, %2$d: total number of items
 #: components/blocks/fau-teaser-grid/edit.js:446
+#, js-format
 msgid "Showing %1$d of %2$d items"
 msgstr ""
 
@@ -1844,6 +1903,7 @@ msgstr ""
 
 #. translators: %s: slide index
 #: components/blocks/fau-testimonial/components/TestimonialCarousel.jsx:85
+#, js-format
 msgid "Go to slide %s"
 msgstr ""
 
