@@ -1,0 +1,290 @@
+{
+  "components/ui/theme.scss": [
+    "build/css/theme.css",
+    "build/css/theme.js",
+    "build/css/theme-rtl.css"
+  ],
+  "components/blocks/fau-big-button/index.js": [
+    "build/blocks/fau-big-button/index.js"
+  ],
+  "components/blocks/fau-big-button/edit.js": [
+    "build/blocks/fau-big-button/index.js"
+  ],
+  "components/blocks/fau-big-button/block.json": [
+    "build/blocks/fau-big-button/index.js"
+  ],
+  "components/utils/urlValidation.js": [
+    "build/blocks/fau-big-button/index.js"
+  ],
+  "node_modules/uuid/dist/esm-browser/v4.js": [
+    "build/blocks/fau-big-button/index.js",
+    "build/blocks/fau-meta-headline/index.js",
+    "build/blocks/fau-testimonial/index.js"
+  ],
+  "node_modules/uuid/dist/esm-browser/native.js": [
+    "build/blocks/fau-big-button/index.js",
+    "build/blocks/fau-meta-headline/index.js",
+    "build/blocks/fau-testimonial/index.js"
+  ],
+  "node_modules/uuid/dist/esm-browser/rng.js": [
+    "build/blocks/fau-big-button/index.js",
+    "build/blocks/fau-meta-headline/index.js",
+    "build/blocks/fau-testimonial/index.js"
+  ],
+  "node_modules/uuid/dist/esm-browser/stringify.js": [
+    "build/blocks/fau-big-button/index.js",
+    "build/blocks/fau-meta-headline/index.js",
+    "build/blocks/fau-testimonial/index.js"
+  ],
+  "components/blocks/fau-big-button/style.scss": [
+    "build/blocks/fau-big-button/theme.js"
+  ],
+  "components/blocks/fau-big-button/editor.scss": [
+    "build/blocks/fau-big-button/editor.css",
+    "build/blocks/fau-big-button/editor.js",
+    "build/blocks/fau-big-button/editor-rtl.css"
+  ],
+  "components/blocks/fau-big-teaser/index.js": [
+    "build/blocks/fau-big-teaser/index.js"
+  ],
+  "components/blocks/fau-big-teaser/edit.js": [
+    "build/blocks/fau-big-teaser/index.js"
+  ],
+  "components/blocks/fau-big-teaser/block.json": [
+    "build/blocks/fau-big-teaser/index.js"
+  ],
+  "components/blocks/fau-big-teaser/style.scss": [
+    "build/blocks/fau-big-teaser/theme.js"
+  ],
+  "components/blocks/fau-big-teaser/editor.scss": [
+    "build/blocks/fau-big-teaser/editor.css",
+    "build/blocks/fau-big-teaser/editor.js",
+    "build/blocks/fau-big-teaser/editor-rtl.css"
+  ],
+  "components/blocks/fau-copyright-info/index.js": [
+    "build/blocks/fau-copyright-info/index.js"
+  ],
+  "components/blocks/fau-copyright-info/style.scss": [
+    "build/blocks/fau-copyright-info/theme.js"
+  ],
+  "components/blocks/fau-copyright-info/editor.scss": [
+    "build/blocks/fau-copyright-info/editor.css",
+    "build/blocks/fau-copyright-info/editor.js",
+    "build/blocks/fau-copyright-info/editor-rtl.css"
+  ],
+  "components/blocks/fau-featured-event-teaser/index.js": [
+    "build/blocks/fau-featured-event-teaser/index.js"
+  ],
+  "components/blocks/fau-featured-event-teaser/edit.js": [
+    "build/blocks/fau-featured-event-teaser/index.js"
+  ],
+  "components/blocks/fau-featured-event-teaser/block.json": [
+    "build/blocks/fau-featured-event-teaser/index.js"
+  ],
+  "components/blocks/fau-featured-event-teaser/utils/date-helpers.js": [
+    "build/blocks/fau-featured-event-teaser/index.js"
+  ],
+  "components/blocks/fau-featured-event-teaser/style.scss": [
+    "build/blocks/fau-featured-event-teaser/theme.js"
+  ],
+  "components/blocks/fau-global-search/index.js": [
+    "build/blocks/fau-global-search/index.js"
+  ],
+  "components/blocks/fau-global-search/edit.js": [
+    "build/blocks/fau-global-search/index.js"
+  ],
+  "components/blocks/fau-global-search/block.json": [
+    "build/blocks/fau-global-search/index.js"
+  ],
+  "components/blocks/fau-global-search/style.scss": [
+    "build/blocks/fau-global-search/theme.js"
+  ],
+  "components/blocks/fau-global-search/editor.scss": [
+    "build/blocks/fau-global-search/editor.css",
+    "build/blocks/fau-global-search/editor.js",
+    "build/blocks/fau-global-search/editor-rtl.css"
+  ],
+  "components/blocks/fau-logo-grid/index.js": [
+    "build/blocks/fau-logo-grid/index.js"
+  ],
+  "components/blocks/fau-logo-grid/edit.js": [
+    "build/blocks/fau-logo-grid/index.js"
+  ],
+  "components/blocks/fau-logo-grid/block.json": [
+    "build/blocks/fau-logo-grid/index.js"
+  ],
+  "components/blocks/fau-logo-grid/style.scss": [
+    "build/blocks/fau-logo-grid/theme.js"
+  ],
+  "components/blocks/fau-logo-grid/editor.scss": [
+    "build/blocks/fau-logo-grid/editor.css",
+    "build/blocks/fau-logo-grid/editor.js",
+    "build/blocks/fau-logo-grid/editor-rtl.css"
+  ],
+  "components/blocks/fau-meta-headline/index.js": [
+    "build/blocks/fau-meta-headline/index.js"
+  ],
+  "components/blocks/fau-meta-headline/style.scss": [
+    "build/blocks/fau-meta-headline/theme.js"
+  ],
+  "components/blocks/fau-meta-headline/editor.scss": [
+    "build/blocks/fau-meta-headline/editor.css",
+    "build/blocks/fau-meta-headline/editor.js",
+    "build/blocks/fau-meta-headline/editor-rtl.css"
+  ],
+  "components/blocks/fau-portalmenu/index.js": [
+    "build/blocks/fau-portalmenu/index.js"
+  ],
+  "components/blocks/fau-portalmenu/edit.js": [
+    "build/blocks/fau-portalmenu/index.js"
+  ],
+  "components/blocks/fau-portalmenu/EditorPreview.jsx": [
+    "build/blocks/fau-portalmenu/index.js"
+  ],
+  "components/blocks/fau-portalmenu/style.scss": [
+    "build/blocks/fau-portalmenu/theme.js"
+  ],
+  "components/blocks/fau-teaser-grid/index.js": [
+    "build/blocks/fau-teaser-grid/index.js"
+  ],
+  "components/blocks/fau-teaser-grid/edit.js": [
+    "build/blocks/fau-teaser-grid/index.js"
+  ],
+  "components/blocks/fau-teaser-grid/block.json": [
+    "build/blocks/fau-teaser-grid/index.js"
+  ],
+  "components/blocks/fau-teaser-grid/components/PageTeaser.jsx": [
+    "build/blocks/fau-teaser-grid/index.js"
+  ],
+  "components/blocks/fau-teaser-grid/components/PostTeaser.jsx": [
+    "build/blocks/fau-teaser-grid/index.js"
+  ],
+  "components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx": [
+    "build/blocks/fau-teaser-grid/index.js"
+  ],
+  "components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx": [
+    "build/blocks/fau-teaser-grid/index.js"
+  ],
+  "components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx": [
+    "build/blocks/fau-teaser-grid/index.js"
+  ],
+  "components/blocks/fau-teaser-grid/components/editor/useTeaserData.js": [
+    "build/blocks/fau-teaser-grid/index.js"
+  ],
+  "components/blocks/fau-teaser-grid/utils/helpers.js": [
+    "build/blocks/fau-teaser-grid/index.js"
+  ],
+  "components/blocks/fau-teaser-grid/style.scss": [
+    "build/blocks/fau-teaser-grid/theme.js"
+  ],
+  "components/blocks/fau-teaser-grid/editor.scss": [
+    "build/blocks/fau-teaser-grid/editor.css",
+    "build/blocks/fau-teaser-grid/editor.js",
+    "build/blocks/fau-teaser-grid/editor-rtl.css"
+  ],
+  "components/blocks/fau-teaser-grid/view.js": [
+    "build/blocks/fau-teaser-grid/view.js"
+  ],
+  "components/blocks/fau-testimonial/index.js": [
+    "build/blocks/fau-testimonial/index.js"
+  ],
+  "components/blocks/fau-testimonial/edit.js": [
+    "build/blocks/fau-testimonial/index.js"
+  ],
+  "components/blocks/fau-testimonial/save.js": [
+    "build/blocks/fau-testimonial/index.js"
+  ],
+  "components/blocks/fau-testimonial/block.json": [
+    "build/blocks/fau-testimonial/index.js"
+  ],
+  "components/blocks/fau-testimonial/components/TestimonialCarousel.jsx": [
+    "build/blocks/fau-testimonial/index.js"
+  ],
+  "components/blocks/fau-testimonial/style.scss": [
+    "build/blocks/fau-testimonial/theme.js"
+  ],
+  "components/blocks/fau-testimonial/editor.scss": [
+    "build/blocks/fau-testimonial/editor.css",
+    "build/blocks/fau-testimonial/editor.js",
+    "build/blocks/fau-testimonial/editor-rtl.css"
+  ],
+  "components/blocks/fau-testimonial/view.js": [
+    "build/blocks/fau-testimonial/view.js"
+  ],
+  "components/ui/editor/editor.scss": [
+    "build/css/editor.css",
+    "build/css/editor.js",
+    "build/css/editor-rtl.css"
+  ],
+  "components/ui/editor/editor-wrapper.scss": [
+    "build/css/editor-wrapper.css",
+    "build/css/editor-wrapper.js",
+    "build/css/editor-wrapper-rtl.css"
+  ],
+  "components/ui/editor/editor.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/file/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/gallery/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/button/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/cover/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/details/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/group/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/image/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/list/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/media-text/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/paragraph/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/separator/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/spacer/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/table/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/tag-cloud/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/image/utils.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/gallery/gallery-slider.js": [
+    "build/js/gallery-slider.js"
+  ],
+  "components/core-blocks/image/image-aspect-ratio.js": [
+    "build/js/image-aspect-ratio.js"
+  ],
+  "components/core-blocks/image/image-fullscreen.js": [
+    "build/js/image-fullscreen.js"
+  ],
+  "components/template-parts/navigation/menu-modal.js": [
+    "build/js/menu-modal.js"
+  ],
+  "components/template-parts/post-meta/post-meta.js": [
+    "build/js/template-parts-post-meta.js"
+  ],
+  "components/templates/pages/archive.js": [
+    "build/js/templates-archive.js"
+  ]
+}
