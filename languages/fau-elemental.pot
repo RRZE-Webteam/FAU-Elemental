@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.3.2\n"
+"Project-Id-Version: FAU-Elemental 0.3.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-21T12:26:48+00:00\n"
+"POT-Creation-Date: 2025-08-22T15:02:01+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -88,7 +88,7 @@ msgstr ""
 
 #: components/blocks/fau-logo-grid/render.php:83
 #: inc/shortcodes.php:176
-#: components/blocks/fau-logo-grid/edit.js:276
+#: components/blocks/fau-logo-grid/edit.js:286
 msgid "Logo"
 msgstr ""
 
@@ -1582,11 +1582,11 @@ msgstr ""
 msgid "This logo was migrated from the previous theme."
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:246
+#: components/blocks/fau-logo-grid/edit.js:256
 msgid "Select logo for editing"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:265
+#: components/blocks/fau-logo-grid/edit.js:275
 msgid "Choose Logo"
 msgstr ""
 
