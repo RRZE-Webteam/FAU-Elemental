@@ -21,16 +21,34 @@
 		align-items: center;
 	}
 
-	.post-categories-separator {
+	.post-categories::before {
+		content: "";
 		display: inline-block;
 		width: var(--Spacing-3x);
 		height: var(--Spacing-05x);
 		background-color: var(--FAU-Col-FAU-Blau-100);
 		vertical-align: middle;
+		margin-right: 1rem;
 	}
 
 	.wp-block-post-title {
 		margin: 0;
+	}
+
+	ul.post-categories {
+		padding: 0;
+
+		li {
+			display: inline;
+		}
+
+		li::after {
+			content: ", ";
+		}
+
+		li:last-child::after {
+			content: "";
+		}
 	}
 }
 
