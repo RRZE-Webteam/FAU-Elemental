@@ -16,7 +16,7 @@ footer.wp-block-template-part {
 		a {
 			position: relative;
 			font-size: 1rem;
-			line-height: 1.5;
+			line-height: var(--base-line-height);
 			font-weight: 400;
 			text-decoration: none;
 			color: var(--FAU-Col-FAU-Weiss-100);
@@ -206,7 +206,7 @@ footer.wp-block-template-part {
 			.photo-credits {
 				color: var(--FAU-Col-FAU-Weiss-100);
 				font-size: 1rem;
-				line-height: 1.5;
+				line-height: var(--base-line-height);
 				font-weight: 400;
 			}
 		}

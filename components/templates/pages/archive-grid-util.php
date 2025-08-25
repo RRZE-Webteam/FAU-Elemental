@@ -73,7 +73,7 @@ function fau_render_archive_grid($block_args = [], $aria_label = null, $post_cou
                 
                 <div class="archive-sorting">
                     <form method="get" class="sorting-form">
-                        <label for="archive-sort"><?php _e('Sort by:', 'fau-elemental'); ?></label>
+                        <label for="archive-sort"><?php _e('Sort by', 'fau-elemental'); ?></label>
                         <div class="select-wrapper">
                             <select name="" id="archive-sort">
                                 <option value="date-DESC" <?php selected($order_select, 'date-DESC'); ?>>

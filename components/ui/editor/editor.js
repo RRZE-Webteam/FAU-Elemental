@@ -5,6 +5,7 @@ import { unregisterFormatType } from '@wordpress/rich-text';
 
 // Import all core-blocks
 import '../../core-blocks/button/index.js';
+import '../../core-blocks/cover/index.js';
 import '../../core-blocks/details/index.js';
 import '../../core-blocks/file/index.js';
 import '../../core-blocks/gallery/index.js';
@@ -134,14 +135,23 @@ function getPatternClassFromBlock( block ) {
 	const heroPatterns = [
 		'hero-fau',
 		'hero-portal',
-		'hero-faculty',
-		'hero-chair',
+		'hero-faculty-other',
+		'hero-chair-cooperation',
 		'hero-cooperation',
 		'hero-other',
 	];
 
 	// Check for big-buttons pattern classes
 	const bigButtonsPatterns = [ 'big-buttons', 'big-buttons-faculties' ];
+
+	// Check for other pattern classes
+	const otherPatterns = [
+		'featured-event-teaser',
+		'big-teaser',
+		'logo-grid',
+		'mini-list-file',
+		'facts-grid-with-header',
+	];
 
 	// Check hero patterns first
 	const foundHeroPattern = heroPatterns.find( ( pattern ) =>
@@ -157,6 +167,16 @@ function getPatternClassFromBlock( block ) {
 	);
 	if ( foundBigButtonsPattern ) {
 		return foundBigButtonsPattern;
+	}
+
+	// Check other patterns (both with and without pattern- prefix)
+	const foundOtherPattern = otherPatterns.find(
+		( pattern ) =>
+			className.includes( pattern ) ||
+			className.includes( `pattern-${ pattern }` )
+	);
+	if ( foundOtherPattern ) {
+		return foundOtherPattern;
 	}
 
 	return null;
@@ -333,7 +353,7 @@ if ( portalMenuSettings ) {
 	subscribe( () => {
 		const template =
 			select( 'core/editor' ).getEditedPostAttribute( 'template' );
-		if ( template !== currentTemplate ) {
+		if ( template !== currentTemplate && template !== undefined ) {
 			currentTemplate = template;
 			if (
 				currentTemplate &&

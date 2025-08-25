@@ -193,7 +193,7 @@ class FAU_Elemental_Shortcodes {
         
         $block_markup .= '</div>';
         $block_markup .= '</div>';
-        $block_markup .= '<!-- /wp:fau/logo-grid -->';
+        $block_markup .= '<!-- /wp:fau-elemental/fau-logo-grid -->';
 
         return $block_markup;
     }

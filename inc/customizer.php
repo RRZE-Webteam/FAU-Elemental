@@ -888,14 +888,16 @@ add_action('customize_register', 'fau_hero_customizer_settings');
  */
 function fau_hero_styles() {
     $show_text = get_theme_mod('hero_show_text_mobile', true);
-    
-    $css = '@media screen and (max-width: 991px) {';
+
+    $css = '';
     if (!$show_text) {
-        $css .= '.hero-mobile-optional { display: none!important; }';
+        $css = '@media screen and (max-width: 991px) { .hero-mobile-optional { display: none; } }';
+        $css .= '@media screen and (max-width: 393px) { .wp-block-group.hero-content.is-layout-flow { margin-bottom: 8.125rem; } }';
     }
-    $css .= '}';
-    
-    wp_add_inline_style('wp-block-library', $css);
+
+    if ($css) {
+        wp_add_inline_style('wp-block-library', $css);
+    }
 }
 add_action('wp_enqueue_scripts', 'fau_hero_styles', 999);
 

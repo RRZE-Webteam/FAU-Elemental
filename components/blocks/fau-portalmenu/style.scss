@@ -1,9 +1,3 @@
-/**
- * Frontend styles for the FAU Portal Menu block
- */
-
-/* Portal Menu styles will be implemented here */
-
 @use "../../ui/mixins/mixins" as *;
 
 .fau-portal-menu {
@@ -59,12 +53,13 @@
 
 					h3 {
 						margin: 0;
+						padding: 0;
 						font-size: 1.25rem;
 					}
 
 					span {
 						position: relative;
-						display: block;
+						flex-shrink: 0;
 						transform: translateX(var(--Spacing-8x));
 						padding: 0;
 						height: 2.5rem;
@@ -157,9 +152,29 @@
 	}
 }
 
-// ToDo: Add faculty colors
+// Faculty colors
+@each $faculty, $color in (
+	"phil": var(--FAU-Col-Phil-Gelb-100),
+	"nat": var(--FAU-Col-Nat-Gruen-100),
+	"med": var(--FAU-Col-Med-Blau-100),
+	"rw": var(--FAU-Col-RW-Rot-100),
+	"tf": var(--FAU-Col-TF-Metallic-100)
+) {
 
-//Dark Mode
+	.fauorg-fakultaet.faculty-#{$faculty} .fau-portal-item .fau-portal-wrapper .fau-portal-content span {
+		background-color: $color;
+
+		&::before {
+			background-image: var(--icon-arrow-fau-blau);
+		}
+	}
+
+	.fauorg-fakultaet.faculty-rw .fau-portal-item .fau-portal-wrapper .fau-portal-content span::before {
+		background-image: var(--icon-arrow-weiss);
+	}
+}
+
+// Dark Mode
 .is-style-dark {
 
 	.fau-portal-menu > ul {

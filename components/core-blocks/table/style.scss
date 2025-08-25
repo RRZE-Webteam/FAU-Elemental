@@ -17,6 +17,7 @@
 	width: 100%;
 	border-collapse: separate;
 	border-spacing: 0;
+	margin: 0;
 	font-size: var(--P-Caption);
 	color: var(--FAU-Col-FAU-Schwarz-90);
 	background-color: var(--FAU-Col-FAU-Weiss-100);
@@ -44,7 +45,7 @@
 		border: none;
 		padding: var(--Spacing-2x);
 		vertical-align: top;
-		line-height: 1.5;
+		line-height: var(--base-line-height);
 		font-weight: 400;
 	}
 

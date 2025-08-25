@@ -52,4 +52,13 @@
 			}
 		}
 	}
+
+	a {
+		color: var(--FAU-Col-FAU-Weiss-100);
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 }

@@ -124,11 +124,17 @@ function fau_elemental_register_component_patterns() {
         // Check inserter setting
         $inserter = $pattern_data['inserter'] !== 'false';
 
+        // Dynamic title based on website type for specific patterns
+        $dynamic_title = $pattern_data['title'];
+        if (strpos($pattern_data['slug'], 'fau-elemental/hero-') === 0 && $pattern_data['slug'] !== 'fau-elemental/hero-portal') {
+            $dynamic_title = 'Hero: Front Page';
+        }
+
         // Register the pattern
         register_block_pattern(
             $pattern_data['slug'],
             array(
-                'title' => $pattern_data['title'],
+                'title' => $dynamic_title,
                 'description' => $pattern_data['description'],
                 'source' => 'theme',
                 'content' => (function () use ($pattern_file) {

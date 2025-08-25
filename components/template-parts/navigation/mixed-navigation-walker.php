@@ -1,8 +1,16 @@
 <?php
 /**
  * Mixed Navigation Walker
- * Handles navigation with both menu items and page hierarchies
- *
+ * 
+ * This class extends WordPress's Walker_Nav_Menu to provide mixed navigation
+ * that combines menu items with page hierarchy.
+ * 
+ * TESTING APPROACH:
+ * This class has been refactored to support unit testing through:
+ * 1. Lazy loading - no database calls during instantiation
+ * 2. Dependency injection - use set_menu_items() and set_pages() for testing
+ * 3. Manual initialization - call mark_initialized() to skip lazy loading
+
  * @package FAU-Elemental
  */
 
@@ -17,10 +25,52 @@ if (!defined('ABSPATH')) {
 class Mixed_Navigation_Walker extends Walker_Nav_Menu {
     
     /**
-     * All menu items for reference
+     * All menu items from current menu location
      * @var array
      */
     private $all_menu_items = array();
+    
+    /**
+     * All pages for current site
+     * @var array
+     */
+    private $all_pages = array();
+    
+    /**
+     * Menu items indexed by parent ID for O(1) lookups
+     * @var array
+     */
+    private $menu_items_by_parent = array();
+    
+    /**
+     * Menu items indexed by object_id for duplicate checking
+     * @var array
+     */
+    private $menu_items_by_object_id = array();
+    
+    /**
+     * Menu items indexed by URL for duplicate checking
+     * @var array
+     */
+    private $menu_items_by_url = array();
+    
+    /**
+     * Menu items indexed by title for duplicate checking
+     * @var array
+     */
+    private $menu_items_by_title = array();
+    
+    /**
+     * Pages indexed by parent ID for O(1) lookups
+     * @var array
+     */
+    private $pages_by_parent = array();
+    
+    /**
+     * Pages indexed by ID for O(1) lookups
+     * @var array
+     */
+    private $pages_by_id = array();
     
     /**
      * Stack to track parent items for each depth level
@@ -29,11 +79,67 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
     private $parent_stack = array();
     
     /**
-     * Constructor - initialize menu items
+     * Whether the walker has been initialized
+     * @var bool
+     */
+    private $initialized = false;
+    
+    /**
+     * Flag to prevent multiple additions of current page parent info
+     * @var bool
+     */
+    private $parent_info_added = false;
+    
+    /**
+     * Constructor - no database calls during instantiation
      */
     public function __construct() {
+        // Lazy initialization - no database calls here
+    }
+    
+    /**
+     * Initialize the walker (lazy loading)
+     */
+    private function initialize() {
+        if ($this->initialized) {
+            return;
+        }
+        
         // Initialize menu items from current menu location
         $this->initialize_menu_items();
+        
+        // Build performance indexes
+        $this->build_menu_indexes();
+        $this->build_page_indexes();
+        
+        $this->initialized = true;
+    }
+    
+    /**
+     * Set menu items for testing (dependency injection)
+     * 
+     * @param array $menu_items Array of menu item objects
+     */
+    public function set_menu_items($menu_items) {
+        $this->all_menu_items = $menu_items;
+        $this->build_menu_indexes();
+    }
+    
+    /**
+     * Set pages for testing (dependency injection)
+     * 
+     * @param array $pages Array of page objects
+     */
+    public function set_pages($pages) {
+        $this->all_pages = $pages;
+        $this->build_page_indexes();
+    }
+    
+    /**
+     * Mark as initialized for testing
+     */
+    public function mark_initialized() {
+        $this->initialized = true;
     }
     
     /**
@@ -62,6 +168,78 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
     }
     
     /**
+     * Build menu item indexes for O(1) lookups
+     */
+    private function build_menu_indexes() {
+        if (empty($this->all_menu_items)) {
+            return;
+        }
+        
+        foreach ($this->all_menu_items as $item) {
+            // Index by parent ID
+            $parent_id = $item->menu_item_parent;
+            if (!isset($this->menu_items_by_parent[$parent_id])) {
+                $this->menu_items_by_parent[$parent_id] = array();
+            }
+            $this->menu_items_by_parent[$parent_id][] = $item;
+            
+            // Index by object_id for duplicate checking
+            if ($item->type === 'post_type' && $item->object === 'page') {
+                $this->menu_items_by_object_id[$item->object_id] = $item;
+            }
+            
+            // Index by URL for duplicate checking
+            $url = rtrim(parse_url($item->url, PHP_URL_PATH), '/');
+            if (!empty($url)) {
+                $this->menu_items_by_url[$url] = $item;
+            }
+            
+            // Index by title for duplicate checking
+            $title = strtolower(trim($item->title));
+            if (!empty($title)) {
+                $this->menu_items_by_title[$title] = $item;
+            }
+        }
+    }
+    
+    /**
+     * Build page indexes for O(1) lookups
+     */
+    private function build_page_indexes() {
+        // Get all pages at once with hierarchical=0 for flat structure
+        // Include menu_order to respect page ordering set in admin
+        $this->all_pages = get_pages(array(
+            'hierarchical' => 0,
+            'post_status' => 'publish',
+            'posts_per_page' => -1,
+            'sort_column' => 'menu_order,post_title', // Order by menu_order first, then title
+            'sort_order' => 'ASC',
+        ));
+        
+        if (empty($this->all_pages)) {
+            return;
+        }
+        
+        // Filter out hidden pages and build indexes
+        foreach ($this->all_pages as $page) {
+            $hide_from_menu = get_post_meta($page->ID, '_fau_hide_from_menu', true);
+            if ($hide_from_menu === '1') {
+                continue;
+            }
+            
+            // Index by parent ID
+            $parent_id = $page->post_parent;
+            if (!isset($this->pages_by_parent[$parent_id])) {
+                $this->pages_by_parent[$parent_id] = array();
+            }
+            $this->pages_by_parent[$parent_id][] = $page;
+            
+            // Index by ID
+            $this->pages_by_id[$page->ID] = $page;
+        }
+    }
+    
+    /**
      * Start the list before the elements are added.
      *
      * @param string $output Used to append additional content.
@@ -70,6 +248,85 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
      */
     public function start_lvl(&$output, $depth = 0, $args = null) {
         $output .= '<ul class="sub-menu" data-depth="' . esc_attr($depth) . '">';
+    }
+
+    /**
+     * Override the walk method to add parent info at the beginning
+     *
+     * @param array $elements Elements to walk
+     * @param int $max_depth Maximum depth
+     * @param ...$args Additional arguments
+     * @return string
+     */
+    public function walk($elements, $max_depth, ...$args) {
+        $output = '';
+        
+        // Add current page parent info at the very beginning if needed
+        $this->add_current_page_parent_info($output);
+        
+        // Call the parent walk method
+        $output .= parent::walk($elements, $max_depth, ...$args);
+        
+        return $output;
+    }
+
+
+
+    /**
+     * Add information about the current page's parent when the current page is hidden
+     * This helps JavaScript navigate to the correct level
+     * Traverses up the hierarchy until it finds a visible page
+     *
+     * @param string &$output Output string (passed by reference)
+     */
+    private function add_current_page_parent_info(&$output) {
+        // Only add this info if we're on a single page
+        if (!is_page()) {
+            return;
+        }
+        
+        $current_page_id = get_queried_object_id();
+        if (!$current_page_id) {
+            return;
+        }
+        
+        // Check if current page is hidden from menu
+        $hide_from_menu = get_post_meta($current_page_id, '_fau_hide_from_menu', true);
+        if ($hide_from_menu !== '1') {
+            return;
+        }
+        
+        // Traverse up the hierarchy until we find a visible page
+        $current_page = get_post($current_page_id);
+        $visible_parent = null;
+        $current_parent_id = $current_page->post_parent;
+        
+        while ($current_parent_id !== 0) {
+            $parent_page = get_post($current_parent_id);
+            if (!$parent_page) {
+                break;
+            }
+            
+            // Check if this parent is visible in the menu
+            $parent_hide_from_menu = get_post_meta($parent_page->ID, '_fau_hide_from_menu', true);
+            if ($parent_hide_from_menu !== '1') {
+                // Found a visible parent - use this one
+                $visible_parent = $parent_page;
+                break;
+            }
+            
+            // This parent is also hidden, continue up the hierarchy
+            $current_parent_id = $parent_page->post_parent;
+        }
+        
+        // If we found a visible parent, add the info
+        if ($visible_parent) {
+            $output .= '<div class="current-page-parent-info" ';
+            $output .= 'data-parent-page-id="' . esc_attr($visible_parent->ID) . '" ';
+            $output .= 'data-parent-page-url="' . esc_attr(rtrim(parse_url(get_permalink($visible_parent->ID), PHP_URL_PATH), '/')) . '" ';
+            $output .= 'data-parent-page-title="' . esc_attr($visible_parent->post_title) . '" ';
+            $output .= 'data-current-page-hidden="true"></div>';
+        }
     }
 
     /**
@@ -115,9 +372,15 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
      * @param int $id Current item ID.
      */
     public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
-        // Store all menu items if this is the first call and we don't have them yet
-        if (empty($this->all_menu_items) && isset($args->menu_items)) {
-            $this->all_menu_items = $args->menu_items;
+        // Lazy initialize if not already done
+        if (!$this->initialized) {
+            $this->initialize();
+        }
+        
+        // Add current page parent info when processing the first item (depth 0) and only once
+        if ($depth === 0 && !$this->parent_info_added) {
+            $this->add_current_page_parent_info($output);
+            $this->parent_info_added = true;
         }
         
         // Track parent items for mixed navigation - maintain proper hierarchy
@@ -136,34 +399,39 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
         $has_page_children = !empty($page_children);
         $has_children = $has_menu_children || $has_page_children;
         
+        // Check if we should disable submenu functionality for this location
+        $disable_submenus = $this->should_disable_submenus($args);
+        
         // Build classes
         $classes = empty($item->classes) ? array() : (array) $item->classes;
         $classes[] = 'menu-item';
         
-        if ($has_children) {
+        if ($has_children && !$disable_submenus) {
             $classes[] = 'menu-item-has-children';
             $classes[] = 'has-children';
         }
         
-        if ($has_menu_children) {
+        if ($has_menu_children && !$disable_submenus) {
             $classes[] = 'has-menu-children';
         }
         
-        if ($has_page_children) {
+        if ($has_page_children && !$disable_submenus) {
             $classes[] = 'has-page-children';
         }
         
         // Add navigation type classes for different behaviors
-        if ($has_menu_children && $has_page_children) {
-            $classes[] = 'mixed-navigation';
-        } else if ($has_menu_children) {
-            $classes[] = 'menu-navigation';
-        } else if ($has_page_children) {
-            $classes[] = 'page-navigation';
+        if (!$disable_submenus) {
+            if ($has_menu_children && $has_page_children) {
+                $classes[] = __('mixed-navigation', 'fau-elemental');
+            } else if ($has_menu_children) {
+                $classes[] = __('menu-navigation', 'fau-elemental');
+            } else if ($has_page_children) {
+                $classes[] = __('page-navigation', 'fau-elemental');
+            }
         }
 
         // Add current page class and data attribute
-        $current_url = rtrim($_SERVER['REQUEST_URI'], '/');
+        $current_url = rtrim(wp_parse_url(home_url(add_query_arg([])), PHP_URL_PATH), '/');
         $item_url = rtrim(parse_url($item->url, PHP_URL_PATH), '/');
         $is_current = ($current_url === $item_url);
         if ($is_current) {
@@ -188,7 +456,8 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
         $output .= '<li' . $class_names . $data_attributes . '>';
         
         // For items with children, create a clickable row that opens submenu (following existing pattern)
-        if ($has_children) {
+        // But only if submenus are not disabled
+        if ($has_children && !$disable_submenus) {
             $button_classes = 'menu-modal__submenu-toggle menu-modal__submenu-row';
             $submenu_id = 'submenu-' . $item->ID;
             
@@ -201,17 +470,20 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
                 $button_classes .= ' menu-toggle';
             }
             
-            $output .= '<button class="' . esc_attr($button_classes) . '" ';
+            $title = esc_html(wp_strip_all_tags(apply_filters('the_title', $item->title, $item->ID)));
+            $aria = esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $title));
+            
+            $output .= '<button type="button" class="' . esc_attr($button_classes) . '" ';
             $output .= 'aria-expanded="false" ';
             $output .= 'aria-controls="' . esc_attr($submenu_id) . '" ';
             $output .= 'aria-haspopup="true" ';
-            $output .= 'aria-label="' . esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $item->title)) . '" ';
+            $output .= 'aria-label="' . $aria . '" ';
             $output .= 'data-parent-url="' . esc_attr($item->url) . '" ';
             $output .= 'data-parent-title="' . esc_attr($item->title) . '" ';
             $output .= 'data-menu-children="' . esc_attr(count($menu_children)) . '" ';
             $output .= 'data-page-children="' . esc_attr(count($page_children)) . '">';
             
-            $output .= '<span class="menu-modal__item-title">' . apply_filters('the_title', $item->title, $item->ID) . '</span>';
+            $output .= '<span class="menu-modal__item-title">' . $title . '</span>';
             $output .= '<span class="menu-modal__submenu-arrow" aria-hidden="true"></span>';
             $output .= '</button>';
             
@@ -235,12 +507,13 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
             // The custom system will call start_lvl/end_lvl for menu children
             // Page children will be added in end_lvl if needed for mixed navigation
         } else {
-            // For items without children, keep normal link (following existing pattern)
+            // For items without children OR when submenus are disabled, keep normal link
             $link_attributes = '';
             if ($is_current) {
                 $link_attributes .= ' aria-current="page"';
             }
-            $output .= '<a href="' . esc_attr($item->url) . '"' . $link_attributes . '>' . apply_filters('the_title', $item->title, $item->ID) . '</a>';
+            $title = esc_html(wp_strip_all_tags(apply_filters('the_title', $item->title, $item->ID)));
+            $output .= '<a href="' . esc_attr($item->url) . '"' . $link_attributes . '>' . $title . '</a>';
         }
     }
 
@@ -259,46 +532,37 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
     }
     
     /**
-     * Get menu children for an item
+     * Get menu children for an item - O(1) lookup using pre-built index
      *
      * @param object $item Menu item
      * @return array Menu children
      */
     private function get_menu_children($item) {
-        $children = array();
-        if (!empty($this->all_menu_items)) {
-            foreach ($this->all_menu_items as $menu_item) {
-                if ($menu_item->menu_item_parent == $item->ID) {
-                    $children[] = $menu_item;
-                }
-            }
-        }
-        
-        // If we still don't have menu items, try to get them from the current menu
-        if (empty($children) && empty($this->all_menu_items)) {
-            $locations = get_nav_menu_locations();
-            foreach (array('header_primary_menu', 'header_menu_links', 'primary') as $location) {
-                if (isset($locations[$location])) {
-                    $current_menu_items = wp_get_nav_menu_items($locations[$location]);
-                    if ($current_menu_items) {
-                        foreach ($current_menu_items as $menu_item) {
-                            if ($menu_item->menu_item_parent == $item->ID) {
-                                $children[] = $menu_item;
-                            }
-                        }
-                        if (!empty($children)) {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        
-        return $children;
+        return isset($this->menu_items_by_parent[$item->ID]) ? $this->menu_items_by_parent[$item->ID] : array();
     }
     
     /**
-     * Get page children for an item (if it's a page)
+     * Check if submenu functionality should be disabled for this location
+     *
+     * @param object $args Menu arguments
+     * @return bool True if submenus should be disabled
+     */
+    private function should_disable_submenus($args) {
+        // Check if we're in the header_menu_links location
+        if ($args && isset($args->theme_location) && $args->theme_location === 'header_menu_links') {
+            return true;
+        }
+        
+        // Also check if we're in a context where depth is limited to 1
+        if ($args && isset($args->depth) && $args->depth === 1) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Get page children for an item (if it's a page) - O(1) lookup using pre-built index
      *
      * @param object $item Menu item
      * @return array Page children
@@ -309,28 +573,11 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
             return array();
         }
         
-        // Get child pages and filter out hidden ones
-        $args = array(
-            'post_type' => 'page',
-            'post_status' => 'publish',
-            'post_parent' => $item->object_id,
-            'orderby' => array('menu_order' => 'ASC', 'title' => 'ASC'),
-            'posts_per_page' => -1,
-        );
-        
-        $page_children = get_posts($args);
-        
-        // Filter out pages marked as hidden from menu
-        $page_children = array_filter($page_children, function($page) {
-            $hide_from_menu = get_post_meta($page->ID, '_fau_hide_from_menu', true);
-            return $hide_from_menu !== '1';
-        });
-        
-        return $page_children;
+        return isset($this->pages_by_parent[$item->object_id]) ? $this->pages_by_parent[$item->object_id] : array();
     }
     
     /**
-     * Filter out page children that are already handled as menu children
+     * Filter out page children that are already handled as menu children - O(n) using hash maps
      *
      * @param array $page_children Array of page objects
      * @param array $menu_children Array of menu item objects
@@ -346,27 +593,24 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
         foreach ($page_children as $page) {
             $is_duplicate = false;
             
-            // Check if this page is already handled as a menu child
-            foreach ($menu_children as $menu_child) {
-                // Method 1: Direct object_id comparison (most reliable for pages)
-                if ($menu_child->type === 'post_type' && $menu_child->object === 'page' && $menu_child->object_id == $page->ID) {
-                    $is_duplicate = true;
-                    break;
-                }
-                
-                // Method 2: URL path comparison (fallback for other types)
+            // O(1) lookup by object_id (most reliable for pages)
+            if (isset($this->menu_items_by_object_id[$page->ID])) {
+                $is_duplicate = true;
+            }
+            
+            // O(1) lookup by URL (fallback for other types)
+            if (!$is_duplicate) {
                 $page_url = rtrim(parse_url(get_permalink($page->ID), PHP_URL_PATH), '/');
-                $menu_url = rtrim(parse_url($menu_child->url, PHP_URL_PATH), '/');
-                
-                if ($page_url === $menu_url && !empty($page_url) && !empty($menu_url)) {
+                if (!empty($page_url) && isset($this->menu_items_by_url[$page_url])) {
                     $is_duplicate = true;
-                    break;
                 }
-                
-                // Method 3: Title comparison (additional fallback)
-                if (strtolower(trim($page->post_title)) === strtolower(trim($menu_child->title))) {
+            }
+            
+            // O(1) lookup by title (additional fallback)
+            if (!$is_duplicate) {
+                $title = strtolower(trim($page->post_title));
+                if (!empty($title) && isset($this->menu_items_by_title[$title])) {
                     $is_duplicate = true;
-                    break;
                 }
             }
             
@@ -379,7 +623,7 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
     }
     
     /**
-     * Add page children to the output
+     * Add page children to the output - O(1) lookup using pre-built index
      *
      * @param string &$output Output string (passed by reference)
      * @param array $page_children Array of page objects
@@ -391,23 +635,8 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
         }
         
         foreach ($page_children as $page) {
-            // Get child pages for this page - filter out hidden ones
-            $args = array(
-                'post_type' => 'page',
-                'post_status' => 'publish',
-                'post_parent' => $page->ID,
-                'orderby' => array('menu_order' => 'ASC', 'title' => 'ASC'),
-                'posts_per_page' => -1,
-            );
-            
-            $child_pages = get_posts($args);
-            
-            // Filter out hidden pages
-            $child_pages = array_filter($child_pages, function($child_page) {
-                $hide_from_menu = get_post_meta($child_page->ID, '_fau_hide_from_menu', true);
-                return $hide_from_menu !== '1';
-            });
-            
+            // O(1) lookup for child pages using pre-built index
+            $child_pages = isset($this->pages_by_parent[$page->ID]) ? $this->pages_by_parent[$page->ID] : array();
             $has_children = !empty($child_pages);
             
             // Build classes
@@ -416,7 +645,7 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
                 $classes[] = 'menu-item-has-children';
                 $classes[] = 'has-children';
                 $classes[] = 'has-page-children';
-                $classes[] = 'page-navigation';
+                $classes[] = __('page-navigation', 'fau-elemental');
             }
             
             $class_names = join(' ', $classes);
@@ -435,17 +664,19 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
             if ($has_children) {
                 $button_classes = 'menu-modal__submenu-toggle menu-modal__submenu-row page-toggle';
                 $submenu_id = 'submenu-page-' . $page->ID;
+                $page_title = esc_html(wp_strip_all_tags($page->post_title));
                 
-                $output .= '<button class="' . esc_attr($button_classes) . '" ';
+                $output .= '<button type="button" class="' . esc_attr($button_classes) . '" ';
                 $output .= 'aria-expanded="false" ';
                 $output .= 'aria-controls="' . esc_attr($submenu_id) . '" ';
                 $output .= 'aria-haspopup="true" ';
-                $output .= 'aria-label="' . esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $page->post_title)) . '" ';
+                $aria = esc_attr(sprintf(__('Open %s submenu', 'fau-elemental'), $page_title));
+                $output .= 'aria-label="' . $aria . '" ';
                 $output .= 'data-parent-url="' . esc_attr(get_permalink($page->ID)) . '" ';
                 $output .= 'data-parent-title="' . esc_attr($page->post_title) . '" ';
                 $output .= 'data-page-children="' . esc_attr(count($child_pages)) . '">';
                 
-                $output .= '<span class="menu-modal__item-title">' . esc_html($page->post_title) . '</span>';
+                $output .= '<span class="menu-modal__item-title">' . $page_title . '</span>';
                 $output .= '<span class="menu-modal__submenu-arrow" aria-hidden="true"></span>';
                 $output .= '</button>';
                 
@@ -455,8 +686,9 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
                 $output .= '</ul>';
             } else {
                 // Regular page link
+                $page_title = esc_html(wp_strip_all_tags($page->post_title));
                 $output .= '<a href="' . esc_attr(get_permalink($page->ID)) . '" class="menu-item-link page-link">';
-                $output .= esc_html($page->post_title);
+                $output .= $page_title;
                 $output .= '</a>';
             }
             

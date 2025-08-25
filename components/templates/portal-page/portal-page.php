@@ -47,14 +47,6 @@ $is_dark = get_post_meta(get_the_ID(), 'portal_menu_is_dark', true) ?: false;
             the_content();
         endwhile;
         
-        // Display admin notice if no menu is selected
-        if (!$menu_name && current_user_can('edit_pages')) {
-            echo '<div class="notice notice-warning" style="padding: 15px; background-color: #fff8e5; border-left: 4px solid #ffb900; margin: 20px 0; box-shadow: 0 1px 1px rgba(0,0,0,.04);">';
-            echo '<p><strong>' . esc_html__('Portal Page Notice', 'fau-elemental') . ':</strong> ' . esc_html__('No menu is selected for this portal page. Please edit this page and select a menu in the Portal Menu Settings meta box.', 'fau-elemental') . '</p>';
-            echo '<p><a href="' . esc_url(get_edit_post_link()) . '" class="button button-secondary">' . esc_html__('Edit Page', 'fau-elemental') . '</a></p>';
-            echo '</div>';
-        }
-        
         // Display the portal menu if a menu is selected
         if ($menu_name) {
 

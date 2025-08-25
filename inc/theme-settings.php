@@ -78,7 +78,7 @@ function faue_customize_register($wp_customize) {
             'rw'   => __('Law Faculty', 'fau-elemental'),
             'tf'   => __('Technical Faculty', 'fau-elemental'),
         ),
-        'active_callback' => 'faue_is_faculty_website',
+        'active_callback' => 'faue_is_faculty_or_chair_website',
     ));
 
     // Copyright Info Priority
@@ -100,7 +100,20 @@ function faue_customize_register($wp_customize) {
 add_action('customize_register', 'faue_customize_register');
 
 /**
+ * Check if the website type is set to faculty or chair
+ */
+function faue_is_faculty_or_chair_website($control) {
+    $setting = $control->manager->get_setting('faue_website_type');
+    if (!$setting) {
+        return false;
+    }
+    $website_type = $setting->value();
+    return in_array($website_type, array('faculty', 'chair'));
+}
+
+/**
  * Check if the website type is set to faculty
+ * @deprecated Use faue_is_faculty_or_chair_website() instead
  */
 function faue_is_faculty_website($control) {
     $setting = $control->manager->get_setting('faue_website_type');

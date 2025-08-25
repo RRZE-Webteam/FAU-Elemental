@@ -38,7 +38,7 @@
 		padding: var(--Spacing-6x) var(--Spacing-8x);
 		margin: 0;
 		font-size: var(--P-Body-Text-Small);
-		line-height: 1.5;
+		line-height: var(--base-line-height);
 		font-weight: 400;
 		width: 90%;
 		transform: translate(-50%);

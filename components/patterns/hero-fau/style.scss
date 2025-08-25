@@ -22,11 +22,16 @@
 				max-width: 48.125rem;
 				gap: var(--Spacing-5x);
 
+				.wp-block-group {
+					padding: 0;
+				}
+
 				.hero-front-page-title {
 					font-size: 3.85rem;
 					line-height: 1.2;
 					font-weight: 700;
 					letter-spacing: var(--letter-spacing-big);
+					padding: 0;
 				}
 
 				.hero-text {
@@ -37,6 +42,18 @@
 					padding: 0;
 				}
 			}
+		}
+
+		&__background {
+			background: linear-gradient(to top left, transparent, transparent, rgba(0, 0, 0, 0.5));
+
+			&.has-background-dim.has-background-dim-0 {
+				opacity: 1; // Always show overlay
+			}
+		}
+
+		.has-background-dim:not([class*="-background-color"]) {
+			background-color: unset !important; // Override WP inline styles
 		}
 	}
 
@@ -106,7 +123,7 @@
 
 	.hero-fau .wp-block-cover {
 		padding: var(--Spacing-10x);
-		min-height: 30rem;
+		min-height: 37rem;
 
 		.wp-block-cover__inner-container .hero-content {
 			max-width: 31.25rem;
@@ -127,10 +144,6 @@
 
 	.hero-fau .wp-block-cover {
 		padding-left: unset;
-
-		&.no-text-and-link {
-			padding-bottom: 8.125rem;
-		}
 
 		.wp-block-cover__inner-container .hero-content {
 			padding: var(--Spacing-4x) var(--Spacing-5x);
