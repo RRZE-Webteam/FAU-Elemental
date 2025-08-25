@@ -41,7 +41,11 @@ jobs:
           if git diff --staged --quiet ; then
             echo "No changes in build to commit."
           else
+            git status
+            git diff
+            echo "COMMIT!"
             git commit -m "Build project"
+            git status
             git fetch origin
             git rebase --strategy-option=theirs origin/beta
             git push
