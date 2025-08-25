@@ -4,6 +4,7 @@
  * Title: Hero: FAU
  * Slug: fau-elemental/hero-fau
  * Categories: hero, fau-elemental
+ * Website Types: fau
  * Viewport Width: 1376
  * Block Types: core/post-content
  * Post Types: page
