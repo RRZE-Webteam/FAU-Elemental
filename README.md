@@ -12,6 +12,38 @@ Version: 0.1
 
 GitHub-Repo: https://github.com/RRZE-Webteam/FAU-Elemental
 
+## Internationalization (I18n)
+
+This project supports WordPress internationalization.  
+To work with translations, make sure **wp-cli is installed and available in your PATH**.
+
+### Workflow
+
+- **Prepare translations**  
+  ```bash
+  npm run i18n:prepare
+  ```  
+  Collects all translatable strings, updates the `.pot` file, and refreshes existing `.po` files.
+
+- **Add a new language**  
+  Copy `fau-elemental.pot` to `/languages/<locale>.po` (e.g. `languages/de_DE.po`, `languages/de_DE_formal.po`).
+
+- **Translate**  
+  Open the `.po` file and fill in the `msgstr ""` lines.  
+  Do **not** edit the `.pot` file, comments, or `msgid` entries.
+
+- **Build translations**  
+  For local testing, first run:
+  ```bash
+  npm run build
+  ``` 
+  Then build translations:
+  ```bash
+  npm run i18n:build
+  ```
+  WordPress will automatically load them.  
+  On GitHub, translations are built automatically during a **beta merge**.
+
 ## Autor 
 
 RRZE-Webteam , http://www.rrze.fau.de
