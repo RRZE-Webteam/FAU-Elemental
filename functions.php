@@ -351,12 +351,13 @@ function fau_elemental_control_block_locking_permissions($settings, $context) {
 add_filter('block_editor_settings_all', 'fau_elemental_control_block_locking_permissions', 10, 2);
 
 /**
- * grep '^#: .*\.js' de_DE.po | sed 's/#: //g' | sed 's/:[[:digit:]]\+//g' | sort | uniq | jq -R -s 'split("\n") | reduce .[] as $i ({}; .[$i] = "fau-elemental.js"
+ * As this theme provides its own translations, we need to remap from the WP_LANG_DIR to our /languages dir.
+ * This is currently a wierd WordPress behaviour that might change in the future, rendering this function
+ * useless or even harmful, but until then its the best we can do.
  */
 function fau_script_translation_location( string $file, string $handle, string $domain ) {
     if ($domain === 'fau-elemental') {
-        $file = get_template_directory() . '/languages/fau-elemental-de_DE-48e7c8d4c33672351d827beca95a2b37.json';
-        //$file = str_replace( WP_LANG_DIR . '/plugins', get_template_directory() . '/languages', $file );
+        $file = str_replace( WP_LANG_DIR . '/themes', get_template_directory() . '/languages', $file );
     }
     return $file;
 }
