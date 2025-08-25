@@ -126,17 +126,8 @@ function fau_elemental_register_component_patterns() {
 
         // Dynamic title based on website type for specific patterns
         $dynamic_title = $pattern_data['title'];
-        if ($pattern_data['slug'] === 'fau-elemental/hero-chair-coopertation' || $pattern_data['slug'] === 'fau-elemental/hero-faculty-other') {
-            $current_website_type = get_theme_mod('faue_website_type', 'fau');
-            if ($current_website_type === 'faculty') {
-                $dynamic_title = 'Hero: Faculty';
-            } else if ($current_website_type === 'chair') {
-                $dynamic_title = 'Hero: Chair';
-            } else if ($current_website_type === 'cooperation') {
-                $dynamic_title = 'Hero: Cooperation';
-            } else {
-                $dynamic_title = 'Hero: Other';
-            }
+        if (strpos($pattern_data['slug'], 'fau-elemental/hero-') === 0 && $pattern_data['slug'] !== 'fau-elemental/hero-portal') {
+            $dynamic_title = 'Hero: Front Page';
         }
 
         // Register the pattern

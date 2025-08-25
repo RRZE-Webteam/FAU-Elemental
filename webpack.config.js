@@ -1,6 +1,7 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const { I18nMapPlugin } = require( './scripts/I18nMapPlugin.mjs' );
 const path = require( 'path' );
 const fs = require( 'fs' );
 
@@ -228,5 +229,6 @@ module.exports = {
 		new CopyWebpackPlugin( {
 			patterns: copyPatterns,
 		} ),
+		new I18nMapPlugin(),
 	],
 };

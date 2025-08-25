@@ -49,9 +49,8 @@ $post_id = get_the_ID();
             }
             
             if ($show_categories === '1' && has_category()) : ?>
-            <span class="post-categories-separator"></span>
             
-            <div class="post-categories"><?php the_category(', '); ?></div>
+            <?php echo get_the_category_list(); ?>
             <?php endif; ?>
         </div>
         
