@@ -125,6 +125,39 @@
 	}
 }
 
+// When block is on error pages (404, 403), use white background and no padding
+.error-404 .fau-global-search__outer-wrapper,
+.error-403 .fau-global-search__outer-wrapper,
+.error-401 .fau-global-search__outer-wrapper {
+	padding: 0;
+
+	.fau-global-search-wrapper {
+		background-color: var(--FAU-Col-FAU-Weiss-100);
+		padding: 0;
+
+		.fau-global-search__input-wrapper {
+			padding: 0;
+		}
+
+		.fau-global-search__options-menu {
+
+			.fau-global-search__menu-header,
+			.fau-global-search__menu-list li {
+				padding-left: 0;
+			}
+		}
+
+		&.fau-global-search-wrapper--content-size,
+		&.fau-global-search-wrapper--full-grid {
+
+			.fau-global-search__heading,
+			&.fau-global-search__scope-option {
+				color: var(--FAU-Col-FAU-Blau-100);
+			}
+		}
+	}
+}
+
 .fau-global-search {
 
 	&__form {

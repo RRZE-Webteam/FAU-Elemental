@@ -6,15 +6,19 @@
  */
 
 get_header();
-?>
 
-<main class="wp-block-group alignwide" style="padding: 2rem;">
-    <div class="error-404">
-        <h1><?php _e('404 - Page Not Found', 'fau-elemental'); ?></h1>
-        <p><?php _e('The page you were looking for could not be found.', 'fau-elemental'); ?></p>
-        <a href="<?php echo esc_url(home_url('/')); ?>" class="button"><?php _e('Back to Homepage', 'fau-elemental'); ?></a>
-    </div>
-</main>
+// Set variables for the template part
+$error_type = '404';
+$error_title = __('Error: Page not found', 'fau-elemental');
+$error_message = __('The page you are trying to access does not exist or its address has changed due to changes in the page structure.', 'fau-elemental');
+$search_heading = __('Perhaps the search will help you further.', 'fau-elemental');
 
-<?php
+// Include the error page template part
+get_template_part('components/template-parts/error-page/error-page', null, array(
+    'error_type' => $error_type,
+    'error_title' => $error_title,
+    'error_message' => $error_message,
+    'search_heading' => $search_heading
+));
+
 get_footer();
