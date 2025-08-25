@@ -38,14 +38,14 @@ jobs:
           git config --local user.name "Build Bot"
           git add -f ./build
           git add -f ./languages/*.mo ./languages/*.l10n.php ./languages/*.json
+          git add -f -u ./languages/*.json
           if git diff --staged --quiet ; then
             echo "No changes in build to commit."
           else
-            git status
-            git diff
             echo "COMMIT!"
             git commit -m "Build project"
             git status
+            git diff
             git fetch origin
             git rebase --strategy-option=theirs origin/beta
             git push
