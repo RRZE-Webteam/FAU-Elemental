@@ -1,11 +1,5 @@
 @use "../../ui/mixins/mixins" as *;
 
-// TODO: check if this is needed/ find a better solution
-// Global content container styles
-main {
-	min-height: 100vh;
-}
-
 // Screen reader text utility
 .screen-reader-text {
 	visibility: hidden;

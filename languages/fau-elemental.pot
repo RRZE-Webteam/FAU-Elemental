@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.3.7\n"
+"Project-Id-Version: FAU-Elemental 0.3.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-26T12:14:23+00:00\n"
+"POT-Creation-Date: 2025-08-26T14:44:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -74,7 +74,7 @@ msgstr ""
 
 #: archive.php:97
 #: components/templates/pages/page-all-posts.php:39
-#: front-page.php:57
+#: front-page.php:62
 #: index.php:241
 msgid "Posts listing"
 msgstr ""
@@ -602,7 +602,7 @@ msgstr ""
 msgid "Portal Page"
 msgstr ""
 
-#: front-page.php:78
+#: front-page.php:83
 msgid "Pages:"
 msgstr ""
 
