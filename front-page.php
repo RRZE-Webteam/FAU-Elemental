@@ -20,6 +20,11 @@ if (is_home() && is_front_page()) {
                 echo esc_html($page_title);
                 ?>
             </h1>
+            <?php
+            $tagline = get_bloginfo('description');
+            if (!empty($tagline)) : ?>
+                <p class="blog-tagline"><?php echo esc_html($tagline); ?></p>
+            <?php endif; ?>
         </header>
 
         <?php 
