@@ -9,7 +9,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-
 // Configuration
 require_once get_template_directory() . '/inc/config.php';
 
@@ -18,9 +17,6 @@ require_once get_template_directory() . '/inc/theme-setup.php';
 
 // Asset management
 require_once get_template_directory() . '/inc/enqueue-assets.php';
-
-// Create FULLTEXT index for search performance on theme activation
-add_action('after_switch_theme', 'fau_create_fulltext_index');
 
 // Customizer
 require_once get_template_directory() . '/inc/customizer.php';
