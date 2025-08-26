@@ -95,6 +95,11 @@ function faue_get_org_classes() {
             break;
         case 'chair':
             $classes[] = 'fauorg-unterorg';
+            // Add faculty-specific class for chair websites as well
+            $faculty = get_theme_mod('faue_faculty', 'phil');
+            if ($faculty) {
+                $classes[] = 'faculty-' . sanitize_html_class($faculty);
+            }
             break;
         case 'cooperation':
             $classes[] = 'fauorg-kooperation';

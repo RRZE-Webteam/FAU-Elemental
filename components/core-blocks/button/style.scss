@@ -100,21 +100,21 @@
 			"rw": var(--FAU-Col-RW-Rot-100),
 			"tf": var(--FAU-Col-TF-Metallic-100)
 		) {
-			.fauorg-fakultaet.faculty-#{$faculty} &::before {
+			.faculty-#{$faculty} &::before {
 				color: var(--FAU-Col-FAU-Blau-100);
 			}
 
-			.fauorg-fakultaet:not(.faculty-#{rw}) &::before {
+			.faculty-#{$faculty}:not(.faculty-#{rw}) &::before {
 				background-image: var(--icon-arrow-fau-blau);
 			}
 
-			.fauorg-fakultaet.faculty-#{$faculty} &::after {
+			.faculty-#{$faculty} &::after {
 				background-color: $color;
 				border-color: $color;
 			}
 		}
 
-		.fauorg-fakultaet.faculty-rw &::before {
+		.faculty-rw &::before {
 			color: var(--FAU-Col-FAU-Weiss-100);
 		}
 	}
@@ -161,16 +161,16 @@
 			"rw": var(--FAU-Col-RW-Rot-100),
 			"tf": var(--FAU-Col-TF-Metallic-100)
 		) {
-			.fauorg-fakultaet.faculty-#{$faculty} &::before {
+			.faculty-#{$faculty} &::before {
 				color: var(--FAU-Col-FAU-Blau-100);
 			}
 
-			.fauorg-fakultaet.faculty-#{$faculty} &::after {
+			.faculty-#{$faculty} &::after {
 				background-color: $color;
 			}
 		}
 
-		.fauorg-fakultaet.faculty-rw &::before {
+		.faculty-rw &::before {
 			color: var(--FAU-Col-FAU-Weiss-100);
 		}
 	}

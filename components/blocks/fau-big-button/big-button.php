@@ -122,7 +122,7 @@ function render_big_button_html($items, $options = []) {
                     if (!empty($item['faculty_color']) && $item['faculty_color'] !== 'default') {
                         $effective_faculty_color = $item['faculty_color'];
                     }
-                } elseif ($website_type === 'faculty') {
+                } elseif ($website_type === 'faculty' || $website_type === 'chair') {
                     // For faculty websites, use the website's faculty type
                     $effective_faculty_color = $faculty_type;
                 }

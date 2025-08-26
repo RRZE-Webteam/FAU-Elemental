@@ -181,7 +181,7 @@
 		"rw": var(--FAU-Col-RW-Rot-100),
 		"tf": var(--FAU-Col-TF-Metallic-100)
 	) {
-		.fauorg-fakultaet.faculty-#{$faculty} & {
+		.faculty-#{$faculty} & {
 			background-color: $color;
 
 			.main-navigation__toggle-text,
@@ -202,7 +202,7 @@
 			}
 		}
 
-		.fauorg-fakultaet.faculty-#{rw} & {
+		.faculty-#{rw} & {
 
 			.main-navigation__logo .text,
 			.main-navigation__toggle-text,
@@ -808,7 +808,7 @@ body.modal-open {
 }
 
 // Override RW faculty color just for home
-body.home.fauorg-fakultaet.faculty-rw {
+body.home.faculty-rw {
 
 	.main-navigation__direct-links ul li a {
 		color: var(--FAU-Col-FAU-Blau-100);
