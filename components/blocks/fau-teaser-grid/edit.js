@@ -231,8 +231,19 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			orderby: orderBy,
 			order: order.toLowerCase(),
 			...( selectedCategory ? { categories: selectedCategory } : {} ),
+			...( selectionMode === 'manual'
+				? { include: selectedPosts.map( ( x ) => x.id ) }
+				: {} ),
 		} ),
-		[ postsPerPage, currentPage, orderBy, order, selectedCategory ]
+		[
+			postsPerPage,
+			currentPage,
+			orderBy,
+			order,
+			selectedCategory,
+			selectionMode,
+			selectedPosts,
+		]
 	);
 
 	const { items, isLoading } = usePosts( variant, queryParams );
@@ -450,7 +461,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								selectionMode === 'manual'
 									? selectedPosts.length
 									: items.length,
-								totalItems
+								calculatedTotalPosts
 							) }
 						</span>
 					</div>
