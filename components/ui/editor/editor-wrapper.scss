@@ -30,7 +30,6 @@
 .edit-post-meta-boxes-area {
 
 	label {
-		display: block;
 		margin-bottom: 0.5rem;
 	}
 
@@ -38,7 +37,16 @@
 		font-weight: 400;
 	}
 
-	#post_header_options .postbox-header h2.hndle.ui-sortable-handle {
+	p {
+		font-size: 13px;
+	}
+
+	input:not([type="checkbox"]) {
+		margin: 0.5rem 0;
+	}
+
+	#post_header_options .postbox-header h2.hndle.ui-sortable-handle,
+	#poststuff .postbox-header h2.hndle.ui-sortable-handle {
 		border: none;
 		box-shadow: none;
 		color: #1e1e1e;
