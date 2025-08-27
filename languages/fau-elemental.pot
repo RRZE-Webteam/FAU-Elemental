@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.2.36\n"
+"Project-Id-Version: FAU-Elemental 0.3.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-08-15T14:27:40+00:00\n"
+"POT-Creation-Date: 2025-08-26T14:44:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -39,22 +39,42 @@ msgstr ""
 msgid "TBD - theme author web page"
 msgstr ""
 
+#: 401.php:12
+msgid "Error: Unauthorized Access"
+msgstr ""
+
+#: 401.php:13
+msgid "You are not authorized to access this page. Please log in with appropriate credentials or contact the administrator if you believe this is an error."
+msgstr ""
+
+#: 401.php:14
+#: 403.php:14
+msgid "Perhaps the search will help you find what you're looking for."
+msgstr ""
+
+#: 403.php:12
+msgid "Error: Access Forbidden"
+msgstr ""
+
+#: 403.php:13
+msgid "You do not have permission to access this page. Please contact the administrator if you believe this is an error."
+msgstr ""
+
+#: 404.php:12
+msgid "Error: Page not found"
+msgstr ""
+
 #: 404.php:13
-#: components/template-parts/breadcrumbs/breadcrumbs.php:165
-msgid "404 - Page Not Found"
+msgid "The page you are trying to access does not exist or its address has changed due to changes in the page structure."
 msgstr ""
 
 #: 404.php:14
-msgid "The page you were looking for could not be found."
-msgstr ""
-
-#: 404.php:15
-msgid "Back to Homepage"
+msgid "Perhaps the search will help you further."
 msgstr ""
 
 #: archive.php:97
 #: components/templates/pages/page-all-posts.php:39
-#: front-page.php:57
+#: front-page.php:62
 #: index.php:241
 msgid "Posts listing"
 msgstr ""
@@ -68,79 +88,27 @@ msgstr ""
 msgid "Category posts listing"
 msgstr ""
 
-#: components/blocks/fau-copyright-info/render.php:146
+#: components/blocks/fau-copyright-info/render.php:214
 msgid "Image sources:"
 msgstr ""
 
-#: components/blocks/fau-global-search/render.php:42
-#: components/blocks/fau-global-search/edit.js:72
+#: components/blocks/fau-global-search/render.php:45
+#: components/blocks/fau-global-search/edit.js:85
 msgid "Search…"
 msgstr ""
 
-#: components/blocks/fau-global-search/render.php:52
+#: components/blocks/fau-global-search/render.php:55
 #: components/template-parts/navigation/fau-navigation.php:48
 #: components/template-parts/navigation/menu-modal-config.php:75
-#: components/template-parts/navigation/menu-modal.php:239
-#: search.php:38
-#: components/blocks/fau-global-search/edit.js:82
+#: components/template-parts/navigation/menu-modal.php:244
+#: components/template-parts/search-results/search-results.php:194
+#: components/blocks/fau-global-search/edit.js:95
 msgid "Search"
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:91
-msgid "Searching…"
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:94
-msgid "No suggestions found"
-msgstr ""
-
-#. translators: search query
-#: components/blocks/fau-global-search/render.php:99
-msgid "No results found for \"%s\""
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:103
-msgid "Frequent Searches"
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:106
-#: components/blocks/fau-teaser-grid/render.php:555
-#: components/blocks/fau-teaser-grid/edit.js:547
-msgid "Loading…"
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:109
-msgid "No search data available yet"
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:112
-msgid "Loading search options…"
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:115
-#: inc/search-api.php:442
-msgid "Search Options"
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:118
-msgid "Advanced Search"
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:121
-msgid "Search suggestions"
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:124
-msgid "Too many search requests. Please wait a moment and try again."
-msgstr ""
-
-#: components/blocks/fau-global-search/render.php:127
-msgid "Please enter a valid search term."
 msgstr ""
 
 #: components/blocks/fau-logo-grid/render.php:83
 #: inc/shortcodes.php:176
-#: components/blocks/fau-logo-grid/edit.js:276
+#: components/blocks/fau-logo-grid/edit.js:286
 msgid "Logo"
 msgstr ""
 
@@ -157,7 +125,7 @@ msgid "Security check failed"
 msgstr ""
 
 #: components/blocks/fau-teaser-grid/render.php:73
-#: components/blocks/fau-teaser-grid/edit.js:469
+#: components/blocks/fau-teaser-grid/edit.js:480
 msgid "Content grid"
 msgstr ""
 
@@ -177,43 +145,18 @@ msgstr ""
 msgid "Loading error"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:241
-#: components/blocks/fau-teaser-grid/edit.js:559
-msgid "Posts pagination"
-msgstr ""
-
+#: components/blocks/fau-teaser-grid/render.php:248
 #: components/blocks/fau-teaser-grid/render.php:250
-#: components/blocks/fau-teaser-grid/render.php:253
-msgid "Previous page"
-msgstr ""
-
-#. translators: %d: Page number
-#: components/blocks/fau-teaser-grid/render.php:277
-#: components/blocks/fau-teaser-grid/render.php:304
-#: components/blocks/fau-teaser-grid/render.php:326
-#: components/blocks/fau-teaser-grid/render.php:353
-#: components/blocks/fau-teaser-grid/render.php:372
-#: components/blocks/fau-teaser-grid/render.php:398
-#: components/blocks/fau-teaser-grid/render.php:415
-#: components/blocks/fau-teaser-grid/render.php:441
-#: components/blocks/fau-teaser-grid/render.php:461
-#: components/blocks/fau-teaser-grid/render.php:487
-#: components/blocks/fau-teaser-grid/render.php:507
-msgid "Page %d"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/render.php:522
-#: components/blocks/fau-teaser-grid/render.php:525
-msgid "Next page"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/render.php:554
-#: components/blocks/fau-teaser-grid/render.php:556
-#: components/blocks/fau-teaser-grid/edit.js:581
+#: components/blocks/fau-teaser-grid/edit.js:592
 msgid "Load More"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/teaser-item.php:122
+#: components/blocks/fau-teaser-grid/render.php:249
+#: components/blocks/fau-teaser-grid/edit.js:558
+msgid "Loading…"
+msgstr ""
+
+#: components/blocks/fau-teaser-grid/teaser-item.php:123
 msgid "Read more about"
 msgstr ""
 
@@ -239,8 +182,17 @@ msgid "Start"
 msgstr ""
 
 #: components/template-parts/breadcrumbs/breadcrumbs.php:163
-#: search.php:29
+#: components/template-parts/search-results/search-results.php:185
 msgid "Search Results"
+msgstr ""
+
+#: components/template-parts/breadcrumbs/breadcrumbs.php:165
+msgid "404 - Page Not Found"
+msgstr ""
+
+#: components/template-parts/error-page/error-page.php:39
+#: components/template-parts/error-page/error-page.php:40
+msgid "Other offers"
 msgstr ""
 
 #: components/template-parts/footer-instance/footer-instance.php:16
@@ -286,7 +238,7 @@ msgid ""
 msgstr ""
 
 #: components/template-parts/footer-instance/footer-instance.php:191
-#: functions.php:320
+#: functions.php:316
 msgid "Show more"
 msgstr ""
 
@@ -369,19 +321,11 @@ msgstr ""
 msgid "Open Search"
 msgstr ""
 
-#: components/template-parts/navigation/fau-navigation.php:52
-msgid "Open Language selector"
-msgstr ""
-
-#: components/template-parts/navigation/fau-navigation.php:53
-msgid "DE"
-msgstr ""
-
-#: components/template-parts/navigation/main-navigation.php:45
+#: components/template-parts/navigation/main-navigation.php:46
 msgid "Open menu"
 msgstr ""
 
-#: components/template-parts/navigation/main-navigation.php:46
+#: components/template-parts/navigation/main-navigation.php:47
 #: inc/portal-page-settings.php:73
 #: components/blocks/fau-portalmenu/edit.js:64
 msgid "Menu"
@@ -391,87 +335,87 @@ msgstr ""
 msgid "Website Menu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:242
+#: components/template-parts/navigation/menu-modal.php:247
 msgid "Search all pages and documents:"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:317
+#: components/template-parts/navigation/menu-modal.php:323
 msgid "No menu items found."
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:359
+#: components/template-parts/navigation/menu-modal.php:365
 msgid "Use Tab to navigate through menu items, Enter to select, Escape to close, or use the Close button."
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:368
+#: components/template-parts/navigation/menu-modal.php:374
 msgid "Back to main menu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:370
+#: components/template-parts/navigation/menu-modal.php:376
 msgid "Back"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:375
+#: components/template-parts/navigation/menu-modal.php:381
 msgid "Close menu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:376
+#: components/template-parts/navigation/menu-modal.php:382
 msgid "Close"
 msgstr ""
 
 #. translators: title of the submenu
-#: components/template-parts/navigation/menu-modal.php:477
-#: components/template-parts/navigation/menu-modal.php:550
-#: components/template-parts/navigation/mixed-navigation-walker.php:477
-#: components/template-parts/navigation/mixed-navigation-walker.php:672
+#: components/template-parts/navigation/menu-modal.php:483
+#: components/template-parts/navigation/menu-modal.php:556
+#: components/template-parts/navigation/mixed-navigation-walker.php:474
+#: components/template-parts/navigation/mixed-navigation-walker.php:673
 msgid "Open %s submenu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:587
+#: components/template-parts/navigation/menu-modal.php:593
 msgid "Overview:"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:588
+#: components/template-parts/navigation/menu-modal.php:594
 msgid "Menu opened"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:589
+#: components/template-parts/navigation/menu-modal.php:595
 msgid "Menu closed"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:590
+#: components/template-parts/navigation/menu-modal.php:596
 msgid "Navigated to"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:591
+#: components/template-parts/navigation/menu-modal.php:597
 msgid "submenu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:592
+#: components/template-parts/navigation/menu-modal.php:598
 msgid "submenu collapsed"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:593
+#: components/template-parts/navigation/menu-modal.php:599
 msgid "submenu expanded"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:594
+#: components/template-parts/navigation/menu-modal.php:600
 msgid "Navigated back"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:595
+#: components/template-parts/navigation/menu-modal.php:601
 msgid "Moved to last menu item"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:596
+#: components/template-parts/navigation/menu-modal.php:602
 msgid "Moved to close button"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:597
+#: components/template-parts/navigation/menu-modal.php:603
 msgid "Menu breadcrumbs"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:598
+#: components/template-parts/navigation/menu-modal.php:604
 msgid "Go to"
 msgstr ""
 
@@ -484,12 +428,125 @@ msgid "menu-navigation"
 msgstr ""
 
 #: components/template-parts/navigation/mixed-navigation-walker.php:429
-#: components/template-parts/navigation/mixed-navigation-walker.php:647
+#: components/template-parts/navigation/mixed-navigation-walker.php:648
 msgid "page-navigation"
+msgstr ""
+
+#: components/template-parts/pagination/pagination.php:24
+#: components/blocks/fau-teaser-grid/edit.js:570
+msgid "Posts pagination"
+msgstr ""
+
+#: components/template-parts/pagination/pagination.php:33
+#: components/template-parts/pagination/pagination.php:36
+msgid "Previous page"
+msgstr ""
+
+#. translators: %d: page number
+#: components/template-parts/pagination/pagination.php:49
+#: components/template-parts/pagination/pagination.php:59
+#: components/template-parts/pagination/pagination.php:68
+#: components/template-parts/pagination/pagination.php:78
+#: components/template-parts/pagination/pagination.php:82
+#: components/template-parts/pagination/pagination.php:85
+#: components/template-parts/pagination/pagination.php:92
+#: components/template-parts/pagination/pagination.php:97
+#: components/template-parts/pagination/pagination.php:101
+#: components/template-parts/pagination/pagination.php:111
+#: components/template-parts/pagination/pagination.php:121
+#: components/template-parts/pagination/pagination.php:130
+#: components/template-parts/pagination/pagination.php:140
+#: components/template-parts/pagination/pagination.php:144
+#: components/template-parts/pagination/pagination.php:147
+#: components/template-parts/pagination/pagination.php:154
+#: components/template-parts/pagination/pagination.php:159
+#: components/template-parts/pagination/pagination.php:166
+#: components/template-parts/pagination/pagination.php:170
+msgid "Page %d"
+msgstr ""
+
+#: components/template-parts/pagination/pagination.php:181
+#: components/template-parts/pagination/pagination.php:184
+msgid "Next page"
 msgstr ""
 
 #: components/template-parts/post-meta/post-meta.php:58
 msgid "Last update:"
+msgstr ""
+
+#. translators: search query
+#: components/template-parts/search-results/search-results.php:180
+msgid "Search Results for: %s"
+msgstr ""
+
+#. Template Name of the theme
+#: components/template-parts/search-results/search-results.php:182
+#: functions.php:79
+msgid "All Posts"
+msgstr ""
+
+#. translators: number of results
+#: components/template-parts/search-results/search-results.php:208
+msgctxt "search results count"
+msgid "%s result found"
+msgid_plural "%s results found"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: number of posts
+#: components/template-parts/search-results/search-results.php:220
+msgctxt "posts count"
+msgid "%s post found"
+msgid_plural "%s posts found"
+msgstr[0] ""
+msgstr[1] ""
+
+#: components/template-parts/search-results/search-results.php:233
+msgid "Search Results List"
+msgstr ""
+
+#. translators: index of the search result
+#: components/template-parts/search-results/search-results.php:246
+msgid "Search Result %d"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:270
+msgid "Post Category"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:277
+#: functions.php:376
+msgid "Page Category"
+msgstr ""
+
+#. translators: %s: Menu item title
+#: components/template-parts/search-results/search-results.php:298
+#: inc/class-walker-content-menu.php:67
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:179
+msgid "Featured image for %s"
+msgstr ""
+
+#. translators: title of the search result
+#: components/template-parts/search-results/search-results.php:329
+msgid "Read more about %s"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:331
+#: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
+#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:156
+msgid "Read more"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:351
+msgid "No Search Results"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:353
+msgid "Unfortunately, we were unable to find any matching search results for the following query:"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:360
+msgid "Additional search options"
 msgstr ""
 
 #: components/templates/pages/archive-grid-util.php:14
@@ -532,7 +589,7 @@ msgid "Title - descending"
 msgstr ""
 
 #. Template Name of the theme
-#: functions.php:79
+#: functions.php:80
 msgid "All Pages"
 msgstr ""
 
@@ -541,33 +598,61 @@ msgid "Pages listing"
 msgstr ""
 
 #. Template Name of the theme
-#: functions.php:78
-msgid "All Posts"
-msgstr ""
-
-#. Template Name of the theme
-#: functions.php:75
+#: functions.php:76
 msgid "Portal Page"
 msgstr ""
 
-#: components/templates/portal-page/portal-page.php:53
-msgid "Portal Page Notice"
-msgstr ""
-
-#: components/templates/portal-page/portal-page.php:53
-msgid "No menu is selected for this portal page. Please edit this page and select a menu in the Portal Menu Settings meta box."
-msgstr ""
-
-#: components/templates/portal-page/portal-page.php:54
-msgid "Edit Page"
-msgstr ""
-
-#: front-page.php:78
+#: front-page.php:83
 msgid "Pages:"
 msgstr ""
 
-#: functions.php:321
+#: functions.php:317
 msgid "Show less"
+msgstr ""
+
+#: functions.php:375
+#: functions.php:377
+msgid "Page Categories"
+msgstr ""
+
+#: functions.php:378
+msgid "All Page Categories"
+msgstr ""
+
+#: functions.php:379
+msgid "Edit Page Category"
+msgstr ""
+
+#: functions.php:380
+msgid "View Page Category"
+msgstr ""
+
+#: functions.php:381
+msgid "Update Page Category"
+msgstr ""
+
+#: functions.php:382
+msgid "Add New Page Category"
+msgstr ""
+
+#: functions.php:383
+msgid "New Page Category Name"
+msgstr ""
+
+#: functions.php:384
+msgid "Parent Page Category"
+msgstr ""
+
+#: functions.php:385
+msgid "Parent Page Category:"
+msgstr ""
+
+#: functions.php:386
+msgid "Search Page Categories"
+msgstr ""
+
+#: functions.php:387
+msgid "No page categories found"
 msgstr ""
 
 #: inc/block-patterns.php:36
@@ -580,27 +665,20 @@ msgid "Hero"
 msgstr ""
 
 #. translators: %s: Menu item title
-#: inc/class-walker-content-menu.php:67
-#: search.php:196
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:178
-msgid "Featured image for %s"
-msgstr ""
-
-#. translators: %s: Menu item title
-#: inc/class-walker-content-menu.php:69
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:191
+#: inc/class-walker-content-menu.php:71
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:192
 msgid "No image available for %s"
 msgstr ""
 
 #. translators: Menu item title
-#: inc/class-walker-content-menu.php:80
-#: inc/class-walker-content-menu.php:87
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:210
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:240
+#: inc/class-walker-content-menu.php:82
+#: inc/class-walker-content-menu.php:89
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:211
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:241
 msgid "Go to %s"
 msgstr ""
 
-#: inc/class-walker-content-menu.php:172
+#: inc/class-walker-content-menu.php:174
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
 msgstr ""
@@ -840,17 +918,17 @@ msgid "Archive pages settings"
 msgstr ""
 
 #: inc/customizer.php:528
-#: components/blocks/fau-teaser-grid/edit.js:363
+#: components/blocks/fau-teaser-grid/edit.js:374
 msgid "Pagination Type"
 msgstr ""
 
 #: inc/customizer.php:532
-#: components/blocks/fau-teaser-grid/edit.js:367
+#: components/blocks/fau-teaser-grid/edit.js:378
 msgid "Page Numbers"
 msgstr ""
 
 #: inc/customizer.php:533
-#: components/blocks/fau-teaser-grid/edit.js:374
+#: components/blocks/fau-teaser-grid/edit.js:385
 msgid "Load More Button"
 msgstr ""
 
@@ -1004,188 +1082,6 @@ msgstr ""
 msgid "Show categories"
 msgstr ""
 
-#: inc/search-api.php:44
-msgid "Search term must be at least 2 characters long."
-msgstr ""
-
-#. translators: %d: maximum number of characters allowed for search term
-#: inc/search-api.php:51
-msgid "Search term must be less than %d characters."
-msgstr ""
-
-#: inc/search-api.php:60
-msgid "Search term is too short after sanitization."
-msgstr ""
-
-#: inc/search-api.php:116
-msgid "Too many search requests. Please try again later."
-msgstr ""
-
-#: inc/search-api.php:369
-#: inc/search-api.php:382
-msgid "FAU Elemental:"
-msgstr ""
-
-#: inc/search-api.php:370
-msgid "Search performance can be improved with MySQL FULLTEXT indexing. The index is missing and should be created for optimal search performance."
-msgstr ""
-
-#: inc/search-api.php:371
-msgid "Create Index"
-msgstr ""
-
-#: inc/search-api.php:383
-msgid "Failed to create MySQL FULLTEXT index for search optimization. This may be due to insufficient database permissions or MySQL configuration. Search performance may be degraded."
-msgstr ""
-
-#: inc/search-api.php:384
-msgid "Retry"
-msgstr ""
-
-#: inc/search-api.php:409
-msgid "FULLTEXT index created successfully."
-msgstr ""
-
-#: inc/search-api.php:411
-msgid "Failed to create FULLTEXT index. Check database permissions."
-msgstr ""
-
-#: inc/search-api.php:449
-msgid "No search options menu found"
-msgstr ""
-
-#: inc/search-api.php:616
-#: inc/search-api.php:755
-msgid "Search API Protection"
-msgstr ""
-
-#: inc/search-api.php:623
-msgid "Enable Rate Limiting"
-msgstr ""
-
-#: inc/search-api.php:631
-msgid "Enable Search Logging"
-msgstr ""
-
-#: inc/search-api.php:646
-msgid "Configure abuse protection for the search API endpoints."
-msgstr ""
-
-#: inc/search-api.php:655
-msgid "Limit search requests to 20 per 10 seconds per IP address."
-msgstr ""
-
-#: inc/search-api.php:664
-msgid "Enable detailed logging with user agent, referer, and other metadata for monitoring and abuse detection. Recent searches are always tracked for admin statistics."
-msgstr ""
-
-#: inc/search-api.php:668
-#: inc/search-api.php:670
-msgid "Status:"
-msgstr ""
-
-#: inc/search-api.php:668
-msgid "Detailed logging is enabled"
-msgstr ""
-
-#: inc/search-api.php:670
-msgid "Only basic search tracking is active"
-msgstr ""
-
-#: inc/search-api.php:696
-msgid "Request blocked by security system."
-msgstr ""
-
-#: inc/search-api.php:710
-#: inc/search-api.php:711
-msgid "Search Protection"
-msgstr ""
-
-#: inc/search-api.php:766
-msgid "Statistics (Last Hour)"
-msgstr ""
-
-#: inc/search-api.php:769
-#: inc/search-api.php:866
-msgid "Total Searches:"
-msgstr ""
-
-#: inc/search-api.php:773
-msgid "Cached Searches:"
-msgstr ""
-
-#: inc/search-api.php:777
-msgid "Rate Limited Requests:"
-msgstr ""
-
-#: inc/search-api.php:788
-msgid "FULLTEXT Index Management"
-msgstr ""
-
-#: inc/search-api.php:795
-msgid "MySQL FULLTEXT Support:"
-msgstr ""
-
-#: inc/search-api.php:798
-msgid "Supported"
-msgstr ""
-
-#: inc/search-api.php:800
-msgid "Not Supported"
-msgstr ""
-
-#: inc/search-api.php:801
-msgid "Your MySQL version or storage engine does not support FULLTEXT indexes."
-msgstr ""
-
-#: inc/search-api.php:806
-msgid "FULLTEXT Index Status:"
-msgstr ""
-
-#: inc/search-api.php:809
-msgid "Index Exists"
-msgstr ""
-
-#: inc/search-api.php:811
-msgid "Index Missing"
-msgstr ""
-
-#: inc/search-api.php:819
-msgid "Create a FULLTEXT index on post titles to improve search performance:"
-msgstr ""
-
-#: inc/search-api.php:822
-msgid "Create FULLTEXT Index"
-msgstr ""
-
-#: inc/search-api.php:830
-msgid "FULLTEXT index is already created and working."
-msgstr ""
-
-#: inc/search-api.php:832
-msgid "FULLTEXT indexes are not supported on your system."
-msgstr ""
-
-#: inc/search-api.php:851
-msgid "Search API Statistics"
-msgstr ""
-
-#: inc/search-api.php:864
-msgid "Last Hour:"
-msgstr ""
-
-#: inc/search-api.php:867
-msgid "Cached:"
-msgstr ""
-
-#: inc/search-api.php:868
-msgid "Rate Limited:"
-msgstr ""
-
-#: inc/search-api.php:870
-msgid "View Details"
-msgstr ""
-
 #: inc/shortcodes.php:66
 msgid "No menu could be found with the specified name"
 msgstr ""
@@ -1242,6 +1138,22 @@ msgstr ""
 
 #: inc/theme-settings.php:96
 msgid "IPTC Image Metadata"
+msgstr ""
+
+#: inc/theme-settings.php:108
+msgid "Fallback Image"
+msgstr ""
+
+#: inc/theme-settings.php:109
+msgid "Choose a default image to use when no featured image is available for posts or pages."
+msgstr ""
+
+#: inc/widgets.php:15
+msgid "Language switcher"
+msgstr ""
+
+#: inc/widgets.php:17
+msgid "Language switcher in the page header"
 msgstr ""
 
 #: index.php:48
@@ -1304,79 +1216,6 @@ msgstr ""
 #: components/blocks/fau-big-button/edit.js:306
 #: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
 msgid "Title"
-msgstr ""
-
-#. translators: search query
-#: search.php:27
-msgid "Search Results for: %s"
-msgstr ""
-
-#. translators: number of results
-#: search.php:140
-msgctxt "search results count"
-msgid "%s result found"
-msgid_plural "%s results found"
-msgstr[0] ""
-msgstr[1] ""
-
-#: search.php:152
-msgid "Search Results List"
-msgstr ""
-
-#. translators: index of the search result
-#: search.php:165
-msgid "Search Result %d"
-msgstr ""
-
-#. translators: title of the search result
-#: search.php:225
-msgid "Read more about %s"
-msgstr ""
-
-#: search.php:227
-#: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
-#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:156
-msgid "Read more"
-msgstr ""
-
-#: search.php:241
-msgid "&laquo; Previous"
-msgstr ""
-
-#: search.php:242
-msgid "Next &raquo;"
-msgstr ""
-
-#: search.php:244
-msgid "Search results navigation"
-msgstr ""
-
-#: search.php:250
-msgid "Search Results Pages"
-msgstr ""
-
-#: search.php:258
-msgid "No Search Results"
-msgstr ""
-
-#: search.php:260
-msgid "No results were found."
-msgstr ""
-
-#: search.php:263
-msgid "Try:"
-msgstr ""
-
-#: search.php:265
-msgid "Check the spelling of your search terms."
-msgstr ""
-
-#: search.php:266
-msgid "Use more general search terms."
-msgstr ""
-
-#: search.php:267
-msgid "Use fewer search terms."
 msgstr ""
 
 #: components/blocks/fau-big-button/edit.js:71
@@ -1784,11 +1623,11 @@ msgstr ""
 msgid "This logo was migrated from the previous theme."
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:246
+#: components/blocks/fau-logo-grid/edit.js:256
 msgid "Select logo for editing"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:265
+#: components/blocks/fau-logo-grid/edit.js:275
 msgid "Choose Logo"
 msgstr ""
 
@@ -1832,23 +1671,23 @@ msgstr ""
 msgid "Please select a menu in the block settings panel to display as a portal menu."
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:167
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:168
 msgid "Menu Item"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:232
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:233
 msgid "Submenu Item"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:282
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:283
 msgid "This menu has no items. Please add items to the menu in Appearance → Menus."
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:293
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:294
 msgid "Loading menu items…"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:301
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:302
 msgid "No menu selected"
 msgstr ""
 
@@ -1974,68 +1813,68 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:254
+#: components/blocks/fau-teaser-grid/edit.js:265
 msgid "All Categories"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:307
+#: components/blocks/fau-teaser-grid/edit.js:318
 msgid "Teaser Grid Block"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:350
+#: components/blocks/fau-teaser-grid/edit.js:361
 msgid "Pagination Settings"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:354
+#: components/blocks/fau-teaser-grid/edit.js:365
 msgid "Show Pagination"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:388
+#: components/blocks/fau-teaser-grid/edit.js:399
 msgid "Accessibility"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:390
+#: components/blocks/fau-teaser-grid/edit.js:401
 msgid "To ensure good accessibility and SEO, please make sure that there is only one H1 heading on the page. If you already have an H1 heading, use a different heading level for the teasers in this block."
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:401
+#: components/blocks/fau-teaser-grid/edit.js:412
 msgid "Change heading level"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:404
+#: components/blocks/fau-teaser-grid/edit.js:415
 msgid "Heading 2"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:410
+#: components/blocks/fau-teaser-grid/edit.js:421
 msgid "Heading 3"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:416
+#: components/blocks/fau-teaser-grid/edit.js:427
 msgid "Heading 4"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:422
+#: components/blocks/fau-teaser-grid/edit.js:433
 msgid "Heading 5"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:428
+#: components/blocks/fau-teaser-grid/edit.js:439
 msgid "Heading 6"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:440
+#: components/blocks/fau-teaser-grid/edit.js:451
 msgid "FAU Teaser Grid"
 msgstr ""
 
 #. translators: %1$d: number of visible items, %2$d: total number of items
-#: components/blocks/fau-teaser-grid/edit.js:446
+#: components/blocks/fau-teaser-grid/edit.js:457
 msgid "Showing %1$d of %2$d items"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:513
+#: components/blocks/fau-teaser-grid/edit.js:524
 msgid "No posts selected"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:540
+#: components/blocks/fau-teaser-grid/edit.js:551
 msgid "No items found"
 msgstr ""
 
@@ -2123,6 +1962,18 @@ msgstr ""
 msgid "Tertiary"
 msgstr ""
 
+#: components/core-blocks/cover/index.js:44
+#: components/core-blocks/image/index.js:253
+#: components/core-blocks/media-text/index.js:73
+msgid "Additional Settings"
+msgstr ""
+
+#: components/core-blocks/cover/index.js:51
+#: components/core-blocks/image/index.js:259
+#: components/core-blocks/media-text/index.js:79
+msgid "Copyright Info"
+msgstr ""
+
 #: components/core-blocks/file/index.js:211
 #: components/core-blocks/file/index.js:234
 msgid "Download"
@@ -2143,16 +1994,6 @@ msgstr ""
 
 #: components/core-blocks/image/index.js:33
 msgid "Medium"
-msgstr ""
-
-#: components/core-blocks/image/index.js:253
-#: components/core-blocks/media-text/index.js:73
-msgid "Additional Settings"
-msgstr ""
-
-#: components/core-blocks/image/index.js:259
-#: components/core-blocks/media-text/index.js:79
-msgid "Copyright Info"
 msgstr ""
 
 #: components/core-blocks/image/index.js:270

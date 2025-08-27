@@ -75,7 +75,7 @@ add_filter('nav_menu_link_attributes', 'fau_elemental_menu_link_classes', 10, 3)
 
 // Add organization-specific body classes
 function faue_get_org_classes() {
-    $classes = array('fau-theme', 'fau-elemental');
+    $classes = array('fau-elemental');
 
     // Get website type from customizer
     $faue_website_type = get_theme_mod('faue_website_type');
@@ -95,6 +95,11 @@ function faue_get_org_classes() {
             break;
         case 'chair':
             $classes[] = 'fauorg-unterorg';
+            // Add faculty-specific class for chair websites as well
+            $faculty = get_theme_mod('faue_faculty', 'phil');
+            if ($faculty) {
+                $classes[] = 'faculty-' . sanitize_html_class($faculty);
+            }
             break;
         case 'cooperation':
             $classes[] = 'fauorg-kooperation';

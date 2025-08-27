@@ -1,6 +1,7 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
+const { I18nMapPlugin } = require( './scripts/I18nMapPlugin.mjs' );
 const path = require( 'path' );
 const fs = require( 'fs' );
 
@@ -125,15 +126,6 @@ module.exports = {
 		'css/theme': path.resolve( process.cwd(), 'components/ui/theme.scss' ),
 
 		// ============================================================================
-		// ADMIN STYLES
-		// ============================================================================
-		// Admin-specific styles for search protection and other admin pages
-		'css/admin': path.resolve(
-			process.cwd(),
-			'components/admin/search-protection-admin.scss'
-		),
-
-		// ============================================================================
 		// DYNAMIC CUSTOM BLOCKS (Auto-detected from components/blocks/fau-*)
 		// ============================================================================
 		// Block.json and render.php files are copied via CopyWebpackPlugin below
@@ -237,5 +229,6 @@ module.exports = {
 		new CopyWebpackPlugin( {
 			patterns: copyPatterns,
 		} ),
+		new I18nMapPlugin(),
 	],
 };

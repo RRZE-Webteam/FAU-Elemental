@@ -127,11 +127,11 @@
 	"tf": var(--FAU-Col-TF-Metallic-100)
 ) {
 
-	.fauorg-fakultaet.faculty-#{$faculty} .breadcrumbs-wrapper {
+	.faculty-#{$faculty} .breadcrumbs-wrapper {
 		background-color: $color;
 	}
 
-	.fauorg-fakultaet.faculty-#{$faculty} .breadcrumbs {
+	.faculty-#{$faculty} .breadcrumbs {
 		background-color: $color;
 
 		&__link {
@@ -141,8 +141,8 @@
 }
 
 // Dark mode and rw faculty
-body:not(.fauorg-fakultaet) .is-style-dark,
-.fauorg-fakultaet.faculty-rw {
+body:not(.faculty-rw) .is-style-dark,
+.faculty-rw {
 
 	.breadcrumbs {
 

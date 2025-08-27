@@ -230,8 +230,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								<div className="fau-logo-grid__container">
 									{ Array.isArray( logos ) &&
 										logos.map( ( logo, index ) => (
-											<button
-												type="button"
+											<div
 												key={ index }
 												className={
 													'fau-logo-grid__item' +
@@ -243,6 +242,17 @@ export default function Edit( { attributes, setAttributes } ) {
 												onClick={ () =>
 													selectLogo( index )
 												}
+												role="button"
+												tabIndex={ 0 }
+												onKeyDown={ ( e ) => {
+													if (
+														e.key === 'Enter' ||
+														e.key === ' '
+													) {
+														e.preventDefault();
+														selectLogo( index );
+													}
+												} }
 												aria-label={ __(
 													'Select logo for editing',
 													'fau-elemental'
@@ -290,7 +300,7 @@ export default function Edit( { attributes, setAttributes } ) {
 														/>
 													) }
 												</Button>
-											</button>
+											</div>
 										) ) }
 								</div>
 							);

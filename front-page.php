@@ -20,6 +20,11 @@ if (is_home() && is_front_page()) {
                 echo esc_html($page_title);
                 ?>
             </h1>
+            <?php
+            $tagline = get_bloginfo('description');
+            if (!empty($tagline)) : ?>
+                <p class="blog-tagline"><?php echo esc_html($tagline); ?></p>
+            <?php endif; ?>
         </header>
 
         <?php 
@@ -70,7 +75,7 @@ if (is_home() && is_front_page()) {
             the_post();
             ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                <div class="entry-content">
+                <div class="is-layout-flow">
                     <?php
                     the_content();
                     
