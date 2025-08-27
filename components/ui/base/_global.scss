@@ -9,3 +9,8 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+:where(.is-layout-flow:not([class*="fau"])) > *:not(.wp-block-group, [class*="fau"]),
+:where(.wp-block-group:not([class*="fau"])) > *:not(.wp-block-group, [class*="fau"]) {
+	max-width: var(--small-max-width);
+}
