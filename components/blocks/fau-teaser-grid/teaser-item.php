@@ -29,10 +29,10 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
     $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
     // Make whole article clickable
-    $output = sprintf('<a class="teaser-item-link" href="%s">', esc_url($link));
+    $output = sprintf('<a class="teaser-item-link teaser-item" href="%s">', esc_url($link));
 
     $output .= sprintf(
-        '<article class="teaser-item %s-teaser" data-variant="%s" data-href="%s" tabindex="0" role="button" aria-labelledby="teaser-title-%d">',
+        '<article class="%s-teaser" data-variant="%s" data-href="%s" tabindex="0" role="button" aria-labelledby="teaser-title-%d">',
         esc_attr($variant),
         esc_attr($variant),
         esc_url($link),
