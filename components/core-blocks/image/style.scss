@@ -5,6 +5,7 @@
 	max-width: var(--small-max-width);
 	margin-left: auto;
 	margin-right: auto;
+	padding: 0 var(--Spacing-10x);
 
 	.image-wrapper {
 		position: relative;
@@ -60,7 +61,7 @@
 	.image-fullscreen-btn {
 		position: absolute;
 		top: 0;
-		right: 0;
+		right: var(--Spacing-10x);
 		background: rgba(0, 0, 0, 0.5);
 		color: transparent;
 		cursor: pointer;
@@ -209,5 +210,13 @@
 		figcaption {
 			padding: var(--Spacing-4x) var(--Spacing-6x);
 		}
+	}
+}
+.is-layout-flow {
+	.wp-block-image {
+		padding: 0;
+	}
+	.image-fullscreen-btn {
+		right: 0;
 	}
 }

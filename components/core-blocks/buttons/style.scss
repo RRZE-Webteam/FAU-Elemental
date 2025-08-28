@@ -4,8 +4,8 @@
 	max-width: var(--small-max-width);
 	box-sizing: content-box;
 
-	.is-layout-flow & {
-		padding: 0 var(--Spacing-10x);
+	.is-layout-flow {
+		//padding: 0 var(--Spacing-10x);
 
 		@include respond-to("x-small") {
 			padding: 0 var(--Spacing-5x);
