@@ -709,6 +709,58 @@ function fau_elemental_migrate_address_information($force = false) {
 add_action('after_switch_theme', 'fau_elemental_migrate_address_information');
 
 /**
+ * Migrate website type from old theme (FAU-Einrichtungen) to new theme (FAU-Elemental)
+ * This ensures backward compatibility for website type settings
+ * 
+ * @param bool $force Whether to force migration even if already done
+ * @return bool True if migration was performed, false otherwise
+ */
+function fau_elemental_migrate_website_type($force = false) {
+    // Check if we've already migrated
+    if (!$force && get_option('fau_elemental_website_type_migrated')) {
+        return false;
+    }
+    
+    // Get the old theme's stored data from theme_mods_FAU-Einrichtungen-master
+    $old_theme_mods = get_option('theme_mods_FAU-Einrichtungen-master', array());
+    
+    // Extract website type from old theme mods
+    $old_website_type = isset($old_theme_mods['website_type']) ? $old_theme_mods['website_type'] : null;
+    
+    // Map old website type values to new ones
+    $website_type_mapping = array(
+        0 => 'faculty',      // Fakultätsportal
+        1 => 'chair',        // Department, Lehrstuhl, Einrichtung
+        2 => 'other',        // Zentrale Einrichtung
+        3 => 'cooperation',  // Website für uniübergreifende Kooperationen mit Externen
+        -1 => 'fau',         // Zentrales FAU-Portal www.fau.de
+    );
+    
+    $migration_performed = false;
+    
+    // Migrate website type if it exists and is valid
+    if ($old_website_type !== null && isset($website_type_mapping[$old_website_type])) {
+        $new_website_type = $website_type_mapping[$old_website_type];
+        set_theme_mod('faue_website_type', $new_website_type);
+        $migration_performed = true;
+    }
+    
+    // Mark as migrated
+    update_option('fau_elemental_website_type_migrated', true);
+    
+    if ($migration_performed) {
+        set_transient('fau_elemental_website_type_migrated_success', true, 30);
+    } else {
+        set_transient('fau_elemental_website_type_migrated_none', true, 30);
+    }
+    
+    return $migration_performed;
+}
+
+// Run the website type migration when switching themes
+add_action('after_switch_theme', 'fau_elemental_migrate_website_type');
+
+/**
  * Add country field to contact information for backward compatibility
  */
 function fau_elemental_add_country_field($wp_customize) {
