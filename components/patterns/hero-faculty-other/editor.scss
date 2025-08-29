@@ -19,6 +19,22 @@ $faculty-colors: (
 		}
 	}
 
+	&.faculty-rw {
+
+		h2,
+		p {
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		.wp-block-button__link {
+			color: var(--FAU-Col-FAU-Weiss-100) !important;
+
+			&::after {
+				background-image: var(--icon-arrow-weiss) !important;
+			}
+		}
+	}
+
 	.wp-block {
 
 		.hideParagraph {

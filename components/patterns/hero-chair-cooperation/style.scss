@@ -44,28 +44,6 @@
 
 			p {
 				color: var(--FAU-Col-FAU-Dunkelblau-100);
-
-				.faculty-rw & {
-					color: var(--FAU-Col-FAU-Weiss-100);
-				}
-			}
-		}
-
-		.wp-block-buttons {
-
-			a {
-				color: var(--FAU-Col-FAU-Dunkelblau-100);
-
-				.faculty-rw & {
-					color: var(--FAU-Col-FAU-Weiss-100);
-				}
-
-				&::after {
-
-					.faculty-rw & {
-						background-image: var(--icon-arrow-weiss);
-					}
-				}
 			}
 		}
 
