@@ -149,7 +149,12 @@ function fau_elemental_display_logo_title() {
 
     // Output the logo and title
     echo '<div itemscope itemtype="https://schema.org/Organization">';
-    if (!is_front_page()) {
+    
+    // Check if we should show the link (not front page OR front page without hero block)
+    $has_hero_block = function_exists('faue_has_hero_block') && faue_has_hero_block();
+    $should_show_link = !is_front_page() || (is_front_page() && !$has_hero_block);
+    
+    if ($should_show_link) {
         echo '<a itemprop="url" rel="home" class="generated" href="' . esc_url(home_url('/')) . '">';
     }
 
@@ -174,7 +179,8 @@ function fau_elemental_display_logo_title() {
     }
 
     // Only show text elements for non-cooperation websites and non-front pages
-    if ($website_type !== 'cooperation' && !is_front_page()) {
+    // Also show text elements on front page if it doesn't have a hero block
+    if ($website_type !== 'cooperation' && $should_show_link) {
         echo '<span class="text">';
         if ($visible_toptitle) {
             echo '<span class="fau-title"' . ($visible_title ? ' aria-hidden="true"' : ' id="website-title"') . '>' . esc_html($visible_toptitle) . '</span> ';
@@ -198,7 +204,7 @@ function fau_elemental_display_logo_title() {
     
     echo '</span>';
 
-    if (!is_front_page()) {
+    if ($should_show_link) {
         echo '</a>';
     }
     echo '</div>'; // Close microdata Organization context

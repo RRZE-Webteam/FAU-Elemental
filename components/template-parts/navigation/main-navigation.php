@@ -17,9 +17,12 @@ if (!function_exists('fau_elemental_display_logo_title')) {
 
 // Check if website menu exists using unified system
 $has_website_menu = fau_elemental_has_website_menu();
+
+// Get navigation classes based on current page state
+$navigation_classes = faue_get_header_navigation_classes();
 ?>
 
-<nav class="main-navigation">
+<nav class="<?php echo esc_attr($navigation_classes); ?>">
     <div class="main-navigation__container">
         <div class="main-navigation__logo">
             <?php fau_elemental_display_logo_title(); ?>

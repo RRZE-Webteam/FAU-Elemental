@@ -254,6 +254,11 @@ add_action('after_switch_theme', function() {
         fau_elemental_migrate_address_information();
     }
     
+    // Trigger website type migration
+    if (function_exists('fau_elemental_migrate_website_type')) {
+        fau_elemental_migrate_website_type();
+    }
+    
     // Schedule image links migration to run after WordPress is fully loaded
     // This prevents critical errors during theme activation
     update_option('fau_elemental_schedule_image_links_migration', true);
