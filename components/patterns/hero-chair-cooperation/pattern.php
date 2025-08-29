@@ -10,14 +10,37 @@
  * Description: Hero pattern for chair and cooperation websites
  */
 
-// Get the current website type
+// Get the current website type and faculty
 $current_website_type = get_theme_mod('faue_website_type', 'fau');
+$current_faculty = get_theme_mod('faue_faculty', 'phil');
 
-// Chair-specific content
+// Chair-specific content for each faculty
 $chair_content = [
-    'title' => 'Institut für Politische Wissenschaft',
-    'description' => 'Die Naturwissenschaftliche Fakultät der FAU gehört zu den forschungsstärksten naturwissenschaftlichen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
-    'img' => '/assets/images/hero-faculty-phil.png'
+    'phil' => [
+        'title' => 'Institut für Philosophie',
+        'description' => 'Die Philosophische Fakultät der FAU ist eine der größten geisteswissenschaftlichen Fakultäten in Deutschland. Ihre Forschung und Lehre decken ein breites Spektrum von den klassischen Geisteswissenschaften bis zu modernen Kultur- und Sozialwissenschaften ab. Interdisziplinäre Ansätze und internationale Kooperationen prägen ihr Profil.',
+        'img' => '/assets/images/hero-faculty-phil.png'
+    ],
+    'nat' => [
+        'title' => 'Naturwissenschaftliche Fakultät',
+        'description' => 'Die Naturwissenschaftliche Fakultät der FAU gehört zu den forschungsstärksten naturwissenschaftlichen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings. Innovative Forschung und exzellente Lehre prägen ihr Profil.',
+        'img' => '/assets/images/hero-faculty.jpg'
+    ],
+    'med' => [
+        'title' => 'Medizinische Fakultät',
+        'description' => 'Die Medizinische Fakultät der FAU zählt zu den traditionsreichsten und forschungsintensivsten Fakultäten in Deutschland. Sie ist eng mit dem Universitätsklinikum Erlangen verbunden und verbindet Spitzenmedizin mit moderner Lehre. Zahlreiche Forschungsverbünde tragen zu internationalen Fortschritten in der Medizin bei.',
+        'img' => '/assets/images/hero-faculty.jpg'
+    ],
+    'rw' => [
+        'title' => 'Rechts- und Wirtschaftswissenschaftliche Fakultät',
+        'description' => 'Die Rechts- und Wirtschaftswissenschaftliche Fakultät genießt hohes Ansehen in Forschung und Lehre. Sie verbindet eine lange Tradition juristischer und ökonomischer Ausbildung mit modernen, praxisorientierten Studiengängen. Ihre Institute sind national und international hervorragend vernetzt.',
+        'img' => '/assets/images/hero-faculty-rw.png'
+    ],
+    'tf' => [
+        'title' => 'Technische Fakultät',
+        'description' => 'Die Technische Fakultät ist eine der jüngsten, aber zugleich dynamischsten Fakultäten der FAU. Sie vereint klassische Ingenieurwissenschaften mit modernen Zukunftsfeldern wie Künstliche Intelligenz, Medizintechnik und Materialwissenschaften. Ihre enge Kooperation mit der Industrie macht sie zu einem starken Partner für Innovation.',
+        'img' => '/assets/images/hero-faculty-tf.png'
+    ]
 ];
 
 // Cooperation website type content (fallback)
@@ -29,13 +52,13 @@ $cooperation_content = [
 
 // Determine which content to use
 if ($current_website_type === 'chair') {
-    $current_content = $chair_content;
+    $current_content = $chair_content[$current_faculty] ?? $chair_content['phil'];
 } else {
     $current_content = $cooperation_content;
 }
 ?>
 <!-- wp:columns {"templateLock":"all", "className": "hero-chair-cooperation"} -->
-<div class="wp-block-columns alignwide hero-chair-cooperation <?php echo $current_website_type === 'chair' ? 'hero-chair' : 'hero-cooperation'; ?>">
+<div class="wp-block-columns alignwide hero-chair-cooperation <?php echo $current_website_type === 'chair' ? 'hero-chair faculty-' . esc_attr($current_faculty) : 'hero-cooperation'; ?>">
 
     <!-- wp:column {"className":"hero-chair-content-wrapper"} -->
     <div class="wp-block-column hero-chair-content-wrapper">
