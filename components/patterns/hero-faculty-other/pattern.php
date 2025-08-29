@@ -60,33 +60,46 @@ if ($current_website_type === 'other') {
 ?>
 <!-- wp:columns {"align":"wide","templateLock":"all", "className": "hero-faculty-other"} -->
 <div class="wp-block-columns alignwide hero-faculty-other <?php echo $current_website_type === 'other' ? 'hero-other' : 'faculty-' . esc_attr($current_faculty); ?>">
-    <!-- wp:column {"layout":{"type":"constrained"},"className":"hero-faculty-left"} -->
-    <div class="wp-block-column hero-faculty-left">
 
-        <!-- wp:heading {"level":2} -->
-        <h2 class="wp-block-heading"><?php echo esc_html($current_content['title']); ?></h2>
-        <!-- /wp:heading -->
+    <!-- wp:column {"className":"hero-faculty-content-wrapper"} -->
+    <div class="wp-block-column hero-faculty-content-wrapper">
 
-        <!-- wp:group {"className":"hero-mobile-optional"} -->
-        <div class="wp-block-group hero-mobile-optional">
-            <!-- wp:paragraph {"className":"hero-text"} -->
-            <p class="hero-text"><?php echo esc_html($current_content['description']); ?></p>
-            <!-- /wp:paragraph -->
+        <!-- wp:column {"className":"hero-faculty-content"} -->
+        <div class="wp-block-column hero-faculty-content">
 
-            <!-- wp:buttons -->
-            <div class="wp-block-buttons">
-                 <!-- wp:button {"className":"is-style-tertiary"} -->
-                 <div class="wp-block-button is-style-tertiary"><a class="wp-block-button__link wp-element-button">Mehr erfahren</a></div>
-                <!-- /wp:button -->
+            <!-- wp:heading {"level":2} -->
+            <h2 class="wp-block-heading"><?php echo esc_html($current_content['title']); ?></h2>
+            <!-- /wp:heading -->
+
+            <!-- wp:group {"className":"hero-mobile-optional"} -->
+            <div class="wp-block-group hero-mobile-optional">
+                <!-- wp:paragraph {"className":"hero-text"} -->
+                <p class="hero-text"><?php echo esc_html($current_content['description']); ?></p>
+                <!-- /wp:paragraph -->
+
+                <!-- wp:buttons -->
+                <div class="wp-block-buttons">
+                    <!-- wp:button {"className":"is-style-tertiary"} -->
+                    <div class="wp-block-button is-style-tertiary"><a class="wp-block-button__link wp-element-button">Mehr erfahren</a></div>
+                    <!-- /wp:button -->
+                </div>
+                <!-- /wp:buttons -->
             </div>
-            <!-- /wp:buttons -->
+            <!-- /wp:group -->
+
         </div>
-        <!-- /wp:group -->
+        <!-- /wp:column -->
+
     </div>
     <!-- /wp:column -->
 
-    <!-- wp:column  -->
-    <div class="wp-block-column" >
+    <!-- wp:column {"className":"hero-faculty-bg-left"} -->
+    <div class="wp-block-column hero-faculty-bg-left">
+    </div>
+    <!-- /wp:column -->
+
+    <!-- wp:column {"className":"hero-faculty-bg-right"} -->
+    <div class="wp-block-column hero-faculty-bg-right">
         <!-- wp:cover {"url":"<?php echo esc_url(get_theme_file_uri($current_content['img']));?>","dimRatio":0,"contentPosition":"center","className":"is-dark-theme"} -->
         <div class="wp-block-cover is-dark-theme">
             <span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span>
@@ -100,5 +113,6 @@ if ($current_website_type === 'other') {
         <!-- /wp:cover -->
     </div>
     <!-- /wp:column -->
+
 </div>
 <!-- /wp:columns --> 

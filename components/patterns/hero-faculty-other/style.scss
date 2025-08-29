@@ -1,5 +1,4 @@
-
-@use "sass:map";
+@use "../../ui/mixins/mixins" as *;
 
 // Faculty color map
 $faculty-colors: (
@@ -10,94 +9,197 @@ $faculty-colors: (
 	"tf": var(--FAU-Col-TF-Metallic-100)
 );
 
-
-// Common styles for both frontend and editor
+// Heros for Faculties amd Others
 .hero-faculty-other {
-	position: relative;
-	width: 100%;
+	min-height: 50rem;
+	gap: 0;
 
-	// Generate faculty-specific styles using the maps
 	@each $faculty, $color in $faculty-colors {
 		&.faculty-#{$faculty} {
 			background-color: $color;
+		}
+	}
 
-			// Style the cover block for faculty-specific appearance
-			.wp-block-cover {
+	.hero-faculty-content-wrapper {
+		position: absolute;
+		left: 50%;
+		width: 100%;
+		transform: translateX(-50%);
+		max-width: calc(1800px + 7.5rem);
+		z-index: 1;
+
+		.hero-faculty-content {
+			display: flex;
+			justify-content: flex-end;
+			flex-direction: column;
+			min-height: 50rem;
+			padding-bottom: 3rem;
+			padding-left: 3.75rem;
+			box-sizing: border-box;
+		}
+
+		h2 {
+			position: relative;
+			width: -moz-max-content;
+			width: max-content;
+			max-width: calc(50% + 8rem);
+			min-width: 50%;
+			padding: var(--Spacing-6x) var(--Spacing-6x) var(--Spacing-6x) 0;
+			margin: var(--Spacing-10x) 0 0 0;
+			font-size: var(--DI-Display-2);
+			color: var(--FAU-Col-FAU-Dunkelblau-100);
+			z-index: 1;
+
+			@each $faculty, $color in $faculty-colors {
+				.faculty-#{$faculty} & {
+					background-color: $color;
+				}
+
+				.faculty-rw & {
+					color: var(--FAU-Col-FAU-Weiss-100);
+				}
+			}
+		}
+
+		.hero-mobile-optional {
+			margin: 0;
+			max-width: 34rem;
+
+			p {
+				color: var(--FAU-Col-FAU-Dunkelblau-100);
+
+				.faculty-rw & {
+					color: var(--FAU-Col-FAU-Weiss-100);
+				}
+			}
+		}
+
+		.wp-block-buttons {
+
+			a {
+				color: var(--FAU-Col-FAU-Dunkelblau-100);
+
+				.faculty-rw & {
+					color: var(--FAU-Col-FAU-Weiss-100);
+				}
+
+				&::after {
+
+					.faculty-rw & {
+						background-image: var(--icon-arrow-weiss);
+					}
+				}
+			}
+		}
+
+		* {
+			max-width: unset;
+			padding: unset;
+		}
+	}
+
+	.wp-block-cover {
+		max-width: unset;
+		height: 100%;
+	}
+}
+
+// Hero Other
+.hero-faculty-other.hero-other {
+	background-color: var(--FAU-Col-FAU-Blau-100);
+
+	.hero-faculty-content-wrapper {
+
+		h2 {
+			color: var(--FAU-Col-FAU-Weiss-100);
+			background-color: var(--FAU-Col-FAU-Blau-100);
+		}
+
+		.hero-mobile-optional {
+
+			p,
+			.wp-block-buttons a {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+
+			.wp-block-buttons a::after {
+				background-image: var(--icon-arrow-weiss);
+			}
+		}
+	}
+}
+
+// Responsive
+@media screen and (max-width: 1250px) {
+
+	.hero-faculty-other {
+		flex-direction: column-reverse;
+		gap: 0;
+		min-height: unset;
+
+		.hero-faculty-content-wrapper {
+			position: relative;
+			transform: unset;
+			left: unset;
+			max-width: unset;
+
+			@each $faculty, $color in $faculty-colors {
+				&.faculty-#{$faculty} {
+					background-color: $color;
+				}
+			}
+
+			.hero-faculty-content {
+				min-height: unset;
+				padding: 0 3.75rem;
 				position: relative;
-				min-height: 25rem;
+				bottom: 2.5rem;
 
-				// Ensure the cover image is properly positioned
-				.wp-block-cover__image-background {
-					object-fit: cover;
+				h2 {
 					width: 100%;
-					height: 100%;
+					min-width: unset;
+					max-width: unset;
+					margin: 0;
+					padding: var(--Spacing-6x) var(--Spacing-6x) var(--Spacing-4x) var(--Spacing-6x);
+					box-sizing: border-box;
+					font-size: 2rem;
 				}
 
-				// Style the overlay
-				.wp-block-cover__background {
-					position: absolute;
-					top: 0;
-					left: 0;
-					width: 100%;
-					height: 100%;
-					opacity: 0.5; // Adjust overlay opacity as needed
-				}
+				.hero-mobile-optional {
+					max-width: 100%;
+					padding: 0 var(--Spacing-6x);
 
-				// Ensure content is above the overlay
-				.wp-block-cover__inner-container {
-					position: relative;
-					z-index: 3;
+					.wp-block-buttons {
+						margin-top: var(--Spacing-4x);
+					}
 				}
 			}
 		}
-	}
 
-	// Faculty-specific text colors for better contrast
-	&.faculty-phil,
-	&.faculty-nat,
-	&.faculty-med,
-	&.faculty-tf {
-
-		.hero-faculty-left {
-
-			.wp-block-heading {
-				color: var(--FAU-Col-FAU-Blau-100);
-			}
-
-			.hero-text {
-				color: var(--FAU-Col-FAU-Schwarz-90);
-			}
-
-			.hero-link {
-				color: var(--FAU-Col-FAU-Blau-100);
-
-				&:hover {
-					color: var(--FAU-Col-FAU-Dunkelblau-100);
-				}
-			}
+		.hero-faculty-bg-left {
+			display: none;
 		}
 	}
+}
 
-	// Special styling for RW faculty (red background)
-	&.faculty-rw {
+@include respond-to("small") {
 
-		.hero-faculty-left {
+	.hero-faculty-other .hero-faculty-content-wrapper .hero-faculty-content {
+		padding: 0 var(--Spacing-10x);
+	}
+}
 
-			.wp-block-heading {
-				color: var(--FAU-Col-FAU-Weiss-100);
-			}
+@include respond-to("x-small") {
 
-			.hero-text {
-				color: var(--FAU-Col-FAU-Weiss-100);
-			}
+	.hero-faculty-other .hero-faculty-content-wrapper .hero-faculty-content {
+		padding: 0 var(--Spacing-5x);
 
-			.hero-link {
-				color: var(--FAU-Col-FAU-Weiss-100);
+		h2 {
+			padding: var(--Spacing-4x);
+		}
 
-				&:hover {
-					color: var(--FAU-Col-FAU-Schwarz-12_5);
-				}
-			}
+		.hero-mobile-optional {
+			padding: 0 var(--Spacing-4x);
 		}
 	}
 }
