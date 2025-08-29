@@ -4,6 +4,9 @@
  *
  * @package Fau-Elemental
  */
+
+// Load navigation utilities
+get_template_part('components/template-parts/navigation/navigation-utils');
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -14,7 +17,7 @@
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class(faue_get_navigation_body_classes()); ?>>
 <?php wp_body_open(); ?>
 
 <div id="page" class="site">

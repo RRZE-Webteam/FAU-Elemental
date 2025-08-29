@@ -828,13 +828,13 @@ body.modal-open {
 	}
 }
 
-// Exception for front page
-.home:not(.blog) main {
+// Exception for front page with hero
+.home:not(.blog).has-hero-block main {
 	padding-top: 2.8125rem; // Compensate for height of Header top
 }
 
-// Override RW faculty color just for home
-body.home:not(.blog).faculty-rw {
+// Override RW faculty color just for home with hero
+body.home:not(.blog).has-hero-block.faculty-rw {
 
 	.main-navigation__direct-links ul li a {
 		color: var(--FAU-Col-FAU-Blau-100);
@@ -845,7 +845,7 @@ body.home:not(.blog).faculty-rw {
 	}
 }
 
-.home:not(.blog) {
+.home:not(.blog).has-hero-block {
 
 	.site-header {
 
@@ -932,7 +932,7 @@ body.home:not(.blog).faculty-rw {
 // Responsive
 @media screen and (min-width: 1920px) {
 
-	.home:not(.blog) .site-header__main {
+	.home:not(.blog).has-hero-block .site-header__main {
 		max-width: 1800px;
 		left: 50%;
 		transform: translateX(-50%);
@@ -962,11 +962,11 @@ body.home:not(.blog).faculty-rw {
 
 @media screen and (max-width: 1919px) {
 
-	.home:not(.blog) .site-header-top__wrapper {
+	.home:not(.blog).has-hero-block .site-header-top__wrapper {
 		padding-right: var(--Spacing-6x);
 	}
 
-	.home:not(.blog) .main-navigation__logo {
+	.home:not(.blog).has-hero-block .main-navigation__logo {
 		left: 3.75rem;
 	}
 }
@@ -993,7 +993,7 @@ body.home:not(.blog).faculty-rw {
 		gap: var(--Spacing-8x);
 	}
 
-	.home:not(.blog) .site-header__main {
+	.home:not(.blog).has-hero-block .site-header__main {
 		top: 8.8rem;
 
 		.main-navigation__menu-container {
@@ -1018,7 +1018,7 @@ body.home:not(.blog).faculty-rw {
 		}
 	}
 
-	.home:not(.blog) .site-header__main .main-navigation__logo {
+	.home:not(.blog).has-hero-block .site-header__main .main-navigation__logo {
 		left: var(--Spacing-10x);
 	}
 }
@@ -1126,7 +1126,7 @@ body.home:not(.blog).faculty-rw {
 		}
 	}
 
-	.home:not(.blog) .site-header {
+	.home:not(.blog).has-hero-block .site-header {
 
 		&__main {
 			top: 4rem;
@@ -1141,12 +1141,12 @@ body.home:not(.blog).faculty-rw {
 		}
 	}
 
-	// Exception for front page
-	.home:not(.blog) main {
+	// Exception for front page with hero
+	.home:not(.blog).has-hero-block main {
 		padding-top: unset;
 	}
 
-	body:not(.home:not(.blog)) .site-header {
+	body:not(.home:not(.blog).has-hero-block) .site-header {
 
 		&__main {
 
@@ -1202,11 +1202,7 @@ body.home:not(.blog).faculty-rw {
 		gap: var(--Spacing-5x);
 	}
 
-	.home:not(.blog) .site-header__main {
-
-		.main-navigation__toggle-text {
-			display: none;
-		}
+	.home:not(.blog).has-hero-block .site-header__main {
 
 		.main-navigation__logo {
 			left: var(--Spacing-4x);
