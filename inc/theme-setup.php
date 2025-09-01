@@ -113,4 +113,16 @@ function faue_get_org_classes() {
 function faue_body_class($classes) {
     return array_merge($classes, faue_get_org_classes());
 }
-add_filter('body_class', 'faue_body_class'); 
+add_filter('body_class', 'faue_body_class');
+
+// Admin/Editor body classes
+function faue_admin_body_class($classes) {
+    // Only add faculty classes in the block editor
+    if (function_exists('get_current_screen') && get_current_screen() && get_current_screen()->is_block_editor) {
+        $org_classes = faue_get_org_classes();
+        return $classes . ' ' . implode(' ', $org_classes);
+    }
+    
+    return $classes;
+}
+add_filter('admin_body_class', 'faue_admin_body_class'); 
