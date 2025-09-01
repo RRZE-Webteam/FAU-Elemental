@@ -48,16 +48,8 @@ function fau_elemental_add_image_fullscreen($block_content, $block) {
             }
         }
         
-        // Insert the button into the block content
-        $pos = strpos($block_content, '</figure>');
-        if ($pos === false) {
-            $pos = strpos($block_content, '</div>');
-        }
-        
-        if ($pos !== false) {
-            // Insert the button before the closing tag
-            $block_content = substr_replace($block_content, $fullscreen_button, $pos, 0);
-        }
+        // Insert the button inside the image wrapper
+        $block_content = preg_replace('/(<div class="image-wrapper">.*?)(<\/div>)/s', '$1' . $fullscreen_button . '$2', $block_content);
     }
     
     return $block_content;

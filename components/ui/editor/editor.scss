@@ -68,8 +68,13 @@ html :where(.editor-styles-wrapper) {
 			margin-right: auto;
 		}
 
-		.block-editor-default-block-appender p {
-			padding: 0;
+
+		.block-editor-default-block-appender {
+			max-width: var(--small-max-width);
+
+			p {
+				padding: 0;
+			}
 		}
 	}
 }

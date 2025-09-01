@@ -54,14 +54,13 @@
 
 		figcaption {
 			max-width: var(--small-max-width);
-			box-sizing: content-box;
 		}
 	}
 
 	.image-fullscreen-btn {
 		position: absolute;
 		top: 0;
-		right: var(--Spacing-10x);
+		right: 0;
 		background: rgba(0, 0, 0, 0.5);
 		color: transparent;
 		cursor: pointer;
@@ -189,7 +188,6 @@
 		.image-fullscreen-btn {
 			width: 2.5rem;
 			height: 2.5rem;
-			right: var(--Spacing-5x);
 
 			&::before {
 				width: 1rem;
@@ -201,10 +199,6 @@
 
 		&.is-style-large {
 			padding: 0;
-
-			.image-fullscreen-btn {
-				right: 0;
-			}
 		}
 
 		figcaption {

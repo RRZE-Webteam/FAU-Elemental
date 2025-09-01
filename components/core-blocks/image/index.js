@@ -173,7 +173,6 @@ addFilter(
 					return;
 				}
 
-				const figure = blockRef.current?.querySelector( 'figure' );
 				const img = blockRef.current?.querySelector( 'img' );
 				if ( ! img ) {
 					return;
@@ -187,13 +186,13 @@ addFilter(
 
 				// Add fullscreen button if it doesn't exist
 				if (
-					figure &&
-					! figure.querySelector( '.image-fullscreen-btn' )
+					parentDiv &&
+					! parentDiv.querySelector( '.image-fullscreen-btn' )
 				) {
 					const button = document.createElement( 'button' );
 					button.className = 'image-fullscreen-btn';
 					button.innerHTML = '⛶';
-					figure.appendChild( button );
+					parentDiv.appendChild( button );
 				}
 
 				// Enforce aspect ratio when image loads
