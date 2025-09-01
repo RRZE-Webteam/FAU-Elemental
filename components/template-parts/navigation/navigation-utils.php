@@ -70,6 +70,26 @@ if (!function_exists('faue_has_hero_block')) {
                     }
                 }
             }
+            
+            // Also check for columns block (used by hero-portal)
+            if ($first_block['blockName'] === 'core/columns' && 
+                isset($first_block['attrs']['className'])) {
+                
+                $hero_blocks = [
+                    'hero-fau',
+                    'hero-portal', 
+                    'hero-faculty-other',
+                    'hero-chair-cooperation',
+                    'hero-cooperation',
+                    'hero-other'
+                ];
+                
+                foreach ($hero_blocks as $hero_block) {
+                    if (strpos($first_block['attrs']['className'], $hero_block) !== false) {
+                        return true;
+                    }
+                }
+            }
         }
         
         return false;
