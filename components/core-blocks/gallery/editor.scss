@@ -1,15 +1,3 @@
-.gallery-nav-container {
-	top: 344.664px;
-
-	.is-tablet-preview & {
-		top: 547px;
-	}
-
-	.gallery-nav-button {
-		z-index: 1;
-	}
-}
-
 .wp-block-gallery-container {
 
 	.is-mobile-preview & {
@@ -26,30 +14,45 @@
 			margin-bottom: 1em;
 		}
 	}
-}
 
-.wp-block-gallery {
+	>.gallery-nav-container {
+		top: 344.664px;
 
-	gap: 0 !important; // overwrite wordpress default gallery gap
+		.is-tablet-preview & {
+			top: 547px;
+		}
 
-	&:not(.has-child-selected) {
-
-		.wp-block-image-wrapper {
-
-			&:not(:first-child) {
-				display: none !important;
-			}
+		.gallery-nav-button {
+			z-index: 1;
 		}
 	}
 
-	&.has-child-selected {
+	>.wp-block-gallery {
 
-		.wp-block-image {
+		gap: 0 !important; // overwrite wordpress default gallery gap
 
-			&:not(.is-selected) {
-				display: none !important;
+		&:not(.has-child-selected) {
+
+			.wp-block-image-wrapper {
+
+				&:not(:first-child) {
+					display: none !important;
+				}
 			}
+		}
+
+		&.has-child-selected {
+
+			.wp-block-image {
+
+				&:not(.is-selected) {
+					display: none !important;
+				}
+			}
+		}
+
+		>.wp-block-image-wrapper {
+			padding: 0;
 		}
 	}
 }
-

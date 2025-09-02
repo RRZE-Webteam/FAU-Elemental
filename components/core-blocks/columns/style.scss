@@ -1,0 +1,13 @@
+@use "../../ui/mixins/mixins" as *;
+
+.wp-block-columns {
+	max-width: var(--small-max-width);
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0 var(--Spacing-10x);
+	box-sizing: content-box;
+
+	@include respond-to("x-small") {
+		padding: 0 var(--Spacing-5x);
+	}
+}
