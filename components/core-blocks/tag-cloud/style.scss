@@ -1,4 +1,5 @@
 .wp-block-tag-cloud {
+	box-sizing: content-box;
 
 	a.tag-cloud-link {
 		font-size: var(--P-Caption) !important; // override WP inline style
