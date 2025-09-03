@@ -1,0 +1,66 @@
+@media print {
+
+	// Show print logo
+	.print-container {
+		display: flex;
+		justify-content: space-between;
+		padding: 0 var(--Spacing-10x);
+
+		.print-text {
+			color: var(--FAU-Col-FAU-Blau-100);
+			font-size: 1rem;
+			line-height: 1.3;
+			font-weight: 600;
+		}
+
+		.print-logo img {
+			width: 150px;
+		}
+	}
+
+	// Hide stuff
+	header,
+	.breadcrumbs-wrapper,
+	.footer-content,
+	.footer-bottom-top .footer-left,
+	.footer-bottom-top .footer-right,
+	.footer-social {
+		display: none;
+	}
+
+	// Show full URL for links
+	a::after {
+		content: " (" attr(href) ") ";
+	}
+
+	// Explode Gallery
+	.wp-block-gallery-container {
+		height: auto !important; // Important needed for overwriting inline height
+
+		.wp-block-gallery .wp-block-image {
+			display: flex !important; // Important needed for overwriting inline "display: none"
+		}
+
+		.gallery-nav-container {
+			display: none;
+		}
+	}
+
+	// Explode Testimonials
+	.testimonial-carousel {
+
+		.carousel-container .testimonial-slide {
+			display: block !important; // Important needed for overwriting inline "display: none"
+			margin-bottom: 3rem;
+
+			.fau-testimonial-item .testimonial-content figure + .testimonial-text {
+				margin-top: unset;
+				padding-bottom: unset;
+			}
+		}
+
+		.carousel-controls {
+			display: none;
+		}
+	}
+}
