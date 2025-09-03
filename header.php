@@ -38,7 +38,7 @@ get_template_part('components/template-parts/navigation/navigation-utils');
     </header>
 
     <!-- Show Logo and Claim for Print -->
-    <div class="print-container">
+    <div class="print-container" aria-hidden="true">
         <div class="print-text">
             <div>Friedrich-Alexander-Universität</div>
             <div>Erlangen-Nürnberg</div>
