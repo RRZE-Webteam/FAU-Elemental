@@ -479,7 +479,7 @@ function fau_customizer_settings($wp_customize) {
     // Add setting for showing/hiding post meta
     $wp_customize->add_setting('faue_show_post_meta', array(
         'default'           => true,
-        'sanitize_callback' => 'fau_sanitize_checkbox',
+        'sanitize_callback' => 'faue_sanitize_checkbox',
         'transport'         => 'refresh',
     ));
 
@@ -495,7 +495,7 @@ function fau_customizer_settings($wp_customize) {
     // Add setting for post meta dark theme
     $wp_customize->add_setting('faue_post_meta_dark_theme', array(
         'default'           => false,
-        'sanitize_callback' => 'fau_sanitize_checkbox',
+        'sanitize_callback' => 'faue_sanitize_checkbox',
         'transport'         => 'refresh',
     ));
 

@@ -163,10 +163,6 @@ module.exports = {
 			process.cwd(),
 			'components/core-blocks/gallery/gallery-slider.js'
 		),
-		'js/image-aspect-ratio': path.resolve(
-			process.cwd(),
-			'components/core-blocks/image/image-aspect-ratio.js'
-		),
 		'js/image-fullscreen': path.resolve(
 			process.cwd(),
 			'components/core-blocks/image/image-fullscreen.js'

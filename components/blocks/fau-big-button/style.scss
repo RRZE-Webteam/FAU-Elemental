@@ -589,7 +589,7 @@
 }
 
 // Responsive
-@include respond-to("medium") {
+@include smaller-or-equals("medium") {
 
 	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons,
 	.fau-big-button-teaser-group.fau-big-button-teaser-group--large .fau-big-button-teaser-group__buttons {
@@ -604,7 +604,7 @@
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons,
 	.fau-big-button-teaser-group.fau-big-button-teaser-group--large .fau-big-button-teaser-group__buttons {
@@ -612,7 +612,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons {
 		padding: 0 var(--Spacing-5x);

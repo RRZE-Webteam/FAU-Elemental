@@ -198,7 +198,7 @@
 }
 
 // Responsive
-@include respond-to("medium") {
+@include smaller-or-equals("medium") {
 
 	.fau-testimonial-item {
 
@@ -208,7 +208,7 @@
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.fau-testimonial-item {
 
@@ -233,7 +233,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.fau-testimonial-item,
 	.testimonial-carousel {

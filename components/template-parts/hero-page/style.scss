@@ -43,7 +43,7 @@
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.hero-page {
 		padding: var(--Spacing-8x) var(--Spacing-10x);
@@ -67,7 +67,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.hero-page {
 		padding: var(--Spacing-6x) var(--Spacing-5x);

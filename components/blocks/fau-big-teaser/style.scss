@@ -150,7 +150,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.fau-big-teaser {
 		padding: unset;

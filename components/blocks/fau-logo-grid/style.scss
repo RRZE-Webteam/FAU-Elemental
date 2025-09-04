@@ -52,7 +52,7 @@
 }
 
 // Desktop and smaller (max-width: 1920px)
-@include respond-to("large") {
+@include smaller-or-equals("large") {
 
 	.fau-logo-grid {
 		padding: 0 var(--Spacing-12x);
@@ -60,7 +60,7 @@
 }
 
 // Tablet and smaller (max-width: 1440px)
-@include respond-to("medium") {
+@include smaller-or-equals("medium") {
 
 	.fau-logo-grid {
 		padding: 0 var(--Spacing-10x);
@@ -72,7 +72,7 @@
 }
 
 // Mobile and smaller (max-width: 768px)
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.fau-logo-grid {
 		padding: 0 var(--Spacing-5x);
@@ -87,7 +87,7 @@
 	}
 }
 // Mobile and smaller (max-width: 768px)
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.fau-logo-grid {
 

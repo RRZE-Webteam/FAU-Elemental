@@ -63,7 +63,7 @@
 }
 
 // Responsive
-@include respond-to("medium") {
+@include smaller-or-equals("medium") {
 
 	.editor-styles-wrapper .wp-block .wp-block-cover {
 		min-height: 750px;
@@ -74,7 +74,7 @@
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.editor-styles-wrapper .wp-block .wp-block-cover {
 		padding: var(--Spacing-10x);
@@ -95,7 +95,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.editor-styles-wrapper .wp-block .wp-block-cover {
 		padding-left: unset;

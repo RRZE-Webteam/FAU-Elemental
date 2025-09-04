@@ -51,7 +51,7 @@
 						}
 					}
 
-					@include respond-to("small") {
+					@include smaller-or-equals("small") {
 						flex-direction: column;
 						gap: 5px;
 						padding-right: 40px;

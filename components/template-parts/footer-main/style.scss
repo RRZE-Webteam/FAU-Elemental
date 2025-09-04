@@ -321,7 +321,7 @@ footer.wp-block-template-part {
 	.fau-claim {
 		margin-bottom: var(--Spacing-14x);
 
-		@include respond-to("x-small") {
+		@include smaller-or-equals("x-small") {
 			margin-bottom: var(--Spacing-8x);
 		}
 	}
@@ -380,7 +380,7 @@ footer.wp-block-template-part {
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.site-footer {
 
@@ -412,7 +412,7 @@ footer.wp-block-template-part {
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.site-footer {
 

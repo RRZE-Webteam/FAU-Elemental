@@ -501,7 +501,7 @@
 
 }
 // Responsive
-@include respond-to("medium") {
+@include smaller-or-equals("medium") {
 
 	.fau-global-search__outer-wrapper {
 		max-width: var(--wide-max-width);
@@ -527,7 +527,7 @@
 	}
 }
 // Responsive
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.fau-global-search-wrapper {
 
@@ -546,7 +546,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.fau-global-search__outer-wrapper {
 		padding: var(--Spacing-6x) var(--Spacing-5x);

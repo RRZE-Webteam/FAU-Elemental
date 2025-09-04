@@ -106,14 +106,14 @@
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.hero-chair-cooperation .hero-chair-content-wrapper .hero-chair-content {
 		padding: 0 var(--Spacing-10x);
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.hero-chair-cooperation .hero-chair-content-wrapper .hero-chair-content {
 		padding: 0 var(--Spacing-5x);

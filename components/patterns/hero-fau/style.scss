@@ -108,7 +108,7 @@
 	}
 }
 
-@include respond-to("medium") {
+@include smaller-or-equals("medium") {
 
 	.hero-fau .wp-block-cover {
 		min-height: 46.875rem;
@@ -119,7 +119,7 @@
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.hero-fau .wp-block-cover {
 		padding: var(--Spacing-10x);
@@ -140,7 +140,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.hero-fau .wp-block-cover {
 		padding-left: unset;

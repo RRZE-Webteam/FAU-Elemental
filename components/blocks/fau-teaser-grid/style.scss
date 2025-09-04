@@ -558,7 +558,7 @@
 }
 
 // Responsive
-@include respond-to("medium") {
+@include smaller-or-equals("medium") {
 
 	.wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid {
 
@@ -796,7 +796,7 @@
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.wp-block-fau-elemental-fau-teaser-grid {
 
@@ -948,7 +948,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.wp-block-fau-elemental-fau-teaser-grid {
 		padding: 0 var(--Spacing-5x);

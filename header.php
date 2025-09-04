@@ -37,6 +37,22 @@ get_template_part('components/template-parts/navigation/navigation-utils');
         </nav>
     </header>
 
+    <!-- Show Logo and Claim for Print -->
+    <div class="print-container" aria-hidden="true">
+        <div class="print-text">
+            <div>Friedrich-Alexander-Universität</div>
+            <div>Erlangen-Nürnberg</div>
+        </div>
+
+        <div class="print-logo">
+            <?php
+            $logo_url = get_theme_mod('fau_footer_logo', get_theme_file_uri('assets/images/logo-print.svg'));
+            if ($logo_url) : ?>
+                <img src="<?php echo $logo_url; ?>" alt="<?php echo esc_attr__('FAU Logo', 'fau-elemental'); ?>">
+            <?php endif; ?>
+        </div>
+    </div>
+
     <?php 
     // Display breadcrumbs on all pages except front page
     if (function_exists('faue_breadcrumbs')) {

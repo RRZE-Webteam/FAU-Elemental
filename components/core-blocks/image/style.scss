@@ -27,6 +27,14 @@
 	img {
 		display: block;
 		margin: 0 auto;
+
+		@include bigger-than("xs") {
+
+			&.tall-image {
+				aspect-ratio: 3 / 2;
+				object-fit: contain;
+			}
+		}
 	}
 
 	figcaption {
@@ -47,6 +55,10 @@
 			background-color: var(--FAU-Col-FAU-Blau-100);
 			color: var(--FAU-Col-FAU-Weiss-100);
 		}
+	}
+
+	&:has(figcaption) {
+		margin-bottom: calc(-1 * var(--Spacing-12x));
 	}
 
 	&.is-style-large {
@@ -173,14 +185,14 @@
 
 // Responsive
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.wp-block-image.is-style-large figcaption {
 		box-sizing: border-box;
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.wp-block-image {
 		padding: 0 var(--Spacing-5x);

@@ -1,5 +1,7 @@
 .wp-block-tag-cloud {
 
+	max-width: var(--small-max-width);
+
 	a.tag-cloud-link {
 		font-size: var(--P-Caption) !important; // override WP inline style
 		font-weight: 600;

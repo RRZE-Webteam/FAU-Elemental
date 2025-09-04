@@ -231,7 +231,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.fau-portal-menu > ul {
 		padding: var(--Spacing-5x);
