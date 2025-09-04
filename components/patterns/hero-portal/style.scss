@@ -85,7 +85,7 @@
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.hero-portal {
 
@@ -113,7 +113,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.hero-portal {
 		padding: unset;

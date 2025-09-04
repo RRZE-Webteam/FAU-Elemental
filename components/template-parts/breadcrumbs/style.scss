@@ -86,7 +86,7 @@
 }
 
 // Responsive
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.breadcrumbs {
 
@@ -111,7 +111,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.breadcrumbs {
 		padding: var(--Spacing-3x) var(--Spacing-5x);

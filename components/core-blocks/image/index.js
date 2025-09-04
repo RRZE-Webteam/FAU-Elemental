@@ -8,7 +8,7 @@ import {
 	registerBlockStyle,
 } from '@wordpress/blocks';
 import { useRef, useEffect } from '@wordpress/element';
-import { enforceImageAspectRatio } from './utils';
+import { addTallImageClass } from './utils';
 
 /**
  * Customizes the core/image block by:
@@ -153,18 +153,17 @@ addFilter(
 				className,
 				url,
 				galleryIndexText,
-				caption,
 			} = attributes;
 
 			// Use a ref to access the DOM after render
 			const blockRef = useRef( null );
 
-			// Helper function to enforce 3:2 aspect ratio maximum
-			const enforceAspectRatio = () => {
+			// Helper function to add tall-image class based on aspect ratio
+			const handleTallImageClass = () => {
 				if ( ! blockRef.current ) {
 					return;
 				}
-				enforceImageAspectRatio( blockRef.current );
+				addTallImageClass( blockRef.current );
 			};
 
 			// Add the button and enforce aspect ratio after the component mounts
@@ -195,54 +194,19 @@ addFilter(
 					parentDiv.appendChild( button );
 				}
 
-				// Enforce aspect ratio when image loads
+				// Add tall-image class when image loads
 				if ( img.complete ) {
-					enforceAspectRatio();
+					handleTallImageClass();
 				} else {
-					img.addEventListener( 'load', enforceAspectRatio );
-				}
-
-				// Add resize observer to handle container width changes
-				const resizeObserver = new ResizeObserver( () => {
-					enforceAspectRatio();
-				} );
-
-				if ( parentDiv ) {
-					resizeObserver.observe( parentDiv );
+					img.addEventListener( 'load', handleTallImageClass );
 				}
 
 				return () => {
 					if ( img ) {
-						img.removeEventListener( 'load', enforceAspectRatio );
+						img.removeEventListener( 'load', handleTallImageClass );
 					}
-					resizeObserver.disconnect();
 				};
 			}, [ url, galleryIndexText ] );
-
-			// Recalculate height when caption changes
-			useEffect( () => {
-				if ( blockRef.current ) {
-					enforceAspectRatio();
-				}
-			}, [ caption ] );
-
-			// Recalculate height when DOM changes, for example when the caption gets added or removed
-			useEffect( () => {
-				const figure = blockRef.current?.querySelector( 'figure' );
-				if ( ! figure ) {
-					return;
-				}
-
-				// Add mutation observer to handle DOM changes
-				const domObserver = new MutationObserver( () => {
-					enforceAspectRatio();
-				} );
-				domObserver.observe( figure, { childList: true } );
-
-				return () => {
-					domObserver.disconnect();
-				};
-			}, [ url ] );
 
 			return (
 				<div className="wp-block-image-wrapper" ref={ blockRef }>

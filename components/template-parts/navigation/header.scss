@@ -953,7 +953,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	}
 }
 
-@include respond-to("medium") {
+@include smaller-or-equals("medium") {
 
 	.menu-modal,
 	.menu-meta-nav__modal,
@@ -1012,7 +1012,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.menu-modal,
 	.menu-meta-nav__modal,
@@ -1184,7 +1184,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.site-header {
 

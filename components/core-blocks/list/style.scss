@@ -81,7 +81,7 @@ ol.wp-block-list {
 			padding: 0 var(--Spacing-10x) 0 var(--Spacing-16x);
 		}
 
-		@include respond-to("x-small") {
+		@include smaller-or-equals("x-small") {
 			padding: 0 var(--Spacing-5x) 0 var(--Spacing-12x);
 		}
 	}
@@ -123,7 +123,7 @@ ol.wp-block-list {
 		padding: 0 var(--Spacing-10x) 0 var(--Spacing-24x);
 	}
 
-	@include respond-to("x-small") {
+	@include smaller-or-equals("x-small") {
 		padding: 0 var(--Spacing-5x) 0 4.8rem;
 	}
 }
@@ -134,12 +134,12 @@ ol.wp-block-list {
 		padding: 0 var(--Spacing-10x) 0 4.5rem;
 	}
 
-	@include respond-to("x-small") {
+	@include smaller-or-equals("x-small") {
 		padding: 0 var(--Spacing-5x) 0 var(--Spacing-14x);
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.is-layout-flow {
 
@@ -166,7 +166,7 @@ ol.wp-block-list {
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.wp-block-list {
 		font-size: 1rem;

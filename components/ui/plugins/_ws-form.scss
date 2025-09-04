@@ -482,7 +482,7 @@
 }
 
 // Responsive
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.is-layout-flow form.wsf-form {
 		max-width: calc(var(--small-max-width) + 2.5rem);

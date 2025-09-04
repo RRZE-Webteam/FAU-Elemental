@@ -32,7 +32,7 @@
 	}
 }
 
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.wp-block-media-text {
 		gap: var(--Spacing-4x);
@@ -46,7 +46,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.wp-block-media-text {
 		padding: 0 var(--Spacing-5x);

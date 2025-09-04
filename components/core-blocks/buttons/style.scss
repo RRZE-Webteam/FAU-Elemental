@@ -7,7 +7,7 @@
 	.is-layout-flow & {
 		padding: 0 var(--Spacing-10x);
 
-		@include respond-to("x-small") {
+		@include smaller-or-equals("x-small") {
 			padding: 0 var(--Spacing-5x);
 		}
 	}

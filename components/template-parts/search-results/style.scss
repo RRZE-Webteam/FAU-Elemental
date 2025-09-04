@@ -108,7 +108,7 @@
 	}
 
 	// Mobile responsive layout
-	@include respond-to("sm") {
+	@include smaller-or-equals("sm") {
 
 		.result-content {
 			display: block;

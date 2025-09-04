@@ -1,26 +1,58 @@
 // Responsive Mixins
-// Updated to work with CSS custom properties defined in variables
 
-@mixin respond-to($size) {
+$breakpoint-xs: 393px;
+$breakpoint-sm: 768px;
+$breakpoint-md: 1440px;
+$breakpoint-lg: 1920px;
+
+@mixin smaller-or-equals($size) {
 
 	@if $size == "xs" or $size == "x-small" {
 
-		@media (max-width: 393px) {
+		@media (max-width: $breakpoint-xs) {
 			@content;
 		}
 	} @else if $size == "sm" or $size == "small" {
 
-		@media (max-width: 768px) {
+		@media (max-width: $breakpoint-sm) {
 			@content;
 		}
 	} @else if $size == "md" or $size == "medium" {
 
-		@media (max-width: 1440px) {
+		@media (max-width: $breakpoint-md) {
 			@content;
 		}
 	} @else if $size == "lg" or $size == "large" {
 
-		@media (max-width: 1920px) {
+		@media (max-width: $breakpoint-lg) {
+			@content;
+		}
+	} @else {
+
+		@warn "Unknown breakpoint: #{$size}. Available breakpoints: xs, sm, md, lg";
+	}
+}
+
+@mixin bigger-than($size) {
+
+	@if $size == "xs" or $size == "x-small" {
+
+		@media (min-width: #{$breakpoint-xs + 1px}) {
+			@content;
+		}
+	} @else if $size == "sm" or $size == "small" {
+
+		@media (min-width: #{$breakpoint-sm + 1px}) {
+			@content;
+		}
+	} @else if $size == "md" or $size == "medium" {
+
+		@media (min-width: #{$breakpoint-md + 1px}) {
+			@content;
+		}
+	} @else if $size == "lg" or $size == "large" {
+
+		@media (min-width: #{$breakpoint-lg + 1px}) {
 			@content;
 		}
 	} @else {

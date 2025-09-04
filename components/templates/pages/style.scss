@@ -207,7 +207,7 @@
 }
 
 // Responsive
-@include respond-to("small") {
+@include smaller-or-equals("small") {
 
 	.archive-page .blog-header .blog-title,
 	.category-archive .blog-header .blog-title,
@@ -216,7 +216,7 @@
 	}
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.archive-page .blog-header .blog-title,
 	.category-archive .blog-header .blog-title,

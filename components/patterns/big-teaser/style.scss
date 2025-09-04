@@ -6,7 +6,7 @@
 		margin-top: 0;
 		padding-top: var(--Spacing-6x);
 
-		@include respond-to("x-small") {
+		@include smaller-or-equals("x-small") {
 			padding-top: var(--Spacing-4x);
 		}
 	}

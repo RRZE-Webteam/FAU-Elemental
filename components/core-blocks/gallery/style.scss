@@ -157,7 +157,7 @@ figure.wp-block-image:has(figcaption)::before {
 	max-width: var(--base-max-width);
 }
 
-@include respond-to("x-small") {
+@include smaller-or-equals("x-small") {
 
 	.wp-block-gallery-container {
 		padding: 0;
