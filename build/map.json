@@ -272,9 +272,6 @@
   "components/core-blocks/gallery/gallery-slider.js": [
     "build/js/gallery-slider.js"
   ],
-  "components/core-blocks/image/image-aspect-ratio.js": [
-    "build/js/image-aspect-ratio.js"
-  ],
   "components/core-blocks/image/image-fullscreen.js": [
     "build/js/image-fullscreen.js"
   ],
