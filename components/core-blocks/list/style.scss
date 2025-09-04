@@ -1,5 +1,22 @@
 @use "../../ui/mixins/mixins" as *;
 
+.wp-block-columns:has(.wp-block-list) {
+
+	.wp-block-list > li {
+		padding-left: 56px;
+
+		&::before {
+			left: 0;
+		}
+	}
+
+	.wp-block-list {
+		@media screen and (max-width: 950px) {
+			
+		}
+	}
+}
+
 .wp-block-list {
 	max-width: var(--small-max-width);
 	font-size: var(--P-Body-Text);
