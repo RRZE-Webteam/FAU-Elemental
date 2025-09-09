@@ -108,7 +108,7 @@ ol.wp-block-list {
 .wp-block-columns:has(.wp-block-list) {
 
 	ul.wp-block-list > li {
-		padding-left: 56px;
+		padding-left: var(--Spacing-14x);
 
 		&::before {
 			left: 0;
