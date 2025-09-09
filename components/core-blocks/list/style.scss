@@ -1,40 +1,5 @@
 @use "../../ui/mixins/mixins" as *;
 
-// List in group
-.wp-block-group:has(.wp-block-list) {
-	padding: 0 var(--Spacing-10x);
-}
-
-// List in column
-.wp-block-columns:has(.wp-block-list) {
-
-	ul.wp-block-list > li {
-		padding-left: 56px;
-
-		&::before {
-			left: 0;
-		}
-	}
-
-	ol.wp-block-list {
-		padding-left: var(--Spacing-6x);
-	}
-
-	.wp-block-list.list-icons {
-		padding-left: 0;
-	}
-}
-
-.is-layout-flow .wp-block-columns:has(.wp-block-list) {
-
-	ul.wp-block-list {
-
-		@media screen and (max-width: 950px) {
-			padding: 0;
-		}
-	}
-}
-
 // List general
 .wp-block-list {
 	max-width: var(--small-max-width);
@@ -134,6 +99,41 @@ ol.wp-block-list {
 	}
 }
 
+// List in group
+.wp-block-group:has(.wp-block-list) {
+	padding: 0 var(--Spacing-10x);
+}
+
+// List in column
+.wp-block-columns:has(.wp-block-list) {
+
+	ul.wp-block-list > li {
+		padding-left: 56px;
+
+		&::before {
+			left: 0;
+		}
+	}
+
+	ol.wp-block-list {
+		padding-left: var(--Spacing-6x);
+	}
+
+	.wp-block-list.list-icons {
+		padding-left: 0;
+	}
+}
+
+.is-layout-flow .wp-block-columns:has(.wp-block-list) {
+
+	ul.wp-block-list {
+
+		@media screen and (max-width: 950px) {
+			padding: 0;
+		}
+	}
+}
+
 // Dark mode
 .is-style-dark {
 
@@ -153,32 +153,18 @@ ol.wp-block-list {
 }
 
 // Responsive
-.is-layout-flow > ul.wp-block-list {
-
-	@media screen and (max-width: 950px) {
-		padding: 0 var(--Spacing-10x) 0 var(--Spacing-24x);
-	}
-
-	@include smaller-or-equals("x-small") {
-		padding: 0 var(--Spacing-5x) 0 4.8rem;
-	}
-}
-
-.is-layout-flow > ul.wp-block-list.list-icons {
-
-	@media screen and (max-width: 950px) {
-		padding: 0 var(--Spacing-10x) 0 4.5rem;
-	}
-
-	@include smaller-or-equals("x-small") {
-		padding: 0 var(--Spacing-5x) 0 var(--Spacing-14x);
-	}
-}
-
 @media screen and (max-width: 950px) {
 
 	.is-layout-flow .wp-block-group:has(ol.wp-block-list) {
 		padding: 0;
+	}
+
+	.is-layout-flow > ul.wp-block-list {
+		padding: 0 var(--Spacing-10x) 0 var(--Spacing-24x);
+	}
+
+	.is-layout-flow > ul.wp-block-list.list-icons {
+		padding: 0 var(--Spacing-10x) 0 4.5rem;
 	}
 }
 
@@ -221,5 +207,13 @@ ol.wp-block-list {
 
 	.wp-block-group:has(.wp-block-list) {
 		padding: 0 var(--Spacing-5x);
+	}
+
+	.is-layout-flow > ul.wp-block-list {
+		padding: 0 var(--Spacing-5x) 0 4.8rem;
+	}
+
+	.is-layout-flow > ul.wp-block-list.list-icons {
+		padding: 0 var(--Spacing-5x) 0 var(--Spacing-14x);
 	}
 }
