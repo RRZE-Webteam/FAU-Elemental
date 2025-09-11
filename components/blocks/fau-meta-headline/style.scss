@@ -4,7 +4,7 @@
 	position: relative;
 	max-width: var(--base-max-width);
 	margin: 0 auto;
-	padding: var(--Spacing-8x) 0;
+	padding: var(--Spacing-4x) 0;
 	font-size: 1rem;
 	line-height: var(--base-line-height);
 	font-weight: 600;
@@ -56,7 +56,6 @@
 @include smaller-or-equals("x-small") {
 
 	main .wp-block-fau-elemental-fau-meta-headline {
-		padding: var(--Spacing-6x) 0;
 		margin-left: 3rem !important; // Necessary to override WP style that already uses !important
 	}
 }
