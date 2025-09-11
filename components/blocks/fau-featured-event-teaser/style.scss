@@ -127,7 +127,7 @@
 }
 
 // Responsive
-@include smaller-or-equals("small") {
+@media screen and (max-width: 999px) {
 
 	.wp-block-fau-elemental-featured-event-teaser {
 		flex-direction: column-reverse;
