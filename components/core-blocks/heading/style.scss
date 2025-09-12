@@ -4,10 +4,6 @@
  * Core Heading Block Styles
  */
 
-.wp-block-heading {
-	max-width: var(--small-max-width);
-}
-
 h2,
 h3,
 h4,
@@ -18,6 +14,7 @@ h6 {
 	font-weight: 700;
 
 	.is-layout-flow & {
+		max-width: var(--small-max-width);
 		padding: 0 var(--Spacing-10x);
 
 		@include smaller-or-equals("x-small") {
