@@ -89,7 +89,9 @@
         
         <div class="footer-bottom-bottom">
             <div class="footer-left">
-                <?php echo do_blocks('<!-- wp:fau-elemental/fau-copyright-info /-->'); ?>
+                <?php if (!is_single()) : ?>
+                    <?php echo do_blocks('<!-- wp:fau-elemental/fau-copyright-info /-->'); ?>
+                <?php endif; ?>
             </div>
             
             <div class="footer-right">
