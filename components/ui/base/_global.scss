@@ -14,3 +14,86 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+
+// Basic HTML style (fallbacks)
+
+:where(.is-layout-flow) {
+
+	h1 {
+		padding: 0 var(--Spacing-10x);
+
+		@include smaller-or-equals("x-small") {
+			padding: 0 var(--Spacing-5x);
+		}
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	blockquote,
+	table,
+	dl,
+	ul,
+	ol,
+	address,
+	pre {
+		max-width: var(--small-max-width);
+	}
+
+	table {
+		width: 100%;
+		text-align: left;
+	}
+
+	> ul,
+	> ol {
+		list-style-position: inside;
+		padding-left: 0;
+
+		@media screen and (max-width: 999px) {
+			padding: 0 var(--Spacing-10x);
+		}
+
+		@include smaller-or-equals("x-small") {
+			padding: 0 var(--Spacing-5x);
+		}
+	}
+}
+
+.is-layout-flow {
+
+	blockquote,
+	table,
+	dl,
+	address,
+	pre {
+		padding: 0 var(--Spacing-10x);
+
+		@include smaller-or-equals("x-small") {
+			padding: 0 var(--Spacing-5x);
+		}
+	}
+
+	table {
+		padding: 0;
+
+		@media screen and (max-width: 999px) {
+			padding: 0 var(--Spacing-10x);
+		}
+
+		@include smaller-or-equals("x-small") {
+			padding: 0 var(--Spacing-5x);
+		}
+	}
+
+	blockquote {
+
+		p {
+			padding: 0;
+		}
+	}
+}
