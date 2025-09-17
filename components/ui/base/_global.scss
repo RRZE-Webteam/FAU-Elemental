@@ -5,6 +5,18 @@
 	display: none;
 }
 
+// Error pages
+.error-404,
+.error-403,
+.error-401 {
+	max-width: var(--wide-max-width);
+	padding: var(--Spacing-2x) var(--Spacing-10x);
+
+	@include smaller-or-equals("x-small") {
+		padding: 0 var(--Spacing-5x);
+	}
+}
+
 // Screen reader text utility
 .screen-reader-text {
 	visibility: hidden;
