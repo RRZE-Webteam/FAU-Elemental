@@ -97,6 +97,13 @@ details.wp-block-details {
 	}
 }
 
+// Details in column
+.wp-block-column details.wp-block-details {
+	padding-bottom: 1.25rem;
+	padding-top: 1.25rem;
+	width: auto;
+}
+
 // Dark mode
 .is-style-dark {
 
