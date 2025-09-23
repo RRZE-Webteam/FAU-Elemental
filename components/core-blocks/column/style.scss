@@ -1,6 +1,6 @@
 .wp-block-column {
 
-	.wp-block-columns & > * {
+	.wp-block-columns:not(.alignwide) & > * {
 		padding: 0;
 	}
 }

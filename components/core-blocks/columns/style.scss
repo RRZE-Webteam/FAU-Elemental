@@ -1,6 +1,6 @@
 @use "../../ui/mixins/mixins" as *;
 
-.wp-block-columns {
+.wp-block-columns:not(.alignwide) {
 	max-width: var(--small-max-width);
 	margin-left: auto;
 	margin-right: auto;
