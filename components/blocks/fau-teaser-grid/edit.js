@@ -1,4 +1,4 @@
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import {
 	useBlockProps,
 	InspectorControls,
@@ -446,27 +446,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			</BlockControls>
 
 			<div className="fau-teaser-grid-preview">
-				<div className="teaser-grid-header">
-					<h3 className="grid-title">
-						{ __( 'FAU Teaser Grid', 'fau-elemental' ) }
-					</h3>
-					<div className="grid-info">
-						<span className="item-count">
-							{ sprintf(
-								/* translators: %1$d: number of visible items, %2$d: total number of items */
-								__(
-									'Showing %1$d of %2$d items',
-									'fau-elemental'
-								),
-								selectionMode === 'manual'
-									? selectedPosts.length
-									: items.length,
-								calculatedTotalPosts
-							) }
-						</span>
-					</div>
-				</div>
-
 				<div
 					ref={ gridRef }
 					className={ `fau-teaser-grid ${ displayStyle } ${

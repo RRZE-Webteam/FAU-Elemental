@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.3.19\n"
+"Project-Id-Version: FAU-Elemental 0.3.21\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-09-23T10:19:57+00:00\n"
+"POT-Creation-Date: 2025-09-23T14:16:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -125,7 +125,7 @@ msgid "Security check failed"
 msgstr ""
 
 #: components/blocks/fau-teaser-grid/render.php:73
-#: components/blocks/fau-teaser-grid/edit.js:480
+#: components/blocks/fau-teaser-grid/edit.js:459
 msgid "Content grid"
 msgstr ""
 
@@ -147,12 +147,12 @@ msgstr ""
 
 #: components/blocks/fau-teaser-grid/render.php:248
 #: components/blocks/fau-teaser-grid/render.php:250
-#: components/blocks/fau-teaser-grid/edit.js:592
+#: components/blocks/fau-teaser-grid/edit.js:571
 msgid "Load More"
 msgstr ""
 
 #: components/blocks/fau-teaser-grid/render.php:249
-#: components/blocks/fau-teaser-grid/edit.js:558
+#: components/blocks/fau-teaser-grid/edit.js:537
 msgid "Loading…"
 msgstr ""
 
@@ -434,7 +434,7 @@ msgid "page-navigation"
 msgstr ""
 
 #: components/template-parts/pagination/pagination.php:24
-#: components/blocks/fau-teaser-grid/edit.js:570
+#: components/blocks/fau-teaser-grid/edit.js:549
 msgid "Posts pagination"
 msgstr ""
 
@@ -1870,20 +1870,11 @@ msgstr ""
 msgid "Heading 6"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:451
-msgid "FAU Teaser Grid"
-msgstr ""
-
-#. translators: %1$d: number of visible items, %2$d: total number of items
-#: components/blocks/fau-teaser-grid/edit.js:457
-msgid "Showing %1$d of %2$d items"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:524
+#: components/blocks/fau-teaser-grid/edit.js:503
 msgid "No posts selected"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:551
+#: components/blocks/fau-teaser-grid/edit.js:530
 msgid "No items found"
 msgstr ""
 
