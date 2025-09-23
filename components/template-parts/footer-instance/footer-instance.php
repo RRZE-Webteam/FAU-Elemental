@@ -232,7 +232,7 @@
 
         <div class="footer-bottom-row">
             <div class="footer-left">
-                <?php if (!is_single()) : ?>
+                <?php if (!is_single() || !get_theme_mod('faue_hide_copyright_on_single', faue_get_default('faue_hide_copyright_on_single'))) : ?>
                     <?php echo do_blocks('<!-- wp:fau-elemental/fau-copyright-info /-->'); ?>
                 <?php endif; ?>
             </div>
