@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.3.21\n"
+"Project-Id-Version: FAU-Elemental 0.3.22\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-09-23T14:16:11+00:00\n"
+"POT-Creation-Date: 2025-09-23T15:32:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -101,7 +101,7 @@ msgstr ""
 #: components/template-parts/navigation/fau-navigation.php:48
 #: components/template-parts/navigation/menu-modal-config.php:75
 #: components/template-parts/navigation/menu-modal.php:244
-#: components/template-parts/search-results/search-results.php:194
+#: components/template-parts/search-results/search-results.php:237
 #: components/blocks/fau-global-search/edit.js:95
 msgid "Search"
 msgstr ""
@@ -182,7 +182,7 @@ msgid "Start"
 msgstr ""
 
 #: components/template-parts/breadcrumbs/breadcrumbs.php:163
-#: components/template-parts/search-results/search-results.php:185
+#: components/template-parts/search-results/search-results.php:228
 msgid "Search Results"
 msgstr ""
 
@@ -476,117 +476,109 @@ msgid "Last update:"
 msgstr ""
 
 #. translators: search query
-#: components/template-parts/search-results/search-results.php:180
+#: components/template-parts/search-results/search-results.php:223
 msgid "Search Results for: %s"
 msgstr ""
 
 #. Template Name of the theme
-#: components/template-parts/search-results/search-results.php:182
+#: components/template-parts/search-results/search-results.php:225
 #: functions.php:79
 msgid "All Posts"
 msgstr ""
 
-#. translators: number of results
-#: components/template-parts/search-results/search-results.php:208
-msgctxt "search results count"
-msgid "%s result found"
-msgid_plural "%s results found"
-msgstr[0] ""
-msgstr[1] ""
+#: components/template-parts/search-results/search-results.php:258
+#: components/templates/pages/archive-grid-util.php:59
+#: index.php:203
+msgid "to"
+msgstr ""
 
-#. translators: number of posts
-#: components/template-parts/search-results/search-results.php:220
-msgctxt "posts count"
-msgid "%s post found"
-msgid_plural "%s posts found"
-msgstr[0] ""
-msgstr[1] ""
+#: components/template-parts/search-results/search-results.php:260
+#: components/templates/pages/archive-grid-util.php:61
+#: index.php:205
+msgid "of"
+msgstr ""
 
-#: components/template-parts/search-results/search-results.php:233
+#: components/template-parts/search-results/search-results.php:267
+#: components/templates/pages/archive-grid-util.php:68
+#: index.php:212
+msgid "total"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:275
+#: components/templates/pages/archive-grid-util.php:76
+msgid "Sort by"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:279
+#: components/templates/pages/archive-grid-util.php:80
+msgid "Date - newest first"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:282
+#: components/templates/pages/archive-grid-util.php:83
+msgid "Date - oldest first"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:285
+#: components/templates/pages/archive-grid-util.php:86
+msgid "Title - ascending"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:288
+#: components/templates/pages/archive-grid-util.php:89
+msgid "Title - descending"
+msgstr ""
+
+#: components/template-parts/search-results/search-results.php:305
 msgid "Search Results List"
 msgstr ""
 
 #. translators: index of the search result
-#: components/template-parts/search-results/search-results.php:246
+#: components/template-parts/search-results/search-results.php:319
 msgid "Search Result %d"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:270
+#: components/template-parts/search-results/search-results.php:343
 msgid "Post Category"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:277
+#: components/template-parts/search-results/search-results.php:350
 #: functions.php:381
 msgid "Page Category"
 msgstr ""
 
 #. translators: %s: Menu item title
-#: components/template-parts/search-results/search-results.php:298
+#: components/template-parts/search-results/search-results.php:371
 #: inc/class-walker-content-menu.php:67
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:179
 msgid "Featured image for %s"
 msgstr ""
 
 #. translators: title of the search result
-#: components/template-parts/search-results/search-results.php:329
+#: components/template-parts/search-results/search-results.php:404
 msgid "Read more about %s"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:331
+#: components/template-parts/search-results/search-results.php:406
 #: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
 #: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:156
 msgid "Read more"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:351
+#: components/template-parts/search-results/search-results.php:426
 msgid "No Search Results"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:353
+#: components/template-parts/search-results/search-results.php:428
 msgid "Unfortunately, we were unable to find any matching search results for the following query:"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:360
+#: components/template-parts/search-results/search-results.php:435
 msgid "Additional search options"
 msgstr ""
 
 #: components/templates/pages/archive-grid-util.php:14
 msgid "Archive listing"
-msgstr ""
-
-#: components/templates/pages/archive-grid-util.php:59
-#: index.php:203
-msgid "to"
-msgstr ""
-
-#: components/templates/pages/archive-grid-util.php:61
-#: index.php:205
-msgid "of"
-msgstr ""
-
-#: components/templates/pages/archive-grid-util.php:68
-#: index.php:212
-msgid "total"
-msgstr ""
-
-#: components/templates/pages/archive-grid-util.php:76
-msgid "Sort by"
-msgstr ""
-
-#: components/templates/pages/archive-grid-util.php:80
-msgid "Date - newest first"
-msgstr ""
-
-#: components/templates/pages/archive-grid-util.php:83
-msgid "Date - oldest first"
-msgstr ""
-
-#: components/templates/pages/archive-grid-util.php:86
-msgid "Title - ascending"
-msgstr ""
-
-#: components/templates/pages/archive-grid-util.php:89
-msgid "Title - descending"
 msgstr ""
 
 #. Template Name of the theme
