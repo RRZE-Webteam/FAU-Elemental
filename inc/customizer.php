@@ -511,6 +511,22 @@ function fau_customizer_settings($wp_customize) {
         },
     ));
 
+    // Add setting for hiding copyright on single posts
+    $wp_customize->add_setting('faue_hide_copyright_on_single', array(
+        'default'           => faue_get_default('faue_hide_copyright_on_single'),
+        'sanitize_callback' => 'faue_sanitize_checkbox',
+        'transport'         => 'refresh',
+    ));
+
+    // Add control for hiding copyright on single posts
+    $wp_customize->add_control('faue_hide_copyright_on_single', array(
+        'label'       => esc_html__('Hide copyright on single posts', 'fau-elemental'),
+        'description' => esc_html__('Hides the copyright block on individual post pages.', 'fau-elemental'),
+        'section'     => 'faue_post_options',
+        'type'        => 'checkbox',
+        'priority'    => 30,
+    ));
+
     // Add Archive Pagination Settings Section
     $wp_customize->add_section('faue_pagination_settings', array(
         'title'    => esc_html__('Archive pages settings', 'fau-elemental'),

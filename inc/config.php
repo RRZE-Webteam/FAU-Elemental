@@ -31,6 +31,8 @@ $faue_defaults = array(
     'display_footer_address' => true,
     // Fallback Image
     'faue_fallback_image' => '',
+    // Hide copyright on single posts
+    'faue_hide_copyright_on_single' => true,
 );
 
 // Social Media Platforms Configuration
