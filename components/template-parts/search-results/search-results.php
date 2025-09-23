@@ -5,6 +5,9 @@
  * @package FAU-Elemental
  */
 
+// Enqueue the archive template script for sorting functionality
+wp_enqueue_script("faue-template-archive");
+
 // Configuration values from theme config
 $search_config = array(
     'excerpt_length' => faue_get_default('faue_search_excerpt_length'),
@@ -166,6 +169,46 @@ $total_results = count($current_site_custom_results);
 $current_page = max(1, get_query_var('paged', 1));
 $total_pages = (int) ceil($total_results / $results_per_page);
 
+// Get sorting parameters from URL
+$orderby = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : 'date';
+$order = isset($_GET['order']) ? sanitize_text_field($_GET['order']) : 'DESC';
+
+// Validate sorting parameters
+$valid_orderby = ['date', 'title'];
+$valid_order = ['ASC', 'DESC'];
+
+if (!in_array($orderby, $valid_orderby)) {
+    $orderby = 'date';
+}
+
+if (!in_array($order, $valid_order)) {
+    $order = 'DESC';
+}
+
+$order_select = "$orderby-$order";
+
+// Sort the results based on the selected criteria
+if (!empty($current_site_custom_results)) {
+    usort($current_site_custom_results, function($a, $b) use ($orderby, $order) {
+        $value_a = '';
+        $value_b = '';
+        
+        if ($orderby === 'date') {
+            $value_a = strtotime($a['date']);
+            $value_b = strtotime($b['date']);
+        } elseif ($orderby === 'title') {
+            $value_a = strtolower($a['title']);
+            $value_b = strtolower($b['title']);
+        }
+        
+        if ($order === 'ASC') {
+            return $value_a <=> $value_b;
+        } else {
+            return $value_b <=> $value_a;
+        }
+    });
+}
+
 // Slice the results for the current page
 $offset = ($current_page - 1) * $results_per_page;
 $paged_results = array_slice($current_site_custom_results, $offset, $results_per_page);
@@ -199,35 +242,64 @@ $paged_results = array_slice($current_site_custom_results, $offset, $results_per
 
 <?php if ($has_results) : ?>
     <div class="search-results" itemscope itemtype="https://schema.org/SearchResultsPage">
-        <div class="results-count">
-            <p role="status" aria-live="polite"><?php 
-                $total_results = count($current_site_custom_results);
-                if (!empty($search_query)) {
-                    printf(
-                        // translators: number of results
-                        _nx(
-                            '%s result found',
-                            '%s results found', 
-                            $total_results,
-                            'search results count', 
-                            'fau-elemental'
-                        ), 
-                        number_format_i18n($total_results)
-                    );
-                } else {
-                    printf(
-                        // translators: number of posts
-                        _nx(
-                            '%s post found',
-                            '%s posts found', 
-                            $total_results,
-                            'posts count', 
-                            'fau-elemental'
-                        ), 
-                        number_format_i18n($total_results)
-                    );
-                }
-            ?></p>
+        <div class="archive-info">
+            <div class="archive-meta-row">
+                <div class="pagination-info">
+                    <?php
+                    $total_results = count($current_site_custom_results);
+                    $items_per_page = 10; // Using the same pagination as in the search results
+                    $start_item = (($current_page - 1) * $items_per_page) + 1;
+                    $end_item = min($current_page * $items_per_page, $total_results);
+                    
+                    if ($total_results > $items_per_page) {
+                        printf(
+                            '<span class="pagination-number">%1$s</span> %2$s <span class="pagination-number">%3$s</span> %4$s <span class="pagination-number">%5$s</span>',
+                            number_format_i18n($start_item),
+                            __('to', 'fau-elemental'),
+                            number_format_i18n($end_item),
+                            __('of', 'fau-elemental'),
+                            number_format_i18n($total_results)
+                        );
+                    } else {
+                        printf(
+                            '<span class="pagination-number">%1$s</span> %2$s',
+                            number_format_i18n($total_results),
+                            __('total', 'fau-elemental')
+                        );
+                    }
+                    ?>
+                </div>
+                
+                <div class="archive-sorting">
+                    <form method="get" class="sorting-form">
+                        <label for="archive-sort"><?php _e('Sort by', 'fau-elemental'); ?></label>
+                        <div class="select-wrapper">
+                            <select name="sort" id="archive-sort">
+                                <option value="date-DESC" <?php selected($order_select, 'date-DESC'); ?>>
+                                    <?php _e('Date - newest first', 'fau-elemental'); ?>
+                                </option>
+                                <option value="date-ASC" <?php selected($order_select, 'date-ASC'); ?>>
+                                    <?php _e('Date - oldest first', 'fau-elemental'); ?>
+                                </option>
+                                <option value="title-ASC" <?php selected($order_select, 'title-ASC'); ?>>
+                                    <?php _e('Title - ascending', 'fau-elemental'); ?>
+                                </option>
+                                <option value="title-DESC" <?php selected($order_select, 'title-DESC'); ?>>
+                                    <?php _e('Title - descending', 'fau-elemental'); ?>
+                                </option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="orderby" value="<?php echo esc_attr($orderby); ?>">
+                        <input type="hidden" name="order" value="<?php echo esc_attr($order); ?>">
+                        <?php if (isset($_GET['paged'])) : ?>
+                            <input type="hidden" name="paged" value="<?php echo esc_attr($_GET['paged']); ?>">
+                        <?php endif; ?>
+                        <?php if (!empty($search_query)) : ?>
+                            <input type="hidden" name="s" value="<?php echo esc_attr($search_query); ?>">
+                        <?php endif; ?>
+                    </form>
+                </div>
+            </div>
         </div>
 
         <h2 class="screen-reader-text"><?php _e('Search Results List', 'fau-elemental'); ?></h2>
@@ -238,6 +310,7 @@ $paged_results = array_slice($current_site_custom_results, $offset, $results_per
             // Display search results using paged results
             foreach ($paged_results as $formatted_result) : 
                 $post_result = $formatted_result['post_result'];
+                $excerpt = strip_shortcodes($formatted_result['excerpt']);
                 ?>
                 <article class="search-result-item search-result-item--current-site" itemscope itemtype="https://schema.org/Article">
                     <h3 class="screen-reader-text">
@@ -316,9 +389,11 @@ $paged_results = array_slice($current_site_custom_results, $offset, $results_per
                                 </a>
                             </h2>
                             
+                            <?php if (!empty($excerpt)) : ?>
                             <p class="result-excerpt" itemprop="description">
-                                <?php echo esc_html(wp_trim_words($formatted_result['excerpt'], $search_config['excerpt_length'], '…')); ?>
-                                </p>
+                                <?php echo esc_html(wp_trim_words($excerpt, $search_config['excerpt_length'], '…')); ?>
+                            </p>
+                            <?php endif; ?>
                             
                             <div class="wp-block-buttons">
                                 <div class="wp-block-button is-style-tertiary">
@@ -371,3 +446,25 @@ $paged_results = array_slice($current_site_custom_results, $offset, $results_per
         <?php endif; ?>
     </div>
 <?php endif; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sortSelect = document.getElementById('archive-sort');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            const [orderby, order] = selectedValue.split('-');
+            
+            // Update the hidden inputs
+            const orderbyInput = document.querySelector('input[name="orderby"]');
+            const orderInput = document.querySelector('input[name="order"]');
+            
+            if (orderbyInput) orderbyInput.value = orderby;
+            if (orderInput) orderInput.value = order;
+            
+            // Submit the form
+            this.form.submit();
+        });
+    }
+});
+</script>

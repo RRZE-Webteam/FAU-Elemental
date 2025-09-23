@@ -10,7 +10,7 @@
 
 	.search-results {
 		margin: 0 auto;
-		margin-block-start: 2.5rem;
+		margin-block-start: var(--Spacing-8x);
 		max-width: var(--small-max-width);
 		padding: 0 var(--Spacing-10x);
 	}
@@ -24,7 +24,12 @@
 		background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
 		padding: var(--Spacing-6x);
 		display: grid;
-		gap: var(--Spacing-2x);
+		gap: var(--Spacing-4x);
+
+		.result-header {
+			display: flex;
+			gap: var(--Spacing-2x);
+		}
 	}
 
 	.result-date {
@@ -73,10 +78,21 @@
 			flex: 1;
 			min-width: 0;
 			display: grid;
-			gap: var(--Spacing-2x);
 
 			.result-title {
 				margin: 0;
+			}
+
+			.result-title a {
+				font-weight: 700;
+			}
+
+			.result-excerpt {
+				margin: var(--Spacing-3x) 0 0 0;
+			}
+
+			.wp-block-buttons {
+				margin: var(--Spacing-4x) 0 0 0;
 			}
 		}
 	}
