@@ -90,7 +90,13 @@
         <div class="footer-bottom-bottom">
             <div class="footer-left">
                 <?php if (!is_single() || !get_theme_mod('faue_hide_copyright_on_single', faue_get_default('faue_hide_copyright_on_single'))) : ?>
-                    <?php echo do_blocks('<!-- wp:fau-elemental/fau-copyright-info /-->'); ?>
+                    <?php echo render_block([
+                        'blockName' => 'fau-elemental/fau-copyright-info',
+                        'attrs' => [],
+                        'innerBlocks' => [],
+                        'innerHTML' => '',
+                        'innerContent' => []
+                    ]); ?>
                 <?php endif; ?>
             </div>
             
