@@ -491,7 +491,8 @@ body.modal-open {
 		}
 
 		h2.faculty-rw,
-		li.faculty-rw .menu-modal__item-title {
+		li.faculty-rw .menu-modal__item-title,
+		li.faculty-rw a {
 			color: var(--FAU-Col-FAU-Weiss-100);
 		}
 	}
