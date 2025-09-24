@@ -2,6 +2,7 @@
 
 .fau-portal-menu {
 	max-width: var(--base-max-width);
+	padding: var(--Spacing-10x);
 
 	&:has(.fau-portal-thumbnail) {
 		max-width: var(--wide-max-width);
@@ -13,7 +14,8 @@
 	grid-template-columns: repeat(2, 1fr);
 	gap: 0 var(--Spacing-8x);
 	width: 100%;
-	padding: var(--Spacing-10x);
+	padding: 0;
+	max-width: var(--wide-max-width);
 
 	.fau-portal-item {
 		display: flex;
@@ -233,7 +235,7 @@
 
 @include smaller-or-equals("x-small") {
 
-	.fau-portal-menu > ul {
+	.fau-portal-menu {
 		padding: var(--Spacing-5x);
 	}
 }
