@@ -1,5 +1,10 @@
 @use "../../ui/mixins/mixins" as *;
 
+main > .is-layout-flow {
+	max-width: var(--wide-max-width);
+	margin: 0 auto;
+}
+
 // Hide Print Logo
 .print-container {
 	display: none;
@@ -50,7 +55,10 @@
 	ul,
 	ol,
 	address,
-	pre {
+	pre,
+	form,
+	hr,
+	.gallery {
 		max-width: var(--small-max-width);
 	}
 
@@ -71,6 +79,12 @@
 		@include smaller-or-equals("x-small") {
 			padding: 0 var(--Spacing-5x);
 		}
+	}
+
+	.gallery {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--Spacing-4x);
 	}
 }
 
