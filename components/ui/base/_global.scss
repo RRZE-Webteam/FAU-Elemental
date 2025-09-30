@@ -22,7 +22,7 @@
 	visibility: hidden;
 }
 
-:where(.faue-content-wrapper) > :where(:not(.wp-block-group.is-style-dark)) {
+:where(.faue-content-wrapper) > :where(:not(.is-style-dark, [class*="hero"])) {
 	max-width: var(--wide-max-width);
 }
 
