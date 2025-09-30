@@ -64,6 +64,9 @@ function fau_sanitize_phone_number($phone) {
 }
 
 function fau_customizer_settings($wp_customize) {
+    // Remove the Additional CSS section to disable custom CSS option
+    $wp_customize->remove_section('custom_css');
+    
     // Get the faculty for default values
     $faculty = get_theme_mod('faue_faculty', 'phil');
     
