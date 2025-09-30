@@ -116,31 +116,6 @@ function fau_elemental_template_include($template) {
 }
 add_filter('template_include', 'fau_elemental_template_include', 99);
 
-/**
- * Main theme setup function for FAU-Elemental
- */
- function fau_elemental_theme_setup() {
-    // Basic theme features support
-    add_theme_support('post-thumbnails');
-    add_theme_support('custom-logo');
-    add_theme_support('automatic-feed-links');
-    add_theme_support('html5', array(
-        'comment-list', 
-        'comment-form', 
-        'search-form', 
-        'gallery', 
-        'caption',
-        'style',
-        'script'
-    ));
-    add_theme_support('title-tag');
-    
- 
-    
-    // Add custom image sizes if needed
-    // add_image_size('featured-large', 1600, 900, true);
-}
-add_action('after_setup_theme', 'fau_elemental_theme_setup');
 
 /**
  * Add a filter to post updated messages to help with portal page template

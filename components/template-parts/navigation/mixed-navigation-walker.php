@@ -189,7 +189,8 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
             }
             
             // Index by URL for duplicate checking
-            $url = rtrim(parse_url($item->url, PHP_URL_PATH), '/');
+            $parsed_url = parse_url($item->url, PHP_URL_PATH);
+            $url = $parsed_url ? rtrim($parsed_url, '/') : '';
             if (!empty($url)) {
                 $this->menu_items_by_url[$url] = $item;
             }
@@ -323,7 +324,9 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
         if ($visible_parent) {
             $output .= '<div class="current-page-parent-info" ';
             $output .= 'data-parent-page-id="' . esc_attr($visible_parent->ID) . '" ';
-            $output .= 'data-parent-page-url="' . esc_attr(rtrim(parse_url(get_permalink($visible_parent->ID), PHP_URL_PATH), '/')) . '" ';
+            $parent_parsed_url = parse_url(get_permalink($visible_parent->ID), PHP_URL_PATH);
+            $parent_url = $parent_parsed_url ? rtrim($parent_parsed_url, '/') : '';
+            $output .= 'data-parent-page-url="' . esc_attr($parent_url) . '" ';
             $output .= 'data-parent-page-title="' . esc_attr($visible_parent->post_title) . '" ';
             $output .= 'data-current-page-hidden="true"></div>';
         }
@@ -431,8 +434,10 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
         }
 
         // Add current page class and data attribute
-        $current_url = rtrim(wp_parse_url(home_url(add_query_arg([])), PHP_URL_PATH), '/');
-        $item_url = rtrim(parse_url($item->url, PHP_URL_PATH), '/');
+        $current_parsed_url = wp_parse_url(home_url(add_query_arg([])), PHP_URL_PATH);
+        $current_url = $current_parsed_url ? rtrim($current_parsed_url, '/') : '';
+        $item_parsed_url = parse_url($item->url, PHP_URL_PATH);
+        $item_url = $item_parsed_url ? rtrim($item_parsed_url, '/') : '';
         $is_current = ($current_url === $item_url);
         if ($is_current) {
             $classes[] = 'current-menu-item';
@@ -600,7 +605,8 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
             
             // O(1) lookup by URL (fallback for other types)
             if (!$is_duplicate) {
-                $page_url = rtrim(parse_url(get_permalink($page->ID), PHP_URL_PATH), '/');
+                $page_parsed_url = parse_url(get_permalink($page->ID), PHP_URL_PATH);
+                $page_url = $page_parsed_url ? rtrim($page_parsed_url, '/') : '';
                 if (!empty($page_url) && isset($this->menu_items_by_url[$page_url])) {
                     $is_duplicate = true;
                 }
@@ -655,7 +661,9 @@ class Mixed_Navigation_Walker extends Walker_Nav_Menu {
             $data_attributes .= ' data-item-type="page-child"';
             $data_attributes .= ' data-page-id="' . esc_attr($page->ID) . '"';
             $data_attributes .= ' data-has-page-children="' . ($has_children ? 'true' : 'false') . '"';
-            $data_attributes .= ' data-menu-url="' . esc_attr(rtrim(parse_url(get_permalink($page->ID), PHP_URL_PATH), '/')) . '"';
+            $page_parsed_url = parse_url(get_permalink($page->ID), PHP_URL_PATH);
+            $page_url = $page_parsed_url ? rtrim($page_parsed_url, '/') : '';
+            $data_attributes .= ' data-menu-url="' . esc_attr($page_url) . '"';
             $data_attributes .= ' data-menu-item-id="page-' . esc_attr($page->ID) . '"';
             
             $output .= '<li class="' . esc_attr($class_names) . '"' . $data_attributes . '>';

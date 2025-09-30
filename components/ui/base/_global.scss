@@ -1,10 +1,5 @@
 @use "../../ui/mixins/mixins" as *;
 
-main > .is-layout-flow {
-	max-width: var(--wide-max-width);
-	margin: 0 auto;
-}
-
 // Hide Print Logo
 .print-container {
 	display: none;
@@ -27,13 +22,17 @@ main > .is-layout-flow {
 	visibility: hidden;
 }
 
-:where(.is-layout-flow) > * {
+:where(.faue-content-wrapper) > :where(:not(.is-style-dark, [class*="hero"])) {
+	max-width: var(--wide-max-width);
+}
+
+:where(.faue-content-wrapper) > * {
 	margin-left: auto;
 	margin-right: auto;
 }
 
 // Basic HTML style (fallbacks)
-:where(.is-layout-flow) {
+:where(.faue-content-wrapper) {
 
 	h1 {
 		padding: 0 var(--Spacing-10x);
@@ -88,7 +87,7 @@ main > .is-layout-flow {
 	}
 }
 
-.is-layout-flow {
+.faue-content-wrapper {
 
 	blockquote,
 	table,

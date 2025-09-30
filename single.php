@@ -22,7 +22,7 @@ if (locate_template('template-parts/hero-post.php')) {
             the_post();
             ?>
             <article id="post-<?php echo esc_attr(get_the_ID()); ?>" <?php post_class(); ?>>
-                <div class="is-layout-flow">
+                <div class="is-layout-flow faue-content-wrapper">
                     <?php the_content(); ?>
                 </div>
 

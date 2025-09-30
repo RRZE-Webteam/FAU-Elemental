@@ -64,6 +64,9 @@ function fau_sanitize_phone_number($phone) {
 }
 
 function fau_customizer_settings($wp_customize) {
+    // Remove the Additional CSS section to disable custom CSS option
+    $wp_customize->remove_section('custom_css');
+    
     // Get the faculty for default values
     $faculty = get_theme_mod('faue_faculty', 'phil');
     
@@ -968,14 +971,3 @@ function fau_hero_styles() {
     }
 }
 add_action('wp_enqueue_scripts', 'fau_hero_styles', 999);
-
-/**
- * Clear cache when hero settings are changed
- */
-// function fau_hero_settings_changed($value, $old_value, $option) {
-//     if (function_exists('wp_cache_flush')) {
-//         wp_cache_flush();
-//     }
-//     return $value;
-// }
-// add_filter('pre_update_option_hero_show_text_mobile', 'fau_hero_settings_changed', 10, 3);
