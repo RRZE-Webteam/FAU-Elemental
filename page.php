@@ -17,7 +17,7 @@ if (have_posts()) {
 <main>
     <?php while (have_posts()) : the_post(); ?>
 
-        <div class="is-layout-flow">
+        <div class="is-layout-flow faue-content-wrapper">
             <?php the_content(); ?>
         </div>
 
