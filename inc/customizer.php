@@ -971,14 +971,3 @@ function fau_hero_styles() {
     }
 }
 add_action('wp_enqueue_scripts', 'fau_hero_styles', 999);
-
-/**
- * Clear cache when hero settings are changed
- */
-// function fau_hero_settings_changed($value, $old_value, $option) {
-//     if (function_exists('wp_cache_flush')) {
-//         wp_cache_flush();
-//     }
-//     return $value;
-// }
-// add_filter('pre_update_option_hero_show_text_mobile', 'fau_hero_settings_changed', 10, 3);

@@ -13,12 +13,6 @@ if (!defined('ABSPATH')) {
  * Add theme settings to the WordPress Customizer
  */
 function faue_customize_register($wp_customize) {
-    // Add FAU Elemental section
-    $wp_customize->add_section('faue_theme_settings', array(
-        'title'    => __('Theme Settings', 'fau-elemental'),
-        'priority' => 120,
-    ));
-
     // Add Header Settings section
     $wp_customize->add_section('faue_header_settings', array(
         'title'    => __('Header Settings', 'fau-elemental'),
@@ -49,7 +43,7 @@ function faue_customize_register($wp_customize) {
 
     $wp_customize->add_control('faue_website_type', array(
         'label'    => __('Website Type', 'fau-elemental'),
-        'section'  => 'faue_theme_settings',
+        'section'  => 'title_tagline',
         'type'     => 'select',
         'choices'  => array(
             'fau'          => __('FAU.de', 'fau-elemental'),
@@ -69,7 +63,7 @@ function faue_customize_register($wp_customize) {
 
     $wp_customize->add_control('faue_faculty', array(
         'label'           => __('Faculty', 'fau-elemental'),
-        'section'         => 'faue_theme_settings',
+        'section'         => 'title_tagline',
         'type'            => 'select',
         'choices'         => array(
             'phil' => __('Philosophical Faculty', 'fau-elemental'),
@@ -89,7 +83,7 @@ function faue_customize_register($wp_customize) {
 
     $wp_customize->add_control('faue_copyright_info_priority', array(
         'label'    => __('Copyright Info Priority', 'fau-elemental'),
-        'section'  => 'faue_theme_settings',
+        'section'  => 'title_tagline',
         'type'     => 'select',
         'choices'  => array(
             'field' => __('Copyright Field', 'fau-elemental'),
@@ -107,7 +101,7 @@ function faue_customize_register($wp_customize) {
     $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'faue_fallback_image', array(
         'label'       => __('Fallback Image', 'fau-elemental'),
         'description' => __('Choose a default image to use when no featured image is available for posts or pages.', 'fau-elemental'),
-        'section'     => 'faue_theme_settings',
+        'section'     => 'title_tagline',
         'priority'    => 30,
     )));
     
@@ -118,6 +112,12 @@ function faue_customize_register($wp_customize) {
             'render_callback' => '__return_false',
             'container_inclusive' => false,
         ));
+    }
+
+    // Add active_callback to the existing custom logo control
+    $custom_logo_control = $wp_customize->get_control('custom_logo');
+    if ($custom_logo_control) {
+        $custom_logo_control->active_callback = 'faue_show_custom_logo_control';
     }
 }
 add_action('customize_register', 'faue_customize_register');
@@ -145,6 +145,20 @@ function faue_is_faculty_website($control) {
     }
     return 'faculty' === $setting->value();
 }
+
+/**
+ * Check if the custom logo control should be shown
+ * Show logo control only for cooperation websites
+ */
+function faue_show_custom_logo_control($control) {
+    $setting = $control->manager->get_setting('faue_website_type');
+    if (!$setting) {
+        return false;
+    }
+    $website_type = $setting->value();
+    return $website_type === 'cooperation';
+}
+
 
 /**
  * Sanitize website type input

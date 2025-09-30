@@ -22,6 +22,17 @@ function faue_setup() {
     // Add support for responsive embeds
     add_theme_support('responsive-embeds');
 
+    // Add support for HTML5 markup
+    add_theme_support('html5', array(
+        'comment-list', 
+        'comment-form', 
+        'search-form', 
+        'gallery', 
+        'caption',
+        'style',
+        'script'
+    ));
+
     // Add support for custom logo
     add_theme_support('custom-logo', array(
         'height'      => 100,
@@ -32,9 +43,6 @@ function faue_setup() {
 
     // Add support for menus
     add_theme_support('menus');
-
-    // Register navigation menus
-    // Menus are now registered in inc/menu-registration.php
 
     add_editor_style(array(
         'style.css',
