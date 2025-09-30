@@ -149,19 +149,17 @@
 	}
 }
 
-main,
-.is-root-container {
-
-	div:not(.wp-block-cover, .image-wrapper):has(> img) {
-		position: relative;
-	}
+div:not([class*="hero"] .wp-block-cover, .image-wrapper, .footer-logo):has(> img),
+figure:has(> img) {
+	position: relative;
+}
 
 
-	div:not([class*="hero"] .wp-block-cover, .image-wrapper):has(> img)::before {
-		content: "";
-		position: absolute;
-		background-color: rgba(0, 0, 0, 0.05);
-		width: 100%;
-		height: 100%;
-	}
+div:not([class*="hero"] .wp-block-cover, .image-wrapper, .footer-logo):has(> img)::before,
+figure:has(> img)::before {
+	content: "";
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.05);
+	width: 100%;
+	height: 100%;
 }
