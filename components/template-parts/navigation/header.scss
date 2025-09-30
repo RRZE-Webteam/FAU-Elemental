@@ -427,17 +427,20 @@ body.modal-open {
 		.site-header .site-header-top__wrapper {
 			max-width: calc(1800px - 15px); // Compensate for missing scroll bar
 		}
-
-		// Compensate for the translateX(-50%) positioning when scrollbar is hidden
-		&.home:not(.blog).has-hero-block .site-header__main {
-			transform: translateX(calc(-50% + 7px)); // Adjust for missing scrollbar
-		}
 	}
 
 	@media screen and (max-width: 1815px) and (min-width: 600px) {
 
 		.site-header__top .fau-navigation {
 			margin-right: 15px; // Compensate for missing scroll bar
+		}
+	}
+
+	@media screen and (min-width: 1920px) {
+
+		// Compensate for the translateX(-50%) positioning when scrollbar is hidden
+		&.home:not(.blog).has-hero-block .site-header__main {
+			transform: translateX(calc(-50% - 7.5px)); // Adjust for missing scrollbar
 		}
 	}
 }
