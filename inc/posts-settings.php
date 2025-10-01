@@ -74,10 +74,10 @@ function save_post_header_options_meta_box($post_id) {
 add_action('save_post', 'save_post_header_options_meta_box');
 
 /**
- * Add caption to post featured image blocks
+ * Add caption to post featured image blocks and wrap img in div
  * 
  * This adds the caption from the media library to the featured image
- * when rendered with the post-featured-image block
+ * when rendered with the post-featured-image block and wraps the img element in a div
  *
  * @param string $block_content The block content.
  * @param array  $block         The full block, including name and attributes.
@@ -90,6 +90,13 @@ function fau_add_caption_to_featured_image($block_content, $block) {
         if (empty($block_content)) {
             return $block_content;
         }
+        
+        // Wrap the img element in a div
+        $block_content = preg_replace(
+            '/(<img[^>]*>)/',
+            '<div class="wp-block-post-featured-image__wrapper">$1</div>',
+            $block_content
+        );
         
         // Get the post ID and the attachment ID
         $post_id = get_the_ID();
