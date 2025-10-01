@@ -4,23 +4,6 @@
 	max-width: var(--base-max-width);
 	padding: 0 var(--Spacing-10x);
 
-	blockquote {
-		font-size: 1.5rem;
-		color: var(--FAU-Col-FAU-Blau-100);
-		line-height: var(--base-line-height);
-		font-weight: 700;
-		font-style: italic;
-		margin: 0;
-	}
-
-	cite {
-		font-size: var(--P-Body-Text);
-		color: var(--FAU-Col-FAU-Schwarz-100);
-		line-height: var(--base-line-height);
-		font-weight: 400;
-		font-style: normal;
-	}
-
 	.testimonial-content {
 		display: flex;
 		align-items: center;
@@ -30,6 +13,24 @@
 			flex-direction: column;
 			gap: var(--Spacing-4x);
 			box-sizing: border-box;
+
+			blockquote {
+				font-size: 1.5rem;
+				color: var(--FAU-Col-FAU-Blau-100);
+				line-height: var(--base-line-height);
+				font-weight: 700;
+				font-style: italic;
+				margin: 0;
+				padding: 0;
+			}
+
+			cite {
+				font-size: var(--P-Body-Text);
+				color: var(--FAU-Col-FAU-Schwarz-100);
+				line-height: var(--base-line-height);
+				font-weight: 400;
+				font-style: normal;
+			}
 		}
 
 		figure {
