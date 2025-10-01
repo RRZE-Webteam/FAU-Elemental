@@ -13,7 +13,7 @@ $faculty-colors: (
 	@each $faculty, $color in $faculty-colors {
 		.faculty-#{$faculty} & {
 
-			h2 {
+			h1 {
 				background-color: $color !important;
 			}
 		}
@@ -21,7 +21,7 @@ $faculty-colors: (
 
 	.faculty-rw & {
 
-		h2,
+		h1,
 		p {
 			color: var(--FAU-Col-FAU-Weiss-100);
 		}
