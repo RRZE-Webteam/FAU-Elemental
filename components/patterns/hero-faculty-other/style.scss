@@ -38,7 +38,7 @@ $faculty-colors: (
 			box-sizing: border-box;
 		}
 
-		h2 {
+		h1 {
 			position: relative;
 			width: -moz-max-content;
 			width: max-content;
@@ -110,7 +110,7 @@ $faculty-colors: (
 
 	.hero-faculty-content-wrapper {
 
-		h2 {
+		h1 {
 			color: var(--FAU-Col-FAU-Weiss-100);
 			background-color: var(--FAU-Col-FAU-Blau-100);
 		}
@@ -155,7 +155,7 @@ $faculty-colors: (
 				position: relative;
 				bottom: 2.5rem;
 
-				h2 {
+				h1 {
 					width: 100%;
 					min-width: unset;
 					max-width: unset;
@@ -194,7 +194,7 @@ $faculty-colors: (
 	.hero-faculty-other .hero-faculty-content-wrapper .hero-faculty-content {
 		padding: 0 var(--Spacing-5x);
 
-		h2 {
+		h1 {
 			padding: var(--Spacing-4x);
 		}
 

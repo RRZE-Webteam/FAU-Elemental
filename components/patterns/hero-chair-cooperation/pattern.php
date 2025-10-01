@@ -66,8 +66,8 @@ if ($current_website_type === 'chair') {
         <!-- wp:column {"className":"hero-chair-content"} -->
         <div class="wp-block-column hero-chair-content">
 
-            <!-- wp:heading {"level":2} -->
-            <h2 class="wp-block-heading"><?php echo esc_html($current_content['title']); ?></h2>
+            <!-- wp:heading {"level":1} -->
+            <h1 class="wp-block-heading"><?php echo esc_html($current_content['title']); ?></h1>
             <!-- /wp:heading -->
 
             <!-- wp:group {"className":"hero-mobile-optional"} -->
