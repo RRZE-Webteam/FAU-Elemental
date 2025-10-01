@@ -225,7 +225,7 @@
 					left: 0.125rem;
 				}
 
-				+ label.wsf-label {
+				&:not(.wsf-button) + label.wsf-label {
 					margin-left: 2.5rem;
 				}
 			}
@@ -251,23 +251,7 @@
 				&:focus-visible {
 
 					&::before {
-						top: 1.55rem;
-					}
-				}
-
-				// If select has label, compensate for it
-				&:has(label) {
-
-					&::before {
-						top: 2.9rem;
-					}
-
-					&:hover,
-					&:focus-visible {
-
-						&::before {
-							top: 3.15rem;
-						}
+						top: 1.7rem;
 					}
 				}
 
@@ -295,6 +279,22 @@
 						&:focus-visible {
 							border: 0.125rem solid var(--FAU-Col-Error-Light);
 						}
+					}
+				}
+			}
+
+			// Adjust dropdown chevron when label is on top
+			.wsf-tile[data-type="select"]:has(label + select) {
+
+				&::before {
+					top: 2.9rem;
+				}
+
+				&:hover,
+				&:focus-visible {
+
+					&::before {
+						top: 3.3rem;
 					}
 				}
 			}
