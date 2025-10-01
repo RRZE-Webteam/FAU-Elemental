@@ -1,14 +1,14 @@
 @use "../../ui/mixins/mixins" as *;
 
 .fau-big-button-teaser-group {
+	max-width: var(--wide-max-width);
+	margin: 0 auto;
+	padding: 0 var(--Spacing-10x);
 
 	.fau-big-button-teaser-group__buttons {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
 		gap: var(--Spacing-8x);
-		max-width: var(--wide-max-width);
-		margin: 0 auto;
-		padding: 0 var(--Spacing-10x);
 
 		a {
 			position: relative;
