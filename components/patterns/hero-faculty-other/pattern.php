@@ -59,7 +59,7 @@ if ($current_website_type === 'other') {
 }
 ?>
 <!-- wp:columns {"align":"wide","templateLock":"all", "className": "hero-faculty-other"} -->
-<div class="wp-block-columns alignwide hero-faculty-other <?php echo $current_website_type === 'other' ? 'hero-other' : 'faculty-' . esc_attr($current_faculty); ?>">
+<div class="wp-block-columns alignwide hero-faculty-other">
 
     <!-- wp:column {"className":"hero-faculty-content-wrapper"} -->
     <div class="wp-block-column hero-faculty-content-wrapper">

@@ -15,12 +15,12 @@ $faculty-colors: (
 	gap: 0;
 
 	@each $faculty, $color in $faculty-colors {
-		&.faculty-#{$faculty} {
+		.faculty-#{$faculty} & {
 			background-color: $color;
 		}
 	}
 
-	.hero-faculty-content-wrapper {
+	.hero-faculty-content-wrapper.wp-block-column {
 		position: absolute;
 		left: 50%;
 		width: 100%;
@@ -105,7 +105,7 @@ $faculty-colors: (
 }
 
 // Hero Other
-.hero-faculty-other.hero-other {
+.fauorg-sonstige .hero-faculty-other {
 	background-color: var(--FAU-Col-FAU-Blau-100);
 
 	.hero-faculty-content-wrapper {
@@ -144,7 +144,7 @@ $faculty-colors: (
 			max-width: unset;
 
 			@each $faculty, $color in $faculty-colors {
-				&.faculty-#{$faculty} {
+				.faculty-#{$faculty} & {
 					background-color: $color;
 				}
 			}

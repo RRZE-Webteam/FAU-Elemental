@@ -58,7 +58,7 @@ if ($current_website_type === 'chair') {
 }
 ?>
 <!-- wp:columns {"templateLock":"all", "className": "hero-chair-cooperation"} -->
-<div class="wp-block-columns alignwide hero-chair-cooperation <?php echo $current_website_type === 'chair' ? 'hero-chair faculty-' . esc_attr($current_faculty) : 'hero-cooperation'; ?>">
+<div class="wp-block-columns alignwide hero-chair-cooperation">
 
     <!-- wp:column {"className":"hero-chair-content-wrapper"} -->
     <div class="wp-block-column hero-chair-content-wrapper">
