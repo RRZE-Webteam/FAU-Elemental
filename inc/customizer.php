@@ -94,7 +94,8 @@ function fau_customizer_settings($wp_customize) {
     // Add a notice for non-FAU websites
     if ($website_type !== 'fau') {
         $wp_customize->add_setting('claim_notice', [
-            'default' => ''
+            'default' => '',
+            'sanitize_callback' => 'sanitize_text_field'
         ]);
         $wp_customize->add_control('claim_notice', [
             'label' => '',
@@ -125,7 +126,8 @@ function fau_customizer_settings($wp_customize) {
     
     // Überschrift (was FAU Claim Title)
     $wp_customize->add_setting('fau_footer_title', [
-        'default' => 'FAU - Wissen in Bewegung'
+        'default' => 'FAU - Wissen in Bewegung',
+        'sanitize_callback' => 'sanitize_text_field'
     ]);
     $wp_customize->add_control('fau_footer_title', [
         'label' => __('Heading', 'fau-elemental'),
@@ -140,7 +142,8 @@ function fau_customizer_settings($wp_customize) {
     
     // Text (was FAU Claim Text)
     $wp_customize->add_setting('fau_footer_description', [
-        'default' => __('Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung.', 'fau-elemental')
+        'default' => __('Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung.', 'fau-elemental'),
+        'sanitize_callback' => 'sanitize_textarea_field'
     ]);
     $wp_customize->add_control('fau_footer_description', [
         'label' => __('Text', 'fau-elemental'),
@@ -166,7 +169,8 @@ function fau_customizer_settings($wp_customize) {
     
     // Überschrift (was Faculty Title)
     $wp_customize->add_setting('instance_title', [
-        'default' => get_bloginfo('name')
+        'default' => get_bloginfo('name'),
+        'sanitize_callback' => 'sanitize_text_field'
     ]);
     $wp_customize->add_control('instance_title', [
         'label' => __('Heading', 'fau-elemental'),
@@ -178,7 +182,8 @@ function fau_customizer_settings($wp_customize) {
     
     // Beschreibung (was Faculty Description)
     $wp_customize->add_setting('instance_description', [
-        'default' => get_bloginfo('description')
+        'default' => get_bloginfo('description'),
+        'sanitize_callback' => 'sanitize_textarea_field'
     ]);
     $wp_customize->add_control('instance_description', [
         'label' => __('Description', 'fau-elemental'),
@@ -363,7 +368,8 @@ function fau_customizer_settings($wp_customize) {
     // Add a notice for non-FAU websites
     if ($website_type !== 'fau') {
         $wp_customize->add_setting('target_groups_notice', [
-            'default' => ''
+            'default' => '',
+            'sanitize_callback' => 'sanitize_text_field'
         ]);
         $wp_customize->add_control('target_groups_notice', [
             'label' => '',
@@ -377,7 +383,8 @@ function fau_customizer_settings($wp_customize) {
     foreach ($target_groups as $key => $label) {
         // Group heading
         $wp_customize->add_setting('target_group_heading_' . $key, [
-            'default' => $label
+            'default' => $label,
+            'sanitize_callback' => 'sanitize_text_field'
         ]);
         $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'target_group_heading_' . $key, [
             'label' => $label,
@@ -388,7 +395,8 @@ function fau_customizer_settings($wp_customize) {
         
         // Überschrift (was Title)
         $wp_customize->add_setting('target_' . $key . '_title', [
-            'default' => $label
+            'default' => $label,
+            'sanitize_callback' => 'sanitize_text_field'
         ]);
         $wp_customize->add_control('target_' . $key . '_title', [
             'label' => __('Heading', 'fau-elemental'),
@@ -406,7 +414,8 @@ function fau_customizer_settings($wp_customize) {
         }
         
         $wp_customize->add_setting('target_' . $key . '_description', [
-            'default' => $default_desc
+            'default' => $default_desc,
+            'sanitize_callback' => 'sanitize_textarea_field'
         ]);
         $wp_customize->add_control('target_' . $key . '_description', [
             'label' => __('Description', 'fau-elemental'),
@@ -419,7 +428,8 @@ function fau_customizer_settings($wp_customize) {
         
         // Link URL (unchanged)
         $wp_customize->add_setting('target_' . $key . '_link', [
-            'default' => '#'
+            'default' => '#',
+            'sanitize_callback' => 'esc_url_raw'
         ]);
         $wp_customize->add_control('target_' . $key . '_link', [
             'label' => __('Link URL', 'fau-elemental'),
@@ -432,7 +442,9 @@ function fau_customizer_settings($wp_customize) {
         
         // Separator
         if ($key != 'section4') {
-            $wp_customize->add_setting('target_separator_' . $key);
+            $wp_customize->add_setting('target_separator_' . $key, [
+                'sanitize_callback' => 'sanitize_text_field'
+            ]);
             $wp_customize->add_control(new WP_Customize_Control($wp_customize, 'target_separator_' . $key, [
                 'label' => '',
                 'section' => 'footer_zielgruppen',
@@ -463,7 +475,9 @@ function fau_customizer_settings($wp_customize) {
     );
 
     foreach ($social_platforms as $key => $label) {
-        $wp_customize->add_setting('social_' . $key);
+        $wp_customize->add_setting('social_' . $key, [
+            'sanitize_callback' => 'esc_url_raw'
+        ]);
         $wp_customize->add_control('social_' . $key, [
             'label' => $label,
             /* translators: social media platform */
@@ -945,6 +959,7 @@ function fau_hero_customizer_settings($wp_customize) {
     // Show/Hide Text and Link on Mobile
     $wp_customize->add_setting('hero_show_text_mobile', [
         'default' => true,
+        'sanitize_callback' => 'sanitize_checkbox'
     ]);
     $wp_customize->add_control('hero_show_text_mobile', [
         'label' => __('Show Description Text and Link on Mobile', 'fau-elemental'),

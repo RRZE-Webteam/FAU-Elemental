@@ -134,7 +134,7 @@ function render_big_button_html($items, $options = []) {
                 
                 if (!empty($title) && !empty($url)) :
             ?>
-                <a href="<?php echo $url; ?>" class="<?php echo implode(' ', $button_classes); ?>" role="button">
+                <a href="<?php echo esc_url($url); ?>" class="<?php echo implode(' ', $button_classes); ?>" role="button">
                     <h3>
                         <?php echo $title; ?>
                     </h3>
