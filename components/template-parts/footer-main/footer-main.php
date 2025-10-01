@@ -1,4 +1,4 @@
-<div class="footer-content footer-content--main <?php echo get_theme_mod('footer_dark_style', false) ? 'is-style-dark' : ''; ?>">
+<div class="footer-content footer-content--main <?php echo esc_attr( get_theme_mod('footer_dark_style', false) ? 'is-style-dark' : '' ); ?>">
     <div class="footer-main">
         <section class="fau-claim">
             <h2><?php echo esc_html(get_theme_mod('fau_footer_title', __('FAU - Knowledge in Motion', 'fau-elemental'))); ?></h2>
