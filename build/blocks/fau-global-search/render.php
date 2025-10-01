@@ -33,7 +33,7 @@ $form_id = 'fau-global-search-' . wp_unique_id();
 		<form 
 			class="fau-global-search fau-global-search__form" 
 			method="get" 
-			action="<?php echo home_url('/'); ?>"
+			action="<?php echo esc_url(home_url('/')); ?>"
 			id="<?php echo $form_id; ?>"
 			<?php if ($width === 'content-size'): ?>data-advanced-features="true" data-enable-autocomplete="true"<?php endif; ?>
 		>
