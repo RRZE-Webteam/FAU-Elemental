@@ -60,7 +60,7 @@
                         <?php 
                         $logo_url = get_theme_mod('fau_footer_logo', get_theme_file_uri('assets/images/Logo-white.svg'));
                         if ($logo_url) : ?>
-                            <img src="<?php echo $logo_url; ?>" alt="<?php echo esc_attr__('FAU Logo', 'fau-elemental'); ?>" loading="lazy" decoding="async">
+                            <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr__('FAU Logo', 'fau-elemental'); ?>" loading="lazy" decoding="async">
                         <?php endif; ?>
                     </div>
                     <div class="footer-logo-tagline">

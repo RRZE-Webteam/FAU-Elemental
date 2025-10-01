@@ -48,7 +48,7 @@ get_template_part('components/template-parts/navigation/navigation-utils');
             <?php
             $logo_url = get_theme_mod('fau_footer_logo', get_theme_file_uri('assets/images/logo-print.svg'));
             if ($logo_url) : ?>
-                <img src="<?php echo $logo_url; ?>" alt="<?php echo esc_attr__('FAU Logo', 'fau-elemental'); ?>">
+                <img src="<?php echo esc_url($logo_url); ?>" alt="<?php echo esc_attr__('FAU Logo', 'fau-elemental'); ?>">
             <?php endif; ?>
         </div>
     </div>

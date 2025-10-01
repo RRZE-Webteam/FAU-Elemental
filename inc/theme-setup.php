@@ -41,8 +41,6 @@ function faue_setup() {
         'flex-height' => true,
     ));
 
-    // Add support for menus
-    add_theme_support('menus');
 
     add_editor_style(array(
         'style.css',
