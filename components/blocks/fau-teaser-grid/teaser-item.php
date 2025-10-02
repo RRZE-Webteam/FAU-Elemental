@@ -22,9 +22,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
 function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level = 'h4') {
     // Use the new fallback image functionality
-    $image = get_the_post_thumbnail_url($post->ID, 'full') ?: faue_get_post_fallback_image($post->ID, 'full');
+    $image = get_the_post_thumbnail_url($post->ID, 'medium_large') ?: faue_get_post_fallback_image($post->ID, 'medium_large');
     $title = get_the_title($post);
-    $excerpt = get_the_excerpt($post);
+    $excerpt = strip_shortcodes(get_the_excerpt($post));
     $link = get_permalink($post);
     $is_dark_theme = in_array('is-style-dark', $grid_classes);
 
