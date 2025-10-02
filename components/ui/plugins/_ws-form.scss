@@ -389,7 +389,9 @@
 // Dark Mode
 .is-style-dark form.wsf-form {
 
-	a {
+	a,
+	.wsf-help,
+	legend {
 		color: var(--FAU-Col-FAU-Weiss-100);
 	}
 
@@ -417,6 +419,7 @@
 				border: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 				color: var(--FAU-Col-FAU-Weiss-100);
 				box-shadow: inset -3.25rem 0 0 0 var(--FAU-Col-FAU-Weiss-100);
+				background-color: var(--FAU-Col-FAU-Blau-100); // Prevent white text on white bg for windows
 
 				&:user-invalid {
 					color: var(--FAU-Col-Error-Dark);
