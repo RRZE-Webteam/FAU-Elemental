@@ -39,13 +39,9 @@ add_action('init', function () {
 
     // Configure Structure Modal (Global Menu - replaces menu-meta-nav functionality)
     $menu_modal->register_modal('structure', array(
-        'theme_locations' => array('top_header_nav_structure'),
-        'use_global_menu' => true,
         'modal_class' => 'menu-meta-nav__modal',
         'menu_class' => 'menu-meta-nav__menu menu-meta-nav__menu--hierarchy',
         'aria_label' => __('Structure', 'fau-elemental'),
-        'depth' => 0,
-        'walker' => 'Menu_Modal_Hierarchy_Walker',
         'show_back_button' => true,
         'show_close_button' => true,
     ));
@@ -107,12 +103,12 @@ function fau_elemental_has_services_menu() {
 }
 
 /**
- * Check if structure menu exists (global or local)
+ * Check if structure menu exists (via shortcode)
  *
  * @return bool
  */
 function fau_elemental_has_structure_menu() {
-    return fau_elemental_get_menu_modal_instance()->has_menu(array('top_header_nav_structure'), true);
+    return shortcode_exists('fauorga');
 }
 
 /**
@@ -123,23 +119,3 @@ function fau_elemental_has_structure_menu() {
 function fau_elemental_has_website_menu() {
     return fau_elemental_get_menu_modal_instance()->has_menu(array('header_primary_menu'));
 }
-
-/**
- * Get services menu items (for use in navigation buttons)
- *
- * @return array|false
- */
-function fau_elemental_get_services_menu_items() {
-    return fau_elemental_get_menu_modal_instance()->get_main_site_menu('top_header_nav_services');
-}
-
-/**
- * Get structure menu items (for use in navigation buttons)
- *
- * @return array|false
- */
-function fau_elemental_get_structure_menu_items() {
-    return fau_elemental_get_menu_modal_instance()->get_main_site_menu('top_header_nav_structure');
-} 
-
-

@@ -233,6 +233,11 @@ class Menu_Modal {
      * @param array $config The modal configuration
      */
     private function render_menu_content($modal_id, $config) {
+        // Shortcode fau-orga-breadcrumb structure menu
+        if ($modal_id === 'structure') {
+            echo do_shortcode('[fauorga show="menu"]');
+            return;
+        }
         // Special handling for search modal
         if ($modal_id === 'search') {
             // Check if RRZE Search plugin is active
