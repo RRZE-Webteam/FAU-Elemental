@@ -1,0 +1,38 @@
+/**
+ * FAU Global Search Block Editor Styles
+ */
+
+.wp-block-fau-elemental-fau-global-search {
+
+	// Include the core styling for form elements
+	.fau-global-search {
+
+		&__input {
+			flex: 1;
+			font-weight: 400;
+			font-size: var(--P-Body-Text-Small);
+			padding: 0 var(--Spacing-4x) 0 var(--Spacing-12x);
+			height: var(--Spacing-12x);
+			border: 0.0625rem solid var(--FAU-Col-FAU-Dunkelblau-100);
+			border-right: none;
+			background-color: var(--FAU-Col-FAU-Weiss-100);
+			background-image: var(--icon-search-schwarz);
+			background-repeat: no-repeat;
+			background-position: var(--Spacing-4x) center;
+			background-size: var(--Spacing-4x) var(--Spacing-4x);
+			color: var(--FAU-Col-FAU-Dunkelblau-100);
+			border-radius: 0;
+			outline: none;
+
+			&::placeholder {
+				color: var(--FAU-Col-FAU-Schwarz-62_5);
+				opacity: 1;
+			}
+
+			&:focus {
+				border-color: var(--FAU-Col-FAU-Blau-100);
+				box-shadow: 0 0 0 0.0625rem var(--FAU-Col-FAU-Blau-100);
+			}
+		}
+	}
+}

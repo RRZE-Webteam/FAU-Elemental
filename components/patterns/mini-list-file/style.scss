@@ -1,0 +1,21 @@
+@use "../../ui/mixins/mixins" as *;
+
+@include smaller-or-equals("small") {
+
+	.mini-list-file {
+
+		.wp-block-buttons {
+			padding: 0 var(--Spacing-10x);
+		}
+	}
+}
+
+@include smaller-or-equals("x-small") {
+
+	.mini-list-file {
+
+		.wp-block-buttons {
+			padding: 0 var(--Spacing-5x);
+		}
+	}
+}

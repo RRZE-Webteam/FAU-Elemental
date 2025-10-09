@@ -1,0 +1,131 @@
+/**
+ * Header Portalseite
+ */
+
+@use "../../ui/mixins/mixins" as *;
+
+.hero-portal {
+	max-width: var(--wide-max-width);
+	margin: 0 auto;
+	gap: var(--Spacing-10x);
+	padding: var(--Spacing-8x) var(--Spacing-10x);
+	box-sizing: content-box;
+
+	.wp-block-post-title {
+		position: relative;
+		width: max-content; // Allow text to overflow into img area
+		max-width: calc(100% + 16rem); // Prevent text from overflowing too far
+		min-width: calc(100% + 5.5rem); // Ensure small white overlap over the image
+		left: calc(-1 * var(--Spacing-6x));
+		z-index: 1;
+		padding: var(--Spacing-5x);
+		margin: var(--Spacing-10x) 0 0 0;
+		background-color: var(--FAU-Col-FAU-Weiss-100);
+	}
+
+	.post-description {
+		margin-top: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	.wp-block-buttons {
+		margin: var(--Spacing-4x) 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	.wp-block-cover {
+		aspect-ratio: 3/2;
+	}
+}
+
+// Responsive
+@media screen and (max-width: 1399px) {
+
+	.hero-portal .wp-block-cover {
+		aspect-ratio: 1/1;
+	}
+}
+
+@media screen and (max-width: 999px) {
+
+	.hero-portal {
+		flex-direction: column-reverse;
+		gap: unset;
+
+		.wp-block-post-title {
+			margin-top: -2.5rem;
+			left: unset;
+			width: 90%;
+			max-width: unset;
+			min-width: unset;
+			margin-left: auto;
+			margin-right: auto;
+			padding: var(--Spacing-4x) var(--Spacing-6x) 0 var(--Spacing-6x);
+			font-size: 2.5rem;
+		}
+
+		.post-description {
+			width: 90%;
+			margin-left: auto;
+			margin-right: auto;
+			padding: var(--Spacing-4x) var(--Spacing-6x);
+		}
+
+		.wp-block-buttons {
+			width: 90%;
+			margin: 0 auto;
+			padding: 0 var(--Spacing-6x);
+		}
+
+		.wp-block-cover {
+			aspect-ratio: 3/2;
+		}
+	}
+}
+
+@include smaller-or-equals("small") {
+
+	.hero-portal {
+
+		> div:last-child {
+			overflow: hidden;
+		}
+
+		.wp-block-cover {
+			min-height: 21.875rem; // Reduce min-height to keep horizontal aspect ratio
+		}
+	}
+}
+
+@media screen and (max-width: 599px) {
+
+	.hero-portal .wp-block-cover {
+		min-height: 17.5rem;
+	}
+}
+
+@media screen and (max-width: 499px) {
+
+	.hero-portal .wp-block-cover {
+		min-height: 12.5rem;
+	}
+}
+
+@include smaller-or-equals("x-small") {
+
+	.hero-portal {
+		padding: unset;
+
+		.wp-block-post-title {
+			font-size: 1.75rem;
+			padding: var(--Spacing-3x);
+		}
+
+		.post-description,
+		.wp-block-buttons {
+			padding: 0 var(--Spacing-3x) var(--Spacing-3x) var(--Spacing-3x);
+		}
+	}
+}

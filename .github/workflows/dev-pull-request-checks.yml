@@ -1,0 +1,58 @@
+name: Pull Request checks for the dev-Branch
+
+on:
+  push:
+    branches: ['dev']
+  pull_request:
+    branches: ['dev']
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          cache: 'npm'
+      
+      - name: Setup WP-CLI
+        uses: godaddy-wordpress/setup-wp-cli@1
+
+      - name: Check if no build directory exists
+        shell: bash
+        run: |
+          if [[ -e ./build ]]; then
+            echo "ERROR: a build directory was found!"
+            echo "       Please remove the build directory."
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check if JS code is formatted
+        shell: bash
+        run: |
+          npm run format > /dev/null
+          if [[ $(git status --porcelain) ]]; then
+            echo "ERROR: some files were not formatted:"
+            git status --porcelain
+            exit 1
+          fi
+
+      - name: Lint JS
+        run: npm run lint:js
+      
+      - name: Lint CSS
+        run: npm run lint:css
+      
+      - name: Check I18n
+        run: npm run i18n:check
+      
+      - name: Webpack Build
+        run: npm run build -- --fail-on-warnings

@@ -1,0 +1,248 @@
+@use "../../ui/mixins/mixins" as *;
+
+.fau-testimonial-item {
+	max-width: var(--base-max-width);
+	padding: 0 var(--Spacing-10x);
+
+	.testimonial-content {
+		display: flex;
+		align-items: center;
+
+		.testimonial-text {
+			display: flex;
+			flex-direction: column;
+			gap: var(--Spacing-4x);
+			box-sizing: border-box;
+
+			blockquote {
+				font-size: 1.5rem;
+				color: var(--FAU-Col-FAU-Blau-100);
+				line-height: var(--base-line-height);
+				font-weight: 700;
+				font-style: italic;
+				margin: 0;
+				padding: 0;
+			}
+
+			cite {
+				font-size: var(--P-Body-Text);
+				color: var(--FAU-Col-FAU-Schwarz-100);
+				line-height: var(--base-line-height);
+				font-weight: 400;
+				font-style: normal;
+			}
+		}
+
+		figure {
+			margin: 0;
+
+			img {
+				display: block;
+				height: 100%;
+				aspect-ratio: 1;
+				object-fit: cover;
+				width: 21.875rem;
+			}
+		}
+
+		// Positioning when image is displayed
+		figure + .testimonial-text {
+			background-color: var(--FAU-Col-FAU-Weiss-100);
+			margin-left: -5rem;
+			padding: var(--Spacing-6x);
+			z-index: 1;
+
+			blockquote {
+				max-width: 43.75rem;
+			}
+		}
+	}
+}
+
+// Multiple testimonials
+.testimonial-carousel {
+	max-width: var(--base-max-width);
+	padding: 0 var(--Spacing-10x);
+
+	.carousel-container .fau-testimonial-item {
+		max-width: unset;
+		padding: unset;
+	}
+
+	.carousel-controls {
+		display: flex;
+		justify-content: center;
+		gap: 2.5rem;
+		align-items: center;
+		margin-top: var(--Spacing-12x);
+
+		button {
+			cursor: pointer;
+		}
+
+		.carousel-prev,
+		.carousel-next {
+			width: 2.5rem;
+			height: 2.5rem;
+			border: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
+			background-color: unset;
+			color: transparent;
+			position: relative;
+
+			&::before {
+				content: "";
+				background-image: var(--icon-chevron-fau-blau);
+				position: absolute;
+				width: 0.5rem;
+				height: 0.875rem;
+				top: calc(50% - 0.4375rem);
+				transition: all 0.2s ease-in-out;
+			}
+		}
+
+		.carousel-prev {
+
+			&::before {
+				transform: rotate(180deg);
+				left: 0.875rem;
+			}
+
+			&:hover,
+			&:focus-visible {
+
+				&::before {
+					transition: all 0.2s ease-in-out;
+					left: 0.625rem;
+				}
+			}
+		}
+
+		.carousel-next {
+
+			&::before {
+				right: 0.875rem;
+			}
+
+			&:hover,
+			&:focus-visible {
+
+				&::before {
+					transition: all 0.2s ease-in-out;
+					right: 0.625rem;
+				}
+			}
+		}
+
+		.carousel-dots {
+			display: flex;
+			gap: 1.25rem;
+
+			button {
+				border: 0;
+				height: 1.125rem;
+				width: 1.125rem;
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+				outline: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
+
+				&.active,
+				&:hover,
+				&:focus-visible {
+					background-color: var(--FAU-Col-FAU-Blau-100);
+					border: 0.1875rem solid var(--FAU-Col-FAU-Weiss-100);
+				}
+
+				&:focus-visible {
+					outline: 0.125rem solid var(--FAU-Col-FAU-Blau-100);
+				}
+			}
+		}
+	}
+}
+
+// Dark mode
+.fau-testimonial-item,
+.testimonial-carousel {
+
+	.is-style-dark & {
+
+		blockquote,
+		cite {
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		.testimonial-content .testimonial-text {
+			background-color: var(--FAU-Col-FAU-Blau-100);
+		}
+
+		.carousel-controls {
+
+			.carousel-prev,
+			.carousel-next {
+				border: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
+				background-color: unset;
+
+				&::before {
+					background-image: var(--icon-chevron-weiss);
+				}
+			}
+
+			.carousel-dots button {
+				background-color: var(--FAU-Col-FAU-Blau-100);
+				outline: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
+
+				&.active {
+					border: 0.1875rem solid var(--FAU-Col-FAU-Blau-100);
+					background-color: var(--FAU-Col-FAU-Weiss-100);
+				}
+			}
+		}
+	}
+}
+
+// Responsive
+@include smaller-or-equals("medium") {
+
+	.fau-testimonial-item {
+
+		blockquote {
+			font-size: 1.25rem;
+		}
+	}
+}
+
+@include smaller-or-equals("small") {
+
+	.fau-testimonial-item {
+
+		.testimonial-content {
+			flex-direction: column;
+
+			figure + .testimonial-text {
+				margin-left: unset;
+				margin-top: -7.5rem;
+				width: 90%;
+				padding-bottom: 0;
+			}
+
+			figure img {
+				width: 100%;
+			}
+		}
+	}
+
+	.testimonial-carousel .carousel-controls {
+		margin-top: var(--Spacing-10x);
+	}
+}
+
+@include smaller-or-equals("x-small") {
+
+	.fau-testimonial-item,
+	.testimonial-carousel {
+		padding: 0;
+	}
+
+	.fau-testimonial-item .testimonial-content .testimonial-text {
+		padding: 0 var(--Spacing-5x);
+	}
+}

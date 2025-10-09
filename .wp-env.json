@@ -1,0 +1,16 @@
+{
+	"themes": [ "." ],
+	"config": {
+		"WP_DEBUG": true,
+		"WP_DEBUG_DISPLAY": false,
+		"WP_DEBUG_LOG": true,
+		"WP_DISABLE_FATAL_ERROR_HANDLER": true,
+		"WP_DEVELOPMENT_MODE": "theme",
+		"WP_ALLOW_MULTISITE": true
+	},
+	"plugins": [
+		"https://downloads.wordpress.org/plugin/theme-check.latest-stable.zip",
+		"https://downloads.wordpress.org/plugin/debug-bar.latest-stable.zip",
+		"https://downloads.wordpress.org/plugin/query-monitor.latest-stable.zip"
+	]
+}

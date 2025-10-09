@@ -1,0 +1,101 @@
+@media print {
+
+	// Show print logo
+	.print-container {
+		display: flex;
+		justify-content: space-between;
+		padding: 0 var(--Spacing-10x);
+
+		.print-text {
+			color: var(--FAU-Col-FAU-Blau-100);
+			font-size: 1rem;
+			line-height: 1.3;
+			font-weight: 600;
+		}
+
+		.print-logo img {
+			width: 150px;
+		}
+	}
+
+	// Hide stuff
+	header,
+	.breadcrumbs-wrapper,
+	.footer-content,
+	.footer-bottom-top .footer-left,
+	.footer-bottom-top .footer-right,
+	.footer-social {
+		display: none;
+	}
+
+	// Show full URL for links
+	a::after {
+		content: " (" attr(href) ") ";
+
+		.wp-block-fau-elemental-fau-teaser-grid & {
+			width: 600px; // Give written URLs more space for teaser grid
+			padding: 2rem;
+		}
+	}
+
+	// Explode Gallery
+	.wp-block-gallery-container {
+		height: auto !important; // Important needed for overwriting inline height
+
+		.wp-block-gallery .wp-block-image {
+			display: flex !important; // Important needed for overwriting inline "display: none"
+		}
+
+		.gallery-nav-container {
+			display: none;
+		}
+	}
+
+	// Explode Testimonials
+	.testimonial-carousel {
+
+		.carousel-container .testimonial-slide {
+			display: block !important; // Important needed for overwriting inline "display: none"
+			margin-bottom: 3rem;
+
+			.fau-testimonial-item .testimonial-content figure + .testimonial-text {
+				margin-top: unset;
+				padding-bottom: unset;
+			}
+		}
+
+		.carousel-controls {
+			display: none;
+		}
+	}
+
+	// Portal menu
+	.fau-portal-menu > ul.menu:has(.fau-portal-thumbnail) {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.fau-portal-menu > ul.menu .fau-portal-item .fau-portal-wrapper .fau-portal-content > a {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	// Teaser grid
+	.wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid.layout-2l,
+	.wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid.layout-2s-left,
+	.wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid.layout-2s-right {
+		grid-template-columns: 1fr;
+	}
+
+	.wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid.layout-3m,
+	.wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid.list-item,
+	.wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid.layout-2l {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid.layout-2sl .teaser-group,
+	.wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid.layout-l2s .teaser-group {
+		grid-template-areas: "s" "a" "b";
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+	}
+}

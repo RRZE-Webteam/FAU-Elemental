@@ -1,0 +1,19 @@
+@use "../../ui/mixins/mixins" as *;
+
+.wp-block-image-wrapper {
+	max-width: var(--base-max-width);
+	padding: 0 var(--Spacing-10x);
+
+	@include smaller-or-equals("x-small") {
+		padding: 0 var(--Spacing-5x);
+
+		>:has(.is-style-large) {
+			padding: 0;
+		}
+	}
+
+	> .wp-block-image {
+		padding: 0;
+	}
+}
+

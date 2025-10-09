@@ -1,0 +1,51 @@
+@use "../../ui/mixins/mixins" as *;
+
+.wp-block-code {
+	max-width: var(--small-max-width);
+	padding: 0 var(--Spacing-10x);
+	box-sizing: content-box;
+
+	@include smaller-or-equals("x-small") {
+		padding: 0 var(--Spacing-5x);
+	}
+
+	// Ensure proper scrollbar appearance across browsers
+	&::-webkit-scrollbar {
+		height: 0.5rem;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: #f1f1f1;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: #888;
+		border-radius: 0.625rem;
+
+		&:hover {
+			background: #555;
+		}
+	}
+
+	code {
+		display: block;
+		overflow-x: auto;
+		white-space: pre;
+		padding: var(--Spacing-4x);
+		font-family: "Source Code Pro", monospace;
+		color: var(--FAU-Col-FAU-Schwarz-100);
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: var(--base-line-height);
+		background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+	}
+}
+
+// Dark mode
+.is-style-dark .wp-block-code {
+
+	code {
+		background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+		color: var(--FAU-Col-FAU-Schwarz-5);
+	}
+}

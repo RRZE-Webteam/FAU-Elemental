@@ -1,0 +1,43 @@
+{
+	"main": "build/index.js",
+	"scripts": {
+		"start": "wp-env start --update",
+		"stop": "wp-env stop",
+		"restart": "wp-env restart",
+		"clean": "wp-env clean all",
+		"destroy": "wp-env destroy",
+		"build-env": "wp-env build",
+		"build": "wp-scripts build",
+		"dev": "wp-scripts start",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"fix:css": "wp-scripts lint-style --fix",
+		"lint:js": "wp-scripts lint-js",
+		"pr-check": "node scripts/pr-check.mjs",
+		"pr-check:no-wp": "node scripts/pr-check.mjs --no-wp",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"i18n:prepare": "npm run i18n:make-pot && npm run i18n:update-po",
+		"i18n:build": "npm run i18n:make-mo && npm run i18n:make-php && npm run i18n:make-json",
+		"i18n:check": "node scripts/i18n-check.mjs",
+		"i18n:make-pot": "wp i18n make-pot . languages/fau-elemental.pot --exclude=.git,node_modules,scripts,vendor,build,.github,.vscode",
+		"i18n:update-po": "wp i18n update-po languages/fau-elemental.pot",
+		"i18n:make-mo": "wp i18n make-mo languages/",
+		"i18n:make-php": "wp i18n make-php languages/",
+		"i18n:make-json": "wp i18n make-json languages/ --no-purge --use-map=build/map.json"
+	},
+	"devDependencies": {
+		"@wordpress/create-block": "^4.59.0",
+		"@wordpress/env": "^10.15.0",
+		"@wordpress/i18n": "^4.54.0",
+		"@wordpress/scripts": "^30.9.0",
+		"@wordpress/stylelint-config": "^23.17.0",
+		"copy-webpack-plugin": "^13.0.0",
+		"glob": "^11.0.2",
+		"webpack-cli": "^6.0.1",
+		"webpack-remove-empty-scripts": "^1.0.0"
+	},
+	"dependencies": {
+		"uuid": "^11.1.0"
+	}
+}

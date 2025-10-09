@@ -1,0 +1,138 @@
+:root {
+
+	/*  Colors: */
+
+	--color-primary-ci-hell: var(--FAU-Col-FAU-Blau-100);
+	--color-primary-ci-hell-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-primary-ci-hell2: var(--FAU-Col-FAU-Schwarz-25);
+	--color-primary-ci-hell2-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-primary-dunkler: var(--FAU-Col-FAU-Dunkelblau-62_5);
+	--color-primary-dunkler-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-primary-dunkelste: var(--FAU-Col-FAU-Dunkelblau-100);
+	--color-primary-dunkelste-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-zentral-ci-hell: var(--FAU-Col-FAU-Blau-100);
+	--color-zentral-ci-hell-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-zentral-ci-hell2: var(--FAU-Col-FAU-Schwarz-25);
+	--color-zentral-ci-hell2-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-zentral-dunkler: var(--FAU-Col-FAU-Dunkelblau-62_5);
+	--color-zentral-dunkler-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-zentral-dunkelste: var(--FAU-Col-FAU-Dunkelblau-100);
+	--color-zentral-dunkelste-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-phil-ci-hell: var(--FAU-Col-Phil-Gelb-100);
+	--color-phil-ci-hell-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-phil-ci-hell2: var(--FAU-Col-Phil-Gelb-12_5);
+	--color-phil-ci-hell2-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-phil-dunkler: var(--FAU-Col-Phil-Orange-62_5);
+	--color-phil-dunkler-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-phil-dunkelste: var(--FAU-Col-Phil-Orange-100);
+	--color-phil-dunkelste-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-med-ci-hell: var(--FAU-Col-Med-Blau-100);
+	--color-med-ci-hell-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-med-ci-hell2: var(--FAU-Col-Med-Blau-12_5);
+	--color-med-ci-hell2-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-med-dunkler: var(--FAU-Col-Med-Dunkelblau-62_5);
+	--color-med-dunkler-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-med-dunkelste: var(--FAU-Col-Med-Dunkelblau-100);
+	--color-med-dunkelste-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-nat-ci-hell: var(--FAU-Col-Nat-Gruen-100);
+	--color-nat-ci-hell-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-nat-ci-hell2: var(--FAU-Col-Nat-Gruen-12_5);
+	--color-nat-ci-hell2-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-nat-dunkler: var(--FAU-Col-Nat-Dunkelgruen-62_5);
+	--color-nat-dunkler-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-nat-dunkelste: var(--FAU-Col-Nat-Dunkelgruen-100);
+	--color-nat-dunkelste-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-rw-ci-hell: var(--FAU-Col-RW-Rot-100);
+	--color-rw-ci-hell-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-rw-ci-hell2: var(--FAU-Col-RW-Rot-12_5);
+	--color-rw-ci-hell2-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-rw-dunkler: var(--FAU-Col-RW-Dunkelrot-62_5);
+	--color-rw-dunkler-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-rw-dunkelste: var(--FAU-Col-RW-Dunkelrot-100);
+	--color-rw-dunkelste-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-tf-ci-hell: var(--FAU-Col-TF-Metallic-100);
+	--color-tf-ci-hell-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-tf-ci-hell2: var(--FAU-Col-TF-Metallic-12_5);
+	--color-tf-ci-hell2-kontrast: var(--FAU-Col-FAU-Schwarz-100);
+	--color-tf-dunkler: var(--FAU-Col-TF-Dunkel-Metallic-62_5);
+	--color-tf-dunkler-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-tf-dunkelste: var(--FAU-Col-TF-Dunkel-Metallic-100);
+	--color-tf-dunkelste-kontrast: var(--FAU-Col-FAU-Weiss-100);
+
+	--color-Text: var(--FAU-Col-FAU-Schwarz-100);
+	--color-MainBackground: var(--FAU-Col-FAU-Weiss-100);
+	--color-StandardHellgrau: var(--FAU-Col-FAU-Schwarz-12_5);
+	--color-StandardHellgrau-Hover: var(--FAU-Col-FAU-Schwarz-25);
+	--color-PrintMain: var(--FAU-Col-FAU-Schwarz-100);
+	--color-branding-primary: var(--FAU-Col-FAU-Blau-100);
+	--color-branding-primary-kontrast: var(--FAU-Col-FAU-Weiss-100);
+	--color-branding-zentral: var(--FAU-Col-FAU-Blau-100);
+	--color-branding-phil: var(--FAU-Col-Phil-Gelb-100);
+	--color-branding-med: var(--FAU-Col-Med-Blau-100);
+	--color-branding-nat: var(--FAU-Col-Nat-Gruen-100);
+	--color-branding-rw: var(--FAU-Col-RW-Rot-100);
+	--color-branding-tf: var(--FAU-Col-TF-Metallic-100);
+	--color-FAU: var(--FAU-Col-FAU-Blau-100);
+	--color-primary-basis: var(--color-branding-primary);
+	--color-primary-basis-kontrast: var(--color-branding-primary-kontrast);
+	--color-MetaHomeBackground: var(--FAU-Col-FAU-Schwarz-12_5);
+	--color-MetaHover: var(--FAU-Col-FAU-Dunkelblau-100);
+	--color-MetaText: var(--FAU-Col-FAU-Weiss-100);
+
+	--color-links: var(--FAU-Col-FAU-Schwarz-100);
+	--color-links-underline: var(--FAU-Col-FAU-Blau-100);
+	--color-links-hover: var(--FAU-Col-FAU-Blau-100);
+	--color-button-text: var(--FAU-Col-FAU-Weiss-100);
+	--color-button-bg: var(--FAU-Col-FAU-Blau-100);
+	--color-button-hover-text: var(--FAU-Col-FAU-Weiss-100);
+	--color-button-hover-bg: var(--FAU-Col-FAU-Dunkelblau-100);
+	--color-ghostbutton-hover-text: var(--FAU-Col-FAU-Weiss-100);
+	--color-ghostbutton-hover-bg: var(--FAU-Col-FAU-Blau-100);
+	--color-footer-bg: var(--FAU-Col-FAU-Blau-100);
+	--color-footer-text: var(--FAU-Col-FAU-Weiss-100);
+	--color-hero-bg: var(--FAU-Col-FAU-Blau-100);
+	--color-hero-text: var(--FAU-Col-FAU-Weiss-100);
+
+	/* Font Sizes */
+	--font-size-xs: var(--P-Caption);
+	--font-size-sm: var(--P-Caption);
+	--font-size-tiny: var(--P-Caption);
+	--font-size-normal: var(--P-Body-Text-Small);
+	--font-size-lg: var(--P-Body-Text);
+	--font-size-xl: var(--P-Intro-Text);
+	--font-size-xxl: var(--P-Intro-Text);
+	--font-size-slider-title: var(--DI-Display-1);
+	--font-size-h1: var(--H-Heading-1);
+	--font-size-h1-sm: clamp(var(--font-size-normal), calc(var(--font-size-h1) - (2 / 16 * 1rem)), var(--font-size-h1));
+	--font-size-h1-sidebar: clamp(var(--font-size-normal), calc(var(--font-size-h1) - (5 / 16 * 1rem)), var(--font-size-h1));
+	--font-size-h2: var(--H-Heading-2);
+	--font-size-h2-sm: clamp(var(--font-size-normal), calc(var(--font-size-h2) - (2 / 16 * 1rem)), var(--font-size-h2));
+	--font-size-h2-sidebar: clamp(var(--font-size-normal), calc(var(--font-size-h2) - (3 / 16 * 1rem)), var(--font-size-h2));
+	--font-size-h3: var(--H-Heading-3);
+	--font-size-h3-sm: clamp(var(--font-size-normal), calc(var(--font-size-h3) - (2 / 16 * 1rem)), var(--font-size-h3));
+	--font-size-h3-sidebar: var(--font-size-h3-sm);
+	--font-size-h4: var(--H-Heading-4);
+	--font-size-h4-sm: clamp(var(--font-size-normal), calc(var(--font-size-h4) - (2 / 16 * 1rem)), var(--font-size-h4));
+	--font-size-h4-sidebar: var(--font-size-h4-sm);
+	--font-size-h5: var(--H-Heading-5);
+	--font-size-h5-sm: clamp(var(--font-size-normal), calc(var(--font-size-h5) - (2 / 16 * 1rem)), var(--font-size-h5));
+	--font-size-h5-sidebar: var(--font-size-h5-sm);
+	--font-size-h6: var(--H-Heading-6);
+	--font-size-h6-sm: clamp(var(--font-size-normal), calc(var(--font-size-h6) - (2 / 16 * 1rem)), var(--font-size-h6));
+	--font-size-h6-sidebar: var(--font-size-h6-sm);
+	--base-line-height: 1.5;
+
+	/* Fonts: */
+	--font-family-default: "Source Sans 3", roboto, fau chimera, sans-serif;
+	--font-family-serif: georgia, times new roman, times, serif;
+	--font-family-monospace: menlo, monaco, consolas, courier new, monospace;
+	--font-family-FAU-Logo: fau chimera, sans-serif;
+
+	/* Margins, Paddings  */
+	--border-radius: 0;
+	--border-radius-buttons: 0;
+	--devider-height: 4px;
+	--width-gutter: 30px;
+	--width-gutter-half: 15px;
+	--width-gutter-third: 10px;
+}

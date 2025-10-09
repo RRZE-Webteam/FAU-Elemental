@@ -1,0 +1,120 @@
+@use "../../ui/mixins/mixins" as *;
+
+/**
+ * Core Paragraph Block Styles
+ */
+
+p {
+	max-width: var(--small-max-width);
+	font-size: var(--P-Body-Text);
+	color: var(--FAU-Col-FAU-Schwarz-100);
+	font-weight: 400;
+	line-height: var(--base-line-height);
+
+	.is-layout-flow & {
+		padding: 0 var(--Spacing-10x);
+
+		@include smaller-or-equals("x-small") {
+			padding: 0 var(--Spacing-5x);
+		}
+	}
+
+	strong {
+		font-weight: 700;
+	}
+
+	em {
+		letter-spacing: var(--letter-spacing-small);
+	}
+
+	> a {
+
+		&[target="_blank"] {
+
+			&::after {
+				content: "";
+				background-image: var(--icon-external-link-fau-blau);
+				background-repeat: no-repeat;
+				position: relative;
+				display: inline-block;
+				height: 1rem;
+				width: 1rem;
+				right: -0.375rem;
+				top: 0.125rem;
+				margin-right: 0.5rem;
+
+				.is-style-small-text & {
+					height: 0.75rem;
+					width: 0.75rem;
+					right: calc(-1 * var(--Spacing-5x));
+					top: 0.3125rem;
+				}
+
+				.is-style-dark & {
+					background-image: var(--icon-external-link-weiss);
+				}
+			}
+		}
+	}
+}
+
+// TODO: daniel
+a {
+	position: relative;
+	color: var(--FAU-Col-FAU-Blau-100);
+	text-underline-offset: var(--Spacing-1x);
+	text-decoration-thickness: var(--Spacing-05x);
+	font-weight: 600;
+	transition: all 0.2s ease-in-out;
+
+	&:hover,
+	&:focus {
+		text-decoration-thickness: var(--Spacing-1x);
+		transition: all 0.2s ease-in-out;
+	}
+}
+
+.is-style-intro-text {
+	font-size: var(--P-Intro-Text);
+	font-weight: 600;
+	line-height: 1.6;
+}
+
+.is-style-small-text {
+	font-size: var(--P-Body-Text-Small);
+	letter-spacing: var(--letter-spacing-small);
+}
+
+
+figcaption {
+	font-size: var(--P-Caption);
+	letter-spacing: var(--letter-spacing-small);
+	line-height: var(--base-line-height);
+	font-weight: 400;
+}
+
+// Dark mode
+.is-style-dark {
+
+	p,
+	a,
+	figcaption {
+		color: var(--FAU-Col-FAU-Weiss-100);
+	}
+}
+
+// Responsive
+@include smaller-or-equals("small") {
+
+	p {
+		font-size: 1rem;
+	}
+
+	.is-style-intro-text {
+		font-size: 1.15rem;
+	}
+
+	.is-style-small-text {
+		font-size: 0.9rem;
+	}
+}

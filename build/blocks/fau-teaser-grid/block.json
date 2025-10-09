@@ -1,0 +1,119 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "fau-elemental/fau-teaser-grid",
+	"version": "0.1.0",
+	"title": "FAU Teaser Grid",
+	"category": "fau-elemental/FAU",
+	"icon": "grid-view",
+	"description": "Display posts or pages in a grid layout with FAU styling",
+	"supports": {
+		"html": false,
+		"className": true
+	},
+	"textdomain": "fau-elemental",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style-theme.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php",
+
+	"attributes": {
+		"variant": {
+			"type": "string",
+			"default": "post"
+		},
+		"postsPerPage": {
+			"type": "number",
+			"default": 6
+		},
+
+		"showPagination": {
+			"type": "boolean",
+			"default": false
+		},
+		"paginationType": {
+			"type": "string",
+			"default": "numbers",
+			"enum": [ "numbers", "load-more" ]
+		},
+		"selectedCategory": {
+			"type": "number",
+			"default": 0
+		},
+		"selectedTags": {
+			"type": "array",
+			"default": []
+		},
+		"selectedAuthor": {
+			"type": "number",
+			"default": 0
+		},
+		"selectedYear": {
+			"type": "number",
+			"default": 0
+		},
+		"selectedMonth": {
+			"type": "number",
+			"default": 0
+		},
+		"selectedDay": {
+			"type": "number",
+			"default": 0
+		},
+		"currentPage": {
+			"type": "number",
+			"default": 1
+		},
+		"displayStyle": {
+			"type": "string",
+			"default": "teaser-grid"
+		},
+		"totalPosts": {
+			"type": "number",
+			"default": 3
+		},
+		"orderBy": {
+			"type": "string",
+			"default": "date"
+		},
+		"order": {
+			"type": "string",
+			"default": "DESC"
+		},
+		"teaserLayout": {
+			"type": "string",
+			"default": "3m"
+		},
+		"teaserSizes": {
+			"type": "array",
+			"default": []
+		},
+		"selectedPosts": {
+			"type": "array",
+			"default": []
+		},
+		"selectionMode": {
+			"type": "string",
+			"default": "auto"
+		},
+		"headingLevel": {
+			"type": "string",
+			"default": "h4"
+		},
+		"customBlockId": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"example": {
+		"attributes": {
+			"variant": "post",
+			"postsPerPage": 6,
+			"displayStyle": "teaser-grid",
+			"teaserLayout": "3m",
+			"showPagination": false,
+			"paginationType": "numbers"
+		}
+	}
+}

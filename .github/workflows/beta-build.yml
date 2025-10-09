@@ -1,0 +1,49 @@
+name: Build project for beta-Branch
+
+on:
+  push:
+    branches: ['beta']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+          cache: 'npm'
+
+      - name: Setup WP-CLI
+        uses: godaddy-wordpress/setup-wp-cli@1
+
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build project
+        run: |
+          rm -rf ./build
+          rm -rf ./languages/*.mo ./languages/*.l10n.php ./languages/*.json
+          npm run build
+          npm run i18n:build
+      
+      - name: Commit build output
+        shell: bash
+        run: |
+          git config --local user.email "mondula@users.noreply.github.com"
+          git config --local user.name "Build Bot"
+          git add -f ./build
+          git add -f ./languages/*.mo ./languages/*.l10n.php ./languages/*.json
+          git add -f -u ./languages/
+          if git diff --staged --quiet ; then
+            echo "No changes in build to commit."
+          else
+            git commit -m "Build project"
+            git fetch origin
+            git rebase --strategy-option=theirs origin/beta
+            git push
+          fi

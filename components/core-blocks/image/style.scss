@@ -1,0 +1,220 @@
+@use "../../ui/mixins/mixins" as *;
+
+.wp-block-image {
+	position: relative;
+	max-width: var(--small-max-width);
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0 var(--Spacing-10x);
+
+	.image-wrapper {
+		position: relative;
+		background-color: var(--FAU-Col-FAU-Schwarz-12_5);
+	}
+
+	&.has-overlay div.image-wrapper {
+		background-color: var(--FAU-Col-FAU-Weiss-100);
+
+		&::before {
+			content: "";
+			position: absolute;
+			background-color: rgba(0, 0, 0, 0.05);
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	img {
+		display: block;
+		margin: 0 auto;
+
+		@include bigger-than("xs") {
+
+			&.tall-image {
+				aspect-ratio: 3 / 2;
+				object-fit: contain;
+			}
+		}
+	}
+
+	figcaption {
+		box-sizing: border-box;
+		position: relative;
+		bottom: var(--Spacing-12x);
+		left: 50%;
+		background-color: var(--FAU-Col-FAU-Weiss-100);
+		padding: var(--Spacing-6x) var(--Spacing-8x);
+		margin: 0;
+		font-size: var(--P-Body-Text-Small);
+		line-height: var(--base-line-height);
+		font-weight: 400;
+		width: 90%;
+		transform: translate(-50%);
+
+		.is-style-dark & {
+			background-color: var(--FAU-Col-FAU-Blau-100);
+			color: var(--FAU-Col-FAU-Weiss-100);
+		}
+	}
+
+	&:has(figcaption) {
+		margin-bottom: calc(-1 * var(--Spacing-12x));
+	}
+
+	&.is-style-large {
+		max-width: var(--base-max-width);
+
+		figcaption {
+			max-width: var(--small-max-width);
+		}
+	}
+
+	.image-fullscreen-btn {
+		position: absolute;
+		top: 0;
+		right: 0;
+		background: rgba(0, 0, 0, 0.5);
+		color: transparent;
+		cursor: pointer;
+		width: 3rem;
+		height: 3rem;
+		background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
+		z-index: 9;
+		border: 0;
+
+		&::before {
+			content: "";
+			background-image: var(--icon-open-in-full);
+			position: absolute;
+			width: 1.25rem;
+			height: 1.25rem;
+			top: 0.875rem;
+			right: 0.875rem;
+			transition: var(--basic-animation);
+		}
+
+		&:hover,
+		&:focus-visible {
+
+			&::before {
+				transition: var(--basic-animation);
+				transform: scale(1.2);
+			}
+		}
+	}
+}
+
+// Fullscreen container styles
+.image-fullscreen-container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.9);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 9999;
+
+	img {
+		max-width: 90%;
+		max-height: 90%;
+		width: 100%;
+		height: auto;
+		object-fit: contain;
+	}
+
+	.image-fullscreen-close {
+		position: absolute;
+		background: transparent;
+		color: transparent;
+		border: none;
+		cursor: pointer;
+		width: 3rem;
+		height: 3rem;
+		top: 0.875rem;
+		right: 0.875rem;
+
+		&::before {
+			content: "";
+			background-image: var(--icon-close-fullscreen);
+			position: absolute;
+			width: 1.25rem;
+			height: 1.25rem;
+			top: 0.875rem;
+			right: 0.875rem;
+			transition: var(--basic-animation);
+		}
+
+		&:hover,
+		&:focus-visible {
+
+			&::before {
+				transition: var(--basic-animation);
+				transform: scale(1.2);
+			}
+		}
+	}
+}
+
+// Gallery index display styles
+.gallery-index-display {
+	position: absolute;
+	background-color: var(--FAU-Col-FAU-Weiss-100);
+	color: var(--FAU-Col-FAU-Blau-100);
+	right: var(--Spacing-8x);
+	font-weight: 700;
+
+	figcaption & {
+		top: var(--Spacing-6x);
+	}
+
+	// When inside image wrapper (no caption), position at bottom right of image
+	.image-wrapper & {
+		padding: var(--Spacing-3x);
+		right: calc(5% + var(--Spacing-8x) - var(--Spacing-3x));
+		bottom: 0;
+	}
+
+	.is-style-dark & {
+		background-color: var(--FAU-Col-FAU-Blau-100);
+		color: var(--FAU-Col-FAU-Weiss-100);
+	}
+}
+
+// Responsive
+
+@include smaller-or-equals("small") {
+
+	.wp-block-image.is-style-large figcaption {
+		box-sizing: border-box;
+	}
+}
+
+@include smaller-or-equals("x-small") {
+
+	.wp-block-image {
+		padding: 0 var(--Spacing-5x);
+
+		.image-fullscreen-btn {
+			width: 2.5rem;
+			height: 2.5rem;
+
+			&::before {
+				width: 1rem;
+				height: 1rem;
+				top: 0.75rem;
+				right: 0.75rem;
+			}
+		}
+
+		&.is-style-large {
+			padding: 0;
+		}
+
+		figcaption {
+			padding: var(--Spacing-4x) var(--Spacing-6x);
+		}
+	}
+}

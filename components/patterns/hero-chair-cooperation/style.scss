@@ -1,0 +1,129 @@
+@use "../../ui/mixins/mixins" as *;
+
+// Heros for chair and cooperation
+.hero-chair-cooperation {
+	background-color: var(--FAU-Col-FAU-Weiss-100);
+	min-height: 50rem;
+	gap: 0;
+
+	.hero-chair-content-wrapper {
+		position: absolute;
+		left: 50%;
+		width: 100%;
+		transform: translateX(-50%);
+		max-width: calc(1800px + 7.5rem);
+		z-index: 1;
+
+		.hero-chair-content {
+			display: flex;
+			justify-content: flex-end;
+			flex-direction: column;
+			min-height: 50rem;
+			padding-bottom: 3rem;
+			padding-left: 3.75rem;
+			box-sizing: border-box;
+		}
+
+		h1 {
+			position: relative;
+			width: -moz-max-content;
+			width: max-content;
+			max-width: calc(50% + 8rem);
+			min-width: 50%;
+			padding: var(--Spacing-6x) var(--Spacing-6x) var(--Spacing-6x) 0;
+			margin: var(--Spacing-10x) 0 0 0;
+			font-size: var(--DI-Display-2);
+			background-color: var(--FAU-Col-FAU-Weiss-100);
+			color: var(--FAU-Col-FAU-Dunkelblau-100);
+			z-index: 1;
+		}
+
+		.hero-mobile-optional {
+			margin: 0;
+			max-width: 34rem;
+
+			p {
+				color: var(--FAU-Col-FAU-Dunkelblau-100);
+			}
+		}
+
+		* {
+			max-width: unset;
+			padding: unset;
+		}
+	}
+
+	.wp-block-cover {
+		max-width: unset;
+		height: 100%;
+	}
+}
+
+// Responsive
+@media screen and (max-width: 1250px) {
+
+	.hero-chair-cooperation {
+		flex-direction: column-reverse;
+		gap: 0;
+		min-height: unset;
+
+		.hero-chair-content-wrapper {
+			position: relative;
+			transform: unset;
+			left: unset;
+			max-width: unset;
+
+			.hero-chair-content {
+				min-height: unset;
+				padding: 0 3.75rem;
+				position: relative;
+				bottom: 2.5rem;
+
+				h1 {
+					width: 100%;
+					min-width: unset;
+					max-width: unset;
+					margin: 0;
+					padding: var(--Spacing-6x) var(--Spacing-6x) var(--Spacing-4x) var(--Spacing-6x);
+					box-sizing: border-box;
+					font-size: 2rem;
+				}
+
+				.hero-mobile-optional {
+					max-width: 100%;
+					padding: 0 var(--Spacing-6x);
+
+					.wp-block-buttons {
+						margin-top: var(--Spacing-4x);
+					}
+				}
+			}
+		}
+
+		.hero-chair-bg-left {
+			display: none;
+		}
+	}
+}
+
+@include smaller-or-equals("small") {
+
+	.hero-chair-cooperation .hero-chair-content-wrapper .hero-chair-content {
+		padding: 0 var(--Spacing-10x);
+	}
+}
+
+@include smaller-or-equals("x-small") {
+
+	.hero-chair-cooperation .hero-chair-content-wrapper .hero-chair-content {
+		padding: 0 var(--Spacing-5x);
+
+		h1 {
+			padding: var(--Spacing-4x);
+		}
+
+		.hero-mobile-optional {
+			padding: 0 var(--Spacing-4x);
+		}
+	}
+}

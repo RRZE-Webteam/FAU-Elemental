@@ -1,0 +1,2253 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FAU-Elemental 0.2.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/project\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-06-25T08:00:58+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Language: \n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: fau-elemental\n"
+
+#. Theme Name of the theme
+#: style.css
+msgid "FAU-Elemental"
+msgstr "FAU-Elemental"
+
+#. Author of the theme
+#: style.css
+msgid "TBD - theme author"
+msgstr "TBD - Theme-Autor"
+
+#. Author URI of the theme
+#: style.css
+msgid "TBD - theme author web page"
+msgstr "TBD - Theme-Autor Webseite"
+
+#: components/template-parts/breadcrumbs/breadcrumbs.php:165
+msgid "404 - Page Not Found"
+msgstr "404 - Seite nicht gefunden"
+
+#: components/blocks/fau-portalmenu/render.php:25
+msgid "Please select a menu to display."
+msgstr "Bitte wähle ein Menü zum Anzeigen aus."
+
+#: components/blocks/fau-teaser-grid/ajax.php:20
+msgid "No data received"
+msgstr "Keine Daten erhalten"
+
+#: components/blocks/fau-teaser-grid/ajax.php:30
+msgid "Security check failed"
+msgstr "Sicherheitsprüfung fehlgeschlagen"
+
+#: components/blocks/fau-teaser-grid/render.php:73
+#: components/blocks/fau-teaser-grid/edit.js:469
+msgid "Content grid"
+msgstr "Inhaltsgitter"
+
+#: components/blocks/fau-teaser-grid/render.php:115
+msgid "Content items"
+msgstr "Inhalt"
+
+#: components/blocks/fau-teaser-grid/render.php:248
+#: components/blocks/fau-teaser-grid/render.php:250
+#: components/blocks/fau-teaser-grid/edit.js:581
+msgid "Load More"
+msgstr "Mehr laden"
+
+#: components/blocks/fau-teaser-grid/teaser-item.php:122
+msgid "Read more about"
+msgstr "Mehr lesen über"
+
+#: components/template-parts/breadcrumbs/breadcrumbs.php:86
+msgid "Breadcrumb navigation"
+msgstr "Brotkrummen Navigation"
+
+#: components/template-parts/breadcrumbs/breadcrumbs.php:118
+#: components/template-parts/breadcrumbs/breadcrumbs.php:127
+msgid "Start"
+msgstr "Start"
+
+#: components/template-parts/breadcrumbs/breadcrumbs.php:163
+#: components/template-parts/search-results/search-results.php:185
+msgid "Search Results"
+msgstr "Suchergebnisse"
+
+#: components/template-parts/footer-instance/footer-instance.php:16
+msgid "Contact and Directions"
+msgstr "Kontakt und Anfahrt"
+
+#: components/template-parts/footer-instance/footer-instance.php:22
+msgid "Friedrich-Alexander-Universität Erlangen-Nürnberg"
+msgstr "Friedrich-Alexander-Universität Erlangen-Nürnberg"
+
+#: components/template-parts/footer-instance/footer-instance.php:83
+msgid "Phone"
+msgstr "Telefon"
+
+#: components/template-parts/footer-instance/footer-instance.php:93
+msgid "Mail"
+msgstr "E-Mail"
+
+#: components/template-parts/footer-instance/footer-instance.php:104
+msgid "Directions"
+msgstr "Anfahrt"
+
+#: components/template-parts/footer-instance/footer-instance.php:115
+msgid "Important Links"
+msgstr "Wichtige Links"
+
+#: components/template-parts/footer-instance/footer-instance.php:144
+#: components/template-parts/footer-main/footer-main.php:96
+#: inc/customizer.php:444
+msgid "Social Media Links"
+msgstr "Social Media Links"
+
+#: components/template-parts/footer-instance/footer-instance.php:178
+#: components/template-parts/footer-main/footer-main.php:63
+msgid "FAU Logo"
+msgstr "FAU Logo"
+
+#: components/template-parts/footer-instance/footer-instance.php:183
+#: components/template-parts/footer-main/footer-main.php:68
+msgid ""
+"Friedrich-Alexander-Universität\n"
+"Erlangen-Nürnberg"
+msgstr ""
+"Friedrich-Alexander-Universität\n"
+"Erlangen-Nürnberg"
+
+#: components/template-parts/footer-instance/footer-instance.php:191
+#: functions.php:317
+msgid "Show more"
+msgstr "Mehr anzeigen"
+
+#: components/template-parts/footer-instance/footer-instance.php:198
+#: components/template-parts/footer-main/footer-main.php:4
+msgid "FAU - Knowledge in Motion"
+msgstr "FAU - Wissen in Bewegung"
+
+#: components/template-parts/footer-instance/footer-instance.php:199
+#: components/template-parts/footer-main/footer-main.php:5
+msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
+msgstr "Die FAU ist die innovativste Universität Deutschlands, euopaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung."
+
+#: components/template-parts/footer-instance/footer-instance.php:207
+#: components/template-parts/footer-main/footer-main.php:14
+msgid "Target Group Section 1"
+msgstr "Zielgruppe 1"
+
+#: components/template-parts/footer-instance/footer-instance.php:208
+#: components/template-parts/footer-main/footer-main.php:15
+msgid "History, features, data, structure and more"
+msgstr "Geschichte, Besonderheiten Daten, Struktur u.v.m"
+
+#: components/template-parts/footer-instance/footer-instance.php:212
+#: components/template-parts/footer-main/footer-main.php:19
+msgid "Target Group Section 2"
+msgstr "Zielgruppe 2"
+
+#: components/template-parts/footer-instance/footer-instance.php:213
+#: components/template-parts/footer-instance/footer-instance.php:218
+#: components/template-parts/footer-instance/footer-instance.php:223
+#: components/template-parts/footer-main/footer-main.php:20
+#: components/template-parts/footer-main/footer-main.php:25
+#: components/template-parts/footer-main/footer-main.php:30
+msgid "Focus areas, mission, reputation, achievements and more"
+msgstr "Schwerpunkte, Leitbild, Reputation, Erfolge u.v.m."
+
+#: components/template-parts/footer-instance/footer-instance.php:217
+#: components/template-parts/footer-main/footer-main.php:24
+msgid "Target Group Section 3"
+msgstr "Zielgruppe 3"
+
+#: components/template-parts/footer-instance/footer-instance.php:222
+#: components/template-parts/footer-main/footer-main.php:29
+msgid "Target Group Section 4"
+msgstr "Zielgruppe 4"
+
+#: components/template-parts/post-meta/post-meta.php:58
+msgid "Last update:"
+msgstr "Zuletzt aktualisiert:"
+
+#: functions.php:318
+msgid "Show less"
+msgstr "Weniger anzeigen"
+
+#: inc/block-patterns.php:36
+#: inc/blocks/category.php:23
+msgid "FAU Elemental"
+msgstr "FAU Elemental"
+
+#: inc/block-patterns.php:40
+msgid "Hero"
+msgstr "Hero"
+
+#: inc/customizer.php:72
+msgid "Footer Settings"
+msgstr "Footer-Einstellungen"
+
+#: inc/customizer.php:74
+msgid "Settings for the footer"
+msgstr "Einstellungen, die den Footer betreffen"
+
+#: inc/customizer.php:85
+msgid "Claim"
+msgstr "Beschreibung"
+
+#: inc/customizer.php:79
+msgid "Configure the main claim section"
+msgstr "Hauptbeschreibung im Footer einstellen"
+
+#: inc/customizer.php:113
+msgid "Dark Theme Toggle"
+msgstr "Dunkles Design"
+
+#: inc/customizer.php:114
+msgid "Apply dark styling to the footer"
+msgstr "Dunkles Design auf den Footer anwenden"
+
+#: inc/customizer.php:128
+#: inc/customizer.php:169
+#: inc/customizer.php:391
+#: components/blocks/fau-global-search/edit.js:25
+#: components/core-blocks/media-text/index.js:22
+msgid "Heading"
+msgstr "Überschrift"
+
+#: inc/customizer.php:129
+msgid "Main heading for the claim section"
+msgstr "Hauptüberschrift im Footer"
+
+#: inc/customizer.php:140
+msgid "Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung."
+msgstr "Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung."
+
+#: inc/customizer.php:143
+msgid "Text"
+msgstr "Text"
+
+#: inc/customizer.php:144
+msgid "Descriptive text for the claim section"
+msgstr "Beschreibender Text für den Footer"
+
+#: inc/customizer.php:155
+#: inc/customizer.php:181
+#: inc/customizer.php:409
+#: components/blocks/fau-big-button/edit.js:317
+msgid "Description"
+msgstr "Beschreibung"
+
+#: inc/customizer.php:158
+msgid "Configure faculty information"
+msgstr "Fakultätsinformationen konfigurieren"
+
+#: inc/customizer.php:170
+msgid "Main heading for the faculty section"
+msgstr "Hauptüberschrift für den Fakultätsabschnitt"
+
+#: inc/customizer.php:182
+msgid "Descriptive text for the faculty section"
+msgstr "Beschreibender Text für den Fakultätsabschnitt"
+
+#: inc/customizer.php:190
+msgid "Contact Information"
+msgstr "Kontaktinformationen"
+
+#: inc/customizer.php:193
+msgid "Configure contact information"
+msgstr "Kontaktinformationen konfigurieren"
+
+#: inc/customizer.php:202
+#: inc/theme-settings.php:75
+msgid "Philosophical Faculty"
+msgstr "Philosophische Fakultät"
+
+#: inc/customizer.php:209
+#: inc/theme-settings.php:76
+msgid "Natural Sciences Faculty"
+msgstr "Naturwissenschaftliche Fakultät"
+
+#: inc/customizer.php:216
+#: inc/theme-settings.php:77
+msgid "Medical Faculty"
+msgstr "Medizinische Fakultät"
+
+#: inc/customizer.php:223
+#: inc/theme-settings.php:78
+msgid "Law Faculty"
+msgstr "Rechts- und Wirtschaftswissenschaftliche Fakultät"
+
+#: inc/customizer.php:230
+#: inc/theme-settings.php:79
+msgid "Technical Faculty"
+msgstr "Technische Fakultät"
+
+#: inc/customizer.php:249
+msgid "Display Address Information"
+msgstr "Adresse anzeigen"
+
+#: inc/customizer.php:250
+msgid "Display address information in the footer"
+msgstr "Adresse im Footer anzeigen"
+
+#: inc/customizer.php:258
+msgid "Name of the University"
+msgstr "Name der Universität"
+
+#: inc/customizer.php:262
+msgid "Name of the Faculty"
+msgstr "Name der Fakultät"
+
+#: inc/customizer.php:266
+msgid "Street"
+msgstr "Straße"
+
+#: inc/customizer.php:270
+msgid "Postal Code and City"
+msgstr "PLZ und Stadt"
+
+#: inc/customizer.php:274
+msgid "Phone Number"
+msgstr "Telefonnummer"
+
+#: inc/customizer.php:278
+msgid "E-Mail Address"
+msgstr "E-Mail Adresse"
+
+#: inc/customizer.php:282
+msgid "Directions Link"
+msgstr "Anfahrtslink"
+
+#: inc/customizer.php:315
+msgid "Country"
+msgstr "Land"
+
+#: inc/customizer.php:329
+msgid "Target Group Links"
+msgstr "Zielgruppen-Links"
+
+#: inc/customizer.php:323
+msgid "Configure the target group sections"
+msgstr "Zielgruppenabschnitt konfigurieren"
+
+#: inc/customizer.php:343
+msgid "Hide FAU section"
+msgstr "FAU-Abschnitt ausblenden"
+
+#: inc/customizer.php:344
+msgid "Hide FAU section (only show copyright information). Recommended for external cooperation websites."
+msgstr "FAU-Abschnitt ausblenden (nur noch Urheberrechtsinformationen werden angezeigt). Wird für externe Kooperationsseiten empfohlen."
+
+#: inc/customizer.php:354
+msgid "Section 1"
+msgstr "Abschnitt 1"
+
+#: inc/customizer.php:355
+msgid "Section 2"
+msgstr "Abschnitt 2"
+
+#: inc/customizer.php:356
+msgid "Section 3"
+msgstr "Abschnitt 3"
+
+#: inc/customizer.php:357
+msgid "Section 4"
+msgstr "Abschnitt 4"
+
+#: inc/customizer.php:400
+msgid "Focus, Mission, Reputation, Successes, etc."
+msgstr "Schwerpunkte, Leitbild, Reputation, Erfolge u.v.m."
+
+#: inc/customizer.php:402
+msgid "History, Specialties, Data, Structure, etc."
+msgstr "Geschichte, Besonderheiten Daten, Struktur u.v.m"
+
+#: inc/customizer.php:422
+#: components/blocks/fau-big-teaser/edit.js:143
+msgid "Link URL"
+msgstr "Link URL"
+
+#: inc/customizer.php:447
+msgid "Configure social media links"
+msgstr "Social Media Links konfigurieren"
+
+#. translators: social media platform
+#: inc/customizer.php:467
+#, php-format
+msgid "Enter the %s URL"
+msgstr "Die URL für %s eingeben"
+
+#: inc/customizer.php:475
+msgid "Post Settings"
+msgstr "Beitragseinstellungen"
+
+#: inc/customizer.php:724
+msgid "Land"
+msgstr "Land"
+
+#: inc/customizer.php:771
+msgid "FAU-Elemental detected address settings from the FAU-Einrichtungen theme that can be migrated."
+msgstr "FAU-Elemental hat Adresseinstellungen vom alten FAU-Einrichtungen Design gefunden, die übernommen werden können."
+
+#: inc/customizer.php:774
+msgid "Migrate Address Settings"
+msgstr "Adresseinstellungen übernehmen"
+
+#: inc/customizer.php:815
+msgid "Address settings were successfully migrated from FAU-Einrichtungen theme!"
+msgstr "Die Adresseinstellungen wurden erfolgreich von FAU-Einrichtungen übernommen."
+
+#: inc/customizer.php:822
+msgid "No address settings from FAU-Einrichtungen theme were found to migrate."
+msgstr "Es wurden keine Adresseinstellungen von FAU-Einrichtungen gefunden."
+
+#: inc/customizer.php:864
+msgid "Hero Settings"
+msgstr "Hero-Einstellungen"
+
+#: inc/customizer.php:870
+msgid "Mobile Display Options"
+msgstr "Einstellungen für Mobilgeräte"
+
+#: inc/customizer.php:879
+msgid "Show Description Text and Link on Mobile"
+msgstr "Beschreibungstext und Links auf Mobilegeräten anzeigen"
+
+#: inc/menu-registration.php:29
+msgid "Footer Menu"
+msgstr "Footer-Menü"
+
+#: inc/menu-registration.php:30
+msgid "Footer Lists Menu"
+msgstr "Footer-Listen-Menü"
+
+#: inc/menu-registration.php:31
+msgid "Footer Important Links"
+msgstr "Wichtige Links im Footer"
+
+#: inc/portal-page-settings.php:45
+msgid "Portal Menu Settings"
+msgstr "Portalmenü-Einstellungen"
+
+#: components/template-parts/navigation/main-navigation.php:47
+#: inc/portal-page-settings.php:73
+#: components/blocks/fau-portalmenu/edit.js:64
+msgid "Menu"
+msgstr "Menü"
+
+#: inc/portal-page-settings.php:75
+msgid "- Select Menu -"
+msgstr "- Menü auswählen -"
+
+#: inc/portal-page-settings.php:86
+msgid "Hide Submenus"
+msgstr "Untermenüs ausblenden"
+
+#: inc/portal-page-settings.php:91
+#: components/blocks/fau-portalmenu/edit.js:92
+msgid "Hide Thumbnails"
+msgstr "Vorschaubilder ausblenden"
+
+#: inc/post-meta.php:24
+#: inc/post-meta.php:34
+msgid "Last Updated Date"
+msgstr "Letzte Aktualisierung"
+
+#: inc/post-meta.php:97
+msgid "Use custom last updated date"
+msgstr "Letzte Aktualisierung selbst auswählen"
+
+#: inc/post-meta.php:102
+msgid "Custom date:"
+msgstr "Eigenes Datum:"
+
+#: inc/posts-settings.php:18
+msgid "Post Header Options"
+msgstr "Beitragskopf-Optionen"
+
+#: inc/posts-settings.php:45
+msgid "Show categories"
+msgstr "Kategorien anzeigen"
+
+#: inc/shortcodes.php:66
+msgid "No menu could be found with the specified name"
+msgstr "Es konnte kein Menü mit dem angegebenen Namen gefunden werden"
+
+#: inc/theme-settings.php:18
+msgid "Theme Settings"
+msgstr "Design-Einstellungen"
+
+#: inc/theme-settings.php:24
+msgid "Header Settings"
+msgstr "Header-Einstellungen"
+
+#: inc/theme-settings.php:36
+msgid "Breadcrumb variant: Blue"
+msgstr "Brotkrummenvariante: Blau"
+
+#: inc/theme-settings.php:37
+msgid "Setting for the blue breadcrumb variant"
+msgstr "Aktiviert die blauen Brotkrummen"
+
+#: inc/theme-settings.php:51
+msgid "Website Type"
+msgstr "Webseitentyp"
+
+#: components/template-parts/navigation/fau-navigation.php:22
+#: inc/theme-settings.php:55
+msgid "FAU.de"
+msgstr "FAU.de"
+
+#: inc/theme-settings.php:56
+#: inc/theme-settings.php:71
+msgid "Faculty"
+msgstr "Fakultät"
+
+#: inc/theme-settings.php:57
+msgid "Chair"
+msgstr "Lehrstuhl"
+
+#: inc/theme-settings.php:58
+msgid "Other"
+msgstr "Anderes"
+
+#: inc/theme-settings.php:59
+msgid "Cooperation"
+msgstr "Kooperation"
+
+#: inc/theme-settings.php:91
+msgid "Copyright Info Priority"
+msgstr "Urheberrechtsinfopriorität"
+
+#: inc/theme-settings.php:95
+msgid "Copyright Field"
+msgstr "Urheberrechtsfeld"
+
+#: inc/theme-settings.php:96
+msgid "IPTC Image Metadata"
+msgstr "IPTC Bildmetadaten"
+
+#. translators: search query
+#: components/template-parts/search-results/search-results.php:180
+#, php-format
+msgid "Search Results for: %s"
+msgstr "Suchergebnisse für: %s"
+
+#: components/blocks/fau-global-search/edit.js:23
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:25
+msgid "Content Settings"
+msgstr "Inhaltseinstellungen"
+
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:131
+#: components/blocks/fau-testimonial/edit.js:453
+msgid "Remove"
+msgstr "Entfernen"
+
+#: index.php:224
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:15
+msgid "Date"
+msgstr "Datum"
+
+#: index.php:227
+#: components/blocks/fau-big-button/edit.js:306
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
+msgid "Title"
+msgstr "Titel"
+
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:20
+msgid "Ascending"
+msgstr "Aufsteigend"
+
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:21
+msgid "Descending"
+msgstr "Absteigend"
+
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:25
+msgid "Content Type"
+msgstr "Inhaltstyp"
+
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:36
+msgid "Select the type of content to display."
+msgstr "Wählen Sie den Typ des anzuzeigenden Inhalts."
+
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:28
+msgid "Category"
+msgstr "Kategorie"
+
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:37
+msgid "Select a category to filter posts."
+msgstr "Wählen Sie eine Kategorie zum Filtern der Beiträge."
+
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:47
+msgid "Posts Per Page"
+msgstr "Beiträge pro Seite"
+
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:57
+msgid "Set the maximum number of posts to display per page."
+msgstr "Legen Sie die maximale Anzahl der pro Seite anzuzeigenden Beiträge fest."
+
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:66
+msgid "Order By"
+msgstr "Sortieren nach"
+
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:75
+msgid "Order"
+msgstr "Reihenfolge"
+
+#: components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx:7
+msgid "1 Extra Large Teaser (1×XL)"
+msgstr "1 Extra großer Teaser (1×XL)"
+
+#: components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx:10
+msgid "2 Large Teasers (2×L)"
+msgstr "2 Große Teaser (2×L)"
+
+#: components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx:11
+msgid "1 Large + 2 Small (L+2S)"
+msgstr "1 Großer + 2 Kleine (L+2S)"
+
+#: components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx:12
+msgid "2 Small + 1 Large (2S+L)"
+msgstr "2 Kleine + 1 Großer (2S+L)"
+
+#: components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx:13
+msgid "3 Medium Teasers (3×M)"
+msgstr "3 Mittlere Teaser (3×M)"
+
+#: components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx:15
+msgid "2 Small - Image Left (2S BLTR)"
+msgstr "2 Kleine - Bild links (2S BLTR)"
+
+#: components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx:19
+msgid "2 Small - Image Right (2S TLBR)"
+msgstr "2 Kleine - Bild rechts (2S TLBR)"
+
+#: components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx:32
+msgid "Display Settings"
+msgstr "Anzeigeeinstellungen"
+
+#: components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx:35
+msgid "Teaser Layout"
+msgstr "Teaser-Layout"
+
+#: components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx:46
+msgid "Heading Level"
+msgstr "Überschriftenebene"
+
+#: components/blocks/fau-teaser-grid/components/editor/DisplaySettings.jsx:58
+msgid "Choose the heading level for teasers (H1 is excluded for accessibility)"
+msgstr "Wählen Sie die Überschriftenebene für Teaser (H1 ist aus Gründen der Barrierefreiheit ausgeschlossen)"
+
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:23
+msgid "Selection Mode"
+msgstr "Auswahlmodus"
+
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:45
+msgid "Selection mode options"
+msgstr "Auswahlmodus-Optionen"
+
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:59
+msgid "Automatic"
+msgstr "Automatisch"
+
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:63
+msgid "Manual Selection"
+msgstr "Manuelle Auswahl"
+
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:70
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:85
+msgid "Search and select posts"
+msgstr "Beiträge suchen und auswählen"
+
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:97
+msgid "Type to search for posts. Use arrow keys to navigate and enter to select."
+msgstr "Tippen Sie, um nach Beiträgen zu suchen. Verwenden Sie die Pfeiltasten zur Navigation und Enter zur Auswahl."
+
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:106
+msgid "Selected posts"
+msgstr "Ausgewählte Beiträge"
+
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:126
+msgid "Remove post"
+msgstr "Beitrag entfernen"
+
+#: components/template-parts/search-results/search-results.php:331
+#: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
+#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:156
+msgid "Read more"
+msgstr "Weiterlesen"
+
+#: components/blocks/fau-copyright-info/block.json
+msgctxt "block title"
+msgid "Copyright Information"
+msgstr "Urheberrechtsinformationen"
+
+#: components/blocks/fau-copyright-info/block.json
+msgctxt "block description"
+msgid "Displays copyright information gathered from images and other sources"
+msgstr "Zeigt Urheberrechtsinformationen an, die aus Bildern und anderen Quellen gesammelt wurden"
+
+#: components/blocks/fau-meta-headline/block.json
+msgctxt "block title"
+msgid "Meta Headline"
+msgstr "Meta-Überschrift"
+
+#: components/blocks/fau-meta-headline/block.json
+msgctxt "block description"
+msgid "A meta headline for the following section content"
+msgstr "Eine Meta-Überschrift für den folgenden Abschnittsinhalt"
+
+#: components/blocks/fau-portalmenu/block.json
+msgctxt "block title"
+msgid "FAU Portal Menu"
+msgstr "FAU Portal-Menü"
+
+#: components/blocks/fau-portalmenu/block.json
+msgctxt "block description"
+msgid "Displays a navigation menu as portal menu with thumbnails and links."
+msgstr "Zeigt ein Navigationsmenü als Portal-Menü mit Thumbnails und Links an."
+
+#: components/blocks/fau-teaser-grid/block.json
+msgctxt "block title"
+msgid "FAU Teaser Grid"
+msgstr "FAU Teaser-Gitter"
+
+#: components/blocks/fau-teaser-grid/block.json
+msgctxt "block description"
+msgid "Display posts or pages in a grid layout with FAU styling"
+msgstr "Zeigt Beiträge oder Seiten in einem Gitter-Layout mit FAU-Gestaltung an"
+
+#: theme.json
+msgctxt "Style variation name"
+msgid "Fau Elemental"
+msgstr "FAU Elemental"
+
+#: theme.json
+msgctxt "Style variation description"
+msgid "Fau Elemental"
+msgstr "FAU Elemental"
+
+#: components/blocks/fau-global-search/render.php:55
+#: components/template-parts/navigation/fau-navigation.php:48
+#: components/template-parts/navigation/menu-modal-config.php:75
+#: components/template-parts/navigation/menu-modal.php:244
+#: components/template-parts/search-results/search-results.php:194
+#: components/blocks/fau-global-search/edit.js:95
+msgid "Search"
+msgstr "Suchen"
+
+#. translators: number of results
+#: components/template-parts/search-results/search-results.php:208
+#, php-format
+msgctxt "search results count"
+msgid "%s result found"
+msgid_plural "%s results found"
+msgstr[0] "%s Ergebnis gefunden"
+msgstr[1] "%s Ergebnisse gefunden"
+
+#: components/template-parts/search-results/search-results.php:233
+msgid "Search Results List"
+msgstr "Suchergebnisliste"
+
+#. translators: index of the search result
+#: components/template-parts/search-results/search-results.php:246
+#, php-format
+msgid "Search Result %d"
+msgstr "Suchergebnis %d"
+
+#. translators: %s: Menu item title
+#: components/template-parts/search-results/search-results.php:298
+#: inc/class-walker-content-menu.php:67
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:178
+#, php-format,js-format
+msgid "Featured image for %s"
+msgstr "Beitragsbild für %s"
+
+#. translators: title of the search result
+#: components/template-parts/search-results/search-results.php:329
+#, php-format
+msgid "Read more about %s"
+msgstr "Mehr lesen über %s"
+
+#: components/template-parts/search-results/search-results.php:351
+msgid "No Search Results"
+msgstr "Keine Suchergebnisse"
+
+#: components/blocks/fau-testimonial/edit.js:177
+msgid "More"
+msgstr "Mehr"
+
+#: components/blocks/fau-testimonial/components/TestimonialCarousel.jsx:71
+#: components/blocks/fau-testimonial/save.js:62
+msgid "Previous slide"
+msgstr "Vorgeriher Slide"
+
+#: components/blocks/fau-testimonial/components/TestimonialCarousel.jsx:94
+#: components/blocks/fau-testimonial/save.js:69
+msgid "Next slide"
+msgstr "Nächster Slide"
+
+#. translators: %s: slide index
+#: components/blocks/fau-testimonial/components/TestimonialCarousel.jsx:85
+#, js-format
+msgid "Go to slide %s"
+msgstr "Zu Slide %s gehen"
+
+#: components/templates/pages/archive-grid-util.php:59
+#: index.php:203
+msgid "to"
+msgstr "bis"
+
+#: components/templates/pages/archive-grid-util.php:61
+#: index.php:205
+msgid "of"
+msgstr "von"
+
+#: components/templates/pages/archive-grid-util.php:68
+#: index.php:212
+msgid "total"
+msgstr "gesamt"
+
+#: index.php:220
+msgid "Sort by:"
+msgstr "Sortieren nach:"
+
+#: archive.php:97
+#: components/templates/pages/page-all-posts.php:39
+#: front-page.php:57
+#: index.php:241
+msgid "Posts listing"
+msgstr "Beitragsliste"
+
+#. translators: name of the wordpress category
+#: category.php:19
+#, php-format
+msgid "Browse all posts in the %s category."
+msgstr "Durchsuchen Sie alle Beiträge in der Kategorie %s."
+
+#: category.php:35
+msgid "Category posts listing"
+msgstr "Kategorie-Beitragsliste"
+
+#: components/blocks/fau-teaser-grid/render.php:190
+msgid "No items found."
+msgstr "Keine Elemente gefunden."
+
+#: components/blocks/fau-teaser-grid/render.php:216
+msgid "Error loading posts"
+msgstr "Fehler beim Laden der Beiträge"
+
+#: components/blocks/fau-teaser-grid/render.php:217
+msgid "Loading error"
+msgstr "Ladefehler"
+
+#: components/template-parts/pagination/pagination.php:24
+#: components/blocks/fau-teaser-grid/edit.js:559
+msgid "Posts pagination"
+msgstr "Beitrags-Seitennummerierung"
+
+#: components/template-parts/pagination/pagination.php:33
+#: components/template-parts/pagination/pagination.php:36
+msgid "Previous page"
+msgstr "Vorherige Seite"
+
+#. translators: %d: page number
+#: components/template-parts/pagination/pagination.php:49
+#: components/template-parts/pagination/pagination.php:59
+#: components/template-parts/pagination/pagination.php:68
+#: components/template-parts/pagination/pagination.php:78
+#: components/template-parts/pagination/pagination.php:82
+#: components/template-parts/pagination/pagination.php:85
+#: components/template-parts/pagination/pagination.php:92
+#: components/template-parts/pagination/pagination.php:97
+#: components/template-parts/pagination/pagination.php:101
+#: components/template-parts/pagination/pagination.php:111
+#: components/template-parts/pagination/pagination.php:121
+#: components/template-parts/pagination/pagination.php:130
+#: components/template-parts/pagination/pagination.php:140
+#: components/template-parts/pagination/pagination.php:144
+#: components/template-parts/pagination/pagination.php:147
+#: components/template-parts/pagination/pagination.php:154
+#: components/template-parts/pagination/pagination.php:159
+#: components/template-parts/pagination/pagination.php:166
+#: components/template-parts/pagination/pagination.php:170
+#, php-format
+msgid "Page %d"
+msgstr "Seite %d"
+
+#: components/template-parts/pagination/pagination.php:181
+#: components/template-parts/pagination/pagination.php:184
+msgid "Next page"
+msgstr "Nächste Seite"
+
+#: components/template-parts/hero-page/hero-page.php:10
+msgid "Page Hero"
+msgstr "Seiten-Hero"
+
+#: components/template-parts/navigation/fau-navigation.php:18
+msgid "FAU Navigation"
+msgstr "FAU Navigation"
+
+#: components/template-parts/navigation/fau-navigation.php:31
+#: components/template-parts/navigation/menu-modal-config.php:29
+msgid "Services"
+msgstr "Services"
+
+#: components/template-parts/navigation/fau-navigation.php:40
+#: components/template-parts/navigation/menu-modal-config.php:46
+msgid "Structure"
+msgstr "Struktur"
+
+#: components/template-parts/navigation/menu-modal-config.php:59
+msgid "Website Menu"
+msgstr "Website-Menü"
+
+#: components/template-parts/navigation/menu-modal.php:247
+msgid "Search all pages and documents:"
+msgstr "Alle Seiten und Dokumente durchsuchen:"
+
+#: components/template-parts/navigation/menu-modal.php:323
+msgid "No menu items found."
+msgstr "Keine Menüeinträge gefunden."
+
+#: components/template-parts/navigation/menu-modal.php:365
+msgid "Use Tab to navigate through menu items, Enter to select, Escape to close, or use the Close button."
+msgstr "Verwenden Sie Tab zur Navigation durch Menüeinträge, Enter zur Auswahl, Escape zum Schließen oder den Schließen-Button."
+
+#: components/template-parts/navigation/menu-modal.php:374
+msgid "Back to main menu"
+msgstr "Zurück zum Hauptmenü"
+
+#: components/template-parts/navigation/menu-modal.php:381
+msgid "Close menu"
+msgstr "Menü schließen"
+
+#. translators: title of the submenu
+#: components/template-parts/navigation/menu-modal.php:483
+#: components/template-parts/navigation/menu-modal.php:556
+#: components/template-parts/navigation/mixed-navigation-walker.php:474
+#: components/template-parts/navigation/mixed-navigation-walker.php:673
+#, php-format
+msgid "Open %s submenu"
+msgstr "%s Untermenü öffnen"
+
+#. Template Name of the theme
+#: functions.php:81
+msgid "All Pages"
+msgstr "Alle Seiten"
+
+#: components/templates/pages/page-all-pages.php:39
+msgid "Pages listing"
+msgstr "Seitenliste"
+
+#. Template Name of the theme
+#: components/template-parts/search-results/search-results.php:182
+#: functions.php:80
+msgid "All Posts"
+msgstr "Alle Beiträge"
+
+#. Template Name of the theme
+#: functions.php:77
+msgid "Portal Page"
+msgstr "Portalseite"
+
+#: front-page.php:78
+msgid "Pages:"
+msgstr "Seiten:"
+
+#. translators: %s: Menu item title
+#: inc/class-walker-content-menu.php:69
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:191
+#, php-format,js-format
+msgid "No image available for %s"
+msgstr "Kein Bild verfügbar für %s"
+
+#. translators: Menu item title
+#: inc/class-walker-content-menu.php:80
+#: inc/class-walker-content-menu.php:87
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:210
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:240
+#, php-format,js-format
+msgid "Go to %s"
+msgstr "Zu %s gehen"
+
+#: inc/class-walker-content-menu.php:172
+#: components/blocks/fau-portalmenu/edit.js:23
+msgid "Portal Menu"
+msgstr "Portalmenü"
+
+#: inc/customizer.php:81
+msgid "This section is managed centrally by FAU and cannot be edited by faculties."
+msgstr "Dieser Bereich wird zentral von der FAU verwaltet und kann von Fakultäten nicht bearbeitet werden."
+
+#: inc/customizer.php:98
+msgid "Note: The FAU claim is centrally managed by FAU and cannot be edited by faculties. The section will display with default FAU content."
+msgstr "Hinweis: Der FAU-Claim wird zentral von der FAU verwaltet und kann von Fakultäten nicht bearbeitet werden. Der Bereich wird mit Standard-FAU-Inhalten angezeigt."
+
+#: inc/customizer.php:325
+msgid "These settings are managed centrally by FAU and cannot be edited by faculties."
+msgstr "Diese Einstellungen werden zentral von der FAU verwaltet und können von Fakultäten nicht bearbeitet werden."
+
+#: inc/customizer.php:367
+msgid "Note: Target group links are centrally managed by FAU and cannot be edited by faculties. The sections will display with default FAU content."
+msgstr "Hinweis: Zielgruppen-Links werden zentral von der FAU verwaltet und können von Fakultäten nicht bearbeitet werden. Die Bereiche werden mit Standard-FAU-Inhalten angezeigt."
+
+#: inc/customizer.php:488
+msgid "Display post metadata"
+msgstr "Beitrags-Metadaten anzeigen"
+
+#: inc/customizer.php:489
+msgid "Shows date and reading-time on posts."
+msgstr "Zeigt Datum und Lesezeit bei Beiträgen an."
+
+#: inc/customizer.php:504
+msgid "Apply dark-theme style to metadata"
+msgstr "Dunkles Design auf Metadaten anwenden"
+
+#: inc/customizer.php:505
+msgid "Turns the metadata bar dark-blue with white text."
+msgstr "Macht die Metadaten-Leiste dunkelblau mit weißem Text."
+
+#: inc/customizer.php:516
+msgid "Archive pages settings"
+msgstr "Archivseiten-Einstellungen"
+
+#: inc/customizer.php:528
+#: components/blocks/fau-teaser-grid/edit.js:363
+msgid "Pagination Type"
+msgstr "Seitennummerierungstyp"
+
+#: inc/customizer.php:532
+#: components/blocks/fau-teaser-grid/edit.js:367
+msgid "Page Numbers"
+msgstr "Seitennummern"
+
+#: inc/customizer.php:533
+#: components/blocks/fau-teaser-grid/edit.js:374
+msgid "Load More Button"
+msgstr "Mehr Anzeigen Button"
+
+#: inc/customizer.php:535
+msgid "Choose how pagination is displayed on archive pages and teaser grids."
+msgstr "Wählen Sie, wie die Seitennummerierung auf Archivseiten und Teaser-Gittern angezeigt wird."
+
+#: inc/customizer.php:546
+msgid "Items Per Page"
+msgstr "Einträge pro Seite"
+
+#: inc/customizer.php:549
+msgid "Number of items to display per page in archive pages and teaser grids."
+msgstr "Anzahl der pro Seite anzuzeigenden Einträge in Archivseiten und Teaser-Gittern."
+
+#: inc/image-links-migration.php:209
+msgid "Image Link Categories"
+msgstr "Bild-Link-Kategorien"
+
+#: inc/image-links-migration.php:210
+msgid "Image Link Category"
+msgstr "Bild-Link-Kategorie"
+
+#: inc/image-links-migration.php:211
+msgid "Categories"
+msgstr "Kategorien"
+
+#: inc/menu-registration.php:23
+msgid "Header Primary Menu"
+msgstr "Header-Hauptmenü"
+
+#: inc/menu-registration.php:24
+msgid "Header Direct Links Menu"
+msgstr "Header-Direktlinks-Menü"
+
+#: inc/menu-registration.php:25
+msgid "Header Menu Links"
+msgstr "Header-Menü-Links"
+
+#: inc/menu-registration.php:26
+msgid "Top Header Nav Services"
+msgstr "Top-Header-Navigation Services"
+
+#: inc/menu-registration.php:27
+msgid "Top Header Nav Structure"
+msgstr "Top-Header-Navigation Struktur"
+
+#: inc/menu-registration.php:28
+msgid "Search Options Menu"
+msgstr "Suchoptionen-Menü"
+
+#: inc/page-meta-fields.php:31
+msgid "Navigation Settings"
+msgstr "Navigationseinstellungen"
+
+#: inc/page-meta-fields.php:58
+msgid "Hide this page from navigation menus"
+msgstr "Diese Seite in Navigationsmenüs ausblenden"
+
+#: inc/page-meta-fields.php:61
+msgid "When checked, this page will not appear as a child page in navigation menus, even if it has a parent page."
+msgstr "Wenn aktiviert, wird diese Seite nicht als Unterseite in Navigationsmenüs angezeigt, auch wenn sie eine übergeordnete Seite hat."
+
+#: inc/portal-menu-compatibility.php:315
+msgid "No menu could be found with the specified identifier."
+msgstr "Es konnte kein Menü mit der angegebenen Kennung gefunden werden."
+
+#: inc/portal-page-settings.php:96
+msgid "Dark Style"
+msgstr "Dunkles Design"
+
+#. translators: owner/organization of the logo
+#: inc/shortcodes.php:174
+#, php-format
+msgid "Logo from %s"
+msgstr "Logo von %s"
+
+#: components/blocks/fau-logo-grid/render.php:83
+#: inc/shortcodes.php:176
+#: components/blocks/fau-logo-grid/edit.js:286
+msgid "Logo"
+msgstr "Logo"
+
+#: index.php:48
+#: index.php:51
+#: index.php:72
+msgid "Blog"
+msgstr "Blog"
+
+#: index.php:92
+#: index.php:95
+#: index.php:98
+#: index.php:105
+msgid "Welcome to our blog. Browse and filter through all our posts using the options below."
+msgstr "Willkommen in unserem Blog. Durchsuchen und filtern Sie alle unsere Beiträge mit den Optionen unten."
+
+#. translators: name of the wordpress category
+#: index.php:111
+#, php-format
+msgid "Browse all posts in the %s category. Use the filters below to refine your search."
+msgstr "Durchsuchen Sie alle Beiträge in der Kategorie %s. Verwenden Sie die Filter unten, um Ihre Suche zu verfeinern."
+
+#. translators: name of the wordpress tag
+#: index.php:117
+#, php-format
+msgid "Browse all posts tagged with %s. Use the filters below to refine your search."
+msgstr "Durchsuchen Sie alle Beiträge mit dem Tag %s. Verwenden Sie die Filter unten, um Ihre Suche zu verfeinern."
+
+#. translators: name of the post author
+#: index.php:123
+#, php-format
+msgid "Browse all posts by %s. Use the filters below to refine your search."
+msgstr "Durchsuchen Sie alle Beiträge von %s. Verwenden Sie die Filter unten, um Ihre Suche zu verfeinern."
+
+#. translators: year and month
+#: index.php:131
+#, php-format
+msgid "Browse all posts from %s. Use the filters below to refine your search."
+msgstr "Durchsuchen Sie alle Beiträge aus %s. Verwenden Sie die Filter unten, um Ihre Suche zu verfeinern."
+
+#: index.php:137
+msgid "Browse and filter through all our posts using the options below. Use pagination to navigate through multiple pages."
+msgstr "Durchsuchen und filtern Sie alle unsere Beiträge mit den Optionen unten. Verwenden Sie die Seitennummerierung, um durch mehrere Seiten zu navigieren."
+
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:167
+msgid "Menu Item"
+msgstr "Menüeintrag"
+
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:232
+msgid "Submenu Item"
+msgstr "Untermenüeintrag"
+
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:282
+msgid "This menu has no items. Please add items to the menu in Appearance → Menus."
+msgstr "Dieses Menü hat keine Einträge. Bitte fügen Sie Einträge zum Menü unter Design → Menüs hinzu."
+
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:293
+msgid "Loading menu items…"
+msgstr "Menüeinträge werden geladen…"
+
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:301
+msgid "No menu selected"
+msgstr "Kein Menü ausgewählt"
+
+#: components/blocks/fau-big-button/block.json
+msgctxt "block title"
+msgid "FAU Big Button"
+msgstr "FAU Großer Button"
+
+#: components/blocks/fau-big-button/block.json
+msgctxt "block description"
+msgid "Display a group of big buttons"
+msgstr "Zeigt eine Gruppe großer Buttons an"
+
+#: components/blocks/fau-big-teaser/block.json
+msgctxt "block title"
+msgid "FAU Big Teaser"
+msgstr "FAU Großer Teaser"
+
+#: components/blocks/fau-big-teaser/block.json
+msgctxt "block description"
+msgid "A feature teaser component with roof line, headline, teaser text, link and image"
+msgstr "Ein Feature-Teaser mit Dachzeile, Überschrift, Teasertext, Link und Bild"
+
+#: components/blocks/fau-featured-event-teaser/block.json
+msgctxt "block title"
+msgid "Featured Event Teaser"
+msgstr "Hervorgehobener Veranstaltungs-Teaser"
+
+#: components/blocks/fau-featured-event-teaser/block.json
+msgctxt "block description"
+msgid "A block to display a featured event with details."
+msgstr "Ein Block zum Anzeigen einer hervorgehobenen Veranstaltung mit Details."
+
+#: components/blocks/fau-global-search/block.json
+msgctxt "block title"
+msgid "FAU Global Search"
+msgstr "FAU Globale Suche"
+
+#: components/blocks/fau-global-search/block.json
+msgctxt "block description"
+msgid "A global search component for FAU websites with configurable width and target page"
+msgstr "Eine globale Suchkomponente für FAU-Websites mit konfigurierbarer Breite und Zielseite"
+
+#: components/blocks/fau-global-search/block.json
+msgctxt "block keyword"
+msgid "search"
+msgstr "suche"
+
+#: components/blocks/fau-global-search/block.json
+msgctxt "block keyword"
+msgid "global"
+msgstr "global"
+
+#: components/blocks/fau-global-search/block.json
+msgctxt "block keyword"
+msgid "fau"
+msgstr "fau"
+
+#: components/blocks/fau-logo-grid/block.json
+msgctxt "block title"
+msgid "FAU Logo Grid"
+msgstr "FAU Logo-Gitter"
+
+#: components/blocks/fau-logo-grid/block.json
+msgctxt "block description"
+msgid "Display a grid of logos with optional links and roof line"
+msgstr "Zeigt ein Gitter von Logos mit optionalen Links und Dachzeile an"
+
+#: components/blocks/fau-testimonial/block.json
+msgctxt "block title"
+msgid "FAU Testimonial"
+msgstr "FAU Testimonial"
+
+#: components/blocks/fau-testimonial/block.json
+msgctxt "block description"
+msgid "Display a testimonial carousel with an optional image"
+msgstr "Zeigt ein Testimonial-Karussell mit optionalem Bild an"
+
+#: theme.json
+msgctxt "Color name"
+msgid "Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)"
+msgstr "Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU)"
+
+#: theme.json
+msgctxt "Color name"
+msgid "Philosophische Fakultät"
+msgstr "Philosophische Fakultät"
+
+#: theme.json
+msgctxt "Color name"
+msgid "Rechts- und Wirtschaftswissenschaftliche Fakultät"
+msgstr "Rechts- und Wirtschaftswissenschaftliche Fakultät"
+
+#: theme.json
+msgctxt "Color name"
+msgid "Medizinische Fakultät"
+msgstr "Medizinische Fakultät"
+
+#: theme.json
+msgctxt "Color name"
+msgid "Naturwissenschaftliche Fakultät"
+msgstr "Naturwissenschaftliche Fakultät"
+
+#: theme.json
+msgctxt "Color name"
+msgid "Technische Fakultät"
+msgstr "Technische Fakultät"
+
+#: theme.json
+msgctxt "Color name"
+msgid "Default"
+msgstr "Standard"
+
+#: theme.json
+msgctxt "Color name"
+msgid "Success"
+msgstr "Erfolg"
+
+#: theme.json
+msgctxt "Color name"
+msgid "Info"
+msgstr "Info"
+
+#: theme.json
+msgctxt "Color name"
+msgid "Warning"
+msgstr "Warnung"
+
+#: theme.json
+msgctxt "Color name"
+msgid "Danger"
+msgstr "Gefahr"
+
+#. Theme URI of the theme
+#: style.css
+msgid "https://github.com/RRZE-Webteam/FAU-Elemental"
+msgstr "https://github.com/RRZE-Webteam/FAU-Elemental"
+
+#: components/blocks/fau-copyright-info/render.php:214
+msgid "Image sources:"
+msgstr "Bildnachweise:"
+
+#: components/template-parts/navigation/menu-modal.php:376
+msgid "Back"
+msgstr "Zurück"
+
+#: components/template-parts/navigation/menu-modal.php:382
+msgid "Close"
+msgstr "Schließen"
+
+#: components/blocks/fau-global-search/render.php:45
+#: components/blocks/fau-global-search/edit.js:85
+msgid "Search…"
+msgstr "Suchen…"
+
+#: components/blocks/fau-teaser-grid/render.php:249
+#: components/blocks/fau-teaser-grid/edit.js:547
+msgid "Loading…"
+msgstr "Lädt…"
+
+#: components/patterns/hero-portal/pattern.php:19
+msgid "Are you interested in studying natural sciences or mathematics? Then FAU in Erlangen is the right place for you. Friedrich-Alexander-Universität Erlangen-Nürnberg offers degree programs in all areas of natural sciences and mathematics – both as undergraduate Bachelor’s and advanced Master’s programs. The degree programs in food chemistry, pharmacy, and teaching end with a state examination."
+msgstr "Interessierst du dich für ein Studium der Naturwissenschaften oder Mathematik? Dann ist die FAU in Erlangen der richtige Ort für dich. Die Friedrich-Alexander-Universität Erlangen-Nürnberg bietet Studiengänge in allen Bereichen der Naturwissenschaften und Mathematik an – sowohl als grundständige Bachelor- als auch als weiterführende Masterstudiengänge. Die Studiengänge in Lebensmittelchemie, Pharmazie und Lehramt schließen mit einer Staatsprüfung ab."
+
+#: components/patterns/hero-portal/pattern.php:26
+msgid "Learn more"
+msgstr "Mehr erfahren"
+
+#: components/patterns/hero-portal/pattern.php:39
+msgid "Students at FAU Erlangen-Nürnberg"
+msgstr "Studierende an der FAU Erlangen-Nürnberg"
+
+#. translators: year number
+#: index.php:128
+#, php-format
+msgid "Browse all posts from the year %s. Use the filters below to refine your search."
+msgstr "Durchsuchen Sie alle Beiträge aus dem Jahr %s. Verwenden Sie die Filter unten, um Ihre Suche zu verfeinern."
+
+#. translators: year, month and date
+#: index.php:134
+#, php-format
+msgid "Browse all posts from the %s. Use the filters below to refine your search."
+msgstr "Durchsuchen Sie alle Beiträge aus %s. Verwenden Sie die Filter unten, um Ihre Suche zu verfeinern."
+
+#: components/blocks/fau-big-button/edit.js:71
+msgid "Default"
+msgstr "Standard"
+
+#: components/blocks/fau-big-button/edit.js:72
+msgid "FAU"
+msgstr "FAU"
+
+#: components/blocks/fau-big-button/edit.js:73
+msgid "Philosophy"
+msgstr "Philosophie"
+
+#: components/blocks/fau-big-button/edit.js:74
+msgid "Law & Economics"
+msgstr "Recht & Wirtschaft"
+
+#: components/blocks/fau-big-button/edit.js:75
+msgid "Medicine"
+msgstr "Medizin"
+
+#: components/blocks/fau-big-button/edit.js:76
+msgid "Sciences"
+msgstr "Naturwissenschaften"
+
+#: components/blocks/fau-big-button/edit.js:77
+msgid "Technology"
+msgstr "Technik"
+
+#. translators: %s: faculty type
+#: components/blocks/fau-big-button/edit.js:172
+#, js-format
+msgid "Using faculty color: %s"
+msgstr "Verwende Fakultätsfarbe: %s"
+
+#: components/blocks/fau-big-button/edit.js:173
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#: components/blocks/fau-big-button/edit.js:183
+msgid "Appearance Settings"
+msgstr "Erscheinungsbild-Einstellungen"
+
+#: components/blocks/fau-big-button/edit.js:187
+msgid "Buttons Per Row"
+msgstr "Buttons pro Zeile"
+
+#: components/blocks/fau-big-button/edit.js:191
+msgid "4 buttons"
+msgstr "4 Buttons"
+
+#: components/blocks/fau-big-button/edit.js:195
+msgid "3 buttons"
+msgstr "3 Buttons"
+
+#: components/blocks/fau-big-button/edit.js:205
+msgid "Variant"
+msgstr "Variante"
+
+#: components/blocks/fau-big-button/edit.js:209
+msgid "Filled"
+msgstr "Gefüllt"
+
+#: components/blocks/fau-big-button/edit.js:213
+msgid "Outline"
+msgstr "Umriss"
+
+#: components/blocks/fau-big-button/edit.js:224
+msgid "Items"
+msgstr "Elemente"
+
+#: components/blocks/fau-big-button/edit.js:229
+#: components/blocks/fau-big-button/edit.js:607
+msgid "Add Item"
+msgstr "Element hinzufügen"
+
+#: components/blocks/fau-big-button/edit.js:236
+#: components/blocks/fau-big-button/edit.js:242
+msgid "Untitled Item"
+msgstr "Unbenanntes Element"
+
+#: components/blocks/fau-big-button/edit.js:237
+msgid "Item"
+msgstr "Element"
+
+#: components/blocks/fau-big-button/edit.js:258
+#: components/blocks/fau-big-button/edit.js:269
+#: components/blocks/fau-big-button/edit.js:488
+msgid "Move up"
+msgstr "Nach oben"
+
+#: components/blocks/fau-big-button/edit.js:276
+#: components/blocks/fau-big-button/edit.js:289
+#: components/blocks/fau-big-button/edit.js:507
+msgid "Move down"
+msgstr "Nach unten"
+
+#: components/blocks/fau-big-button/edit.js:301
+msgid "Remove Item"
+msgstr "Element entfernen"
+
+#: components/blocks/fau-big-button/edit.js:311
+msgid "You can also click on the title in the preview to edit it directly."
+msgstr "Sie können auch auf den Titel in der Vorschau klicken, um ihn direkt zu bearbeiten."
+
+#: components/blocks/fau-big-button/edit.js:360
+msgid "URL"
+msgstr "URL"
+
+#: components/blocks/fau-big-button/edit.js:381
+msgid "Required for display:"
+msgstr "Erforderlich für die Anzeige:"
+
+#: components/blocks/fau-big-button/edit.js:390
+msgid "Title is required"
+msgstr "Titel ist erforderlich"
+
+#: components/blocks/fau-big-button/edit.js:398
+#: components/utils/urlValidation.js:16
+msgid "URL is required"
+msgstr "URL ist erforderlich"
+
+#: components/blocks/fau-big-button/edit.js:411
+msgid "This item will not be displayed on the frontend until both title and URL are provided."
+msgstr "Dieses Element wird nicht im Frontend angezeigt, bis sowohl Titel als auch URL angegeben sind."
+
+#: components/blocks/fau-big-button/edit.js:422
+msgid "Color"
+msgstr "Farbe"
+
+#: components/blocks/fau-big-button/edit.js:445
+msgid "No items added yet. Click \"Add Item\" to get started."
+msgstr "Noch keine Elemente hinzugefügt. Klicken Sie auf \"Element hinzufügen\", um zu beginnen."
+
+#: components/blocks/fau-big-button/edit.js:525
+msgid "Remove item"
+msgstr "Element entfernen"
+
+#: components/blocks/fau-big-button/edit.js:551
+msgid "Enter title…"
+msgstr "Titel eingeben…"
+
+#: components/blocks/fau-big-button/edit.js:581
+msgid "Add description…"
+msgstr "Beschreibung hinzufügen…"
+
+#: components/blocks/fau-big-button/edit.js:602
+msgid "Add new item"
+msgstr "Neues Element hinzufügen"
+
+#: components/blocks/fau-big-teaser/edit.js:52
+#: components/blocks/fau-big-teaser/edit.js:169
+#: components/blocks/fau-featured-event-teaser/edit.js:126
+#: components/blocks/fau-featured-event-teaser/edit.js:191
+#: components/blocks/fau-logo-grid/edit.js:129
+#: components/blocks/fau-testimonial/edit.js:196
+msgid "Replace Image"
+msgstr "Bild ersetzen"
+
+#: components/blocks/fau-big-teaser/edit.js:56
+#: components/blocks/fau-featured-event-teaser/edit.js:130
+#: components/blocks/fau-testimonial/edit.js:195
+#: components/blocks/fau-testimonial/edit.js:405
+msgid "Add Image"
+msgstr "Bild hinzufügen"
+
+#: components/blocks/fau-big-teaser/edit.js:66
+#: components/blocks/fau-big-teaser/edit.js:185
+#: components/blocks/fau-featured-event-teaser/edit.js:140
+#: components/blocks/fau-featured-event-teaser/edit.js:220
+msgid "Remove Image"
+msgstr "Bild entfernen"
+
+#: components/blocks/fau-big-teaser/edit.js:75
+#: components/core-blocks/media-text/index.js:24
+msgid "Content"
+msgstr "Inhalt"
+
+#: components/blocks/fau-big-teaser/edit.js:79
+msgid "Headline (max 100 characters)"
+msgstr "Überschrift (max. 100 Zeichen)"
+
+#: components/blocks/fau-big-teaser/edit.js:89
+msgid "Enter headline…"
+msgstr "Überschrift eingeben…"
+
+#. translators: %d: current character count
+#: components/blocks/fau-big-teaser/edit.js:92
+#, js-format
+msgid "%d/100 characters"
+msgstr "%d/100 Zeichen"
+
+#: components/blocks/fau-big-teaser/edit.js:98
+msgid "Teaser Text (max 200 characters)"
+msgstr "Teasertext (max. 200 Zeichen)"
+
+#: components/blocks/fau-big-teaser/edit.js:108
+msgid "Enter teaser text…"
+msgstr "Teasertext eingeben…"
+
+#. translators: %d: current character count
+#: components/blocks/fau-big-teaser/edit.js:114
+#, js-format
+msgid "%d/200 characters"
+msgstr "%d/200 Zeichen"
+
+#: components/blocks/fau-big-teaser/edit.js:121
+msgid "Link Text (max 40 characters)"
+msgstr "Linktext (max. 40 Zeichen)"
+
+#: components/blocks/fau-big-teaser/edit.js:131
+msgid "Enter link text…"
+msgstr "Linktext eingeben…"
+
+#. translators: %d: current character count
+#: components/blocks/fau-big-teaser/edit.js:137
+#, js-format
+msgid "%d/40 characters"
+msgstr "%d/40 Zeichen"
+
+#: components/blocks/fau-big-teaser/edit.js:148
+msgid "Enter URL…"
+msgstr "URL eingeben…"
+
+#: components/blocks/fau-big-teaser/edit.js:154
+#: components/blocks/fau-featured-event-teaser/edit.js:175
+msgid "Image Settings"
+msgstr "Bildeinstellungen"
+
+#: components/blocks/fau-big-teaser/edit.js:170
+#: components/blocks/fau-featured-event-teaser/edit.js:195
+msgid "Select Image"
+msgstr "Bild auswählen"
+
+#: components/blocks/fau-big-teaser/edit.js:207
+msgid "Add your headline here…"
+msgstr "Fügen Sie hier Ihre Überschrift hinzu…"
+
+#: components/blocks/fau-big-teaser/edit.js:227
+msgid "Add your teaser text here…"
+msgstr "Fügen Sie hier Ihren Teasertext hinzu…"
+
+#: components/blocks/fau-copyright-info/index.js:12
+msgid "Copyright Information"
+msgstr "Urheberrechtsinformationen"
+
+#: components/blocks/fau-copyright-info/index.js:14
+msgid "This block will display copyright information from images and other sources in the frontend."
+msgstr "Dieser Block zeigt Urheberrechtsinformationen von Bildern und anderen Quellen im Frontend an."
+
+#: components/blocks/fau-featured-event-teaser/edit.js:147
+msgid "Event Details"
+msgstr "Veranstaltungsdetails"
+
+#: components/blocks/fau-featured-event-teaser/edit.js:149
+msgid "Event Date"
+msgstr "Veranstaltungsdatum"
+
+#: components/blocks/fau-featured-event-teaser/edit.js:154
+msgid "Select the event date using the date picker."
+msgstr "Wählen Sie das Veranstaltungsdatum mit dem Datumsauswahl."
+
+#: components/blocks/fau-featured-event-teaser/edit.js:160
+msgid "Button Text"
+msgstr "Button-Text"
+
+#: components/blocks/fau-featured-event-teaser/edit.js:167
+msgid "Button URL"
+msgstr "Button-URL"
+
+#: components/blocks/fau-featured-event-teaser/edit.js:240
+msgid "Enter event title…"
+msgstr "Veranstaltungstitel eingeben…"
+
+#: components/blocks/fau-featured-event-teaser/edit.js:253
+msgid "Enter event description…"
+msgstr "Veranstaltungsbeschreibung eingeben…"
+
+#: components/blocks/fau-featured-event-teaser/edit.js:268
+msgid "Button text…"
+msgstr "Button-Text…"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:21
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:33
+msgid "Jan"
+msgstr "Jan"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:22
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:34
+msgid "Feb"
+msgstr "Feb"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:23
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:35
+msgid "Mar"
+msgstr "Mär"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:24
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:36
+msgid "Apr"
+msgstr "Apr"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:25
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:37
+msgid "May"
+msgstr "Mai"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:26
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:38
+msgid "Jun"
+msgstr "Jun"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:27
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:39
+msgid "Jul"
+msgstr "Jul"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:28
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:40
+msgid "Aug"
+msgstr "Aug"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:29
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:41
+msgid "Sep"
+msgstr "Sep"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:30
+msgid "Oct"
+msgstr "Okt"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:31
+msgid "Nov"
+msgstr "Nov"
+
+#: components/blocks/fau-featured-event-teaser/utils/date-helpers.js:32
+msgid "Dec"
+msgstr "Dez"
+
+#: components/blocks/fau-global-search/edit.js:28
+msgid "Optional heading text to display above the search form"
+msgstr "Optionale Überschrift, die über dem Suchformular angezeigt wird"
+
+#: components/blocks/fau-global-search/edit.js:34
+msgid "Layout Settings"
+msgstr "Layout-Einstellungen"
+
+#: components/blocks/fau-global-search/edit.js:36
+msgid "Width"
+msgstr "Breite"
+
+#: components/blocks/fau-global-search/edit.js:40
+msgid "Content Size (with search scope & advanced features)"
+msgstr "Inhaltsbreite (mit Suchbereich & erweiterten Funktionen)"
+
+#: components/blocks/fau-global-search/edit.js:47
+msgid "Full Grid (simple search only)"
+msgstr "Vollbreite (nur einfache Suche)"
+
+#: components/blocks/fau-global-search/edit.js:55
+msgid "Content Size: for editorial content, includes search scope selection and advanced features. Full Grid: for wide teaser components, simple search only."
+msgstr "Inhaltsbreite: für redaktionelle Inhalte, enthält Suchbereichsauswahl und erweiterte Funktionen. Vollbreite: für breite Teaser-Komponenten, nur einfache Suche."
+
+#: components/blocks/fau-logo-grid/edit.js:104
+msgid "Add Logo"
+msgstr "Logo hinzufügen"
+
+#: components/blocks/fau-logo-grid/edit.js:115
+msgid "Selected Logo Settings"
+msgstr "Einstellungen für ausgewähltes Logo"
+
+#: components/blocks/fau-logo-grid/edit.js:130
+msgid "Set Image"
+msgstr "Bild festlegen"
+
+#: components/blocks/fau-logo-grid/edit.js:169
+msgid "Logo Link"
+msgstr "Logo-Link"
+
+#: components/blocks/fau-logo-grid/edit.js:179
+msgid "Original Category:"
+msgstr "Ursprüngliche Kategorie:"
+
+#: components/blocks/fau-logo-grid/edit.js:192
+msgid "This logo was migrated from the previous theme."
+msgstr "Dieses Logo wurde vom vorherigen Theme migriert."
+
+#: components/blocks/fau-logo-grid/edit.js:140
+msgid "Remove Logo"
+msgstr "Logo entfernen"
+
+#: components/blocks/fau-logo-grid/edit.js:256
+msgid "Select logo for editing"
+msgstr "Logo zum Bearbeiten auswählen"
+
+#: components/blocks/fau-logo-grid/edit.js:275
+msgid "Choose Logo"
+msgstr "Logo auswählen"
+
+#: components/blocks/fau-meta-headline/index.js:22
+msgid "Enter meta headline…"
+msgstr "Meta-Überschrift eingeben…"
+
+#: components/blocks/fau-portalmenu/edit.js:39
+msgid "Select a menu"
+msgstr "Menü auswählen"
+
+#: components/blocks/fau-portalmenu/edit.js:60
+msgid "Menu Settings"
+msgstr "Menü-Einstellungen"
+
+#: components/blocks/fau-portalmenu/edit.js:68
+msgid "Select the navigation menu to display as portal menu."
+msgstr "Wählen Sie das Navigationsmenü, das als Portalmenü angezeigt werden soll."
+
+#: components/blocks/fau-portalmenu/edit.js:76
+msgid "Display Options"
+msgstr "Anzeigeoptionen"
+
+#: components/blocks/fau-portalmenu/edit.js:80
+msgid "Show Submenus"
+msgstr "Untermenüs anzeigen"
+
+#: components/blocks/fau-portalmenu/edit.js:85
+msgid "Display submenu items below each main menu item."
+msgstr "Untermenüelemente unter jedem Hauptmenüelement anzeigen."
+
+#: components/blocks/fau-portalmenu/edit.js:97
+msgid "Hide thumbnail images for all menu items."
+msgstr "Vorschaubilder für alle Menüelemente ausblenden."
+
+#: components/blocks/fau-portalmenu/edit.js:117
+msgid "FAU Portal Menu"
+msgstr "FAU Portal-Menü"
+
+#: components/blocks/fau-portalmenu/edit.js:118
+msgid "Please select a menu in the block settings panel to display as a portal menu."
+msgstr "Bitte wählen Sie ein Menü im Block-Einstellungsbereich aus, um es als Portalmenü anzuzeigen."
+
+#: components/blocks/fau-teaser-grid/edit.js:254
+msgid "All Categories"
+msgstr "Alle Kategorien"
+
+#: components/blocks/fau-teaser-grid/edit.js:307
+msgid "Teaser Grid Block"
+msgstr "Teaser-Grid-Block"
+
+#: components/blocks/fau-teaser-grid/edit.js:350
+msgid "Pagination Settings"
+msgstr "Seitennummerierung-Einstellungen"
+
+#: components/blocks/fau-teaser-grid/edit.js:354
+msgid "Show Pagination"
+msgstr "Seitennummerierung anzeigen"
+
+#: components/blocks/fau-teaser-grid/edit.js:388
+msgid "Accessibility"
+msgstr "Barrierefreiheit"
+
+#: components/blocks/fau-teaser-grid/edit.js:390
+msgid "To ensure good accessibility and SEO, please make sure that there is only one H1 heading on the page. If you already have an H1 heading, use a different heading level for the teasers in this block."
+msgstr "Um gute Barrierefreiheit und SEO zu gewährleisten, stellen Sie bitte sicher, dass es nur eine H1-Überschrift auf der Seite gibt. Wenn Sie bereits eine H1-Überschrift haben, verwenden Sie eine andere Überschriftenebene für die Teaser in diesem Block."
+
+#: components/blocks/fau-teaser-grid/edit.js:401
+msgid "Change heading level"
+msgstr "Überschriftenebene ändern"
+
+#: components/blocks/fau-teaser-grid/edit.js:404
+msgid "Heading 2"
+msgstr "Überschrift 2"
+
+#: components/blocks/fau-teaser-grid/edit.js:410
+msgid "Heading 3"
+msgstr "Überschrift 3"
+
+#: components/blocks/fau-teaser-grid/edit.js:416
+msgid "Heading 4"
+msgstr "Überschrift 4"
+
+#: components/blocks/fau-teaser-grid/edit.js:422
+msgid "Heading 5"
+msgstr "Überschrift 5"
+
+#: components/blocks/fau-teaser-grid/edit.js:428
+msgid "Heading 6"
+msgstr "Überschrift 6"
+
+#: components/blocks/fau-teaser-grid/edit.js:440
+msgid "FAU Teaser Grid"
+msgstr "FAU Teaser-Grid"
+
+#. translators: %1$d: number of visible items, %2$d: total number of items
+#: components/blocks/fau-teaser-grid/edit.js:446
+#, js-format
+msgid "Showing %1$d of %2$d items"
+msgstr "Zeige %1$d von %2$d Elementen"
+
+#: components/blocks/fau-teaser-grid/edit.js:513
+msgid "No posts selected"
+msgstr "Keine Beiträge ausgewählt"
+
+#: components/blocks/fau-teaser-grid/edit.js:540
+msgid "No items found"
+msgstr "Keine Elemente gefunden"
+
+#: components/blocks/fau-testimonial/edit.js:93
+msgid "Enter testimonial text…"
+msgstr "Testimonial-Text eingeben…"
+
+#: components/blocks/fau-testimonial/edit.js:105
+msgid "Enter citation…"
+msgstr "Zitat eingeben…"
+
+#: components/blocks/fau-testimonial/edit.js:158
+#: components/blocks/fau-testimonial/edit.js:357
+msgid "Add New Testimonial"
+msgstr "Neues Testimonial hinzufügen"
+
+#: components/blocks/fau-testimonial/edit.js:163
+#: components/blocks/fau-testimonial/edit.js:294
+msgid "Move testimonial up"
+msgstr "Testimonial nach oben"
+
+#: components/blocks/fau-testimonial/edit.js:169
+#: components/blocks/fau-testimonial/edit.js:309
+msgid "Move testimonial down"
+msgstr "Testimonial nach unten"
+
+#: components/blocks/fau-testimonial/edit.js:217
+msgid "Remove image"
+msgstr "Bild entfernen"
+
+#: components/blocks/fau-testimonial/edit.js:236
+#: components/blocks/fau-testimonial/edit.js:325
+msgid "Cannot remove the last testimonial"
+msgstr "Das letzte Testimonial kann nicht entfernt werden"
+
+#: components/blocks/fau-testimonial/edit.js:240
+#: components/blocks/fau-testimonial/edit.js:329
+msgid "Remove this testimonial"
+msgstr "Dieses Testimonial entfernen"
+
+#: components/blocks/fau-testimonial/edit.js:279
+msgid "Empty testimonial"
+msgstr "Leeres Testimonial"
+
+#: components/blocks/fau-testimonial/edit.js:370
+msgid "Testimonial Image"
+msgstr "Testimonial-Bild"
+
+#: components/blocks/fau-testimonial/edit.js:371
+msgid "Add an image to accompany this testimonial"
+msgstr "Fügen Sie ein Bild hinzu, um dieses Testimonial zu untermalen"
+
+#: components/blocks/fau-testimonial/edit.js:437
+msgid "Replace"
+msgstr "Ersetzen"
+
+#: components/core-blocks/button/index.js:9
+msgid "Primary"
+msgstr "Primär"
+
+#: components/core-blocks/button/index.js:14
+msgid "Secondary"
+msgstr "Sekundär"
+
+#: components/core-blocks/button/index.js:19
+msgid "Tertiary"
+msgstr "Tertiär"
+
+#: components/core-blocks/file/index.js:211
+#: components/core-blocks/file/index.js:234
+msgid "Download"
+msgstr "Herunterladen"
+
+#: components/core-blocks/file/index.js:255
+#: components/core-blocks/file/index.js:416
+msgid "Cover image for file"
+msgstr "Titelbild für Datei"
+
+#: components/core-blocks/group/index.js:11
+msgid "Dark"
+msgstr "Dunkel"
+
+#: components/core-blocks/image/index.js:27
+msgid "Large"
+msgstr "Groß"
+
+#: components/core-blocks/image/index.js:33
+msgid "Medium"
+msgstr "Mittel"
+
+#: components/core-blocks/cover/index.js:44
+#: components/core-blocks/image/index.js:253
+#: components/core-blocks/media-text/index.js:73
+msgid "Additional Settings"
+msgstr "Zusätzliche Einstellungen"
+
+#: components/core-blocks/cover/index.js:51
+#: components/core-blocks/image/index.js:259
+#: components/core-blocks/media-text/index.js:79
+msgid "Copyright Info"
+msgstr "Urheberrechtsinfo"
+
+#: components/core-blocks/image/index.js:270
+msgid "Add Overlay"
+msgstr "Overlay hinzufügen"
+
+#: components/core-blocks/list/index.js:45
+msgid "List Style Settings"
+msgstr "Listenstil-Einstellungen"
+
+#: components/core-blocks/list/index.js:51
+msgid "List Style"
+msgstr "Listenstil"
+
+#: components/core-blocks/list/index.js:64
+msgid "Line"
+msgstr "Linie"
+
+#: components/core-blocks/list/index.js:71
+msgid "Icons"
+msgstr "Symbole"
+
+#: components/core-blocks/media-text/index.js:9
+msgid "Media & Text"
+msgstr "Medien & Text"
+
+#: components/core-blocks/media-text/index.js:10
+msgid "Set media and words side-by-side for a richer layout."
+msgstr "Stellen Sie Medien und Text nebeneinander für ein reichhaltigeres Layout."
+
+#: components/core-blocks/paragraph/index.js:16
+msgid "Intro Text"
+msgstr "Einleitungstext"
+
+#: components/core-blocks/paragraph/index.js:22
+msgid "Small Text"
+msgstr "Kleiner Text"
+
+#: components/core-blocks/spacer/index.js:178
+msgid "FAU Spacing"
+msgstr "FAU Abstände"
+
+#: components/core-blocks/spacer/index.js:182
+msgid "Spacing Height"
+msgstr "Abstandshöhe"
+
+#: components/core-blocks/spacer/index.js:191
+msgid "Select from predefined spacing values"
+msgstr "Wählen Sie aus vordefinierten Abstandswerten"
+
+#: components/core-blocks/spacer/index.js:205
+msgid "Current:"
+msgstr "Aktuell:"
+
+#: components/utils/urlValidation.js:27
+msgid "Please enter a valid URL"
+msgstr "Bitte geben Sie eine gültige URL ein"
+
+#. Description of the theme
+#: style.css
+msgid "General WordPress-Theme of the FAU since 2025"
+msgstr "Allgemeines WordPress-Theme der FAU seit 2025"
+
+#: components/template-parts/navigation/fau-navigation.php:29
+msgid "Open Services menu"
+msgstr "Services-Menü öffnen"
+
+#: components/template-parts/navigation/fau-navigation.php:38
+msgid "Open Structure menu"
+msgstr "Struktur-Menü öffnen"
+
+#: components/template-parts/navigation/fau-navigation.php:46
+msgid "Open Search"
+msgstr "Suche öffnen"
+
+#: components/template-parts/navigation/main-navigation.php:46
+msgid "Open menu"
+msgstr "Menü öffnen"
+
+#: components/template-parts/navigation/menu-modal.php:593
+msgid "Overview:"
+msgstr "Übersicht:"
+
+#: components/template-parts/navigation/menu-modal.php:594
+msgid "Menu opened"
+msgstr "Menü geöffnet"
+
+#: components/template-parts/navigation/menu-modal.php:595
+msgid "Menu closed"
+msgstr "Menü geschlossen"
+
+#: components/template-parts/navigation/menu-modal.php:596
+msgid "Navigated to"
+msgstr "Navigiert zu"
+
+#: components/template-parts/navigation/menu-modal.php:597
+msgid "submenu"
+msgstr "Untermenü"
+
+#: components/template-parts/navigation/menu-modal.php:598
+msgid "submenu collapsed"
+msgstr "Untermenü eingeklappt"
+
+#: components/template-parts/navigation/menu-modal.php:599
+msgid "submenu expanded"
+msgstr "Untermenü ausgeklappt"
+
+#: components/template-parts/navigation/menu-modal.php:600
+msgid "Navigated back"
+msgstr "Zurück navigiert"
+
+#: components/template-parts/navigation/menu-modal.php:601
+msgid "Moved to last menu item"
+msgstr "Zum letzten Menüelement bewegt"
+
+#: components/template-parts/navigation/menu-modal.php:602
+msgid "Moved to close button"
+msgstr "Zum Schließen-Button bewegt"
+
+#: components/template-parts/navigation/menu-modal.php:603
+msgid "Menu breadcrumbs"
+msgstr "Menü-Breadcrumbs"
+
+#: components/template-parts/navigation/menu-modal.php:604
+msgid "Go to"
+msgstr "Gehe zu"
+
+#: components/template-parts/navigation/mixed-navigation-walker.php:425
+msgid "mixed-navigation"
+msgstr "gemischte-navigation"
+
+#: components/template-parts/navigation/mixed-navigation-walker.php:427
+msgid "menu-navigation"
+msgstr "menü-navigation"
+
+#: components/template-parts/navigation/mixed-navigation-walker.php:429
+#: components/template-parts/navigation/mixed-navigation-walker.php:648
+msgid "page-navigation"
+msgstr "seiten-navigation"
+
+#: components/templates/pages/archive-grid-util.php:14
+msgid "Archive listing"
+msgstr "Archiv-Liste"
+
+#: components/templates/pages/archive-grid-util.php:76
+msgid "Sort by"
+msgstr "Sortieren nach"
+
+#: components/templates/pages/archive-grid-util.php:80
+msgid "Date - newest first"
+msgstr "Datum - neueste zuerst"
+
+#: components/templates/pages/archive-grid-util.php:83
+msgid "Date - oldest first"
+msgstr "Datum - älteste zuerst"
+
+#: components/templates/pages/archive-grid-util.php:86
+msgid "Title - ascending"
+msgstr "Titel - aufsteigend"
+
+#: components/templates/pages/archive-grid-util.php:89
+msgid "Title - descending"
+msgstr "Titel - absteigend"
+
+#. translators: %d: maximum character count
+#: components/blocks/fau-big-button/edit.js:332
+#, js-format
+msgid "Maximum %d characters recommended. You can also click on the description in the preview to edit it directly."
+msgstr "Maximal %d Zeichen empfohlen. Sie können auch auf die Beschreibung in der Vorschau klicken, um sie direkt zu bearbeiten."
+
+#. translators: %1$d: current character count, %2$d: maximum character count
+#: components/blocks/fau-big-button/edit.js:350
+#, js-format
+msgid "%1$d / %2$d characters"
+msgstr "%1$d / %2$d Zeichen"
+
+#: components/blocks/fau-logo-grid/edit.js:150
+msgid "Logo preview"
+msgstr "Logo-Vorschau"
+
+#: 401.php:12
+msgid "Error: Unauthorized Access"
+msgstr "Fehler: Unautorisierter Zugriff"
+
+#: 401.php:13
+msgid "You are not authorized to access this page. Please log in with appropriate credentials or contact the administrator if you believe this is an error."
+msgstr "Du bist nicht dazu autorisiert diese Seite aufzurufen. Bitte melde dich mit den entsprechenden Zugangsdaten an oder verständige den Administrator wenn du denkst, dass dies ein Fehler ist."
+
+#: 401.php:14
+#: 403.php:14
+msgid "Perhaps the search will help you find what you're looking for."
+msgstr "Vielleicht hilft dir die Suche dabei, zu finden, wonach du suchst."
+
+#: 403.php:12
+msgid "Error: Access Forbidden"
+msgstr "Fehler: Zugang verweigert"
+
+#: 403.php:13
+msgid "You do not have permission to access this page. Please contact the administrator if you believe this is an error."
+msgstr "Du hast keine Berechtigung um dir diese Seite anzusehen. Bitte kontaktiere den Administrator wenn du denkst, dass dies ein Fehler ist."
+
+#: 404.php:12
+msgid "Error: Page not found"
+msgstr "Fehler: Seite nicht gefunden"
+
+#: 404.php:13
+msgid "The page you are trying to access does not exist or its address has changed due to changes in the page structure."
+msgstr "Die Seite, die du versuchst aufzurufen, existiert nicht oder wurde an einen anderen Ort verschoben."
+
+#: 404.php:14
+msgid "Perhaps the search will help you further."
+msgstr "Vielleicht hilft dir die Suche weiter."
+
+#: components/template-parts/error-page/error-page.php:39
+#: components/template-parts/error-page/error-page.php:40
+msgid "Other offers"
+msgstr "Andere Angebote"
+
+#. translators: number of posts
+#: components/template-parts/search-results/search-results.php:220
+#, php-format
+msgctxt "posts count"
+msgid "%s post found"
+msgid_plural "%s posts found"
+msgstr[0] ""
+msgstr[1] ""
+
+#: components/template-parts/search-results/search-results.php:270
+msgid "Post Category"
+msgstr "Beitragskategorie"
+
+#: components/template-parts/search-results/search-results.php:277
+#: functions.php:377
+msgid "Page Category"
+msgstr "Seitenkategorie"
+
+#: components/template-parts/search-results/search-results.php:353
+msgid "Unfortunately, we were unable to find any matching search results for the following query:"
+msgstr "Leider konnten keine Suchergebnisse für die folgende Anfrage gefunden werden:"
+
+#: components/template-parts/search-results/search-results.php:360
+msgid "Additional search options"
+msgstr "Weitere Suchoptionen"
+
+#: functions.php:376
+#: functions.php:378
+msgid "Page Categories"
+msgstr "Seitenkategorien"
+
+#: functions.php:379
+msgid "All Page Categories"
+msgstr "Alle Seitenkategorien"
+
+#: functions.php:380
+msgid "Edit Page Category"
+msgstr "Seitenkategorie bearbeiten"
+
+#: functions.php:381
+msgid "View Page Category"
+msgstr "Seitenkategorie ansehen"
+
+#: functions.php:382
+msgid "Update Page Category"
+msgstr "Seitenkategorie aktualisieren"
+
+#: functions.php:383
+msgid "Add New Page Category"
+msgstr "Neue Seitenkategorie"
+
+#: functions.php:384
+msgid "New Page Category Name"
+msgstr "Name der neuen Seitenkategorie"
+
+#: functions.php:385
+msgid "Parent Page Category"
+msgstr "Kategorie der Elternseite"
+
+#: functions.php:386
+msgid "Parent Page Category:"
+msgstr "Kategorie der Elternseite:"
+
+#: functions.php:387
+msgid "Search Page Categories"
+msgstr "Seitenkategorie suchen"
+
+#: functions.php:388
+msgid "No page categories found"
+msgstr "Keine Seitenkategorien gefunden"
+
+#: inc/widgets.php:17
+msgid "Language switcher in the page header"
+msgstr "Sprachwechsler im Header der Seite"
+
+#: inc/widgets.php:15
+msgid "Language switcher"
+msgstr "Sprachwechsler"

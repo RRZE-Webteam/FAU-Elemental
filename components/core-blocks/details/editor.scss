@@ -1,0 +1,6 @@
+div:not(:first-of-type).wp-block-details details.wp-block-details {
+
+	&:first-of-type {
+		border-top: none;
+	}
+}

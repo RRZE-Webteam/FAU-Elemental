@@ -1,0 +1,242 @@
+.wp-block-fau-elemental-fau-testimonial {
+	max-width: var(--base-max-width);
+}
+
+// Testimonial Block Inspector Controls
+.testimonial-management-buttons {
+
+	.components-button {
+		height: 2.2rem;
+
+		&.is-destructive {
+			border: 0.0625rem solid currentcolor;
+
+			&:hover {
+				box-shadow: none;
+			}
+		}
+	}
+}
+
+.testimonial-image-controls {
+
+	.editor-post-featured-image {
+		position: relative;
+
+		&__toggle {
+			min-height: 5.625rem;
+			padding: 0.5rem;
+			border: 0.0625rem dashed #949494;
+			border-radius: 0.125rem;
+			width: 100%;
+
+			&:hover {
+				border-style: solid;
+			}
+		}
+
+		&__preview {
+			margin: 0;
+			display: block;
+			max-height: 12.5rem;
+			width: 100%;
+			object-fit: cover;
+			border-radius: 0.125rem;
+		}
+
+		&__actions {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			padding: 0.5rem;
+			background: rgba(255, 255, 255, 0.9);
+			opacity: 0;
+			transition: opacity 0.2s;
+
+			.components-button {
+				min-width: 5rem;
+				height: 2rem;
+				padding: 0 0.75rem;
+
+				&.is-destructive {
+					border: 0.0625rem solid currentcolor;
+
+					&:hover {
+						box-shadow: none;
+					}
+				}
+			}
+		}
+
+		&:hover {
+
+			.editor-post-featured-image__actions {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+.testimonial-list + div {
+	padding: 1rem;
+}
+
+// Testimonial List in Sidebar
+.testimonial-list {
+	border-bottom: 0.0625rem solid #e0e0e0;
+
+	.testimonial-list-item {
+		padding: 0.75rem 1rem;
+		border: 0;
+		border-top: 0.0625rem solid #e0e0e0;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
+		transition: background-color 0.1s ease;
+		width: 100%;
+		box-sizing: border-box;
+		background-color: rgba(0, 0, 0, 0);
+
+		&:hover {
+			background: #f0f0f0;
+
+			.testimonial-list-item__actions {
+				opacity: 1;
+			}
+		}
+
+		&.is-selected {
+			background: #f0f6fc;
+			box-shadow: inset 0.1875rem 0 0 #007cba;
+		}
+
+		&__content {
+			flex: 1;
+			min-width: 0;
+			display: flex;
+			align-items: center;
+		}
+
+		&__text {
+			display: block;
+			font-size: 0.8125rem;
+			line-height: 1.4;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			color: #1e1e1e;
+
+			&:empty::before {
+				content: "Empty testimonial";
+				color: #757575;
+				font-style: italic;
+			}
+		}
+
+		&__actions {
+			display: flex;
+			gap: 0.125rem;
+			align-items: center;
+			opacity: 0.5;
+			transition: opacity 0.1s ease;
+		}
+
+		.components-button.testimonial-list-item__move,
+		.components-button.testimonial-list-item__remove {
+			padding: 0;
+			min-width: 1.5rem;
+			height: 1.5rem;
+			color: #1e1e1e;
+
+			&:not(:disabled):not([aria-disabled="true"]):hover {
+				background: transparent;
+				box-shadow: none;
+			}
+
+			&:disabled {
+				opacity: 0.3;
+			}
+
+			.dashicon {
+				margin: 0;
+			}
+		}
+
+		.components-button.testimonial-list-item__remove {
+
+			&:not(:disabled):not([aria-disabled="true"]):hover {
+				color: #cc1818;
+			}
+		}
+
+		// Add Testimonial Button Styles
+		&-add {
+			border: none;
+			width: 100%;
+			background: #f0f6fc;
+			color: #0073aa;
+			border-top: 0.0625rem solid #e0e0e0;
+			padding: 0.75rem;
+
+			&:hover {
+				background: #f0f0f0;
+				color: #006ba1;
+			}
+
+			.testimonial-list-item__content {
+				gap: 0.75rem;
+				justify-content: center;
+			}
+
+			.testimonial-list-item__add-icon {
+				display: flex;
+				align-items: center;
+
+				svg {
+					fill: currentcolor;
+					width: 1.25rem;
+					height: 1.25rem;
+				}
+			}
+
+			.testimonial-list-item__add-label {
+				font-size: 0.8125rem;
+				font-weight: 500;
+				color: currentcolor;
+			}
+		}
+	}
+}
+
+// Content Area Actions
+.testimonial-content-actions {
+	margin-top: 1rem;
+	padding: 1rem;
+	background: #f0f0f0;
+	border-radius: 0.125rem;
+	text-align: center;
+
+	.testimonial-content-action {
+		justify-content: center;
+	}
+}
+
+// Carousel Transitions
+.testimonial-carousel {
+
+	.carousel-container {
+		position: relative;
+	}
+
+	.testimonial-slide {
+		transition: opacity 0.3s ease;
+	}
+}
+

@@ -1,0 +1,24 @@
+.faue-is-featured-event-teaser-pattern-selected {
+
+	&.faue-is-group-block-selected,
+	&.faue-is-heading-block-selected,
+	&.faue-is-paragraph-block-selected,
+	&.faue-is-buttons-block-selected {
+
+		.block-editor-block-toolbar {
+			// hide all toolbar groups
+			>.components-toolbar-group {
+				display: none;
+			}
+		}
+
+		.block-editor-block-inspector {
+
+			// hide all inspector cards except the block card
+			>:not(.block-editor-block-card) {
+				display: none;
+			}
+		}
+
+	}
+}

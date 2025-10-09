@@ -1,0 +1,137 @@
+@use "../../ui/mixins/mixins" as *;
+
+details.wp-block-details {
+	max-width: var(--small-max-width);
+	border-bottom: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
+	padding-bottom: 1.25rem;
+	padding-top: 1.25rem;
+
+	&:first-of-type {
+		border-top: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
+	}
+
+	summary {
+		outline: none; // Hide default arrow
+		list-style: none; // Hide default arrow
+		position: relative;
+		font-size: var(--H-Heading-4);
+		font-weight: 700;
+		color: var(--FAU-Col-FAU-Blau-100);
+		padding-right: var(--Spacing-20x);
+
+		&::-webkit-details-marker {
+			display: none; // Hide default arrow
+		}
+
+		// Chevron
+		&::before {
+			content: "";
+			position: absolute;
+			background-image: var(--icon-chevron-weiss);
+			background-repeat: no-repeat;
+			transform: rotate(90deg);
+			z-index: 1;
+			height: 0.9375rem;
+			width: 0.5625rem;
+			right: 0.9375rem;
+			top: 0.5rem;
+			transition: var(--basic-animation);
+		}
+
+		// Box for chevron
+		&::after {
+
+			content: "";
+			position: absolute;
+			background-color: var(--FAU-Col-FAU-Blau-100);
+			height: 2.5rem;
+			width: 2.5rem;
+			right: 0;
+			top: -0.3125rem;
+		}
+
+		&:hover,
+		&:focus-visible {
+
+			&::before {
+				top: 0.75rem;
+				transition: var(--basic-animation);
+			}
+		}
+
+		// Faculty color variations
+		@each $faculty, $color in (
+			"phil": var(--FAU-Col-Phil-Gelb-100),
+			"nat": var(--FAU-Col-Nat-Gruen-100),
+			"med": var(--FAU-Col-Med-Blau-100),
+			"rw": var(--FAU-Col-RW-Rot-100),
+			"tf": var(--FAU-Col-TF-Metallic-100)
+		) {
+			.faculty-#{$faculty} &::after {
+				background-color: $color;
+			}
+
+			.faculty-#{$faculty} &::before {
+				background-image: var(--icon-chevron-fau-blau);
+			}
+		}
+
+		.faculty-rw &::before {
+			background-image: var(--icon-chevron-weiss);
+		}
+	}
+
+	p {
+		padding: 0 var(--Spacing-20x) 0 0;
+	}
+
+	// Flip chevron when active
+	&[open] {
+
+		summary {
+
+			&::before {
+				transform: rotate(-90deg);
+			}
+		}
+	}
+}
+
+// Details in column
+.wp-block-column details.wp-block-details {
+	padding-bottom: 1.25rem;
+	padding-top: 1.25rem;
+	width: auto;
+}
+
+// Dark mode
+.is-style-dark {
+
+	details.wp-block-details {
+		border-bottom: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
+
+		&:first-of-type {
+			border-top: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
+		}
+
+		summary {
+			color: var(--FAU-Col-FAU-Weiss-100);
+
+			&::before {
+				background-image: var(--icon-chevron-fau-blau);
+			}
+
+			&::after {
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+			}
+		}
+	}
+}
+
+// Responsive
+@include smaller-or-equals("x-small") {
+
+	details.wp-block-details {
+		width: calc(100% - var(--Spacing-10x));
+	}
+}

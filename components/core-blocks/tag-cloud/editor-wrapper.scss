@@ -1,0 +1,13 @@
+/**
+ * Core Tag Cloud Block - Editor Wrapper Styles - Hide Editor Features
+ */
+
+.faue-is-tag-cloud-block-selected {
+
+	.block-editor-block-inspector {
+
+		.components-panel__body:not(.block-editor-block-inspector__advanced) {
+			display: none;
+		}
+	}
+}

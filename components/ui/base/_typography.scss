@@ -1,0 +1,33 @@
+// Base Typography Styles
+body {
+	font-family: var(--font-family-base);
+}
+
+h1 {
+	color: var(--FAU-Col-FAU-Blau-100);
+	font-size: var(--H-Heading-1);
+	line-height: 1.2;
+	font-weight: 700;
+}
+
+h1.big-teaser {
+	font-size: var(--H-Heading-Big-Teaser);
+}
+
+// Global word break and hyphenation
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+ul,
+ol,
+figcaption,
+address {
+	hyphens: auto;
+	overflow-wrap: break-word;
+	word-break: break-word;
+}

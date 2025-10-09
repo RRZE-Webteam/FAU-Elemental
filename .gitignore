@@ -35,6 +35,11 @@ wp-config.php
 # htaccess
 /.htaccess
 
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+
 # All plugins
 #
 # Note: If you wish to whitelist plugins,
@@ -46,3 +51,25 @@ wp-config.php
 # Note: If you wish to whitelist themes,
 # uncomment the next line
 #/wp-content/themes
+node_modules
+
+# VSCode
+launch.json
+
+# IDE and Editor files
+.intelephense/
+.vscode/
+
+# Cursor IDE files
+.cursor/
+.cursorrules
+cursor.rules
+.cursor-tutor/
+
+# Ignore build directory
+build/
+
+# Ignore compiled I18n .mo,.php and .json files
+languages/*.mo
+languages/*.l10n.php
+languages/*.json

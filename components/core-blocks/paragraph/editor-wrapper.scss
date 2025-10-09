@@ -1,0 +1,13 @@
+/**
+ * Core Paragraph Block - Editor Wrapper Styles - Hide Editor Features
+ */
+
+.faue-is-paragraph-block-selected {
+
+	// Hide text alignment options in toolbar
+	.block-editor-block-toolbar > .components-toolbar-group:nth-last-child(3),
+	// Hide typography panel in inspector controls
+	.block-editor-block-inspector .typography-block-support-panel {
+		display: none;
+	}
+}

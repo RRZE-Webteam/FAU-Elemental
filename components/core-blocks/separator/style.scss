@@ -1,0 +1,25 @@
+/**
+ * Core Separator Block Styles
+ */
+
+@use "../../ui/mixins/mixins" as *;
+
+.wp-block-separator {
+	position: relative;
+	max-width: var(--wide-max-width);
+	margin-top: var(--Spacing-4x);
+	margin-bottom: var(--Spacing-4x);
+	width: calc(100% - 5rem); // Substitute for padding
+	height: 0.0625rem;
+	background-color: var(--FAU-Col-FAU-Blau-25);
+	border: none;
+
+	@include smaller-or-equals("x-small") {
+		width: calc(100% - 2.5rem);
+	}
+}
+
+// Dark Mode
+.is-style-dark .wp-block-separator {
+	background-color: var(--FAU-Col-FAU-Blau-62_5);
+}
