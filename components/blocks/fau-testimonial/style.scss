@@ -165,13 +165,13 @@
 
 	.is-style-dark & {
 
-		blockquote,
-		cite {
-			color: var(--FAU-Col-FAU-Weiss-100);
-		}
-
 		.testimonial-content .testimonial-text {
 			background-color: var(--FAU-Col-FAU-Blau-100);
+
+			blockquote,
+			cite {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
 		}
 
 		.carousel-controls {
