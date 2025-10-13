@@ -101,7 +101,8 @@ ol.wp-block-list {
 
 // List in group
 .wp-block-group:has(.wp-block-list) {
-	padding: 0 var(--Spacing-10x);
+	padding-left: var(--Spacing-10x);
+	padding-right: var(--Spacing-10x);
 }
 
 // List in column
@@ -200,6 +201,7 @@ ol.wp-block-list {
 	}
 
 	.wp-block-group:has(.wp-block-list) {
-		padding: 0 var(--Spacing-5x);
+		padding-left: var(--Spacing-5x);
+		padding-right: var(--Spacing-5x);
 	}
 }
