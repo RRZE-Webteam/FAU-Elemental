@@ -137,7 +137,7 @@ $faculty-colors: (
 		gap: 0;
 		min-height: unset;
 
-		.hero-faculty-content-wrapper {
+		.hero-faculty-content-wrapper.wp-block-column {
 			position: relative;
 			transform: unset;
 			left: unset;
@@ -184,14 +184,14 @@ $faculty-colors: (
 
 @include smaller-or-equals("small") {
 
-	.hero-faculty-other .hero-faculty-content-wrapper .hero-faculty-content {
+	.hero-faculty-other .hero-faculty-content-wrapper.wp-block-column .hero-faculty-content {
 		padding: 0 var(--Spacing-10x);
 	}
 }
 
 @include smaller-or-equals("x-small") {
 
-	.hero-faculty-other .hero-faculty-content-wrapper .hero-faculty-content {
+	.hero-faculty-other .hero-faculty-content-wrapper.wp-block-column .hero-faculty-content {
 		padding: 0 var(--Spacing-5x);
 
 		h1 {
