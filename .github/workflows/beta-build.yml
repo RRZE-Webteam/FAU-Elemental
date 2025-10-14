@@ -15,11 +15,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'latest'
+          node-version: '24.2.0'
           cache: 'npm'
 
       - name: Setup WP-CLI
         uses: godaddy-wordpress/setup-wp-cli@1
+
+      - name: Install specific npm version
+        run: npm install -g npm@11.3.0
 
       - name: Install dependencies
         run: npm install
@@ -39,6 +42,7 @@ jobs:
           git add -f ./build
           git add -f ./languages/*.mo ./languages/*.l10n.php ./languages/*.json
           git add -f -u ./languages/
+          git add -u package-lock.json
           if git diff --staged --quiet ; then
             echo "No changes in build to commit."
           else
