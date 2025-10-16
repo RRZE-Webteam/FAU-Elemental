@@ -48,25 +48,21 @@
 
 		/**
 		 * Calculate the scrollbar width dynamically
-		 * @returns {number} The scrollbar width in pixels
+		 * @return {number} The scrollbar width in pixels
 		 */
 		calculateScrollbarWidth() {
 			// Create a temporary div to measure scrollbar width
-			const outer = document.createElement('div');
+			const outer = document.createElement( 'div' );
 			outer.style.visibility = 'hidden';
 			outer.style.overflow = 'scroll';
 			outer.style.msOverflowStyle = 'scrollbar'; // Needed for IE
-			document.body.appendChild(outer);
+			document.body.appendChild( outer );
 
-			const inner = document.createElement('div');
-			outer.appendChild(inner);
+			const inner = document.createElement( 'div' );
+			outer.appendChild( inner );
 
 			const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
-			document.body.removeChild(outer);
-
-			console.log('scrollbarWidth', scrollbarWidth);
-			console.log('outer', outer);
-			console.log('inner', inner);
+			document.body.removeChild( outer );
 
 			return scrollbarWidth;
 		}
@@ -75,7 +71,7 @@
 		 * Apply scrollbar width compensation to prevent layout shift
 		 */
 		applyScrollbarCompensation() {
-			if (this.scrollbarWidth === 0) {
+			if ( this.scrollbarWidth === 0 ) {
 				this.scrollbarWidth = this.calculateScrollbarWidth();
 			}
 
@@ -83,26 +79,38 @@
 			const scrollbarWidth = this.scrollbarWidth;
 
 			// Apply padding-right to body
-			body.style.paddingRight = `${scrollbarWidth}px`;
+			body.style.paddingRight = `${ scrollbarWidth }px`;
 
 			// Apply compensation to specific elements based on screen size
-			const siteHeaderTopWrapper = document.querySelector('.site-header .site-header-top__wrapper');
-			const fauNavigation = document.querySelector('.site-header__top .fau-navigation');
-			const siteHeaderMain = document.querySelector('.home:not(.blog).has-hero-block .site-header__main');
+			const siteHeaderTopWrapper = document.querySelector(
+				'.site-header .site-header-top__wrapper'
+			);
+			const fauNavigation = document.querySelector(
+				'.site-header__top .fau-navigation'
+			);
+			const siteHeaderMain = document.querySelector(
+				'.home:not(.blog).has-hero-block .site-header__main'
+			);
 
 			// Apply max-width compensation for large screens
-			if (window.innerWidth >= 1816 && siteHeaderTopWrapper) {
-				siteHeaderTopWrapper.style.maxWidth = `calc(1800px - ${scrollbarWidth}px)`;
+			if ( window.innerWidth >= 1816 && siteHeaderTopWrapper ) {
+				siteHeaderTopWrapper.style.maxWidth = `calc(1800px - ${ scrollbarWidth }px)`;
 			}
 
 			// Apply margin-right compensation for medium screens
-			if (window.innerWidth <= 1815 && window.innerWidth >= 600 && fauNavigation) {
-				fauNavigation.style.marginRight = `${scrollbarWidth}px`;
+			if (
+				window.innerWidth <= 1815 &&
+				window.innerWidth >= 600 &&
+				fauNavigation
+			) {
+				fauNavigation.style.marginRight = `${ scrollbarWidth }px`;
 			}
 
 			// Apply transform compensation for hero blocks on large screens
-			if (window.innerWidth >= 1920 && siteHeaderMain) {
-				siteHeaderMain.style.transform = `translateX(calc(-50% - ${scrollbarWidth / 2}px))`;
+			if ( window.innerWidth >= 1920 && siteHeaderMain ) {
+				siteHeaderMain.style.transform = `translateX(calc(-50% - ${
+					scrollbarWidth / 2
+				}px))`;
 			}
 		}
 
@@ -111,24 +119,30 @@
 		 */
 		removeScrollbarCompensation() {
 			const body = document.body;
-			
+
 			// Remove padding-right from body
 			body.style.paddingRight = '';
 
 			// Reset specific elements
-			const siteHeaderTopWrapper = document.querySelector('.site-header .site-header-top__wrapper');
-			const fauNavigation = document.querySelector('.site-header__top .fau-navigation');
-			const siteHeaderMain = document.querySelector('.home:not(.blog).has-hero-block .site-header__main');
+			const siteHeaderTopWrapper = document.querySelector(
+				'.site-header .site-header-top__wrapper'
+			);
+			const fauNavigation = document.querySelector(
+				'.site-header__top .fau-navigation'
+			);
+			const siteHeaderMain = document.querySelector(
+				'.home:not(.blog).has-hero-block .site-header__main'
+			);
 
-			if (siteHeaderTopWrapper) {
+			if ( siteHeaderTopWrapper ) {
 				siteHeaderTopWrapper.style.maxWidth = '';
 			}
 
-			if (fauNavigation) {
+			if ( fauNavigation ) {
 				fauNavigation.style.marginRight = '';
 			}
 
-			if (siteHeaderMain) {
+			if ( siteHeaderMain ) {
 				siteHeaderMain.style.transform = '';
 			}
 		}
@@ -138,14 +152,14 @@
 		 */
 		bindResizeEvents() {
 			let resizeTimeout;
-			
+
 			$( window ).on( 'resize.menu-modal', () => {
 				// Debounce resize events
 				clearTimeout( resizeTimeout );
 				resizeTimeout = setTimeout( () => {
 					// Reset scrollbar width cache to force recalculation
 					this.scrollbarWidth = 0;
-					
+
 					// If modal is open, reapply compensation with new width
 					if ( this.currentModal ) {
 						this.applyScrollbarCompensation();
