@@ -36,12 +36,129 @@
 			this.domCache = new Map(); // Cache for DOM query results
 			this.cacheVersion = 0; // Increment when DOM structure changes
 			this.pendingTimeouts = new Set(); // Track all pending timeouts for cleanup
+			this.scrollbarWidth = 0; // Cache scrollbar width
 			this.init();
 		}
 
 		init() {
 			this.bindEvents();
 			this.setupAccessibility();
+			this.bindResizeEvents();
+		}
+
+		/**
+		 * Calculate the scrollbar width dynamically
+		 * @returns {number} The scrollbar width in pixels
+		 */
+		calculateScrollbarWidth() {
+			// Create a temporary div to measure scrollbar width
+			const outer = document.createElement('div');
+			outer.style.visibility = 'hidden';
+			outer.style.overflow = 'scroll';
+			outer.style.msOverflowStyle = 'scrollbar'; // Needed for IE
+			document.body.appendChild(outer);
+
+			const inner = document.createElement('div');
+			outer.appendChild(inner);
+
+			const scrollbarWidth = outer.offsetWidth - inner.offsetWidth;
+			document.body.removeChild(outer);
+
+			console.log('scrollbarWidth', scrollbarWidth);
+			console.log('outer', outer);
+			console.log('inner', inner);
+
+			return scrollbarWidth;
+		}
+
+		/**
+		 * Apply scrollbar width compensation to prevent layout shift
+		 */
+		applyScrollbarCompensation() {
+			if (this.scrollbarWidth === 0) {
+				this.scrollbarWidth = this.calculateScrollbarWidth();
+			}
+
+			const body = document.body;
+			const scrollbarWidth = this.scrollbarWidth;
+
+			// Apply padding-right to body
+			body.style.paddingRight = `${scrollbarWidth}px`;
+
+			// Apply compensation to specific elements based on screen size
+			const siteHeaderTopWrapper = document.querySelector('.site-header .site-header-top__wrapper');
+			const fauNavigation = document.querySelector('.site-header__top .fau-navigation');
+			const siteHeaderMain = document.querySelector('.home:not(.blog).has-hero-block .site-header__main');
+
+			// Apply max-width compensation for large screens
+			if (window.innerWidth >= 1816 && siteHeaderTopWrapper) {
+				siteHeaderTopWrapper.style.maxWidth = `calc(1800px - ${scrollbarWidth}px)`;
+			}
+
+			// Apply margin-right compensation for medium screens
+			if (window.innerWidth <= 1815 && window.innerWidth >= 600 && fauNavigation) {
+				fauNavigation.style.marginRight = `${scrollbarWidth}px`;
+			}
+
+			// Apply transform compensation for hero blocks on large screens
+			if (window.innerWidth >= 1920 && siteHeaderMain) {
+				siteHeaderMain.style.transform = `translateX(calc(-50% - ${scrollbarWidth / 2}px))`;
+			}
+		}
+
+		/**
+		 * Remove scrollbar width compensation
+		 */
+		removeScrollbarCompensation() {
+			const body = document.body;
+			
+			// Remove padding-right from body
+			body.style.paddingRight = '';
+
+			// Reset specific elements
+			const siteHeaderTopWrapper = document.querySelector('.site-header .site-header-top__wrapper');
+			const fauNavigation = document.querySelector('.site-header__top .fau-navigation');
+			const siteHeaderMain = document.querySelector('.home:not(.blog).has-hero-block .site-header__main');
+
+			if (siteHeaderTopWrapper) {
+				siteHeaderTopWrapper.style.maxWidth = '';
+			}
+
+			if (fauNavigation) {
+				fauNavigation.style.marginRight = '';
+			}
+
+			if (siteHeaderMain) {
+				siteHeaderMain.style.transform = '';
+			}
+		}
+
+		/**
+		 * Bind resize events to recalculate scrollbar width
+		 */
+		bindResizeEvents() {
+			let resizeTimeout;
+			
+			$( window ).on( 'resize.menu-modal', () => {
+				// Debounce resize events
+				clearTimeout( resizeTimeout );
+				resizeTimeout = setTimeout( () => {
+					// Reset scrollbar width cache to force recalculation
+					this.scrollbarWidth = 0;
+					
+					// If modal is open, reapply compensation with new width
+					if ( this.currentModal ) {
+						this.applyScrollbarCompensation();
+					}
+				}, 100 );
+			} );
+		}
+
+		/**
+		 * Cleanup resize events
+		 */
+		cleanupResizeEvents() {
+			$( window ).off( 'resize.menu-modal' );
 		}
 
 		// Cache key generator for DOM queries
@@ -241,6 +358,9 @@
 				.addClass( 'is-open' )
 				.attr( 'aria-hidden', 'false' );
 			$( 'body' ).addClass( 'modal-open' );
+
+			// Apply scrollbar width compensation to prevent layout shift
+			this.applyScrollbarCompensation();
 
 			this.announce( strings.menuOpened );
 
@@ -927,6 +1047,9 @@
 			}
 			$( 'body' ).removeClass( 'modal-open' );
 
+			// Remove scrollbar width compensation
+			this.removeScrollbarCompensation();
+
 			$modal.off( 'keydown.menu-modal' );
 
 			this.currentModal = null;
@@ -1101,6 +1224,9 @@
 			if ( this.currentModal ) {
 				this.currentModal.off( 'keydown.menu-modal' );
 			}
+
+			// Cleanup resize events
+			this.cleanupResizeEvents();
 
 			// Reset state
 			this.currentModal = null;
