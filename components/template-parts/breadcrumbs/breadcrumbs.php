@@ -39,6 +39,21 @@ function faue_breadcrumbs_block_class($block_content, $block): string {
 add_filter('render_block', 'faue_breadcrumbs_block_class', 10, 2);
 
 /**
+ * Get the appropriate title for breadcrumb display
+ * Checks for custom breadcrumb title first, falls back to post title
+ *
+ * @param int $post_id The post ID to get the title for
+ * @return string The title to display in breadcrumbs
+ */
+function faue_get_breadcrumb_title($post_id) {
+    $custom_title = get_post_meta($post_id, '_fau_breadcrumb_title', true);
+    if (!empty($custom_title)) {
+        return $custom_title;
+    }
+    return get_the_title($post_id);
+}
+
+/**
  * Display breadcrumb navigation with responsive mobile/desktop versions
  *
  * Renders breadcrumbs using server-side conditional logic to avoid duplicate DOM elements.
@@ -94,7 +109,7 @@ function faue_breadcrumbs(): void {
         $parent = $ancestors[count($ancestors) - 1];
         if (is_page()) {
             $parent_post = get_post($parent);
-            $parent_title = $parent_post->post_title;
+            $parent_title = faue_get_breadcrumb_title($parent_post->ID);
             $parent_url = get_permalink($parent_post->ID);
         } else {
             $parent_category = get_category($parent);
@@ -133,7 +148,7 @@ function faue_breadcrumbs(): void {
 
     foreach ($ancestors as $ancestor) {
         if (is_page()) {
-            $title = get_the_title($ancestor);
+            $title = faue_get_breadcrumb_title($ancestor);
             $url = get_permalink($ancestor);
         } else {
             $category = get_category($ancestor);
@@ -156,9 +171,9 @@ function faue_breadcrumbs(): void {
     if (is_category()) {
         $current_title = single_cat_title('', false);
     } elseif (is_single()) {
-        $current_title = get_the_title();
+        $current_title = faue_get_breadcrumb_title(get_the_ID());
     } elseif (is_page()) {
-        $current_title = get_the_title();
+        $current_title = faue_get_breadcrumb_title(get_the_ID());
     } elseif (is_search()) {
         $current_title = esc_html__('Search Results', 'fau-elemental');
     } elseif (is_404()) {

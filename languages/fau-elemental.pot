@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.3.40\n"
+"Project-Id-Version: FAU-Elemental 0.3.41\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-14T05:56:53+00:00\n"
+"POT-Creation-Date: 2025-10-17T12:58:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -172,21 +172,21 @@ msgstr ""
 msgid "Students at FAU Erlangen-Nürnberg"
 msgstr ""
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:86
+#: components/template-parts/breadcrumbs/breadcrumbs.php:101
 msgid "Breadcrumb navigation"
 msgstr ""
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:118
-#: components/template-parts/breadcrumbs/breadcrumbs.php:127
+#: components/template-parts/breadcrumbs/breadcrumbs.php:133
+#: components/template-parts/breadcrumbs/breadcrumbs.php:142
 msgid "Start"
 msgstr ""
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:163
+#: components/template-parts/breadcrumbs/breadcrumbs.php:178
 #: components/template-parts/search-results/search-results.php:228
 msgid "Search Results"
 msgstr ""
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:165
+#: components/template-parts/breadcrumbs/breadcrumbs.php:180
 msgid "404 - Page Not Found"
 msgstr ""
 
@@ -1063,12 +1063,25 @@ msgstr ""
 msgid "Last Updated Date"
 msgstr ""
 
-#: inc/post-meta.php:97
+#: inc/post-meta.php:44
+#: inc/post-meta.php:54
+msgid "Breadcrumb Settings"
+msgstr ""
+
+#: inc/post-meta.php:117
 msgid "Use custom last updated date"
 msgstr ""
 
-#: inc/post-meta.php:102
+#: inc/post-meta.php:122
 msgid "Custom date:"
+msgstr ""
+
+#: inc/post-meta.php:146
+msgid "Custom Breadcrumb Title"
+msgstr ""
+
+#: inc/post-meta.php:155
+msgid "Set a custom title for breadcrumb navigation. Leave empty to use the post/page title."
 msgstr ""
 
 #: inc/posts-settings.php:18
