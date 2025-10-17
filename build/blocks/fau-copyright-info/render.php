@@ -26,6 +26,8 @@ function fau_elemental_gather_copyright_info_from_attribute($block) {
             $image_id = $block['attrs']['mediaId'];
         } else if ($block['blockName'] === 'core/cover' && !empty($block['attrs']['id'])) {
             $image_id = $block['attrs']['id'];
+        } else if ($block['blockName'] === 'fau-elemental/fau-big-teaser' && !empty($block['attrs']['image']['id'])) {
+            $image_id = $block['attrs']['image']['id'];
         }
         
         return array(
@@ -51,6 +53,8 @@ function fau_elemental_gather_copyright_info_from_metadata($block) {
         $image_id = $block['attrs']['mediaId'];
     } else if ($block['blockName'] === 'core/cover' && !empty($block['attrs']['id'])) {
         $image_id = $block['attrs']['id'];
+    } else if ($block['blockName'] === 'fau-elemental/fau-big-teaser' && !empty($block['attrs']['image']['id'])) {
+        $image_id = $block['attrs']['image']['id'];
     } else {
         return null;
     }
