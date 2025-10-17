@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Set default attributes
 $attributes = wp_parse_args($attributes, [
+    'headlineLevel' => 'h3',
     'headline' => '',
     'teaserText' => '',
     'linkText' => '',
@@ -24,6 +25,11 @@ $attributes = wp_parse_args($attributes, [
 ]);
 
 // Sanitize attributes
+$headline_level = sanitize_text_field($attributes['headlineLevel']);
+// Ensure headline level is valid (h2-h6)
+$valid_levels = ['h2', 'h3', 'h4', 'h5', 'h6'];
+$headline_level = in_array($headline_level, $valid_levels) ? $headline_level : 'h3';
+
 $headline     = sanitize_text_field($attributes['headline']);
 $teaser_text  = sanitize_textarea_field($attributes['teaserText']);
 $link_text    = sanitize_text_field($attributes['linkText']);
@@ -68,7 +74,7 @@ $output .= '<div class="fau-big-teaser__content">';
 
 // Headline
 if ( ! empty( $truncated_headline ) ) {
-    $output .= '<h3 class="fau-big-teaser__headline">' . esc_html( $truncated_headline ) . '</h3>';
+    $output .= '<' . $headline_level . ' class="fau-big-teaser__headline">' . esc_html( $truncated_headline ) . '</' . $headline_level . '>';
 }
 
 // Teaser text

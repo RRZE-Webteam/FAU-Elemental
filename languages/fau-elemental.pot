@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.3.41\n"
+"Project-Id-Version: FAU-Elemental 0.3.42\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-17T12:58:05+00:00\n"
+"POT-Creation-Date: 2025-10-17T13:48:50+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -88,7 +88,7 @@ msgstr ""
 msgid "Category posts listing"
 msgstr ""
 
-#: components/blocks/fau-copyright-info/render.php:214
+#: components/blocks/fau-copyright-info/render.php:218
 msgid "Image sources:"
 msgstr ""
 
@@ -873,7 +873,7 @@ msgid "History, Specialties, Data, Structure, etc."
 msgstr ""
 
 #: inc/customizer.php:438
-#: components/blocks/fau-big-teaser/edit.js:143
+#: components/blocks/fau-big-teaser/edit.js:175
 msgid "Link URL"
 msgstr ""
 
@@ -1382,8 +1382,8 @@ msgstr ""
 msgid "Add new item"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:52
-#: components/blocks/fau-big-teaser/edit.js:169
+#: components/blocks/fau-big-teaser/edit.js:54
+#: components/blocks/fau-big-teaser/edit.js:201
 #: components/blocks/fau-featured-event-teaser/edit.js:126
 #: components/blocks/fau-featured-event-teaser/edit.js:191
 #: components/blocks/fau-logo-grid/edit.js:129
@@ -1391,83 +1391,112 @@ msgstr ""
 msgid "Replace Image"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:56
+#: components/blocks/fau-big-teaser/edit.js:58
 #: components/blocks/fau-featured-event-teaser/edit.js:130
 #: components/blocks/fau-testimonial/edit.js:195
 #: components/blocks/fau-testimonial/edit.js:405
 msgid "Add Image"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:66
-#: components/blocks/fau-big-teaser/edit.js:185
+#: components/blocks/fau-big-teaser/edit.js:68
+#: components/blocks/fau-big-teaser/edit.js:217
 #: components/blocks/fau-featured-event-teaser/edit.js:140
 #: components/blocks/fau-featured-event-teaser/edit.js:220
 msgid "Remove Image"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:75
+#: components/blocks/fau-big-teaser/edit.js:77
 #: components/core-blocks/media-text/index.js:24
 msgid "Content"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:79
-msgid "Headline (max 100 characters)"
+#: components/blocks/fau-big-teaser/edit.js:81
+msgid "Headline Level"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:85
+#: components/blocks/fau-teaser-grid/edit.js:415
+msgid "Heading 2"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:89
+#: components/blocks/fau-teaser-grid/edit.js:421
+msgid "Heading 3"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:93
+#: components/blocks/fau-teaser-grid/edit.js:427
+msgid "Heading 4"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:97
+#: components/blocks/fau-teaser-grid/edit.js:433
+msgid "Heading 5"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:101
+#: components/blocks/fau-teaser-grid/edit.js:439
+msgid "Heading 6"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:111
+msgid "Headline (max 100 characters)"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:121
 msgid "Enter headline…"
 msgstr ""
 
 #. translators: %d: current character count
-#: components/blocks/fau-big-teaser/edit.js:92
+#: components/blocks/fau-big-teaser/edit.js:124
 msgid "%d/100 characters"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:98
+#: components/blocks/fau-big-teaser/edit.js:130
 msgid "Teaser Text (max 200 characters)"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:108
+#: components/blocks/fau-big-teaser/edit.js:140
 msgid "Enter teaser text…"
 msgstr ""
 
 #. translators: %d: current character count
-#: components/blocks/fau-big-teaser/edit.js:114
+#: components/blocks/fau-big-teaser/edit.js:146
 msgid "%d/200 characters"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:121
+#: components/blocks/fau-big-teaser/edit.js:153
 msgid "Link Text (max 40 characters)"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:131
+#: components/blocks/fau-big-teaser/edit.js:163
 msgid "Enter link text…"
 msgstr ""
 
 #. translators: %d: current character count
-#: components/blocks/fau-big-teaser/edit.js:137
+#: components/blocks/fau-big-teaser/edit.js:169
 msgid "%d/40 characters"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:148
+#: components/blocks/fau-big-teaser/edit.js:180
 msgid "Enter URL…"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:154
+#: components/blocks/fau-big-teaser/edit.js:186
 #: components/blocks/fau-featured-event-teaser/edit.js:175
 msgid "Image Settings"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:170
+#: components/blocks/fau-big-teaser/edit.js:202
 #: components/blocks/fau-featured-event-teaser/edit.js:195
 msgid "Select Image"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:207
+#: components/blocks/fau-big-teaser/edit.js:239
 msgid "Add your headline here…"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:227
+#: components/blocks/fau-big-teaser/edit.js:259
 msgid "Add your teaser text here…"
 msgstr ""
 
@@ -1845,26 +1874,6 @@ msgstr ""
 
 #: components/blocks/fau-teaser-grid/edit.js:412
 msgid "Change heading level"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:415
-msgid "Heading 2"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:421
-msgid "Heading 3"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:427
-msgid "Heading 4"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:433
-msgid "Heading 5"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:439
-msgid "Heading 6"
 msgstr ""
 
 #: components/blocks/fau-teaser-grid/edit.js:503
