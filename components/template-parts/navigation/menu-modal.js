@@ -73,18 +73,29 @@
 		 */
 		hasScrollbar() {
 			// Check if content height exceeds viewport height
-			const hasVerticalScrollbar = document.documentElement.scrollHeight > document.documentElement.clientHeight;
-			
+			const hasVerticalScrollbar =
+				document.documentElement.scrollHeight >
+				document.documentElement.clientHeight;
+
 			// Also check if the body has overflow scroll (some CSS might force it)
-			const bodyOverflow = window.getComputedStyle(document.body).overflow;
-			const htmlOverflow = window.getComputedStyle(document.documentElement).overflow;
-			
+			const bodyOverflow = window.getComputedStyle(
+				document.body
+			).overflow;
+			const htmlOverflow = window.getComputedStyle(
+				document.documentElement
+			).overflow;
+
 			// Consider scrollbar present if:
 			// 1. Content height exceeds viewport, OR
 			// 2. Body or HTML has overflow: scroll/auto and content is scrollable
-			return hasVerticalScrollbar || 
-				   (bodyOverflow === 'scroll' && document.body.scrollHeight > document.body.clientHeight) ||
-				   (htmlOverflow === 'scroll' && document.documentElement.scrollHeight > document.documentElement.clientHeight);
+			return (
+				hasVerticalScrollbar ||
+				( bodyOverflow === 'scroll' &&
+					document.body.scrollHeight > document.body.clientHeight ) ||
+				( htmlOverflow === 'scroll' &&
+					document.documentElement.scrollHeight >
+						document.documentElement.clientHeight )
+			);
 		}
 
 		/**
@@ -92,7 +103,7 @@
 		 */
 		applyScrollbarCompensation() {
 			// Only apply compensation if there's actually a scrollbar
-			if ( !this.hasScrollbar() ) {
+			if ( ! this.hasScrollbar() ) {
 				return;
 			}
 
