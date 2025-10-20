@@ -210,35 +210,35 @@ function fau_customizer_settings($wp_customize) {
     // Get faculty-specific default values
     $defaults = [
         'phil' => [
-            'name' => __('Philosophical Faculty', 'fau-elemental'),
+            'name' => __('Faculty of Humanities, Social Sciences, and Theology', 'fau-elemental'),
             'street' => 'Bismarckstraße 1',
             'city' => '91054 Erlangen',
             'phone' => '+49 9131 85 22345',
             'email' => 'dekanat-phil@fau.de'
         ],
         'nat' => [
-            'name' => __('Natural Sciences Faculty', 'fau-elemental'),
+            'name' => __('Faculty of Sciences', 'fau-elemental'),
             'street' => 'Naturwissenschaftliche Fakultät',
             'city' => '91058 Erlangen',
             'phone' => '+49 9131 85 27032',
             'email' => 'dekanat-nat@fau.de'
         ],
         'med' => [
-            'name' => __('Medical Faculty', 'fau-elemental'),
+            'name' => __('Faculty of Medicine', 'fau-elemental'),
             'street' => 'Krankenhausstraße 12',
             'city' => '91054 Erlangen',
             'phone' => '+49 9131 85 26730',
             'email' => 'med-dekanat@fau.de'
         ],
         'rw' => [
-            'name' => __('Law Faculty', 'fau-elemental'),
+            'name' => __('Faculty of Business, Economics, and Law', 'fau-elemental'),
             'street' => 'Schillerstraße 1',
             'city' => '91054 Erlangen',
             'phone' => '+49 9131 85 22260',
             'email' => 'dekanat-rw@fau.de'
         ],
         'tf' => [
-            'name' => __('Technical Faculty', 'fau-elemental'),
+            'name' => __('Faculty of Engineering', 'fau-elemental'),
             'street' => 'Martensstraße 5a',
             'city' => '91058 Erlangen',
             'phone' => '+49 9131 85 27130',

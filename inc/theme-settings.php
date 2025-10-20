@@ -66,11 +66,11 @@ function faue_customize_register($wp_customize) {
         'section'         => 'title_tagline',
         'type'            => 'select',
         'choices'         => array(
-            'phil' => __('Philosophical Faculty', 'fau-elemental'),
-            'nat'  => __('Natural Sciences Faculty', 'fau-elemental'),
-            'med'  => __('Medical Faculty', 'fau-elemental'),
-            'rw'   => __('Law Faculty', 'fau-elemental'),
-            'tf'   => __('Technical Faculty', 'fau-elemental'),
+            'phil' => __('Faculty of Humanities, Social Sciences, and Theology', 'fau-elemental'),
+            'nat'  => __('Faculty of Sciences', 'fau-elemental'),
+            'med'  => __('Faculty of Medicine', 'fau-elemental'),
+            'rw'   => __('Faculty of Business, Economics, and Law', 'fau-elemental'),
+            'tf'   => __('Faculty of Engineering', 'fau-elemental'),
         ),
         'active_callback' => 'faue_is_faculty_or_chair_website',
     ));
