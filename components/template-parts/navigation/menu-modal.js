@@ -68,9 +68,45 @@
 		}
 
 		/**
+		 * Check if the page actually has a visible scrollbar
+		 * @return {boolean} True if scrollbar is present
+		 */
+		hasScrollbar() {
+			// Check if content height exceeds viewport height
+			const hasVerticalScrollbar =
+				document.documentElement.scrollHeight >
+				document.documentElement.clientHeight;
+
+			// Also check if the body has overflow scroll (some CSS might force it)
+			const bodyOverflow = window.getComputedStyle(
+				document.body
+			).overflow;
+			const htmlOverflow = window.getComputedStyle(
+				document.documentElement
+			).overflow;
+
+			// Consider scrollbar present if:
+			// 1. Content height exceeds viewport, OR
+			// 2. Body or HTML has overflow: scroll/auto and content is scrollable
+			return (
+				hasVerticalScrollbar ||
+				( bodyOverflow === 'scroll' &&
+					document.body.scrollHeight > document.body.clientHeight ) ||
+				( htmlOverflow === 'scroll' &&
+					document.documentElement.scrollHeight >
+						document.documentElement.clientHeight )
+			);
+		}
+
+		/**
 		 * Apply scrollbar width compensation to prevent layout shift
 		 */
 		applyScrollbarCompensation() {
+			// Only apply compensation if there's actually a scrollbar
+			if ( ! this.hasScrollbar() ) {
+				return;
+			}
+
 			if ( this.scrollbarWidth === 0 ) {
 				this.scrollbarWidth = this.calculateScrollbarWidth();
 			}
@@ -162,6 +198,9 @@
 
 					// If modal is open, reapply compensation with new width
 					if ( this.currentModal ) {
+						// First remove any existing compensation
+						this.removeScrollbarCompensation();
+						// Then reapply if scrollbar exists
 						this.applyScrollbarCompensation();
 					}
 				}, 100 );

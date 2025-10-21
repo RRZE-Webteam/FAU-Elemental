@@ -379,7 +379,7 @@
 		}
 	}
 
-	div[role="alert"] {
+	div[role="alert"]:has(.wsf-alert) {
 		max-width: var(--small-max-width);
 		padding: 0 var(--Spacing-10x);
 		margin: 0 auto;

@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.3.42\n"
+"Project-Id-Version: FAU-Elemental 0.3.43\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-17T13:48:50+00:00\n"
+"POT-Creation-Date: 2025-10-21T09:47:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -215,74 +215,74 @@ msgstr ""
 msgid "Directions"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:115
+#: components/template-parts/footer-instance/footer-instance.php:116
 msgid "Important Links"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:144
+#: components/template-parts/footer-instance/footer-instance.php:146
 #: components/template-parts/footer-main/footer-main.php:104
 #: inc/customizer.php:462
 msgid "Social Media Links"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:178
+#: components/template-parts/footer-instance/footer-instance.php:180
 #: components/template-parts/footer-main/footer-main.php:63
 #: header.php:51
 msgid "FAU Logo"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:183
+#: components/template-parts/footer-instance/footer-instance.php:185
 #: components/template-parts/footer-main/footer-main.php:68
 msgid ""
 "Friedrich-Alexander-Universität\n"
 "Erlangen-Nürnberg"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:191
+#: components/template-parts/footer-instance/footer-instance.php:193
 #: functions.php:296
 msgid "Show more"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:198
+#: components/template-parts/footer-instance/footer-instance.php:200
 #: components/template-parts/footer-main/footer-main.php:4
 msgid "FAU - Knowledge in Motion"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:199
+#: components/template-parts/footer-instance/footer-instance.php:201
 #: components/template-parts/footer-main/footer-main.php:5
 msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:207
+#: components/template-parts/footer-instance/footer-instance.php:209
 #: components/template-parts/footer-main/footer-main.php:14
 msgid "Target Group Section 1"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:208
+#: components/template-parts/footer-instance/footer-instance.php:210
 #: components/template-parts/footer-main/footer-main.php:15
 msgid "History, features, data, structure and more"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:212
+#: components/template-parts/footer-instance/footer-instance.php:214
 #: components/template-parts/footer-main/footer-main.php:19
 msgid "Target Group Section 2"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:213
-#: components/template-parts/footer-instance/footer-instance.php:218
-#: components/template-parts/footer-instance/footer-instance.php:223
+#: components/template-parts/footer-instance/footer-instance.php:215
+#: components/template-parts/footer-instance/footer-instance.php:220
+#: components/template-parts/footer-instance/footer-instance.php:225
 #: components/template-parts/footer-main/footer-main.php:20
 #: components/template-parts/footer-main/footer-main.php:25
 #: components/template-parts/footer-main/footer-main.php:30
 msgid "Focus areas, mission, reputation, achievements and more"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:217
+#: components/template-parts/footer-instance/footer-instance.php:219
 #: components/template-parts/footer-main/footer-main.php:24
 msgid "Target Group Section 3"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:222
+#: components/template-parts/footer-instance/footer-instance.php:224
 #: components/template-parts/footer-main/footer-main.php:29
 msgid "Target Group Section 4"
 msgstr ""
@@ -761,27 +761,27 @@ msgstr ""
 
 #: inc/customizer.php:213
 #: inc/theme-settings.php:69
-msgid "Philosophical Faculty"
+msgid "Faculty of Humanities, Social Sciences, and Theology"
 msgstr ""
 
 #: inc/customizer.php:220
 #: inc/theme-settings.php:70
-msgid "Natural Sciences Faculty"
+msgid "Faculty of Sciences"
 msgstr ""
 
 #: inc/customizer.php:227
 #: inc/theme-settings.php:71
-msgid "Medical Faculty"
+msgid "Faculty of Medicine"
 msgstr ""
 
 #: inc/customizer.php:234
 #: inc/theme-settings.php:72
-msgid "Law Faculty"
+msgid "Faculty of Business, Economics, and Law"
 msgstr ""
 
 #: inc/customizer.php:241
 #: inc/theme-settings.php:73
-msgid "Technical Faculty"
+msgid "Faculty of Engineering"
 msgstr ""
 
 #: inc/customizer.php:260
@@ -2190,27 +2190,27 @@ msgstr ""
 
 #: theme.json
 msgctxt "Color name"
-msgid "Philosophische Fakultät"
+msgid "Faculty of Humanities, Social Sciences, and Theology"
 msgstr ""
 
 #: theme.json
 msgctxt "Color name"
-msgid "Rechts- und Wirtschaftswissenschaftliche Fakultät"
+msgid "Faculty of Business, Economics, and Law"
 msgstr ""
 
 #: theme.json
 msgctxt "Color name"
-msgid "Medizinische Fakultät"
+msgid "Faculty of Medicine"
 msgstr ""
 
 #: theme.json
 msgctxt "Color name"
-msgid "Naturwissenschaftliche Fakultät"
+msgid "Faculty of Sciences"
 msgstr ""
 
 #: theme.json
 msgctxt "Color name"
-msgid "Technische Fakultät"
+msgid "Faculty of Engineering"
 msgstr ""
 
 #: theme.json

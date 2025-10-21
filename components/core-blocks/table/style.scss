@@ -64,6 +64,10 @@
 			&:last-child {
 				border-right: none;
 			}
+
+			a {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
 		}
 	}
 
@@ -219,6 +223,10 @@
 
 			&:last-child {
 				border-right: none;
+			}
+
+			a {
+				color: var(--FAU-Col-FAU-Blau-100);
 			}
 		}
 
