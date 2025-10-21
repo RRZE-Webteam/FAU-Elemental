@@ -30,7 +30,7 @@ if (is_home() && is_front_page()) {
         <?php 
         // Check if there's a front page set and get its content
         $front_page_id = get_option('page_on_front');
-        if ($front_page_id) {
+        if (get_option('show_on_front') !== 'posts' && $front_page_id) {
             $front_page = get_post($front_page_id);
             if ($front_page && !empty($front_page->post_content)) {
                 ?>
