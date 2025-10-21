@@ -160,7 +160,7 @@ body {
 	}
 }
 
-div:not([class*="hero"] .wp-block-cover, .image-wrapper, .footer-logo):has(> img),
+div:not([class*="hero"] .wp-block-cover, .image-wrapper, .footer-logo, .image-fullscreen-container):has(> img),
 figure:has(> img) {
 	position: relative;
 }
