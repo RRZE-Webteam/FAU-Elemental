@@ -111,20 +111,22 @@
                 </div>
                 <?php endif; ?>
             </div>
+            <?php if (has_nav_menu('footer-important-links')) : ?>
             <div class="footer-important-links-container">
-            <h3><?php esc_html_e('Important Links', 'fau-elemental'); ?></h3>
-            <nav class="footer-important-links">
-              
-                <?php
-                wp_nav_menu(array(
-                    'theme_location' => 'footer-important-links',
-                    'menu_class' => 'important-links-list',
-                    'container' => false,
-                    'fallback_cb' => false
-                ));
-                ?>
-            </nav>
+                <h3><?php esc_html_e('Important Links', 'fau-elemental'); ?></h3>
+                <nav class="footer-important-links">
+                  
+                    <?php
+                    wp_nav_menu(array(
+                        'theme_location' => 'footer-important-links',
+                        'menu_class' => 'important-links-list',
+                        'container' => false,
+                        'fallback_cb' => false
+                    ));
+                    ?>
+                </nav>
             </div>
+            <?php endif; ?>
         </section>
 
         <section class="footer-instance-menu">
