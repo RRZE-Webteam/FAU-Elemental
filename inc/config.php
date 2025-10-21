@@ -41,11 +41,11 @@ $faue_social_platforms = array(
     'facebook' => 'Facebook',
     'xing' => 'Xing',
     'linkedin' => 'LinkedIn',
-    'x' => 'X',
     'mastodon' => 'Mastodon',
     'bluesky' => 'Bluesky',
     'youtube' => 'YouTube',
-    'tiktok' => 'TikTok'
+    'tiktok' => 'TikTok',
+    'threads' => 'Threads'
 );
 
 // Helper function to get default values

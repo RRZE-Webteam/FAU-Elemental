@@ -257,11 +257,6 @@ footer.wp-block-template-part {
 				height: 1.875rem;
 			}
 
-			&.x {
-				background-image: var(--icon-x);
-				width: 1.75rem;
-				height: 1.625rem;
-			}
 
 			&.tiktok {
 				background-image: var(--icon-tiktok);
@@ -303,6 +298,22 @@ footer.wp-block-template-part {
 				background-image: var(--icon-instagram);
 				width: 1.75rem;
 				height: 1.75rem;
+			}
+
+			&.threads {
+				background-image: var(--icon-threads);
+				width: 1.75rem;
+				height: 1.75rem;
+			}
+
+
+			// Custom social media icons (added via admin)
+			&[class*="custom-"] {
+				width: 1.75rem;
+				height: 1.75rem;
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
 			}
 		}
 	}
