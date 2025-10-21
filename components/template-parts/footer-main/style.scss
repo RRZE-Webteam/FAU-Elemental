@@ -174,7 +174,7 @@ footer.wp-block-template-part {
 				display: flex;
 				justify-content: space-between;
 				align-items: flex-start;
-				gap: var(--Spacing-8x);
+				gap: var(--Spacing-12x);
 			}
 
 			.footer-bottom-top {
@@ -216,7 +216,6 @@ footer.wp-block-template-part {
 	.social-links {
 		display: flex;
 		align-items: center;
-		flex-wrap: wrap;
 		gap: var(--Spacing-6x);
 		list-style: none;
 		padding-left: unset; // no ul padding
@@ -394,6 +393,10 @@ footer.wp-block-template-part {
 
 		.footer-bottom-bottom {
 			flex-direction: column-reverse;
+		}
+
+		.social-links {
+			flex-wrap: wrap;
 		}
 	}
 }
