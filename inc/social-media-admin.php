@@ -332,7 +332,8 @@ function faue_custom_social_admin_notice() {
     if (!empty($custom_platforms)) {
         echo '<div class="notice notice-info is-dismissible">';
         echo '<p>' . sprintf(
-            __('You have %d custom social media platform(s). <a href="%s">Manage them here</a>.', 'fau-elemental'),
+            /* translators: 1: Number of custom platforms, 2: Admin URL for managing platforms */
+            __('You have %1$d custom social media platform(s). <a href="%2$s">Manage them here</a>.', 'fau-elemental'),
             count($custom_platforms),
             admin_url('themes.php?page=faue-custom-social')
         ) . '</p>';
