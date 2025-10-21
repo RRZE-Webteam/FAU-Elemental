@@ -1,5 +1,16 @@
 @use "../../ui/mixins/mixins" as *;
 
+// Minimum height for pages to prevent Footer from "floating"
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+
+	#page {
+		flex-grow: 1;
+	}
+}
+
 // Hide Print Logo
 .print-container {
 	display: none;
