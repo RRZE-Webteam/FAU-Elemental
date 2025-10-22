@@ -90,10 +90,18 @@ function faue_extract_platform_from_menu_item($item) {
         }
     }
     
-    // Check URL for platform name
-    $url = $item->url;
+    // Check label for platform name (case-insensitive)
+    $label = strtolower(trim($item->title));
     $platforms = faue_get_combined_social_platforms();
-    foreach ($platforms as $platform => $label) {
+    foreach ($platforms as $platform => $platform_label) {
+        if ($label === strtolower($platform_label)) {
+            return $platform;
+        }
+    }
+    
+    // Fallback: Check URL for platform name (for backward compatibility)
+    $url = $item->url;
+    foreach ($platforms as $platform => $platform_label) {
         if (strpos($url, $platform) !== false) {
             return $platform;
         }
