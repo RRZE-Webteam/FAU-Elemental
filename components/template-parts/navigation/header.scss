@@ -655,6 +655,18 @@ body.modal-open {
 				&.active {
 					background-color: var(--FAU-Col-FAU-Blau-100);
 					color: var(--FAU-Col-FAU-Weiss-100);
+					z-index: 2;
+				}
+
+				&:not(.active) {
+
+					&:hover,
+					&:focus-visible {
+						margin-top: -0.0625rem;
+						padding-top: 1.0625rem;
+						position: relative;
+						z-index: 1;
+					}
 				}
 			}
 		}
@@ -663,7 +675,6 @@ body.modal-open {
 		> li:first-child:not(:has(h2))::before {
 			content: "";
 			position: absolute;
-			top: -0.0625rem;
 			left: 1.25rem;
 			right: 1rem;
 			height: 0.0625rem;
@@ -684,12 +695,12 @@ body.modal-open {
 		}
 
 		.menu-modal__level-heading {
-			font-size: 1.125rem;
+			font-size: 1rem;
 			font-weight: 700;
 			letter-spacing: var(--letter-spacing-small);
 			background-color: var(--FAU-Col-FAU-Dunkelblau-12_5);
 			margin: 0;
-			padding: 1.125rem var(--Spacing-5x) 1.125rem var(--Spacing-5x);
+			padding: var(--Spacing-4x) var(--Spacing-5x);
 			position: relative;
 		}
 	}
@@ -749,6 +760,10 @@ body.modal-open {
 		&:hover,
 		&:focus-visible {
 			background-color: var(--FAU-Col-FAU-Blau-25);
+			margin-top: -0.0625rem;
+			padding-top: 1.0625rem;
+			z-index: 1;
+			position: relative;
 
 			> span:last-child {
 				transform: translateX(0.25rem);
