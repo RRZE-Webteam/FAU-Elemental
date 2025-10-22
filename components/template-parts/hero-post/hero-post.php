@@ -55,8 +55,8 @@ $post_id = get_the_ID();
         </div>
         
         <?php
-        // Use the_title() instead of render_block() for better performance
-        the_title('<h1 class="wp-block-post-title">', '</h1>');
+        // Use custom page title if set, otherwise use the original title
+        echo '<h1 class="wp-block-post-title">' . esc_html(faue_get_page_title($post_id)) . '</h1>';
         ?>
         
     </div>

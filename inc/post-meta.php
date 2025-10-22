@@ -38,11 +38,11 @@ function faue_add_post_meta_boxes() {
         'default'
     );
     
-    // Add meta box for breadcrumb title
+    // Add meta box for page title
     add_meta_box(
-        'faue_breadcrumb_title',
-        __('Breadcrumb Settings', 'fau-elemental'),
-        'faue_breadcrumb_title_callback',
+        'faue_page_title',
+        __('Page Title Settings', 'fau-elemental'),
+        'faue_page_title_callback',
         'post',
         'side',
         'default'
@@ -50,9 +50,9 @@ function faue_add_post_meta_boxes() {
     
     // Also add to pages
     add_meta_box(
-        'faue_breadcrumb_title',
-        __('Breadcrumb Settings', 'fau-elemental'),
-        'faue_breadcrumb_title_callback',
+        'faue_page_title',
+        __('Page Title Settings', 'fau-elemental'),
+        'faue_page_title_callback',
         'page',
         'side',
         'default'
@@ -131,28 +131,28 @@ function faue_last_updated_callback($post) {
 }
 
 /**
- * Meta box callback function for breadcrumb title
+ * Meta box callback function for page title
  */
-function faue_breadcrumb_title_callback($post) {
+function faue_page_title_callback($post) {
     // Add nonce for security
-    wp_nonce_field('faue_breadcrumb_title_nonce', 'faue_breadcrumb_title_nonce');
+    wp_nonce_field('faue_page_title_nonce', 'faue_page_title_nonce');
 
     // Get current value
-    $breadcrumb_title = get_post_meta($post->ID, '_fau_breadcrumb_title', true);
+    $page_title = get_post_meta($post->ID, '_fau_page_title', true);
 
     ?>
     <p>
-        <label for="faue_breadcrumb_title">
-            <?php esc_html_e('Custom Breadcrumb Title', 'fau-elemental'); ?>
+        <label for="faue_page_title">
+            <?php esc_html_e('Custom Page Title', 'fau-elemental'); ?>
         </label>
         <input type="text" 
-               id="faue_breadcrumb_title" 
-               name="faue_breadcrumb_title" 
-               value="<?php echo esc_attr($breadcrumb_title); ?>" 
+               id="faue_page_title" 
+               name="faue_page_title" 
+               value="<?php echo esc_attr($page_title); ?>" 
                class="widefat">
     </p>
     <p class="description">
-        <?php esc_html_e('Set a custom title for breadcrumb navigation. Leave empty to use the post/page title.', 'fau-elemental'); ?>
+        <?php esc_html_e('Set a custom title for this page. This will be used as the main page title while keeping the URL slug, breadcrumb, and navigation unchanged.', 'fau-elemental'); ?>
     </p>
     <?php
 }
@@ -185,8 +185,8 @@ function faue_save_post_meta($post_id) {
         return;
     }
     
-    // Check if nonce is set (either for last updated or breadcrumb title)
-    if (!isset($_POST['faue_last_updated_nonce']) && !isset($_POST['faue_breadcrumb_title_nonce'])) {
+    // Check if nonce is set (either for last updated or page title)
+    if (!isset($_POST['faue_last_updated_nonce']) && !isset($_POST['faue_page_title_nonce'])) {
         return;
     }
 
@@ -195,8 +195,8 @@ function faue_save_post_meta($post_id) {
         return;
     }
     
-    // Verify nonce for breadcrumb title
-    if (isset($_POST['faue_breadcrumb_title_nonce']) && !wp_verify_nonce($_POST['faue_breadcrumb_title_nonce'], 'faue_breadcrumb_title_nonce')) {
+    // Verify nonce for page title
+    if (isset($_POST['faue_page_title_nonce']) && !wp_verify_nonce($_POST['faue_page_title_nonce'], 'faue_page_title_nonce')) {
         return;
     }
 
@@ -229,14 +229,14 @@ function faue_save_post_meta($post_id) {
         }
     }
     
-    // Save custom breadcrumb title
-    if (isset($_POST['faue_breadcrumb_title_nonce'])) {
-        if (isset($_POST['faue_breadcrumb_title'])) {
-            $breadcrumb_title = sanitize_text_field($_POST['faue_breadcrumb_title']);
-            if (!empty($breadcrumb_title)) {
-                update_post_meta($post_id, '_fau_breadcrumb_title', $breadcrumb_title);
+    // Save custom page title
+    if (isset($_POST['faue_page_title_nonce'])) {
+        if (isset($_POST['faue_page_title'])) {
+            $page_title = sanitize_text_field($_POST['faue_page_title']);
+            if (!empty($page_title)) {
+                update_post_meta($post_id, '_fau_page_title', $page_title);
             } else {
-                delete_post_meta($post_id, '_fau_breadcrumb_title');
+                delete_post_meta($post_id, '_fau_page_title');
             }
         }
     }
@@ -292,4 +292,18 @@ function faue_filter_modified_time($time, $format, $post) {
     return $time;
 }
 add_filter('get_the_modified_time', 'faue_filter_modified_time', 10, 3);
+
+/**
+ * Get the custom page title if set, otherwise return the original title
+ *
+ * @param int $post_id The post ID to get the title for
+ * @return string The custom page title or original title
+ */
+function faue_get_page_title($post_id) {
+    $custom_title = get_post_meta($post_id, '_fau_page_title', true);
+    if (!empty($custom_title)) {
+        return $custom_title;
+    }
+    return get_the_title($post_id);
+}
 

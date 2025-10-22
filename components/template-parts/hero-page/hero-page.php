@@ -25,7 +25,7 @@
 
 
   <div>
-    <h1 class="wp-block-post-title"><?php the_title(); ?></h1>
+    <h1 class="wp-block-post-title"><?php echo esc_html(faue_get_page_title(get_the_ID())); ?></h1>
   </div>
 
 </section>
