@@ -40,16 +40,12 @@ add_filter('render_block', 'faue_breadcrumbs_block_class', 10, 2);
 
 /**
  * Get the appropriate title for breadcrumb display
- * Checks for custom breadcrumb title first, falls back to post title
+ * Always uses the original post title to maintain consistency with URL slug and navigation
  *
  * @param int $post_id The post ID to get the title for
  * @return string The title to display in breadcrumbs
  */
 function faue_get_breadcrumb_title($post_id) {
-    $custom_title = get_post_meta($post_id, '_fau_breadcrumb_title', true);
-    if (!empty($custom_title)) {
-        return $custom_title;
-    }
     return get_the_title($post_id);
 }
 

@@ -9,7 +9,7 @@ get_header(); ?>
 <main class="wp-block-group archive-page">
     <header class="blog-header is-layout-flow">
         <h1 class="blog-title">
-            <?php echo esc_html(get_the_title()); ?>
+            <?php echo esc_html(faue_get_page_title(get_the_ID())); ?>
         </h1>
     </header>
 
