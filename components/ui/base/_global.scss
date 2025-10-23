@@ -450,28 +450,32 @@ p:has(> select)
 }
 
 // Basic form style - Exceptions for CF7
-.wpcf7-form {
+.wp-block-contact-form-7-contact-form-selector {
+	max-width: var(--small-max-width);
+	padding: 0 var(--Spacing-10x);
 
-	p:has(> input[type="submit"]) {
+	@include smaller-or-equals("x-small") {
+		padding: 0 var(--Spacing-5x);
+	}
 
-		&::before {
-			right: 0;
-		}
+	.wpcf7-form {
 
-		&:hover,
-		&:focus-visible {
+		p:has(> input[type="submit"]) {
 
-			&::before {
-				right: -0.3rem;
+			.wpcf7-spinner {
+				display: none;
 			}
 		}
 
-		.wpcf7-spinner {
-			display: none;
+		.wpcf7-list-item {
+			margin: unset;
 		}
-	}
 
-	.wpcf7-list-item {
-		margin: unset;
+		.is-layout-flow & {
+
+			p {
+				padding: unset;
+			}
+		}
 	}
 }
