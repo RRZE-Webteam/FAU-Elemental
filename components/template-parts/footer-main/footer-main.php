@@ -76,7 +76,7 @@
                 <nav class="footer-links">
                     <?php
                     wp_nav_menu(array(
-                        'theme_location' => 'footer-menu',
+                        'theme_location' => 'footer-menu-other',
                         'menu_class' => 'footer-meta-menu',
                         'container' => false,
                         'depth' => 1,

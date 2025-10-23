@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
  * @return string 'menu' or 'customizer'
  */
 function faue_get_social_media_mode() {
-    return get_theme_mod('faue_social_media_mode', 'customizer');
+    return get_theme_mod('faue_social_media_mode', 'menu');
 }
 
 /**
@@ -57,7 +57,14 @@ function faue_get_social_media_links() {
  * @return array Array of platform => url pairs
  */
 function faue_get_social_media_menu_links() {
-    $menu_items = wp_get_nav_menu_items('social-media-menu');
+    // Get the footer menu
+    $locations = get_nav_menu_locations();
+    $menu_items = null;
+    
+    if (isset($locations['footer-menu'])) {
+        $menu_items = wp_get_nav_menu_items($locations['footer-menu']);
+    }
+    
     $links = array();
     
     if (!$menu_items) {
@@ -157,15 +164,6 @@ function faue_render_social_media_links($mode = 'auto') {
     echo '</ul>';
 }
 
-/**
- * Register social media menu location
- */
-function faue_register_social_media_menu() {
-    register_nav_menus(array(
-        'social-media-menu' => __('Social Media Menu', 'fau-elemental'),
-    ));
-}
-add_action('init', 'faue_register_social_media_menu');
 
 /**
  * Add social media menu walker for icon support

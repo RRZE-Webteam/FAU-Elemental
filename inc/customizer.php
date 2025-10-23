@@ -467,7 +467,7 @@ function fau_customizer_settings($wp_customize) {
     
     // Social Media Mode Selection
     $wp_customize->add_setting('faue_social_media_mode', [
-        'default' => 'customizer',
+        'default' => 'menu',
         'sanitize_callback' => 'sanitize_text_field',
         'transport' => 'refresh',
     ]);

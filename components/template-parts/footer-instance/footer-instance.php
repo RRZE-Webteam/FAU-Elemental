@@ -134,7 +134,7 @@
             <nav class="footer-meta-nav">
                 <?php
                 wp_nav_menu(array(
-                    'theme_location' => 'footer-menu',
+                    'theme_location' => 'footer-menu-other',
                     'menu_class' => 'footer-menu-list',
                     'container' => false,
                     'depth' => 1,
