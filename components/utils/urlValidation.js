@@ -21,15 +21,18 @@ export const validateUrl = ( url, required = false ) => {
 			message: '',
 		};
 	}
-	
+
 	// Check for obvious non-URL text patterns first
-	if (/^[a-zA-Z\s]+$/.test(url)) {
+	if ( /^[a-zA-Z\s]+$/.test( url ) ) {
 		return {
 			isValid: false,
-			message: __( 'Please enter a valid URL (not just text)', 'fau-elemental' ),
+			message: __(
+				'Please enter a valid URL (not just text)',
+				'fau-elemental'
+			),
 		};
 	}
-	
+
 	if ( ! isURL( url ) ) {
 		return {
 			isValid: false,
