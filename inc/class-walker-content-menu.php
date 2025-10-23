@@ -76,11 +76,9 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
             // Content section
             $output .= $indent . "\t" . '<div class="fau-portal-wrapper"><div class="fau-portal-content">' . "\n";
             
-            // Use proper heading hierarchy (h3 for portal items)
+            // Simple link without heading structure
             $output .= $indent . "\t\t";
-            // translators: Menu item title
-            $output .= '<a href="' . esc_url($permalink) . '" aria-label="' . esc_attr(sprintf(__('Go to %s', 'fau-elemental'), $title)) . '">';
-            $output .= '<h3>';
+            $output .= '<a href="' . esc_url($permalink) . '">';
             $output .= esc_html($title);
             $output .= "</h3><span></span></a>\n";
         } else {
@@ -171,7 +169,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
 
         // Generate menu HTML
         $out = "\n";
-        $out .= '<div class="fau-portal-menu" role="navigation" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
+        $out .= '<nav class="fau-portal-menu" aria-label="' . __('Portal Menu', 'fau-elemental') . '">' . "\n";
         $out .= wp_nav_menu(
             array(
                 'menu' => $slug,
@@ -183,7 +181,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 'walker' => new Walker_Content_Menu($settings)
             )
         );
-        $out .= "</div>\n";
+        $out .= "</nav>\n";
 
         remove_filter('wp_nav_menu_objects', $menu_filter);
 
