@@ -28,7 +28,7 @@ function fau_elemental_register_all_menus() {
 			'footer-menu'            => esc_html__( 'Footer Menu', 'fau-elemental' ),
 			'footer-lists-menu'      => esc_html__( 'Footer Lists Menu', 'fau-elemental' ),
 			'footer-important-links' => esc_html__( 'Footer Important Links', 'fau-elemental' ),
-			'social-media-menu' => esc_html__( 'Social Media Menu', 'fau-elemental' ),
+			'FAU_SocialMedia_Menu_Footer' => esc_html__( 'Social Media Menu', 'fau-elemental' ),
 		)
 	);
 }
