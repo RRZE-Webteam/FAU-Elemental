@@ -80,7 +80,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
             $output .= $indent . "\t\t";
             $output .= '<a href="' . esc_url($permalink) . '">';
             $output .= esc_html($title);
-            $output .= "</h3><span></span></a>\n";
+            $output .= "<span></span></a>\n";
         } else {
             // Child items (sublinks) - Simple list items with proper ARIA
             $output .= $indent . "\t\t<li>\n";
