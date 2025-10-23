@@ -28,7 +28,7 @@ msgstr "TBD - Theme-Autor"
 msgid "TBD - theme author web page"
 msgstr "TBD - Theme-Autor Webseite"
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:180
+#: components/template-parts/breadcrumbs/breadcrumbs.php:176
 msgid "404 - Page Not Found"
 msgstr "404 - Seite nicht gefunden"
 
@@ -63,16 +63,16 @@ msgstr "Mehr laden"
 msgid "Read more about"
 msgstr "Mehr lesen über"
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:101
+#: components/template-parts/breadcrumbs/breadcrumbs.php:97
 msgid "Breadcrumb navigation"
 msgstr "Brotkrummen Navigation"
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:133
-#: components/template-parts/breadcrumbs/breadcrumbs.php:142
+#: components/template-parts/breadcrumbs/breadcrumbs.php:129
+#: components/template-parts/breadcrumbs/breadcrumbs.php:138
 msgid "Start"
 msgstr "Start"
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:178
+#: components/template-parts/breadcrumbs/breadcrumbs.php:174
 #: components/template-parts/search-results/search-results.php:228
 msgid "Search Results"
 msgstr "Suchergebnisse"
@@ -2183,27 +2183,27 @@ msgstr "Sprachwechsler"
 #: inc/customizer.php:213
 #: inc/theme-settings.php:69
 msgid "Faculty of Humanities, Social Sciences, and Theology"
-msgstr ""
+msgstr "Philosophische Fakultät"
 
 #: inc/customizer.php:220
 #: inc/theme-settings.php:70
 msgid "Faculty of Sciences"
-msgstr ""
+msgstr "Naturwissenschaftliche Fakultät"
 
 #: inc/customizer.php:227
 #: inc/theme-settings.php:71
 msgid "Faculty of Medicine"
-msgstr ""
+msgstr "Medizinische Fakultät"
 
 #: inc/customizer.php:234
 #: inc/theme-settings.php:72
 msgid "Faculty of Business, Economics, and Law"
-msgstr ""
+msgstr "Rechts- und Wirtschaftswissenschaftliche Fakultät"
 
 #: inc/customizer.php:241
 #: inc/theme-settings.php:73
 msgid "Faculty of Engineering"
-msgstr ""
+msgstr "Technische Fakultät"
 
 #: inc/customizer.php:543
 msgid "Hide copyright on single posts"
@@ -2211,19 +2211,6 @@ msgstr ""
 
 #: inc/customizer.php:544
 msgid "Hides the copyright block on individual post pages."
-msgstr ""
-
-#: inc/post-meta.php:44
-#: inc/post-meta.php:54
-msgid "Breadcrumb Settings"
-msgstr ""
-
-#: inc/post-meta.php:146
-msgid "Custom Breadcrumb Title"
-msgstr ""
-
-#: inc/post-meta.php:155
-msgid "Set a custom title for breadcrumb navigation. Leave empty to use the post/page title."
 msgstr ""
 
 #: inc/theme-settings.php:102
@@ -2241,24 +2228,37 @@ msgstr ""
 #: theme.json
 msgctxt "Color name"
 msgid "Faculty of Humanities, Social Sciences, and Theology"
-msgstr ""
+msgstr "Philosophische Fakultät"
 
 #: theme.json
 msgctxt "Color name"
 msgid "Faculty of Business, Economics, and Law"
-msgstr ""
+msgstr "Rechts- und Wirtschaftswissenschaftliche Fakultät"
 
 #: theme.json
 msgctxt "Color name"
 msgid "Faculty of Medicine"
-msgstr ""
+msgstr "Medizinische Fakultät"
 
 #: theme.json
 msgctxt "Color name"
 msgid "Faculty of Sciences"
-msgstr ""
+msgstr "Naturwissenschaftliche Fakultät"
 
 #: theme.json
 msgctxt "Color name"
 msgid "Faculty of Engineering"
+msgstr "Technische Fakultät"
+
+#: inc/post-meta.php:44
+#: inc/post-meta.php:54
+msgid "Page Title Settings"
+msgstr ""
+
+#: inc/post-meta.php:146
+msgid "Custom Page Title"
+msgstr ""
+
+#: inc/post-meta.php:155
+msgid "Set a custom title for this page. This will be used as the main page title while keeping the URL slug, breadcrumb, and navigation unchanged."
 msgstr ""
