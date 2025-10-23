@@ -135,9 +135,9 @@ function render_big_button_html($items, $options = []) {
                 if (!empty($title) && !empty($url)) :
             ?>
                 <a href="<?php echo esc_url($url); ?>" class="<?php echo implode(' ', $button_classes); ?>" role="button">
-                    <h3>
+                    <p class="big-button-title">
                         <?php echo $title; ?>
-                    </h3>
+                    </p>
                     <?php if (!empty($excerpt)) : ?>
                         <p>
                             <?php echo esc_html(fau_trim_text_big_button($excerpt, FAU_BIG_BUTTON_DESCRIPTION_MAX_LENGTH, '…')); ?>
