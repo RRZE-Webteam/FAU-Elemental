@@ -57,14 +57,7 @@ function faue_get_social_media_links() {
  * @return array Array of platform => url pairs
  */
 function faue_get_social_media_menu_links() {
-    // Get the footer menu
-    $locations = get_nav_menu_locations();
-    $menu_items = null;
-    
-    if (isset($locations['footer-menu'])) {
-        $menu_items = wp_get_nav_menu_items($locations['footer-menu']);
-    }
-    
+    $menu_items = wp_get_nav_menu_items('social-media-menu');
     $links = array();
     
     if (!$menu_items) {

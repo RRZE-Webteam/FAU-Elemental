@@ -25,10 +25,10 @@ function fau_elemental_register_all_menus() {
 			'header_menu_links' => esc_html__('Header Menu Links', 'fau-elemental'),
 			'top_header_nav_services' => esc_html__('Top Header Nav Services', 'fau-elemental'),
 			'search_options_menu' => esc_html__('Search Options Menu', 'fau-elemental'),
-			'footer-menu'            => esc_html__( 'Social media Menu', 'fau-elemental' ),
+			'footer-menu'            => esc_html__( 'Footer Menu', 'fau-elemental' ),
 			'footer-lists-menu'      => esc_html__( 'Footer Lists Menu', 'fau-elemental' ),
 			'footer-important-links' => esc_html__( 'Footer Important Links', 'fau-elemental' ),
-			'footer-menu-other' => esc_html__( 'Footer Menu', 'fau-elemental' ),
+			'social-media-menu' => esc_html__( 'Social Media Menu', 'fau-elemental' ),
 		)
 	);
 }
@@ -79,7 +79,7 @@ function fau_elemental_customize_register_nav_menus( $wp_customize ) {
 					echo '<nav class="footer-links">';
 					wp_nav_menu(
 						array(
-							'theme_location' => 'footer-menu-other',
+							'theme_location' => 'footer-menu',
 							'menu_class'     => 'footer-meta-menu',
 							'container'      => false,
 							'depth'          => 1,
@@ -93,7 +93,7 @@ function fau_elemental_customize_register_nav_menus( $wp_customize ) {
 					echo '<nav class="footer-meta-nav">';
 					wp_nav_menu(
 						array(
-							'theme_location' => 'footer-menu-other',
+							'theme_location' => 'footer-menu',
 							'menu_class'     => 'footer-menu-list',
 							'container'      => false,
 							'depth'          => 1,

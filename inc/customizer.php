@@ -63,6 +63,160 @@ function fau_sanitize_phone_number($phone) {
     return trim($phone); // Entfernt überflüssige Leerzeichen am Ende
 }
 
+/**
+ * Sanitize and validate social media URL
+ * Uses the same logic as the JavaScript urlValidation.js utility
+ * @param string $url The URL to sanitize and validate
+ * @return string Valid URL or empty string
+ */
+function faue_sanitize_social_media_url($url) {
+    // If empty, return empty string (empty URLs are valid for optional fields)
+    if (empty($url)) {
+        return '';
+    }
+    
+    // Trim whitespace
+    $url = trim($url);
+    
+    // Check for obvious non-URL text patterns
+    if (preg_match('/^[a-zA-Z\s]+$/', $url)) {
+        // If it's just plain text without any URL indicators, reject it
+        return '';
+    }
+    
+    // Ensure the URL has a proper scheme
+    if (!preg_match('/^https?:\/\//', $url)) {
+        // If no scheme, add https://
+        $url = 'https://' . $url;
+    }
+    
+    // Use WordPress's built-in URL validation (same as @wordpress/url isURL)
+    if (!wp_http_validate_url($url)) {
+        // If not a valid URL, return empty string
+        return '';
+    }
+    
+    // Return the sanitized URL
+    return esc_url_raw($url);
+}
+
+/**
+ * Enqueue customizer scripts and styles
+ */
+function faue_enqueue_customizer_scripts() {
+    // Add inline JavaScript for URL validation using the existing urlValidation.js function
+    $custom_js = "
+        jQuery(document).ready(function($) {
+            'use strict';
+            
+            function addUrlValidation(settingId, controlId) {
+                wp.customize(settingId, function(setting) {
+                    const control = wp.customize.control(controlId);
+                    
+                    if (!control.body) {
+                        return;
+                    }
+
+                    const input = control.body.find('input[type=\"url\"]');
+                    if (!input.length) {
+                        return;
+                    }
+
+                    // Create validation message element
+                    const messageElement = $('<div class=\"url-validation-message\"></div>');
+                    input.after(messageElement);
+
+                    function validateAndUpdate() {
+                        const url = input.val();
+                        let validation = { isValid: true, message: '' };
+                        
+                        // Use the global validation function if available
+                        if (window.fauElementalValidateUrl) {
+                            validation = window.fauElementalValidateUrl(url);
+                        } else {
+                            // Fallback validation
+                            if (url && /^[a-zA-Z\\s]+$/.test(url)) {
+                                validation = {
+                                    isValid: false,
+                                    message: 'Please enter a valid URL (not just text)'
+                                };
+                            }
+                        }
+                        
+                        // Update message
+                        messageElement.text(validation.message);
+                        messageElement.removeClass('valid invalid');
+                        
+                        if (url && !validation.isValid) {
+                            messageElement.addClass('invalid');
+                            setting.set('');
+                        } else if (validation.isValid) {
+                            messageElement.addClass('valid');
+                            setting.set(url);
+                        } else {
+                            setting.set('');
+                        }
+                    }
+
+                    // Validate on input and blur
+                    input.on('input blur', validateAndUpdate);
+                    validateAndUpdate();
+                });
+            }
+
+            // Initialize validation for social media fields
+            wp.customize.bind('ready', function() {
+                const socialPlatforms = [
+                    'facebook', 'twitter', 'instagram', 'linkedin', 'youtube', 
+                    'xing', 'researchgate', 'mastodon', 'bluesky', 'threads'
+                ];
+
+                socialPlatforms.forEach(function(platform) {
+                    const settingId = 'social_' + platform;
+                    const controlId = 'social_' + platform;
+                    
+                    if (wp.customize.control(controlId)) {
+                        addUrlValidation(settingId, controlId);
+                    }
+                });
+            });
+        });
+    ";
+    
+    wp_add_inline_script('customize-controls', $custom_js);
+    
+    // Add inline CSS for validation messages
+    $custom_css = "
+        .url-validation-message {
+            font-size: 12px;
+            margin-top: 5px;
+            padding: 5px;
+            border-radius: 3px;
+            display: none;
+        }
+        .url-validation-message.invalid {
+            color: #d63638;
+            background-color: #fcf0f1;
+            border: 1px solid #f0a0a0;
+            display: block;
+        }
+        .url-validation-message.valid {
+            color: #00a32a;
+            background-color: #f0f6fc;
+            border: 1px solid #a0c0e0;
+            display: block;
+        }
+        .customize-control input[type='url']:invalid {
+            border-color: #d63638;
+        }
+        .customize-control input[type='url']:valid {
+            border-color: #00a32a;
+        }
+    ";
+    wp_add_inline_style('customize-controls', $custom_css);
+}
+add_action('customize_controls_enqueue_scripts', 'faue_enqueue_customizer_scripts');
+
 function fau_customizer_settings($wp_customize) {
     // Remove the Additional CSS section to disable custom CSS option
     if (!current_user_can('manage_sites')) {
@@ -490,7 +644,7 @@ function fau_customizer_settings($wp_customize) {
     foreach ($social_platforms as $key => $label) {
         // Platform URL setting
         $wp_customize->add_setting('social_' . $key, [
-            'sanitize_callback' => 'esc_url_raw',
+            'sanitize_callback' => 'faue_sanitize_social_media_url',
             'transport' => 'refresh',
         ]);
         
