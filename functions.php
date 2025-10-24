@@ -54,6 +54,10 @@ require_once get_template_directory() . '/inc/portal-menu-config.php';
 // Portal page settings
 require_once get_template_directory() . '/inc/portal-page-settings.php';
 
+// Social media management
+require_once get_template_directory() . '/inc/social-media.php';
+require_once get_template_directory() . '/inc/social-media-admin.php';
+
 // Breadcrumb functionality
 require_once get_template_directory() . '/components/template-parts/breadcrumbs/breadcrumbs.php';
 

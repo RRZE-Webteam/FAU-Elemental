@@ -102,21 +102,7 @@
             
             <div class="footer-right">
                 <nav class="footer-social" aria-label="<?php echo esc_attr__('Social Media Links', 'fau-elemental'); ?>">
-                    <ul class="social-links">
-                        <?php
-                        $social_platforms = faue_get_social_platforms();
-
-                        foreach ($social_platforms as $platform => $label) :
-                            $url = get_theme_mod("social_{$platform}");
-                            if (!empty($url)) : ?>
-                                <li>
-                                    <a href="<?php echo esc_url($url); ?>" class="<?php echo esc_attr($platform); ?>">
-                                        <span class="sr-only"><?php echo esc_html($label); ?></span>
-                                    </a>
-                                </li>
-                            <?php endif;
-                        endforeach; ?>
-                    </ul>
+                    <?php faue_render_social_media_links(); ?>
                 </nav>
             </div>
         </div>

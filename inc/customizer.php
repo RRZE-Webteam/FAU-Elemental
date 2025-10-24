@@ -63,6 +63,71 @@ function fau_sanitize_phone_number($phone) {
     return trim($phone); // Entfernt überflüssige Leerzeichen am Ende
 }
 
+/**
+ * Sanitize and validate social media URL
+ * Uses the same logic as the JavaScript urlValidation.js utility
+ * @param string $url The URL to sanitize and validate
+ * @return string Valid URL or empty string
+ */
+function faue_sanitize_social_media_url($url) {
+    // If empty, return empty string (empty URLs are valid for optional fields)
+    if (empty($url)) {
+        return '';
+    }
+    
+    // Trim whitespace
+    $url = trim($url);
+    
+    // Check for obvious non-URL text patterns
+    if (preg_match('/^[a-zA-Z\s]+$/', $url)) {
+        // If it's just plain text without any URL indicators, reject it
+        return '';
+    }
+    
+    // Ensure the URL has a proper scheme
+    if (!preg_match('/^https?:\/\//', $url)) {
+        // If no scheme, add https://
+        $url = 'https://' . $url;
+    }
+    
+    // Use WordPress's built-in URL validation (same as @wordpress/url isURL)
+    if (!wp_http_validate_url($url)) {
+        // If not a valid URL, return empty string
+        return '';
+    }
+    
+    // Return the sanitized URL
+    return esc_url_raw($url);
+}
+
+/**
+ * Enqueue customizer scripts and styles
+ */
+function faue_enqueue_customizer_scripts() {
+    // Enqueue customizer validation styles
+    wp_enqueue_style(
+        'faue-customizer-validation',
+        get_template_directory_uri() . '/build/css/customizer-validation.css',
+        array('customize-controls'),
+        wp_get_theme()->get('Version')
+    );
+    
+    // Enqueue customizer validation initialization script
+    $validation_script_path = get_theme_file_path('build/js/customizer-validation.asset.php');
+    if (file_exists($validation_script_path)) {
+        $validation_asset = include $validation_script_path;
+        
+        wp_enqueue_script(
+            'faue-customizer-validation-init',
+            get_parent_theme_file_uri('build/js/customizer-validation.js'),
+            array_merge($validation_asset['dependencies'], array('faue-url-validation', 'customize-controls', 'jquery')),
+            $validation_asset['version'],
+            false
+        );
+    }
+}
+add_action('customize_controls_enqueue_scripts', 'faue_enqueue_customizer_scripts');
+
 function fau_customizer_settings($wp_customize) {
     // Remove the Additional CSS section to disable custom CSS option
     if (!current_user_can('manage_sites')) {
@@ -462,31 +527,56 @@ function fau_customizer_settings($wp_customize) {
         'title' => __('Social Media Links', 'fau-elemental'),
         'panel' => 'fau_footer_panel',
         'priority' => 50,
-        'description' => __('Configure social media links', 'fau-elemental'),
+        'description' => __('Configure social media links. You can either use individual platform settings below or create a "Social Media Menu" in Appearance > Menus.', 'fau-elemental'),
     ]);
     
-    $social_platforms = array(
-        'instagram' => 'Instagram',
-        'facebook' => 'Facebook',
-        'xing' => 'Xing',
-        'linkedin' => 'LinkedIn',
-        'x' => 'X',
-        'mastodon' => 'Mastodon',
-        'bluesky' => 'Bluesky',
-        'youtube' => 'YouTube',
-        'tiktok' => 'TikTok'
-    );
+    // Social Media Mode Selection
+    $wp_customize->add_setting('faue_social_media_mode', [
+        'default' => 'menu',
+        'sanitize_callback' => 'sanitize_text_field',
+        'transport' => 'refresh',
+    ]);
+    
+    $wp_customize->add_control('faue_social_media_mode', [
+        'label' => __('Social Media Display Mode', 'fau-elemental'),
+        'description' => __('Choose how to manage social media links', 'fau-elemental'),
+        'section' => 'footer_social_media',
+        'type' => 'radio',
+        'choices' => [
+            'customizer' => __('Individual Platform Settings (below)', 'fau-elemental'),
+            'menu' => __('WordPress Menu (Appearance > Menus > Social Media Menu)', 'fau-elemental'),
+        ],
+        'priority' => 5,
+    ]);
+    
+    // Get social platforms from config (including custom ones)
+    $social_platforms = faue_get_combined_social_platforms();
 
     foreach ($social_platforms as $key => $label) {
+        // Platform URL setting
         $wp_customize->add_setting('social_' . $key, [
-            'sanitize_callback' => 'esc_url_raw'
+            'sanitize_callback' => 'faue_sanitize_social_media_url',
+            'transport' => 'refresh',
         ]);
+        
         $wp_customize->add_control('social_' . $key, [
-            'label' => $label,
+            'label' => sprintf(
+                /* translators: %s: Social media platform name */
+                __('%s URL', 'fau-elemental'), 
+                $label
+            ),
             /* translators: social media platform */
-            'description' => sprintf(__('Enter the %s URL', 'fau-elemental'), $label),
+                'description' => sprintf(
+                    /* translators: %s: Social media platform name */
+                    __('Enter the %s URL (leave empty to hide)', 'fau-elemental'), 
+                    $label
+                ),
             'section' => 'footer_social_media',
-            'type' => 'url'
+            'type' => 'url',
+            'priority' => 10 + array_search($key, array_keys($social_platforms)),
+            'active_callback' => function() {
+                return get_theme_mod('faue_social_media_mode', 'customizer') === 'customizer';
+            },
         ]);
     }
     

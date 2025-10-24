@@ -21,6 +21,18 @@ export const validateUrl = ( url, required = false ) => {
 			message: '',
 		};
 	}
+
+	// Check for obvious non-URL text patterns first
+	if ( /^[a-zA-Z\s]+$/.test( url ) ) {
+		return {
+			isValid: false,
+			message: __(
+				'Please enter a valid URL (not just text)',
+				'fau-elemental'
+			),
+		};
+	}
+
 	if ( ! isURL( url ) ) {
 		return {
 			isValid: false,
@@ -29,3 +41,8 @@ export const validateUrl = ( url, required = false ) => {
 	}
 	return { isValid: true, message: '' };
 };
+
+// Make the function available globally for customizer use
+if ( typeof window !== 'undefined' ) {
+	window.fauElementalValidateUrl = validateUrl;
+}

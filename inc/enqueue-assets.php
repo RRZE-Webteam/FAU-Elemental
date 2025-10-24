@@ -184,4 +184,21 @@ function faue_register_archive_page_script() {
         );
     }
 }
-add_action('wp_enqueue_scripts', 'faue_register_archive_page_script'); 
+add_action('wp_enqueue_scripts', 'faue_register_archive_page_script');
+
+// Enqueue Social Media Icons Script
+function faue_enqueue_social_media_icons_script() {
+    $script_asset_path = get_theme_file_path('build/js/social-media-icons.asset.php');
+    if (file_exists($script_asset_path)) {
+        $script_asset = include $script_asset_path;
+        
+        wp_enqueue_script(
+            'faue-social-media-icons',
+            get_theme_file_uri('build/js/social-media-icons.js'),
+            $script_asset['dependencies'],
+            $script_asset['version'],
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'faue_enqueue_social_media_icons_script'); 
