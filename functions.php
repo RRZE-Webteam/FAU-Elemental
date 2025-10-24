@@ -222,21 +222,17 @@ function fau_elemental_load_template_part($slug, $name = null, $args = array()) 
 
 /**
  * Hook to migrate settings right after theme activation
+ * This is now handled by the consolidated migration function in customizer.php
+ * Individual migration functions are called from there
  */
 add_action('after_switch_theme', function() {
+    // Portal menu migration is still handled separately as it's specific to portal functionality
     if (function_exists('fau_elemental_check_old_portal_menu_settings')) {
         fau_elemental_check_old_portal_menu_settings();
     }
     
-    // Also trigger address migration
-    if (function_exists('fau_elemental_migrate_address_information')) {
-        fau_elemental_migrate_address_information();
-    }
-    
-    // Trigger website type migration
-    if (function_exists('fau_elemental_migrate_website_type')) {
-        fau_elemental_migrate_website_type();
-    }
+    // All other migrations are now handled by fau_elemental_migrate_all_settings()
+    // which is called via the action hook in customizer.php
     
     // Schedule image links migration to run after WordPress is fully loaded
     // This prevents critical errors during theme activation
