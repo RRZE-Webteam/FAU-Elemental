@@ -308,7 +308,8 @@ footer.wp-block-template-part {
 
 
 			// Custom social media icons (added via admin)
-			&[class*="custom-"] {
+			// Background images are set via JavaScript from data-custom-icon attribute
+			&.custom-icon {
 				width: 1.75rem;
 				height: 1.75rem;
 				background-size: contain;

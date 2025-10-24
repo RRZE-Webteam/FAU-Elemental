@@ -203,6 +203,11 @@ module.exports = {
 			process.cwd(),
 			'inc/customizer-validation.js'
 		),
+		// Social media custom icons handler
+		'js/social-media-icons': path.resolve(
+			process.cwd(),
+			'inc/social-media-icons.js'
+		),
 	},
 
 	// ============================================================================

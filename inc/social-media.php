@@ -149,15 +149,15 @@ function faue_render_social_media_links($mode = 'auto') {
         // Check if this is a custom platform
         $custom_icon = faue_get_custom_social_icon($platform);
         $css_class = $platform;
-        $style = '';
+        $data_attr = '';
         
         if ($custom_icon) {
-            $css_class .= ' custom-' . $platform;
-            $style = ' style="background-image: url(' . esc_url($custom_icon) . ');"';
+            $css_class .= ' custom-icon';
+            $data_attr = ' data-custom-icon="' . esc_url($custom_icon) . '"';
         }
         
         echo '<li>';
-        echo '<a href="' . esc_url($url) . '" class="' . esc_attr($css_class) . '" target="_blank" rel="noopener"' . $style . '>';
+        echo '<a href="' . esc_url($url) . '" class="' . esc_attr($css_class) . '" target="_blank" rel="noopener"' . $data_attr . '>';
         echo '<span class="sr-only">' . esc_html($label) . '</span>';
         echo '</a>';
         echo '</li>';
