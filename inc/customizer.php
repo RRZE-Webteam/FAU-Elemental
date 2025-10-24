@@ -974,6 +974,7 @@ function fau_elemental_migration_admin_notice() {
             <div class="notice notice-info is-dismissible">
                 <p><?php 
                     printf(
+                        /* translators: %s: name of the previous theme */
                         __('FAU-Elemental detected settings from the %s theme that can be migrated.', 'fau-elemental'),
                         esc_html($previous_config['theme_name'])
                     ); 
@@ -1041,6 +1042,7 @@ function fau_elemental_migration_success_notice() {
         <div class="notice notice-success is-dismissible">
             <p><?php 
                 printf(
+                    /* translators: %s: name of the previous theme */
                     __('Theme settings were successfully migrated from %s!', 'fau-elemental'),
                     esc_html($results['theme_name'])
                 ); 
