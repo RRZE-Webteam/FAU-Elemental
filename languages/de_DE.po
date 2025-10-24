@@ -484,10 +484,6 @@ msgstr "Fakultät"
 msgid "Chair"
 msgstr "Lehrstuhl"
 
-#: inc/theme-settings.php:52
-msgid "Other"
-msgstr "Anderes"
-
 #: inc/theme-settings.php:53
 msgid "Cooperation"
 msgstr "Kooperation"
@@ -934,15 +930,14 @@ msgid "No image available for %s"
 msgstr "Kein Bild verfügbar für %s"
 
 #. translators: Menu item title
-#: inc/class-walker-content-menu.php:82
-#: inc/class-walker-content-menu.php:89
+#: inc/class-walker-content-menu.php:87
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:211
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:241
 #, php-format,js-format
 msgid "Go to %s"
 msgstr "Zu %s gehen"
 
-#: inc/class-walker-content-menu.php:174
+#: inc/class-walker-content-menu.php:172
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
 msgstr "Portalmenü"
@@ -2262,3 +2257,7 @@ msgstr ""
 #: inc/post-meta.php:155
 msgid "Set a custom title for this page. This will be used as the main page title while keeping the URL slug, breadcrumb, and navigation unchanged."
 msgstr ""
+
+#: inc/theme-settings.php:52
+msgid "Central Websites"
+msgstr "Zentrale Einrichtungen"

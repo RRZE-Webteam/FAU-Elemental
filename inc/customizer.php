@@ -81,7 +81,7 @@ function fau_customizer_settings($wp_customize) {
     ]);
     
     // ======= 1. CLAIM SECTION =======
-    $website_type = get_theme_mod('faue_website_type', 'faculty');
+    $website_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
     $claim_description = __('Configure the main claim section', 'fau-elemental');
     if ($website_type !== 'fau') {
         $claim_description = __('This section is managed centrally by FAU and cannot be edited by faculties.', 'fau-elemental');
@@ -123,7 +123,7 @@ function fau_customizer_settings($wp_customize) {
         'type' => 'checkbox',
         'priority' => 15,
         'active_callback' => function() {
-            return get_theme_mod('faue_website_type', 'faculty') === 'fau';
+            return get_theme_mod('faue_website_type', faue_get_default('faue_website_type')) === 'fau';
         },
     ]);
     
@@ -139,7 +139,7 @@ function fau_customizer_settings($wp_customize) {
         'type' => 'text',
         'priority' => 20,
         'active_callback' => function() {
-            return get_theme_mod('faue_website_type', 'faculty') === 'fau';
+            return get_theme_mod('faue_website_type', faue_get_default('faue_website_type')) === 'fau';
         }
     ]);
     
@@ -155,7 +155,7 @@ function fau_customizer_settings($wp_customize) {
         'type' => 'textarea',
         'priority' => 30,
         'active_callback' => function() {
-            return get_theme_mod('faue_website_type', 'faculty') === 'fau';
+            return get_theme_mod('faue_website_type', faue_get_default('faue_website_type')) === 'fau';
         }
     ]);
     
@@ -166,7 +166,7 @@ function fau_customizer_settings($wp_customize) {
         'priority' => 20,
         'description' => __('Configure faculty information', 'fau-elemental'),
         'active_callback' => function() {
-            return get_theme_mod('faue_website_type', 'faculty') !== 'fau';
+            return get_theme_mod('faue_website_type', faue_get_default('faue_website_type')) !== 'fau';
         },
     ]);
     
@@ -203,7 +203,7 @@ function fau_customizer_settings($wp_customize) {
         'priority' => 30,
         'description' => __('Configure contact information', 'fau-elemental'),
         'active_callback' => function() {
-            return get_theme_mod('faue_website_type', 'faculty') !== 'fau';
+            return get_theme_mod('faue_website_type', faue_get_default('faue_website_type')) !== 'fau';
         },
     ]);
     
@@ -330,7 +330,7 @@ function fau_customizer_settings($wp_customize) {
     ]);
     
     // ======= 4. ZIELGRUPPEN-LINKS SECTION =======
-    $website_type = get_theme_mod('faue_website_type', 'faculty');
+    $website_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
     $section_description = __('Configure the target group sections', 'fau-elemental');
     if ($website_type !== 'fau') {
         $section_description = __('These settings are managed centrally by FAU and cannot be edited by faculties.', 'fau-elemental');
@@ -357,7 +357,7 @@ function fau_customizer_settings($wp_customize) {
         'type' => 'checkbox',
         'priority' => 5,
         'active_callback' => function() {
-            return get_theme_mod('faue_website_type', 'faculty') === 'cooperation';
+            return get_theme_mod('faue_website_type', faue_get_default('faue_website_type')) === 'cooperation';
         },
     ]);
     
@@ -406,7 +406,7 @@ function fau_customizer_settings($wp_customize) {
             'section' => 'footer_zielgruppen',
             'type' => 'text',
             'active_callback' => function() {
-                return get_theme_mod('faue_website_type', 'faculty') === 'fau';
+                return get_theme_mod('faue_website_type', faue_get_default('faue_website_type')) === 'fau';
             }
         ]);
         
@@ -425,7 +425,7 @@ function fau_customizer_settings($wp_customize) {
             'section' => 'footer_zielgruppen',
             'type' => 'textarea',
             'active_callback' => function() {
-                return get_theme_mod('faue_website_type', 'faculty') === 'fau';
+                return get_theme_mod('faue_website_type', faue_get_default('faue_website_type')) === 'fau';
             }
         ]);
         
@@ -439,7 +439,7 @@ function fau_customizer_settings($wp_customize) {
             'section' => 'footer_zielgruppen',
             'type' => 'url',
             'active_callback' => function() {
-                return get_theme_mod('faue_website_type', 'faculty') === 'fau';
+                return get_theme_mod('faue_website_type', faue_get_default('faue_website_type')) === 'fau';
             }
         ]);
         

@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 // Default Values
 $faue_defaults = array(
     // Website Type
-    'faue_website_type' => 'fau',
+    'faue_website_type' => 'chair',
     // Breadcrumb Mode
     'faue_breadcrumb_variant_blue' => true,
     // Search Results Configuration

@@ -99,7 +99,7 @@ function render_big_button_html($items, $options = []) {
         <div class="fau-big-button-teaser-group__buttons">
             <?php 
             // Display items as buttons
-            $website_type = get_theme_mod('faue_website_type', 'fau');
+            $website_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
             $faculty_type = get_theme_mod('faue_faculty', 'phil');
             
             foreach ($items as $item) : 
