@@ -1,7 +1,7 @@
 <div class="footer-content footer-content--main <?php echo esc_attr( get_theme_mod('footer_dark_style', false) ? 'is-style-dark' : '' ); ?>">
     <div class="footer-main">
-        <section class="fau-claim">
-            <p class="claim-title"><?php echo esc_html(get_theme_mod('fau_footer_title', __('FAU - Knowledge in Motion', 'fau-elemental'))); ?></p>
+        <section class="fau-claim" aria-labelledby="claim-title">
+            <p id="claim-title"><?php echo esc_html(get_theme_mod('fau_footer_title', __('FAU - Knowledge in Motion', 'fau-elemental'))); ?></p>
             <p><?php echo wp_kses_post(get_theme_mod('fau_footer_description', __('FAU is Germany\'s most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research.', 'fau-elemental'))); ?></p>
         </section>
 

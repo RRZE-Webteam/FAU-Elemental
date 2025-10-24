@@ -67,7 +67,7 @@ footer.wp-block-template-part {
 		background-color: var(--FAU-Col-FAU-Dunkelblau-100);
 		padding: var(--Spacing-8x) var(--Spacing-14x);
 
-		.claim-title {
+		#claim-title {
 			margin-top: 0;
 			margin-bottom: var(--Spacing-2x);
 			color: var(--FAU-Col-FAU-Weiss-100);
@@ -370,7 +370,7 @@ footer.wp-block-template-part {
 			bottom: var(--Spacing-12x);
 			padding: var(--Spacing-8x);
 
-			.claim-title {
+			#claim-title {
 				font-size: 1.5rem;
 				font-weight: 700;
 			}
