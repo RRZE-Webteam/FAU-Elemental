@@ -10,7 +10,8 @@
 			margin: 0 auto;
 		}
 
-		h2 {
+		h2,
+		.claim-title {
 			margin-top: 0;
 			font-size: 1.5rem;
 		}
@@ -25,6 +26,7 @@
 		h3,
 		p,
 		address,
+		.claim-title,
 		a {
 			color: var(--FAU-Col-FAU-Weiss-100);
 		}
@@ -252,11 +254,7 @@
 				max-width: unset;
 				padding: unset;
 
-				h2 {
-					display: none;
-				}
-
-				h3 {
+				.claim-title {
 					display: none;
 				}
 
