@@ -182,8 +182,8 @@
             </div>
 
             <div id="fau-info-section" class="footer-bottom-row fau-info-section">
-                <section class="fau-claim">
-                    <h3><?php echo esc_html(get_theme_mod('fau_footer_title', __('FAU - Knowledge in Motion', 'fau-elemental'))); ?></h3>
+                <section class="fau-claim" aria-labelledby="claim-title">
+                    <p id="claim-title"><?php echo esc_html(get_theme_mod('fau_footer_title', __('FAU - Knowledge in Motion', 'fau-elemental'))); ?></p>
                     <p><?php echo wp_kses_post(get_theme_mod('fau_footer_description', __('FAU is Germany\'s most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research.', 'fau-elemental'))); ?></p>
                 </section>
 
