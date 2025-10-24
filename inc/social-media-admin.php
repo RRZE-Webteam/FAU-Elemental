@@ -26,6 +26,24 @@ function faue_add_social_media_admin_page() {
 add_action('admin_menu', 'faue_add_social_media_admin_page');
 
 /**
+ * Enqueue admin styles for social media page
+ */
+function faue_enqueue_social_media_admin_styles($hook) {
+    // Only load on our custom social media admin page
+    if ($hook !== 'appearance_page_faue-custom-social') {
+        return;
+    }
+    
+    wp_enqueue_style(
+        'faue-social-media-admin',
+        get_template_directory_uri() . '/build/css/admin-social-media.css',
+        array(),
+        wp_get_theme()->get('Version')
+    );
+}
+add_action('admin_enqueue_scripts', 'faue_enqueue_social_media_admin_styles');
+
+/**
  * Custom social media admin page
  */
 function faue_custom_social_admin_page() {
@@ -77,7 +95,7 @@ function faue_custom_social_admin_page() {
                         <input type="file" id="platform_icon" name="platform_icon" accept=".svg" />
                         <p class="description"><?php _e('Upload an SVG icon file (recommended size: 24x24px)', 'fau-elemental'); ?></p>
                         
-                        <div style="margin-top: 10px;">
+                        <div>
                             <strong><?php _e('OR', 'fau-elemental'); ?></strong>
                         </div>
                         
@@ -111,17 +129,17 @@ function faue_custom_social_admin_page() {
                     <td>
                         <?php if (!empty($platform['icon_url'])): ?>
                             <img src="<?php echo esc_url($platform['icon_url']); ?>" 
-                                 style="width: 24px; height: 24px;" alt="<?php echo esc_attr($platform['name']); ?>" />
+                                 class="faue-social-icon-preview" alt="<?php echo esc_attr($platform['name']); ?>" />
                             <br><small><?php echo esc_html($platform['icon_url']); ?></small>
                         <?php else: ?>
                             <span class="dashicons dashicons-warning"></span> <?php _e('No icon', 'fau-elemental'); ?>
                             <?php if (isset($platform['upload_error'])): ?>
-                                <br><small style="color: red;"><?php echo esc_html($platform['upload_error']); ?></small>
+                                <br><small class="faue-error-message"><?php echo esc_html($platform['upload_error']); ?></small>
                             <?php endif; ?>
                         <?php endif; ?>
                     </td>
                     <td>
-                        <form method="post" action="" style="display: inline;">
+                        <form method="post" action="" class="faue-inline-form">
                             <?php wp_nonce_field('faue_social_action', 'faue_social_nonce'); ?>
                             <input type="hidden" name="remove_platform" value="<?php echo esc_attr($key); ?>" />
                             <?php submit_button(__('Remove', 'fau-elemental'), 'small', 'submit', false, array('onclick' => 'return confirm("' . esc_js(__('Are you sure you want to remove this platform?', 'fau-elemental')) . '");')); ?>

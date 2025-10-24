@@ -148,6 +148,22 @@ module.exports = {
 			process.cwd(),
 			'components/ui/editor/editor-wrapper.scss'
 		),
+
+		// ============================================================================
+		// ADMIN STYLES BUNDLE
+		// ============================================================================
+		// This creates admin-social-media.css for the custom social media admin page
+		'css/admin-social-media': path.resolve(
+			process.cwd(),
+			'inc/admin-social-media.scss'
+		),
+
+		// This creates customizer-validation.css for the customizer validation styles
+		'css/customizer-validation': path.resolve(
+			process.cwd(),
+			'inc/customizer-validation.scss'
+		),
+
 		// ============================================================================
 		// JAVASCRIPT BUNDLES
 		// ============================================================================
@@ -181,6 +197,11 @@ module.exports = {
 		'js/templates-archive': path.resolve(
 			process.cwd(),
 			'components/templates/pages/archive.js'
+		),
+		// Customizer validation initialization script
+		'js/customizer-validation': path.resolve(
+			process.cwd(),
+			'inc/customizer-validation.js'
 		),
 	},
 

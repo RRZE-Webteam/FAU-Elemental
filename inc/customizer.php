@@ -104,116 +104,27 @@ function faue_sanitize_social_media_url($url) {
  * Enqueue customizer scripts and styles
  */
 function faue_enqueue_customizer_scripts() {
-    // Add inline JavaScript for URL validation using the existing urlValidation.js function
-    $custom_js = "
-        jQuery(document).ready(function($) {
-            'use strict';
-            
-            function addUrlValidation(settingId, controlId) {
-                wp.customize(settingId, function(setting) {
-                    const control = wp.customize.control(controlId);
-                    
-                    if (!control.body) {
-                        return;
-                    }
-
-                    const input = control.body.find('input[type=\"url\"]');
-                    if (!input.length) {
-                        return;
-                    }
-
-                    // Create validation message element
-                    const messageElement = $('<div class=\"url-validation-message\"></div>');
-                    input.after(messageElement);
-
-                    function validateAndUpdate() {
-                        const url = input.val();
-                        let validation = { isValid: true, message: '' };
-                        
-                        // Use the global validation function if available
-                        if (window.fauElementalValidateUrl) {
-                            validation = window.fauElementalValidateUrl(url);
-                        } else {
-                            // Fallback validation
-                            if (url && /^[a-zA-Z\\s]+$/.test(url)) {
-                                validation = {
-                                    isValid: false,
-                                    message: 'Please enter a valid URL (not just text)'
-                                };
-                            }
-                        }
-                        
-                        // Update message
-                        messageElement.text(validation.message);
-                        messageElement.removeClass('valid invalid');
-                        
-                        if (url && !validation.isValid) {
-                            messageElement.addClass('invalid');
-                            setting.set('');
-                        } else if (validation.isValid) {
-                            messageElement.addClass('valid');
-                            setting.set(url);
-                        } else {
-                            setting.set('');
-                        }
-                    }
-
-                    // Validate on input and blur
-                    input.on('input blur', validateAndUpdate);
-                    validateAndUpdate();
-                });
-            }
-
-            // Initialize validation for social media fields
-            wp.customize.bind('ready', function() {
-                const socialPlatforms = [
-                    'facebook', 'twitter', 'instagram', 'linkedin', 'youtube', 
-                    'xing', 'researchgate', 'mastodon', 'bluesky', 'threads'
-                ];
-
-                socialPlatforms.forEach(function(platform) {
-                    const settingId = 'social_' + platform;
-                    const controlId = 'social_' + platform;
-                    
-                    if (wp.customize.control(controlId)) {
-                        addUrlValidation(settingId, controlId);
-                    }
-                });
-            });
-        });
-    ";
+    // Enqueue customizer validation styles
+    wp_enqueue_style(
+        'faue-customizer-validation',
+        get_template_directory_uri() . '/build/css/customizer-validation.css',
+        array('customize-controls'),
+        wp_get_theme()->get('Version')
+    );
     
-    wp_add_inline_script('customize-controls', $custom_js);
-    
-    // Add inline CSS for validation messages
-    $custom_css = "
-        .url-validation-message {
-            font-size: 12px;
-            margin-top: 5px;
-            padding: 5px;
-            border-radius: 3px;
-            display: none;
-        }
-        .url-validation-message.invalid {
-            color: #d63638;
-            background-color: #fcf0f1;
-            border: 1px solid #f0a0a0;
-            display: block;
-        }
-        .url-validation-message.valid {
-            color: #00a32a;
-            background-color: #f0f6fc;
-            border: 1px solid #a0c0e0;
-            display: block;
-        }
-        .customize-control input[type='url']:invalid {
-            border-color: #d63638;
-        }
-        .customize-control input[type='url']:valid {
-            border-color: #00a32a;
-        }
-    ";
-    wp_add_inline_style('customize-controls', $custom_css);
+    // Enqueue customizer validation initialization script
+    $validation_script_path = get_theme_file_path('build/js/customizer-validation.asset.php');
+    if (file_exists($validation_script_path)) {
+        $validation_asset = include $validation_script_path;
+        
+        wp_enqueue_script(
+            'faue-customizer-validation-init',
+            get_parent_theme_file_uri('build/js/customizer-validation.js'),
+            array_merge($validation_asset['dependencies'], array('faue-url-validation', 'customize-controls', 'jquery')),
+            $validation_asset['version'],
+            false
+        );
+    }
 }
 add_action('customize_controls_enqueue_scripts', 'faue_enqueue_customizer_scripts');
 
