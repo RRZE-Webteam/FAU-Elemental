@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 // Check for Services and Structure menus using unified system
 $has_services = fau_elemental_has_services_menu();
 $has_structure = fau_elemental_has_structure_menu();
-$website_type = get_theme_mod('faue_website_type', 'fau');
+$website_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
 ?>
 
 <nav class="fau-navigation" aria-label="<?php esc_attr_e('FAU Navigation', 'fau-elemental'); ?>">

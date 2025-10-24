@@ -67,10 +67,12 @@ footer.wp-block-template-part {
 		background-color: var(--FAU-Col-FAU-Dunkelblau-100);
 		padding: var(--Spacing-8x) var(--Spacing-14x);
 
-		h2 {
+		#claim-title {
 			margin-top: 0;
 			margin-bottom: var(--Spacing-2x);
 			color: var(--FAU-Col-FAU-Weiss-100);
+			font-size: var(--H-Heading-2);
+			font-weight: 700;
 		}
 
 		p {
@@ -257,11 +259,6 @@ footer.wp-block-template-part {
 				height: 1.875rem;
 			}
 
-			&.x {
-				background-image: var(--icon-x);
-				width: 1.75rem;
-				height: 1.625rem;
-			}
 
 			&.tiktok {
 				background-image: var(--icon-tiktok);
@@ -303,6 +300,23 @@ footer.wp-block-template-part {
 				background-image: var(--icon-instagram);
 				width: 1.75rem;
 				height: 1.75rem;
+			}
+
+			&.threads {
+				background-image: var(--icon-threads);
+				width: 1.75rem;
+				height: 1.75rem;
+			}
+
+
+			// Custom social media icons (added via admin)
+			// Background images are set via JavaScript from data-custom-icon attribute
+			&.custom-icon {
+				width: 1.75rem;
+				height: 1.75rem;
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: center;
 			}
 		}
 	}
@@ -368,8 +382,9 @@ footer.wp-block-template-part {
 			bottom: var(--Spacing-12x);
 			padding: var(--Spacing-8x);
 
-			h2 {
+			#claim-title {
 				font-size: 1.5rem;
+				font-weight: 700;
 			}
 
 			p {

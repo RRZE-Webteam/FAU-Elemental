@@ -1,7 +1,7 @@
 <div class="footer-content footer-content--main <?php echo esc_attr( get_theme_mod('footer_dark_style', false) ? 'is-style-dark' : '' ); ?>">
     <div class="footer-main">
-        <section class="fau-claim">
-            <h2><?php echo esc_html(get_theme_mod('fau_footer_title', __('FAU - Knowledge in Motion', 'fau-elemental'))); ?></h2>
+        <section class="fau-claim" aria-labelledby="claim-title">
+            <p id="claim-title"><?php echo esc_html(get_theme_mod('fau_footer_title', __('FAU - Knowledge in Motion', 'fau-elemental'))); ?></p>
             <p><?php echo wp_kses_post(get_theme_mod('fau_footer_description', __('FAU is Germany\'s most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research.', 'fau-elemental'))); ?></p>
         </section>
 
@@ -102,21 +102,7 @@
             
             <div class="footer-right">
                 <nav class="footer-social" aria-label="<?php echo esc_attr__('Social Media Links', 'fau-elemental'); ?>">
-                    <ul class="social-links">
-                        <?php
-                        $social_platforms = faue_get_social_platforms();
-
-                        foreach ($social_platforms as $platform => $label) :
-                            $url = get_theme_mod("social_{$platform}");
-                            if (!empty($url)) : ?>
-                                <li>
-                                    <a href="<?php echo esc_url($url); ?>" class="<?php echo esc_attr($platform); ?>">
-                                        <span class="sr-only"><?php echo esc_html($label); ?></span>
-                                    </a>
-                                </li>
-                            <?php endif;
-                        endforeach; ?>
-                    </ul>
+                    <?php faue_render_social_media_links(); ?>
                 </nav>
             </div>
         </div>

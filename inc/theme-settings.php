@@ -49,7 +49,7 @@ function faue_customize_register($wp_customize) {
             'fau'          => __('FAU.de', 'fau-elemental'),
             'faculty'      => __('Faculty', 'fau-elemental'),
             'chair'        => __('Chair', 'fau-elemental'),
-            'other'        => __('Other', 'fau-elemental'),
+            'other'        => __('Central Websites', 'fau-elemental'),
             'cooperation'  => __('Cooperation', 'fau-elemental'),
         ),
     ));

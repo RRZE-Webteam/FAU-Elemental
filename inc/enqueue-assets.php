@@ -78,7 +78,7 @@ function faue_enqueue_block_editor_script() {
             'fauElemental',
             array(
                 'themeUrl' => get_template_directory_uri(),
-                'websiteType' => get_theme_mod('faue_website_type', 'fau'),
+                'websiteType' => get_theme_mod('faue_website_type', faue_get_default('faue_website_type')),
                 'facultyType' => get_theme_mod('faue_faculty', 'phil'),
                 'fallbackImageUrl' => faue_get_post_fallback_image(),
             )
@@ -138,7 +138,7 @@ function faue_enqueue_block_view_scripts() {
                     'fauElemental',
                     array(
                         'themeUrl' => get_template_directory_uri(),
-                        'websiteType' => get_theme_mod('faue_website_type', 'fau'),
+                        'websiteType' => get_theme_mod('faue_website_type', faue_get_default('faue_website_type')),
                         'facultyType' => get_theme_mod('faue_faculty', 'phil'),
                         'nonce' => wp_create_nonce('fau_elemental_nonce'),
                         'ajaxUrl' => admin_url('admin-ajax.php'),
@@ -184,4 +184,21 @@ function faue_register_archive_page_script() {
         );
     }
 }
-add_action('wp_enqueue_scripts', 'faue_register_archive_page_script'); 
+add_action('wp_enqueue_scripts', 'faue_register_archive_page_script');
+
+// Enqueue Social Media Icons Script
+function faue_enqueue_social_media_icons_script() {
+    $script_asset_path = get_theme_file_path('build/js/social-media-icons.asset.php');
+    if (file_exists($script_asset_path)) {
+        $script_asset = include $script_asset_path;
+        
+        wp_enqueue_script(
+            'faue-social-media-icons',
+            get_theme_file_uri('build/js/social-media-icons.js'),
+            $script_asset['dependencies'],
+            $script_asset['version'],
+            true
+        );
+    }
+}
+add_action('wp_enqueue_scripts', 'faue_enqueue_social_media_icons_script'); 

@@ -521,7 +521,7 @@
 		padding: 0 var(--Spacing-5x);
 	}
 
-	.is-layout-flow div[role="alert"] {
+	.is-layout-flow div[role="alert"]:has(.wsf-alert) {
 		padding: 0 var(--Spacing-5x);
 	}
 }
