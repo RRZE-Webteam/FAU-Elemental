@@ -394,6 +394,21 @@ function fau_customizer_settings($wp_customize) {
         'priority' => 65,
     ]);
     
+    // Important Links heading
+    $wp_customize->add_setting('important_links_heading', [
+        'default' => __('Important Links', 'fau-elemental'),
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    
+    $wp_customize->add_control('important_links_heading', [
+        'label' => __('Important Links Heading', 'fau-elemental'),
+        'description' => __('Heading text for the important links section in the footer', 'fau-elemental'),
+        'section' => 'footer_kontaktinformation',
+        'type' => 'text',
+        'priority' => 70,
+    ]);
+    
     // ======= 4. ZIELGRUPPEN-LINKS SECTION =======
     $website_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
     $section_description = __('Configure the target group sections', 'fau-elemental');
