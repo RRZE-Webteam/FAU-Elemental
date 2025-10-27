@@ -97,23 +97,24 @@ msgstr "E-Mail"
 msgid "Directions"
 msgstr "Anfahrt"
 
-#: components/template-parts/footer-instance/footer-instance.php:116
+#: components/template-parts/footer-instance/footer-instance.php:117
+#: inc/customizer.php:399
 msgid "Important Links"
 msgstr "Wichtige Links"
 
-#: components/template-parts/footer-instance/footer-instance.php:146
+#: components/template-parts/footer-instance/footer-instance.php:150
 #: components/template-parts/footer-main/footer-main.php:104
-#: inc/customizer.php:527
+#: inc/customizer.php:542
 msgid "Social Media Links"
 msgstr "Social Media Links"
 
-#: components/template-parts/footer-instance/footer-instance.php:166
+#: components/template-parts/footer-instance/footer-instance.php:170
 #: components/template-parts/footer-main/footer-main.php:63
 #: header.php:51
 msgid "FAU Logo"
 msgstr "FAU Logo"
 
-#: components/template-parts/footer-instance/footer-instance.php:171
+#: components/template-parts/footer-instance/footer-instance.php:175
 #: components/template-parts/footer-main/footer-main.php:68
 msgid ""
 "Friedrich-Alexander-Universität\n"
@@ -122,51 +123,51 @@ msgstr ""
 "Friedrich-Alexander-Universität\n"
 "Erlangen-Nürnberg"
 
-#: components/template-parts/footer-instance/footer-instance.php:179
+#: components/template-parts/footer-instance/footer-instance.php:183
 #: functions.php:296
 msgid "Show more"
 msgstr "Mehr anzeigen"
 
-#: components/template-parts/footer-instance/footer-instance.php:186
+#: components/template-parts/footer-instance/footer-instance.php:190
 #: components/template-parts/footer-main/footer-main.php:4
 msgid "FAU - Knowledge in Motion"
 msgstr "FAU - Wissen in Bewegung"
 
-#: components/template-parts/footer-instance/footer-instance.php:187
+#: components/template-parts/footer-instance/footer-instance.php:191
 #: components/template-parts/footer-main/footer-main.php:5
 msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
 msgstr "Die FAU ist die innovativste Universität Deutschlands, euopaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung."
 
-#: components/template-parts/footer-instance/footer-instance.php:195
+#: components/template-parts/footer-instance/footer-instance.php:199
 #: components/template-parts/footer-main/footer-main.php:14
 msgid "Target Group Section 1"
 msgstr "Zielgruppe 1"
 
-#: components/template-parts/footer-instance/footer-instance.php:196
+#: components/template-parts/footer-instance/footer-instance.php:200
 #: components/template-parts/footer-main/footer-main.php:15
 msgid "History, features, data, structure and more"
 msgstr "Geschichte, Besonderheiten Daten, Struktur u.v.m"
 
-#: components/template-parts/footer-instance/footer-instance.php:200
+#: components/template-parts/footer-instance/footer-instance.php:204
 #: components/template-parts/footer-main/footer-main.php:19
 msgid "Target Group Section 2"
 msgstr "Zielgruppe 2"
 
-#: components/template-parts/footer-instance/footer-instance.php:201
-#: components/template-parts/footer-instance/footer-instance.php:206
-#: components/template-parts/footer-instance/footer-instance.php:211
+#: components/template-parts/footer-instance/footer-instance.php:205
+#: components/template-parts/footer-instance/footer-instance.php:210
+#: components/template-parts/footer-instance/footer-instance.php:215
 #: components/template-parts/footer-main/footer-main.php:20
 #: components/template-parts/footer-main/footer-main.php:25
 #: components/template-parts/footer-main/footer-main.php:30
 msgid "Focus areas, mission, reputation, achievements and more"
 msgstr "Schwerpunkte, Leitbild, Reputation, Erfolge u.v.m."
 
-#: components/template-parts/footer-instance/footer-instance.php:205
+#: components/template-parts/footer-instance/footer-instance.php:209
 #: components/template-parts/footer-main/footer-main.php:24
 msgid "Target Group Section 3"
 msgstr "Zielgruppe 3"
 
-#: components/template-parts/footer-instance/footer-instance.php:210
+#: components/template-parts/footer-instance/footer-instance.php:214
 #: components/template-parts/footer-main/footer-main.php:29
 msgid "Target Group Section 4"
 msgstr "Zielgruppe 4"
@@ -214,7 +215,7 @@ msgstr "Dunkles Design auf den Footer anwenden"
 
 #: inc/customizer.php:201
 #: inc/customizer.php:244
-#: inc/customizer.php:470
+#: inc/customizer.php:485
 #: components/blocks/fau-global-search/edit.js:25
 #: components/core-blocks/media-text/index.js:22
 msgid "Heading"
@@ -238,7 +239,7 @@ msgstr "Beschreibender Text für den Footer"
 
 #: inc/customizer.php:229
 #: inc/customizer.php:257
-#: inc/customizer.php:489
+#: inc/customizer.php:504
 #: components/blocks/fau-big-button/edit.js:317
 msgid "Description"
 msgstr "Beschreibung"
@@ -303,76 +304,76 @@ msgstr "Anfahrtslink"
 msgid "Country"
 msgstr "Land"
 
-#: inc/customizer.php:405
+#: inc/customizer.php:420
 msgid "Target Group Links"
 msgstr "Zielgruppen-Links"
 
-#: inc/customizer.php:399
+#: inc/customizer.php:414
 msgid "Configure the target group sections"
 msgstr "Zielgruppenabschnitt konfigurieren"
 
-#: inc/customizer.php:419
+#: inc/customizer.php:434
 msgid "Hide FAU section"
 msgstr "FAU-Abschnitt ausblenden"
 
-#: inc/customizer.php:420
+#: inc/customizer.php:435
 msgid "Hide FAU section (only show copyright information). Recommended for external cooperation websites."
 msgstr "FAU-Abschnitt ausblenden (nur noch Urheberrechtsinformationen werden angezeigt). Wird für externe Kooperationsseiten empfohlen."
 
-#: inc/customizer.php:430
+#: inc/customizer.php:445
 msgid "Section 1"
 msgstr "Abschnitt 1"
 
-#: inc/customizer.php:431
+#: inc/customizer.php:446
 msgid "Section 2"
 msgstr "Abschnitt 2"
 
-#: inc/customizer.php:432
+#: inc/customizer.php:447
 msgid "Section 3"
 msgstr "Abschnitt 3"
 
-#: inc/customizer.php:433
+#: inc/customizer.php:448
 msgid "Section 4"
 msgstr "Abschnitt 4"
 
-#: inc/customizer.php:479
+#: inc/customizer.php:494
 msgid "Focus, Mission, Reputation, Successes, etc."
 msgstr "Schwerpunkte, Leitbild, Reputation, Erfolge u.v.m."
 
-#: inc/customizer.php:481
+#: inc/customizer.php:496
 msgid "History, Specialties, Data, Structure, etc."
 msgstr "Geschichte, Besonderheiten Daten, Struktur u.v.m"
 
-#: inc/customizer.php:503
+#: inc/customizer.php:518
 #: components/blocks/fau-big-teaser/edit.js:175
 msgid "Link URL"
 msgstr "Link URL"
 
-#: inc/customizer.php:585
+#: inc/customizer.php:600
 msgid "Post Settings"
 msgstr "Beitragseinstellungen"
 
-#: inc/customizer.php:1018
+#: inc/customizer.php:1033
 msgid "Land"
 msgstr "Land"
 
-#: inc/customizer.php:1176
+#: inc/customizer.php:1191
 msgid "Address settings were successfully migrated from FAU-Einrichtungen theme!"
 msgstr "Die Adresseinstellungen wurden erfolgreich von FAU-Einrichtungen übernommen."
 
-#: inc/customizer.php:1183
+#: inc/customizer.php:1198
 msgid "No address settings from FAU-Einrichtungen theme were found to migrate."
 msgstr "Es wurden keine Adresseinstellungen von FAU-Einrichtungen gefunden."
 
-#: inc/customizer.php:1225
+#: inc/customizer.php:1240
 msgid "Hero Settings"
 msgstr "Hero-Einstellungen"
 
-#: inc/customizer.php:1231
+#: inc/customizer.php:1246
 msgid "Mobile Display Options"
 msgstr "Einstellungen für Mobilgeräte"
 
-#: inc/customizer.php:1241
+#: inc/customizer.php:1256
 msgid "Show Description Text and Link on Mobile"
 msgstr "Beschreibungstext und Links auf Mobilegeräten anzeigen"
 
@@ -627,7 +628,7 @@ msgstr "Ausgewählte Beiträge"
 msgid "Remove post"
 msgstr "Beitrag entfernen"
 
-#: components/template-parts/search-results/search-results.php:406
+#: components/template-parts/search-results/search-results.php:408
 #: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
 #: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:156
 msgid "Read more"
@@ -697,13 +698,13 @@ msgid "Search Results List"
 msgstr "Suchergebnisliste"
 
 #. translators: index of the search result
-#: components/template-parts/search-results/search-results.php:319
+#: components/template-parts/search-results/search-results.php:321
 #, php-format
 msgid "Search Result %d"
 msgstr "Suchergebnis %d"
 
 #. translators: %s: Menu item title
-#: components/template-parts/search-results/search-results.php:371
+#: components/template-parts/search-results/search-results.php:373
 #: inc/class-walker-content-menu.php:67
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:179
 #, php-format,js-format
@@ -711,12 +712,12 @@ msgid "Featured image for %s"
 msgstr "Beitragsbild für %s"
 
 #. translators: title of the search result
-#: components/template-parts/search-results/search-results.php:404
+#: components/template-parts/search-results/search-results.php:406
 #, php-format
 msgid "Read more about %s"
 msgstr "Mehr lesen über %s"
 
-#: components/template-parts/search-results/search-results.php:426
+#: components/template-parts/search-results/search-results.php:428
 msgid "No Search Results"
 msgstr "Keine Suchergebnisse"
 
@@ -933,58 +934,58 @@ msgstr "Dieser Bereich wird zentral von der FAU verwaltet und kann von Fakultät
 msgid "Note: The FAU claim is centrally managed by FAU and cannot be edited by faculties. The section will display with default FAU content."
 msgstr "Hinweis: Der FAU-Claim wird zentral von der FAU verwaltet und kann von Fakultäten nicht bearbeitet werden. Der Bereich wird mit Standard-FAU-Inhalten angezeigt."
 
-#: inc/customizer.php:401
+#: inc/customizer.php:416
 msgid "These settings are managed centrally by FAU and cannot be edited by faculties."
 msgstr "Diese Einstellungen werden zentral von der FAU verwaltet und können von Fakultäten nicht bearbeitet werden."
 
-#: inc/customizer.php:444
+#: inc/customizer.php:459
 msgid "Note: Target group links are centrally managed by FAU and cannot be edited by faculties. The sections will display with default FAU content."
 msgstr "Hinweis: Zielgruppen-Links werden zentral von der FAU verwaltet und können von Fakultäten nicht bearbeitet werden. Die Bereiche werden mit Standard-FAU-Inhalten angezeigt."
 
-#: inc/customizer.php:598
+#: inc/customizer.php:613
 msgid "Display post metadata"
 msgstr "Beitrags-Metadaten anzeigen"
 
-#: inc/customizer.php:599
+#: inc/customizer.php:614
 msgid "Shows date and reading-time on posts."
 msgstr "Zeigt Datum und Lesezeit bei Beiträgen an."
 
-#: inc/customizer.php:614
+#: inc/customizer.php:629
 msgid "Apply dark-theme style to metadata"
 msgstr "Dunkles Design auf Metadaten anwenden"
 
-#: inc/customizer.php:615
+#: inc/customizer.php:630
 msgid "Turns the metadata bar dark-blue with white text."
 msgstr "Macht die Metadaten-Leiste dunkelblau mit weißem Text."
 
-#: inc/customizer.php:642
+#: inc/customizer.php:657
 msgid "Archive pages settings"
 msgstr "Archivseiten-Einstellungen"
 
-#: inc/customizer.php:654
+#: inc/customizer.php:669
 #: components/blocks/fau-teaser-grid/edit.js:374
 msgid "Pagination Type"
 msgstr "Seitennummerierungstyp"
 
-#: inc/customizer.php:658
+#: inc/customizer.php:673
 #: components/blocks/fau-teaser-grid/edit.js:378
 msgid "Page Numbers"
 msgstr "Seitennummern"
 
-#: inc/customizer.php:659
+#: inc/customizer.php:674
 #: components/blocks/fau-teaser-grid/edit.js:385
 msgid "Load More Button"
 msgstr "Mehr Anzeigen Button"
 
-#: inc/customizer.php:661
+#: inc/customizer.php:676
 msgid "Choose how pagination is displayed on archive pages and teaser grids."
 msgstr "Wählen Sie, wie die Seitennummerierung auf Archivseiten und Teaser-Gittern angezeigt wird."
 
-#: inc/customizer.php:672
+#: inc/customizer.php:687
 msgid "Items Per Page"
 msgstr "Einträge pro Seite"
 
-#: inc/customizer.php:675
+#: inc/customizer.php:690
 msgid "Number of items to display per page in archive pages and teaser grids."
 msgstr "Anzahl der pro Seite anzuzeigenden Einträge in Archivseiten und Teaser-Gittern."
 
@@ -2088,20 +2089,20 @@ msgstr "Vielleicht hilft dir die Suche weiter."
 msgid "Other offers"
 msgstr "Andere Angebote"
 
-#: components/template-parts/search-results/search-results.php:343
+#: components/template-parts/search-results/search-results.php:345
 msgid "Post Category"
 msgstr "Beitragskategorie"
 
-#: components/template-parts/search-results/search-results.php:350
+#: components/template-parts/search-results/search-results.php:352
 #: functions.php:356
 msgid "Page Category"
 msgstr "Seitenkategorie"
 
-#: components/template-parts/search-results/search-results.php:428
+#: components/template-parts/search-results/search-results.php:430
 msgid "Unfortunately, we were unable to find any matching search results for the following query:"
 msgstr "Leider konnten keine Suchergebnisse für die folgende Anfrage gefunden werden:"
 
-#: components/template-parts/search-results/search-results.php:435
+#: components/template-parts/search-results/search-results.php:437
 msgid "Additional search options"
 msgstr "Weitere Suchoptionen"
 
@@ -2183,25 +2184,25 @@ msgstr "Rechts- und Wirtschaftswissenschaftliche Fakultät"
 msgid "Faculty of Engineering"
 msgstr "Technische Fakultät"
 
-#: inc/customizer.php:633
+#: inc/customizer.php:648
 msgid "Hide copyright on single posts"
-msgstr ""
+msgstr "Copyright bei einzelnen Beiträgen ausblenden"
 
-#: inc/customizer.php:634
+#: inc/customizer.php:649
 msgid "Hides the copyright block on individual post pages."
-msgstr ""
+msgstr "Blendet den Copyright-Block auf einzelnen Beitragsseiten aus."
 
 #: inc/theme-settings.php:102
 msgid "Fallback Image"
-msgstr ""
+msgstr "Fallback-Bild"
 
 #: inc/theme-settings.php:103
 msgid "Choose a default image to use when no featured image is available for posts or pages."
-msgstr ""
+msgstr "Wählen Sie ein Standardbild, das verwendet wird, wenn kein Beitragsbild für Beiträge oder Seiten verfügbar ist."
 
 #: components/blocks/fau-big-teaser/edit.js:81
 msgid "Headline Level"
-msgstr ""
+msgstr "Überschriftenebene"
 
 #: theme.json
 msgctxt "Color name"
@@ -2231,214 +2232,222 @@ msgstr "Technische Fakultät"
 #: inc/post-meta.php:44
 #: inc/post-meta.php:54
 msgid "Page Title Settings"
-msgstr ""
+msgstr "Seitentitel-Einstellungen"
 
 #: inc/post-meta.php:146
 msgid "Custom Page Title"
-msgstr ""
+msgstr "Benutzerdefinierter Seitentitel"
 
 #: inc/post-meta.php:155
 msgid "Set a custom title for this page. This will be used as the main page title while keeping the URL slug, breadcrumb, and navigation unchanged."
-msgstr ""
+msgstr "Legen Sie einen benutzerdefinierten Titel für diese Seite fest. Dieser wird als Hauptseitentitel verwendet, während URL-Slug, Breadcrumb und Navigation unverändert bleiben."
 
 #: inc/theme-settings.php:52
 msgid "Central Websites"
 msgstr "Zentrale Einrichtungen"
 
-#: inc/customizer.php:530
+#: inc/customizer.php:545
 msgid "Configure social media links. You can either use individual platform settings below or create a \"Social Media Menu\" in Appearance > Menus."
-msgstr ""
+msgstr "Social Media Links konfigurieren: Sie können entweder die einzelnen Plattform-Einstellungen unten verwenden oder ein \"Social Media Menü\" unter Design > Menüs erstellen."
 
-#: inc/customizer.php:541
+#: inc/customizer.php:556
 msgid "Social Media Display Mode"
-msgstr ""
+msgstr "Social Media Anzeigemodus"
 
-#: inc/customizer.php:542
+#: inc/customizer.php:557
 msgid "Choose how to manage social media links"
-msgstr ""
+msgstr "Wählen Sie, wie Social Media Links verwaltet werden"
 
-#: inc/customizer.php:546
+#: inc/customizer.php:561
 msgid "Individual Platform Settings (below)"
-msgstr ""
+msgstr "Einzelne Plattform-Einstellungen (unten)"
 
-#: inc/customizer.php:547
+#: inc/customizer.php:562
 msgid "WordPress Menu (Appearance > Menus > Social Media Menu)"
-msgstr ""
+msgstr "WordPress Menü (Design > Menüs > Social Media Menü)"
 
 #. translators: %s: Social media platform name
-#: inc/customizer.php:565
+#: inc/customizer.php:580
 msgid "%s URL"
-msgstr ""
+msgstr "%s URL"
 
 #. translators: %s: Social media platform name
-#: inc/customizer.php:571
+#: inc/customizer.php:586
 msgid "Enter the %s URL (leave empty to hide)"
-msgstr ""
+msgstr "Geben Sie die %s URL ein (leer lassen zum Ausblenden)"
 
 #. translators: %s: name of the previous theme
-#: inc/customizer.php:1068
+#: inc/customizer.php:1083
 msgid "FAU-Elemental detected settings from the %s theme that can be migrated."
-msgstr ""
+msgstr "FAU-Elemental hat Einstellungen vom %s Theme erkannt, die migriert werden können."
 
-#: inc/customizer.php:1074
+#: inc/customizer.php:1089
 msgid "Migrate Theme Settings"
-msgstr ""
+msgstr "Theme-Einstellungen migrieren"
 
 #. translators: %s: name of the previous theme
-#: inc/customizer.php:1136
+#: inc/customizer.php:1151
 msgid "Theme settings were successfully migrated from %s!"
-msgstr ""
+msgstr "Theme-Einstellungen wurden erfolgreich von %s migriert!"
 
-#: inc/customizer.php:1143
+#: inc/customizer.php:1158
 msgid "Address information"
-msgstr ""
+msgstr "Adressinformationen"
 
-#: inc/customizer.php:1146
+#: inc/customizer.php:1161
 msgid "Website type settings"
-msgstr ""
-
-#: inc/customizer.php:1149
-msgid "Faculty configuration"
-msgstr ""
-
-#: inc/customizer.php:1162
-msgid "No previous theme settings were found to migrate. Default settings have been applied."
-msgstr ""
+msgstr "Webseitentyp-Einstellungen"
 
 #: inc/customizer.php:1164
+msgid "Faculty configuration"
+msgstr "Fakultätskonfiguration"
+
+#: inc/customizer.php:1177
+msgid "No previous theme settings were found to migrate. Default settings have been applied."
+msgstr "Keine vorherigen Theme-Einstellungen zum Migrieren gefunden. Standardeinstellungen wurden angewendet."
+
+#: inc/customizer.php:1179
 msgid "No settings from previous themes were found to migrate."
-msgstr ""
+msgstr "Keine Einstellungen von vorherigen Themes zum Migrieren gefunden."
 
 #: inc/menu-registration.php:31
 msgid "Social Media Menu"
-msgstr ""
+msgstr "Social Media Menü"
 
 #: inc/social-media-admin.php:19
 #: inc/social-media-admin.php:58
 msgid "Custom Social Media Platforms"
-msgstr ""
+msgstr "Benutzerdefinierte Social Media Plattformen"
 
 #: inc/social-media-admin.php:20
 msgid "Custom Social Media"
-msgstr ""
+msgstr "Benutzerdefinierte Social Media"
 
 #: inc/social-media-admin.php:61
 msgid "Add custom social media platforms that will appear in the customizer. Platforms will only show in the footer when you add a URL for them."
-msgstr ""
+msgstr "Fügen Sie benutzerdefinierte Social Media Plattformen hinzu, die im Customizer erscheinen. Plattformen werden nur im Footer angezeigt, wenn Sie eine URL für sie hinzufügen."
 
 #: inc/social-media-admin.php:70
 msgid "Platform Name"
-msgstr ""
+msgstr "Plattform-Name"
 
 #: inc/social-media-admin.php:74
 msgid "e.g., Discord"
-msgstr ""
+msgstr "z.B. Discord"
 
 #: inc/social-media-admin.php:75
 msgid "The display name for this platform (e.g., Discord, Telegram)"
-msgstr ""
+msgstr "Der Anzeigename für diese Plattform (z.B. Discord, Telegram)"
 
 #: inc/social-media-admin.php:81
 msgid "Platform Key"
-msgstr ""
+msgstr "Plattform-Schlüssel"
 
 #: inc/social-media-admin.php:85
 msgid "e.g., discord"
-msgstr ""
+msgstr "z.B. discord"
 
 #: inc/social-media-admin.php:86
 msgid "A unique identifier (lowercase, no spaces, e.g., discord, telegram)"
-msgstr ""
+msgstr "Ein eindeutiger Bezeichner (kleingeschrieben, keine Leerzeichen, z.B. discord, telegram)"
 
 #: inc/social-media-admin.php:92
 msgid "Platform Icon"
-msgstr ""
+msgstr "Plattform-Symbol"
 
 #: inc/social-media-admin.php:96
 msgid "Upload an SVG icon file (recommended size: 24x24px)"
-msgstr ""
+msgstr "Laden Sie eine SVG-Symbol-Datei hoch (empfohlene Größe: 24x24px)"
 
 #: inc/social-media-admin.php:99
 msgid "OR"
-msgstr ""
+msgstr "ODER"
 
 #: inc/social-media-admin.php:103
 msgid "https://example.com/icon.svg"
-msgstr ""
+msgstr "https://example.com/icon.svg"
 
 #: inc/social-media-admin.php:104
 msgid "Enter a direct URL to an SVG icon"
-msgstr ""
+msgstr "Geben Sie eine direkte URL zu einem SVG-Symbol ein"
 
 #: inc/social-media-admin.php:109
 msgid "Add Platform"
-msgstr ""
+msgstr "Plattform hinzufügen"
 
 #: inc/social-media-admin.php:114
 msgid "Current Custom Platforms"
-msgstr ""
+msgstr "Aktuelle benutzerdefinierte Plattformen"
 
 #: inc/social-media-admin.php:118
 msgid "Platform"
-msgstr ""
+msgstr "Plattform"
 
 #: inc/social-media-admin.php:119
 msgid "Key"
-msgstr ""
+msgstr "Schlüssel"
 
 #: inc/social-media-admin.php:120
 msgid "Icon Preview"
-msgstr ""
+msgstr "Symbol-Vorschau"
 
 #: inc/social-media-admin.php:121
 msgid "Actions"
-msgstr ""
+msgstr "Aktionen"
 
 #: inc/social-media-admin.php:135
 msgid "No icon"
-msgstr ""
+msgstr "Kein Symbol"
 
 #: inc/social-media-admin.php:145
 msgid "Are you sure you want to remove this platform?"
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie diese Plattform entfernen möchten?"
 
 #: inc/social-media-admin.php:155
 msgid "Note:"
-msgstr ""
+msgstr "Hinweis:"
 
 #: inc/social-media-admin.php:155
 msgid "After adding or removing platforms, you may need to refresh the customizer to see the changes."
-msgstr ""
+msgstr "Nach dem Hinzufügen oder Entfernen von Plattformen müssen Sie möglicherweise den Customizer aktualisieren, um die Änderungen zu sehen."
 
 #: inc/social-media-admin.php:174
 msgid "Security check failed. Please try again."
-msgstr ""
+msgstr "Sicherheitsprüfung fehlgeschlagen. Bitte versuchen Sie es erneut."
 
 #: inc/social-media-admin.php:189
 msgid "Platform removed successfully!"
-msgstr ""
+msgstr "Plattform erfolgreich entfernt!"
 
 #: inc/social-media-admin.php:205
 msgid "Platform name and key are required."
-msgstr ""
+msgstr "Plattform-Name und Schlüssel sind erforderlich."
 
 #: inc/social-media-admin.php:221
 msgid "Icon upload failed. Please ensure the file is a valid SVG and under 1MB."
-msgstr ""
+msgstr "Symbol-Upload fehlgeschlagen. Bitte stellen Sie sicher, dass die Datei eine gültige SVG ist und unter 1MB liegt."
 
 #: inc/social-media-admin.php:241
 msgid "Platform added successfully with icon!"
-msgstr ""
+msgstr "Plattform erfolgreich mit Symbol hinzugefügt!"
 
 #: inc/social-media-admin.php:243
 msgid "Platform added successfully, but no icon was uploaded."
-msgstr ""
+msgstr "Plattform erfolgreich hinzugefügt, aber kein Symbol hochgeladen."
 
 #. translators: 1: Number of custom platforms, 2: Admin URL for managing platforms
 #: inc/social-media-admin.php:354
 msgid "You have %1$d custom social media platform(s). <a href=\"%2$s\">Manage them here</a>."
-msgstr ""
+msgstr "Sie haben %1$d benutzerdefinierte Social Media Plattform(en). <a href=\"%2$s\">Verwalten Sie sie hier</a>."
 
 #: components/utils/urlValidation.js:29
 msgid "Please enter a valid URL (not just text)"
+msgstr "Bitte geben Sie eine gültige URL ein (nicht nur Text)"
+
+#: inc/customizer.php:405
+msgid "Important Links Heading"
+msgstr ""
+
+#: inc/customizer.php:406
+msgid "Heading text for the important links section in the footer"
 msgstr ""
