@@ -1,4 +1,4 @@
-main:not(:has(> div.is-layout-flow, > div.faue-content-wrapper)) {
+main:not(:has(> div.is-layout-flow, > div.faue-content-wrapper, > article > div.faue-content-wrapper)) {
 	box-sizing: content-box;
 	margin: 0 auto;
 	max-width: var(--small-max-width);
