@@ -655,6 +655,8 @@ body.modal-open {
 				&.active {
 					background-color: var(--FAU-Col-FAU-Blau-100);
 					color: var(--FAU-Col-FAU-Weiss-100);
+					margin-top: -0.0625rem;
+					padding-top: 1.0625rem;
 					z-index: 2;
 				}
 
