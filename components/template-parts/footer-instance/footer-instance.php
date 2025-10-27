@@ -113,7 +113,11 @@
             </div>
             <?php if (has_nav_menu('footer-important-links')) : ?>
             <div class="footer-important-links-container">
-                <h3><?php echo esc_html(get_theme_mod('important_links_heading', __('Important Links', 'fau-elemental'))); ?></h3>
+                <?php 
+                $important_links_heading = get_theme_mod('important_links_heading', __('Important Links', 'fau-elemental'));
+                if (!empty($important_links_heading)) : ?>
+                    <h3><?php echo esc_html($important_links_heading); ?></h3>
+                <?php endif; ?>
                 <nav class="footer-important-links">
                   
                     <?php
