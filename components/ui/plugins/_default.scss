@@ -1,0 +1,6 @@
+main:not(:has(> div.is-layout-flow, > div.faue-content-wrapper)) {
+	box-sizing: content-box;
+	margin: 0 auto;
+	max-width: var(--small-max-width);
+	padding: var(--Spacing-10x);
+}
