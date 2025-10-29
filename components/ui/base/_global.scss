@@ -247,6 +247,10 @@ textarea
 	}
 }
 
+textarea {
+	resize: vertical;
+}
+
 // Submit
 :where(input[type="submit"]) {
 	width: calc(100% + 3.5rem);
@@ -352,6 +356,17 @@ p:has(> select)
 			top: 1.7rem;
 		}
 	}
+
+	&:has([multiple]) {
+
+		&::before {
+			display: none;
+		}
+
+		select[multiple] {
+			box-shadow: unset;
+		}
+	}
 }
 
 // Checkbox
@@ -450,32 +465,23 @@ p:has(> select)
 }
 
 // Basic form style - Exceptions for CF7
-.wp-block-contact-form-7-contact-form-selector {
-	max-width: var(--small-max-width);
-	padding: 0 var(--Spacing-10x);
+.wpcf7-form {
 
-	@include smaller-or-equals("x-small") {
-		padding: 0 var(--Spacing-5x);
+	p:has(> input[type="submit"]) {
+
+		.wpcf7-spinner {
+			display: none;
+		}
 	}
 
-	.wpcf7-form {
+	.wpcf7-list-item {
+		margin: unset;
+	}
 
-		p:has(> input[type="submit"]) {
+	.is-layout-flow & {
 
-			.wpcf7-spinner {
-				display: none;
-			}
-		}
-
-		.wpcf7-list-item {
-			margin: unset;
-		}
-
-		.is-layout-flow & {
-
-			p {
-				padding: unset;
-			}
+		p {
+			padding: unset;
 		}
 	}
 }
