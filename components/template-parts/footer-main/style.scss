@@ -7,6 +7,10 @@ footer.wp-block-template-part {
 .site-footer {
 	padding-top: var(--Spacing-12x);
 
+	.fau-big-button-teaser-group {
+		padding: unset;
+	}
+
 	// Footer menu styles
 	.footer-meta-menu,
 	.footer-important-links,
@@ -14,6 +18,10 @@ footer.wp-block-template-part {
 	.menu-item {
 
 		a {
+
+			display: inline-flex;
+			align-items: center;
+			height: 2.75rem;
 			position: relative;
 			font-size: 1rem;
 			line-height: var(--base-line-height);
@@ -30,7 +38,7 @@ footer.wp-block-template-part {
 				display: block;
 				width: 100%;
 				height: 0.125rem;
-				bottom: -0.25rem;
+				bottom: 0.5rem;
 				background-color: var(--FAU-Col-FAU-Weiss-100);
 				transform: scaleX(0);
 				transition: var(--basic-animation);
@@ -106,6 +114,9 @@ footer.wp-block-template-part {
 				}
 
 				a {
+					display: inline-flex;
+					align-items: center;
+					height: 2.75rem;
 					color: var(--FAU-Col-FAU-Weiss-100);
 					font-size: 1rem;
 					font-weight: 700;
@@ -117,8 +128,7 @@ footer.wp-block-template-part {
 					padding-left: unset; // no ul padding
 					display: flex;
 					flex-direction: column;
-					gap: var(--Spacing-3x);
-					margin: var(--Spacing-5x) 0;
+					margin: var(--Spacing-1x) 0 0 0;
 
 					li {
 						margin-left: unset;

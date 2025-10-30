@@ -14,7 +14,7 @@
 .breadcrumbs {
 	max-width: var(--wide-max-width);
 	margin: 0 auto;
-	padding: var(--Spacing-4x) var(--Spacing-10x);
+	padding: var(--Spacing-1x) var(--Spacing-10x);
 
 	&__list {
 		display: flex;
@@ -28,13 +28,14 @@
 	&__item {
 		position: relative;
 		color: var(--FAU-Col-FAU-Blau-100);
-		font-size: 0.75rem;
+		font-size: 0.875rem;
 		font-weight: 700;
 
 		// Start icon - show on home breadcrumb item (desktop only)
 		&--home::before {
 			content: "";
 			position: relative;
+			top: calc(50% - 0.5625rem);
 			margin-right: 0.4rem;
 			background-image: var(--icon-home-fau-blau);
 			background-repeat: no-repeat;
@@ -45,6 +46,7 @@
 		// Seperators
 		&:not(:last-child)::after {
 			content: "/";
+			padding-top: 0.75rem;
 			margin-left: var(--Spacing-2x);
 			color: var(--FAU-Col-FAU-Blau-100);
 		}
@@ -74,6 +76,15 @@
 		color: var(--FAU-Col-FAU-Dunkelblau-100);
 	}
 
+	&__link,
+	&__current {
+		height: 2.75rem;
+		min-width: 2.75rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
 	// Chevron for mobile item
 	&__chevron {
 		background-image: var(--icon-chevron-fau-blau);
@@ -96,8 +107,12 @@
 
 		&__item {
 
-			&--mobile {
-				display: flex; // Show mobile item
+			&--mobile { // Show mobile item
+				height: 2.75rem;
+				min-width: 2.75rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 			}
 
 			&--desktop {
@@ -114,7 +129,7 @@
 @include smaller-or-equals("x-small") {
 
 	.breadcrumbs {
-		padding: var(--Spacing-3x) var(--Spacing-5x);
+		padding: var(--Spacing-1x) var(--Spacing-5x);
 	}
 }
 
