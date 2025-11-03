@@ -9,7 +9,7 @@
 $post_id = get_the_ID();
 ?>
 
-<div class="post-header">
+<header class="post-header">
     
     <div class="post-header-content">
         
@@ -70,4 +70,4 @@ $post_id = get_the_ID();
             )
         ));
     endif; ?>
-</div> 
+</header> 
