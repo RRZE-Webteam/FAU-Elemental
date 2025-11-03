@@ -198,7 +198,9 @@ input[type="date"],
 input[type="time"],
 input[type="month"],
 input[type="week"],
+input[type="datetime"],
 input[type="datetime-local"],
+input[type="file"],
 select,
 textarea
 ) {
@@ -297,6 +299,23 @@ p:has(> input[type="submit"])
 			right: -2.7rem;
 		}
 	}
+}
+
+// Reset
+:where(input[type="reset"]) {
+	width: auto;
+	border: none;
+	border-radius: 0;
+	background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+	color: var(--FAU-Col-FAU-Weiss-100);
+	font-weight: 600;
+	height: 3.5rem;
+	padding: 0 1.5rem;
+	font-size: 1.125rem;
+	letter-spacing: var(--letter-spacing-big);
+	text-align: left;
+	font-family: var(--font-family-base);
+	cursor: pointer;
 }
 
 // Select
