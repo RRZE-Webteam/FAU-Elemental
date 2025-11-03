@@ -77,6 +77,19 @@ body {
 		text-align: left;
 	}
 
+	ul,
+	ol,
+	dl,
+	td,
+	th,
+	code,
+	caption,
+	figcaption,
+	address,
+	pre {
+		font-size: var(--P-Body-Text);
+	}
+
 	> ul,
 	> ol {
 		list-style-position: inside;
