@@ -24,7 +24,7 @@
 
 			&.fau-big-teaser__headline {
 				font-size: var(--H-Heading-Big-Teaser);
-				line-height: 1.3;
+				line-height: var(--base-line-height);
 				background-color: var(--FAU-Col-FAU-Weiss-100);
 				margin: 0;
 				max-width: calc(100% + 16rem);

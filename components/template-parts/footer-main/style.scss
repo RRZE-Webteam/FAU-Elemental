@@ -109,7 +109,7 @@ footer.wp-block-template-part {
 					color: var(--FAU-Col-FAU-Weiss-100);
 					font-size: 1rem;
 					font-weight: 700;
-					line-height: 1;
+					line-height: var(--base-line-height);
 				}
 
 				.sub-menu {

@@ -127,7 +127,7 @@
 		&__text {
 			display: block;
 			font-size: 0.8125rem;
-			line-height: 1.4;
+			line-height: var(--base-line-height);
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
