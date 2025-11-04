@@ -297,6 +297,11 @@ table {
 	margin: 0;
 	font-size: var(--P-Caption);
 
+	@include smaller-or-equals("small") {
+		display: block;
+		overflow-x: auto;
+	}
+
 	td,
 	th {
 		background-color: inherit;
