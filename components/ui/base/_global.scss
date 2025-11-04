@@ -146,6 +146,8 @@ body {
 }
 
 // Basic HTML editor style (fallbacks)
+
+// General
 .editor-styles-wrapper .mce-content-body {
 
 	h1,
@@ -186,6 +188,107 @@ figure:has(> img)::before {
 	background-color: rgba(0, 0, 0, 0.05);
 	width: 100%;
 	height: 100%;
+}
+
+// Lists
+.is-layout-flow ul,
+.is-layout-flow ol {
+	max-width: var(--small-max-width);
+	font-size: var(--P-Body-Text);
+	color: var(--FAU-Col-FAU-Schwarz-100);
+	font-weight: 400;
+	line-height: var(--base-line-height);
+
+	@include smaller-or-equals("small") {
+		font-size: 1rem;
+	}
+}
+
+.is-layout-flow ul:not(.wp-block-list) {
+	padding-left: var(--Spacing-14x);
+	list-style-type: none;
+
+	@media screen and (max-width: 950px) {
+		margin: 0 var(--Spacing-10x);
+
+		ul {
+			margin: 0;
+		}
+	}
+
+	@include smaller-or-equals("x-small") {
+		margin: 0 var(--Spacing-5x);
+	}
+
+	strong {
+		font-weight: 700;
+	}
+
+	em {
+		letter-spacing: var(--letter-spacing-small);
+	}
+
+	ul,
+	ol {
+		margin-top: var(--Spacing-6x);
+	}
+
+	li {
+		position: relative;
+	}
+
+	&:not(.list-icons) {
+
+		> li {
+			margin-bottom: var(--Spacing-6x);
+
+			@include smaller-or-equals("small") {
+				margin-bottom: var(--Spacing-4x);
+			}
+
+			&::before {
+				content: "";
+				position: absolute;
+				background-color: var(--FAU-Col-FAU-Blau-100);
+				width: var(--Spacing-8x);
+				height: 0.125rem;
+				left: calc(-1 * var(--Spacing-14x));
+				top: var(--Spacing-3x);
+			}
+		}
+	}
+}
+
+.is-layout-flow ol:not(.wp-block-list) {
+	padding-left: var(--Spacing-6x);
+	list-style-position: unset;
+
+	@media screen and (max-width: 950px) {
+		padding: 0 var(--Spacing-10x) 0 var(--Spacing-16x);
+	}
+
+	@include smaller-or-equals("x-small") {
+		padding: 0 var(--Spacing-5x) 0 var(--Spacing-12x);
+	}
+
+	ol {
+		padding: 0 var(--Spacing-10x) 0 var(--Spacing-16x);
+	}
+
+	> li {
+		padding-left: var(--Spacing-8x);
+		margin-bottom: var(--Spacing-4x);
+
+		@include smaller-or-equals("small") {
+			margin-bottom: var(--Spacing-2x);
+		}
+
+		&::marker {
+			color: var(--FAU-Col-FAU-Blau-100);
+			font-size: var(--H-Heading-3);
+			font-weight: 700;
+		}
+	}
 }
 
 // Basic form style
