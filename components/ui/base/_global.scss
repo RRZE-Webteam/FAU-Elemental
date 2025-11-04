@@ -80,8 +80,6 @@ body {
 	ul,
 	ol,
 	dl,
-	td,
-	th,
 	code,
 	caption,
 	figcaption,
@@ -291,10 +289,113 @@ figure:has(> img)::before {
 	}
 }
 
+// Tables
+table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: 0;
+	font-size: var(--P-Caption);
+
+	td,
+	th {
+		background-color: inherit;
+		border: none;
+		padding: var(--Spacing-2x);
+		vertical-align: top;
+		line-height: var(--base-line-height);
+		font-weight: 400;
+	}
+
+	thead {
+		position: relative;
+		border: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
+
+		th {
+			background-color: var(--FAU-Col-FAU-Blau-100);
+			color: var(--FAU-Col-FAU-Weiss-100);
+			font-weight: 400;
+			text-align: left;
+			padding: var(--Spacing-3x) var(--Spacing-2x);
+
+			&:last-child {
+				border-right: none;
+			}
+
+			a {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+		}
+	}
+
+	tbody {
+		border: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-25);
+
+		tr {
+			background-color: var(--FAU-Col-FAU-Weiss-100);
+
+			td:first-child {
+				color: var(--FAU-Col-FAU-Blau-100);
+				padding-right: var(--Spacing-4x);
+				background-color: inherit;
+				width: 10.625rem;
+				min-width: 10.625rem;
+			}
+
+			td {
+				text-align: left;
+				padding: var(--Spacing-2x);
+				background-color: inherit;
+				border-right: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-25);
+				min-width: 21.25rem;
+
+				&:last-child {
+					border-right: none;
+				}
+			}
+
+			&:nth-child(even) {
+				background-color: var(--FAU-Col-FAU-Schwarz-12_5);
+
+				td {
+					border-right-color: var(--FAU-Col-FAU-Schwarz-25);
+				}
+			}
+		}
+	}
+
+	thead + tbody {
+
+		tr {
+
+			td {
+				min-width: 7.5rem;
+			}
+		}
+	}
+
+	tfoot {
+		border: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-25);
+		border-top: none;
+		background-color: var(--FAU-Col-FAU-Schwarz-5);
+
+		td {
+			padding: var(--Spacing-2x);
+			color: var(--FAU-Col-FAU-Schwarz-62_5);
+			border-right: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-25);
+		}
+
+		tr {
+			background: none;
+			border: none;
+		}
+	}
+}
+
 // Basic form style
 
 // Label
-form {
+.is-layout-flow form {
 
 	:where(label) {
 		font-size: 1rem;
@@ -302,7 +403,7 @@ form {
 }
 
 // Inputs
-:where(
+.is-layout-flow :where(
 input[type="text"],
 input[type="email"],
 input[type="url"],
@@ -364,7 +465,7 @@ textarea
 }
 
 // Submit
-:where(input[type="submit"]) {
+.is-layout-flow :where(input[type="submit"]) {
 	width: calc(100% + 3.5rem);
 	border: none;
 	border-radius: 0;
@@ -381,7 +482,7 @@ textarea
 	cursor: pointer;
 }
 
-:where(
+.is-layout-flow :where(
 span:has(> input[type="submit"]),
 div:has(> input[type="submit"]),
 p:has(> input[type="submit"])
@@ -412,7 +513,7 @@ p:has(> input[type="submit"])
 }
 
 // Select
-:where(select) {
+.is-layout-flow :where(select) {
 	width: 100%;
 	background: none;
 	padding: 0.75rem 1rem;
@@ -439,7 +540,7 @@ p:has(> input[type="submit"])
 	}
 }
 
-:where(
+.is-layout-flow :where(
 span:has(> select),
 div:has(> select),
 p:has(> select)
@@ -471,7 +572,7 @@ p:has(> select)
 }
 
 // Checkbox
-:where(input[type="checkbox"]) {
+.is-layout-flow :where(input[type="checkbox"]) {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -512,7 +613,7 @@ p:has(> select)
 }
 
 // Radio
-:where(input[type="radio"]) {
+.is-layout-flow :where(input[type="radio"]) {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
