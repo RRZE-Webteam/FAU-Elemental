@@ -11,7 +11,7 @@ get_header();
 if (is_home() && is_front_page()) {
     // Front page is set to show latest posts
     ?>
-    <main class="wp-block-group blog-homepage archive-page">
+    <main id="main" class="wp-block-group blog-homepage archive-page">
         <header class="blog-header is-layout-flow">
             <h1 class="blog-title">
                 <?php 
@@ -69,7 +69,7 @@ if (is_home() && is_front_page()) {
 } else {
     // Front page is set to a static page - display the page content
     ?>
-    <main>
+    <main id="main" class="site-main">
         <?php
         while (have_posts()) :
             the_post();

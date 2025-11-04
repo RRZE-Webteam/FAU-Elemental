@@ -39,7 +39,7 @@ $no_thumbs = get_post_meta(get_the_ID(), 'portal_menu_hide_thumbs', true) ?: fal
 $is_dark = get_post_meta(get_the_ID(), 'portal_menu_is_dark', true) ?: false;
 ?>
 
-<main id="primary" class="site-main">
+<main id="main" class="site-main">
     <div class="is-layout-flow faue-content-wrapper">
         <?php 
         // Display the page content if any

@@ -10,7 +10,7 @@ global $wp_query;
 get_header();
 ?>
 
-<main class="search-results-page" role="main">
+<main id="main" class="search-results-page" role="main">
     <?php get_template_part('components/template-parts/search-results/search-results'); ?>
 </main>
 
