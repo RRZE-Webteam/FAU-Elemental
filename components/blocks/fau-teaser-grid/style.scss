@@ -10,6 +10,16 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 	.fau-teaser-grid {
 		display: grid;
 		gap: var(--Spacing-8x);
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		max-width: none;
+
+		> li {
+			display: block;
+			width: 100%;
+		}
 
 		// Global styles
 		&.layout-1xl,
@@ -210,15 +220,27 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 				grid-template-areas:
 					"s a"
 					"s b";
+				list-style: none;
+				margin: 0;
+				padding: 0;
 
-				.teaser-item {
+				.teaser-group-items {
+					display: contents;
+					list-style: none;
+					margin: 0;
+					padding: 0;
+				}
 
-					.teaser-content-wrapper .teaser-content {
-						padding: var(--Spacing-6x) 0 var(--Spacing-6x) var(--Spacing-6x);
-					}
+				// Target li elements (with display: contents, li becomes direct grid child)
+				> li:nth-child(1),
+				.teaser-group-items > li:nth-child(1) {
+					grid-area: s;
 
-					&:nth-child(1) {
-						grid-area: s;
+					.teaser-item {
+
+						.teaser-content-wrapper .teaser-content {
+							padding: var(--Spacing-6x) 0 var(--Spacing-6x) var(--Spacing-6x);
+						}
 
 						.teaser-image-wrapper .teaser-meta {
 							height: 7.0625rem;
@@ -246,9 +268,13 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 							font-size: 1.5rem;
 						}
 					}
+				}
 
-					&:nth-child(2) {
-						grid-area: a;
+				> li:nth-child(2),
+				.teaser-group-items > li:nth-child(2) {
+					grid-area: a;
+
+					.teaser-item {
 						flex-direction: row;
 						align-self: flex-start;
 
@@ -286,9 +312,13 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 							}
 						}
 					}
+				}
 
-					&:nth-child(3) {
-						grid-area: b;
+				> li:nth-child(3),
+				.teaser-group-items > li:nth-child(3) {
+					grid-area: b;
+
+					.teaser-item {
 						flex-direction: row-reverse;
 						align-self: flex-start;
 
@@ -333,10 +363,12 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 				}
 			}
 
-			&[data-variant="page"] .teaser-group .teaser-item {
+			&[data-variant="page"] .teaser-group {
 
-				&:nth-child(2),
-				&:nth-child(3) {
+				> li:nth-child(2) .teaser-item,
+				> li:nth-child(3) .teaser-item,
+				.teaser-group-items > li:nth-child(2) .teaser-item,
+				.teaser-group-items > li:nth-child(3) .teaser-item {
 
 					.teaser-content-wrapper .teaser-content .content-column {
 						display: flex;
@@ -589,78 +621,80 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 				.teaser-group {
 					gap: var(--Spacing-6x);
 
-					.teaser-item {
+					> li:nth-child(2) .teaser-item,
+					.teaser-group-items > li:nth-child(2) .teaser-item {
 
-						&:nth-child(2) {
+						.teaser-image-wrapper .teaser-image img {
+							min-height: 180px;
+						}
+					}
 
-							.teaser-image-wrapper .teaser-image img {
-								min-height: 180px;
+					> li:nth-child(3) .teaser-item,
+					.teaser-group-items > li:nth-child(3) .teaser-item {
+						flex-direction: row;
+
+						.teaser-image-wrapper {
+
+							.teaser-image img {
+								min-height: 11.25rem;
+							}
+
+							.teaser-meta {
+								left: 0;
+								right: unset;
 							}
 						}
 
-						&:nth-child(3) {
-							flex-direction: row;
+						.teaser-content-wrapper {
+							left: -2.5rem;
 
-							.teaser-image-wrapper {
-
-								.teaser-image img {
-									min-height: 11.25rem;
-								}
-
-								.teaser-meta {
-									left: 0;
-									right: unset;
-								}
+							.teaser-content {
+								width: calc(100% + 2.5rem);
+								padding-right: 0;
+								box-sizing: border-box;
 							}
+						}
+					}
 
-							.teaser-content-wrapper {
-								left: -2.5rem;
+					> li:nth-child(1) .teaser-item,
+					.teaser-group-items > li:nth-child(1) .teaser-item {
 
-								.teaser-content {
-									width: calc(100% + 2.5rem);
-									padding-right: 0;
-									box-sizing: border-box;
+						.teaser-image-wrapper .teaser-meta {
+							height: 5rem;
+							width: 5rem;
+
+							time {
+
+								.date-day {
+									font-size: 1.5rem;
+								}
+
+								.date-month-year {
+									font-size: 1rem;
+									font-weight: 400;
 								}
 							}
 						}
+					}
 
-						&:nth-child(1) {
+					> li:nth-child(2) .teaser-item,
+					> li:nth-child(3) .teaser-item,
+					.teaser-group-items > li:nth-child(2) .teaser-item,
+					.teaser-group-items > li:nth-child(3) .teaser-item {
 
-							.teaser-image-wrapper .teaser-meta {
-								height: 5rem;
-								width: 5rem;
+						.teaser-image-wrapper .teaser-meta {
+							height: 4.25rem;
+							width: 4.25rem;
 
-								time {
+							time {
 
-									.date-day {
-										font-size: 1.5rem;
-									}
-
-									.date-month-year {
-										font-size: 1rem;
-										font-weight: 400;
-									}
+								.date-day {
+									font-size: 1.5rem;
 								}
-							}
-						}
 
-						&:nth-child(2),
-						&:nth-child(3) {
-
-							.teaser-image-wrapper .teaser-meta {
-								height: 4.25rem;
-								width: 4.25rem;
-
-								time {
-
-									.date-day {
-										font-size: 1.5rem;
-									}
-
-									.date-month-year {
-										font-size: 0.875rem;
-										font-weight: 400;
-									}
+								.date-month-year {
+									font-size: 0.875rem;
+									font-weight: 400;
 								}
 							}
 						}
@@ -895,7 +929,8 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 				}
 			}
 
-			&.layout-l2s .teaser-item:first-child {
+			&.layout-l2s .teaser-group > li:first-child .teaser-item,
+			&.layout-l2s .teaser-group .teaser-group-items > li:first-child .teaser-item {
 				margin-bottom: -2.5rem; // Counter teaser-content offset for first item
 			}
 

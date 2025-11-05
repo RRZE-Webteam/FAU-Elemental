@@ -143,20 +143,32 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
  */
 if ( ! function_exists( 'fau_elemental_wrap_teaser_items' ) ) {
 function fau_elemental_wrap_teaser_items($items, $layout) {
-    // Only wrap for l2s and 2sl layouts
-    if (!in_array($layout, ['l2s', '2sl'])) {
-        return implode('', $items);
-    }
-
     $output = '';
     $item_count = count($items);
     
+    // Wrap each item in <li> for semantic list structure
+    $wrapped_items = array_map(function($item) {
+        return '<li>' . $item . '</li>';
+    }, $items);
+    
+    // Only wrap for l2s and 2sl layouts
+    if (!in_array($layout, ['l2s', '2sl'])) {
+        return implode('', $wrapped_items);
+    }
+
+    // For l2s and 2sl layouts, group items in sets of 3
+    // teaser-group must be a direct child of fau-teaser-grid for CSS layout
+    // Use nested <ul> inside <li class="teaser-group"> for valid HTML structure
     for ($i = 0; $i < $item_count; $i += 3) {
-        $group_items = array_slice($items, $i, 3);
+        $group_items = array_slice($wrapped_items, $i, 3);
         if (!empty($group_items)) {
-            $output .= '<div class="teaser-group">';
+            // Use <li> with teaser-group class for list semantics and CSS compatibility
+            $output .= '<li class="teaser-group">';
+            // Use nested <ul> for valid HTML list structure
+            $output .= '<ul class="teaser-group-items">';
             $output .= implode('', $group_items);
-            $output .= '</div>';
+            $output .= '</ul>';
+            $output .= '</li>';
         }
     }
     
