@@ -4,12 +4,10 @@
 
 @use "../../ui/mixins/mixins" as *;
 
-.hero-portal {
+.wp-block-columns.hero-portal {
 	max-width: var(--wide-max-width);
-	margin: 0 auto;
 	gap: var(--Spacing-10x);
 	padding: var(--Spacing-8x) var(--Spacing-10x);
-	box-sizing: content-box;
 
 	.wp-block-post-title {
 		position: relative;

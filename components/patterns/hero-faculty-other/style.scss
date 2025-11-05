@@ -13,6 +13,7 @@ $faculty-colors: (
 .hero-faculty-other {
 	min-height: 50rem;
 	gap: 0;
+	padding-inline: 0;
 
 	@each $faculty, $color in $faculty-colors {
 		.faculty-#{$faculty} & {

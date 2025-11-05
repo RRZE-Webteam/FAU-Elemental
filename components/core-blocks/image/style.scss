@@ -3,9 +3,6 @@
 .wp-block-image {
 	position: relative;
 	max-width: var(--small-max-width);
-	margin-left: auto;
-	margin-right: auto;
-	padding: 0 var(--Spacing-10x);
 
 	.image-wrapper {
 		position: relative;
@@ -44,7 +41,7 @@
 		left: 50%;
 		background-color: var(--FAU-Col-FAU-Weiss-100);
 		padding: var(--Spacing-6x) var(--Spacing-8x);
-		margin: 0;
+		margin: 0 0 calc(-1 * var(--Spacing-12x)) 0;
 		font-size: var(--P-Body-Text-Small);
 		line-height: var(--base-line-height);
 		font-weight: 400;
@@ -55,10 +52,6 @@
 			background-color: var(--FAU-Col-FAU-Blau-100);
 			color: var(--FAU-Col-FAU-Weiss-100);
 		}
-	}
-
-	&:has(figcaption) {
-		margin-bottom: calc(-1 * var(--Spacing-12x));
 	}
 
 	&.is-style-large {
@@ -195,7 +188,6 @@
 @include smaller-or-equals("x-small") {
 
 	.wp-block-image {
-		padding: 0 var(--Spacing-5x);
 
 		.image-fullscreen-btn {
 			width: 2.5rem;

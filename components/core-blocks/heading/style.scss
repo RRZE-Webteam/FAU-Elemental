@@ -12,15 +12,6 @@ h6 {
 	color: var(--FAU-Col-FAU-Blau-100);
 	letter-spacing: var(--letter-spacing-big);
 	font-weight: 700;
-
-	.is-layout-flow & {
-		max-width: var(--small-max-width);
-		padding: 0 var(--Spacing-10x);
-
-		@include smaller-or-equals("x-small") {
-			padding: 0 var(--Spacing-5x);
-		}
-	}
 }
 
 h2 {

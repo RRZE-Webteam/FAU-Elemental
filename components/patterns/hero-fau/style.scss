@@ -5,8 +5,10 @@
 @use "../../ui/mixins/mixins" as *;
 
 .hero-fau {
+	padding-inline: 0;
 
 	.wp-block-cover {
+		max-width: none;
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-end;
