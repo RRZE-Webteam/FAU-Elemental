@@ -41,7 +41,8 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 			: FALLBACK_IMAGE;
 
 		// Format date using WordPress locale
-		const locale = ( window.fauElemental && window.fauElemental.locale ) || 'en_US';
+		const locale =
+			( window.fauElemental && window.fauElemental.locale ) || 'en_US';
 		const localeBCP47 = locale.replace( '_', '-' );
 
 		return {

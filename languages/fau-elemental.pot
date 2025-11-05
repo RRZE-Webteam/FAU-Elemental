@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.4.5\n"
+"Project-Id-Version: FAU-Elemental 0.4.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-27T10:05:44+00:00\n"
+"POT-Creation-Date: 2025-11-05T13:15:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -562,7 +562,7 @@ msgstr ""
 
 #: components/template-parts/search-results/search-results.php:408
 #: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
-#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:156
+#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:161
 msgid "Read more"
 msgstr ""
 
@@ -1606,26 +1606,31 @@ msgid "Headline Level"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:85
+#: components/blocks/fau-meta-headline/index.js:28
 #: components/blocks/fau-teaser-grid/edit.js:415
 msgid "Heading 2"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:89
+#: components/blocks/fau-meta-headline/index.js:34
 #: components/blocks/fau-teaser-grid/edit.js:421
 msgid "Heading 3"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:93
+#: components/blocks/fau-meta-headline/index.js:40
 #: components/blocks/fau-teaser-grid/edit.js:427
 msgid "Heading 4"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:97
+#: components/blocks/fau-meta-headline/index.js:46
 #: components/blocks/fau-teaser-grid/edit.js:433
 msgid "Heading 5"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:101
+#: components/blocks/fau-meta-headline/index.js:52
 #: components/blocks/fau-teaser-grid/edit.js:439
 msgid "Heading 6"
 msgstr ""
@@ -1857,7 +1862,12 @@ msgstr ""
 msgid "Choose Logo"
 msgstr ""
 
-#: components/blocks/fau-meta-headline/index.js:22
+#: components/blocks/fau-meta-headline/index.js:25
+#: components/blocks/fau-teaser-grid/edit.js:412
+msgid "Change heading level"
+msgstr ""
+
+#: components/blocks/fau-meta-headline/index.js:67
 msgid "Enter meta headline…"
 msgstr ""
 
@@ -2056,10 +2066,6 @@ msgstr ""
 
 #: components/blocks/fau-teaser-grid/edit.js:401
 msgid "To ensure good accessibility and SEO, please make sure that there is only one H1 heading on the page. If you already have an H1 heading, use a different heading level for the teasers in this block."
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:412
-msgid "Change heading level"
 msgstr ""
 
 #: components/blocks/fau-teaser-grid/edit.js:503
