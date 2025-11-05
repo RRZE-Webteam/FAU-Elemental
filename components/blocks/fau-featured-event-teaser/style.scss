@@ -1,12 +1,12 @@
 @use "../../ui/mixins/mixins" as *;
 
+div.wp-block-fau-elemental-featured-event-teaser {
+	max-width: var(--wide-max-width);
+}
+
 .wp-block-fau-elemental-featured-event-teaser {
 	display: flex;
-	max-width: var(--wide-max-width);
-	margin: 0 auto;
 	gap: var(--Spacing-10x);
-	padding: 0 var(--Spacing-10x);
-	box-sizing: content-box;
 
 	.featured-event-content {
 		display: flex;

@@ -81,6 +81,10 @@ footer.wp-block-template-part {
 		}
 	}
 
+	.target-groups .fau-big-button-teaser-group {
+		margin-inline: auto;
+	}
+
 	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons {
 		padding: 0;
 	}
@@ -317,6 +321,13 @@ footer.wp-block-template-part {
 				background-size: contain;
 				background-repeat: no-repeat;
 				background-position: center;
+			}
+
+			// Default link icon for unrecognized platforms in menu mode
+			&.default-icon {
+				background-image: var(--icon-default-social);
+				width: 1.75rem;
+				height: 1.75rem;
 			}
 		}
 	}

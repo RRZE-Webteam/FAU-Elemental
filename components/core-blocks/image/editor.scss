@@ -1,11 +1,12 @@
 @use "../../ui/mixins/mixins" as *;
 
-.wp-block-image-wrapper {
-	max-width: var(--base-max-width);
-	padding: 0 var(--Spacing-10x);
+div.wp-block-image-wrapper {
+
+	&:has(> .is-style-large) {
+		max-width: var(--base-max-width);
+	}
 
 	@include smaller-or-equals("x-small") {
-		padding: 0 var(--Spacing-5x);
 
 		>:has(.is-style-large) {
 			padding: 0;

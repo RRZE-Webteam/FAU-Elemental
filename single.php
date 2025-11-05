@@ -24,8 +24,7 @@ get_header();
                     get_template_part('components/template-parts/hero-post/hero-post');
                 }
                 ?>
-                
-                <div class="is-layout-flow faue-content-wrapper">
+                <div class="faue-content-wrapper">
                     <?php the_content(); ?>
                 </div>
 

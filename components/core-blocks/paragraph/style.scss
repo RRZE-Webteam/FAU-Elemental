@@ -11,14 +11,6 @@ p {
 	font-weight: 400;
 	line-height: var(--base-line-height);
 
-	.is-layout-flow & {
-		padding: 0 var(--Spacing-10x);
-
-		@include smaller-or-equals("x-small") {
-			padding: 0 var(--Spacing-5x);
-		}
-	}
-
 	strong {
 		font-weight: 700;
 	}

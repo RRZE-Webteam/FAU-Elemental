@@ -2,12 +2,7 @@
 
 .wp-block-code {
 	max-width: var(--small-max-width);
-	padding: 0 var(--Spacing-10x);
 	box-sizing: content-box;
-
-	@include smaller-or-equals("x-small") {
-		padding: 0 var(--Spacing-5x);
-	}
 
 	// Ensure proper scrollbar appearance across browsers
 	&::-webkit-scrollbar {

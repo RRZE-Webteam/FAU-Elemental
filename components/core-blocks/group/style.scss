@@ -4,16 +4,21 @@
 
 .wp-block-group {
 
+	max-width: none;
+
 	&.is-style-dark {
 		background-color: var(--FAU-Col-FAU-Blau-100);
 		color: var(--FAU-Col-FAU-Weiss-100);
-		padding: var(--Spacing-8x) 0;
+		padding-block: var(--Spacing-8x);
 	}
 
 	> * {
+		max-width: var(--small-max-width);
 		margin-block-start: var(--Spacing-6x);
-		margin-block-end: 0;
-		margin-left: auto;
-		margin-right: auto;
+		margin-inline: auto;
+
+		&:first-child {
+			margin-block-start: 0;
+		}
 	}
 }

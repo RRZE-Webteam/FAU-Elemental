@@ -270,36 +270,6 @@ function fau_elemental_format_phone_number($phone) {
     return trim($phone); // Remove excess spaces at the end
 }
 
-/**
- * Enqueue footer scripts and localize strings
- */
-function fau_elemental_enqueue_footer_scripts() {
-    // Only enqueue on pages that have footers
-    if (is_admin()) {
-        return;
-    }
-    
-    $faue_website_type = get_theme_mod('faue_website_type');
-    
-    // Enqueue footer toggle script for instance sites (where the toggle is used)
-    if ($faue_website_type !== 'fau') {
-        wp_enqueue_script(
-            'fau-footer-toggle',
-            get_theme_file_uri('components/template-parts/footer-main/footer-toggle.js'),
-            [],
-            wp_get_theme()->get('Version'),
-            true
-        );
-        
-        // Localize strings for the footer toggle functionality
-        wp_localize_script('fau-footer-toggle', 'fauFooterStrings', [
-            'showMore' => __('Show more', 'fau-elemental'),
-            'showLess' => __('Show less', 'fau-elemental')
-        ]);
-    }
-}
-add_action('wp_enqueue_scripts', 'fau_elemental_enqueue_footer_scripts');
-
 // ============================================================================
 // FAU TEASER GRID AJAX HANDLERS
 // ============================================================================
