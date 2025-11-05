@@ -40,13 +40,17 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 			? post._embedded[ 'wp:featuredmedia' ][ 0 ].source_url
 			: FALLBACK_IMAGE;
 
+		// Format date using WordPress locale
+		const locale = ( window.fauElemental && window.fauElemental.locale ) || 'en_US';
+		const localeBCP47 = locale.replace( '_', '-' );
+
 		return {
 			day: dateObj
-				? dateObj.toLocaleDateString( 'de-DE', { day: '2-digit' } )
+				? dateObj.toLocaleDateString( localeBCP47, { day: '2-digit' } )
 				: '',
 			monthYear: dateObj
 				? dateObj
-						.toLocaleDateString( 'de-DE', {
+						.toLocaleDateString( localeBCP47, {
 							month: 'short',
 							year: 'numeric',
 						} )
