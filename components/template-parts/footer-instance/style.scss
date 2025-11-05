@@ -174,8 +174,22 @@
 			margin: 0;
 		}
 
+		// Hide checkbox visually but keep it accessible
+		.fau-info-toggle-checkbox {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border-width: 0;
+		}
+
 		.fau-info-toggle {
 			position: relative;
+			display: inline-block;
 			background-color: var(--FAU-Col-FAU-Blau-100);
 			border: 0;
 			padding: var(--Spacing-5x) var(--Spacing-6x);
@@ -211,19 +225,13 @@
 				transition: var(--basic-animation);
 			}
 
-			// Progressive enhancement: Show button only when JavaScript is available
-			.no-js & {
-				display: none;
-			}
-
-			// Button text and icon structure
-			.toggle-text {
+			// Toggle text visibility based on checkbox state
+			.toggle-text-collapsed {
 				display: inline;
 			}
 
-			// Rotate chevron when expanded
-			&[aria-expanded="true"]::after {
-				transform: rotate(-90deg);
+			.toggle-text-expanded {
+				display: none;
 			}
 
 			&:hover,
@@ -235,14 +243,30 @@
 			}
 		}
 
-		// Progressive enhancement: Ensure content is visible without JavaScript
-		.no-js .fau-info-section {
-			display: block !important;
+		// Rotate chevron and swap text when checkbox is checked
+		.fau-info-toggle-checkbox:checked ~ .footer-bottom-row .fau-info-toggle {
+
+			&::after {
+				transform: rotate(-90deg);
+			}
+
+			.toggle-text-collapsed {
+				display: none;
+			}
+
+			.toggle-text-expanded {
+				display: inline;
+			}
 		}
 
-		// Hide section initially when JavaScript is available (handled by JS)
-		.js .fau-info-section[hidden] {
+		// Hide section by default, show when checkbox is checked
+		.fau-info-section {
 			display: none;
+		}
+
+		// Show section when checkbox is checked using general sibling combinator
+		.fau-info-toggle-checkbox:checked ~ .fau-info-section {
+			display: block;
 		}
 
 		// adapted visuals for claim only for instance (faculty)

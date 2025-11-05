@@ -33,6 +33,12 @@ $faue_defaults = array(
     'faue_fallback_image' => '',
     // Hide copyright on single posts
     'faue_hide_copyright_on_single' => true,
+    // Footer toggle text
+    'fau_info_toggle_text' => __('Show more', 'fau-elemental'),
+    'fau_info_toggle_text_expanded' => __('Show less', 'fau-elemental'),
+    // Footer content defaults
+    'fau_footer_title' => __('FAU - Knowledge in Motion', 'fau-elemental'),
+    'fau_footer_description' => __('FAU is Germany\'s most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research.', 'fau-elemental'),
 );
 
 // Social Media Platforms Configuration
