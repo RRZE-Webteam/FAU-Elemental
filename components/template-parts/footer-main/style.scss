@@ -322,6 +322,13 @@ footer.wp-block-template-part {
 				background-repeat: no-repeat;
 				background-position: center;
 			}
+
+			// Default link icon for unrecognized platforms in menu mode
+			&.default-icon {
+				background-image: var(--icon-default-social);
+				width: 1.75rem;
+				height: 1.75rem;
+			}
 		}
 	}
 }
