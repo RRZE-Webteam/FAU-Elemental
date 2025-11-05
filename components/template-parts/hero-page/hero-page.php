@@ -16,7 +16,7 @@
       $featured_img_alt = get_post_meta($featured_img_id, '_wp_attachment_image_alt', true);
       $alt = $featured_img_alt ?: get_the_title();
       ?>
-      <?php echo wp_get_attachment_image($featured_img_id, 'full', false, [
+      <?php echo wp_get_attachment_image($featured_img_id, 'large', false, [
         'alt' => $alt,
         'sizes' => '(max-width: 393px) 100vw, (max-width: 1199px) 90vw, 1320px'
       ]); ?>
