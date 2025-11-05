@@ -2,7 +2,6 @@
 
 .fau-portal-menu {
 	max-width: var(--base-max-width);
-	padding: var(--Spacing-10x);
 
 	&:has(.fau-portal-thumbnail) {
 		max-width: var(--wide-max-width);
@@ -11,6 +10,7 @@
 
 .fau-portal-menu > ul {
 	display: grid;
+	margin: 0;
 	grid-template-columns: repeat(2, 1fr);
 	gap: 0 var(--Spacing-8x);
 	width: 100%;
@@ -228,12 +228,5 @@
 
 	.fau-portal-menu .fau-portal-item .fau-portal-wrapper .fau-portal-content {
 		padding: var(--Spacing-6x) var(--Spacing-8x) 0 0;
-	}
-}
-
-@include smaller-or-equals("x-small") {
-
-	.fau-portal-menu {
-		padding: var(--Spacing-5x);
 	}
 }

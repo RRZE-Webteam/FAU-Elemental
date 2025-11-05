@@ -3,8 +3,10 @@
 details.wp-block-details {
 	max-width: var(--small-max-width);
 	border-bottom: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
-	padding-bottom: 1.25rem;
-	padding-top: 1.25rem;
+
+	// Note: it's problematic that this block needs to define padding like this
+	padding-inline: 0;
+	padding-block: 1.25rem;
 
 	&:first-of-type {
 		border-top: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
@@ -128,7 +130,7 @@ details.wp-block-details {
 	}
 }
 
-// Responsive
+// Responsive - also problematic
 @include smaller-or-equals("x-small") {
 
 	details.wp-block-details {

@@ -6,7 +6,7 @@
 
 get_header(); ?>
 
-<main class="wp-block-group archive-page">
+<main class="archive-page">
     <header class="blog-header is-layout-flow">
         <h1 class="blog-title">
             <?php echo esc_html(faue_get_page_title(get_the_ID())); ?>
@@ -14,7 +14,7 @@ get_header(); ?>
     </header>
 
     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-        <div class="is-layout-flow faue-content-wrapper">
+        <div class="faue-content-wrapper">
             <?php the_content(); ?>
         </div>
     <?php endwhile; endif; ?>

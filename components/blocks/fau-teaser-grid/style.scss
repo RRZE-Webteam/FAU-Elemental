@@ -1,10 +1,11 @@
 @use "../../ui/mixins/mixins" as *;
 @use "../../ui/base/pagination" as *;
 
-.wp-block-fau-elemental-fau-teaser-grid {
+section.wp-block-fau-elemental-fau-teaser-grid {
 	max-width: var(--wide-max-width);
-	padding: 0 var(--Spacing-10x);
-	margin: 0 auto;
+}
+
+.wp-block-fau-elemental-fau-teaser-grid {
 
 	.fau-teaser-grid {
 		display: grid;
@@ -945,13 +946,6 @@
 				}
 			}
 		}
-	}
-}
-
-@include smaller-or-equals("x-small") {
-
-	.wp-block-fau-elemental-fau-teaser-grid {
-		padding: 0 var(--Spacing-5x);
 	}
 }
 

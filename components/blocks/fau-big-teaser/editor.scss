@@ -8,14 +8,9 @@
 @use "../../ui/mixins/mixins" as *;
 
 .fau-big-teaser-editor-preview {
-	box-sizing: content-box;
 	display: flex;
 	gap: var(--Spacing-10x);
-	margin: 0 auto;
-	margin-right: auto;
-	margin-left: auto;
 	max-width: var(--wide-max-width);
-	padding: var(--Spacing-8x) var(--Spacing-10x);
 
 	.fau-big-teaser__content {
 
