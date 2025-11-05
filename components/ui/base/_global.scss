@@ -249,6 +249,19 @@ textarea
 	}
 }
 
+:where(
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="month"],
+input[type="week"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="file"]
+) {
+	width: auto;
+}
+
 textarea {
 	resize: vertical;
 }
@@ -316,6 +329,11 @@ p:has(> input[type="submit"])
 	text-align: left;
 	font-family: var(--font-family-base);
 	cursor: pointer;
+
+	&:hover,
+	&:focus-visible {
+		background-color: var(--FAU-Col-FAU-Blau-100);
+	}
 }
 
 // Select
