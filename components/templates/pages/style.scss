@@ -178,7 +178,7 @@
 		color: var(--FAU-Col-FAU-Dunkelblau-100);
 		margin: var(--Spacing-8x) auto;
 		max-width: var(--small-max-width);
-		line-height: 1.2;
+		line-height: var(--base-line-height);
 	}
 
 	.archive-info {

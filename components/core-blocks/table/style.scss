@@ -144,7 +144,7 @@
 	sup,
 	sub {
 		font-size: 0.75em;
-		line-height: 0;
+		line-height: var(--base-line-height);
 		position: relative;
 	}
 
