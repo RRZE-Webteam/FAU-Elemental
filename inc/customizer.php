@@ -764,6 +764,76 @@ function fau_elemental_get_previous_theme_names() {
 }
 
 /**
+ * Normalize theme name by removing branch suffixes like -master, -main, -develop
+ * 
+ * @param string $theme_name The theme name (possibly with branch suffix)
+ * @return string Normalized theme name without branch suffix
+ */
+function fau_elemental_normalize_theme_name($theme_name) {
+    if (empty($theme_name)) {
+        return '';
+    }
+    
+    // Remove common branch suffixes
+    $branch_suffixes = array('-master', '-main', '-develop', '-dev', '-branch', '-trunk');
+    foreach ($branch_suffixes as $suffix) {
+        if (substr($theme_name, -strlen($suffix)) === $suffix) {
+            $theme_name = substr($theme_name, 0, -strlen($suffix));
+            break;
+        }
+    }
+    
+    return $theme_name;
+}
+
+/**
+ * Get theme name from style.css file
+ * 
+ * @param string $theme_stylesheet The theme stylesheet/directory name
+ * @return string|false Theme name from style.css or false if not found
+ */
+function fau_elemental_get_theme_name_from_stylecss($theme_stylesheet) {
+    if (empty($theme_stylesheet)) {
+        return false;
+    }
+    
+    // Try to locate the theme directory
+    $theme_root = get_theme_root();
+    $theme_path = $theme_root . '/' . $theme_stylesheet;
+    
+    if (!is_dir($theme_path)) {
+        return false;
+    }
+    
+    $style_css = $theme_path . '/style.css';
+    if (!file_exists($style_css)) {
+        return false;
+    }
+    
+    // Read first 20 lines of style.css to get theme header
+    $file = fopen($style_css, 'r');
+    if (!$file) {
+        return false;
+    }
+    
+    $theme_name = false;
+    $line_count = 0;
+    while (!feof($file) && $line_count < 20) {
+        $line = fgets($file);
+        $line_count++;
+        
+        // Look for Theme Name: in the header
+        if (preg_match('/^\s*\*\s*Theme Name:\s*(.+)$/i', $line, $matches)) {
+            $theme_name = trim($matches[1]);
+            break;
+        }
+    }
+    fclose($file);
+    
+    return $theme_name;
+}
+
+/**
  * Detect the most recent previous theme configuration based on optiontable version
  * Also checks WordPress's stored previous theme name as a fallback
  * 
@@ -785,20 +855,100 @@ function fau_elemental_detect_previous_theme_config() {
         }
     }
     
-    // Also check the transient that WordPress sets during theme switch
-    if (empty($previous_theme_name)) {
-        $previous_theme_name = get_transient('_theme_switched');
+    // Check our captured theme (most reliable - captured before switch)
+    if (empty($previous_theme_stylesheet)) {
+        $captured = get_transient('fau_elemental_captured_previous_theme');
+        if (empty($captured)) {
+            $captured = get_option('fau_elemental_captured_previous_theme');
+        }
+        if (!empty($captured) && is_array($captured)) {
+            $previous_theme_stylesheet = isset($captured['stylesheet']) ? $captured['stylesheet'] : '';
+            $previous_theme_name = isset($captured['name']) ? $captured['name'] : $previous_theme_stylesheet;
+        }
     }
     
-    // Use stylesheet if available (more reliable for theme_mods lookup)
+    // Also check the transient that WordPress sets during theme switch
+    $transient_name = get_transient('_theme_switched');
+    if (empty($previous_theme_name) && !empty($transient_name)) {
+        $previous_theme_name = $transient_name;
+        $previous_theme_stylesheet = $transient_name;
+    }
+    
+    // Check WordPress options (sometimes stored in options table)
+    if (empty($previous_theme_stylesheet)) {
+        $old_stylesheet = get_option('theme_switched');
+        if (!empty($old_stylesheet)) {
+            $previous_theme_stylesheet = $old_stylesheet;
+            $previous_theme_name = $old_stylesheet;
+        }
+    }
+    
+    // Normalize theme name by removing branch suffixes
+    $normalized_previous_theme_name = fau_elemental_normalize_theme_name($previous_theme_name);
+    $normalized_previous_stylesheet = fau_elemental_normalize_theme_name($previous_theme_stylesheet);
+    
+    // Try to get theme name from style.css if we have a stylesheet
     if (!empty($previous_theme_stylesheet)) {
-        $previous_theme_name = $previous_theme_stylesheet;
+        $stylecss_theme_name = fau_elemental_get_theme_name_from_stylecss($previous_theme_stylesheet);
+        if ($stylecss_theme_name) {
+            // Use style.css theme name if it matches one of our known themes
+            $theme_names = fau_elemental_get_previous_theme_names();
+            foreach ($theme_names as $known_theme) {
+                if (strcasecmp($stylecss_theme_name, $known_theme) === 0) {
+                    $normalized_previous_theme_name = $known_theme;
+                    $normalized_previous_stylesheet = $known_theme;
+                    break;
+                }
+            }
+        }
+    }
+    
+    // Use normalized stylesheet if available (more reliable for theme_mods lookup)
+    if (!empty($normalized_previous_stylesheet)) {
+        $previous_theme_name = $normalized_previous_stylesheet;
+    } elseif (!empty($normalized_previous_theme_name)) {
+        $previous_theme_name = $normalized_previous_theme_name;
     }
     
     // Check each possible theme for configuration data
     foreach ($theme_names as $theme_name) {
-        $option_name = 'theme_mods_' . $theme_name;
-        $theme_mods = get_option($option_name, array());
+        // Check both the base name and the name with suffix (if previous theme had suffix)
+        $option_names_to_check = array('theme_mods_' . $theme_name);
+        
+        // If previous theme had a suffix, also check with that suffix
+        if (!empty($previous_theme_stylesheet) && $previous_theme_stylesheet !== $normalized_previous_stylesheet) {
+            // Check if the previous theme stylesheet matches this theme name with a suffix
+            if (stripos($previous_theme_stylesheet, $theme_name) === 0) {
+                $option_names_to_check[] = 'theme_mods_' . $previous_theme_stylesheet;
+            }
+        }
+        
+        $theme_mods = array();
+        $found_option_name = '';
+        
+        // Try each option name
+        foreach ($option_names_to_check as $option_name) {
+            $check_mods = get_option($option_name, array());
+            
+            // Also check if the option exists but is empty (might be serialized differently)
+            if (empty($check_mods) || !is_array($check_mods)) {
+                $raw_option = get_option($option_name);
+                if ($raw_option !== false && !empty($raw_option)) {
+                    // Option exists but might not be unserialized correctly
+                    $check_mods = maybe_unserialize($raw_option);
+                    if (!is_array($check_mods)) {
+                        $check_mods = array();
+                    }
+                }
+            }
+            
+            if (!empty($check_mods) && is_array($check_mods)) {
+                $theme_mods = $check_mods;
+                $found_option_name = $option_name;
+                break;
+            }
+        }
+        
         
         if (!empty($theme_mods)) {
             // Get optiontable version to determine which is most recent
@@ -806,53 +956,73 @@ function fau_elemental_detect_previous_theme_config() {
             
             // Give priority to themes that match the previous theme name
             $priority = 0;
-            if ($previous_theme_name) {
+            $priority_reason = '';
+            if ($previous_theme_name || $normalized_previous_theme_name) {
+                $check_name = $normalized_previous_theme_name ? $normalized_previous_theme_name : $previous_theme_name;
                 // Check if names match exactly (case-insensitive)
-                if (strcasecmp($previous_theme_name, $theme_name) === 0) {
+                if (strcasecmp($check_name, $theme_name) === 0) {
                     $priority = 2000; // Highest priority for exact match
-                } elseif (stripos($previous_theme_name, $theme_name) !== false || stripos($theme_name, $previous_theme_name) !== false) {
+                    $priority_reason = 'exact match with previous theme';
+                } elseif (stripos($check_name, $theme_name) !== false || stripos($theme_name, $check_name) !== false) {
                     $priority = 1000; // High priority for partial match
+                    $priority_reason = 'partial match with previous theme';
                 }
             }
             
             // Also prioritize faculty-specific themes over FAU-Einrichtungen
             if ($theme_name !== 'FAU-Einrichtungen') {
                 $priority += 100;
+                $priority_reason .= ($priority_reason ? ' + ' : '') . 'faculty-specific theme';
             }
             
-            $found_configs[] = array(
+            $config_info = array(
                 'theme_name' => $theme_name,
                 'theme_mods' => $theme_mods,
                 'version' => $version,
-                'priority' => $priority
+                'priority' => $priority,
+                'priority_reason' => $priority_reason ?: 'no priority'
             );
+            
+            $found_configs[] = $config_info;
         }
     }
     
     // Also check if previous theme stylesheet directly matches a theme_mods option
+    // Check both with and without suffix
     if (!empty($previous_theme_stylesheet) && empty($found_configs)) {
-        $direct_option_name = 'theme_mods_' . $previous_theme_stylesheet;
-        $direct_theme_mods = get_option($direct_option_name, array());
-        if (!empty($direct_theme_mods)) {
-            // Check if this stylesheet name matches any of our known FAU themes
-            foreach ($theme_names as $theme_name) {
-                if (strcasecmp($previous_theme_stylesheet, $theme_name) === 0) {
-                    return array(
-                        'theme_name' => $theme_name,
-                        'theme_mods' => $direct_theme_mods,
-                        'version' => isset($direct_theme_mods['optiontable_version']) ? intval($direct_theme_mods['optiontable_version']) : 0,
-                        'priority' => 3000
-                    );
+        $options_to_check = array(
+            'theme_mods_' . $previous_theme_stylesheet,
+            'theme_mods_' . $normalized_previous_stylesheet
+        );
+        
+        foreach ($options_to_check as $direct_option_name) {
+            $direct_theme_mods = get_option($direct_option_name, array());
+            if (!empty($direct_theme_mods) && is_array($direct_theme_mods)) {
+                // Check if this stylesheet name (normalized) matches any of our known FAU themes
+                $check_stylesheet = $direct_option_name === 'theme_mods_' . $previous_theme_stylesheet 
+                    ? $normalized_previous_stylesheet 
+                    : $normalized_previous_stylesheet;
+                    
+                foreach ($theme_names as $theme_name) {
+                    if (strcasecmp($check_stylesheet, $theme_name) === 0 || stripos($check_stylesheet, $theme_name) === 0) {
+                        return array(
+                            'theme_name' => $theme_name,
+                            'theme_mods' => $direct_theme_mods,
+                            'version' => isset($direct_theme_mods['optiontable_version']) ? intval($direct_theme_mods['optiontable_version']) : 0,
+                            'priority' => 3000
+                        );
+                    }
                 }
             }
         }
     }
     
     // If no configs found, but we have a previous theme name, try to infer faculty from it
-    if (empty($found_configs) && !empty($previous_theme_name)) {
+    $inference_check_name = $normalized_previous_theme_name ? $normalized_previous_theme_name : $previous_theme_name;
+    if (empty($found_configs) && !empty($inference_check_name)) {
         // Check if the previous theme name contains any faculty indicator
         foreach ($theme_names as $theme_name) {
-            if (stripos($previous_theme_name, $theme_name) !== false || stripos($theme_name, $previous_theme_name) !== false) {
+            if (stripos($inference_check_name, $theme_name) !== false || stripos($theme_name, $inference_check_name) !== false) {
                 // Found a matching theme name, create a minimal config
                 return array(
                     'theme_name' => $theme_name,
@@ -865,15 +1035,15 @@ function fau_elemental_detect_previous_theme_config() {
         
         // Try to extract faculty from theme name directly
         $faculty_from_name = '';
-        if (stripos($previous_theme_name, 'techfak') !== false || stripos($previous_theme_name, 'tech') !== false) {
+        if (stripos($inference_check_name, 'techfak') !== false || stripos($inference_check_name, 'tech') !== false) {
             $faculty_from_name = 'FAU-Techfak';
-        } elseif (stripos($previous_theme_name, 'rwfak') !== false || stripos($previous_theme_name, 'rw') !== false) {
+        } elseif (stripos($inference_check_name, 'rwfak') !== false || stripos($inference_check_name, 'rw') !== false) {
             $faculty_from_name = 'FAU-RWFak';
-        } elseif (stripos($previous_theme_name, 'medfak') !== false || stripos($previous_theme_name, 'med') !== false) {
+        } elseif (stripos($inference_check_name, 'medfak') !== false || stripos($inference_check_name, 'med') !== false) {
             $faculty_from_name = 'FAU-Medfak';
-        } elseif (stripos($previous_theme_name, 'natfak') !== false || stripos($previous_theme_name, 'nat') !== false) {
+        } elseif (stripos($inference_check_name, 'natfak') !== false || stripos($inference_check_name, 'nat') !== false) {
             $faculty_from_name = 'FAU-Natfak';
-        } elseif (stripos($previous_theme_name, 'philfak') !== false || stripos($previous_theme_name, 'phil') !== false) {
+        } elseif (stripos($inference_check_name, 'philfak') !== false || stripos($inference_check_name, 'phil') !== false) {
             $faculty_from_name = 'FAU-Philfak';
         }
         
@@ -948,8 +1118,11 @@ function fau_elemental_migrate_all_settings($force = false) {
     $previous_config = fau_elemental_detect_previous_theme_config();
     
     // Try to get previous theme name even if no config found
+    // Use the same detection logic as in detect_previous_theme_config
     $previous_theme_name = '';
     $previous_theme_stylesheet = '';
+    
+    // First try WordPress function
     if (function_exists('wp_get_previous_theme')) {
         $previous_theme = wp_get_previous_theme();
         if ($previous_theme && is_object($previous_theme)) {
@@ -957,48 +1130,164 @@ function fau_elemental_migrate_all_settings($force = false) {
             $previous_theme_stylesheet = $previous_theme->get_stylesheet();
         }
     }
-    if (empty($previous_theme_name)) {
-        $previous_theme_name = get_transient('_theme_switched');
+    
+    // Check our captured theme (most reliable)
+    if (empty($previous_theme_stylesheet)) {
+        $captured = get_transient('fau_elemental_captured_previous_theme');
+        if (empty($captured)) {
+            $captured = get_option('fau_elemental_captured_previous_theme');
+        }
+        if (!empty($captured) && is_array($captured)) {
+            $previous_theme_stylesheet = isset($captured['stylesheet']) ? $captured['stylesheet'] : '';
+            $previous_theme_name = isset($captured['name']) ? $captured['name'] : $previous_theme_stylesheet;
+        }
     }
     
-    // Use stylesheet if available (more reliable)
-    if (!empty($previous_theme_stylesheet)) {
-        $previous_theme_name = $previous_theme_stylesheet;
+    // Check WordPress transient
+    if (empty($previous_theme_name)) {
+        $previous_theme_name = get_transient('_theme_switched');
+        if (!empty($previous_theme_name) && empty($previous_theme_stylesheet)) {
+            $previous_theme_stylesheet = $previous_theme_name;
+        }
+    }
+    
+    // Check WordPress option
+    if (empty($previous_theme_stylesheet)) {
+        $old_stylesheet = get_option('theme_switched');
+        if (!empty($old_stylesheet)) {
+            $previous_theme_stylesheet = $old_stylesheet;
+            $previous_theme_name = $old_stylesheet;
+        }
+    }
+    
+    // Normalize theme names by removing branch suffixes
+    // But preserve original for checking options
+    $original_previous_stylesheet = $previous_theme_stylesheet; // Store original before normalization
+    $original_previous_theme_name = $previous_theme_name; // Store original before normalization
+    
+    $normalized_previous_theme_name = fau_elemental_normalize_theme_name($previous_theme_name);
+    $normalized_previous_stylesheet = fau_elemental_normalize_theme_name($previous_theme_stylesheet);
+    
+    // Use normalized stylesheet if available (more reliable)
+    if (!empty($normalized_previous_stylesheet)) {
+        $previous_theme_name = $normalized_previous_stylesheet;
+    } elseif (!empty($normalized_previous_theme_name)) {
+        $previous_theme_name = $normalized_previous_theme_name;
     }
     
     if (!$previous_config) {
         // No previous config found, but try to infer faculty from theme name
         $inferred_faculty = null;
         $inferred_theme_name = '';
+        $inferred_website_type = null;
         
-        if (!empty($previous_theme_name)) {
+        // Use normalized theme name for inference, but keep original for checking options
+        $inference_theme_name = $normalized_previous_theme_name ? $normalized_previous_theme_name : $previous_theme_name;
+        // Use the original stylesheet we preserved earlier
+        $original_previous_stylesheet_for_inference = $original_previous_stylesheet;
+        
+        if (!empty($inference_theme_name)) {
             // First check if the theme name exactly matches one of our known themes
             $theme_names = fau_elemental_get_previous_theme_names();
             foreach ($theme_names as $theme_name) {
-                if (strcasecmp($previous_theme_name, $theme_name) === 0) {
+                if (strcasecmp($inference_theme_name, $theme_name) === 0) {
                     $inferred_theme_name = $theme_name;
-                    $inferred_faculty = fau_elemental_map_theme_to_faculty($theme_name);
+                    
+                    // If it's FAU-Einrichtungen, try to get settings from its theme_mods
+                    if ($theme_name === 'FAU-Einrichtungen') {
+                        // Check both normalized name and original name with suffix
+                        $einrichtungen_options = array('theme_mods_FAU-Einrichtungen');
+                        if (!empty($original_previous_stylesheet_for_inference) && $original_previous_stylesheet_for_inference !== $normalized_previous_stylesheet && stripos($original_previous_stylesheet_for_inference, 'FAU-Einrichtungen') === 0) {
+                            // Also check with suffix if it exists and matches FAU-Einrichtungen
+                            $einrichtungen_options[] = 'theme_mods_' . $original_previous_stylesheet_for_inference;
+                        }
+                        
+                        $einrichtungen_mods = array();
+                        foreach ($einrichtungen_options as $option_name) {
+                            $check_mods = get_option($option_name, array());
+                            if (!empty($check_mods) && is_array($check_mods)) {
+                                $einrichtungen_mods = $check_mods;
+                                break;
+                            } elseif (get_option($option_name) !== false) {
+                                // Option exists but might be empty or unserialized
+                                $raw_option = get_option($option_name);
+                                if (!empty($raw_option)) {
+                                    $check_mods = maybe_unserialize($raw_option);
+                                    if (is_array($check_mods) && !empty($check_mods)) {
+                                        $einrichtungen_mods = $check_mods;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (!empty($einrichtungen_mods) && is_array($einrichtungen_mods)) {
+                            // Check website_type
+                            if (isset($einrichtungen_mods['website_type'])) {
+                                $website_type_mapping = array(
+                                    0 => 'faculty',
+                                    1 => 'chair',
+                                    2 => 'other',
+                                    3 => 'cooperation',
+                                    -1 => 'fau',
+                                );
+                                $old_website_type = $einrichtungen_mods['website_type'];
+                                if (isset($website_type_mapping[$old_website_type])) {
+                                    $inferred_website_type = $website_type_mapping[$old_website_type];
+                                }
+                            }
+                            
+                            // Check faculty setting if website_type is faculty
+                            if ($inferred_website_type === 'faculty' || (isset($einrichtungen_mods['website_type']) && $einrichtungen_mods['website_type'] == 0)) {
+                                $old_faculty_keys = array('website_usefaculty', 'faculty', 'faue_faculty', 'fau_faculty', 'orga_faculty');
+                                foreach ($old_faculty_keys as $key) {
+                                    if (isset($einrichtungen_mods[$key]) && !empty($einrichtungen_mods[$key])) {
+                                        $old_faculty = sanitize_text_field($einrichtungen_mods[$key]);
+                                        if (in_array($old_faculty, array('phil', 'nat', 'med', 'rw', 'tf'))) {
+                                            $inferred_faculty = $old_faculty;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Default to phil if FAU-Einrichtungen and no faculty found
+                        if (empty($inferred_faculty)) {
+                            $inferred_faculty = 'phil';
+                        }
+                    } else {
+                        // It's a faculty-specific theme, map directly
+                        $inferred_faculty = fau_elemental_map_theme_to_faculty($theme_name);
+                        // Faculty-specific themes should have website_type = 'faculty'
+                        $inferred_website_type = 'faculty';
+                    }
                     break;
                 }
             }
             
             // If no exact match, try to extract faculty from theme name
             if (empty($inferred_theme_name)) {
-                if (stripos($previous_theme_name, 'techfak') !== false || stripos($previous_theme_name, 'tech') !== false) {
+                if (stripos($inference_theme_name, 'techfak') !== false || stripos($inference_theme_name, 'tech') !== false) {
                     $inferred_theme_name = 'FAU-Techfak';
                     $inferred_faculty = 'tf';
-                } elseif (stripos($previous_theme_name, 'rwfak') !== false || stripos($previous_theme_name, 'rw') !== false) {
+                    $inferred_website_type = 'faculty';
+                } elseif (stripos($inference_theme_name, 'rwfak') !== false || stripos($inference_theme_name, 'rw') !== false) {
                     $inferred_theme_name = 'FAU-RWFak';
                     $inferred_faculty = 'rw';
-                } elseif (stripos($previous_theme_name, 'medfak') !== false || stripos($previous_theme_name, 'med') !== false) {
+                    $inferred_website_type = 'faculty';
+                } elseif (stripos($inference_theme_name, 'medfak') !== false || stripos($inference_theme_name, 'med') !== false) {
                     $inferred_theme_name = 'FAU-Medfak';
                     $inferred_faculty = 'med';
-                } elseif (stripos($previous_theme_name, 'natfak') !== false || stripos($previous_theme_name, 'nat') !== false) {
+                    $inferred_website_type = 'faculty';
+                } elseif (stripos($inference_theme_name, 'natfak') !== false || stripos($inference_theme_name, 'nat') !== false) {
                     $inferred_theme_name = 'FAU-Natfak';
                     $inferred_faculty = 'nat';
-                } elseif (stripos($previous_theme_name, 'philfak') !== false || stripos($previous_theme_name, 'phil') !== false) {
+                    $inferred_website_type = 'faculty';
+                } elseif (stripos($inference_theme_name, 'philfak') !== false || stripos($inference_theme_name, 'phil') !== false) {
                     $inferred_theme_name = 'FAU-Philfak';
                     $inferred_faculty = 'phil';
+                    $inferred_website_type = 'faculty';
                 }
             }
         }
@@ -1011,12 +1300,18 @@ function fau_elemental_migrate_all_settings($force = false) {
             set_theme_mod('faue_faculty', $inferred_faculty);
         }
         
+        // Override website_type if we inferred it
+        if (!empty($inferred_website_type)) {
+            set_theme_mod('faue_website_type', $inferred_website_type);
+        }
+        
         update_option('fau_elemental_all_settings_migrated', true);
         return array(
             'migrated' => false, 
             'reason' => 'no_previous_config', 
             'faculty_inferred' => !empty($inferred_faculty),
-            'faculty' => $inferred_faculty ? true : false
+            'faculty' => $inferred_faculty ? true : false,
+            'website_type_inferred' => !empty($inferred_website_type)
         );
     }
     
@@ -1029,6 +1324,10 @@ function fau_elemental_migrate_all_settings($force = false) {
         'theme_name' => $theme_name
     );
     
+    // Get normalized names for FAU-Einrichtungen checking
+    $normalized_previous_stylesheet_for_check = $normalized_previous_stylesheet;
+    $original_previous_stylesheet_for_check = $original_previous_stylesheet;
+    
     // Migrate address information
     $migration_results['address'] = fau_elemental_migrate_address_data($old_theme_mods);
     
@@ -1037,6 +1336,82 @@ function fau_elemental_migrate_all_settings($force = false) {
     
     // Set faculty based on theme name
     $faculty_code = fau_elemental_map_theme_to_faculty($theme_name);
+    
+    // Special handling for FAU-Einrichtungen: check its settings to determine website type and faculty
+    if ($theme_name === 'FAU-Einrichtungen') {
+        // If old_theme_mods is empty or website_type wasn't migrated, check FAU-Einrichtungen theme_mods directly
+        if (empty($old_theme_mods) || !$migration_results['website_type']) {
+            // Check both normalized name and original name with suffix
+            $einrichtungen_options = array('theme_mods_FAU-Einrichtungen');
+            if (!empty($original_previous_stylesheet_for_check) && $original_previous_stylesheet_for_check !== $normalized_previous_stylesheet_for_check && stripos($original_previous_stylesheet_for_check, 'FAU-Einrichtungen') === 0) {
+                // Also check with suffix if it exists and matches FAU-Einrichtungen
+                $einrichtungen_options[] = 'theme_mods_' . $original_previous_stylesheet_for_check;
+            }
+            
+            $einrichtungen_mods = array();
+            foreach ($einrichtungen_options as $option_name) {
+                $check_mods = get_option($option_name, array());
+                if (!empty($check_mods) && is_array($check_mods)) {
+                    $einrichtungen_mods = $check_mods;
+                    break;
+                } elseif (get_option($option_name) !== false) {
+                    // Option exists but might be empty or unserialized
+                    $raw_option = get_option($option_name);
+                    if (!empty($raw_option)) {
+                        $check_mods = maybe_unserialize($raw_option);
+                        if (is_array($check_mods) && !empty($check_mods)) {
+                            $einrichtungen_mods = $check_mods;
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // Use einrichtungen_mods if found, otherwise use old_theme_mods
+            if (!empty($einrichtungen_mods)) {
+                $old_theme_mods = $einrichtungen_mods;
+            }
+        }
+        
+        // Check if website_type was migrated, if not, check the old mods (now potentially from einrichtungen_mods)
+        if (!$migration_results['website_type']) {
+            $old_website_type = isset($old_theme_mods['website_type']) ? $old_theme_mods['website_type'] : null;
+            $website_type_mapping = array(
+                0 => 'faculty',
+                1 => 'chair',
+                2 => 'other',
+                3 => 'cooperation',
+                -1 => 'fau',
+            );
+            if ($old_website_type !== null && isset($website_type_mapping[$old_website_type])) {
+                $new_website_type = $website_type_mapping[$old_website_type];
+                set_theme_mod('faue_website_type', $new_website_type);
+                $migration_results['website_type'] = true;
+            }
+        }
+        
+        // If website_type is faculty, check for faculty setting
+        $current_website_type = get_theme_mod('faue_website_type', 'faculty');
+        if ($current_website_type === 'faculty' || (isset($old_theme_mods['website_type']) && $old_theme_mods['website_type'] == 0)) {
+            // Check for faculty settings in old theme mods
+            $old_faculty_keys = array('website_usefaculty', 'faculty', 'faue_faculty', 'fau_faculty', 'orga_faculty');
+            foreach ($old_faculty_keys as $key) {
+                if (isset($old_theme_mods[$key]) && !empty($old_theme_mods[$key])) {
+                    $old_faculty = sanitize_text_field($old_theme_mods[$key]);
+                    if (in_array($old_faculty, array('phil', 'nat', 'med', 'rw', 'tf'))) {
+                        $faculty_code = $old_faculty;
+                        break;
+                    }
+                }
+            }
+        }
+    } else {
+        // For faculty-specific themes, ensure website_type is set to 'faculty'
+        if (!$migration_results['website_type']) {
+            set_theme_mod('faue_website_type', 'faculty');
+            $migration_results['website_type'] = true;
+        }
+    }
     
     // Double-check: if we have previous theme name, verify it matches
     // This ensures we get the right faculty even if multiple configs exist
@@ -1220,6 +1595,32 @@ function fau_elemental_set_default_settings() {
     set_theme_mod('instance_university_name', 'Friedrich-Alexander-Universität Erlangen-Nürnberg');
 }
 
+/**
+ * Capture the current theme name before switching
+ * This ensures we have the previous theme name even if WordPress doesn't store it properly
+ */
+function fau_elemental_capture_current_theme_before_switch($new_name, $new_theme) {
+    $current_theme = wp_get_theme();
+    if ($current_theme && $current_theme->exists()) {
+        $stylesheet = $current_theme->get_stylesheet();
+        $name = $current_theme->get('Name');
+        
+        // Store both stylesheet and name for later use
+        set_transient('fau_elemental_captured_previous_theme', array(
+            'stylesheet' => $stylesheet,
+            'name' => $name
+        ), 3600);
+        
+        // Also store in option for more permanent storage
+        update_option('fau_elemental_captured_previous_theme', array(
+            'stylesheet' => $stylesheet,
+            'name' => $name,
+            'timestamp' => time()
+        ));
+    }
+}
+add_action('switch_theme', 'fau_elemental_capture_current_theme_before_switch', 10, 2);
+
 // Run the comprehensive migration when switching themes
 add_action('after_switch_theme', 'fau_elemental_migrate_all_settings');
 
@@ -1346,6 +1747,7 @@ function fau_elemental_migration_success_notice() {
     }
 }
 add_action('admin_notices', 'fau_elemental_migration_success_notice');
+
 
 /**
  * Sanitize checkbox value.
