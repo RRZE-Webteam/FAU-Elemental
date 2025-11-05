@@ -113,7 +113,7 @@ footer.wp-block-template-part {
 					color: var(--FAU-Col-FAU-Weiss-100);
 					font-size: 1rem;
 					font-weight: 700;
-					line-height: 1;
+					line-height: var(--base-line-height);
 				}
 
 				.sub-menu {
@@ -321,6 +321,13 @@ footer.wp-block-template-part {
 				background-size: contain;
 				background-repeat: no-repeat;
 				background-position: center;
+			}
+
+			// Default link icon for unrecognized platforms in menu mode
+			&.default-icon {
+				background-image: var(--icon-default-social);
+				width: 1.75rem;
+				height: 1.75rem;
 			}
 		}
 	}

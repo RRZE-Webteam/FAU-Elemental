@@ -7,7 +7,7 @@
  */
 ?>
 
-<section class="hero-page" role="region" aria-label="<?php esc_attr_e('Page Hero', 'fau-elemental'); ?>">
+<section class="hero-page" aria-labelledby="pagetitle">
 
   <?php if (has_post_thumbnail()) : ?>
     <div class="faue-featured-image">
@@ -25,7 +25,7 @@
 
 
   <div>
-    <h1 class="wp-block-post-title"><?php echo esc_html(faue_get_page_title(get_the_ID())); ?></h1>
+    <h1 id="pagetitle" class="wp-block-post-title"><?php echo esc_html(faue_get_page_title(get_the_ID())); ?></h1>
   </div>
 
 </section>
