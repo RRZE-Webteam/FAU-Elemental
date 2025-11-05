@@ -270,12 +270,6 @@ function fau_elemental_format_phone_number($phone) {
     return trim($phone); // Remove excess spaces at the end
 }
 
-/**
- * Footer toggle is now CSS-only and doesn't require JavaScript
- * The toggle uses a checkbox + label pattern for full accessibility
- * without JavaScript dependency
- */
-
 // ============================================================================
 // FAU TEASER GRID AJAX HANDLERS
 // ============================================================================
