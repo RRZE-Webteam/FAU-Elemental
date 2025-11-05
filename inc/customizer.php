@@ -834,8 +834,16 @@ function fau_elemental_get_theme_name_from_stylecss($theme_stylesheet) {
 }
 
 /**
- * Detect the most recent previous theme configuration based on optiontable version
- * Also checks WordPress's stored previous theme name as a fallback
+ * Detect the most recent previous theme configuration
+ * 
+ * Uses multiple criteria to determine which configuration is most recent:
+ * 1. Priority (matching previous theme name, faculty-specific themes)
+ * 2. date-last-use timestamp (if available in theme_mods - most recent wins)
+ * 3. optiontable_version (fallback if date-last-use not available)
+ * 
+ * Also checks WordPress's stored previous theme name as a fallback.
+ * Checks all 6 possible FAU themes: FAU-Einrichtungen, FAU-Medfak, FAU-Natfak, 
+ * FAU-Philfak, FAU-RWFak, FAU-Techfak
  * 
  * @return array|false Array with theme name and mods data, or false if none found
  */
@@ -954,6 +962,15 @@ function fau_elemental_detect_previous_theme_config() {
             // Get optiontable version to determine which is most recent
             $version = isset($theme_mods['optiontable_version']) ? intval($theme_mods['optiontable_version']) : 0;
             
+            // Get date-last-use timestamp if available (helps identify most recently used theme)
+            // Check both possible field names: 'date-last-use' and 'Date-last-use'
+            $date_last_use = 0;
+            if (isset($theme_mods['date-last-use'])) {
+                $date_last_use = intval($theme_mods['date-last-use']);
+            } elseif (isset($theme_mods['Date-last-use'])) {
+                $date_last_use = intval($theme_mods['Date-last-use']);
+            }
+            
             // Give priority to themes that match the previous theme name
             $priority = 0;
             $priority_reason = '';
@@ -979,6 +996,7 @@ function fau_elemental_detect_previous_theme_config() {
                 'theme_name' => $theme_name,
                 'theme_mods' => $theme_mods,
                 'version' => $version,
+                'date_last_use' => $date_last_use,
                 'priority' => $priority,
                 'priority_reason' => $priority_reason ?: 'no priority'
             );
@@ -1005,10 +1023,19 @@ function fau_elemental_detect_previous_theme_config() {
                     
                 foreach ($theme_names as $theme_name) {
                     if (strcasecmp($check_stylesheet, $theme_name) === 0 || stripos($check_stylesheet, $theme_name) === 0) {
+                        // Get date-last-use if available
+                        $date_last_use = 0;
+                        if (isset($direct_theme_mods['date-last-use'])) {
+                            $date_last_use = intval($direct_theme_mods['date-last-use']);
+                        } elseif (isset($direct_theme_mods['Date-last-use'])) {
+                            $date_last_use = intval($direct_theme_mods['Date-last-use']);
+                        }
+                        
                         return array(
                             'theme_name' => $theme_name,
                             'theme_mods' => $direct_theme_mods,
                             'version' => isset($direct_theme_mods['optiontable_version']) ? intval($direct_theme_mods['optiontable_version']) : 0,
+                            'date_last_use' => $date_last_use,
                             'priority' => 3000
                         );
                     }
@@ -1069,13 +1096,33 @@ function fau_elemental_detect_previous_theme_config() {
     
     // If multiple configs found, prioritize by:
     // 1. Priority (matching previous theme name, faculty-specific themes)
-    // 2. Version number (most recent)
+    // 2. date-last-use (most recent timestamp - highest number wins)
+    // 3. Version number (most recent - fallback if date-last-use not available)
     usort($found_configs, function($a, $b) {
         // First sort by priority
         if ($a['priority'] != $b['priority']) {
             return $b['priority'] - $a['priority'];
         }
-        // Then by version number
+        
+        // Then by date-last-use (most recent timestamp wins)
+        // If both have date-last-use, use it; if only one has it, prioritize that one
+        $a_has_date = isset($a['date_last_use']) && $a['date_last_use'] > 0;
+        $b_has_date = isset($b['date_last_use']) && $b['date_last_use'] > 0;
+        
+        if ($a_has_date && $b_has_date) {
+            // Both have date-last-use, compare timestamps
+            if ($a['date_last_use'] != $b['date_last_use']) {
+                return $b['date_last_use'] - $a['date_last_use'];
+            }
+        } elseif ($a_has_date && !$b_has_date) {
+            // A has date-last-use, B doesn't - prioritize A
+            return -1;
+        } elseif (!$a_has_date && $b_has_date) {
+            // B has date-last-use, A doesn't - prioritize B
+            return 1;
+        }
+        
+        // If neither has date-last-use or they're equal, fall back to version number
         return $b['version'] - $a['version'];
     });
     
