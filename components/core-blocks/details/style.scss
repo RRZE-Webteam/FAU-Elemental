@@ -13,13 +13,16 @@ details.wp-block-details {
 	}
 
 	summary {
+		display: flex;
+		align-items: center;
+		position: relative;
 		outline: none; // Hide default arrow
 		list-style: none; // Hide default arrow
-		position: relative;
 		font-size: var(--H-Heading-4);
 		font-weight: 700;
 		color: var(--FAU-Col-FAU-Blau-100);
 		padding-right: var(--Spacing-20x);
+		min-height: var(--accessible-target-size);
 
 		&::-webkit-details-marker {
 			display: none; // Hide default arrow
@@ -36,27 +39,26 @@ details.wp-block-details {
 			height: 0.9375rem;
 			width: 0.5625rem;
 			right: 0.9375rem;
-			top: 0.5rem;
+			top: calc(50% - 0.4rem);
 			transition: var(--basic-animation);
 		}
 
 		// Box for chevron
 		&::after {
-
 			content: "";
 			position: absolute;
 			background-color: var(--FAU-Col-FAU-Blau-100);
 			height: 2.5rem;
 			width: 2.5rem;
 			right: 0;
-			top: -0.3125rem;
+			top: calc(50% - 1.25rem);
 		}
 
 		&:hover,
 		&:focus-visible {
 
 			&::before {
-				top: 0.75rem;
+				top: calc(50% - 0.1rem);
 				transition: var(--basic-animation);
 			}
 		}

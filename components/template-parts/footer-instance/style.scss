@@ -94,6 +94,12 @@
 							}
 						}
 					}
+
+					.directions-link {
+						display: inline-flex;
+						align-items: flex-start;
+						height: var(--accessible-target-size);
+					}
 				}
 			}
 
@@ -324,7 +330,7 @@
 
 					.important-links-list {
 						flex-direction: row;
-						gap: var(--Spacing-6x);
+						gap: var(--Spacing-12x);
 						flex-wrap: wrap;
 					}
 				}
@@ -384,6 +390,10 @@
 			span + .directions {
 				margin-top: var(--Spacing-6x);
 			}
+		}
+
+		.directions-link {
+			align-items: center;
 		}
 	}
 }

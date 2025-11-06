@@ -119,6 +119,17 @@ body {
 		text-align: left;
 	}
 
+	ul,
+	ol,
+	dl,
+	code,
+	caption,
+	figcaption,
+	address,
+	pre {
+		font-size: var(--P-Body-Text);
+	}
+
 	> ul,
 	> ol {
 		list-style-position: inside;
@@ -163,6 +174,8 @@ body {
 }
 
 // Basic HTML editor style (fallbacks)
+
+// General
 .editor-styles-wrapper .mce-content-body {
 
 	h1,
@@ -205,10 +218,236 @@ figure:has(> img)::before {
 	height: 100%;
 }
 
+// Lists
+main ul,
+main ol {
+	max-width: var(--small-max-width);
+	font-size: var(--P-Body-Text);
+	color: var(--FAU-Col-FAU-Schwarz-100);
+	font-weight: 400;
+	line-height: var(--base-line-height);
+
+	@include smaller-or-equals("small") {
+		font-size: 1rem;
+	}
+}
+
+main ul:not(.wp-block-list) {
+	padding-left: var(--Spacing-14x);
+	list-style-type: none;
+
+	@media screen and (max-width: 950px) {
+		margin: 0 var(--Spacing-10x);
+
+		ul {
+			margin: 0;
+		}
+	}
+
+	@include smaller-or-equals("x-small") {
+		margin: 0 var(--Spacing-5x);
+	}
+
+	strong {
+		font-weight: 700;
+	}
+
+	em {
+		letter-spacing: var(--letter-spacing-small);
+	}
+
+	ul,
+	ol {
+		margin-top: var(--Spacing-6x);
+	}
+
+	li {
+		position: relative;
+	}
+
+	&:not(.list-icons) {
+
+		> li {
+			margin-bottom: var(--Spacing-6x);
+
+			@include smaller-or-equals("small") {
+				margin-bottom: var(--Spacing-4x);
+			}
+
+			&::before {
+				content: "";
+				position: absolute;
+				background-color: var(--FAU-Col-FAU-Blau-100);
+				width: var(--Spacing-8x);
+				height: 0.125rem;
+				left: calc(-1 * var(--Spacing-14x));
+				top: var(--Spacing-3x);
+			}
+		}
+	}
+
+	&.fau-teaser-grid {
+		padding-left: 0;
+
+		> li::before {
+			display: none;
+		}
+	}
+}
+
+main .fau-portal-menu > ul:not(.wp-block-list),
+.fau-portal-menu > ul:not(.wp-block-list) {
+	padding-left: 0;
+
+	> li::before {
+		display: none;
+	}
+}
+
+main ol:not(.wp-block-list) {
+	padding-left: var(--Spacing-6x);
+	list-style-position: unset;
+
+	@media screen and (max-width: 950px) {
+		padding: 0 var(--Spacing-10x) 0 var(--Spacing-16x);
+	}
+
+	@include smaller-or-equals("x-small") {
+		padding: 0 var(--Spacing-5x) 0 var(--Spacing-12x);
+	}
+
+	ol {
+		padding: 0 var(--Spacing-10x) 0 var(--Spacing-16x);
+	}
+
+	> li {
+		padding-left: var(--Spacing-8x);
+		margin-bottom: var(--Spacing-4x);
+
+		@include smaller-or-equals("small") {
+			margin-bottom: var(--Spacing-2x);
+		}
+
+		&::marker {
+			color: var(--FAU-Col-FAU-Blau-100);
+			font-size: var(--H-Heading-3);
+			font-weight: 700;
+		}
+	}
+}
+
+// Tables
+table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: 0;
+	font-size: var(--P-Caption);
+
+	@include smaller-or-equals("small") {
+		display: block;
+		overflow-x: auto;
+	}
+
+	td,
+	th {
+		background-color: inherit;
+		border: none;
+		padding: var(--Spacing-2x);
+		vertical-align: top;
+		line-height: var(--base-line-height);
+		font-weight: 400;
+	}
+
+	thead {
+		position: relative;
+		border: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
+
+		th {
+			background-color: var(--FAU-Col-FAU-Blau-100);
+			color: var(--FAU-Col-FAU-Weiss-100);
+			font-weight: 400;
+			text-align: left;
+			padding: var(--Spacing-3x) var(--Spacing-2x);
+
+			&:last-child {
+				border-right: none;
+			}
+
+			a {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
+		}
+	}
+
+	tbody {
+		border: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-25);
+
+		tr {
+			background-color: var(--FAU-Col-FAU-Weiss-100);
+
+			td:first-child {
+				color: var(--FAU-Col-FAU-Blau-100);
+				padding-right: var(--Spacing-4x);
+				background-color: inherit;
+				width: 10.625rem;
+				min-width: 10.625rem;
+			}
+
+			td {
+				text-align: left;
+				padding: var(--Spacing-2x);
+				background-color: inherit;
+				border-right: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-25);
+				min-width: 21.25rem;
+
+				&:last-child {
+					border-right: none;
+				}
+			}
+
+			&:nth-child(even) {
+				background-color: var(--FAU-Col-FAU-Schwarz-12_5);
+
+				td {
+					border-right-color: var(--FAU-Col-FAU-Schwarz-25);
+				}
+			}
+		}
+	}
+
+	thead + tbody {
+
+		tr {
+
+			td {
+				min-width: 7.5rem;
+			}
+		}
+	}
+
+	tfoot {
+		border: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-25);
+		border-top: none;
+		background-color: var(--FAU-Col-FAU-Schwarz-5);
+
+		td {
+			padding: var(--Spacing-2x);
+			color: var(--FAU-Col-FAU-Schwarz-62_5);
+			border-right: 0.0625rem solid var(--FAU-Col-FAU-Schwarz-25);
+		}
+
+		tr {
+			background: none;
+			border: none;
+		}
+	}
+}
+
 // Basic form style
 
 // Label
-form {
+main form {
 
 	:where(label) {
 		font-size: 1rem;
@@ -216,7 +455,7 @@ form {
 }
 
 // Inputs
-:where(
+main :where(
 input[type="text"],
 input[type="email"],
 input[type="url"],
@@ -297,7 +536,7 @@ textarea {
 }
 
 // Submit
-:where(input[type="submit"]) {
+main :where(input[type="submit"]) {
 	width: calc(100% + 3.5rem);
 	border: none;
 	border-radius: 0;
@@ -314,7 +553,7 @@ textarea {
 	cursor: pointer;
 }
 
-:where(
+main :where(
 span:has(> input[type="submit"]),
 div:has(> input[type="submit"]),
 p:has(> input[type="submit"])
@@ -367,7 +606,7 @@ p:has(> input[type="submit"])
 }
 
 // Select
-:where(select) {
+main :where(select) {
 	width: 100%;
 	background: none;
 	padding: 0.75rem 1rem;
@@ -394,7 +633,7 @@ p:has(> input[type="submit"])
 	}
 }
 
-:where(
+main :where(
 span:has(> select),
 div:has(> select),
 p:has(> select)
@@ -437,7 +676,7 @@ p:has(> select)
 }
 
 // Checkbox
-:where(input[type="checkbox"]) {
+main :where(input[type="checkbox"]) {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -478,7 +717,7 @@ p:has(> select)
 }
 
 // Radio
-:where(input[type="radio"]) {
+main :where(input[type="radio"]) {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;

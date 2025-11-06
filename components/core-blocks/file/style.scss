@@ -99,8 +99,8 @@ div.wp-block-file {
 				background-color: var(--FAU-Col-FAU-Blau-100);
 				right: 0;
 				top: calc(50% - 1.25rem);
-				width: 2.5rem;
-				height: 2.5rem;
+				width: var(--accessible-target-size);
+				height: var(--accessible-target-size);
 				border-radius: 0;
 				padding: unset;
 
