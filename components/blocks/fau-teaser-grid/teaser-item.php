@@ -51,9 +51,9 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
 
     // Add date meta for posts (visible)
     if ($variant === 'post') {
-        $date_obj = new DateTime($post->post_date);
-        $day = $date_obj->format('d');
-        $month_year = strtoupper($date_obj->format('M Y'));
+        $timestamp = strtotime($post->post_date);
+        $day = date_i18n('d', $timestamp);
+        $month_year = strtoupper(date_i18n('M Y', $timestamp));
         
         $output .= '<div class="teaser-meta">';
         $output .= sprintf(

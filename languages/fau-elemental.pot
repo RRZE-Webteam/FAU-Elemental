@@ -549,7 +549,7 @@ msgstr ""
 
 #: components/template-parts/search-results/search-results.php:408
 #: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
-#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:156
+#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:161
 msgid "Read more"
 msgstr ""
 
