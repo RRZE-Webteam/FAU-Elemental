@@ -228,7 +228,9 @@ input[type="date"],
 input[type="time"],
 input[type="month"],
 input[type="week"],
+input[type="datetime"],
 input[type="datetime-local"],
+input[type="file"],
 select,
 textarea
 ) {
@@ -277,6 +279,23 @@ textarea
 	}
 }
 
+:where(
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="month"],
+input[type="week"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="file"]
+) {
+	width: auto;
+}
+
+textarea {
+	resize: vertical;
+}
+
 // Submit
 :where(input[type="submit"]) {
 	width: calc(100% + 3.5rem);
@@ -322,6 +341,28 @@ p:has(> input[type="submit"])
 		&::before {
 			right: -2.7rem;
 		}
+	}
+}
+
+// Reset
+:where(input[type="reset"]) {
+	width: auto;
+	border: none;
+	border-radius: 0;
+	background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+	color: var(--FAU-Col-FAU-Weiss-100);
+	font-weight: 600;
+	height: 3.5rem;
+	padding: 0 1.5rem;
+	font-size: 1.125rem;
+	letter-spacing: var(--letter-spacing-big);
+	text-align: left;
+	font-family: var(--font-family-base);
+	cursor: pointer;
+
+	&:hover,
+	&:focus-visible {
+		background-color: var(--FAU-Col-FAU-Blau-100);
 	}
 }
 
@@ -380,6 +421,17 @@ p:has(> select)
 
 		&::before {
 			top: 1.7rem;
+		}
+	}
+
+	&:has([multiple]) {
+
+		&::before {
+			display: none;
+		}
+
+		select[multiple] {
+			box-shadow: unset;
 		}
 	}
 }
@@ -480,32 +532,23 @@ p:has(> select)
 }
 
 // Basic form style - Exceptions for CF7
-.wp-block-contact-form-7-contact-form-selector {
-	max-width: var(--small-max-width);
-	padding: 0 var(--Spacing-10x);
+.wpcf7-form {
 
-	@include smaller-or-equals("x-small") {
-		padding: 0 var(--Spacing-5x);
+	p:has(> input[type="submit"]) {
+
+		.wpcf7-spinner {
+			display: none;
+		}
 	}
 
-	.wpcf7-form {
+	.wpcf7-list-item {
+		margin: unset;
+	}
 
-		p:has(> input[type="submit"]) {
+	.is-layout-flow & {
 
-			.wpcf7-spinner {
-				display: none;
-			}
-		}
-
-		.wpcf7-list-item {
-			margin: unset;
-		}
-
-		.is-layout-flow & {
-
-			p {
-				padding: unset;
-			}
+		p {
+			padding: unset;
 		}
 	}
 }
