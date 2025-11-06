@@ -21,8 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
 function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level = 'h4') {
-    // Use the new fallback image functionality
-    $image = get_the_post_thumbnail_url($post->ID, 'medium_large') ?: faue_get_post_fallback_image($post->ID, 'medium_large');
     $title = get_the_title($post);
     $excerpt = strip_shortcodes(get_the_excerpt($post));
     $link = get_permalink($post);
@@ -39,14 +37,39 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
         $post->ID
     );
     
-    // Image wrapper
+    // Image wrapper - use responsive images with proper srcset/sizes
     $output .= '<div class="teaser-image-wrapper">';
     $output .= '<div class="teaser-image">';
-    $output .= sprintf(
-        '<img src="%s" alt="%s" loading="lazy">',
-        esc_url($image),
-        esc_attr($title)
-    );
+    
+    // Get featured image ID or fallback image
+    $featured_img_id = get_post_thumbnail_id($post->ID);
+    
+    if ($featured_img_id) {
+        // Use wp_get_attachment_image for responsive images with srcset
+        // Sizes: 3 columns on desktop (440px each), 2 columns on medium (50vw), 1 column on mobile (100vw)
+        $output .= wp_get_attachment_image($featured_img_id, 'medium_large', false, [
+            'alt' => $title,
+            'loading' => 'lazy',
+            'sizes' => '(max-width: 999px) 100vw, (max-width: 1199px) 50vw, 440px'
+        ]);
+    } else {
+        // Fallback image - get responsive version if available
+        $fallback_image_html = faue_get_post_fallback_image_html($post->ID, $title, 'medium_large', [
+            'sizes' => '(max-width: 999px) 100vw, (max-width: 1199px) 50vw, 440px'
+        ]);
+        if ($fallback_image_html) {
+            $output .= $fallback_image_html;
+        } else {
+            // Last resort: simple img tag with fallback URL
+            $fallback_url = faue_get_post_fallback_image($post->ID, 'medium_large');
+            $output .= sprintf(
+                '<img src="%s" alt="%s" loading="lazy">',
+                esc_url($fallback_url),
+                esc_attr($title)
+            );
+        }
+    }
+    
     $output .= '</div>';
 
     // Add date meta for posts (visible)
