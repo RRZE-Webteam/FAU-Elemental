@@ -3,6 +3,8 @@
 // ============================================================================
 // This file imports all component styles for the frontend theme
 
+@use "../core-blocks/gallery/style" as *;
+
 // UI Foundation (Variables and Base Styles)
 @use "variables/index" as *;
 @use "base/index" as *;
@@ -18,7 +20,6 @@
 @use "../core-blocks/details/style" as *;
 @use "../core-blocks/buttons/style" as *;
 @use "../core-blocks/file/style" as *;
-@use "../core-blocks/gallery/style" as *;
 @use "../core-blocks/group/style" as *;
 @use "../core-blocks/heading/style" as *;
 @use "../core-blocks/image/style" as *;

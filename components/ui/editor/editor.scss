@@ -10,7 +10,6 @@
 @use "../../core-blocks/gallery/editor" as *;
 @use "../../core-blocks/image/editor" as *;
 @use "../../core-blocks/file/editor" as *;
-@use "../../core-blocks/verse/editor" as *;
 @use "../../core-blocks/spacer/editor" as *;
 @use "../../core-blocks/group/editor" as *;
 
@@ -59,13 +58,13 @@ html :where(.editor-styles-wrapper) {
 	border-left: 4px solid #2271b1;
 }
 
-.editor-styles-wrapper {
+:where(.editor-styles-wrapper) {
 
 	.is-root-container {
 
 		> * {
-			margin-left: auto;
-			margin-right: auto;
+			max-width: var(--small-max-width);
+			margin-inline: auto;
 		}
 
 

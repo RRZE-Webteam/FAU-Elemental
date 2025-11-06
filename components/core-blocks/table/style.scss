@@ -6,11 +6,6 @@
 
 .wp-block-table-wrapper {
 	max-width: var(--small-max-width);
-	padding: 0 var(--Spacing-10x);
-
-	@include smaller-or-equals("x-small") {
-		padding: 0 var(--Spacing-5x);
-	}
 }
 
 .wp-block-table {
@@ -149,7 +144,7 @@
 	sup,
 	sub {
 		font-size: 0.75em;
-		line-height: 0;
+		line-height: var(--base-line-height);
 		position: relative;
 	}
 

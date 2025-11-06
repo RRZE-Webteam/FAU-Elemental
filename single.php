@@ -7,12 +7,6 @@
  */
 
 get_header();
-
-if (locate_template('template-parts/hero-post.php')) {
-    get_template_part('template-parts/hero', 'post');
-} else {
-    get_template_part('components/template-parts/hero-post/hero-post');
-}
 ?>
 
 <main id="main" class="site-main" role="main">
@@ -22,7 +16,15 @@ if (locate_template('template-parts/hero-post.php')) {
             the_post();
             ?>
             <article id="post-<?php echo esc_attr(get_the_ID()); ?>" <?php post_class(); ?>>
-                <div class="is-layout-flow faue-content-wrapper">
+                <?php
+                // Include hero-post header inside the article
+                if (locate_template('template-parts/hero-post.php')) {
+                    get_template_part('template-parts/hero', 'post');
+                } else {
+                    get_template_part('components/template-parts/hero-post/hero-post');
+                }
+                ?>
+                <div class="faue-content-wrapper">
                     <?php the_content(); ?>
                 </div>
 

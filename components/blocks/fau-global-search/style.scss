@@ -31,13 +31,12 @@
 	}
 }
 
-.fau-global-search__outer-wrapper {
+div.fau-global-search__outer-wrapper {
 	max-width: var(--wide-max-width);
-	padding: var(--Spacing-6x) var(--Spacing-10x);
 }
 
 
-.fau-global-search__outer-wrapper:has(.fau-global-search-wrapper--content-size) {
+div.fau-global-search__outer-wrapper:has(.fau-global-search-wrapper--content-size) {
 	max-width: var(--small-max-width);
 }
 

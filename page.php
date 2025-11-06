@@ -17,7 +17,7 @@ if (have_posts()) {
 <main id="main" class="site-main">
     <?php while (have_posts()) : the_post(); ?>
 
-        <div class="is-layout-flow faue-content-wrapper">
+        <div class="faue-content-wrapper">
             <?php the_content(); ?>
         </div>
 

@@ -185,18 +185,7 @@ export default function EditorPreview( { attributes } ) {
 								loading="lazy"
 							/>
 						) : (
-							<img
-								src={ FALLBACK_IMAGE }
-								alt={ sprintf(
-									// translators: %s: Menu item title
-									__(
-										'No image available for %s',
-										'fau-elemental'
-									),
-									itemTitle
-								) }
-								loading="lazy"
-							/>
+							<img src={ FALLBACK_IMAGE } alt="" loading="lazy" />
 						) }
 					</div>
 				) }
