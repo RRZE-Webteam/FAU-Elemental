@@ -135,25 +135,51 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
 
     public static function render_portalmenu($slug, $settings = array()) {
         $menu_items = wp_get_nav_menu_items($slug);
+        if (empty($menu_items)) {
+            return '';
+        }
+
         $post_ids = [];
         foreach ($menu_items as $item) {
             if ($item->menu_item_parent === 0 && ($item->object === 'page' || $item->object === 'post')) {
                 $post_ids[] = (int) $item->object_id;
             }
         }
-        _prime_post_caches($post_ids, false, true);
 
-        $query = new WP_Query([
-            'post__in' => $post_ids,
-            'post_type' => ['page', 'post'],
-            'post_status' => 'publish',
-            'nopaging' => true,
-        ]);
-        update_post_thumbnail_cache($query);
+        // Limit to prevent memory issues on large sites - reduced default to 50
+        $max_items = apply_filters('fau_portal_menu_max_items', 50);
+        if (count($post_ids) > $max_items) {
+            $post_ids = array_slice($post_ids, 0, $max_items);
+        }
 
-        $linked_posts = [];
-        foreach ($query->posts as $post) {
-            $linked_posts[$post->ID] = $post;
+        if (!empty($post_ids)) {
+            // Process posts in smaller batches to prevent memory exhaustion
+            // Removed _prime_post_caches() to prevent double-loading and memory issues
+            $linked_posts = [];
+            $batch_size = 20; // Process in smaller batches
+            $batches = array_chunk($post_ids, $batch_size);
+            
+            foreach ($batches as $batch) {
+                $batch_query = new WP_Query([
+                    'post__in' => $batch,
+                    'post_type' => ['page', 'post'],
+                    'post_status' => 'publish',
+                    'posts_per_page' => count($batch),
+                    'no_found_rows' => true,
+                    'update_post_meta_cache' => false, // Skip meta cache to save memory
+                    'update_post_term_cache' => false, // Skip term cache to save memory
+                    'update_post_author_cache' => false, // Skip author cache to save memory
+                ]);
+                
+                foreach ($batch_query->posts as $post) {
+                    $linked_posts[$post->ID] = $post;
+                }
+                
+                wp_reset_postdata();
+                unset($batch_query);
+            }
+        } else {
+            $linked_posts = [];
         }
 
         $menu_filter = function ($items) use ($linked_posts) {
