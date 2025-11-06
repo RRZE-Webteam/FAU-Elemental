@@ -145,6 +145,29 @@ function fau_customizer_settings($wp_customize) {
         'description' => __('Settings for the footer', 'fau-elemental'),
     ]);
     
+    // ======= 0. GENERAL FOOTER SETTINGS SECTION =======
+    $wp_customize->add_section('footer_settings', [
+        'title' => __('General', 'fau-elemental'),
+        'panel' => 'fau_footer_panel',
+        'priority' => 5,
+        'description' => __('General footer settings', 'fau-elemental'),
+    ]);
+    
+    // Important Links heading
+    $wp_customize->add_setting('important_links_heading', [
+        'default' => __('Important Links', 'fau-elemental'),
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    
+    $wp_customize->add_control('important_links_heading', [
+        'label' => __('Important Links Heading', 'fau-elemental'),
+        'description' => __('Heading text for the important links section in the footer', 'fau-elemental'),
+        'section' => 'footer_settings',
+        'type' => 'text',
+        'priority' => 10,
+    ]);
+    
     // ======= 1. CLAIM SECTION =======
     $website_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
     $claim_description = __('Configure the main claim section', 'fau-elemental');
@@ -380,21 +403,6 @@ function fau_customizer_settings($wp_customize) {
         'section' => 'footer_kontaktinformation',
         'type' => 'text',
         'priority' => 65,
-    ]);
-    
-    // Important Links heading
-    $wp_customize->add_setting('important_links_heading', [
-        'default' => __('Important Links', 'fau-elemental'),
-        'transport' => 'refresh',
-        'sanitize_callback' => 'sanitize_text_field',
-    ]);
-    
-    $wp_customize->add_control('important_links_heading', [
-        'label' => __('Important Links Heading', 'fau-elemental'),
-        'description' => __('Heading text for the important links section in the footer', 'fau-elemental'),
-        'section' => 'footer_kontaktinformation',
-        'type' => 'text',
-        'priority' => 70,
     ]);
     
     // ======= 4. ZIELGRUPPEN-LINKS SECTION =======
