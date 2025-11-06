@@ -110,7 +110,7 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     $output = sprintf('<section %s>', $wrapper_attributes);
     
     $output .= sprintf(
-        '<div class="%s" aria-label="%s" data-variant="%s">', 
+        '<ul class="%s" aria-label="%s" data-variant="%s">', 
         esc_attr(implode(' ', $grid_classes)),
         esc_attr__('Content items', 'fau-elemental'),
         esc_attr($variant)
@@ -187,10 +187,10 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
         $items_to_show = array_slice($teaser_items, 0, $posts_per_page);
         $output .= fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
     } else {
-        $output .= '<p class="no-posts">' . __('No items found.', 'fau-elemental') . '</p>';
+        $output .= '<li class="no-posts"><p>' . __('No items found.', 'fau-elemental') . '</p></li>';
     }
 
-    $output .= '</div>'; // Close fau-teaser-grid
+    $output .= '</ul>'; // Close fau-teaser-grid
 
     // Add pagination if enabled
     if ($show_pagination && $total_posts > $posts_per_page) {

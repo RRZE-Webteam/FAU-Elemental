@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.4.9\n"
+"Project-Id-Version: FAU-Elemental 0.4.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-05T16:25:10+00:00\n"
+"POT-Creation-Date: 2025-11-06T07:13:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -125,7 +125,7 @@ msgid "Security check failed"
 msgstr ""
 
 #: components/blocks/fau-teaser-grid/render.php:73
-#: components/blocks/fau-teaser-grid/edit.js:459
+#: components/blocks/fau-teaser-grid/edit.js:464
 msgid "Content grid"
 msgstr ""
 
@@ -147,12 +147,12 @@ msgstr ""
 
 #: components/blocks/fau-teaser-grid/render.php:248
 #: components/blocks/fau-teaser-grid/render.php:250
-#: components/blocks/fau-teaser-grid/edit.js:571
+#: components/blocks/fau-teaser-grid/edit.js:581
 msgid "Load More"
 msgstr ""
 
 #: components/blocks/fau-teaser-grid/render.php:249
-#: components/blocks/fau-teaser-grid/edit.js:537
+#: components/blocks/fau-teaser-grid/edit.js:546
 msgid "Loading…"
 msgstr ""
 
@@ -422,7 +422,7 @@ msgid "page-navigation"
 msgstr ""
 
 #: components/template-parts/pagination/pagination.php:24
-#: components/blocks/fau-teaser-grid/edit.js:549
+#: components/blocks/fau-teaser-grid/edit.js:559
 msgid "Posts pagination"
 msgstr ""
 
@@ -933,17 +933,17 @@ msgid "Archive pages settings"
 msgstr ""
 
 #: inc/customizer.php:669
-#: components/blocks/fau-teaser-grid/edit.js:374
+#: components/blocks/fau-teaser-grid/edit.js:380
 msgid "Pagination Type"
 msgstr ""
 
 #: inc/customizer.php:673
-#: components/blocks/fau-teaser-grid/edit.js:378
+#: components/blocks/fau-teaser-grid/edit.js:384
 msgid "Page Numbers"
 msgstr ""
 
 #: inc/customizer.php:674
-#: components/blocks/fau-teaser-grid/edit.js:385
+#: components/blocks/fau-teaser-grid/edit.js:391
 msgid "Load More Button"
 msgstr ""
 
@@ -1592,31 +1592,31 @@ msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:85
 #: components/blocks/fau-meta-headline/index.js:28
-#: components/blocks/fau-teaser-grid/edit.js:415
+#: components/blocks/fau-teaser-grid/edit.js:421
 msgid "Heading 2"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:89
 #: components/blocks/fau-meta-headline/index.js:34
-#: components/blocks/fau-teaser-grid/edit.js:421
+#: components/blocks/fau-teaser-grid/edit.js:427
 msgid "Heading 3"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:93
 #: components/blocks/fau-meta-headline/index.js:40
-#: components/blocks/fau-teaser-grid/edit.js:427
+#: components/blocks/fau-teaser-grid/edit.js:433
 msgid "Heading 4"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:97
 #: components/blocks/fau-meta-headline/index.js:46
-#: components/blocks/fau-teaser-grid/edit.js:433
+#: components/blocks/fau-teaser-grid/edit.js:439
 msgid "Heading 5"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:101
 #: components/blocks/fau-meta-headline/index.js:52
-#: components/blocks/fau-teaser-grid/edit.js:439
+#: components/blocks/fau-teaser-grid/edit.js:445
 msgid "Heading 6"
 msgstr ""
 
@@ -1848,7 +1848,7 @@ msgid "Choose Logo"
 msgstr ""
 
 #: components/blocks/fau-meta-headline/index.js:25
-#: components/blocks/fau-teaser-grid/edit.js:412
+#: components/blocks/fau-teaser-grid/edit.js:418
 msgid "Change heading level"
 msgstr ""
 
@@ -2029,35 +2029,35 @@ msgstr ""
 msgid "Remove post"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:265
+#: components/blocks/fau-teaser-grid/edit.js:271
 msgid "All Categories"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:318
+#: components/blocks/fau-teaser-grid/edit.js:324
 msgid "Teaser Grid Block"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:361
+#: components/blocks/fau-teaser-grid/edit.js:367
 msgid "Pagination Settings"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:365
+#: components/blocks/fau-teaser-grid/edit.js:371
 msgid "Show Pagination"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:399
+#: components/blocks/fau-teaser-grid/edit.js:405
 msgid "Accessibility"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:401
+#: components/blocks/fau-teaser-grid/edit.js:407
 msgid "To ensure good accessibility and SEO, please make sure that there is only one H1 heading on the page. If you already have an H1 heading, use a different heading level for the teasers in this block."
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:503
+#: components/blocks/fau-teaser-grid/edit.js:509
 msgid "No posts selected"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:530
+#: components/blocks/fau-teaser-grid/edit.js:538
 msgid "No items found"
 msgstr ""
 

@@ -10,6 +10,12 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 	.fau-teaser-grid {
 		display: grid;
 		gap: var(--Spacing-8x);
+		list-style: none;
+		max-width: var(--wide-max-width);
+
+		> li {
+			list-style: none;
+		}
 
 		// Global styles
 		&.layout-1xl,
@@ -201,6 +207,10 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 			display: flex;
 			flex-direction: column;
 			gap: var(--Spacing-8x);
+
+			.teaser-group-wrapper {
+				display: contents;
+			}
 
 			.teaser-group {
 				display: grid;

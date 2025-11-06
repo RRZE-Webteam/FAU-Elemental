@@ -143,23 +143,26 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
  */
 if ( ! function_exists( 'fau_elemental_wrap_teaser_items' ) ) {
 function fau_elemental_wrap_teaser_items($items, $layout) {
-    // Only wrap for l2s and 2sl layouts
-    if (!in_array($layout, ['l2s', '2sl'])) {
-        return implode('', $items);
-    }
-
-    $output = '';
-    $item_count = count($items);
-    
-    for ($i = 0; $i < $item_count; $i += 3) {
-        $group_items = array_slice($items, $i, 3);
-        if (!empty($group_items)) {
-            $output .= '<div class="teaser-group">';
-            $output .= implode('', $group_items);
-            $output .= '</div>';
+    if (in_array($layout, ['l2s', '2sl'])) {
+        $output = '';
+        $item_count = count($items);
+        
+        for ($i = 0; $i < $item_count; $i += 3) {
+            $group_items = array_slice($items, $i, 3);
+            if (!empty($group_items)) {
+                $output .= '<li class="teaser-group-wrapper"><div class="teaser-group">';
+                $output .= implode('', $group_items);
+                $output .= '</div></li>';
+            }
         }
+        
+        return $output;
     }
     
-    return $output;
+    $wrapped_items = array_map(function($item) {
+        return '<li>' . $item . '</li>';
+    }, $items);
+    
+    return implode('', $wrapped_items);
 }
 } 
