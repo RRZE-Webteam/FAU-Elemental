@@ -3,6 +3,9 @@
 .wp-block-image {
 	position: relative;
 	max-width: var(--small-max-width);
+	margin-left: auto;
+	margin-right: auto;
+
 
 	.image-wrapper {
 		position: relative;
