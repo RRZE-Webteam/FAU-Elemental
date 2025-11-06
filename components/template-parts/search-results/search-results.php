@@ -311,8 +311,8 @@ $paged_results = array_slice($current_site_custom_results, $offset, $results_per
             foreach ($paged_results as $formatted_result) : 
                 $post_result = $formatted_result['post_result'];
                 $excerpt = strip_shortcodes($formatted_result['excerpt']);
-                // Remove any remaining shortcode-like patterns
-                $excerpt = preg_replace('/\[[a-z\-_]+\s*[^\]]*\]/', '', $excerpt);
+                // Remove any remaining shortcode-like patterns (complete and incomplete)
+                $excerpt = preg_replace('/\[[a-z\-_]+\s*[^\]]*(?:\]|$)/', '', $excerpt);
                 ?>
                 <article class="search-result-item search-result-item--current-site" itemscope itemtype="https://schema.org/Article">
                     <h3 class="screen-reader-text">
