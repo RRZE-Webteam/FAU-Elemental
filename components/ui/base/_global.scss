@@ -285,6 +285,23 @@ main ul:not(.wp-block-list) {
 			}
 		}
 	}
+
+	&.fau-teaser-grid {
+		padding-left: 0;
+
+		> li::before {
+			display: none;
+		}
+	}
+}
+
+main .fau-portal-menu > ul:not(.wp-block-list),
+.fau-portal-menu > ul:not(.wp-block-list) {
+	padding-left: 0;
+
+	> li::before {
+		display: none;
+	}
 }
 
 main ol:not(.wp-block-list) {
