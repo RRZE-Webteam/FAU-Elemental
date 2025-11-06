@@ -15,7 +15,7 @@
 <!-- wp:group {"className":"big-buttons-faculties"} -->
 <div class="wp-block-group big-buttons-faculties">
     <!-- wp:fau-elemental/fau-meta-headline {"headline":"Fakultäten","id":""} -->
-    <div class="wp-block-fau-elemental-fau-meta-headline" id="headline-">Fakultäten</div>
+    <h2 class="wp-block-fau-elemental-fau-meta-headline" id="headline-">Fakultäten</h2>
     <!-- /wp:fau-elemental/fau-meta-headline -->
 
     <!-- wp:heading -->

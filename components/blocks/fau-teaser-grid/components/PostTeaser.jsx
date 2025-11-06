@@ -43,7 +43,7 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 		// Format date using WordPress locale
 		const locale =
 			( window.fauElemental && window.fauElemental.locale ) || 'en_US';
-		const localeBCP47 = locale.replace( '_', '-' );
+		const localeBCP47 = locale.replace( /_/g, '-' );
 
 		return {
 			day: dateObj
