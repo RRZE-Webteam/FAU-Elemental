@@ -382,3 +382,27 @@ class FAU_Elemental_Shortcodes {
 
 // Initialize shortcodes
 new FAU_Elemental_Shortcodes(); 
+
+
+function faue_filter_gallery_shortcode($output, $attr, $instance) {
+
+    $ids = explode(',', $attr['ids']);
+
+    $block_html = '<!-- wp:gallery {"linkTo":"none"} --><div class="wp-block-gallery-container"><figure class="wp-block-gallery has-nested-images columns-1 is-cropped">';
+
+    $total_images = count($ids);
+    foreach ($ids as $index => $id) {
+        $image_url = wp_get_attachment_image_url($id, 'full');
+        $alt = get_post_meta($id, '_wp_attachment_image_alt', true);
+        $block_html .= '
+            <!-- wp:image {"id":' . $id . ',"sizeSlug":"full","linkDestination":"none","galleryIndexText":"' . $index + 1 . '/' . $total_images . '"} -->
+            <figure class="wp-block-image size-full"><img src="' . $image_url . '" alt="' . $alt . '" class="wp-image-' . $id . '"/></figure>
+            <!-- /wp:image -->
+        ';
+    }
+
+    $block_html .= '</figure></div><!-- /wp:gallery -->';
+
+    return do_blocks($block_html);
+}
+add_filter('post_gallery', 'faue_filter_gallery_shortcode', 10, 3); 
