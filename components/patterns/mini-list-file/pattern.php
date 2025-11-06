@@ -15,7 +15,7 @@
 <div class="wp-block-group mini-list-file">
 
     <!-- wp:fau-elemental/fau-meta-headline {"headline":"Dateien","id":""} -->
-    <div class="wp-block-fau-elemental-fau-meta-headline" id="headline-">Dateien</div>
+    <h2 class="wp-block-fau-elemental-fau-meta-headline" id="headline-">Dateien</h2>
     <!-- /wp:fau-elemental/fau-meta-headline -->
 
     <!-- wp:file {"id":0,"href":"<?php echo esc_url(get_theme_file_uri('assets/images/Demo-Cover.png')); ?>","coverImage":{"id":0,"url":"<?php echo esc_url(get_theme_file_uri('assets/images/Demo-Cover.png')); ?>","alt":""},"fileDetails":{"filename":"Demo-Cover","filesize":744,"mime_type":"image/png"}} -->

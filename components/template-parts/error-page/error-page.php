@@ -37,7 +37,7 @@ $search_heading = isset($args['search_heading']) ? $args['search_heading'] : '';
     if (!empty($menus)) {
         // Add meta headline before portal menu
         $meta_headline_block = '<!-- wp:fau-elemental/fau-meta-headline {"headline":"' . __('Other offers', 'fau-elemental') . '","id":""} -->
-<div class="wp-block-fau-elemental-fau-meta-headline" id="headline-">' . __('Other offers', 'fau-elemental') . '</div>
+<h2 class="wp-block-fau-elemental-fau-meta-headline" id="headline-">' . __('Other offers', 'fau-elemental') . '</h2>
 <!-- /wp:fau-elemental/fau-meta-headline -->';
         echo do_blocks($meta_headline_block);
         
