@@ -45,8 +45,8 @@
 				a {
 					display: inline-flex;
 					align-items: center;
-					height: 2.75rem;
-					min-width: 2.75rem;
+					height: var(--accessible-target-size);
+					min-width: var(--accessible-target-size);
 					text-decoration: none;
 					font-size: 1rem;
 					letter-spacing: var(--letter-spacing-big);
@@ -66,8 +66,8 @@
 						flex-shrink: 0;
 						transform: translateX(var(--Spacing-8x));
 						padding: 0;
-						height: 2.75rem;
-						width: 2.75rem;
+						height: var(--accessible-target-size);
+						width: var(--accessible-target-size);
 						border-radius: 0;
 						background-color: var(--FAU-Col-FAU-Blau-100);
 

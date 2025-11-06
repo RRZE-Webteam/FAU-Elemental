@@ -275,8 +275,8 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
-					height: 2.75rem;
-					min-width: 2.75rem;
+					height: var(--accessible-target-size)m;
+					min-width: var(--accessible-target-size);
 					color: var(--FAU-Col-FAU-Weiss-100);
 					text-decoration: none;
 					font-weight: 700;
@@ -391,8 +391,8 @@
 		cursor: pointer;
 		font-family: var(--font-family-base);
 		letter-spacing: var(--letter-spacing-small);
-		height: 2.75rem;
-		min-width: 2.75rem;
+		height: var(--accessible-target-size);
+		min-width: var(--accessible-target-size);
 
 		&-text {
 			color: var(--FAU-Col-FAU-Weiss-100);
@@ -546,7 +546,7 @@ body.modal-open {
 	.menu-meta-nav__modal__back-btn {
 		display: flex;
 		align-items: center;
-		height: 2.75rem;
+		height: var(--accessible-target-size);
 		gap: 0.6rem;
 		background: none;
 		border: none;

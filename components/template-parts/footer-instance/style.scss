@@ -98,7 +98,7 @@
 					.directions-link {
 						display: inline-flex;
 						align-items: flex-start;
-						height: 2.75rem;
+						height: var(--accessible-target-size);
 					}
 				}
 			}

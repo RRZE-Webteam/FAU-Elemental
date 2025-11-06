@@ -198,8 +198,8 @@
 		padding: 0 var(--Spacing-5x);
 
 		.image-fullscreen-btn {
-			width: 2.75rem;
-			height: 2.75rem;
+			width: var(--accessible-target-size);
+			height: var(--accessible-target-size);
 
 			&::before {
 				width: 1rem;

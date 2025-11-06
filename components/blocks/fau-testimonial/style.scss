@@ -84,8 +84,8 @@
 		.carousel-next {
 			position: relative;
 			flex-shrink: 0;
-			width: 2.75rem;
-			height: 2.75rem;
+			width: var(--accessible-target-size);
+			height: var(--accessible-target-size);
 			border: 0;
 			outline: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
 			background-color: unset;
@@ -143,8 +143,8 @@
 
 			button {
 				border: 0;
-				height: 2.75rem;
-				width: 2.75rem;
+				height: var(--accessible-target-size);
+				width: var(--accessible-target-size);
 				background-color: var(--FAU-Col-FAU-Weiss-100);
 				outline: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
 

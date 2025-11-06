@@ -78,8 +78,8 @@
 
 	&__link,
 	&__current {
-		height: 2.75rem;
-		min-width: 2.75rem;
+		height: var(--accessible-target-size);
+		min-width: var(--accessible-target-size);
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -108,8 +108,8 @@
 		&__item {
 
 			&--mobile { // Show mobile item
-				height: 2.75rem;
-				min-width: 2.75rem;
+				height: var(--accessible-target-size);
+				min-width: var(--accessible-target-size);
 				display: flex;
 				justify-content: center;
 				align-items: center;

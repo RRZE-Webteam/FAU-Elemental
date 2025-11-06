@@ -87,8 +87,8 @@ figure.wp-block-image:has(figcaption)::before {
 
 .gallery-nav-button {
 	position: relative;
-	width: 2.75rem;
-	height: 2.75rem;
+	width: var(--accessible-target-size);
+	height: var(--accessible-target-size);
 	border: none;
 	color: transparent;
 	background-color: var(--FAU-Col-FAU-Blau-100);

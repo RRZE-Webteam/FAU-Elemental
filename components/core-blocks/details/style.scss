@@ -20,7 +20,7 @@ details.wp-block-details {
 		font-weight: 700;
 		color: var(--FAU-Col-FAU-Blau-100);
 		padding-right: var(--Spacing-20x);
-		min-height: 2.75rem;
+		min-height: var(--accessible-target-size);
 
 		&::-webkit-details-marker {
 			display: none; // Hide default arrow
