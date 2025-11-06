@@ -190,14 +190,14 @@
 	.wp-block-image {
 
 		.image-fullscreen-btn {
-			width: 2.5rem;
-			height: 2.5rem;
+			width: var(--accessible-target-size);
+			height: var(--accessible-target-size);
 
 			&::before {
 				width: 1rem;
 				height: 1rem;
-				top: 0.75rem;
-				right: 0.75rem;
+				top: 0.8rem;
+				right: 0.8rem;
 			}
 		}
 

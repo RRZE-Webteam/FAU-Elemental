@@ -89,8 +89,8 @@ div.wp-block-gallery-container {
 
 .gallery-nav-button {
 	position: relative;
-	width: 2.5rem;
-	height: 2.5rem;
+	width: var(--accessible-target-size);
+	height: var(--accessible-target-size);
 	border: none;
 	color: transparent;
 	background-color: var(--FAU-Col-FAU-Blau-100);
@@ -103,7 +103,7 @@ div.wp-block-gallery-container {
 	&.prev {
 
 		&::after {
-			right: 0.75rem;
+			right: 0.85rem;
 			transform: rotate(180deg);
 		}
 
@@ -112,7 +112,7 @@ div.wp-block-gallery-container {
 
 			&::after {
 				transition: var(--basic-animation);
-				right: 1rem;
+				right: 1.15rem;
 			}
 		}
 	}
@@ -120,7 +120,7 @@ div.wp-block-gallery-container {
 	&.next {
 
 		&::after {
-			left: 0.8125rem;
+			left: 1rem;
 		}
 
 		&:hover,
@@ -128,7 +128,7 @@ div.wp-block-gallery-container {
 
 			&::after {
 				transition: var(--basic-animation);
-				left: 1.0625rem;
+				left: 1.3rem;
 			}
 		}
 	}
@@ -140,7 +140,7 @@ div.wp-block-gallery-container {
 		background-repeat: no-repeat;
 		width: 0.9375rem;
 		height: 0.6875rem;
-		top: 0.875rem;
+		top: 1rem;
 		z-index: 1;
 		transition: var(--basic-animation);
 
