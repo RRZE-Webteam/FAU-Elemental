@@ -20,6 +20,8 @@ get_template_part('components/template-parts/navigation/navigation-utils');
 <body <?php body_class(faue_get_navigation_body_classes()); ?>>
 <?php wp_body_open(); ?>
 
+<a class="skip-link" href="#main"><?php esc_html_e('Skip to main content', 'fau-elemental'); ?></a>
+
 <div id="page" class="site">
     <header id="masthead" class="site-header">
         <nav id="site-navigation" class="main-navigation">

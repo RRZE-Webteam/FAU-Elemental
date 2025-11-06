@@ -6,7 +6,7 @@
 
 get_header(); ?>
 
-<main class="archive-page">
+<main id="main" class="archive-page">
     <header class="blog-header is-layout-flow">
         <h1 class="blog-title">
             <?php echo esc_html(faue_get_page_title(get_the_ID())); ?>
