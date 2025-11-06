@@ -189,8 +189,8 @@ figure:has(> img)::before {
 }
 
 // Lists
-.is-layout-flow ul,
-.is-layout-flow ol {
+main ul,
+main ol {
 	max-width: var(--small-max-width);
 	font-size: var(--P-Body-Text);
 	color: var(--FAU-Col-FAU-Schwarz-100);
@@ -202,7 +202,7 @@ figure:has(> img)::before {
 	}
 }
 
-.is-layout-flow ul:not(.wp-block-list) {
+main ul:not(.wp-block-list) {
 	padding-left: var(--Spacing-14x);
 	list-style-type: none;
 
@@ -257,7 +257,7 @@ figure:has(> img)::before {
 	}
 }
 
-.is-layout-flow ol:not(.wp-block-list) {
+main ol:not(.wp-block-list) {
 	padding-left: var(--Spacing-6x);
 	list-style-position: unset;
 
@@ -400,7 +400,7 @@ table {
 // Basic form style
 
 // Label
-.is-layout-flow form {
+main form {
 
 	:where(label) {
 		font-size: 1rem;
@@ -408,7 +408,7 @@ table {
 }
 
 // Inputs
-.is-layout-flow :where(
+main :where(
 input[type="text"],
 input[type="email"],
 input[type="url"],
@@ -470,7 +470,7 @@ textarea
 }
 
 // Submit
-.is-layout-flow :where(input[type="submit"]) {
+main :where(input[type="submit"]) {
 	width: calc(100% + 3.5rem);
 	border: none;
 	border-radius: 0;
@@ -487,7 +487,7 @@ textarea
 	cursor: pointer;
 }
 
-.is-layout-flow :where(
+main :where(
 span:has(> input[type="submit"]),
 div:has(> input[type="submit"]),
 p:has(> input[type="submit"])
@@ -518,7 +518,7 @@ p:has(> input[type="submit"])
 }
 
 // Select
-.is-layout-flow :where(select) {
+main :where(select) {
 	width: 100%;
 	background: none;
 	padding: 0.75rem 1rem;
@@ -545,7 +545,7 @@ p:has(> input[type="submit"])
 	}
 }
 
-.is-layout-flow :where(
+main :where(
 span:has(> select),
 div:has(> select),
 p:has(> select)
@@ -577,7 +577,7 @@ p:has(> select)
 }
 
 // Checkbox
-.is-layout-flow :where(input[type="checkbox"]) {
+main :where(input[type="checkbox"]) {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -618,7 +618,7 @@ p:has(> select)
 }
 
 // Radio
-.is-layout-flow :where(input[type="radio"]) {
+main :where(input[type="radio"]) {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
