@@ -318,31 +318,30 @@ class Menu_Modal {
             }
         }
 
-        // Add language switcher for menu-website modal
-        if ($modal_class === 'menu-website-modal') {
-            $this->render_language_switcher();
-        }
-
         // If no menus were rendered, show a message (optional)
         if (!$menus_rendered) {
             echo '<p class="no-menu-message">' . esc_html__('No menu items found.', 'fau-elemental') . '</p>';
         }
+
+        // Add language switcher after the last navigation item
+        $this->render_language_switcher($modal_class);
     }
 
     /**
-     * Render language switcher for menu-website modal
+     * Render language switcher widget for modals
+     *
+     * @param string $modal_class The modal class name
      */
-    private function render_language_switcher() {
+    private function render_language_switcher($modal_class = 'menu-modal') {
+        // Check if the language switcher widget area has widgets
+        if (!is_active_sidebar('language-switcher')) {
+            return;
+        }
+        
+        $modal_class_sanitized = sanitize_html_class($modal_class);
         ?>
-        <div class="menu-website-modal__language-switcher">
-            <button type="button" class="menu-website-modal__language-button" aria-label="Language" aria-expanded="false">
-                DE
-                <span class="menu-website-modal__language-icon">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 10L12 15L17 10H7Z" fill="currentColor"/>
-                    </svg>
-                </span>
-            </button>
+        <div class="<?php echo esc_attr($modal_class_sanitized); ?>__language-switcher fau-language-switcher-wrapper">
+            <?php dynamic_sidebar('language-switcher'); ?>
         </div>
         <?php
     }
