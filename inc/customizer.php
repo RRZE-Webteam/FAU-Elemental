@@ -157,22 +157,10 @@ function fau_customizer_settings($wp_customize) {
         'panel' => 'fau_footer_panel',
         'priority' => 10,
         'description' => $claim_description,
+        'active_callback' => function() {
+            return get_theme_mod('faue_website_type', faue_get_default('faue_website_type')) === 'fau';
+        },
     ]);
-    
-    // Add a notice for non-FAU websites
-    if ($website_type !== 'fau') {
-        $wp_customize->add_setting('claim_notice', [
-            'default' => '',
-            'sanitize_callback' => 'sanitize_text_field'
-        ]);
-        $wp_customize->add_control('claim_notice', [
-            'label' => '',
-            'description' => __('Note: The FAU claim is centrally managed by FAU and cannot be edited by faculties. The section will display with default FAU content.', 'fau-elemental'),
-            'section' => 'footer_claim',
-            'type' => 'hidden',
-            'priority' => 1
-        ]);
-    }
     
     // Dark Theme Toggle (Priority 15 - only for FAU main site)
     $wp_customize->add_setting('footer_dark_style', [
