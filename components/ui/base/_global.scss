@@ -69,10 +69,6 @@ body {
 	}
 }
 
-:where(.faue-content-wrapper) > :where(:not(.wp-block-group, [class*="hero"])) {
-	max-width: var(--wide-max-width);
-}
-
 :where(.faue-content-wrapper) > * {
 	max-width: var(--small-max-width);
 	margin-block-start: var(--Spacing-6x);
