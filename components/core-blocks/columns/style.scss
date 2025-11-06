@@ -1,13 +1,10 @@
 @use "../../ui/mixins/mixins" as *;
 
-.wp-block-columns:not(.alignwide) {
+.wp-block-columns {
 	max-width: var(--small-max-width);
-	margin-left: auto;
-	margin-right: auto;
-	padding: 0 var(--Spacing-10x);
 	box-sizing: content-box;
 
-	@include smaller-or-equals("x-small") {
-		padding: 0 var(--Spacing-5x);
+	&.alignwide {
+		max-width: none;
 	}
 }

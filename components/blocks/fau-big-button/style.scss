@@ -1,9 +1,7 @@
 @use "../../ui/mixins/mixins" as *;
 
-.fau-big-button-teaser-group {
+div.fau-big-button-teaser-group {
 	max-width: var(--wide-max-width);
-	margin: 0 auto;
-	padding: 0 var(--Spacing-10x);
 
 	.fau-big-button-teaser-group__buttons {
 		display: grid;
@@ -24,7 +22,7 @@
 				padding: 0;
 				color: var(--FAU-Col-FAU-Weiss-100);
 				font-size: 1.25rem;
-				line-height: 1.3;
+				line-height: var(--base-line-height);
 				font-weight: 700;
 			}
 

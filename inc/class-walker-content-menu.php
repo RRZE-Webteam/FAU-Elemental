@@ -68,7 +68,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 } else {
                     // Use customizer fallback image if available, otherwise use default logo
                     $fallback_image_url = faue_get_post_fallback_image(null, 'medium_large');
-                    $output .= '<img src="' . esc_url($fallback_image_url) . '" alt="' . esc_attr(sprintf(__('No image available for %s', 'fau-elemental'), $title)). '" loading="lazy">';
+                    $output .= '<img src="' . esc_url($fallback_image_url) . '" alt="" loading="lazy">';
                 }
                 $output .= "</div>\n";
             }

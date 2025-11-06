@@ -24,15 +24,6 @@ function faue_get_social_media_mode() {
 }
 
 /**
- * Get all available social media platforms
- * 
- * @return array Array of all platform keys
- */
-function faue_get_available_social_platforms() {
-    return faue_get_combined_social_platforms();
-}
-
-/**
  * Get social media links from customizer
  * 
  * @return array Array of platform => url pairs
@@ -72,9 +63,26 @@ function faue_get_social_media_menu_links() {
         return $links;
     }
     
+    $wp_default_classes = array('menu-item', 'menu-item-type-custom', 'menu-item-object-custom');
+    
     foreach ($menu_items as $item) {
-        // Extract platform from CSS class or URL
         $platform = faue_extract_platform_from_menu_item($item);
+        
+        // Fallback: Use first non-WordPress CSS class as platform identifier
+        if (!$platform && !empty($item->classes)) {
+            foreach ($item->classes as $class) {
+                if (!in_array($class, $wp_default_classes)) {
+                    $platform = sanitize_key($class);
+                    break;
+                }
+            }
+        }
+        
+        // Final fallback: Use sanitized menu title
+        if (!$platform) {
+            $platform = sanitize_key($item->title);
+        }
+        
         if ($platform) {
             $links[$platform] = $item->url;
         }
@@ -86,31 +94,33 @@ function faue_get_social_media_menu_links() {
 /**
  * Extract platform name from menu item
  * 
+ * Attempts to identify the platform by checking CSS classes, menu title, and URL.
+ * 
  * @param WP_Post $item Menu item object
  * @return string|false Platform name or false if not found
  */
 function faue_extract_platform_from_menu_item($item) {
+    $platforms = faue_get_combined_social_platforms();
+    $platform_keys = array_keys($platforms);
+    
     // Check CSS classes for platform name
-    $classes = $item->classes;
-    foreach ($classes as $class) {
-        if (in_array($class, array_keys(faue_get_combined_social_platforms()))) {
+    foreach ($item->classes as $class) {
+        if (in_array($class, $platform_keys)) {
             return $class;
         }
     }
     
-    // Check label for platform name (case-insensitive)
+    // Check menu title for platform name (case-insensitive)
     $label = strtolower(trim($item->title));
-    $platforms = faue_get_combined_social_platforms();
     foreach ($platforms as $platform => $platform_label) {
         if ($label === strtolower($platform_label)) {
             return $platform;
         }
     }
     
-    // Fallback: Check URL for platform name (for backward compatibility)
-    $url = $item->url;
-    foreach ($platforms as $platform => $platform_label) {
-        if (strpos($url, $platform) !== false) {
+    // Fallback: Check URL for platform name (backward compatibility)
+    foreach ($platform_keys as $platform) {
+        if (strpos($item->url, $platform) !== false) {
             return $platform;
         }
     }
@@ -141,19 +151,23 @@ function faue_render_social_media_links($mode = 'auto') {
         return;
     }
     
+    $platforms = faue_get_combined_social_platforms();
+    $built_in_platforms = faue_get_social_platforms();
+    
     echo '<ul class="social-links">';
     foreach ($links as $platform => $url) {
-        $platforms = faue_get_combined_social_platforms();
         $label = isset($platforms[$platform]) ? $platforms[$platform] : ucfirst($platform);
-        
-        // Check if this is a custom platform
         $custom_icon = faue_get_custom_social_icon($platform);
+        $is_built_in = isset($built_in_platforms[$platform]);
+        
         $css_class = $platform;
         $data_attr = '';
         
         if ($custom_icon) {
             $css_class .= ' custom-icon';
             $data_attr = ' data-custom-icon="' . esc_url($custom_icon) . '"';
+        } elseif (!$is_built_in && $mode === 'menu') {
+            $css_class .= ' default-icon';
         }
         
         echo '<li>';
@@ -165,9 +179,8 @@ function faue_render_social_media_links($mode = 'auto') {
     echo '</ul>';
 }
 
-
 /**
- * Add social media menu walker for icon support
+ * Social media menu walker for icon support
  */
 class FAU_Social_Menu_Walker extends Walker_Nav_Menu {
     

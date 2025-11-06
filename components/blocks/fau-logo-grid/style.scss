@@ -1,10 +1,12 @@
 @use "../../ui/mixins/mixins" as *;
 
 // Base styles (desktop-first - largest screens)
-.fau-logo-grid {
-	padding: 0 18.78rem;
+
+div.fau-logo-grid {
 	max-width: var(--wide-max-width);
-	margin: 0 auto;
+}
+
+.fau-logo-grid {
 
 	&__container {
 		display: grid;

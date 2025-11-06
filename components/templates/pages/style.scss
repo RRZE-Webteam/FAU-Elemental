@@ -35,18 +35,6 @@
 		margin-left: auto;
 		margin-right: auto;
 	}
-
-	// Constrain page content properly
-	.is-layout-flow {
-		max-width: var(--wide-max-width);
-		margin-left: auto;
-		margin-right: auto;
-
-		> * {
-			margin-left: auto;
-			margin-right: auto;
-		}
-	}
 }
 
 /* Archive Info Styles */
@@ -190,7 +178,7 @@
 		color: var(--FAU-Col-FAU-Dunkelblau-100);
 		margin: var(--Spacing-8x) auto;
 		max-width: var(--small-max-width);
-		line-height: 1.2;
+		line-height: var(--base-line-height);
 	}
 
 	.archive-info {

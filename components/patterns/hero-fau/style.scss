@@ -5,8 +5,10 @@
 @use "../../ui/mixins/mixins" as *;
 
 .hero-fau {
+	padding-inline: 0;
 
 	.wp-block-cover {
+		max-width: none;
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-end;
@@ -28,7 +30,7 @@
 
 				.hero-front-page-title {
 					font-size: 3.85rem;
-					line-height: 1.2;
+					line-height: var(--base-line-height);
 					font-weight: 700;
 					letter-spacing: var(--letter-spacing-big);
 					padding: 0;

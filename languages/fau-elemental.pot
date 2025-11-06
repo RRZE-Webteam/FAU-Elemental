@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.4.8\n"
+"Project-Id-Version: FAU-Elemental 0.4.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-05T13:15:55+00:00\n"
+"POT-Creation-Date: 2025-11-05T16:25:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -98,7 +98,7 @@ msgid "Search…"
 msgstr ""
 
 #: components/blocks/fau-global-search/render.php:55
-#: components/template-parts/navigation/fau-navigation.php:48
+#: components/template-parts/navigation/fau-navigation.php:47
 #: components/template-parts/navigation/menu-modal-config.php:71
 #: components/template-parts/navigation/menu-modal.php:249
 #: components/template-parts/search-results/search-results.php:237
@@ -226,70 +226,61 @@ msgstr ""
 msgid "Social Media Links"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:170
+#: components/template-parts/footer-instance/footer-instance.php:171
 #: components/template-parts/footer-main/footer-main.php:63
 #: header.php:51
 msgid "FAU Logo"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:175
+#: components/template-parts/footer-instance/footer-instance.php:176
 #: components/template-parts/footer-main/footer-main.php:68
 msgid ""
 "Friedrich-Alexander-Universität\n"
 "Erlangen-Nürnberg"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:183
-#: functions.php:296
-msgid "Show more"
-msgstr ""
-
-#: components/template-parts/footer-instance/footer-instance.php:190
-#: components/template-parts/footer-main/footer-main.php:4
-msgid "FAU - Knowledge in Motion"
-msgstr ""
-
-#: components/template-parts/footer-instance/footer-instance.php:191
-#: components/template-parts/footer-main/footer-main.php:5
-msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
-msgstr ""
-
-#: components/template-parts/footer-instance/footer-instance.php:199
+#: components/template-parts/footer-instance/footer-instance.php:201
 #: components/template-parts/footer-main/footer-main.php:14
 msgid "Target Group Section 1"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:200
+#: components/template-parts/footer-instance/footer-instance.php:202
 #: components/template-parts/footer-main/footer-main.php:15
 msgid "History, features, data, structure and more"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:204
+#: components/template-parts/footer-instance/footer-instance.php:206
 #: components/template-parts/footer-main/footer-main.php:19
 msgid "Target Group Section 2"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:205
-#: components/template-parts/footer-instance/footer-instance.php:210
-#: components/template-parts/footer-instance/footer-instance.php:215
+#: components/template-parts/footer-instance/footer-instance.php:207
+#: components/template-parts/footer-instance/footer-instance.php:212
+#: components/template-parts/footer-instance/footer-instance.php:217
 #: components/template-parts/footer-main/footer-main.php:20
 #: components/template-parts/footer-main/footer-main.php:25
 #: components/template-parts/footer-main/footer-main.php:30
 msgid "Focus areas, mission, reputation, achievements and more"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:209
+#: components/template-parts/footer-instance/footer-instance.php:211
 #: components/template-parts/footer-main/footer-main.php:24
 msgid "Target Group Section 3"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:214
+#: components/template-parts/footer-instance/footer-instance.php:216
 #: components/template-parts/footer-main/footer-main.php:29
 msgid "Target Group Section 4"
 msgstr ""
 
-#: components/template-parts/hero-page/hero-page.php:10
-msgid "Page Hero"
+#: components/template-parts/footer-main/footer-main.php:4
+#: inc/config.php:40
+msgid "FAU - Knowledge in Motion"
+msgstr ""
+
+#: components/template-parts/footer-main/footer-main.php:5
+#: inc/config.php:41
+msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
 msgstr ""
 
 #: components/template-parts/navigation/fau-navigation.php:18
@@ -317,10 +308,6 @@ msgstr ""
 #: components/template-parts/navigation/fau-navigation.php:40
 #: components/template-parts/navigation/menu-modal-config.php:44
 msgid "Structure"
-msgstr ""
-
-#: components/template-parts/navigation/fau-navigation.php:46
-msgid "Open Search"
 msgstr ""
 
 #: components/template-parts/navigation/main-navigation.php:49
@@ -544,7 +531,7 @@ msgid "Post Category"
 msgstr ""
 
 #: components/template-parts/search-results/search-results.php:352
-#: functions.php:356
+#: functions.php:326
 msgid "Page Category"
 msgstr ""
 
@@ -600,52 +587,48 @@ msgstr ""
 msgid "Pages:"
 msgstr ""
 
-#: functions.php:297
-msgid "Show less"
-msgstr ""
-
-#: functions.php:355
-#: functions.php:357
+#: functions.php:325
+#: functions.php:327
 msgid "Page Categories"
 msgstr ""
 
-#: functions.php:358
+#: functions.php:328
 msgid "All Page Categories"
 msgstr ""
 
-#: functions.php:359
+#: functions.php:329
 msgid "Edit Page Category"
 msgstr ""
 
-#: functions.php:360
+#: functions.php:330
 msgid "View Page Category"
 msgstr ""
 
-#: functions.php:361
+#: functions.php:331
 msgid "Update Page Category"
 msgstr ""
 
-#: functions.php:362
+#: functions.php:332
 msgid "Add New Page Category"
 msgstr ""
 
-#: functions.php:363
+#: functions.php:333
 msgid "New Page Category Name"
 msgstr ""
 
-#: functions.php:364
+#: functions.php:334
 msgid "Parent Page Category"
 msgstr ""
 
-#: functions.php:365
+#: functions.php:335
 msgid "Parent Page Category:"
 msgstr ""
 
-#: functions.php:366
+#: functions.php:336
 msgid "Search Page Categories"
 msgstr ""
 
-#: functions.php:367
+#: functions.php:337
 msgid "No page categories found"
 msgstr ""
 
@@ -658,22 +641,24 @@ msgstr ""
 msgid "Hero"
 msgstr ""
 
-#. translators: %s: Menu item title
-#: inc/class-walker-content-menu.php:71
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:192
-msgid "No image available for %s"
-msgstr ""
-
 #. translators: Menu item title
 #: inc/class-walker-content-menu.php:87
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:211
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:241
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:200
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:230
 msgid "Go to %s"
 msgstr ""
 
 #: inc/class-walker-content-menu.php:172
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
+msgstr ""
+
+#: inc/config.php:37
+msgid "Show more"
+msgstr ""
+
+#: inc/config.php:38
+msgid "Show less"
 msgstr ""
 
 #: inc/customizer.php:143
@@ -1911,19 +1896,19 @@ msgstr ""
 msgid "Menu Item"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:233
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:222
 msgid "Submenu Item"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:283
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:272
 msgid "This menu has no items. Please add items to the menu in Appearance → Menus."
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:294
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:283
 msgid "Loading menu items…"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:302
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:291
 msgid "No menu selected"
 msgstr ""
 
