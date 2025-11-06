@@ -20,7 +20,7 @@ $error_message = isset($args['error_message']) ? $args['error_message'] : '';
 $search_heading = isset($args['search_heading']) ? $args['search_heading'] : '';
 ?>
 
-<main class="wp-block-group alignwide">
+<main id="main" class="wp-block-group alignwide">
     <div class="error-<?php echo esc_attr($error_type); ?>">
         <h1><?php echo esc_html($error_title); ?></h1>
         <p><?php echo esc_html($error_message); ?></p>

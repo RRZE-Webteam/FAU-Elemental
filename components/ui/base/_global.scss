@@ -33,6 +33,42 @@ body {
 	visibility: hidden;
 }
 
+// Skip links for accessibility (WCAG 2.1/2.2)
+// Note: skip-links should be visible when focused,
+// even if they have screen-reader-text class
+.skip-link {
+	position: absolute;
+	left: -9999px;
+	z-index: 999999;
+	padding: 0.75rem 1rem;
+	background-color: var(--FAU-Col-FAU-Blau-100);
+	color: var(--FAU-Col-FAU-Weiss-100);
+	text-decoration: none;
+	font-weight: 700;
+	border-radius: 0.25rem;
+	box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+
+	&:focus,
+	&:focus-visible {
+		position: fixed;
+		top: 6px;
+		left: 6px;
+		width: auto;
+		height: auto;
+		overflow: visible;
+		clip: auto;
+		white-space: normal;
+		visibility: visible;
+		outline: 0.125rem solid var(--FAU-Col-FAU-Weiss-100);
+		outline-offset: 0.125rem;
+	}
+}
+
 :where(.faue-content-wrapper) > * {
 	max-width: var(--small-max-width);
 	margin-block-start: var(--Spacing-6x);
@@ -192,7 +228,9 @@ input[type="date"],
 input[type="time"],
 input[type="month"],
 input[type="week"],
+input[type="datetime"],
 input[type="datetime-local"],
+input[type="file"],
 select,
 textarea
 ) {
@@ -241,6 +279,23 @@ textarea
 	}
 }
 
+:where(
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="month"],
+input[type="week"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="file"]
+) {
+	width: auto;
+}
+
+textarea {
+	resize: vertical;
+}
+
 // Submit
 :where(input[type="submit"]) {
 	width: calc(100% + 3.5rem);
@@ -286,6 +341,28 @@ p:has(> input[type="submit"])
 		&::before {
 			right: -2.7rem;
 		}
+	}
+}
+
+// Reset
+:where(input[type="reset"]) {
+	width: auto;
+	border: none;
+	border-radius: 0;
+	background-color: var(--FAU-Col-FAU-Dunkelblau-100);
+	color: var(--FAU-Col-FAU-Weiss-100);
+	font-weight: 600;
+	height: 3.5rem;
+	padding: 0 1.5rem;
+	font-size: 1.125rem;
+	letter-spacing: var(--letter-spacing-big);
+	text-align: left;
+	font-family: var(--font-family-base);
+	cursor: pointer;
+
+	&:hover,
+	&:focus-visible {
+		background-color: var(--FAU-Col-FAU-Blau-100);
 	}
 }
 
@@ -344,6 +421,17 @@ p:has(> select)
 
 		&::before {
 			top: 1.7rem;
+		}
+	}
+
+	&:has([multiple]) {
+
+		&::before {
+			display: none;
+		}
+
+		select[multiple] {
+			box-shadow: unset;
 		}
 	}
 }
@@ -444,32 +532,23 @@ p:has(> select)
 }
 
 // Basic form style - Exceptions for CF7
-.wp-block-contact-form-7-contact-form-selector {
-	max-width: var(--small-max-width);
-	padding: 0 var(--Spacing-10x);
+.wpcf7-form {
 
-	@include smaller-or-equals("x-small") {
-		padding: 0 var(--Spacing-5x);
+	p:has(> input[type="submit"]) {
+
+		.wpcf7-spinner {
+			display: none;
+		}
 	}
 
-	.wpcf7-form {
+	.wpcf7-list-item {
+		margin: unset;
+	}
 
-		p:has(> input[type="submit"]) {
+	.is-layout-flow & {
 
-			.wpcf7-spinner {
-				display: none;
-			}
-		}
-
-		.wpcf7-list-item {
-			margin: unset;
-		}
-
-		.is-layout-flow & {
-
-			p {
-				padding: unset;
-			}
+		p {
+			padding: unset;
 		}
 	}
 }
