@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.4.10\n"
+"Project-Id-Version: FAU-Elemental 0.4.12\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-06T10:02:25+00:00\n"
+"POT-Creation-Date: 2025-11-06T16:04:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -133,25 +133,25 @@ msgstr ""
 msgid "Content items"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:190
+#: components/blocks/fau-teaser-grid/render.php:198
 msgid "No items found."
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:216
+#: components/blocks/fau-teaser-grid/render.php:224
 msgid "Error loading posts"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:217
+#: components/blocks/fau-teaser-grid/render.php:225
 msgid "Loading error"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:248
-#: components/blocks/fau-teaser-grid/render.php:250
+#: components/blocks/fau-teaser-grid/render.php:256
+#: components/blocks/fau-teaser-grid/render.php:258
 #: components/blocks/fau-teaser-grid/edit.js:581
 msgid "Load More"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:249
+#: components/blocks/fau-teaser-grid/render.php:257
 #: components/blocks/fau-teaser-grid/edit.js:546
 msgid "Loading…"
 msgstr ""
@@ -216,13 +216,13 @@ msgid "Directions"
 msgstr ""
 
 #: components/template-parts/footer-instance/footer-instance.php:117
-#: inc/customizer.php:387
+#: inc/customizer.php:158
 msgid "Important Links"
 msgstr ""
 
 #: components/template-parts/footer-instance/footer-instance.php:150
 #: components/template-parts/footer-main/footer-main.php:104
-#: inc/customizer.php:530
+#: inc/customizer.php:538
 msgid "Social Media Links"
 msgstr ""
 
@@ -652,7 +652,7 @@ msgstr ""
 msgid "Go to %s"
 msgstr ""
 
-#: inc/class-walker-content-menu.php:172
+#: inc/class-walker-content-menu.php:198
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
 msgstr ""
@@ -674,337 +674,345 @@ msgid "Settings for the footer"
 msgstr ""
 
 #: inc/customizer.php:150
-msgid "Configure the main claim section"
+msgid "General"
 msgstr ""
 
-#: inc/customizer.php:152
-msgid "This section is managed centrally by FAU and cannot be edited by faculties."
+#: inc/customizer.php:153
+msgid "General footer settings"
 msgstr ""
 
-#: inc/customizer.php:156
-msgid "Claim"
+#: inc/customizer.php:164
+msgid "Important Links Heading"
+msgstr ""
+
+#: inc/customizer.php:165
+msgid "Heading text for the important links section in the footer"
 msgstr ""
 
 #: inc/customizer.php:173
+msgid "Configure the main claim section"
+msgstr ""
+
+#: inc/customizer.php:175
+msgid "This section is managed centrally by FAU and cannot be edited by faculties."
+msgstr ""
+
+#: inc/customizer.php:179
+msgid "Claim"
+msgstr ""
+
+#: inc/customizer.php:196
 msgid "Dark Theme Toggle"
 msgstr ""
 
-#: inc/customizer.php:174
+#: inc/customizer.php:197
 msgid "Apply dark styling to the footer"
 msgstr ""
 
-#: inc/customizer.php:189
-#: inc/customizer.php:232
-#: inc/customizer.php:473
+#: inc/customizer.php:212
+#: inc/customizer.php:255
+#: inc/customizer.php:481
 #: components/blocks/fau-global-search/edit.js:25
 #: components/core-blocks/media-text/index.js:22
 msgid "Heading"
 msgstr ""
 
-#: inc/customizer.php:190
+#: inc/customizer.php:213
 msgid "Main heading for the claim section"
 msgstr ""
 
-#: inc/customizer.php:201
+#: inc/customizer.php:224
 msgid "Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung."
 msgstr ""
 
-#: inc/customizer.php:205
+#: inc/customizer.php:228
 msgid "Text"
 msgstr ""
 
-#: inc/customizer.php:206
+#: inc/customizer.php:229
 msgid "Descriptive text for the claim section"
 msgstr ""
 
-#: inc/customizer.php:217
-#: inc/customizer.php:245
-#: inc/customizer.php:492
+#: inc/customizer.php:240
+#: inc/customizer.php:268
+#: inc/customizer.php:500
 #: components/blocks/fau-big-button/edit.js:317
 msgid "Description"
 msgstr ""
 
-#: inc/customizer.php:220
+#: inc/customizer.php:243
 msgid "Configure faculty information"
 msgstr ""
 
-#: inc/customizer.php:233
+#: inc/customizer.php:256
 msgid "Main heading for the faculty section"
 msgstr ""
 
-#: inc/customizer.php:246
+#: inc/customizer.php:269
 msgid "Descriptive text for the faculty section"
 msgstr ""
 
-#: inc/customizer.php:254
+#: inc/customizer.php:277
 msgid "Contact Information"
 msgstr ""
 
-#: inc/customizer.php:257
+#: inc/customizer.php:280
 msgid "Configure contact information"
 msgstr ""
 
-#: inc/customizer.php:266
+#: inc/customizer.php:289
 #: inc/theme-settings.php:69
 msgid "Faculty of Humanities, Social Sciences, and Theology"
 msgstr ""
 
-#: inc/customizer.php:273
+#: inc/customizer.php:296
 #: inc/theme-settings.php:70
 msgid "Faculty of Sciences"
 msgstr ""
 
-#: inc/customizer.php:280
+#: inc/customizer.php:303
 #: inc/theme-settings.php:71
 msgid "Faculty of Medicine"
 msgstr ""
 
-#: inc/customizer.php:287
+#: inc/customizer.php:310
 #: inc/theme-settings.php:72
 msgid "Faculty of Business, Economics, and Law"
 msgstr ""
 
-#: inc/customizer.php:294
+#: inc/customizer.php:317
 #: inc/theme-settings.php:73
 msgid "Faculty of Engineering"
 msgstr ""
 
-#: inc/customizer.php:313
+#: inc/customizer.php:336
 msgid "Display Address Information"
 msgstr ""
 
-#: inc/customizer.php:314
+#: inc/customizer.php:337
 msgid "Display address information in the footer"
 msgstr ""
 
-#: inc/customizer.php:322
+#: inc/customizer.php:345
 msgid "Name of the University"
 msgstr ""
 
-#: inc/customizer.php:326
+#: inc/customizer.php:349
 msgid "Name of the Faculty"
 msgstr ""
 
-#: inc/customizer.php:330
+#: inc/customizer.php:353
 msgid "Street"
 msgstr ""
 
-#: inc/customizer.php:334
+#: inc/customizer.php:357
 msgid "Postal Code and City"
 msgstr ""
 
-#: inc/customizer.php:338
+#: inc/customizer.php:361
 msgid "Phone Number"
 msgstr ""
 
-#: inc/customizer.php:342
+#: inc/customizer.php:365
 msgid "E-Mail Address"
 msgstr ""
 
-#: inc/customizer.php:346
+#: inc/customizer.php:369
 msgid "Directions Link"
 msgstr ""
 
-#: inc/customizer.php:379
+#: inc/customizer.php:402
 msgid "Country"
 msgstr ""
 
-#: inc/customizer.php:393
-msgid "Important Links Heading"
-msgstr ""
-
-#: inc/customizer.php:394
-msgid "Heading text for the important links section in the footer"
-msgstr ""
-
-#: inc/customizer.php:402
+#: inc/customizer.php:410
 msgid "Configure the target group sections"
 msgstr ""
 
-#: inc/customizer.php:404
+#: inc/customizer.php:412
 msgid "These settings are managed centrally by FAU and cannot be edited by faculties."
 msgstr ""
 
-#: inc/customizer.php:408
+#: inc/customizer.php:416
 msgid "Target Group Links"
 msgstr ""
 
-#: inc/customizer.php:422
+#: inc/customizer.php:430
 msgid "Hide FAU section"
 msgstr ""
 
-#: inc/customizer.php:423
+#: inc/customizer.php:431
 msgid "Hide FAU section (only show copyright information). Recommended for external cooperation websites."
 msgstr ""
 
-#: inc/customizer.php:433
+#: inc/customizer.php:441
 msgid "Section 1"
 msgstr ""
 
-#: inc/customizer.php:434
+#: inc/customizer.php:442
 msgid "Section 2"
 msgstr ""
 
-#: inc/customizer.php:435
+#: inc/customizer.php:443
 msgid "Section 3"
 msgstr ""
 
-#: inc/customizer.php:436
+#: inc/customizer.php:444
 msgid "Section 4"
 msgstr ""
 
-#: inc/customizer.php:447
+#: inc/customizer.php:455
 msgid "Note: Target group links are centrally managed by FAU and cannot be edited by faculties. The sections will display with default FAU content."
 msgstr ""
 
-#: inc/customizer.php:482
+#: inc/customizer.php:490
 msgid "Focus, Mission, Reputation, Successes, etc."
 msgstr ""
 
-#: inc/customizer.php:484
+#: inc/customizer.php:492
 msgid "History, Specialties, Data, Structure, etc."
 msgstr ""
 
-#: inc/customizer.php:506
+#: inc/customizer.php:514
 #: components/blocks/fau-big-teaser/edit.js:175
 msgid "Link URL"
 msgstr ""
 
-#: inc/customizer.php:533
+#: inc/customizer.php:541
 msgid "Configure social media links. You can either use individual platform settings below or create a \"Social Media Menu\" in Appearance > Menus."
 msgstr ""
 
-#: inc/customizer.php:544
+#: inc/customizer.php:552
 msgid "Social Media Display Mode"
 msgstr ""
 
-#: inc/customizer.php:545
+#: inc/customizer.php:553
 msgid "Choose how to manage social media links"
 msgstr ""
 
-#: inc/customizer.php:549
+#: inc/customizer.php:557
 msgid "Individual Platform Settings (below)"
 msgstr ""
 
-#: inc/customizer.php:550
+#: inc/customizer.php:558
 msgid "WordPress Menu (Appearance > Menus > Social Media Menu)"
 msgstr ""
 
 #. translators: %s: Social media platform name
-#: inc/customizer.php:568
+#: inc/customizer.php:576
 msgid "%s URL"
 msgstr ""
 
 #. translators: %s: Social media platform name
-#: inc/customizer.php:574
+#: inc/customizer.php:582
 msgid "Enter the %s URL (leave empty to hide)"
 msgstr ""
 
-#: inc/customizer.php:588
+#: inc/customizer.php:596
 msgid "Post Settings"
 msgstr ""
 
-#: inc/customizer.php:601
+#: inc/customizer.php:609
 msgid "Display post metadata"
 msgstr ""
 
-#: inc/customizer.php:602
+#: inc/customizer.php:610
 msgid "Shows date and reading-time on posts."
 msgstr ""
 
-#: inc/customizer.php:617
+#: inc/customizer.php:625
 msgid "Apply dark-theme style to metadata"
 msgstr ""
 
-#: inc/customizer.php:618
+#: inc/customizer.php:626
 msgid "Turns the metadata bar dark-blue with white text."
 msgstr ""
 
-#: inc/customizer.php:636
+#: inc/customizer.php:644
 msgid "Hide copyright on single posts"
 msgstr ""
 
-#: inc/customizer.php:637
+#: inc/customizer.php:645
 msgid "Hides the copyright block on individual post pages."
 msgstr ""
 
-#: inc/customizer.php:645
+#: inc/customizer.php:653
 msgid "Archive pages settings"
 msgstr ""
 
-#: inc/customizer.php:657
+#: inc/customizer.php:665
 #: components/blocks/fau-teaser-grid/edit.js:380
 msgid "Pagination Type"
 msgstr ""
 
-#: inc/customizer.php:661
+#: inc/customizer.php:669
 #: components/blocks/fau-teaser-grid/edit.js:384
 msgid "Page Numbers"
 msgstr ""
 
-#: inc/customizer.php:662
+#: inc/customizer.php:670
 #: components/blocks/fau-teaser-grid/edit.js:391
 msgid "Load More Button"
 msgstr ""
 
-#: inc/customizer.php:664
+#: inc/customizer.php:672
 msgid "Choose how pagination is displayed on archive pages and teaser grids."
 msgstr ""
 
-#: inc/customizer.php:675
+#: inc/customizer.php:683
 msgid "Items Per Page"
 msgstr ""
 
-#: inc/customizer.php:678
+#: inc/customizer.php:686
 msgid "Number of items to display per page in archive pages and teaser grids."
 msgstr ""
 
-#: inc/customizer.php:1700
+#: inc/customizer.php:1708
 msgid "Land"
 msgstr ""
 
 #. translators: %s: name of the previous theme
-#: inc/customizer.php:1732
+#: inc/customizer.php:1740
 msgid "Theme settings were successfully migrated from %s!"
 msgstr ""
 
-#: inc/customizer.php:1739
+#: inc/customizer.php:1747
 msgid "Address information"
 msgstr ""
 
-#: inc/customizer.php:1742
+#: inc/customizer.php:1750
 msgid "Website type settings"
 msgstr ""
 
-#: inc/customizer.php:1745
+#: inc/customizer.php:1753
 msgid "Faculty configuration"
 msgstr ""
 
-#: inc/customizer.php:1758
+#: inc/customizer.php:1766
 msgid "No previous theme settings were found to migrate. Default settings have been applied."
 msgstr ""
 
-#: inc/customizer.php:1760
+#: inc/customizer.php:1768
 msgid "No settings from previous themes were found to migrate."
 msgstr ""
 
-#: inc/customizer.php:1772
+#: inc/customizer.php:1780
 msgid "Address settings were successfully migrated from FAU-Einrichtungen theme!"
 msgstr ""
 
-#: inc/customizer.php:1779
+#: inc/customizer.php:1787
 msgid "No address settings from FAU-Einrichtungen theme were found to migrate."
 msgstr ""
 
-#: inc/customizer.php:1822
+#: inc/customizer.php:1830
 msgid "Hero Settings"
 msgstr ""
 
-#: inc/customizer.php:1828
+#: inc/customizer.php:1836
 msgid "Mobile Display Options"
 msgstr ""
 
-#: inc/customizer.php:1838
+#: inc/customizer.php:1846
 msgid "Show Description Text and Link on Mobile"
 msgstr ""
 
