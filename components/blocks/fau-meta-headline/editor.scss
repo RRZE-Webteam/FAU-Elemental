@@ -1,11 +1,27 @@
 @use "../../ui/mixins/mixins" as *;
 
 /**
- * Editor-specific styles for the copyright info block
+ * Editor-specific styles for the meta headline block
  * This file is required by the build process
  */
 
 // Editor styles are already defined in style.scss
+
+.fau-meta-headline-level-icon {
+	font-weight: 600;
+	padding: var(--Spacing-2x);
+}
+
+// Ensure active state is visible in dropdown menu
+.components-button.components-dropdown-menu__menu-item.is-active,
+.components-button.components-dropdown-menu__menu-item.is-pressed {
+
+	.fau-meta-headline-level-icon {
+		color: var(--FAU-Col-FAU-Weiss-100);
+		background-color: var(--FAU-Col-FAU-Schwarz-100);
+		font-weight: 700;
+	}
+}
 
 
 // Responsive
