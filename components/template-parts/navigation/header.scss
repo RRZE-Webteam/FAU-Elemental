@@ -1115,6 +1115,8 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 		&__container {
 			width: 100%;
 			padding-top: 0;
+			padding-bottom: calc(var(--Spacing-16x) + env(safe-area-inset-bottom, 0));
+			scroll-padding-bottom: calc(var(--Spacing-16x) + env(safe-area-inset-bottom, 0));
 			margin-bottom: 0;
 			overflow-y: auto;
 			-webkit-overflow-scrolling: touch; /* Improve scrolling on iOS */
@@ -1146,10 +1148,12 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 		}
 
 		.menu-website-modal__menu--header-menu-links {
-			margin-bottom: var(--Spacing-30x);
+			margin-bottom: var(--Spacing-14x);
 		}
 
 		&__content {
+			padding-bottom: calc(var(--Spacing-16x) + env(safe-area-inset-bottom, 0));
+			scroll-padding-bottom: calc(var(--Spacing-16x) + env(safe-area-inset-bottom, 0));
 
 			.fau-language-switcher-wrapper {
 				position: relative;
