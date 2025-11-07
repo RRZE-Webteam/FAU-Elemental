@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-07T12:07:28+00:00\n"
+"POT-Creation-Date: 2025-11-07T10:58:17+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -1590,31 +1590,31 @@ msgid "Headline Level"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:85
-#: components/blocks/fau-meta-headline/index.js:28
+#: components/blocks/fau-meta-headline/index.js:32
 #: components/blocks/fau-teaser-grid/edit.js:421
 msgid "Heading 2"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:89
-#: components/blocks/fau-meta-headline/index.js:34
+#: components/blocks/fau-meta-headline/index.js:43
 #: components/blocks/fau-teaser-grid/edit.js:427
 msgid "Heading 3"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:93
-#: components/blocks/fau-meta-headline/index.js:40
+#: components/blocks/fau-meta-headline/index.js:54
 #: components/blocks/fau-teaser-grid/edit.js:433
 msgid "Heading 4"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:97
-#: components/blocks/fau-meta-headline/index.js:46
+#: components/blocks/fau-meta-headline/index.js:65
 #: components/blocks/fau-teaser-grid/edit.js:439
 msgid "Heading 5"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:101
-#: components/blocks/fau-meta-headline/index.js:52
+#: components/blocks/fau-meta-headline/index.js:76
 #: components/blocks/fau-teaser-grid/edit.js:445
 msgid "Heading 6"
 msgstr ""
@@ -1846,12 +1846,12 @@ msgstr ""
 msgid "Choose Logo"
 msgstr ""
 
-#: components/blocks/fau-meta-headline/index.js:25
+#: components/blocks/fau-meta-headline/index.js:29
 #: components/blocks/fau-teaser-grid/edit.js:418
 msgid "Change heading level"
 msgstr ""
 
-#: components/blocks/fau-meta-headline/index.js:67
+#: components/blocks/fau-meta-headline/index.js:96
 msgid "Enter meta headline…"
 msgstr ""
 
