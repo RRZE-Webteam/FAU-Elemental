@@ -151,7 +151,7 @@ body {
 	}
 }
 
-.faue-content-wrapper {
+:where(.faue-content-wrapper) {
 
 	table {
 		padding: 0;
@@ -219,8 +219,8 @@ figure:has(> img)::before {
 }
 
 // Lists
-main ul,
-main ol {
+:where(.faue-content-wrapper) ul,
+:where(.faue-content-wrapper) ol {
 	max-width: var(--small-max-width);
 	font-size: var(--P-Body-Text);
 	color: var(--FAU-Col-FAU-Schwarz-100);
@@ -232,7 +232,7 @@ main ol {
 	}
 }
 
-main ul:not(.wp-block-list) {
+:where(.faue-content-wrapper) ul:not(.wp-block-list) {
 	padding-left: var(--Spacing-14x);
 	list-style-type: none;
 
@@ -295,7 +295,7 @@ main ul:not(.wp-block-list) {
 	}
 }
 
-main .fau-portal-menu > ul:not(.wp-block-list),
+:where(.faue-content-wrapper) .fau-portal-menu > ul:not(.wp-block-list),
 .fau-portal-menu > ul:not(.wp-block-list) {
 	padding-left: 0;
 
@@ -304,7 +304,7 @@ main .fau-portal-menu > ul:not(.wp-block-list),
 	}
 }
 
-main ol:not(.wp-block-list) {
+:where(.faue-content-wrapper) ol:not(.wp-block-list) {
 	padding-left: var(--Spacing-6x);
 	list-style-position: unset;
 
@@ -337,7 +337,7 @@ main ol:not(.wp-block-list) {
 }
 
 // Tables
-table {
+:where(.faue-content-wrapper) table {
 	width: 100%;
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -447,7 +447,7 @@ table {
 // Basic form style
 
 // Label
-main form {
+:where(.faue-content-wrapper) form {
 
 	:where(label) {
 		font-size: 1rem;
@@ -455,7 +455,7 @@ main form {
 }
 
 // Inputs
-main :where(
+:where(.faue-content-wrapper) :where(
 input[type="text"],
 input[type="email"],
 input[type="url"],
@@ -518,7 +518,7 @@ textarea
 	}
 }
 
-:where(
+:where(.faue-content-wrapper) :where(
 input[type="number"],
 input[type="date"],
 input[type="time"],
@@ -531,12 +531,12 @@ input[type="file"]
 	width: auto;
 }
 
-textarea {
+:where(.faue-content-wrapper) textarea {
 	resize: vertical;
 }
 
 // Submit
-main :where(input[type="submit"]) {
+:where(.faue-content-wrapper input[type="submit"]) {
 	width: calc(100% + 3.5rem);
 	border: none;
 	border-radius: 0;
@@ -553,7 +553,7 @@ main :where(input[type="submit"]) {
 	cursor: pointer;
 }
 
-main :where(
+:where(.faue-content-wrapper
 span:has(> input[type="submit"]),
 div:has(> input[type="submit"]),
 p:has(> input[type="submit"])
@@ -606,7 +606,7 @@ p:has(> input[type="submit"])
 }
 
 // Select
-main :where(select) {
+:where(.faue-content-wrapper select) {
 	width: 100%;
 	background: none;
 	padding: 0.75rem 1rem;
@@ -633,7 +633,7 @@ main :where(select) {
 	}
 }
 
-main :where(
+:where(.faue-content-wrapper) :where(
 span:has(> select),
 div:has(> select),
 p:has(> select)
@@ -676,7 +676,7 @@ p:has(> select)
 }
 
 // Checkbox
-main :where(input[type="checkbox"]) {
+:where(.faue-content-wrapper input[type="checkbox"]) {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -717,7 +717,7 @@ main :where(input[type="checkbox"]) {
 }
 
 // Radio
-main :where(input[type="radio"]) {
+:where(.faue-content-wrapper input[type="radio"]) {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
