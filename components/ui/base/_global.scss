@@ -341,7 +341,6 @@ figure:has(> img)::before {
 	width: 100%;
 	border-collapse: collapse;
 	border-spacing: 0;
-	margin: 0;
 	font-size: var(--P-Caption);
 
 	@include smaller-or-equals("small") {
