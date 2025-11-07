@@ -1,0 +1,74 @@
+body.fau-elemental div.rrze-calendar {
+  max-width: var(--wide-max-width);
+  font-family: "Source Sans 3", "Source Sans Pro", "sans-serif";
+
+  ul.events-list li.event-item:before {
+    content: initial;
+  }
+
+  ul.events-list li.event-item {
+    display: block;
+
+    .event-date {
+      background: var(--FAU-Col-FAU-Dunkelblau-100);
+
+      div.day-month {
+        display: flex;
+        margin-inline: var(--Spacing-4x);
+        gap: var(--Spacing-4x);
+      }
+
+      div.day-month div.day {
+        font-size: var(--H-Heading-1);
+        font-weight: 700;
+      }
+
+      div.day-month div.month, div.year {
+        font-size: var(--P-Body-Text);
+        font-weight: 400;
+        align-self: center;
+      }
+
+    }
+
+    .event-info {
+      display: grid;
+      grid-template-rows: auto auto 1fr;
+      padding-bottom: var(--Spacing-8x);
+      margin-bottom: var(--Spacing-8x);
+      border-bottom: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
+
+      .event-time,
+      .event-location {
+        font-size: var(--P-Body-Text-Small);
+        font-weight: 400;
+        color: var(--FAU-Col-FAU-Dunkelblau-100);
+        align-content: center;
+      }
+
+      .event-title a {
+        font-weight: 700;
+        font-size: var(--H-Heading-Big-Teaser);
+        line-height: 1.5;
+        letter-spacing: 2px;
+        color: var(--FAU-Col-FAU-Blau-100);
+      }
+
+      .event-location {
+        grid-row: 2/2;
+
+        p{
+          font-size: var(--P-Body-Text-Small);
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+      }
+
+      .event-time {
+        grid-row: 1/1;
+        margin-top: var(--Spacing-4x);
+      }
+
+    }
+  }
+}
