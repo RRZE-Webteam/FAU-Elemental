@@ -2,6 +2,9 @@
 
 div.fau-big-button-teaser-group {
 	max-width: var(--wide-max-width);
+}
+
+.fau-big-button-teaser-group {
 
 	.fau-big-button-teaser-group__buttons {
 		display: grid;
@@ -612,9 +615,9 @@ div.fau-big-button-teaser-group {
 	}
 }
 
-@include smaller-or-equals("x-small") {
+// @include smaller-or-equals("x-small") {
 
-	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons {
-		padding: 0 var(--Spacing-5x);
-	}
-}
+// 	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons {
+// 		padding: 0 var(--Spacing-5x);
+// 	}
+// }
