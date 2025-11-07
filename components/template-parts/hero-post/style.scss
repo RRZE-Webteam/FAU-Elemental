@@ -21,6 +21,10 @@
 		align-items: center;
 	}
 
+	.wp-block-post-featured-image {
+		margin-inline: auto;
+	}
+
 	.post-categories::before {
 		content: "";
 		display: inline-block;

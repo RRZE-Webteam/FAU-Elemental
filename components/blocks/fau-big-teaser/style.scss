@@ -1,8 +1,11 @@
 @use "../../ui/mixins/mixins" as *;
 
-.wp-block-fau-elemental-fau-big-teaser.fau-big-teaser {
-	display: flex;
+section.wp-block-fau-elemental-fau-big-teaser {
 	max-width: var(--wide-max-width);
+}
+
+.wp-block-fau-elemental-fau-big-teaser {
+	display: flex;
 	gap: var(--Spacing-10x);
 
 	.fau-big-teaser__content {

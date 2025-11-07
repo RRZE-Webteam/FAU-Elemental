@@ -7,10 +7,13 @@
 
 @use "../../ui/mixins/mixins" as *;
 
+div.wp-block-fau-elemental-fau-big-teaser {
+	max-width: var(--wide-max-width);
+}
+
 .fau-big-teaser-editor-preview {
 	display: flex;
 	gap: var(--Spacing-10x);
-	max-width: var(--wide-max-width);
 
 	.fau-big-teaser__content {
 
