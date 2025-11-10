@@ -1,3 +1,8 @@
+$fau_elements__rrze_calendar__font-size: 2rem;
+$fau_elements__rrze_calendar__spacing: 4px;
+$fau_elements__rrze_calendar__word-break: keep-all;
+$fau_elements__rrze_calendar__text-decoration: underline;
+
 body.fau-elemental div.rrze-calendar {
   max-width: var(--wide-max-width);
   font-family: "Source Sans 3", "Source Sans Pro", "sans-serif";
@@ -11,6 +16,8 @@ body.fau-elemental div.rrze-calendar {
 
     .event-date {
       background: var(--FAU-Col-FAU-Dunkelblau-100);
+      padding: $fau_elements__rrze_calendar__spacing;
+      margin-bottom: $fau_elements__rrze_calendar__spacing;
 
       div.day-month {
         display: flex;
@@ -28,7 +35,6 @@ body.fau-elemental div.rrze-calendar {
         font-weight: 400;
         align-self: center;
       }
-
     }
 
     .event-info {
@@ -44,12 +50,15 @@ body.fau-elemental div.rrze-calendar {
         font-weight: 400;
         color: var(--FAU-Col-FAU-Dunkelblau-100);
         align-content: center;
+        margin-bottom: $fau_elements__rrze_calendar__spacing;
       }
 
       .event-title a {
         font-weight: 700;
-        font-size: var(--H-Heading-Big-Teaser);
-        line-height: 1.5;
+        font-size: $fau_elements__rrze_calendar__font-size;
+        word-break: $fau_elements__rrze_calendar__word-break;
+        text-decoration: $fau_elements__rrze_calendar__text-decoration;
+        line-height: 1.3;
         letter-spacing: 2px;
         color: var(--FAU-Col-FAU-Blau-100);
       }
@@ -68,7 +77,6 @@ body.fau-elemental div.rrze-calendar {
         grid-row: 1/1;
         margin-top: var(--Spacing-4x);
       }
-
     }
   }
 }
