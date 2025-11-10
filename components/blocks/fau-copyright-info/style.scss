@@ -1,16 +1,12 @@
 .wp-block-fau-elemental-copyright-info {
-	margin-top: 0;
-	margin-bottom: 0;
-	font-size: 1rem;
 
 	.copyright-info-label {
 		display: block;
 		color: var(--FAU-Col-FAU-Weiss-100);
-		margin: 0;
-		padding: var(--Spacing-3x) 0;
+		padding-top: var(--Spacing-4x);
 		font-weight: 400;
+		font-size: 1.1rem;
 		line-height: var(--base-line-height);
-		font-size: var(--P-Body-Text-Small);
 	}
 
 	.copyright-info-list {
@@ -41,6 +37,7 @@
 			&::after {
 				content: counter(copyright-counter);
 				position: absolute;
+				top: calc(50% - 0.7rem);
 				right: -1em;
 				font-size: 0.75em;
 				line-height: var(--base-line-height);
@@ -56,9 +53,5 @@
 	a {
 		color: var(--FAU-Col-FAU-Weiss-100);
 		text-decoration: none;
-
-		&:hover {
-			text-decoration: underline;
-		}
 	}
 }

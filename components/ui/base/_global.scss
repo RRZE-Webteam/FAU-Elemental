@@ -9,6 +9,10 @@ body {
 	#page {
 		flex-grow: 1;
 	}
+
+	@media screen and (max-width: 599px) {
+		padding-bottom: var(--Spacing-10x); // Compensate for header top overlay
+	}
 }
 
 // Hide Print Logo
