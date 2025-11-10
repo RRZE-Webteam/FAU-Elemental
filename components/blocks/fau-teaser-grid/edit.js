@@ -29,58 +29,60 @@ import {
 } from './components/editor/useTeaserData';
 
 // Add this helper function at the top level
-	const wrapTeaserItems = ( items, layout ) => {
-		if ( [ 'l2s', '2sl' ].includes( layout ) ) {
-			const wrappedItems = [];
-			const groupNumber = Math.floor( items.length / 3 );
-			
-			for ( let i = 0; i < items.length; i += 3 ) {
-				const groupItems = items.slice( i, i + 3 );
-				const currentGroup = Math.floor( i / 3 );
-				
-				groupItems.forEach( ( item, index ) => {
-					const itemId = item?.props?.post?.id || item?.props?.page?.id || `${ i }-${ index }`;
-					const itemPosition = index + 1;
-					let liClass = 'teaser-group-item';
-					
-					// Assign classes based on layout and position
-					if ( layout === '2sl' && groupItems.length === 3 ) {
-						// For 2sl: first two are small, third is large
-						if ( itemPosition === 1 ) {
-							liClass += ' teaser-group-item-2'; // Small top (visually on left)
-						} else if ( itemPosition === 2 ) {
-							liClass += ' teaser-group-item-3'; // Small bottom (visually on left)
-						} else {
-							liClass += ' teaser-group-item-1'; // Large (visually on right)
-						}
-					} else {
-						// For l2s layout, use standard numbering
-						liClass += ` teaser-group-item-${ itemPosition }`;
-					}
-					
-					liClass += ` teaser-group-${ currentGroup }`;
-					
-					wrappedItems.push(
-						<li 
-							key={ itemId } 
-							className={ liClass }
-							data-group={ currentGroup }
-							data-position={ itemPosition }
-						>
-							{ item }
-						</li>
-					);
-				} );
-			}
-			return wrappedItems;
-		}
+const wrapTeaserItems = ( items, layout ) => {
+	if ( [ 'l2s', '2sl' ].includes( layout ) ) {
+		const wrappedItems = [];
 
-		return items.map( ( item, index ) => {
-			// Extract ID from React element props (post.id or page.id)
-			const itemId = item?.props?.post?.id || item?.props?.page?.id || index;
-			return <li key={ itemId }>{ item }</li>;
-		} );
-	};
+		for ( let i = 0; i < items.length; i += 3 ) {
+			const groupItems = items.slice( i, i + 3 );
+			const currentGroup = Math.floor( i / 3 );
+
+			groupItems.forEach( ( item, index ) => {
+				const itemId =
+					item?.props?.post?.id ||
+					item?.props?.page?.id ||
+					`${ i }-${ index }`;
+				const itemPosition = index + 1;
+				let liClass = 'teaser-group-item';
+
+				// Assign classes based on layout and position
+				if ( layout === '2sl' && groupItems.length === 3 ) {
+					// For 2sl: first two are small, third is large
+					if ( itemPosition === 1 ) {
+						liClass += ' teaser-group-item-2'; // Small top (visually on left)
+					} else if ( itemPosition === 2 ) {
+						liClass += ' teaser-group-item-3'; // Small bottom (visually on left)
+					} else {
+						liClass += ' teaser-group-item-1'; // Large (visually on right)
+					}
+				} else {
+					// For l2s layout, use standard numbering
+					liClass += ` teaser-group-item-${ itemPosition }`;
+				}
+
+				liClass += ` teaser-group-${ currentGroup }`;
+
+				wrappedItems.push(
+					<li
+						key={ itemId }
+						className={ liClass }
+						data-group={ currentGroup }
+						data-position={ itemPosition }
+					>
+						{ item }
+					</li>
+				);
+			} );
+		}
+		return wrappedItems;
+	}
+
+	return items.map( ( item, index ) => {
+		// Extract ID from React element props (post.id or page.id)
+		const itemId = item?.props?.post?.id || item?.props?.page?.id || index;
+		return <li key={ itemId }>{ item }</li>;
+	} );
+};
 
 // Generate pagination preview similar to render.php logic
 const generatePaginationPreview = (
