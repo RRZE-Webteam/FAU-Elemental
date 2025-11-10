@@ -13,17 +13,13 @@
 		display: inline-flex;
 		flex-wrap: wrap;
 		gap: 0 var(--Spacing-6x);
-		align-items: baseline;
 		list-style: none;
 		margin: 0;
 		padding: 0;
 
 		li {
-			margin-bottom: 0;
-			font-weight: 400;
 			font-size: var(--P-Caption);
 			color: var(--FAU-Col-FAU-Schwarz-12_5);
-			padding: var(--Spacing-1x) 0;
 			position: relative;
 			counter-increment: copyright-counter;
 
@@ -38,8 +34,8 @@
 				content: counter(copyright-counter);
 				position: absolute;
 				top: calc(50% - 0.7rem);
-				right: -1em;
-				font-size: 0.75em;
+				right: -0.7rem;
+				font-size: 0.6rem;
 				line-height: var(--base-line-height);
 				color: var(--FAU-Col-FAU-Schwarz-12_5);
 			}
@@ -48,10 +44,5 @@
 				counter-reset: copyright-counter;
 			}
 		}
-	}
-
-	a {
-		color: var(--FAU-Col-FAU-Weiss-100);
-		text-decoration: none;
 	}
 }
