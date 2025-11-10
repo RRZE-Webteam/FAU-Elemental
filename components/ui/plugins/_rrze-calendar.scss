@@ -4,6 +4,7 @@ $fau_elements__rrze_calendar__word-break: keep-all;
 $fau_elements__rrze_calendar__text-decoration: underline;
 
 body.fau-elemental div.rrze-calendar {
+  container-type: inline-size;
   max-width: var(--wide-max-width);
   font-family: "Source Sans 3", "Source Sans Pro", "sans-serif";
 
@@ -76,6 +77,47 @@ body.fau-elemental div.rrze-calendar {
       .event-time {
         grid-row: 1/1;
         margin-top: var(--Spacing-4x);
+      }
+    }
+  }
+}
+
+// Breakpoint for Tablet View
+@container (width > 768px) {
+  body.fau-elemental div.rrze-calendar {
+
+    ul.events-list{
+      margin: 0 auto;
+    }
+
+    ul.events-list li.event-item {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-gap: var(--Spacing-4x);
+
+      .event-date {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        aspect-ratio: 1/1;
+        max-width: 113px;
+
+        div.day-month {
+          display: grid;
+          grid-template-rows: 56px 56px;
+
+          div.day, div.month{
+            align-self: start;
+          }
+        }
+
+        div.day {
+          font-size: var(--H-Heading-2);
+        }
+      }
+
+      .event-info{
+        grid-column-start: -7;
+        grid-column-end: -1;
       }
     }
   }
