@@ -56,7 +56,19 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
             // Image section
             if (!$this->settings['nothumbs']) {
                 $thumbnail = false;
-                $thumbnail_id = !empty($item->linked_post) ? get_post_thumbnail_id($item->linked_post) : false;
+                $thumbnail_id = false;
+
+                // Prefer the menu item's object ID for performance and reliability
+                if (!empty($item->object_id) && in_array($item->object, ['page', 'post'], true)) {
+                    $thumbnail_id = get_post_thumbnail_id((int) $item->object_id);
+                }
+
+                // Fallback to linked post data if available (preloaded via render_portalmenu)
+                if (!$thumbnail_id && !empty($item->linked_post)) {
+                    $post_id = is_object($item->linked_post) ? $item->linked_post->ID : $item->linked_post;
+                    $thumbnail_id = get_post_thumbnail_id((int) $post_id);
+                }
+
                 if ($thumbnail_id) {
                     $img_src = wp_get_attachment_image_src($thumbnail_id, 'medium_large');
                     $thumbnail = $img_src ? $img_src[0] : false;
