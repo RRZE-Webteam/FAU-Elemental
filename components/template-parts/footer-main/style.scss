@@ -15,7 +15,8 @@ footer.wp-block-template-part {
 	.footer-meta-menu,
 	.footer-important-links,
 	.social-links,
-	.menu-item {
+	.menu-item,
+	.copyright-info-list {
 
 		a {
 
@@ -231,6 +232,7 @@ footer.wp-block-template-part {
 	// Social media links styling (also used in instance footer)
 	.social-links {
 		display: flex;
+		justify-content: flex-end;
 		align-items: center;
 		gap: var(--Spacing-6x);
 		list-style: none;
@@ -238,6 +240,8 @@ footer.wp-block-template-part {
 
 		a {
 			display: block;
+			height: var(--accessible-target-size);
+			width: var(--accessible-target-size);
 			background-repeat: no-repeat;
 			background-position: center;
 			transition: var(--basic-animation);
@@ -269,59 +273,39 @@ footer.wp-block-template-part {
 
 			&.xing {
 				background-image: var(--icon-xing);
-				width: 1.5rem;
-				height: 1.875rem;
 			}
-
 
 			&.tiktok {
 				background-image: var(--icon-tiktok);
-				width: 1.75rem;
-				height: 2rem;
 			}
 
 			&.linkedin {
 				background-image: var(--icon-linkedin);
-				width: 1.6875rem;
-				height: 1.75rem;
 			}
 
 			&.bluesky {
 				background-image: var(--icon-bluesky);
-				width: 2.25rem;
-				height: 2rem;
 			}
 
 			&.youtube {
 				background-image: var(--icon-youtube);
-				width: 2.125rem;
-				height: 1.5rem;
 			}
 
 			&.mastodon {
 				background-image: var(--icon-mastodon);
-				width: 1.625rem;
-				height: 1.75rem;
 			}
 
 			&.facebook {
 				background-image: var(--icon-facebook);
-				width: 2rem;
-				height: 2rem;
 			}
 
 			&.instagram {
 				background-image: var(--icon-instagram);
-				width: 1.75rem;
-				height: 1.75rem;
 			}
 
 			&.threads {
 				background-image: var(--icon-threads);
-				width: 1.75rem;
-				height: 1.75rem;
 			}
-
 
 			// Custom social media icons (added via admin)
 			// Background images are set via JavaScript from data-custom-icon attribute
@@ -391,14 +375,6 @@ footer.wp-block-template-part {
 			}
 		}
 
-		.social-links {
-			gap: var(--Spacing-3x);
-
-			a {
-				scale: 0.8;
-			}
-		}
-
 		.fau-claim {
 			bottom: var(--Spacing-12x);
 			padding: var(--Spacing-8x);
@@ -410,6 +386,18 @@ footer.wp-block-template-part {
 
 			p {
 				font-size: 1rem;
+			}
+		}
+
+		.social-links {
+			flex-wrap: wrap;
+		}
+
+		.footer-bottom-bottom {
+
+			.footer-left,
+			.footer-right {
+				width: 50%;
 			}
 		}
 	}
@@ -429,10 +417,15 @@ footer.wp-block-template-part {
 
 		.footer-bottom-bottom {
 			flex-direction: column-reverse;
+
+			.footer-left,
+			.footer-right {
+				width: unset;
+			}
 		}
 
 		.social-links {
-			flex-wrap: wrap;
+			justify-content: flex-start;
 		}
 	}
 }
