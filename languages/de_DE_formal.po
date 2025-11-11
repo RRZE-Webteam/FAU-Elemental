@@ -393,20 +393,20 @@ msgid "Portal Menu Settings"
 msgstr "Portalmen체-Einstellungen"
 
 #: components/template-parts/navigation/main-navigation.php:50
-#: inc/portal-page-settings.php:73
+#: inc/portal-page-settings.php:74
 #: components/blocks/fau-portalmenu/edit.js:64
 msgid "Menu"
 msgstr "Men체"
 
-#: inc/portal-page-settings.php:75
+#: inc/portal-page-settings.php:76
 msgid "- Select Menu -"
 msgstr "- Men체 ausw채hlen -"
 
-#: inc/portal-page-settings.php:86
+#: inc/portal-page-settings.php:87
 msgid "Hide Submenus"
 msgstr "Untermen체s ausblenden"
 
-#: inc/portal-page-settings.php:91
+#: inc/portal-page-settings.php:92
 #: components/blocks/fau-portalmenu/edit.js:92
 msgid "Hide Thumbnails"
 msgstr "Vorschaubilder ausblenden"
@@ -704,7 +704,7 @@ msgstr "Suchergebnis %d"
 
 #. translators: %s: Menu item title
 #: components/template-parts/search-results/search-results.php:373
-#: inc/class-walker-content-menu.php:67
+#: inc/class-walker-content-menu.php:79
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:179
 #, php-format,js-format
 msgid "Featured image for %s"
@@ -902,14 +902,14 @@ msgid "Pages:"
 msgstr "Seiten:"
 
 #. translators: Menu item title
-#: inc/class-walker-content-menu.php:87
+#: inc/class-walker-content-menu.php:99
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:200
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:230
 #, php-format,js-format
 msgid "Go to %s"
 msgstr "Zu %s gehen"
 
-#: inc/class-walker-content-menu.php:198
+#: inc/class-walker-content-menu.php:210
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
 msgstr "Portalmen체"
@@ -1021,7 +1021,7 @@ msgstr "Wenn aktiviert, wird diese Seite nicht als Unterseite in Navigationsmen�
 msgid "No menu could be found with the specified identifier."
 msgstr "Es konnte kein Men체 mit der angegebenen Kennung gefunden werden."
 
-#: inc/portal-page-settings.php:96
+#: inc/portal-page-settings.php:97
 msgid "Dark Style"
 msgstr "Dunkles Design"
 
@@ -2440,3 +2440,7 @@ msgstr "Allgemein"
 #: inc/customizer.php:153
 msgid "General footer settings"
 msgstr "Allgemeine Footer-Einstellungen"
+
+#: inc/portal-page-settings.php:102
+msgid "Hide Page Title (use portal hero)"
+msgstr "Seitentitel ausblenden (Portal-Hero verwenden)"

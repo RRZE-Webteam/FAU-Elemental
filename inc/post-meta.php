@@ -307,3 +307,25 @@ function faue_get_page_title($post_id) {
     return get_the_title($post_id);
 }
 
+add_filter('render_block_core/post-title', 'faue_render_block_custom_page_title', 10, 2);
+
+function faue_render_block_custom_page_title($block_content, $block) {
+    if (empty($block_content)) {
+        return $block_content;
+    }
+
+    $post_id = $block['context']['postId'] ?? get_the_ID();
+    if (empty($post_id) || !is_singular()) {
+        return $block_content;
+    }
+
+    $custom_title = faue_get_page_title($post_id);
+    $default_title = get_the_title($post_id);
+
+    if ($custom_title === $default_title) {
+        return $block_content;
+    }
+
+    return preg_replace('/>([^<]*)</', '>' . esc_html($custom_title) . '<', $block_content, 1);
+}
+
