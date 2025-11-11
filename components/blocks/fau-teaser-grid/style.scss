@@ -204,149 +204,158 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 		// Layout-l2s and Layout 2sl specific styles
 		&.layout-l2s,
 		&.layout-2sl {
-			display: flex;
-			flex-direction: column;
+			// Use CSS Grid with a 3-item repeating pattern
+			display: grid;
 			gap: var(--Spacing-8x);
+			grid-template-columns: 1fr 1fr;
+			grid-auto-flow: dense;
 
-			.teaser-group-wrapper {
-				display: contents;
+			// Style each group of 3 items
+			.teaser-group-item {
+				list-style: none;
 			}
 
-			.teaser-group {
-				display: grid;
-				gap: var(--Spacing-8x);
-				grid-template-rows: min-content 1fr;
-				grid-template-columns: 1fr 1fr;
-				grid-template-areas:
-					"s a"
-					"s b";
+			// First item in each group (large)
+			.teaser-group-item-1 {
+				grid-column: 1;
+				grid-row: span 2;
+			}
 
-				.teaser-item {
+			// Second item in each group (small, top)
+			.teaser-group-item-2 {
+				grid-column: 2;
+			}
 
-					.teaser-content-wrapper .teaser-content {
-						padding: var(--Spacing-6x) 0 var(--Spacing-6x) var(--Spacing-6x);
-					}
+			// Third item in each group (small, bottom)
+			.teaser-group-item-3 {
+				grid-column: 2;
+			}
 
-					&:nth-child(1) {
-						grid-area: s;
+			.teaser-item {
 
-						.teaser-image-wrapper .teaser-meta {
-							height: 7.0625rem;
-							width: 7.0625rem;
+				.teaser-content-wrapper .teaser-content {
+					padding: var(--Spacing-6x) 0 var(--Spacing-6x) var(--Spacing-6x);
+				}
+			}
 
-							time {
+			// Styles for first item in each group (large)
+			.teaser-group-item-1 .teaser-item {
 
-								.date-day {
-									font-size: 3rem;
-								}
+				.teaser-image-wrapper .teaser-meta {
+					height: 7.0625rem;
+					width: 7.0625rem;
 
-								.date-month-year {
-									font-size: 1.15rem;
-									font-weight: 400;
-								}
-							}
+					time {
 
+						.date-day {
+							font-size: 3rem;
 						}
 
-						.teaser-content-wrapper .teaser-content .content-column h2,
-						.teaser-content-wrapper .teaser-content .content-column h3,
-						.teaser-content-wrapper .teaser-content .content-column h4,
-						.teaser-content-wrapper .teaser-content .content-column h5,
-						.teaser-content-wrapper .teaser-content .content-column h6 {
-							font-size: 1.5rem;
+						.date-month-year {
+							font-size: 1.15rem;
+							font-weight: 400;
 						}
 					}
 
-					&:nth-child(2) {
-						grid-area: a;
-						flex-direction: row;
-						align-self: flex-start;
+				}
 
-						.teaser-image-wrapper {
-							width: calc(100% + 5rem);
+				.teaser-content-wrapper .teaser-content .content-column h2,
+				.teaser-content-wrapper .teaser-content .content-column h3,
+				.teaser-content-wrapper .teaser-content .content-column h4,
+				.teaser-content-wrapper .teaser-content .content-column h5,
+				.teaser-content-wrapper .teaser-content .content-column h6 {
+					font-size: 1.5rem;
+				}
+			}
 
-							.teaser-image img {
-								min-height: 15.625rem;
-							}
-						}
+			// Styles for second item in each group (small, top)
+			.teaser-group-item-2 .teaser-item {
+				flex-direction: row;
+				align-self: flex-start;
 
-						.teaser-content-wrapper {
-							width: 100%;
-							bottom: unset;
-							left: -2.5rem;
+				.teaser-image-wrapper {
+					width: calc(100% + 5rem);
 
-							.teaser-content {
-								width: calc(100% + 2.5rem);
-								box-sizing: border-box;
-
-								.content-column {
-
-									h2,
-									h3,
-									h4,
-									h5,
-									h6 {
-										margin-bottom: 0;
-									}
-
-									.excerpt {
-										display: none;
-									}
-								}
-							}
-						}
+					.teaser-image img {
+						min-height: 15.625rem;
 					}
+				}
 
-					&:nth-child(3) {
-						grid-area: b;
-						flex-direction: row-reverse;
-						align-self: flex-start;
+				.teaser-content-wrapper {
+					width: 100%;
+					bottom: unset;
+					left: -2.5rem;
 
-						.teaser-image-wrapper {
-							width: calc(100% + 5rem);
+					.teaser-content {
+						width: calc(100% + 2.5rem);
+						box-sizing: border-box;
 
-							.teaser-image img {
-								min-height: 15.625rem;
+						.content-column {
+
+							h2,
+							h3,
+							h4,
+							h5,
+							h6 {
+								margin-bottom: 0;
 							}
 
-							.teaser-meta {
-								left: unset;
-								right: 0;
-							}
-						}
-
-						.teaser-content-wrapper {
-							width: 100%;
-							bottom: unset;
-
-							.teaser-content {
-								width: calc(100% + 2rem);
-								padding: var(--Spacing-4x) 0 var(--Spacing-4x) var(--Spacing-4x);
-
-								.content-column {
-
-									h2,
-									h3,
-									h4,
-									h5,
-									h6 {
-										margin-bottom: 0;
-									}
-
-									.excerpt {
-										display: none;
-									}
-								}
+							.excerpt {
+								display: none;
 							}
 						}
 					}
 				}
 			}
 
-			&[data-variant="page"] .teaser-group .teaser-item {
+			// Styles for third item in each group (small, bottom)
+			.teaser-group-item-3 .teaser-item {
+				flex-direction: row-reverse;
+				align-self: flex-start;
 
-				&:nth-child(2),
-				&:nth-child(3) {
+				.teaser-image-wrapper {
+					width: calc(100% + 5rem);
+
+					.teaser-image img {
+						min-height: 15.625rem;
+					}
+
+					.teaser-meta {
+						left: unset;
+						right: 0;
+					}
+				}
+
+				.teaser-content-wrapper {
+					width: 100%;
+					bottom: unset;
+
+					.teaser-content {
+						width: calc(100% + 2rem);
+						padding: var(--Spacing-4x) 0 var(--Spacing-4x) var(--Spacing-4x);
+
+						.content-column {
+
+							h2,
+							h3,
+							h4,
+							h5,
+							h6 {
+								margin-bottom: 0;
+							}
+
+							.excerpt {
+								display: none;
+							}
+						}
+					}
+				}
+			}
+
+			&[data-variant="page"] {
+
+				.teaser-group-item-2 .teaser-item,
+				.teaser-group-item-3 .teaser-item {
 
 					.teaser-content-wrapper .teaser-content .content-column {
 						display: flex;
@@ -410,11 +419,23 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 			grid-template-columns: repeat(2, 1fr);
 		}
 
-		// Layout 2sl specific styles
-		&.layout-2sl .teaser-group {
-			grid-template-areas:
-				"a s"
-				"b s";
+		// Layout 2sl specific styles - mirror the grid layout
+		&.layout-2sl {
+
+			.teaser-group-item-1 {
+				grid-column: 2;
+				grid-row: span 2;
+			}
+
+			.teaser-group-item-2 {
+				grid-column: 1;
+				grid-row: auto;
+			}
+
+			.teaser-group-item-3 {
+				grid-column: 1;
+				grid-row: auto;
+			}
 		}
 
 		// Layout 2s Left and 2s Right specific styles
