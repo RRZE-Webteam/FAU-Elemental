@@ -1,6 +1,6 @@
 @use "../../ui/mixins/mixins" as *;
 
-.is-layout-flow {
+.faue-content-wrapper {
 
 	form.wsf-form {
 		max-width: calc(var(--small-max-width) + 5rem);
@@ -516,12 +516,12 @@
 // Responsive
 @include smaller-or-equals("x-small") {
 
-	.is-layout-flow form.wsf-form {
+	.faue-content-wrapper form.wsf-form {
 		max-width: calc(var(--small-max-width) + 2.5rem);
 		padding: 0 var(--Spacing-5x);
 	}
 
-	.is-layout-flow div[role="alert"]:has(.wsf-alert) {
+	.faue-content-wrapper div[role="alert"]:has(.wsf-alert) {
 		padding: 0 var(--Spacing-5x);
 	}
 }
