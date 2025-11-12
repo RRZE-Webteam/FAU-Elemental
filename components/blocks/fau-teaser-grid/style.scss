@@ -623,90 +623,28 @@
 
 			&.layout-l2s,
 			&.layout-2sl {
+				grid-template-columns: 1fr;
 
 				.teaser-group {
-					gap: var(--Spacing-6x);
+					display: contents;
+				}
 
-					.teaser-item {
+				.teaser-group-item {
+					grid-column: auto;
+					grid-row: auto;
+				}
 
-						&:nth-child(2) {
+				.teaser-item {
+					display: flex;
+					flex-direction: column;
+					gap: var(--Spacing-4x);
+				}
 
-							.teaser-image-wrapper .teaser-image img {
-								min-height: 180px;
-							}
-						}
-
-						&:nth-child(3) {
-							flex-direction: row;
-
-							.teaser-image-wrapper {
-
-								.teaser-image img {
-									min-height: 11.25rem;
-								}
-
-								.teaser-meta {
-									left: 0;
-									right: unset;
-								}
-							}
-
-							.teaser-content-wrapper {
-								left: -2.5rem;
-
-								.teaser-content {
-									width: calc(100% + 2.5rem);
-									padding-right: 0;
-									box-sizing: border-box;
-								}
-							}
-						}
-
-						&:nth-child(1) {
-
-							.teaser-image-wrapper .teaser-meta {
-								height: 5rem;
-								width: 5rem;
-
-								time {
-
-									.date-day {
-										font-size: 1.5rem;
-									}
-
-									.date-month-year {
-										font-size: 1rem;
-										font-weight: 400;
-									}
-								}
-							}
-						}
-
-						&:nth-child(2),
-						&:nth-child(3) {
-
-							.teaser-image-wrapper .teaser-meta {
-								height: 4.25rem;
-								width: 4.25rem;
-
-								time {
-
-									.date-day {
-										font-size: 1.5rem;
-									}
-
-									.date-month-year {
-										font-size: 0.875rem;
-										font-weight: 400;
-									}
-								}
-							}
-						}
-
-						.teaser-content-wrapper .teaser-content {
-							padding: var(--Spacing-4x) 0 var(--Spacing-4x) var(--Spacing-4x);
-						}
-					}
+				.teaser-image-wrapper,
+				.teaser-content-wrapper {
+					width: 100%;
+					left: unset;
+					bottom: unset;
 				}
 			}
 
@@ -780,38 +718,16 @@
 
 			&.layout-2s-left,
 			&.layout-2s-right {
+				grid-template-columns: 1fr;
 
 				.teaser-item {
+					flex-direction: column;
 
-					.teaser-image-wrapper {
-
-						.teaser-meta {
-							height: 4.25rem;
-							width: 4.25rem;
-
-							time {
-
-								.date-day {
-									font-size: 1.5rem;
-								}
-
-								.date-month-year {
-									font-size: 0.875rem;
-									font-weight: 400;
-								}
-							}
-						}
-					}
-
+					.teaser-image-wrapper,
 					.teaser-content-wrapper {
-
-						.teaser-content {
-							padding: var(--Spacing-4x) 0 var(--Spacing-4x) var(--Spacing-4x);
-
-							.content-column .clamp-3 [aria-hidden="true"] {
-								-webkit-line-clamp: 2;
-							}
-						}
+						width: 100%;
+						left: unset;
+						bottom: unset;
 					}
 				}
 			}
