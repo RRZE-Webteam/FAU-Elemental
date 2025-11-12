@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-12T09:51:39+00:00\n"
+"POT-Creation-Date: 2025-11-12T09:56:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -315,7 +315,7 @@ msgid "Open menu"
 msgstr ""
 
 #: components/template-parts/navigation/main-navigation.php:50
-#: inc/portal-page-settings.php:73
+#: inc/portal-page-settings.php:74
 #: components/blocks/fau-portalmenu/edit.js:64
 msgid "Menu"
 msgstr ""
@@ -537,7 +537,7 @@ msgstr ""
 
 #. translators: %s: Menu item title
 #: components/template-parts/search-results/search-results.php:373
-#: inc/class-walker-content-menu.php:67
+#: inc/class-walker-content-menu.php:79
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:179
 msgid "Featured image for %s"
 msgstr ""
@@ -646,13 +646,13 @@ msgid "Hero"
 msgstr ""
 
 #. translators: Menu item title
-#: inc/class-walker-content-menu.php:87
+#: inc/class-walker-content-menu.php:99
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:200
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:230
 msgid "Go to %s"
 msgstr ""
 
-#: inc/class-walker-content-menu.php:198
+#: inc/class-walker-content-menu.php:210
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
 msgstr ""
@@ -1084,21 +1084,25 @@ msgstr ""
 msgid "Portal Menu Settings"
 msgstr ""
 
-#: inc/portal-page-settings.php:75
+#: inc/portal-page-settings.php:76
 msgid "- Select Menu -"
 msgstr ""
 
-#: inc/portal-page-settings.php:86
+#: inc/portal-page-settings.php:87
 msgid "Hide Submenus"
 msgstr ""
 
-#: inc/portal-page-settings.php:91
+#: inc/portal-page-settings.php:92
 #: components/blocks/fau-portalmenu/edit.js:92
 msgid "Hide Thumbnails"
 msgstr ""
 
-#: inc/portal-page-settings.php:96
+#: inc/portal-page-settings.php:97
 msgid "Dark Style"
+msgstr ""
+
+#: inc/portal-page-settings.php:102
+msgid "Hide Page Title (use portal hero)"
 msgstr ""
 
 #: inc/post-meta.php:24
@@ -1590,31 +1594,31 @@ msgid "Headline Level"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:85
-#: components/blocks/fau-meta-headline/index.js:32
+#: components/blocks/fau-meta-headline/index.js:19
 #: components/blocks/fau-teaser-grid/edit.js:450
 msgid "Heading 2"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:89
-#: components/blocks/fau-meta-headline/index.js:43
+#: components/blocks/fau-meta-headline/index.js:24
 #: components/blocks/fau-teaser-grid/edit.js:456
 msgid "Heading 3"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:93
-#: components/blocks/fau-meta-headline/index.js:54
+#: components/blocks/fau-meta-headline/index.js:29
 #: components/blocks/fau-teaser-grid/edit.js:462
 msgid "Heading 4"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:97
-#: components/blocks/fau-meta-headline/index.js:65
+#: components/blocks/fau-meta-headline/index.js:34
 #: components/blocks/fau-teaser-grid/edit.js:468
 msgid "Heading 5"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:101
-#: components/blocks/fau-meta-headline/index.js:76
+#: components/blocks/fau-meta-headline/index.js:39
 #: components/blocks/fau-teaser-grid/edit.js:474
 msgid "Heading 6"
 msgstr ""
@@ -1846,12 +1850,20 @@ msgstr ""
 msgid "Choose Logo"
 msgstr ""
 
-#: components/blocks/fau-meta-headline/index.js:29
+#: components/blocks/fau-meta-headline/index.js:44
+msgid "Header element"
+msgstr ""
+
+#: components/blocks/fau-meta-headline/index.js:45
+msgid "Header"
+msgstr ""
+
+#: components/blocks/fau-meta-headline/index.js:67
 #: components/blocks/fau-teaser-grid/edit.js:447
 msgid "Change heading level"
 msgstr ""
 
-#: components/blocks/fau-meta-headline/index.js:96
+#: components/blocks/fau-meta-headline/index.js:90
 msgid "Enter meta headline…"
 msgstr ""
 
