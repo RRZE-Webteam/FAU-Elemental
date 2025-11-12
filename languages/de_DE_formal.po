@@ -45,7 +45,7 @@ msgid "Security check failed"
 msgstr "Sicherheitsprüfung fehlgeschlagen"
 
 #: components/blocks/fau-teaser-grid/render.php:73
-#: components/blocks/fau-teaser-grid/edit.js:464
+#: components/blocks/fau-teaser-grid/edit.js:493
 msgid "Content grid"
 msgstr "Inhaltsgitter"
 
@@ -55,7 +55,7 @@ msgstr "Inhalt"
 
 #: components/blocks/fau-teaser-grid/render.php:256
 #: components/blocks/fau-teaser-grid/render.php:258
-#: components/blocks/fau-teaser-grid/edit.js:581
+#: components/blocks/fau-teaser-grid/edit.js:610
 msgid "Load More"
 msgstr "Mehr laden"
 
@@ -393,20 +393,20 @@ msgid "Portal Menu Settings"
 msgstr "Portalmenü-Einstellungen"
 
 #: components/template-parts/navigation/main-navigation.php:50
-#: inc/portal-page-settings.php:74
+#: inc/portal-page-settings.php:79
 #: components/blocks/fau-portalmenu/edit.js:64
 msgid "Menu"
 msgstr "Menü"
 
-#: inc/portal-page-settings.php:76
+#: inc/portal-page-settings.php:81
 msgid "- Select Menu -"
 msgstr "- Menü auswählen -"
 
-#: inc/portal-page-settings.php:87
+#: inc/portal-page-settings.php:92
 msgid "Hide Submenus"
 msgstr "Untermenüs ausblenden"
 
-#: inc/portal-page-settings.php:92
+#: inc/portal-page-settings.php:97
 #: components/blocks/fau-portalmenu/edit.js:92
 msgid "Hide Thumbnails"
 msgstr "Vorschaubilder ausblenden"
@@ -465,10 +465,6 @@ msgstr "Fakultät"
 #: inc/theme-settings.php:51
 msgid "Chair"
 msgstr "Lehrstuhl"
-
-#: inc/theme-settings.php:53
-msgid "Cooperation"
-msgstr "Kooperation"
 
 #: inc/theme-settings.php:85
 msgid "Copyright Info Priority"
@@ -792,7 +788,7 @@ msgid "Loading error"
 msgstr "Ladefehler"
 
 #: components/template-parts/pagination/pagination.php:24
-#: components/blocks/fau-teaser-grid/edit.js:559
+#: components/blocks/fau-teaser-grid/edit.js:588
 msgid "Posts pagination"
 msgstr "Beitrags-Seitennummerierung"
 
@@ -947,17 +943,17 @@ msgid "Archive pages settings"
 msgstr "Archivseiten-Einstellungen"
 
 #: inc/customizer.php:665
-#: components/blocks/fau-teaser-grid/edit.js:380
+#: components/blocks/fau-teaser-grid/edit.js:409
 msgid "Pagination Type"
 msgstr "Seitennummerierungstyp"
 
 #: inc/customizer.php:669
-#: components/blocks/fau-teaser-grid/edit.js:384
+#: components/blocks/fau-teaser-grid/edit.js:413
 msgid "Page Numbers"
 msgstr "Seitennummern"
 
 #: inc/customizer.php:670
-#: components/blocks/fau-teaser-grid/edit.js:391
+#: components/blocks/fau-teaser-grid/edit.js:420
 msgid "Load More Button"
 msgstr "Mehr Anzeigen Button"
 
@@ -1021,7 +1017,7 @@ msgstr "Wenn aktiviert, wird diese Seite nicht als Unterseite in Navigationsmen�
 msgid "No menu could be found with the specified identifier."
 msgstr "Es konnte kein Menü mit der angegebenen Kennung gefunden werden."
 
-#: inc/portal-page-settings.php:97
+#: inc/portal-page-settings.php:102
 msgid "Dark Style"
 msgstr "Dunkles Design"
 
@@ -1226,7 +1222,7 @@ msgid "Search…"
 msgstr "Suchen…"
 
 #: components/blocks/fau-teaser-grid/render.php:257
-#: components/blocks/fau-teaser-grid/edit.js:546
+#: components/blocks/fau-teaser-grid/edit.js:575
 msgid "Loading…"
 msgstr "Lädt…"
 
@@ -1652,7 +1648,7 @@ msgstr "Logo zum Bearbeiten auswählen"
 msgid "Choose Logo"
 msgstr "Logo auswählen"
 
-#: components/blocks/fau-meta-headline/index.js:96
+#: components/blocks/fau-meta-headline/index.js:90
 msgid "Enter meta headline…"
 msgstr "Meta-Überschrift eingeben…"
 
@@ -1692,70 +1688,70 @@ msgstr "FAU Portal-Menü"
 msgid "Please select a menu in the block settings panel to display as a portal menu."
 msgstr "Bitte wählen Sie ein Menü im Block-Einstellungsbereich aus, um es als Portalmenü anzuzeigen."
 
-#: components/blocks/fau-teaser-grid/edit.js:271
+#: components/blocks/fau-teaser-grid/edit.js:300
 msgid "All Categories"
 msgstr "Alle Kategorien"
 
-#: components/blocks/fau-teaser-grid/edit.js:324
+#: components/blocks/fau-teaser-grid/edit.js:353
 msgid "Teaser Grid Block"
 msgstr "Teaser-Grid-Block"
 
-#: components/blocks/fau-teaser-grid/edit.js:367
+#: components/blocks/fau-teaser-grid/edit.js:396
 msgid "Pagination Settings"
 msgstr "Seitennummerierung-Einstellungen"
 
-#: components/blocks/fau-teaser-grid/edit.js:371
+#: components/blocks/fau-teaser-grid/edit.js:400
 msgid "Show Pagination"
 msgstr "Seitennummerierung anzeigen"
 
-#: components/blocks/fau-teaser-grid/edit.js:405
+#: components/blocks/fau-teaser-grid/edit.js:434
 msgid "Accessibility"
 msgstr "Barrierefreiheit"
 
-#: components/blocks/fau-teaser-grid/edit.js:407
+#: components/blocks/fau-teaser-grid/edit.js:436
 msgid "To ensure good accessibility and SEO, please make sure that there is only one H1 heading on the page. If you already have an H1 heading, use a different heading level for the teasers in this block."
 msgstr "Um gute Barrierefreiheit und SEO zu gewährleisten, stellen Sie bitte sicher, dass es nur eine H1-Überschrift auf der Seite gibt. Wenn Sie bereits eine H1-Überschrift haben, verwenden Sie eine andere Überschriftenebene für die Teaser in diesem Block."
 
-#: components/blocks/fau-meta-headline/index.js:29
-#: components/blocks/fau-teaser-grid/edit.js:418
+#: components/blocks/fau-meta-headline/index.js:67
+#: components/blocks/fau-teaser-grid/edit.js:447
 msgid "Change heading level"
 msgstr "Überschriftenebene ändern"
 
 #: components/blocks/fau-big-teaser/edit.js:85
-#: components/blocks/fau-meta-headline/index.js:32
-#: components/blocks/fau-teaser-grid/edit.js:421
+#: components/blocks/fau-meta-headline/index.js:19
+#: components/blocks/fau-teaser-grid/edit.js:450
 msgid "Heading 2"
 msgstr "Überschrift 2"
 
 #: components/blocks/fau-big-teaser/edit.js:89
-#: components/blocks/fau-meta-headline/index.js:43
-#: components/blocks/fau-teaser-grid/edit.js:427
+#: components/blocks/fau-meta-headline/index.js:24
+#: components/blocks/fau-teaser-grid/edit.js:456
 msgid "Heading 3"
 msgstr "Überschrift 3"
 
 #: components/blocks/fau-big-teaser/edit.js:93
-#: components/blocks/fau-meta-headline/index.js:54
-#: components/blocks/fau-teaser-grid/edit.js:433
+#: components/blocks/fau-meta-headline/index.js:29
+#: components/blocks/fau-teaser-grid/edit.js:462
 msgid "Heading 4"
 msgstr "Überschrift 4"
 
 #: components/blocks/fau-big-teaser/edit.js:97
-#: components/blocks/fau-meta-headline/index.js:65
-#: components/blocks/fau-teaser-grid/edit.js:439
+#: components/blocks/fau-meta-headline/index.js:34
+#: components/blocks/fau-teaser-grid/edit.js:468
 msgid "Heading 5"
 msgstr "Überschrift 5"
 
 #: components/blocks/fau-big-teaser/edit.js:101
-#: components/blocks/fau-meta-headline/index.js:76
-#: components/blocks/fau-teaser-grid/edit.js:445
+#: components/blocks/fau-meta-headline/index.js:39
+#: components/blocks/fau-teaser-grid/edit.js:474
 msgid "Heading 6"
 msgstr "Überschrift 6"
 
-#: components/blocks/fau-teaser-grid/edit.js:509
+#: components/blocks/fau-teaser-grid/edit.js:538
 msgid "No posts selected"
 msgstr "Keine Beiträge ausgewählt"
 
-#: components/blocks/fau-teaser-grid/edit.js:538
+#: components/blocks/fau-teaser-grid/edit.js:567
 msgid "No items found"
 msgstr "Keine Elemente gefunden"
 
@@ -2441,6 +2437,18 @@ msgstr "Allgemein"
 msgid "General footer settings"
 msgstr "Allgemeine Footer-Einstellungen"
 
-#: inc/portal-page-settings.php:102
+#: inc/portal-page-settings.php:107
 msgid "Hide Page Title (use portal hero)"
 msgstr "Seitentitel ausblenden (Portal-Hero verwenden)"
+
+#: inc/theme-settings.php:53
+msgid "FAU-internalCooperation"
+msgstr "FAU-interne Kooperationen"
+
+#: components/blocks/fau-meta-headline/index.js:44
+msgid "Header element"
+msgstr "Header Element"
+
+#: components/blocks/fau-meta-headline/index.js:45
+msgid "Header"
+msgstr "Header"
