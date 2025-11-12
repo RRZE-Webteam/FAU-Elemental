@@ -43,7 +43,7 @@ $hide_title = $hide_title_meta_key ? (bool) get_post_meta($page_id, $hide_title_
 ?>
 
 <main id="main" class="site-main">
-    <div class="faue-content-wrapper">
+    <div class="wp-block-post-content">
         <?php 
         // Display the page content if any
         $title_rendered = false;

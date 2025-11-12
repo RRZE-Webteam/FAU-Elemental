@@ -2,9 +2,19 @@
  * Core Group Block Styles
  */
 
-.wp-block-group {
+@use "../../ui/mixins/mixins" as *;
 
-	max-width: none;
+:where(.wp-block-group) {
+
+	padding-inline: var(--Spacing-10x);
+
+	@include smaller-or-equals("xs") {
+		padding-inline: var(--Spacing-5x);
+	}
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_fullbleed_inline-margin);
+	}
 
 	&.is-style-dark {
 		background-color: var(--FAU-Col-FAU-Blau-100);

@@ -1,14 +1,15 @@
 .big-buttons-faculties {
-	max-width: var(--wide-max-width);
 
-	> h2 {
+	> .wp-block-heading {
+		max-width: var(--wide-max-width);
 		margin-block-start: var(--Spacing-8x);
-		margin-left: 0;
+		margin-inline: auto;
 	}
 
 	> p {
+		max-width: var(--wide-max-width);
 		margin-block-start: var(--Spacing-4x);
-		margin-left: 0;
+		margin-inline: auto;
 	}
 
 	> .fau-big-button-teaser-group {

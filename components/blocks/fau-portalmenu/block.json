@@ -30,5 +30,6 @@
 	},
 	"textdomain": "fau-elemental",
 	"editorScript": "file:./index.js",
+	"style": "file:./style-theme.css",
 	"render": "file:./render.php"
 }

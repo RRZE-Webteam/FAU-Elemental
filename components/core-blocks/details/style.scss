@@ -131,11 +131,3 @@ details.wp-block-details {
 		}
 	}
 }
-
-// Responsive - also problematic
-@include smaller-or-equals("x-small") {
-
-	details.wp-block-details {
-		width: calc(100% - var(--Spacing-10x));
-	}
-}

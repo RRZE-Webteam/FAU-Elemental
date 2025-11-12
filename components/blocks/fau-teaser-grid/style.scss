@@ -1,17 +1,24 @@
 @use "../../ui/mixins/mixins" as *;
 @use "../../ui/base/pagination" as *;
 
-section.wp-block-fau-elemental-fau-teaser-grid {
-	max-width: var(--wide-max-width);
-}
-
 .wp-block-fau-elemental-fau-teaser-grid {
+
+	max-width: var(--wide-max-width);
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+
+		&:has(.layout-1xl) {
+			margin-inline: var(--faue_wide-max-width_bleed_inline-margin);
+		}
+	}
 
 	.fau-teaser-grid {
 		display: grid;
 		gap: var(--Spacing-8x);
 		list-style: none;
 		max-width: var(--wide-max-width);
+		margin-block: 0;
 
 		> li {
 			list-style: none;
@@ -932,8 +939,6 @@ section.wp-block-fau-elemental-fau-teaser-grid {
 
 			&.layout-1xl {
 				position: relative;
-				width: calc(100% + 2.5rem);
-				left: -1.25rem;
 
 				.teaser-item {
 					flex-direction: column;

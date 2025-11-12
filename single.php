@@ -24,7 +24,7 @@ get_header();
                     get_template_part('components/template-parts/hero-post/hero-post');
                 }
                 ?>
-                <div class="faue-content-wrapper">
+                <div class="wp-block-post-content">
                     <?php the_content(); ?>
                 </div>
 

@@ -1,7 +1,7 @@
 @use "../../ui/mixins/mixins" as *;
 
 html {
-    container-type: inline-size;
+	container-type: inline-size;
 }
 
 // Minimum height for pages to prevent Footer from "floating"
@@ -77,31 +77,31 @@ body {
 	}
 }
 
-.faue-content-wrapper {
-	--faue-offset_margin: max(var(--Spacing-5x), 50cqw - var(--small-max-width)/2);
-    margin-inline: var(--faue-offset_margin);
+.wp-block-post-content {
+	--container-width: 100cqw;
+	--faue_small-max-width_inline-margin: calc(var(--container-width, 100vw) / 2 - var(--small-max-width) / 2);
+	--faue_minimal_inline-margin: var(--Spacing-10x);
+	--faue_content_inline-margin: max(var(--faue_minimal_inline-margin), var(--faue_small-max-width_inline-margin));
+	--faue_fullbleed_inline-margin: calc(-1 * var(--faue_content_inline-margin));
+	--faue_wide-max-width_bleed_inline-margin: max(var(--faue_fullbleed_inline-margin), calc(-1 * calc(var(--wide-max-width) - var(--small-max-width)) / 2));
+	--faue_wide-max-width_bleed_minimal_inline-margin: max(calc(var(--faue_fullbleed_inline-margin) + var(--faue_minimal_inline-margin)), calc(-1 * calc(var(--wide-max-width) - var(--small-max-width)) / 2));
+	--faue_base-max-width_bleed_inline-margin: max(calc(var(--faue_fullbleed_inline-margin) + var(--faue_minimal_inline-margin)), calc(-1 * calc(var(--base-max-width) - var(--small-max-width)) / 2));
+	margin-inline: var(--faue_content_inline-margin);
 
-	> .faue-full-bleed {
-		margin-inline: calc(-1 * var(--faue-offset_margin));
+	@include smaller-or-equals("xs") {
+		--faue_minimal_inline-margin: var(--Spacing-5x);
 	}
 }
 
-:where(.faue-content-wrapper) {
+:where(.wp-block-post-content) {
 
-	// > * {
-	// 	max-width: var(--small-max-width);
-	// 	margin-block-start: var(--Spacing-6x);
-	// 	margin-inline: auto;
-	// 	padding-inline: var(--Spacing-10x);
+	> * {
+		margin-block-start: var(--Spacing-6x);
 
-	// 	&:first-child {
-	// 		margin-block-start: 0;
-	// 	}
-
-	// 	@include smaller-or-equals("x-small") {
-	// 		padding-inline: var(--Spacing-5x);
-	// 	}
-	// }
+		&:first-child {
+			margin-block-start: 0;
+		}
+	}
 
 	table {
 
@@ -619,15 +619,10 @@ body {
 		list-style-type: none;
 
 		@media screen and (max-width: 950px) {
-			margin: 0 var(--Spacing-10x);
 
 			ul {
 				margin: 0;
 			}
-		}
-
-		@include smaller-or-equals("x-small") {
-			margin: 0 var(--Spacing-5x);
 		}
 
 		strong {

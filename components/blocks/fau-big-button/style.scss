@@ -1,10 +1,12 @@
 @use "../../ui/mixins/mixins" as *;
 
-div.fau-big-button-teaser-group {
-	max-width: var(--wide-max-width);
-}
-
 .fau-big-button-teaser-group {
+
+	max-width: var(--wide-max-width);
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+	}
 
 	.fau-big-button-teaser-group__buttons {
 		display: grid;
