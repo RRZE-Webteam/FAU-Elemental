@@ -21,6 +21,10 @@ $faculty-colors: (
 		}
 	}
 
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_fullbleed_inline-margin);
+	}
+
 	.hero-faculty-content-wrapper.wp-block-column {
 		position: absolute;
 		left: 50%;

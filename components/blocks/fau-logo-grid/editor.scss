@@ -1,7 +1,7 @@
 @use "../../ui/mixins/mixins" as *;
 
 // Base styles (desktop-first - largest screens)
-div.wp-block-fau-elemental-fau-logo-grid {
+.wp-block-fau-elemental-fau-logo-grid {
 	max-width: var(--wide-max-width);
 
 	.fau-logo-grid__container {

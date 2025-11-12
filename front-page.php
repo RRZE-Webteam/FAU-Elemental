@@ -75,7 +75,7 @@ if (is_home() && is_front_page()) {
             the_post();
             ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                <div class="is-layout-flow faue-content-wrapper">
+                <div class="is-layout-flow wp-block-post-content">
                     <?php
                     the_content();
                     

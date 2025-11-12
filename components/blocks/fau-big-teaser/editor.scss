@@ -7,8 +7,12 @@
 
 @use "../../ui/mixins/mixins" as *;
 
-div.wp-block-fau-elemental-fau-big-teaser {
+.wp-block-fau-elemental-fau-big-teaser {
 	max-width: var(--wide-max-width);
+
+	.is-root-container > & {
+		margin-inline: var(--faue_wide-max-width_bleed_inline-margin);
+	}
 }
 
 .fau-big-teaser-editor-preview {

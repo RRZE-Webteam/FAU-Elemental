@@ -26,12 +26,20 @@ figure.wp-block-image:has(figcaption)::before {
 }
 
 // End WP CSS reset
-div.wp-block-gallery-container {
+.wp-block-gallery-container {
+
 	max-width: var(--wide-max-width);
-	// padding: 0 var(--Spacing-10x);
 	position: relative;
 	display: flex;
 	justify-content: center;
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+
+		@include smaller-or-equals("xs") {
+			margin-inline: var(--faue_fullbleed_inline-margin);
+		}
+	}
 
 	figure.wp-block-gallery {
 		width: 100%;

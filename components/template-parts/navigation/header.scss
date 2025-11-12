@@ -427,9 +427,8 @@
 }
 
 // Modal menu
-body.modal-open {
-	overflow: hidden; // Prevent scrolling when menu is active
-	// Scrollbar width compensation is now handled by JavaScript
+html:has(body.modal-open) {
+	overflow: hidden;
 }
 
 .menu-modal,
