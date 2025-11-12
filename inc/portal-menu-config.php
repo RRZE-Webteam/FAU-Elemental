@@ -30,7 +30,7 @@ class FAU_Elemental_Portal_Menu_Config {
         'show_subs' => true,
         'hide_thumbs' => false,
         'is_dark' => false,
-        'hide_title' => false,
+        'hide_title' => true,
     ];
     
     /**

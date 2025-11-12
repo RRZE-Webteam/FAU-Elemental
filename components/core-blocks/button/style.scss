@@ -11,6 +11,7 @@
 		font-weight: 600;
 		letter-spacing: var(--letter-spacing-big);
 		border-radius: 0; // Override WP button link border radius
+		white-space: normal;
 	}
 
 	&:not(.is-style-tertiary) .wp-block-button__link {
