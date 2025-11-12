@@ -1,11 +1,8 @@
 @use "../../ui/mixins/mixins" as *;
 
-.faue-content-wrapper {
+main {
 
 	form.wsf-form {
-		max-width: calc(var(--small-max-width) + 5rem);
-		padding: 0 var(--Spacing-10x);
-		margin: 0 auto;
 
 		a {
 			color: var(--FAU-Col-FAU-Blau-100);
@@ -510,18 +507,5 @@
 		.wsf-invalid-feedback {
 			color: var(--FAU-Col-Error-Dark);
 		}
-	}
-}
-
-// Responsive
-@include smaller-or-equals("x-small") {
-
-	.faue-content-wrapper form.wsf-form {
-		max-width: calc(var(--small-max-width) + 2.5rem);
-		padding: 0 var(--Spacing-5x);
-	}
-
-	.faue-content-wrapper div[role="alert"]:has(.wsf-alert) {
-		padding: 0 var(--Spacing-5x);
 	}
 }
