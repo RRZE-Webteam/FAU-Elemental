@@ -1,12 +1,18 @@
 @use "../../ui/mixins/mixins" as *;
 
-section.wp-block-fau-elemental-fau-big-teaser {
-	max-width: var(--wide-max-width);
-}
-
 .wp-block-fau-elemental-fau-big-teaser {
+
+	max-width: var(--wide-max-width);
 	display: flex;
 	gap: var(--Spacing-10x);
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+
+		@include smaller-or-equals("xs") {
+			margin-inline: var(--faue_fullbleed_inline-margin);
+		}
+	}
 
 	.fau-big-teaser__content {
 		min-width: 0;

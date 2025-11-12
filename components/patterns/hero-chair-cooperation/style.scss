@@ -7,6 +7,10 @@
 	gap: 0;
 	padding-inline: 0;
 
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_fullbleed_inline-margin);
+	}
+
 	.hero-chair-content-wrapper {
 		position: absolute;
 		left: 50%;

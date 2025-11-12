@@ -13,6 +13,44 @@ registerBlockType( 'fau-elemental/fau-meta-headline', {
 		const blockProps = useBlockProps();
 		const { headlineLevel = 'h2', headline } = attributes;
 
+		const headlineOptions = [
+			{
+				value: 'h2',
+				label: __( 'Heading 2', 'fau-elemental' ),
+				icon: 'H2',
+			},
+			{
+				value: 'h3',
+				label: __( 'Heading 3', 'fau-elemental' ),
+				icon: 'H3',
+			},
+			{
+				value: 'h4',
+				label: __( 'Heading 4', 'fau-elemental' ),
+				icon: 'H4',
+			},
+			{
+				value: 'h5',
+				label: __( 'Heading 5', 'fau-elemental' ),
+				icon: 'H5',
+			},
+			{
+				value: 'h6',
+				label: __( 'Heading 6', 'fau-elemental' ),
+				icon: 'H6',
+			},
+			{
+				value: 'header',
+				label: __( 'Header element', 'fau-elemental' ),
+				icon: __( 'Header', 'fau-elemental' ),
+			},
+		];
+
+		const currentHeadlineOption =
+			headlineOptions.find(
+				( option ) => option.value === headlineLevel
+			) || headlineOptions[ 0 ];
+
 		if ( ! attributes.id || attributes.id.length === 0 ) {
 			attributes.id = uuidv4();
 		}
@@ -23,67 +61,23 @@ registerBlockType( 'fau-elemental/fau-meta-headline', {
 					<DropdownMenu
 						icon={
 							<span className="fau-meta-headline-level-icon">
-								H{ headlineLevel.replace( 'h', '' ) }
+								{ currentHeadlineOption.icon }
 							</span>
 						}
 						label={ __( 'Change heading level', 'fau-elemental' ) }
-						controls={ [
-							{
-								title: __( 'Heading 2', 'fau-elemental' ),
+						controls={ headlineOptions.map(
+							( { value, label, icon } ) => ( {
+								title: label,
 								icon: (
 									<span className="fau-meta-headline-level-icon">
-										H2
+										{ icon }
 									</span>
 								),
 								onClick: () =>
-									setAttributes( { headlineLevel: 'h2' } ),
-								isActive: headlineLevel === 'h2',
-							},
-							{
-								title: __( 'Heading 3', 'fau-elemental' ),
-								icon: (
-									<span className="fau-meta-headline-level-icon">
-										H3
-									</span>
-								),
-								onClick: () =>
-									setAttributes( { headlineLevel: 'h3' } ),
-								isActive: headlineLevel === 'h3',
-							},
-							{
-								title: __( 'Heading 4', 'fau-elemental' ),
-								icon: (
-									<span className="fau-meta-headline-level-icon">
-										H4
-									</span>
-								),
-								onClick: () =>
-									setAttributes( { headlineLevel: 'h4' } ),
-								isActive: headlineLevel === 'h4',
-							},
-							{
-								title: __( 'Heading 5', 'fau-elemental' ),
-								icon: (
-									<span className="fau-meta-headline-level-icon">
-										H5
-									</span>
-								),
-								onClick: () =>
-									setAttributes( { headlineLevel: 'h5' } ),
-								isActive: headlineLevel === 'h5',
-							},
-							{
-								title: __( 'Heading 6', 'fau-elemental' ),
-								icon: (
-									<span className="fau-meta-headline-level-icon">
-										H6
-									</span>
-								),
-								onClick: () =>
-									setAttributes( { headlineLevel: 'h6' } ),
-								isActive: headlineLevel === 'h6',
-							},
-						] }
+									setAttributes( { headlineLevel: value } ),
+								isActive: headlineLevel === value,
+							} )
+						) }
 					/>
 				</BlockControls>
 				<RichText
@@ -114,4 +108,33 @@ registerBlockType( 'fau-elemental/fau-meta-headline', {
 			/>
 		);
 	},
+	deprecated: [
+		{
+			attributes: {
+				headline: {
+					type: 'string',
+				},
+				id: {
+					type: 'string',
+				},
+			},
+			migrate( attributes ) {
+				return {
+					...attributes,
+					headlineLevel: attributes?.headlineLevel || 'h2',
+				};
+			},
+			save( { attributes } ) {
+				const blockProps = useBlockProps.save();
+				return (
+					<RichText.Content
+						{ ...blockProps }
+						tagName="div"
+						id={ 'headline-' + ( attributes.id || '' ) }
+						value={ attributes.headline }
+					/>
+				);
+			},
+		},
+	],
 } );

@@ -10,14 +10,6 @@ $faculty-colors: (
 	max-width: unset;
 	padding: unset;
 
-	.hero-faculty-content-wrapper .wp-block-button .wp-block-button__link {
-		color: var(--FAU-Col-FAU-Weiss-100);
-
-		&::after {
-			background-image: var(--icon-arrow-weiss);
-		}
-	}
-
 	@each $faculty, $color in $faculty-colors {
 		.faculty-#{$faculty} & {
 

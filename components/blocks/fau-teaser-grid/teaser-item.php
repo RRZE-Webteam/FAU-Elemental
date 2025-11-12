@@ -165,27 +165,52 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
  * @return string The wrapped teaser items HTML
  */
 if ( ! function_exists( 'fau_elemental_wrap_teaser_items' ) ) {
-function fau_elemental_wrap_teaser_items($items, $layout) {
-    if (in_array($layout, ['l2s', '2sl'])) {
-        $output = '';
-        $item_count = count($items);
-        
-        for ($i = 0; $i < $item_count; $i += 3) {
-            $group_items = array_slice($items, $i, 3);
-            if (!empty($group_items)) {
-                $output .= '<li class="teaser-group-wrapper"><div class="teaser-group">';
-                $output .= implode('', $group_items);
-                $output .= '</div></li>';
+    function fau_elemental_wrap_teaser_items($items, $layout) {
+        if (in_array($layout, ['l2s', '2sl'])) {
+            $output = '';
+            $item_count = count($items);
+            $group_number = 0;
+            
+            for ($i = 0; $i < $item_count; $i += 3) {
+                $group_items = array_slice($items, $i, 3);
+                if (!empty($group_items)) {
+                    // Keep items in their original order
+                    // For 2sl layout, assign different classes for visual positioning
+                    $item_position = 0;
+                    foreach ($group_items as $index => $item) {
+                        $item_position++;
+                        $li_class = 'teaser-group-item';
+                        
+                        // Assign classes based on layout and position
+                        if ($layout === '2sl' && count($group_items) === 3) {
+                            // For 2sl: first two are small, third is large
+                            if ($item_position === 1) {
+                                $li_class .= ' teaser-group-item-2'; // Small top (visually on left)
+                            } elseif ($item_position === 2) {
+                                $li_class .= ' teaser-group-item-3'; // Small bottom (visually on left)
+                            } else {
+                                $li_class .= ' teaser-group-item-1'; // Large (visually on right)
+                            }
+                        } else {
+                            // For l2s layout, use standard numbering
+                            $li_class .= ' teaser-group-item-' . $item_position;
+                        }
+                        
+                        $li_class .= ' teaser-group-' . $group_number;
+                        $output .= '<li class="' . esc_attr($li_class) . '" data-group="' . esc_attr($group_number) . '" data-position="' . esc_attr($item_position) . '">' . $item . '</li>';
+                    }
+                    $group_number++;
+                }
             }
+            
+            return $output;
         }
         
-        return $output;
+        $wrapped_items = array_map(function($item) {
+            return '<li>' . $item . '</li>';
+        }, $items);
+        
+        return implode('', $wrapped_items);
     }
     
-    $wrapped_items = array_map(function($item) {
-        return '<li>' . $item . '</li>';
-    }, $items);
-    
-    return implode('', $wrapped_items);
-}
 } 

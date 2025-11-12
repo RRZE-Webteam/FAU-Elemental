@@ -57,6 +57,14 @@
 	&.is-style-large {
 		max-width: var(--base-max-width);
 
+		.wp-block-post-content > & {
+			margin-inline: var(--faue_base-max-width_bleed_inline-margin);
+
+			@include smaller-or-equals("xs") {
+				margin-inline: var(--faue_fullbleed_inline-margin);
+			}
+		}
+
 		figcaption {
 			max-width: var(--small-max-width);
 		}

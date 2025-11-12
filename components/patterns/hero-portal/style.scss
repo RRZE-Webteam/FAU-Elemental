@@ -7,7 +7,15 @@
 .wp-block-columns.hero-portal {
 	max-width: var(--wide-max-width);
 	gap: var(--Spacing-10x);
-	padding: var(--Spacing-8x) var(--Spacing-10x);
+	padding-block: var(--Spacing-8x);
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+
+		@include smaller-or-equals("xs") {
+			margin-inline: var(--faue_fullbleed_inline-margin);
+		}
+	}
 
 	.wp-block-post-title {
 		position: relative;

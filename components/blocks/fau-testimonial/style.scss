@@ -2,7 +2,14 @@
 
 .fau-testimonial-item {
 	max-width: var(--base-max-width);
-	padding: 0 var(--Spacing-10x);
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_base-max-width_bleed_inline-margin);
+
+		@include smaller-or-equals("xs") {
+			margin-inline: var(--faue_fullbleed_inline-margin);
+		}
+	}
 
 	.testimonial-content {
 		display: flex;
@@ -62,7 +69,14 @@
 // Multiple testimonials
 .testimonial-carousel {
 	max-width: var(--base-max-width);
-	padding: 0 var(--Spacing-10x);
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_base-max-width_bleed_inline-margin);
+
+		@include smaller-or-equals("xs") {
+			margin-inline: var(--faue_fullbleed_inline-margin);
+		}
+	}
 
 	.carousel-container .fau-testimonial-item {
 		max-width: unset;

@@ -63,6 +63,7 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
     $hide_subs = get_post_meta($post->ID, 'portal_menu_hide_subs', true);
     $hide_thumbs = get_post_meta($post->ID, 'portal_menu_hide_thumbs', true);
     $is_dark = get_post_meta($post->ID, 'portal_menu_is_dark', true);
+    $hide_title = get_post_meta($post->ID, 'portal_menu_hide_title', true);
 
     // Get all menus
     $menus = fau_elemental_get_nav_menus();
@@ -94,6 +95,11 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
         <p>
             <label><input type="checkbox" name="portal_menu_is_dark" id="portal_menu_is_dark" value="1" <?php checked($is_dark, true); ?>>
             <?php esc_html_e('Dark Style', 'fau-elemental'); ?></label>
+        </p>
+
+        <p>
+            <label><input type="checkbox" name="portal_menu_hide_title" id="portal_menu_hide_title" value="1" <?php checked($hide_title, true); ?>>
+            <?php esc_html_e('Hide Page Title (use portal hero)', 'fau-elemental'); ?></label>
         </p>
         
         <code>[portalmenu menu="<?php echo ($selected_menu_id ? esc_attr($selected_menu_id) : 'menu-id-or-name'); ?>" showsubs="<?php echo esc_attr($hide_subs ? "false" : "true"); ?>" nothumbs="<?php echo esc_attr($hide_thumbs ? "true" : "false") ?>"]</code>
@@ -134,7 +140,8 @@ function fau_elemental_save_portal_menu_meta_box_data($post_id) {
     $checkbox_fields = array(
         'portal_menu_hide_subs',
         'portal_menu_hide_thumbs',
-        'portal_menu_is_dark'
+        'portal_menu_is_dark',
+        'portal_menu_hide_title'
     );
 
     foreach ($checkbox_fields as $field) {

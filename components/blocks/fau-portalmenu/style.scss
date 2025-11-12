@@ -3,8 +3,16 @@
 .fau-portal-menu {
 	max-width: var(--base-max-width);
 
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_base-max-width_bleed_inline-margin);
+	}
+
 	&:has(.fau-portal-thumbnail) {
 		max-width: var(--wide-max-width);
+
+		.wp-block-post-content > & {
+			margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+		}
 	}
 }
 
@@ -102,6 +110,10 @@
 					margin: var(--Spacing-6x) 0 0 0;
 
 					li {
+
+						&::before {
+							content: none;
+						}
 
 						a {
 							position: relative;

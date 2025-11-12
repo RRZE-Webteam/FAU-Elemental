@@ -14,7 +14,7 @@ get_header(); ?>
     </header>
 
     <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-        <div class="faue-content-wrapper">
+        <div class="wp-block-post-content">
             <?php the_content(); ?>
         </div>
     <?php endwhile; endif; ?>

@@ -32,18 +32,47 @@ import {
 const wrapTeaserItems = ( items, layout ) => {
 	if ( [ 'l2s', '2sl' ].includes( layout ) ) {
 		const wrappedItems = [];
+
 		for ( let i = 0; i < items.length; i += 3 ) {
 			const groupItems = items.slice( i, i + 3 );
-			if ( groupItems.length > 0 ) {
+			const currentGroup = Math.floor( i / 3 );
+
+			groupItems.forEach( ( item, index ) => {
+				const itemId =
+					item?.props?.post?.id ||
+					item?.props?.page?.id ||
+					`${ i }-${ index }`;
+				const itemPosition = index + 1;
+				let liClass = 'teaser-group-item';
+
+				// Assign classes based on layout and position
+				if ( layout === '2sl' && groupItems.length === 3 ) {
+					// For 2sl: first two are small, third is large
+					if ( itemPosition === 1 ) {
+						liClass += ' teaser-group-item-2'; // Small top (visually on left)
+					} else if ( itemPosition === 2 ) {
+						liClass += ' teaser-group-item-3'; // Small bottom (visually on left)
+					} else {
+						liClass += ' teaser-group-item-1'; // Large (visually on right)
+					}
+				} else {
+					// For l2s layout, use standard numbering
+					liClass += ` teaser-group-item-${ itemPosition }`;
+				}
+
+				liClass += ` teaser-group-${ currentGroup }`;
+
 				wrappedItems.push(
 					<li
-						key={ `teaser-group-${ i }` }
-						className="teaser-group-wrapper"
+						key={ itemId }
+						className={ liClass }
+						data-group={ currentGroup }
+						data-position={ itemPosition }
 					>
-						<div className="teaser-group">{ groupItems }</div>
+						{ item }
 					</li>
 				);
-			}
+			} );
 		}
 		return wrappedItems;
 	}

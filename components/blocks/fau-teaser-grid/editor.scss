@@ -1,7 +1,8 @@
 // Import the main styles to ensure consistency
 @use "./style" as *;
 
-div.wp-block-fau-elemental-fau-teaser-grid {
+.wp-block-fau-elemental-fau-teaser-grid {
+
 	max-width: var(--wide-max-width);
 
 	// Settings dropdown styling
