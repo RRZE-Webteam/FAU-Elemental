@@ -50,7 +50,7 @@ function faue_customize_register($wp_customize) {
             'faculty'      => __('Faculty', 'fau-elemental'),
             'chair'        => __('Chair', 'fau-elemental'),
             'other'        => __('Central Websites', 'fau-elemental'),
-            'cooperation'  => __('Cooperation', 'fau-elemental'),
+            'cooperation'  => __('FAU-internalCooperation', 'fau-elemental'),
         ),
     ));
 
