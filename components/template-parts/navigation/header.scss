@@ -341,7 +341,7 @@
 					top: -0.14rem;
 					font-size: 0.875rem;
 					color: var(--FAU-Col-FAU-Weiss-100);
-					line-height: 1.1;
+					line-height: var(--header-logo-text-line-height);
 					font-weight: 600;
 					letter-spacing: var(--letter-spacing-small);
 
@@ -1318,7 +1318,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 					.text {
 						top: -0.125rem;
 						font-size: 0.6rem;
-						line-height: var(--base-line-height);
+						line-height: var(--header-logo-text-line-height);
 					}
 				}
 
