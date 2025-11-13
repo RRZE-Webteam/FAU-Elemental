@@ -15,8 +15,7 @@ footer.wp-block-template-part {
 	.footer-meta-menu,
 	.footer-important-links,
 	.social-links,
-	.menu-item,
-	.copyright-info-list {
+	.menu-item {
 
 		a {
 
@@ -53,6 +52,27 @@ footer.wp-block-template-part {
 					transform: scaleX(1);
 				}
 			}
+		}
+	}
+
+	// Copyright info list links - allow wrapping without fixed height
+	.copyright-info-list {
+
+		a {
+			display: inline;
+			height: auto;
+			min-height: var(--accessible-target-size);
+			position: relative;
+			font-size: 1rem;
+			line-height: var(--base-line-height);
+			font-weight: 400;
+			text-decoration: none;
+			color: var(--FAU-Col-FAU-Weiss-100);
+			word-break: break-word;
+			overflow-wrap: anywhere;
+			white-space: normal;
+
+
 		}
 	}
 
@@ -213,6 +233,22 @@ footer.wp-block-template-part {
 							display: none; // no list style
 						}
 					}
+				}
+			}
+
+			.footer-bottom-bottom {
+
+				.footer-left {
+					flex: 1 1 0;
+					min-width: 20rem;
+				}
+
+				.footer-right {
+					flex: 0 1 auto;
+				}
+
+				.social-links {
+					flex-wrap: wrap;
 				}
 			}
 
@@ -460,5 +496,13 @@ footer.wp-block-template-part {
 		.footer-bottom {
 			padding: var(--Spacing-6x) var(--Spacing-5x);
 		}
+	}
+}
+
+// Desktop: increase min-width for copyright info
+@include bigger-than("small") {
+
+	.site-footer .footer-bottom .footer-bottom-wrapper .footer-bottom-bottom .footer-left {
+		min-width: 40rem;
 	}
 }
