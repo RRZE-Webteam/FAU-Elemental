@@ -125,7 +125,7 @@
 		.archive-description {
 			padding: 0;
 			font-size: var(--P-Body-Text);
-			line-height: 1.6;
+			line-height: var(--body-text-line-height);
 			color: var(--FAU-Col-FAU-Schwarz-90);
 			margin: var(--Spacing-4x) auto;
 			max-width: var(--small-max-width);
