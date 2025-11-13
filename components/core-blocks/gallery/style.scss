@@ -32,6 +32,7 @@ figure.wp-block-image:has(figcaption)::before {
 	position: relative;
 	display: flex;
 	justify-content: center;
+	padding-inline: 0;
 
 	.wp-block-post-content > & {
 		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
