@@ -15,8 +15,7 @@ footer.wp-block-template-part {
 	.footer-meta-menu,
 	.footer-important-links,
 	.social-links,
-	.menu-item,
-	.copyright-info-list {
+	.menu-item {
 
 		a {
 
@@ -53,6 +52,27 @@ footer.wp-block-template-part {
 					transform: scaleX(1);
 				}
 			}
+		}
+	}
+
+	// Copyright info list links - allow wrapping without fixed height
+	.copyright-info-list {
+
+		a {
+			display: inline;
+			height: auto;
+			min-height: var(--accessible-target-size);
+			position: relative;
+			font-size: 1rem;
+			line-height: var(--base-line-height);
+			font-weight: 400;
+			text-decoration: none;
+			color: var(--FAU-Col-FAU-Weiss-100);
+			word-break: break-word;
+			overflow-wrap: anywhere;
+			white-space: normal;
+
+
 		}
 	}
 
