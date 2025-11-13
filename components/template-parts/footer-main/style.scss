@@ -216,6 +216,22 @@ footer.wp-block-template-part {
 				}
 			}
 
+			.footer-bottom-bottom {
+
+				.footer-left {
+					flex: 1 1 0;
+					min-width: 20rem;
+				}
+
+				.footer-right {
+					flex: 0 1 auto;
+				}
+
+				.social-links {
+					flex-wrap: wrap;
+				}
+			}
+
 			.footer-bottom-bottom .wp-block-fau-elemental-copyright-info .copyright-info-list li {
 				font-size: 0.875rem;
 			}
@@ -460,5 +476,13 @@ footer.wp-block-template-part {
 		.footer-bottom {
 			padding: var(--Spacing-6x) var(--Spacing-5x);
 		}
+	}
+}
+
+// Desktop: increase min-width for copyright info
+@include bigger-than("small") {
+
+	.site-footer .footer-bottom .footer-bottom-wrapper .footer-bottom-bottom .footer-left {
+		min-width: 40rem;
 	}
 }
