@@ -221,6 +221,16 @@
     "build/css/editor-wrapper.js",
     "build/css/editor-wrapper-rtl.css"
   ],
+  "inc/admin-social-media.scss": [
+    "build/css/admin-social-media.css",
+    "build/css/admin-social-media.js",
+    "build/css/admin-social-media-rtl.css"
+  ],
+  "inc/customizer-validation.scss": [
+    "build/css/customizer-validation.css",
+    "build/css/customizer-validation.js",
+    "build/css/customizer-validation-rtl.css"
+  ],
   "components/ui/editor/editor.js": [
     "build/js/editor.js"
   ],
@@ -283,5 +293,11 @@
   ],
   "components/templates/pages/archive.js": [
     "build/js/templates-archive.js"
+  ],
+  "inc/customizer-validation.js": [
+    "build/js/customizer-validation.js"
+  ],
+  "inc/social-media-icons.js": [
+    "build/js/social-media-icons.js"
   ]
 }

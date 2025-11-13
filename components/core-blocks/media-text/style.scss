@@ -3,8 +3,11 @@
 .wp-block-media-text {
 	max-width: var(--base-max-width);
 	gap: var(--Spacing-8x);
-	padding: 0 var(--Spacing-10x);
 	box-sizing: content-box;
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_base-max-width_bleed_inline-margin);
+	}
 
 	.wp-block-media-text__content {
 		padding: 0;
@@ -43,12 +46,5 @@
 
 	.wp-block-media-text {
 		gap: var(--Spacing-8x);
-	}
-}
-
-@include smaller-or-equals("x-small") {
-
-	.wp-block-media-text {
-		padding: 0 var(--Spacing-5x);
 	}
 }

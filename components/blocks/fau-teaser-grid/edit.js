@@ -30,23 +30,58 @@ import {
 
 // Add this helper function at the top level
 const wrapTeaserItems = ( items, layout ) => {
-	// Only wrap for l2s and 2sl layouts
-	if ( ! [ 'l2s', '2sl' ].includes( layout ) ) {
-		return items;
+	if ( [ 'l2s', '2sl' ].includes( layout ) ) {
+		const wrappedItems = [];
+
+		for ( let i = 0; i < items.length; i += 3 ) {
+			const groupItems = items.slice( i, i + 3 );
+			const currentGroup = Math.floor( i / 3 );
+
+			groupItems.forEach( ( item, index ) => {
+				const itemId =
+					item?.props?.post?.id ||
+					item?.props?.page?.id ||
+					`${ i }-${ index }`;
+				const itemPosition = index + 1;
+				let liClass = 'teaser-group-item';
+
+				// Assign classes based on layout and position
+				if ( layout === '2sl' && groupItems.length === 3 ) {
+					// For 2sl: first two are small, third is large
+					if ( itemPosition === 1 ) {
+						liClass += ' teaser-group-item-2'; // Small top (visually on left)
+					} else if ( itemPosition === 2 ) {
+						liClass += ' teaser-group-item-3'; // Small bottom (visually on left)
+					} else {
+						liClass += ' teaser-group-item-1'; // Large (visually on right)
+					}
+				} else {
+					// For l2s layout, use standard numbering
+					liClass += ` teaser-group-item-${ itemPosition }`;
+				}
+
+				liClass += ` teaser-group-${ currentGroup }`;
+
+				wrappedItems.push(
+					<li
+						key={ itemId }
+						className={ liClass }
+						data-group={ currentGroup }
+						data-position={ itemPosition }
+					>
+						{ item }
+					</li>
+				);
+			} );
+		}
+		return wrappedItems;
 	}
 
-	const wrappedItems = [];
-	for ( let i = 0; i < items.length; i += 3 ) {
-		const groupItems = items.slice( i, i + 3 );
-		if ( groupItems.length > 0 ) {
-			wrappedItems.push(
-				<div key={ `teaser-group-${ i }` } className="teaser-group">
-					{ groupItems }
-				</div>
-			);
-		}
-	}
-	return wrappedItems;
+	return items.map( ( item, index ) => {
+		// Extract ID from React element props (post.id or page.id)
+		const itemId = item?.props?.post?.id || item?.props?.page?.id || index;
+		return <li key={ itemId }>{ item }</li>;
+	} );
 };
 
 // Generate pagination preview similar to render.php logic
@@ -446,7 +481,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			</BlockControls>
 
 			<div className="fau-teaser-grid-preview">
-				<div
+				<ul
 					ref={ gridRef }
 					className={ `fau-teaser-grid ${ displayStyle } ${
 						displayStyle === 'teaser-grid'
@@ -455,7 +490,6 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							? 'style-mini-list'
 							: ''
 					}` }
-					role="list"
 					aria-label={ __( 'Content grid', 'fau-elemental' ) }
 				>
 					{ ! isLoading ? (
@@ -499,12 +533,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 									teaserLayout
 								)
 							) : (
-								<p role="status">
-									{ __(
-										'No posts selected',
-										'fau-elemental'
-									) }
-								</p>
+								<li className="no-posts">
+									<p role="status">
+										{ __(
+											'No posts selected',
+											'fau-elemental'
+										) }
+									</p>
+								</li>
 							)
 						) : items && items.length > 0 ? (
 							wrapTeaserItems(
@@ -526,9 +562,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 								teaserLayout
 							)
 						) : (
-							<p role="status">
-								{ __( 'No items found', 'fau-elemental' ) }
-							</p>
+							<li className="no-posts">
+								<p role="status">
+									{ __( 'No items found', 'fau-elemental' ) }
+								</p>
+							</li>
 						)
 					) : (
 						<Placeholder>
@@ -538,42 +576,42 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 							</p>
 						</Placeholder>
 					) }
+				</ul>
 
-					{ calculatedTotalPages > 1 &&
-						paginationType === 'numbers' &&
-						showPagination && (
-							<div className="pagination-preview">
-								<nav
-									className="fau-pagination"
-									role="navigation"
-									aria-label={ __(
-										'Posts pagination',
-										'fau-elemental'
+				{ calculatedTotalPages > 1 &&
+					paginationType === 'numbers' &&
+					showPagination && (
+						<div className="pagination-preview">
+							<nav
+								className="fau-pagination"
+								role="navigation"
+								aria-label={ __(
+									'Posts pagination',
+									'fau-elemental'
+								) }
+							>
+								<div className="pagination-wrapper">
+									{ generatePaginationPreview(
+										currentPage,
+										calculatedTotalPages,
+										paginationType
 									) }
-								>
-									<div className="pagination-wrapper">
-										{ generatePaginationPreview(
-											currentPage,
-											calculatedTotalPages,
-											paginationType
-										) }
-									</div>
-								</nav>
-							</div>
-						) }
-
-					{ calculatedTotalPages > 1 &&
-						paginationType === 'load-more' &&
-						showPagination && (
-							<div className="load-more-preview">
-								<div className="wp-block-button is-style-secondary">
-									<button className="wp-block-button__link load-more-button">
-										{ __( 'Load More', 'fau-elemental' ) }
-									</button>
 								</div>
+							</nav>
+						</div>
+					) }
+
+				{ calculatedTotalPages > 1 &&
+					paginationType === 'load-more' &&
+					showPagination && (
+						<div className="load-more-preview">
+							<div className="wp-block-button is-style-secondary">
+								<button className="wp-block-button__link load-more-button">
+									{ __( 'Load More', 'fau-elemental' ) }
+								</button>
 							</div>
-						) }
-				</div>
+						</div>
+					) }
 			</div>
 		</div>
 	);

@@ -3,6 +3,7 @@
  */
 
 /* Theme */
+@use "../mixins/mixins" as *;
 @use "../theme" as *;
 
 /* Core Blocks */
@@ -10,15 +11,21 @@
 @use "../../core-blocks/gallery/editor" as *;
 @use "../../core-blocks/image/editor" as *;
 @use "../../core-blocks/file/editor" as *;
-@use "../../core-blocks/verse/editor" as *;
 @use "../../core-blocks/spacer/editor" as *;
-@use "../../core-blocks/group/editor" as *;
 
 /* Patterns */
 @use "../../patterns/hero-fau/editor" as *;
 @use "../../patterns/hero-portal/editor" as *;
 @use "../../patterns/hero-chair-cooperation/editor" as *;
 @use "../../patterns/hero-faculty-other/editor" as *;
+
+.editor-visual-editor {
+	container-type: inline-size;
+}
+
+.editor-resizable-editor > div {
+	background-color: var(--FAU-Col-FAU-Weiss-100);
+}
 
 html :where(.editor-styles-wrapper) {
 	font-family: var(--font-family-base);
@@ -59,22 +66,32 @@ html :where(.editor-styles-wrapper) {
 	border-left: 4px solid #2271b1;
 }
 
-.editor-styles-wrapper {
+:where(.wp-block-post-content) {
 
-	.is-root-container {
+	.mce-content-body {
 
-		> * {
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6,
+		p,
+		blockquote,
+		table,
+		dl,
+		ul,
+		ol,
+		address,
+		pre {
 			margin-left: auto;
 			margin-right: auto;
 		}
 
-
-		.block-editor-default-block-appender {
-			max-width: var(--small-max-width);
-
-			p {
-				padding: 0;
-			}
+		blockquote {
+			padding: 0;
+			border-left: 0;
+			box-shadow: unset;
 		}
 	}
 }

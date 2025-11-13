@@ -4,12 +4,18 @@
 
 @use "../../ui/mixins/mixins" as *;
 
-.hero-portal {
+.wp-block-columns.hero-portal {
 	max-width: var(--wide-max-width);
-	margin: 0 auto;
 	gap: var(--Spacing-10x);
-	padding: var(--Spacing-8x) var(--Spacing-10x);
-	box-sizing: content-box;
+	padding-block: var(--Spacing-8x);
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+
+		@include smaller-or-equals("xs") {
+			margin-inline: var(--faue_fullbleed_inline-margin);
+		}
+	}
 
 	.wp-block-post-title {
 		position: relative;
@@ -43,14 +49,14 @@
 // Responsive
 @media screen and (max-width: 1399px) {
 
-	.hero-portal .wp-block-cover {
+	.wp-block-columns.hero-portal .wp-block-cover {
 		aspect-ratio: 1/1;
 	}
 }
 
 @media screen and (max-width: 999px) {
 
-	.hero-portal {
+	.wp-block-columns.hero-portal {
 		flex-direction: column-reverse;
 		gap: unset;
 
@@ -87,7 +93,7 @@
 
 @include smaller-or-equals("small") {
 
-	.hero-portal {
+	.wp-block-columns.hero-portal {
 
 		> div:last-child {
 			overflow: hidden;
@@ -101,21 +107,21 @@
 
 @media screen and (max-width: 599px) {
 
-	.hero-portal .wp-block-cover {
+	.wp-block-columns.hero-portal .wp-block-cover {
 		min-height: 17.5rem;
 	}
 }
 
 @media screen and (max-width: 499px) {
 
-	.hero-portal .wp-block-cover {
+	.wp-block-columns.hero-portal .wp-block-cover {
 		min-height: 12.5rem;
 	}
 }
 
 @include smaller-or-equals("x-small") {
 
-	.hero-portal {
+	.wp-block-columns.hero-portal {
 		padding: unset;
 
 		.wp-block-post-title {

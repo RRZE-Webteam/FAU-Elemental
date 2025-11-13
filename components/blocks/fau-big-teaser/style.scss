@@ -1,14 +1,20 @@
 @use "../../ui/mixins/mixins" as *;
 
-.fau-big-teaser {
-	display: flex;
-	max-width: var(--wide-max-width);
-	margin: 0 auto;
-	gap: var(--Spacing-10x);
-	padding: var(--Spacing-8x) var(--Spacing-10x);
-	box-sizing: content-box;
+.wp-block-fau-elemental-fau-big-teaser {
 
-	&__content {
+	max-width: var(--wide-max-width);
+	display: flex;
+	gap: var(--Spacing-10x);
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+
+		@include smaller-or-equals("xs") {
+			margin-inline: var(--faue_fullbleed_inline-margin);
+		}
+	}
+
+	.fau-big-teaser__content {
 		min-width: 0;
 		flex-basis: 0;
 		flex-grow: 1;
@@ -24,6 +30,7 @@
 
 			&.fau-big-teaser__headline {
 				font-size: var(--H-Heading-Big-Teaser);
+				line-height: var(--base-line-height);
 				background-color: var(--FAU-Col-FAU-Weiss-100);
 				margin: 0;
 				max-width: calc(100% + 16rem);
@@ -48,11 +55,12 @@
 		}
 	}
 
-	&__image {
+	.fau-big-teaser__image {
 		flex-basis: 0;
 		flex-grow: 1;
 
 		img {
+			display: block;
 			width: 100%;
 			height: auto;
 			aspect-ratio: 3/2;
@@ -82,9 +90,9 @@
 // Responsive
 @media screen and (max-width: 1199px) {
 
-	.fau-big-teaser {
+	.wp-block-fau-elemental-fau-big-teaser.fau-big-teaser {
 
-		&__content {
+		.fau-big-teaser__content {
 
 			h2,
 			h3,
@@ -98,7 +106,7 @@
 			}
 		}
 
-		&__image img {
+		.fau-big-teaser__image img {
 			aspect-ratio: 1/1;
 		}
 	}
@@ -106,11 +114,11 @@
 
 @media screen and (max-width: 899px) {
 
-	.fau-big-teaser {
+	.wp-block-fau-elemental-fau-big-teaser.fau-big-teaser {
 		flex-direction: column-reverse;
 		gap: unset;
 
-		&__content {
+		.fau-big-teaser__content {
 
 			h2,
 			h3,
@@ -144,7 +152,7 @@
 			}
 		}
 
-		&__image img {
+		.fau-big-teaser__image img {
 			aspect-ratio: 3/2;
 		}
 	}
@@ -152,10 +160,10 @@
 
 @include smaller-or-equals("x-small") {
 
-	.fau-big-teaser {
+	.wp-block-fau-elemental-fau-big-teaser.fau-big-teaser {
 		padding: unset;
 
-		&__content {
+		.fau-big-teaser__content {
 
 			h2,
 			h3,

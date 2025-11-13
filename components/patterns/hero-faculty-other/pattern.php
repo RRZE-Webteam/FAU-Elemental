@@ -11,7 +11,7 @@
  */
 
 // Get the current website type and faculty
-$current_website_type = get_theme_mod('faue_website_type', 'fau');
+$current_website_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
 $current_faculty = get_theme_mod('faue_faculty', 'phil');
 
 // Faculty-specific content

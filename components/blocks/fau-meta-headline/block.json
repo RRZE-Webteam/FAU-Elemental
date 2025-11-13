@@ -9,6 +9,10 @@
 	"description": "A meta headline for the following section content",
 	"supports": {},
 	"attributes": {
+		"headlineLevel": {
+			"type": "string",
+			"default": "h2"
+		},
 		"headline": {
 			"type": "string"
 		},

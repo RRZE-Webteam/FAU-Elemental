@@ -18,6 +18,10 @@
 	"render": "file:./render.php",
 
 	"attributes": {
+		"headlineLevel": {
+			"type": "string",
+			"default": "h3"
+		},
 		"headline": {
 			"type": "string",
 			"default": ""

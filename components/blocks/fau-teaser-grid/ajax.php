@@ -84,6 +84,11 @@ function fau_load_more_posts_handler() {
         $query_args['day'] = $selected_day;
     }
 
+    // Add query optimization to prevent memory issues
+    $query_args['no_found_rows'] = false; // We need found_posts for pagination
+    $query_args['update_post_meta_cache'] = true;
+    $query_args['update_post_term_cache'] = true;
+
     // Perform query
     $query = new WP_Query($query_args);
     
@@ -100,6 +105,8 @@ function fau_load_more_posts_handler() {
     }
 
     $html = '';
+    $max_pages = 0;
+    $found_posts = 0;
     
     if ($query->have_posts()) {
         $teaser_items = [];
@@ -109,16 +116,21 @@ function fau_load_more_posts_handler() {
         }
         wp_reset_postdata();
         $html = fau_elemental_wrap_teaser_items($teaser_items, $teaser_layout);
+        $max_pages = $query->max_num_pages;
+        $found_posts = $query->found_posts;
     }
+
+    // Clean up query object before sending response
+    unset($query);
 
     $response = [
         'success' => true,
         'data' => [
             'html' => $html,
-            'has_more' => $query->max_num_pages > $page,
+            'has_more' => $max_pages > $page,
             'current_page' => $page,
-            'max_pages' => $query->max_num_pages,
-            'found_posts' => $query->found_posts
+            'max_pages' => $max_pages,
+            'found_posts' => $found_posts
         ]
     ];
 

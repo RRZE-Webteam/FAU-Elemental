@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",(function(){document.querySelectorAll(".social-links a[data-custom-icon]").forEach((function(t){const n=t.getAttribute("data-custom-icon");n&&(t.style.backgroundImage='url("'+n+'")')}))}));

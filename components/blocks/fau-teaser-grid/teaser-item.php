@@ -21,8 +21,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 if ( ! function_exists( 'fau_elemental_render_teaser_item' ) ) {
 function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $heading_level = 'h4') {
-    // Use the new fallback image functionality
-    $image = get_the_post_thumbnail_url($post->ID, 'medium_large') ?: faue_get_post_fallback_image($post->ID, 'medium_large');
     $title = get_the_title($post);
     $excerpt = strip_shortcodes(get_the_excerpt($post));
     $link = get_permalink($post);
@@ -39,21 +37,46 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
         $post->ID
     );
     
-    // Image wrapper
+    // Image wrapper - use responsive images with proper srcset/sizes
     $output .= '<div class="teaser-image-wrapper">';
     $output .= '<div class="teaser-image">';
-    $output .= sprintf(
-        '<img src="%s" alt="%s" loading="lazy">',
-        esc_url($image),
-        esc_attr($title)
-    );
+    
+    // Get featured image ID or fallback image
+    $featured_img_id = get_post_thumbnail_id($post->ID);
+    
+    if ($featured_img_id) {
+        // Use wp_get_attachment_image for responsive images with srcset
+        // Sizes: 3 columns on desktop (440px each), 2 columns on medium (50vw), 1 column on mobile (100vw)
+        $output .= wp_get_attachment_image($featured_img_id, 'medium_large', false, [
+            'alt' => $title,
+            'loading' => 'lazy',
+            'sizes' => '(max-width: 999px) 100vw, (max-width: 1199px) 50vw, 440px'
+        ]);
+    } else {
+        // Fallback image - get responsive version if available
+        $fallback_image_html = faue_get_post_fallback_image_html($post->ID, $title, 'medium_large', [
+            'sizes' => '(max-width: 999px) 100vw, (max-width: 1199px) 50vw, 440px'
+        ]);
+        if ($fallback_image_html) {
+            $output .= $fallback_image_html;
+        } else {
+            // Last resort: simple img tag with fallback URL
+            $fallback_url = faue_get_post_fallback_image($post->ID, 'medium_large');
+            $output .= sprintf(
+                '<img src="%s" alt="%s" loading="lazy">',
+                esc_url($fallback_url),
+                esc_attr($title)
+            );
+        }
+    }
+    
     $output .= '</div>';
 
     // Add date meta for posts (visible)
     if ($variant === 'post') {
-        $date_obj = new DateTime($post->post_date);
-        $day = $date_obj->format('d');
-        $month_year = strtoupper($date_obj->format('M Y'));
+        $timestamp = strtotime($post->post_date);
+        $day = date_i18n('d', $timestamp);
+        $month_year = strtoupper(date_i18n('M Y', $timestamp));
         
         $output .= '<div class="teaser-meta">';
         $output .= sprintf(
@@ -142,24 +165,52 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
  * @return string The wrapped teaser items HTML
  */
 if ( ! function_exists( 'fau_elemental_wrap_teaser_items' ) ) {
-function fau_elemental_wrap_teaser_items($items, $layout) {
-    // Only wrap for l2s and 2sl layouts
-    if (!in_array($layout, ['l2s', '2sl'])) {
-        return implode('', $items);
-    }
-
-    $output = '';
-    $item_count = count($items);
-    
-    for ($i = 0; $i < $item_count; $i += 3) {
-        $group_items = array_slice($items, $i, 3);
-        if (!empty($group_items)) {
-            $output .= '<div class="teaser-group">';
-            $output .= implode('', $group_items);
-            $output .= '</div>';
+    function fau_elemental_wrap_teaser_items($items, $layout) {
+        if (in_array($layout, ['l2s', '2sl'])) {
+            $output = '';
+            $item_count = count($items);
+            $group_number = 0;
+            
+            for ($i = 0; $i < $item_count; $i += 3) {
+                $group_items = array_slice($items, $i, 3);
+                if (!empty($group_items)) {
+                    // Keep items in their original order
+                    // For 2sl layout, assign different classes for visual positioning
+                    $item_position = 0;
+                    foreach ($group_items as $index => $item) {
+                        $item_position++;
+                        $li_class = 'teaser-group-item';
+                        
+                        // Assign classes based on layout and position
+                        if ($layout === '2sl' && count($group_items) === 3) {
+                            // For 2sl: first two are small, third is large
+                            if ($item_position === 1) {
+                                $li_class .= ' teaser-group-item-2'; // Small top (visually on left)
+                            } elseif ($item_position === 2) {
+                                $li_class .= ' teaser-group-item-3'; // Small bottom (visually on left)
+                            } else {
+                                $li_class .= ' teaser-group-item-1'; // Large (visually on right)
+                            }
+                        } else {
+                            // For l2s layout, use standard numbering
+                            $li_class .= ' teaser-group-item-' . $item_position;
+                        }
+                        
+                        $li_class .= ' teaser-group-' . $group_number;
+                        $output .= '<li class="' . esc_attr($li_class) . '" data-group="' . esc_attr($group_number) . '" data-position="' . esc_attr($item_position) . '">' . $item . '</li>';
+                    }
+                    $group_number++;
+                }
+            }
+            
+            return $output;
         }
+        
+        $wrapped_items = array_map(function($item) {
+            return '<li>' . $item . '</li>';
+        }, $items);
+        
+        return implode('', $wrapped_items);
     }
     
-    return $output;
-}
 } 

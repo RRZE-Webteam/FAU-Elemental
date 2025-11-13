@@ -101,7 +101,7 @@ function fau_render_archive_grid($block_args = [], $aria_label = null, $post_cou
         </div>
     <?php endif; ?>
 
-    <section class="content-grid" aria-label="<?php echo esc_attr($aria_label); ?>">
+    <section class="content-grid wp-block-post-content" aria-label="<?php echo esc_attr($aria_label); ?>">
         <?php
         // Prepare block attributes safely
         $block_default_args = [

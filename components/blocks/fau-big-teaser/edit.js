@@ -3,6 +3,7 @@ import {
 	PanelBody,
 	TextControl,
 	TextareaControl,
+	SelectControl,
 	Button,
 	ToolbarGroup,
 	ToolbarButton,
@@ -17,7 +18,8 @@ import {
 } from '@wordpress/block-editor';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const { headline, teaserText, linkText, linkUrl, image } = attributes;
+	const { headlineLevel, headline, teaserText, linkText, linkUrl, image } =
+		attributes;
 
 	const blockProps = useBlockProps();
 
@@ -75,6 +77,36 @@ export default function Edit( { attributes, setAttributes } ) {
 					title={ __( 'Content', 'fau-elemental' ) }
 					initialOpen={ true }
 				>
+					<SelectControl
+						label={ __( 'Headline Level', 'fau-elemental' ) }
+						value={ headlineLevel }
+						options={ [
+							{
+								label: __( 'Heading 2', 'fau-elemental' ),
+								value: 'h2',
+							},
+							{
+								label: __( 'Heading 3', 'fau-elemental' ),
+								value: 'h3',
+							},
+							{
+								label: __( 'Heading 4', 'fau-elemental' ),
+								value: 'h4',
+							},
+							{
+								label: __( 'Heading 5', 'fau-elemental' ),
+								value: 'h5',
+							},
+							{
+								label: __( 'Heading 6', 'fau-elemental' ),
+								value: 'h6',
+							},
+						] }
+						onChange={ ( value ) =>
+							setAttributes( { headlineLevel: value } )
+						}
+					/>
+
 					<TextControl
 						label={ __(
 							'Headline (max 100 characters)',
@@ -193,7 +225,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				<div className="fau-big-teaser-editor-preview">
 					<div className="fau-big-teaser__content">
 						<RichText
-							tagName="h3"
+							tagName={ headlineLevel }
 							className="fau-big-teaser__headline"
 							value={ headline }
 							onChange={ ( value ) => {

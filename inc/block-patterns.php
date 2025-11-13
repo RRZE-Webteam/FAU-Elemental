@@ -84,7 +84,7 @@ function fau_elemental_register_component_patterns() {
         // Check if pattern should be registered for current website type
         if (!empty($pattern_data['websiteTypes'])) {
             $allowed_website_types = array_map('trim', explode(',', $pattern_data['websiteTypes']));
-            $current_website_type = get_theme_mod('faue_website_type', 'fau');
+            $current_website_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
             
             if (!in_array($current_website_type, $allowed_website_types)) {
                 continue; // Skip this pattern for current website type

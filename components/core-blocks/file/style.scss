@@ -6,7 +6,6 @@
 
 div.wp-block-file {
 	max-width: var(--small-max-width);
-	padding: 0 var(--Spacing-10x);
 	box-sizing: content-box;
 
 	.wp-block-file__content-wrapper {
@@ -100,8 +99,8 @@ div.wp-block-file {
 				background-color: var(--FAU-Col-FAU-Blau-100);
 				right: 0;
 				top: calc(50% - 1.25rem);
-				width: 2.5rem;
-				height: 2.5rem;
+				width: var(--accessible-target-size);
+				height: var(--accessible-target-size);
 				border-radius: 0;
 				padding: unset;
 
@@ -142,12 +141,5 @@ div.wp-block-file {
 				max-width: 6.25rem;
 			}
 		}
-	}
-}
-
-@include smaller-or-equals("x-small") {
-
-	div.wp-block-file {
-		padding: 0 var(--Spacing-5x);
 	}
 }

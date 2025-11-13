@@ -3,9 +3,6 @@
 .wp-block-image {
 	position: relative;
 	max-width: var(--small-max-width);
-	margin-left: auto;
-	margin-right: auto;
-	padding: 0 var(--Spacing-10x);
 
 	.image-wrapper {
 		position: relative;
@@ -44,7 +41,7 @@
 		left: 50%;
 		background-color: var(--FAU-Col-FAU-Weiss-100);
 		padding: var(--Spacing-6x) var(--Spacing-8x);
-		margin: 0;
+		margin: 0 0 calc(-1 * var(--Spacing-12x)) 0;
 		font-size: var(--P-Body-Text-Small);
 		line-height: var(--base-line-height);
 		font-weight: 400;
@@ -57,12 +54,16 @@
 		}
 	}
 
-	&:has(figcaption) {
-		margin-bottom: calc(-1 * var(--Spacing-12x));
-	}
-
 	&.is-style-large {
 		max-width: var(--base-max-width);
+
+		.wp-block-post-content > & {
+			margin-inline: var(--faue_base-max-width_bleed_inline-margin);
+
+			@include smaller-or-equals("xs") {
+				margin-inline: var(--faue_fullbleed_inline-margin);
+			}
+		}
 
 		figcaption {
 			max-width: var(--small-max-width);
@@ -195,17 +196,16 @@
 @include smaller-or-equals("x-small") {
 
 	.wp-block-image {
-		padding: 0 var(--Spacing-5x);
 
 		.image-fullscreen-btn {
-			width: 2.5rem;
-			height: 2.5rem;
+			width: var(--accessible-target-size);
+			height: var(--accessible-target-size);
 
 			&::before {
 				width: 1rem;
 				height: 1rem;
-				top: 0.75rem;
-				right: 0.75rem;
+				top: 0.8rem;
+				right: 0.8rem;
 			}
 		}
 

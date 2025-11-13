@@ -1,12 +1,18 @@
 @use "../../ui/mixins/mixins" as *;
 
 .wp-block-fau-elemental-featured-event-teaser {
-	display: flex;
+
 	max-width: var(--wide-max-width);
-	margin: 0 auto;
+	display: flex;
 	gap: var(--Spacing-10x);
-	padding: 0 var(--Spacing-10x);
-	box-sizing: content-box;
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+
+		@include smaller-or-equals("xs") {
+			margin-inline: var(--faue_fullbleed_inline-margin);
+		}
+	}
 
 	.featured-event-content {
 		display: flex;
@@ -71,7 +77,7 @@
 				color: #fff;
 				font-size: 3rem;
 				font-weight: 700;
-				line-height: 1;
+				line-height: var(--base-line-height);
 				padding: 0 1rem;
 			}
 

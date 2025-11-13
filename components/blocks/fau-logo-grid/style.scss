@@ -1,10 +1,12 @@
 @use "../../ui/mixins/mixins" as *;
 
-// Base styles (desktop-first - largest screens)
 .fau-logo-grid {
-	padding: 0 18.78rem;
+
 	max-width: var(--wide-max-width);
-	margin: 0 auto;
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+	}
 
 	&__container {
 		display: grid;
@@ -45,25 +47,18 @@
 
 	&__image {
 		max-width: 100%;
-		height: auto;
+		max-height: 100%;
+		height: 100%;
 		object-fit: contain;
 		width: auto;
 	}
 }
 
-// Desktop and smaller (max-width: 1920px)
-@include smaller-or-equals("large") {
-
-	.fau-logo-grid {
-		padding: 0 var(--Spacing-12x);
-	}
-}
 
 // Tablet and smaller (max-width: 1440px)
 @include smaller-or-equals("medium") {
 
 	.fau-logo-grid {
-		padding: 0 var(--Spacing-10x);
 
 		&__container {
 			grid-template-columns: repeat(4, 1fr);
@@ -75,7 +70,6 @@
 @include smaller-or-equals("small") {
 
 	.fau-logo-grid {
-		padding: 0 var(--Spacing-5x);
 
 		&__container {
 			grid-template-columns: repeat(2, 1fr);

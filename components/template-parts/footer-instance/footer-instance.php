@@ -111,20 +111,26 @@
                 </div>
                 <?php endif; ?>
             </div>
+            <?php if (has_nav_menu('footer-important-links')) : ?>
             <div class="footer-important-links-container">
-            <h3><?php esc_html_e('Important Links', 'fau-elemental'); ?></h3>
-            <nav class="footer-important-links">
-              
-                <?php
-                wp_nav_menu(array(
-                    'theme_location' => 'footer-important-links',
-                    'menu_class' => 'important-links-list',
-                    'container' => false,
-                    'fallback_cb' => false
-                ));
-                ?>
-            </nav>
+                <?php 
+                $important_links_heading = get_theme_mod('important_links_heading', __('Important Links', 'fau-elemental'));
+                if (!empty($important_links_heading)) : ?>
+                    <h3><?php echo esc_html($important_links_heading); ?></h3>
+                <?php endif; ?>
+                <nav class="footer-important-links">
+                  
+                    <?php
+                    wp_nav_menu(array(
+                        'theme_location' => 'footer-important-links',
+                        'menu_class' => 'important-links-list',
+                        'container' => false,
+                        'fallback_cb' => false
+                    ));
+                    ?>
+                </nav>
             </div>
+            <?php endif; ?>
         </section>
 
         <section class="footer-instance-menu">
@@ -142,21 +148,7 @@
             </nav>
 
             <nav class="footer-social" aria-label="<?php echo esc_attr__('Social Media Links', 'fau-elemental'); ?>">
-                <ul class="social-links">
-                    <?php
-                    $social_platforms = faue_get_social_platforms();
-
-                    foreach ($social_platforms as $platform => $label) :
-                        $url = get_theme_mod("social_{$platform}");
-                        if (!empty($url)) : ?>
-                            <li>
-                                <a href="<?php echo esc_url($url); ?>" class="<?php echo esc_attr($platform); ?>">
-                                    <span class="sr-only"><?php echo esc_html($label); ?></span>
-                                </a>
-                            </li>
-                        <?php endif;
-                    endforeach; ?>
-                </ul>
+                <?php faue_render_social_media_links(); ?>
             </nav>
         </section>
 
@@ -169,6 +161,7 @@
         $hide_fau_info = get_theme_mod('hide_fau_info_section', false);
 
         if (!$hide_fau_info) : ?>
+            <input type="checkbox" id="fau-info-toggle" class="fau-info-toggle-checkbox" aria-controls="fau-info-section">
             <div class="footer-bottom-row footer-controls">
                 <div class="footer-logo-container">
                     <div class="footer-logo">
@@ -187,16 +180,17 @@
                 </div>
 
                 <div class="toggle-container">
-                    <button type="button" class="fau-info-toggle" aria-expanded="false" aria-controls="fau-info-section">
-                        <?php echo esc_html(get_theme_mod('fau_info_toggle_text', __('Show more', 'fau-elemental'))); ?>
-                    </button>
+                    <label for="fau-info-toggle" class="fau-info-toggle">
+                        <span class="toggle-text toggle-text-collapsed"><?php echo esc_html(get_theme_mod('fau_info_toggle_text', faue_get_default('fau_info_toggle_text'))); ?></span>
+                        <span class="toggle-text toggle-text-expanded"><?php echo esc_html(get_theme_mod('fau_info_toggle_text_expanded', faue_get_default('fau_info_toggle_text_expanded'))); ?></span>
+                    </label>
                 </div>
             </div>
 
             <div id="fau-info-section" class="footer-bottom-row fau-info-section">
-                <section class="fau-claim">
-                    <h3><?php echo esc_html(get_theme_mod('fau_footer_title', __('FAU - Knowledge in Motion', 'fau-elemental'))); ?></h3>
-                    <p><?php echo wp_kses_post(get_theme_mod('fau_footer_description', __('FAU is Germany\'s most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research.', 'fau-elemental'))); ?></p>
+                <section class="fau-claim" aria-labelledby="claim-title">
+                    <p id="claim-title"><?php echo esc_html(get_theme_mod('fau_footer_title', faue_get_default('fau_footer_title'))); ?></p>
+                    <p><?php echo wp_kses_post(get_theme_mod('fau_footer_description', faue_get_default('fau_footer_description'))); ?></p>
                 </section>
 
                 <?php

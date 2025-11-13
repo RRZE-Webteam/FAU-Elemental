@@ -1,7 +1,6 @@
 :root {
 
 	/*  Colors: */
-
 	--color-primary-ci-hell: var(--FAU-Col-FAU-Blau-100);
 	--color-primary-ci-hell-kontrast: var(--FAU-Col-FAU-Weiss-100);
 	--color-primary-ci-hell2: var(--FAU-Col-FAU-Schwarz-25);
@@ -128,11 +127,14 @@
 	--font-family-monospace: menlo, monaco, consolas, courier new, monospace;
 	--font-family-FAU-Logo: fau chimera, sans-serif;
 
-	/* Margins, Paddings  */
+	/* Margins, Paddings */
 	--border-radius: 0;
 	--border-radius-buttons: 0;
 	--devider-height: 4px;
 	--width-gutter: 30px;
 	--width-gutter-half: 15px;
 	--width-gutter-third: 10px;
+
+	/* Accessible target min. size AAA */
+	--accessible-target-size: 2.75rem;
 }

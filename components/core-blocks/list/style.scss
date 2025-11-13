@@ -2,7 +2,7 @@
 
 // List general
 .wp-block-list {
-	max-width: var(--small-max-width);
+	max-width: min(calc(100vw - var(--Spacing-10x)), var(--small-max-width));
 	font-size: var(--P-Body-Text);
 	color: var(--FAU-Col-FAU-Schwarz-100);
 	font-weight: 400;
@@ -47,6 +47,10 @@ ul.wp-block-list {
 			}
 		}
 	}
+
+	ul {
+		padding-left: 0;
+	}
 }
 
 // List with arrow icons
@@ -75,6 +79,7 @@ ul.wp-block-list.list-icons {
 // Numbered list
 ol.wp-block-list {
 	padding-left: var(--Spacing-6x);
+	list-style-position: outside;
 
 	.is-layout-flow & {
 
@@ -97,11 +102,6 @@ ol.wp-block-list {
 			font-weight: 700;
 		}
 	}
-}
-
-// List in group
-.wp-block-group:has(.wp-block-list) {
-	padding: 0 var(--Spacing-10x);
 }
 
 // List in column
@@ -197,9 +197,5 @@ ol.wp-block-list {
 		li {
 			margin-bottom: var(--Spacing-4x);
 		}
-	}
-
-	.wp-block-group:has(.wp-block-list) {
-		padding: 0 var(--Spacing-5x);
 	}
 }

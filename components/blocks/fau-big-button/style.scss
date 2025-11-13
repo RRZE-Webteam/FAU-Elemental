@@ -1,9 +1,12 @@
 @use "../../ui/mixins/mixins" as *;
 
 .fau-big-button-teaser-group {
+
 	max-width: var(--wide-max-width);
-	margin: 0 auto;
-	padding: 0 var(--Spacing-10x);
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+	}
 
 	.fau-big-button-teaser-group__buttons {
 		display: grid;
@@ -19,11 +22,13 @@
 			background-color: var(--FAU-Col-FAU-Blau-100);
 			padding: var(--Spacing-4x) var(--Spacing-14x) var(--Spacing-4x) var(--Spacing-6x);
 
-			h3 {
+			.big-button-title {
 				margin: 0;
 				padding: 0;
 				color: var(--FAU-Col-FAU-Weiss-100);
 				font-size: 1.25rem;
+				line-height: var(--base-line-height);
+				font-weight: 700;
 			}
 
 			p {
@@ -92,7 +97,7 @@
 				background-color: var(--FAU-Col-FAU-Weiss-100);
 				border: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
 
-				h3 {
+				.big-button-title {
 					color: var(--FAU-Col-FAU-Blau-100);
 				}
 
@@ -127,7 +132,7 @@
 		a {
 			background-color: var(--FAU-Col-FAU-Weiss-100);
 
-			h3 {
+			.big-button-title {
 				color: var(--FAU-Col-FAU-Blau-100);
 			}
 
@@ -161,7 +166,7 @@
 				background-color: var(--FAU-Col-FAU-Blau-100);
 				border: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 
-				h3,
+				.big-button-title,
 				p {
 					color: var(--FAU-Col-FAU-Weiss-100);
 				}
@@ -202,7 +207,7 @@
 			a {
 				background-color: $color;
 
-				h3 {
+				.big-button-title {
 					color: var(--FAU-Col-FAU-Blau-100);
 				}
 
@@ -224,7 +229,7 @@
 						border: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 					}
 
-					h3 {
+					.big-button-title {
 						color: var(--FAU-Col-FAU-Blau-100);
 
 						// Dark Mode variation
@@ -268,7 +273,7 @@
 
 			a {
 
-				h3,
+				.big-button-title,
 				p {
 					color: var(--FAU-Col-FAU-Weiss-100);
 				}
@@ -320,7 +325,7 @@
 			.fau-big-button-teaser-group__button--#{$faculty} {
 				background-color: $color;
 
-				h3 {
+				.big-button-title {
 					color: var(--FAU-Col-FAU-Blau-100);
 				}
 
@@ -348,7 +353,7 @@
 		// Special handling for FAU faculty buttons
 		.fau-big-button-teaser-group__button--fau {
 
-			h3,
+			.big-button-title,
 			p {
 				color: var(--FAU-Col-FAU-Weiss-100);
 			}
@@ -373,7 +378,7 @@
 		// Special handling for RW faculty buttons
 		.fau-big-button-teaser-group__button--rw {
 
-			h3,
+			.big-button-title,
 			p {
 				color: var(--FAU-Col-FAU-Weiss-100);
 			}
@@ -397,7 +402,7 @@
 					background-color: var(--FAU-Col-FAU-Weiss-100);
 					border: 0.0625rem solid $color;
 
-					h3 {
+					.big-button-title {
 						color: var(--FAU-Col-FAU-Blau-100);
 					}
 
@@ -464,7 +469,7 @@
 				.fau-big-button-teaser-group__button--#{$faculty} {
 					border: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
 
-					h3 {
+					.big-button-title {
 						color: var(--FAU-Col-FAU-Blau-100);
 					}
 
@@ -493,7 +498,7 @@
 			// Special handling for RW faculty buttons
 			.fau-big-button-teaser-group__button--rw {
 
-				h3,
+				.big-button-title,
 				p {
 					color: var(--FAU-Col-FAU-Weiss-100);
 				}
@@ -517,7 +522,7 @@
 						background-color: var(--FAU-Col-FAU-Blau-100);
 						border: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 
-						h3,
+						.big-button-title,
 						p {
 							color: var(--FAU-Col-FAU-Weiss-100);
 						}
@@ -543,7 +548,7 @@
 				// Special handling for FAU faculty in dark mode outline
 				.fau-big-button-teaser-group__button--fau {
 
-					h3,
+					.big-button-title,
 					p {
 						color: var(--FAU-Col-FAU-Weiss-100);
 					}
@@ -612,9 +617,9 @@
 	}
 }
 
-@include smaller-or-equals("x-small") {
+// @include smaller-or-equals("x-small") {
 
-	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons {
-		padding: 0 var(--Spacing-5x);
-	}
-}
+// 	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons {
+// 		padding: 0 var(--Spacing-5x);
+// 	}
+// }

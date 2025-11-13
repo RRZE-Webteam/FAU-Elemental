@@ -2,9 +2,9 @@
 
 // Base styles (desktop-first - largest screens)
 .wp-block-fau-elemental-fau-logo-grid {
+	max-width: var(--wide-max-width);
 
 	.fau-logo-grid__container {
-		max-width: var(--wide-max-width);
 		margin: 0 auto;
 		overflow: hidden;
 		position: relative;

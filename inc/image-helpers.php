@@ -51,6 +51,36 @@ function faue_get_post_fallback_image($post_id = null, $size = 'full') {
 }
 
 /**
+ * Get responsive fallback image HTML for posts/pages without featured images
+ *
+ * @param int    $post_id The post ID (optional)
+ * @param string $alt     The alt text for the image
+ * @param string $size    The image size to retrieve
+ * @param array  $attr    Additional attributes for the image
+ * @return string|null The responsive image HTML or null if fallback is not an attachment
+ */
+function faue_get_post_fallback_image_html($post_id = null, $alt = '', $size = 'medium_large', $attr = []) {
+    // Check if a custom fallback image is set in customizer
+    if (faue_has_fallback_image()) {
+        $fallback_image_id = attachment_url_to_postid(faue_get_fallback_image());
+        if ($fallback_image_id) {
+            // Merge default attributes with provided ones
+            $default_attr = [
+                'alt' => $alt,
+                'loading' => 'lazy',
+            ];
+            $attr = array_merge($default_attr, $attr);
+            
+            // Use wp_get_attachment_image for responsive images with srcset
+            return wp_get_attachment_image($fallback_image_id, $size, false, $attr);
+        }
+    }
+    
+    // Return null if fallback is not an attachment (e.g., SVG logo)
+    return null;
+}
+
+/**
  * Handle fallback image changes in customizer
  * This ensures JavaScript gets updated when the setting changes
  */

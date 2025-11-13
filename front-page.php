@@ -11,7 +11,7 @@ get_header();
 if (is_home() && is_front_page()) {
     // Front page is set to show latest posts
     ?>
-    <main class="wp-block-group blog-homepage archive-page">
+    <main id="main" class="wp-block-group blog-homepage archive-page">
         <header class="blog-header is-layout-flow">
             <h1 class="blog-title">
                 <?php 
@@ -30,7 +30,7 @@ if (is_home() && is_front_page()) {
         <?php 
         // Check if there's a front page set and get its content
         $front_page_id = get_option('page_on_front');
-        if ($front_page_id) {
+        if (get_option('show_on_front') !== 'posts' && $front_page_id) {
             $front_page = get_post($front_page_id);
             if ($front_page && !empty($front_page->post_content)) {
                 ?>
@@ -69,13 +69,13 @@ if (is_home() && is_front_page()) {
 } else {
     // Front page is set to a static page - display the page content
     ?>
-    <main>
+    <main id="main" class="site-main">
         <?php
         while (have_posts()) :
             the_post();
             ?>
             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-                <div class="is-layout-flow faue-content-wrapper">
+                <div class="is-layout-flow wp-block-post-content">
                     <?php
                     the_content();
                     

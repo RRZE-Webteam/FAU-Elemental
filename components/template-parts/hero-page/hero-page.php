@@ -7,7 +7,7 @@
  */
 ?>
 
-<section class="hero-page" role="region" aria-label="<?php esc_attr_e('Page Hero', 'fau-elemental'); ?>">
+<section class="hero-page" aria-labelledby="pagetitle">
 
   <?php if (has_post_thumbnail()) : ?>
     <div class="faue-featured-image">
@@ -16,7 +16,7 @@
       $featured_img_alt = get_post_meta($featured_img_id, '_wp_attachment_image_alt', true);
       $alt = $featured_img_alt ?: get_the_title();
       ?>
-      <?php echo wp_get_attachment_image($featured_img_id, 'full', false, [
+      <?php echo wp_get_attachment_image($featured_img_id, 'large', false, [
         'alt' => $alt,
         'sizes' => '(max-width: 393px) 100vw, (max-width: 1199px) 90vw, 1320px'
       ]); ?>
@@ -25,7 +25,7 @@
 
 
   <div>
-    <h1 class="wp-block-post-title"><?php the_title(); ?></h1>
+    <h1 id="pagetitle" class="wp-block-post-title"><?php echo esc_html(faue_get_page_title(get_the_ID())); ?></h1>
   </div>
 
 </section>

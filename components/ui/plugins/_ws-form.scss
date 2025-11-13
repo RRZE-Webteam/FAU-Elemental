@@ -1,11 +1,8 @@
 @use "../../ui/mixins/mixins" as *;
 
-.is-layout-flow {
+main {
 
 	form.wsf-form {
-		max-width: calc(var(--small-max-width) + 5rem);
-		padding: 0 var(--Spacing-10x);
-		margin: 0 auto;
 
 		a {
 			color: var(--FAU-Col-FAU-Blau-100);
@@ -379,7 +376,7 @@
 		}
 	}
 
-	div[role="alert"] {
+	div[role="alert"]:has(.wsf-alert) {
 		max-width: var(--small-max-width);
 		padding: 0 var(--Spacing-10x);
 		margin: 0 auto;
@@ -510,18 +507,5 @@
 		.wsf-invalid-feedback {
 			color: var(--FAU-Col-Error-Dark);
 		}
-	}
-}
-
-// Responsive
-@include smaller-or-equals("x-small") {
-
-	.is-layout-flow form.wsf-form {
-		max-width: calc(var(--small-max-width) + 2.5rem);
-		padding: 0 var(--Spacing-5x);
-	}
-
-	.is-layout-flow div[role="alert"] {
-		padding: 0 var(--Spacing-5x);
 	}
 }

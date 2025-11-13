@@ -542,8 +542,8 @@ export default function Edit( { attributes, setAttributes } ) {
 								</div>
 
 								<RichText
-									tagName="h3"
-									className="rich-text"
+									tagName="p"
+									className="rich-text big-button-title"
 									value={ item.title || '' }
 									onChange={ ( value ) =>
 										updateItem( index, 'title', value )

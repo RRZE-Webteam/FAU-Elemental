@@ -14,10 +14,10 @@ if (have_posts()) {
 }
 ?>
 
-<main>
+<main id="main" class="site-main">
     <?php while (have_posts()) : the_post(); ?>
 
-        <div class="is-layout-flow faue-content-wrapper">
+        <div class="wp-block-post-content">
             <?php the_content(); ?>
         </div>
 

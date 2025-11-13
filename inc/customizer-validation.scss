@@ -1,0 +1,36 @@
+/**
+ * Customizer validation styles
+ *
+ * @package FAU_Elemental
+ */
+
+.url-validation-message {
+	font-size: 12px;
+	margin-top: 5px;
+	padding: 5px;
+	border-radius: 3px;
+	display: none;
+}
+
+.url-validation-message.invalid {
+	color: #d63638;
+	background-color: #fcf0f1;
+	border: 1px solid #f0a0a0;
+	display: block;
+}
+
+.url-validation-message.valid {
+	color: #00a32a;
+	background-color: #f0f6fc;
+	border: 1px solid #a0c0e0;
+	display: block;
+}
+
+.customize-control input[type="url"]:invalid {
+	border-color: #d63638;
+}
+
+.customize-control input[type="url"]:valid {
+	border-color: #00a32a;
+}
+

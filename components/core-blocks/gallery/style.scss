@@ -27,17 +27,26 @@ figure.wp-block-image:has(figcaption)::before {
 
 // End WP CSS reset
 .wp-block-gallery-container {
+
 	max-width: var(--wide-max-width);
-	padding: 0 var(--Spacing-10x);
 	position: relative;
 	display: flex;
 	justify-content: center;
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+
+		@include smaller-or-equals("xs") {
+			margin-inline: var(--faue_fullbleed_inline-margin);
+		}
+	}
 
 	figure.wp-block-gallery {
 		width: 100%;
 		height: fit-content;
 		display: flex;
 		justify-content: center;
+		margin-bottom: 0;
 
 		&.has-nested-images figure.wp-block-image:not(#individual-image) {
 			padding: 0;
@@ -55,7 +64,8 @@ figure.wp-block-image:has(figcaption)::before {
 				position: relative;
 				font-size: var(--P-Body-Text-Small);
 				background-color: var(--FAU-Col-FAU-Weiss-100);
-				bottom: 3rem;
+				bottom: var(--Spacing-12x);
+				margin-bottom: calc(-1 * var(--Spacing-12x));
 				left: 50%;
 				padding: var(--Spacing-6x) 4.6875rem var(--Spacing-6x) var(--Spacing-8x);
 				overflow-wrap: break-word;
@@ -87,8 +97,8 @@ figure.wp-block-image:has(figcaption)::before {
 
 .gallery-nav-button {
 	position: relative;
-	width: 2.5rem;
-	height: 2.5rem;
+	width: var(--accessible-target-size);
+	height: var(--accessible-target-size);
 	border: none;
 	color: transparent;
 	background-color: var(--FAU-Col-FAU-Blau-100);
@@ -101,7 +111,7 @@ figure.wp-block-image:has(figcaption)::before {
 	&.prev {
 
 		&::after {
-			right: 0.75rem;
+			right: 0.85rem;
 			transform: rotate(180deg);
 		}
 
@@ -110,7 +120,7 @@ figure.wp-block-image:has(figcaption)::before {
 
 			&::after {
 				transition: var(--basic-animation);
-				right: 1rem;
+				right: 1.15rem;
 			}
 		}
 	}
@@ -118,7 +128,7 @@ figure.wp-block-image:has(figcaption)::before {
 	&.next {
 
 		&::after {
-			left: 0.8125rem;
+			left: 1rem;
 		}
 
 		&:hover,
@@ -126,7 +136,7 @@ figure.wp-block-image:has(figcaption)::before {
 
 			&::after {
 				transition: var(--basic-animation);
-				left: 1.0625rem;
+				left: 1.3rem;
 			}
 		}
 	}
@@ -138,7 +148,7 @@ figure.wp-block-image:has(figcaption)::before {
 		background-repeat: no-repeat;
 		width: 0.9375rem;
 		height: 0.6875rem;
-		top: 0.875rem;
+		top: 1rem;
 		z-index: 1;
 		transition: var(--basic-animation);
 

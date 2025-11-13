@@ -60,9 +60,15 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
 
     // Get the saved values
     $selected_menu_id = get_post_meta($post->ID, 'portal_menu_id', true);
-    $hide_subs = get_post_meta($post->ID, 'portal_menu_hide_subs', true);
-    $hide_thumbs = get_post_meta($post->ID, 'portal_menu_hide_thumbs', true);
-    $is_dark = get_post_meta($post->ID, 'portal_menu_is_dark', true);
+    $hide_subs = (bool) get_post_meta($post->ID, 'portal_menu_hide_subs', true);
+    $hide_thumbs = (bool) get_post_meta($post->ID, 'portal_menu_hide_thumbs', true);
+    $is_dark = (bool) get_post_meta($post->ID, 'portal_menu_is_dark', true);
+
+    $hide_title_meta_key = FAU_Elemental_Portal_Menu_Config::get_meta_field('hide_title');
+    $hide_title_raw = $hide_title_meta_key ? get_post_meta($post->ID, $hide_title_meta_key, true) : '';
+    $hide_title = ($hide_title_raw === '' && $hide_title_meta_key)
+        ? (bool) FAU_Elemental_Portal_Menu_Config::get_default('hide_title')
+        : (bool) $hide_title_raw;
 
     // Get all menus
     $menus = fau_elemental_get_nav_menus();
@@ -94,6 +100,11 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
         <p>
             <label><input type="checkbox" name="portal_menu_is_dark" id="portal_menu_is_dark" value="1" <?php checked($is_dark, true); ?>>
             <?php esc_html_e('Dark Style', 'fau-elemental'); ?></label>
+        </p>
+
+        <p>
+            <label><input type="checkbox" name="portal_menu_hide_title" id="portal_menu_hide_title" value="1" <?php checked($hide_title, true); ?>>
+            <?php esc_html_e('Hide Page Title (use portal hero)', 'fau-elemental'); ?></label>
         </p>
         
         <code>[portalmenu menu="<?php echo ($selected_menu_id ? esc_attr($selected_menu_id) : 'menu-id-or-name'); ?>" showsubs="<?php echo esc_attr($hide_subs ? "false" : "true"); ?>" nothumbs="<?php echo esc_attr($hide_thumbs ? "true" : "false") ?>"]</code>
@@ -143,6 +154,13 @@ function fau_elemental_save_portal_menu_meta_box_data($post_id) {
         } else {
             delete_post_meta($post_id, $field);
         }
+    }
+
+    // Handle hide title separately so unchecked state overrides the default
+    $hide_title_field = FAU_Elemental_Portal_Menu_Config::get_meta_field('hide_title');
+    if (!empty($hide_title_field)) {
+        $hide_title_checked = isset($_POST[$hide_title_field]);
+        update_post_meta($post_id, $hide_title_field, $hide_title_checked);
     }
 }
 

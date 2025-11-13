@@ -10,7 +10,8 @@
 			margin: 0 auto;
 		}
 
-		h2 {
+		h2,
+		#claim-title {
 			margin-top: 0;
 			font-size: 1.5rem;
 		}
@@ -25,6 +26,7 @@
 		h3,
 		p,
 		address,
+		#claim-title,
 		a {
 			color: var(--FAU-Col-FAU-Weiss-100);
 		}
@@ -91,6 +93,12 @@
 								margin-top: var(--Spacing-5x);
 							}
 						}
+					}
+
+					.directions-link {
+						display: inline-flex;
+						align-items: flex-start;
+						height: var(--accessible-target-size);
 					}
 				}
 			}
@@ -172,16 +180,30 @@
 			margin: 0;
 		}
 
+		// Hide checkbox visually but keep it accessible
+		.fau-info-toggle-checkbox {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border-width: 0;
+		}
+
 		.fau-info-toggle {
 			position: relative;
+			display: inline-block;
 			background-color: var(--FAU-Col-FAU-Blau-100);
 			border: 0;
-			padding: var(--Spacing-5x) var(--Spacing-6x);
+			padding: var(--Spacing-4x) var(--Spacing-6x);
 			font-family: var(--font-family-base);
 			color: var(--FAU-Col-FAU-Weiss-100);
 			font-size: 1rem;
 			font-weight: 600;
-			line-height: 1;
+			line-height: var(--base-line-height);
 			letter-spacing: var(--letter-spacing-big);
 			margin-right: var(--Spacing-14x);
 			cursor: pointer;
@@ -209,19 +231,13 @@
 				transition: var(--basic-animation);
 			}
 
-			// Progressive enhancement: Show button only when JavaScript is available
-			.no-js & {
-				display: none;
-			}
-
-			// Button text and icon structure
-			.toggle-text {
+			// Toggle text visibility based on checkbox state
+			.toggle-text-collapsed {
 				display: inline;
 			}
 
-			// Rotate chevron when expanded
-			&[aria-expanded="true"]::after {
-				transform: rotate(-90deg);
+			.toggle-text-expanded {
+				display: none;
 			}
 
 			&:hover,
@@ -233,14 +249,30 @@
 			}
 		}
 
-		// Progressive enhancement: Ensure content is visible without JavaScript
-		.no-js .fau-info-section {
-			display: block !important;
+		// Rotate chevron and swap text when checkbox is checked
+		.fau-info-toggle-checkbox:checked ~ .footer-bottom-row .fau-info-toggle {
+
+			&::after {
+				transform: rotate(-90deg);
+			}
+
+			.toggle-text-collapsed {
+				display: none;
+			}
+
+			.toggle-text-expanded {
+				display: inline;
+			}
 		}
 
-		// Hide section initially when JavaScript is available (handled by JS)
-		.js .fau-info-section[hidden] {
+		// Hide section by default, show when checkbox is checked
+		.fau-info-section {
 			display: none;
+		}
+
+		// Show section when checkbox is checked using general sibling combinator
+		.fau-info-toggle-checkbox:checked ~ .fau-info-section {
+			display: block;
 		}
 
 		// adapted visuals for claim only for instance (faculty)
@@ -252,11 +284,7 @@
 				max-width: unset;
 				padding: unset;
 
-				h2 {
-					display: none;
-				}
-
-				h3 {
+				#claim-title {
 					display: none;
 				}
 
@@ -268,6 +296,7 @@
 			}
 
 			.fau-big-button-teaser-group {
+				margin-inline: auto;
 				margin-bottom: var(--Spacing-8x);
 			}
 		}
@@ -301,7 +330,7 @@
 
 					.important-links-list {
 						flex-direction: row;
-						gap: var(--Spacing-6x);
+						gap: var(--Spacing-12x);
 						flex-wrap: wrap;
 					}
 				}
@@ -361,6 +390,10 @@
 			span + .directions {
 				margin-top: var(--Spacing-6x);
 			}
+		}
+
+		.directions-link {
+			align-items: center;
 		}
 	}
 }

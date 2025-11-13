@@ -37,6 +37,26 @@ function faue_add_post_meta_boxes() {
         'side',
         'default'
     );
+    
+    // Add meta box for page title
+    add_meta_box(
+        'faue_page_title',
+        __('Page Title Settings', 'fau-elemental'),
+        'faue_page_title_callback',
+        'post',
+        'side',
+        'default'
+    );
+    
+    // Also add to pages
+    add_meta_box(
+        'faue_page_title',
+        __('Page Title Settings', 'fau-elemental'),
+        'faue_page_title_callback',
+        'page',
+        'side',
+        'default'
+    );
 }
 add_action('add_meta_boxes', 'faue_add_post_meta_boxes');
 
@@ -111,6 +131,33 @@ function faue_last_updated_callback($post) {
 }
 
 /**
+ * Meta box callback function for page title
+ */
+function faue_page_title_callback($post) {
+    // Add nonce for security
+    wp_nonce_field('faue_page_title_nonce', 'faue_page_title_nonce');
+
+    // Get current value
+    $page_title = get_post_meta($post->ID, '_fau_page_title', true);
+
+    ?>
+    <p>
+        <label for="faue_page_title">
+            <?php esc_html_e('Custom Page Title', 'fau-elemental'); ?>
+        </label>
+        <input type="text" 
+               id="faue_page_title" 
+               name="faue_page_title" 
+               value="<?php echo esc_attr($page_title); ?>" 
+               class="widefat">
+    </p>
+    <p class="description">
+        <?php esc_html_e('Set a custom title for this page. This will be used as the main page title while keeping the URL slug, breadcrumb, and navigation unchanged.', 'fau-elemental'); ?>
+    </p>
+    <?php
+}
+
+/**
  * Validate and sanitize datetime input
  */
 function faue_validate_datetime($datetime_string) {
@@ -138,13 +185,18 @@ function faue_save_post_meta($post_id) {
         return;
     }
     
-    // Check if nonce is set
-    if (!isset($_POST['faue_last_updated_nonce'])) {
+    // Check if nonce is set (either for last updated or page title)
+    if (!isset($_POST['faue_last_updated_nonce']) && !isset($_POST['faue_page_title_nonce'])) {
         return;
     }
 
-    // Verify nonce
-    if (!wp_verify_nonce($_POST['faue_last_updated_nonce'], 'faue_last_updated_nonce')) {
+    // Verify nonce for last updated date
+    if (isset($_POST['faue_last_updated_nonce']) && !wp_verify_nonce($_POST['faue_last_updated_nonce'], 'faue_last_updated_nonce')) {
+        return;
+    }
+    
+    // Verify nonce for page title
+    if (isset($_POST['faue_page_title_nonce']) && !wp_verify_nonce($_POST['faue_page_title_nonce'], 'faue_page_title_nonce')) {
         return;
     }
 
@@ -159,20 +211,34 @@ function faue_save_post_meta($post_id) {
     }
 
     // Save custom last updated date
-    $use_custom_date = isset($_POST['faue_use_custom_last_updated']) ? '1' : '0';
-    update_post_meta($post_id, '_faue_use_custom_last_updated', $use_custom_date);
+    if (isset($_POST['faue_last_updated_nonce'])) {
+        $use_custom_date = isset($_POST['faue_use_custom_last_updated']) ? '1' : '0';
+        update_post_meta($post_id, '_faue_use_custom_last_updated', $use_custom_date);
 
-    if ($use_custom_date === '1' && isset($_POST['faue_custom_last_updated'])) {
-        $custom_date = sanitize_text_field($_POST['faue_custom_last_updated']);
-        
-        // Validate the date format properly
-        $validated_date = faue_validate_datetime($custom_date);
-        if ($validated_date) {
-            update_post_meta($post_id, '_faue_custom_last_updated', $validated_date);
+        if ($use_custom_date === '1' && isset($_POST['faue_custom_last_updated'])) {
+            $custom_date = sanitize_text_field($_POST['faue_custom_last_updated']);
+            
+            // Validate the date format properly
+            $validated_date = faue_validate_datetime($custom_date);
+            if ($validated_date) {
+                update_post_meta($post_id, '_faue_custom_last_updated', $validated_date);
+            }
+        } else {
+            // Remove custom date if not using custom date
+            delete_post_meta($post_id, '_faue_custom_last_updated');
         }
-    } else {
-        // Remove custom date if not using custom date
-        delete_post_meta($post_id, '_faue_custom_last_updated');
+    }
+    
+    // Save custom page title
+    if (isset($_POST['faue_page_title_nonce'])) {
+        if (isset($_POST['faue_page_title'])) {
+            $page_title = sanitize_text_field($_POST['faue_page_title']);
+            if (!empty($page_title)) {
+                update_post_meta($post_id, '_fau_page_title', $page_title);
+            } else {
+                delete_post_meta($post_id, '_fau_page_title');
+            }
+        }
     }
 }
 add_action('save_post', 'faue_save_post_meta');
@@ -226,4 +292,40 @@ function faue_filter_modified_time($time, $format, $post) {
     return $time;
 }
 add_filter('get_the_modified_time', 'faue_filter_modified_time', 10, 3);
+
+/**
+ * Get the custom page title if set, otherwise return the original title
+ *
+ * @param int $post_id The post ID to get the title for
+ * @return string The custom page title or original title
+ */
+function faue_get_page_title($post_id) {
+    $custom_title = get_post_meta($post_id, '_fau_page_title', true);
+    if (!empty($custom_title)) {
+        return $custom_title;
+    }
+    return get_the_title($post_id);
+}
+
+add_filter('render_block_core/post-title', 'faue_render_block_custom_page_title', 10, 2);
+
+function faue_render_block_custom_page_title($block_content, $block) {
+    if (empty($block_content)) {
+        return $block_content;
+    }
+
+    $post_id = $block['context']['postId'] ?? get_the_ID();
+    if (empty($post_id) || !is_singular()) {
+        return $block_content;
+    }
+
+    $custom_title = faue_get_page_title($post_id);
+    $default_title = get_the_title($post_id);
+
+    if ($custom_title === $default_title) {
+        return $block_content;
+    }
+
+    return preg_replace('/>([^<]*)</', '>' . esc_html($custom_title) . '<', $block_content, 1);
+}
 

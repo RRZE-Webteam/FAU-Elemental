@@ -7,15 +7,17 @@
 
 @use "../../ui/mixins/mixins" as *;
 
+.wp-block-fau-elemental-fau-big-teaser {
+	max-width: var(--wide-max-width);
+
+	.is-root-container > & {
+		margin-inline: var(--faue_wide-max-width_bleed_inline-margin);
+	}
+}
+
 .fau-big-teaser-editor-preview {
-	box-sizing: content-box;
 	display: flex;
 	gap: var(--Spacing-10x);
-	margin: 0 auto;
-	margin-right: auto;
-	margin-left: auto;
-	max-width: var(--wide-max-width);
-	padding: var(--Spacing-8x) var(--Spacing-10x);
 
 	.fau-big-teaser__content {
 

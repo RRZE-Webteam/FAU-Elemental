@@ -20,7 +20,7 @@ $error_message = isset($args['error_message']) ? $args['error_message'] : '';
 $search_heading = isset($args['search_heading']) ? $args['search_heading'] : '';
 ?>
 
-<main class="wp-block-group alignwide">
+<main id="main" class="wp-block-group alignwide">
     <div class="error-<?php echo esc_attr($error_type); ?>">
         <h1><?php echo esc_html($error_title); ?></h1>
         <p><?php echo esc_html($error_message); ?></p>
@@ -37,7 +37,7 @@ $search_heading = isset($args['search_heading']) ? $args['search_heading'] : '';
     if (!empty($menus)) {
         // Add meta headline before portal menu
         $meta_headline_block = '<!-- wp:fau-elemental/fau-meta-headline {"headline":"' . __('Other offers', 'fau-elemental') . '","id":""} -->
-<div class="wp-block-fau-elemental-fau-meta-headline" id="headline-">' . __('Other offers', 'fau-elemental') . '</div>
+<h2 class="wp-block-fau-elemental-fau-meta-headline" id="headline-">' . __('Other offers', 'fau-elemental') . '</h2>
 <!-- /wp:fau-elemental/fau-meta-headline -->';
         echo do_blocks($meta_headline_block);
         

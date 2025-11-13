@@ -1,0 +1,5 @@
+main:not(:has(> div.is-layout-flow, > div.wp-block-post-content, > article > div.wp-block-post-content)) {
+	box-sizing: content-box;
+	margin: 0 auto;
+	padding: var(--Spacing-10x);
+}

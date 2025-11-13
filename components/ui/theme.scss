@@ -3,6 +3,8 @@
 // ============================================================================
 // This file imports all component styles for the frontend theme
 
+@use "../core-blocks/gallery/style" as *;
+
 // UI Foundation (Variables and Base Styles)
 @use "variables/index" as *;
 @use "base/index" as *;
@@ -13,12 +15,10 @@
 // Core Block Styles (modifications to WordPress core blocks)
 @use "../core-blocks/button/style" as *;
 @use "../core-blocks/code/style" as *;
-@use "../core-blocks/columns/style" as *;
 @use "../core-blocks/column/style" as *;
 @use "../core-blocks/details/style" as *;
 @use "../core-blocks/buttons/style" as *;
 @use "../core-blocks/file/style" as *;
-@use "../core-blocks/gallery/style" as *;
 @use "../core-blocks/group/style" as *;
 @use "../core-blocks/heading/style" as *;
 @use "../core-blocks/image/style" as *;

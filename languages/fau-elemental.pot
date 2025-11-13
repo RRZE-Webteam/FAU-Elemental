@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.3.34\n"
+"Project-Id-Version: FAU-Elemental 0.4.20\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-10-02T09:43:42+00:00\n"
+"POT-Creation-Date: 2025-11-12T16:10:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -88,7 +88,7 @@ msgstr ""
 msgid "Category posts listing"
 msgstr ""
 
-#: components/blocks/fau-copyright-info/render.php:214
+#: components/blocks/fau-copyright-info/render.php:218
 msgid "Image sources:"
 msgstr ""
 
@@ -98,7 +98,7 @@ msgid "Search…"
 msgstr ""
 
 #: components/blocks/fau-global-search/render.php:55
-#: components/template-parts/navigation/fau-navigation.php:48
+#: components/template-parts/navigation/fau-navigation.php:47
 #: components/template-parts/navigation/menu-modal-config.php:71
 #: components/template-parts/navigation/menu-modal.php:249
 #: components/template-parts/search-results/search-results.php:237
@@ -125,7 +125,7 @@ msgid "Security check failed"
 msgstr ""
 
 #: components/blocks/fau-teaser-grid/render.php:73
-#: components/blocks/fau-teaser-grid/edit.js:459
+#: components/blocks/fau-teaser-grid/edit.js:493
 msgid "Content grid"
 msgstr ""
 
@@ -133,30 +133,30 @@ msgstr ""
 msgid "Content items"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:190
+#: components/blocks/fau-teaser-grid/render.php:198
 msgid "No items found."
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:216
+#: components/blocks/fau-teaser-grid/render.php:224
 msgid "Error loading posts"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:217
+#: components/blocks/fau-teaser-grid/render.php:225
 msgid "Loading error"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:248
-#: components/blocks/fau-teaser-grid/render.php:250
-#: components/blocks/fau-teaser-grid/edit.js:571
+#: components/blocks/fau-teaser-grid/render.php:256
+#: components/blocks/fau-teaser-grid/render.php:258
+#: components/blocks/fau-teaser-grid/edit.js:610
 msgid "Load More"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:249
-#: components/blocks/fau-teaser-grid/edit.js:537
+#: components/blocks/fau-teaser-grid/render.php:257
+#: components/blocks/fau-teaser-grid/edit.js:575
 msgid "Loading…"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/teaser-item.php:123
+#: components/blocks/fau-teaser-grid/teaser-item.php:146
 msgid "Read more about"
 msgstr ""
 
@@ -172,21 +172,21 @@ msgstr ""
 msgid "Students at FAU Erlangen-Nürnberg"
 msgstr ""
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:86
+#: components/template-parts/breadcrumbs/breadcrumbs.php:97
 msgid "Breadcrumb navigation"
 msgstr ""
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:118
-#: components/template-parts/breadcrumbs/breadcrumbs.php:127
+#: components/template-parts/breadcrumbs/breadcrumbs.php:129
+#: components/template-parts/breadcrumbs/breadcrumbs.php:138
 msgid "Start"
 msgstr ""
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:163
+#: components/template-parts/breadcrumbs/breadcrumbs.php:174
 #: components/template-parts/search-results/search-results.php:228
 msgid "Search Results"
 msgstr ""
 
-#: components/template-parts/breadcrumbs/breadcrumbs.php:165
+#: components/template-parts/breadcrumbs/breadcrumbs.php:176
 msgid "404 - Page Not Found"
 msgstr ""
 
@@ -215,80 +215,72 @@ msgstr ""
 msgid "Directions"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:115
+#: components/template-parts/footer-instance/footer-instance.php:117
+#: inc/customizer.php:158
 msgid "Important Links"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:144
+#: components/template-parts/footer-instance/footer-instance.php:150
 #: components/template-parts/footer-main/footer-main.php:104
-#: inc/customizer.php:459
+#: inc/customizer.php:538
 msgid "Social Media Links"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:178
+#: components/template-parts/footer-instance/footer-instance.php:171
 #: components/template-parts/footer-main/footer-main.php:63
-#: header.php:51
+#: header.php:53
 msgid "FAU Logo"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:183
+#: components/template-parts/footer-instance/footer-instance.php:176
 #: components/template-parts/footer-main/footer-main.php:68
 msgid ""
 "Friedrich-Alexander-Universität\n"
 "Erlangen-Nürnberg"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:191
-#: functions.php:296
-msgid "Show more"
-msgstr ""
-
-#: components/template-parts/footer-instance/footer-instance.php:198
-#: components/template-parts/footer-main/footer-main.php:4
-msgid "FAU - Knowledge in Motion"
-msgstr ""
-
-#: components/template-parts/footer-instance/footer-instance.php:199
-#: components/template-parts/footer-main/footer-main.php:5
-msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
-msgstr ""
-
-#: components/template-parts/footer-instance/footer-instance.php:207
+#: components/template-parts/footer-instance/footer-instance.php:201
 #: components/template-parts/footer-main/footer-main.php:14
 msgid "Target Group Section 1"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:208
+#: components/template-parts/footer-instance/footer-instance.php:202
 #: components/template-parts/footer-main/footer-main.php:15
 msgid "History, features, data, structure and more"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:212
+#: components/template-parts/footer-instance/footer-instance.php:206
 #: components/template-parts/footer-main/footer-main.php:19
 msgid "Target Group Section 2"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:213
-#: components/template-parts/footer-instance/footer-instance.php:218
-#: components/template-parts/footer-instance/footer-instance.php:223
+#: components/template-parts/footer-instance/footer-instance.php:207
+#: components/template-parts/footer-instance/footer-instance.php:212
+#: components/template-parts/footer-instance/footer-instance.php:217
 #: components/template-parts/footer-main/footer-main.php:20
 #: components/template-parts/footer-main/footer-main.php:25
 #: components/template-parts/footer-main/footer-main.php:30
 msgid "Focus areas, mission, reputation, achievements and more"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:217
+#: components/template-parts/footer-instance/footer-instance.php:211
 #: components/template-parts/footer-main/footer-main.php:24
 msgid "Target Group Section 3"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:222
+#: components/template-parts/footer-instance/footer-instance.php:216
 #: components/template-parts/footer-main/footer-main.php:29
 msgid "Target Group Section 4"
 msgstr ""
 
-#: components/template-parts/hero-page/hero-page.php:10
-msgid "Page Hero"
+#: components/template-parts/footer-main/footer-main.php:4
+#: inc/config.php:40
+msgid "FAU - Knowledge in Motion"
+msgstr ""
+
+#: components/template-parts/footer-main/footer-main.php:5
+#: inc/config.php:41
+msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
 msgstr ""
 
 #: components/template-parts/navigation/fau-navigation.php:18
@@ -318,16 +310,12 @@ msgstr ""
 msgid "Structure"
 msgstr ""
 
-#: components/template-parts/navigation/fau-navigation.php:46
-msgid "Open Search"
-msgstr ""
-
 #: components/template-parts/navigation/main-navigation.php:49
 msgid "Open menu"
 msgstr ""
 
 #: components/template-parts/navigation/main-navigation.php:50
-#: inc/portal-page-settings.php:73
+#: inc/portal-page-settings.php:79
 #: components/blocks/fau-portalmenu/edit.js:64
 msgid "Menu"
 msgstr ""
@@ -340,83 +328,83 @@ msgstr ""
 msgid "Search all pages and documents:"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:328
+#: components/template-parts/navigation/menu-modal.php:323
 msgid "No menu items found."
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:370
+#: components/template-parts/navigation/menu-modal.php:369
 msgid "Use Tab to navigate through menu items, Enter to select, Escape to close, or use the Close button."
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:379
+#: components/template-parts/navigation/menu-modal.php:378
 msgid "Back to main menu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:381
+#: components/template-parts/navigation/menu-modal.php:380
 msgid "Back"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:386
+#: components/template-parts/navigation/menu-modal.php:385
 msgid "Close menu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:387
+#: components/template-parts/navigation/menu-modal.php:386
 msgid "Close"
 msgstr ""
 
 #. translators: title of the submenu
-#: components/template-parts/navigation/menu-modal.php:488
-#: components/template-parts/navigation/menu-modal.php:561
+#: components/template-parts/navigation/menu-modal.php:487
+#: components/template-parts/navigation/menu-modal.php:560
 #: components/template-parts/navigation/mixed-navigation-walker.php:479
 #: components/template-parts/navigation/mixed-navigation-walker.php:681
 msgid "Open %s submenu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:598
+#: components/template-parts/navigation/menu-modal.php:597
 msgid "Overview:"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:599
+#: components/template-parts/navigation/menu-modal.php:598
 msgid "Menu opened"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:600
+#: components/template-parts/navigation/menu-modal.php:599
 msgid "Menu closed"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:601
+#: components/template-parts/navigation/menu-modal.php:600
 msgid "Navigated to"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:602
+#: components/template-parts/navigation/menu-modal.php:601
 msgid "submenu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:603
+#: components/template-parts/navigation/menu-modal.php:602
 msgid "submenu collapsed"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:604
+#: components/template-parts/navigation/menu-modal.php:603
 msgid "submenu expanded"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:605
+#: components/template-parts/navigation/menu-modal.php:604
 msgid "Navigated back"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:606
+#: components/template-parts/navigation/menu-modal.php:605
 msgid "Moved to last menu item"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:607
+#: components/template-parts/navigation/menu-modal.php:606
 msgid "Moved to close button"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:608
+#: components/template-parts/navigation/menu-modal.php:607
 msgid "Menu breadcrumbs"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:609
+#: components/template-parts/navigation/menu-modal.php:608
 msgid "Go to"
 msgstr ""
 
@@ -434,7 +422,7 @@ msgid "page-navigation"
 msgstr ""
 
 #: components/template-parts/pagination/pagination.php:24
-#: components/blocks/fau-teaser-grid/edit.js:549
+#: components/blocks/fau-teaser-grid/edit.js:588
 msgid "Posts pagination"
 msgstr ""
 
@@ -482,7 +470,7 @@ msgstr ""
 
 #. Template Name of the theme
 #: components/template-parts/search-results/search-results.php:225
-#: functions.php:79
+#: functions.php:83
 msgid "All Posts"
 msgstr ""
 
@@ -534,46 +522,46 @@ msgid "Search Results List"
 msgstr ""
 
 #. translators: index of the search result
-#: components/template-parts/search-results/search-results.php:319
+#: components/template-parts/search-results/search-results.php:321
 msgid "Search Result %d"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:343
+#: components/template-parts/search-results/search-results.php:345
 msgid "Post Category"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:350
-#: functions.php:356
+#: components/template-parts/search-results/search-results.php:352
+#: functions.php:326
 msgid "Page Category"
 msgstr ""
 
 #. translators: %s: Menu item title
-#: components/template-parts/search-results/search-results.php:371
-#: inc/class-walker-content-menu.php:67
+#: components/template-parts/search-results/search-results.php:373
+#: inc/class-walker-content-menu.php:79
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:179
 msgid "Featured image for %s"
 msgstr ""
 
 #. translators: title of the search result
-#: components/template-parts/search-results/search-results.php:404
+#: components/template-parts/search-results/search-results.php:406
 msgid "Read more about %s"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:406
+#: components/template-parts/search-results/search-results.php:408
 #: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
-#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:156
+#: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:161
 msgid "Read more"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:426
+#: components/template-parts/search-results/search-results.php:428
 msgid "No Search Results"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:428
+#: components/template-parts/search-results/search-results.php:430
 msgid "Unfortunately, we were unable to find any matching search results for the following query:"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:435
+#: components/template-parts/search-results/search-results.php:437
 msgid "Additional search options"
 msgstr ""
 
@@ -582,7 +570,7 @@ msgid "Archive listing"
 msgstr ""
 
 #. Template Name of the theme
-#: functions.php:80
+#: functions.php:84
 msgid "All Pages"
 msgstr ""
 
@@ -591,7 +579,7 @@ msgid "Pages listing"
 msgstr ""
 
 #. Template Name of the theme
-#: functions.php:76
+#: functions.php:80
 msgid "Portal Page"
 msgstr ""
 
@@ -599,53 +587,53 @@ msgstr ""
 msgid "Pages:"
 msgstr ""
 
-#: functions.php:297
-msgid "Show less"
-msgstr ""
-
-#: functions.php:355
-#: functions.php:357
+#: functions.php:325
+#: functions.php:327
 msgid "Page Categories"
 msgstr ""
 
-#: functions.php:358
+#: functions.php:328
 msgid "All Page Categories"
 msgstr ""
 
-#: functions.php:359
+#: functions.php:329
 msgid "Edit Page Category"
 msgstr ""
 
-#: functions.php:360
+#: functions.php:330
 msgid "View Page Category"
 msgstr ""
 
-#: functions.php:361
+#: functions.php:331
 msgid "Update Page Category"
 msgstr ""
 
-#: functions.php:362
+#: functions.php:332
 msgid "Add New Page Category"
 msgstr ""
 
-#: functions.php:363
+#: functions.php:333
 msgid "New Page Category Name"
 msgstr ""
 
-#: functions.php:364
+#: functions.php:334
 msgid "Parent Page Category"
 msgstr ""
 
-#: functions.php:365
+#: functions.php:335
 msgid "Parent Page Category:"
 msgstr ""
 
-#: functions.php:366
+#: functions.php:336
 msgid "Search Page Categories"
 msgstr ""
 
-#: functions.php:367
+#: functions.php:337
 msgid "No page categories found"
+msgstr ""
+
+#: header.php:23
+msgid "Skip to main content"
 msgstr ""
 
 #: inc/block-patterns.php:36
@@ -657,323 +645,374 @@ msgstr ""
 msgid "Hero"
 msgstr ""
 
-#. translators: %s: Menu item title
-#: inc/class-walker-content-menu.php:71
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:192
-msgid "No image available for %s"
-msgstr ""
-
 #. translators: Menu item title
-#: inc/class-walker-content-menu.php:82
-#: inc/class-walker-content-menu.php:89
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:211
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:241
+#: inc/class-walker-content-menu.php:99
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:200
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:230
 msgid "Go to %s"
 msgstr ""
 
-#: inc/class-walker-content-menu.php:174
+#: inc/class-walker-content-menu.php:210
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
 msgstr ""
 
-#: inc/customizer.php:75
+#: inc/config.php:37
+msgid "Show more"
+msgstr ""
+
+#: inc/config.php:38
+msgid "Show less"
+msgstr ""
+
+#: inc/customizer.php:143
 msgid "Footer Settings"
 msgstr ""
 
-#: inc/customizer.php:77
+#: inc/customizer.php:145
 msgid "Settings for the footer"
 msgstr ""
 
-#: inc/customizer.php:82
+#: inc/customizer.php:150
+msgid "General"
+msgstr ""
+
+#: inc/customizer.php:153
+msgid "General footer settings"
+msgstr ""
+
+#: inc/customizer.php:164
+msgid "Important Links Heading"
+msgstr ""
+
+#: inc/customizer.php:165
+msgid "Heading text for the important links section in the footer"
+msgstr ""
+
+#: inc/customizer.php:173
 msgid "Configure the main claim section"
 msgstr ""
 
-#: inc/customizer.php:84
+#: inc/customizer.php:175
 msgid "This section is managed centrally by FAU and cannot be edited by faculties."
 msgstr ""
 
-#: inc/customizer.php:88
+#: inc/customizer.php:179
 msgid "Claim"
 msgstr ""
 
-#: inc/customizer.php:102
-msgid "Note: The FAU claim is centrally managed by FAU and cannot be edited by faculties. The section will display with default FAU content."
-msgstr ""
-
-#: inc/customizer.php:117
+#: inc/customizer.php:196
 msgid "Dark Theme Toggle"
 msgstr ""
 
-#: inc/customizer.php:118
+#: inc/customizer.php:197
 msgid "Apply dark styling to the footer"
 msgstr ""
 
-#: inc/customizer.php:133
-#: inc/customizer.php:176
-#: inc/customizer.php:402
+#: inc/customizer.php:212
+#: inc/customizer.php:255
+#: inc/customizer.php:481
 #: components/blocks/fau-global-search/edit.js:25
 #: components/core-blocks/media-text/index.js:22
 msgid "Heading"
 msgstr ""
 
-#: inc/customizer.php:134
+#: inc/customizer.php:213
 msgid "Main heading for the claim section"
 msgstr ""
 
-#: inc/customizer.php:145
+#: inc/customizer.php:224
 msgid "Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung."
 msgstr ""
 
-#: inc/customizer.php:149
+#: inc/customizer.php:228
 msgid "Text"
 msgstr ""
 
-#: inc/customizer.php:150
+#: inc/customizer.php:229
 msgid "Descriptive text for the claim section"
 msgstr ""
 
-#: inc/customizer.php:161
-#: inc/customizer.php:189
-#: inc/customizer.php:421
+#: inc/customizer.php:240
+#: inc/customizer.php:268
+#: inc/customizer.php:500
 #: components/blocks/fau-big-button/edit.js:317
 msgid "Description"
 msgstr ""
 
-#: inc/customizer.php:164
+#: inc/customizer.php:243
 msgid "Configure faculty information"
 msgstr ""
 
-#: inc/customizer.php:177
+#: inc/customizer.php:256
 msgid "Main heading for the faculty section"
 msgstr ""
 
-#: inc/customizer.php:190
+#: inc/customizer.php:269
 msgid "Descriptive text for the faculty section"
 msgstr ""
 
-#: inc/customizer.php:198
+#: inc/customizer.php:277
 msgid "Contact Information"
 msgstr ""
 
-#: inc/customizer.php:201
+#: inc/customizer.php:280
 msgid "Configure contact information"
 msgstr ""
 
-#: inc/customizer.php:210
+#: inc/customizer.php:289
 #: inc/theme-settings.php:69
-msgid "Philosophical Faculty"
+msgid "Faculty of Humanities, Social Sciences, and Theology"
 msgstr ""
 
-#: inc/customizer.php:217
+#: inc/customizer.php:296
 #: inc/theme-settings.php:70
-msgid "Natural Sciences Faculty"
+msgid "Faculty of Sciences"
 msgstr ""
 
-#: inc/customizer.php:224
+#: inc/customizer.php:303
 #: inc/theme-settings.php:71
-msgid "Medical Faculty"
+msgid "Faculty of Medicine"
 msgstr ""
 
-#: inc/customizer.php:231
+#: inc/customizer.php:310
 #: inc/theme-settings.php:72
-msgid "Law Faculty"
+msgid "Faculty of Business, Economics, and Law"
 msgstr ""
 
-#: inc/customizer.php:238
+#: inc/customizer.php:317
 #: inc/theme-settings.php:73
-msgid "Technical Faculty"
+msgid "Faculty of Engineering"
 msgstr ""
 
-#: inc/customizer.php:257
+#: inc/customizer.php:336
 msgid "Display Address Information"
 msgstr ""
 
-#: inc/customizer.php:258
+#: inc/customizer.php:337
 msgid "Display address information in the footer"
 msgstr ""
 
-#: inc/customizer.php:266
+#: inc/customizer.php:345
 msgid "Name of the University"
 msgstr ""
 
-#: inc/customizer.php:270
+#: inc/customizer.php:349
 msgid "Name of the Faculty"
 msgstr ""
 
-#: inc/customizer.php:274
+#: inc/customizer.php:353
 msgid "Street"
 msgstr ""
 
-#: inc/customizer.php:278
+#: inc/customizer.php:357
 msgid "Postal Code and City"
 msgstr ""
 
-#: inc/customizer.php:282
+#: inc/customizer.php:361
 msgid "Phone Number"
 msgstr ""
 
-#: inc/customizer.php:286
+#: inc/customizer.php:365
 msgid "E-Mail Address"
 msgstr ""
 
-#: inc/customizer.php:290
+#: inc/customizer.php:369
 msgid "Directions Link"
 msgstr ""
 
-#: inc/customizer.php:323
+#: inc/customizer.php:402
 msgid "Country"
 msgstr ""
 
-#: inc/customizer.php:331
+#: inc/customizer.php:410
 msgid "Configure the target group sections"
 msgstr ""
 
-#: inc/customizer.php:333
+#: inc/customizer.php:412
 msgid "These settings are managed centrally by FAU and cannot be edited by faculties."
 msgstr ""
 
-#: inc/customizer.php:337
+#: inc/customizer.php:416
 msgid "Target Group Links"
 msgstr ""
 
-#: inc/customizer.php:351
+#: inc/customizer.php:430
 msgid "Hide FAU section"
 msgstr ""
 
-#: inc/customizer.php:352
+#: inc/customizer.php:431
 msgid "Hide FAU section (only show copyright information). Recommended for external cooperation websites."
 msgstr ""
 
-#: inc/customizer.php:362
+#: inc/customizer.php:441
 msgid "Section 1"
 msgstr ""
 
-#: inc/customizer.php:363
+#: inc/customizer.php:442
 msgid "Section 2"
 msgstr ""
 
-#: inc/customizer.php:364
+#: inc/customizer.php:443
 msgid "Section 3"
 msgstr ""
 
-#: inc/customizer.php:365
+#: inc/customizer.php:444
 msgid "Section 4"
 msgstr ""
 
-#: inc/customizer.php:376
+#: inc/customizer.php:455
 msgid "Note: Target group links are centrally managed by FAU and cannot be edited by faculties. The sections will display with default FAU content."
 msgstr ""
 
-#: inc/customizer.php:411
+#: inc/customizer.php:490
 msgid "Focus, Mission, Reputation, Successes, etc."
 msgstr ""
 
-#: inc/customizer.php:413
+#: inc/customizer.php:492
 msgid "History, Specialties, Data, Structure, etc."
 msgstr ""
 
-#: inc/customizer.php:435
-#: components/blocks/fau-big-teaser/edit.js:143
+#: inc/customizer.php:514
+#: components/blocks/fau-big-teaser/edit.js:175
 msgid "Link URL"
 msgstr ""
 
-#: inc/customizer.php:462
-msgid "Configure social media links"
+#: inc/customizer.php:541
+msgid "Configure social media links. You can either use individual platform settings below or create a \"Social Media Menu\" in Appearance > Menus."
 msgstr ""
 
-#. translators: social media platform
-#: inc/customizer.php:484
-msgid "Enter the %s URL"
+#: inc/customizer.php:552
+msgid "Social Media Display Mode"
 msgstr ""
 
-#: inc/customizer.php:492
+#: inc/customizer.php:553
+msgid "Choose how to manage social media links"
+msgstr ""
+
+#: inc/customizer.php:557
+msgid "Individual Platform Settings (below)"
+msgstr ""
+
+#: inc/customizer.php:558
+msgid "WordPress Menu (Appearance > Menus > Social Media Menu)"
+msgstr ""
+
+#. translators: %s: Social media platform name
+#: inc/customizer.php:576
+msgid "%s URL"
+msgstr ""
+
+#. translators: %s: Social media platform name
+#: inc/customizer.php:582
+msgid "Enter the %s URL (leave empty to hide)"
+msgstr ""
+
+#: inc/customizer.php:596
 msgid "Post Settings"
 msgstr ""
 
-#: inc/customizer.php:505
+#: inc/customizer.php:609
 msgid "Display post metadata"
 msgstr ""
 
-#: inc/customizer.php:506
+#: inc/customizer.php:610
 msgid "Shows date and reading-time on posts."
 msgstr ""
 
-#: inc/customizer.php:521
+#: inc/customizer.php:625
 msgid "Apply dark-theme style to metadata"
 msgstr ""
 
-#: inc/customizer.php:522
+#: inc/customizer.php:626
 msgid "Turns the metadata bar dark-blue with white text."
 msgstr ""
 
-#: inc/customizer.php:540
+#: inc/customizer.php:644
 msgid "Hide copyright on single posts"
 msgstr ""
 
-#: inc/customizer.php:541
+#: inc/customizer.php:645
 msgid "Hides the copyright block on individual post pages."
 msgstr ""
 
-#: inc/customizer.php:549
+#: inc/customizer.php:653
 msgid "Archive pages settings"
 msgstr ""
 
-#: inc/customizer.php:561
-#: components/blocks/fau-teaser-grid/edit.js:374
+#: inc/customizer.php:665
+#: components/blocks/fau-teaser-grid/edit.js:409
 msgid "Pagination Type"
 msgstr ""
 
-#: inc/customizer.php:565
-#: components/blocks/fau-teaser-grid/edit.js:378
+#: inc/customizer.php:669
+#: components/blocks/fau-teaser-grid/edit.js:413
 msgid "Page Numbers"
 msgstr ""
 
-#: inc/customizer.php:566
-#: components/blocks/fau-teaser-grid/edit.js:385
+#: inc/customizer.php:670
+#: components/blocks/fau-teaser-grid/edit.js:420
 msgid "Load More Button"
 msgstr ""
 
-#: inc/customizer.php:568
+#: inc/customizer.php:672
 msgid "Choose how pagination is displayed on archive pages and teaser grids."
 msgstr ""
 
-#: inc/customizer.php:579
+#: inc/customizer.php:683
 msgid "Items Per Page"
 msgstr ""
 
-#: inc/customizer.php:582
+#: inc/customizer.php:686
 msgid "Number of items to display per page in archive pages and teaser grids."
 msgstr ""
 
-#: inc/customizer.php:809
+#: inc/customizer.php:1708
 msgid "Land"
 msgstr ""
 
-#: inc/customizer.php:856
-msgid "FAU-Elemental detected address settings from the FAU-Einrichtungen theme that can be migrated."
+#. translators: %s: name of the previous theme
+#: inc/customizer.php:1740
+msgid "Theme settings were successfully migrated from %s!"
 msgstr ""
 
-#: inc/customizer.php:859
-msgid "Migrate Address Settings"
+#: inc/customizer.php:1747
+msgid "Address information"
 msgstr ""
 
-#: inc/customizer.php:900
+#: inc/customizer.php:1750
+msgid "Website type settings"
+msgstr ""
+
+#: inc/customizer.php:1753
+msgid "Faculty configuration"
+msgstr ""
+
+#: inc/customizer.php:1766
+msgid "No previous theme settings were found to migrate. Default settings have been applied."
+msgstr ""
+
+#: inc/customizer.php:1768
+msgid "No settings from previous themes were found to migrate."
+msgstr ""
+
+#: inc/customizer.php:1780
 msgid "Address settings were successfully migrated from FAU-Einrichtungen theme!"
 msgstr ""
 
-#: inc/customizer.php:907
+#: inc/customizer.php:1787
 msgid "No address settings from FAU-Einrichtungen theme were found to migrate."
 msgstr ""
 
-#: inc/customizer.php:949
+#: inc/customizer.php:1830
 msgid "Hero Settings"
 msgstr ""
 
-#: inc/customizer.php:955
+#: inc/customizer.php:1836
 msgid "Mobile Display Options"
 msgstr ""
 
-#: inc/customizer.php:965
+#: inc/customizer.php:1846
 msgid "Show Description Text and Link on Mobile"
 msgstr ""
 
@@ -1021,6 +1060,10 @@ msgstr ""
 msgid "Footer Important Links"
 msgstr ""
 
+#: inc/menu-registration.php:31
+msgid "Social Media Menu"
+msgstr ""
+
 #: inc/page-meta-fields.php:31
 msgid "Navigation Settings"
 msgstr ""
@@ -1041,21 +1084,25 @@ msgstr ""
 msgid "Portal Menu Settings"
 msgstr ""
 
-#: inc/portal-page-settings.php:75
+#: inc/portal-page-settings.php:81
 msgid "- Select Menu -"
 msgstr ""
 
-#: inc/portal-page-settings.php:86
+#: inc/portal-page-settings.php:92
 msgid "Hide Submenus"
 msgstr ""
 
-#: inc/portal-page-settings.php:91
+#: inc/portal-page-settings.php:97
 #: components/blocks/fau-portalmenu/edit.js:92
 msgid "Hide Thumbnails"
 msgstr ""
 
-#: inc/portal-page-settings.php:96
+#: inc/portal-page-settings.php:102
 msgid "Dark Style"
+msgstr ""
+
+#: inc/portal-page-settings.php:107
+msgid "Hide Page Title (use portal hero)"
 msgstr ""
 
 #: inc/post-meta.php:24
@@ -1063,12 +1110,25 @@ msgstr ""
 msgid "Last Updated Date"
 msgstr ""
 
-#: inc/post-meta.php:97
+#: inc/post-meta.php:44
+#: inc/post-meta.php:54
+msgid "Page Title Settings"
+msgstr ""
+
+#: inc/post-meta.php:117
 msgid "Use custom last updated date"
 msgstr ""
 
-#: inc/post-meta.php:102
+#: inc/post-meta.php:122
 msgid "Custom date:"
+msgstr ""
+
+#: inc/post-meta.php:146
+msgid "Custom Page Title"
+msgstr ""
+
+#: inc/post-meta.php:155
+msgid "Set a custom title for this page. This will be used as the main page title while keeping the URL slug, breadcrumb, and navigation unchanged."
 msgstr ""
 
 #: inc/posts-settings.php:18
@@ -1086,6 +1146,138 @@ msgstr ""
 #. translators: owner/organization of the logo
 #: inc/shortcodes.php:174
 msgid "Logo from %s"
+msgstr ""
+
+#: inc/social-media-admin.php:19
+#: inc/social-media-admin.php:58
+msgid "Custom Social Media Platforms"
+msgstr ""
+
+#: inc/social-media-admin.php:20
+msgid "Custom Social Media"
+msgstr ""
+
+#: inc/social-media-admin.php:61
+msgid "Add custom social media platforms that will appear in the customizer. Platforms will only show in the footer when you add a URL for them."
+msgstr ""
+
+#: inc/social-media-admin.php:70
+msgid "Platform Name"
+msgstr ""
+
+#: inc/social-media-admin.php:74
+msgid "e.g., Discord"
+msgstr ""
+
+#: inc/social-media-admin.php:75
+msgid "The display name for this platform (e.g., Discord, Telegram)"
+msgstr ""
+
+#: inc/social-media-admin.php:81
+msgid "Platform Key"
+msgstr ""
+
+#: inc/social-media-admin.php:85
+msgid "e.g., discord"
+msgstr ""
+
+#: inc/social-media-admin.php:86
+msgid "A unique identifier (lowercase, no spaces, e.g., discord, telegram)"
+msgstr ""
+
+#: inc/social-media-admin.php:92
+msgid "Platform Icon"
+msgstr ""
+
+#: inc/social-media-admin.php:96
+msgid "Upload an SVG icon file (recommended size: 24x24px)"
+msgstr ""
+
+#: inc/social-media-admin.php:99
+msgid "OR"
+msgstr ""
+
+#: inc/social-media-admin.php:103
+msgid "https://example.com/icon.svg"
+msgstr ""
+
+#: inc/social-media-admin.php:104
+msgid "Enter a direct URL to an SVG icon"
+msgstr ""
+
+#: inc/social-media-admin.php:109
+msgid "Add Platform"
+msgstr ""
+
+#: inc/social-media-admin.php:114
+msgid "Current Custom Platforms"
+msgstr ""
+
+#: inc/social-media-admin.php:118
+msgid "Platform"
+msgstr ""
+
+#: inc/social-media-admin.php:119
+msgid "Key"
+msgstr ""
+
+#: inc/social-media-admin.php:120
+msgid "Icon Preview"
+msgstr ""
+
+#: inc/social-media-admin.php:121
+msgid "Actions"
+msgstr ""
+
+#: inc/social-media-admin.php:135
+msgid "No icon"
+msgstr ""
+
+#: inc/social-media-admin.php:145
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:131
+#: components/blocks/fau-testimonial/edit.js:453
+msgid "Remove"
+msgstr ""
+
+#: inc/social-media-admin.php:145
+msgid "Are you sure you want to remove this platform?"
+msgstr ""
+
+#: inc/social-media-admin.php:155
+msgid "Note:"
+msgstr ""
+
+#: inc/social-media-admin.php:155
+msgid "After adding or removing platforms, you may need to refresh the customizer to see the changes."
+msgstr ""
+
+#: inc/social-media-admin.php:174
+msgid "Security check failed. Please try again."
+msgstr ""
+
+#: inc/social-media-admin.php:189
+msgid "Platform removed successfully!"
+msgstr ""
+
+#: inc/social-media-admin.php:205
+msgid "Platform name and key are required."
+msgstr ""
+
+#: inc/social-media-admin.php:221
+msgid "Icon upload failed. Please ensure the file is a valid SVG and under 1MB."
+msgstr ""
+
+#: inc/social-media-admin.php:241
+msgid "Platform added successfully with icon!"
+msgstr ""
+
+#: inc/social-media-admin.php:243
+msgid "Platform added successfully, but no icon was uploaded."
+msgstr ""
+
+#. translators: 1: Number of custom platforms, 2: Admin URL for managing platforms
+#: inc/social-media-admin.php:354
+msgid "You have %1$d custom social media platform(s). <a href=\"%2$s\">Manage them here</a>."
 msgstr ""
 
 #: inc/theme-settings.php:18
@@ -1114,11 +1306,11 @@ msgid "Chair"
 msgstr ""
 
 #: inc/theme-settings.php:52
-msgid "Other"
+msgid "Central Websites"
 msgstr ""
 
 #: inc/theme-settings.php:53
-msgid "Cooperation"
+msgid "FAU-internalCooperation"
 msgstr ""
 
 #: inc/theme-settings.php:85
@@ -1369,8 +1561,8 @@ msgstr ""
 msgid "Add new item"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:52
-#: components/blocks/fau-big-teaser/edit.js:169
+#: components/blocks/fau-big-teaser/edit.js:54
+#: components/blocks/fau-big-teaser/edit.js:201
 #: components/blocks/fau-featured-event-teaser/edit.js:126
 #: components/blocks/fau-featured-event-teaser/edit.js:191
 #: components/blocks/fau-logo-grid/edit.js:129
@@ -1378,83 +1570,117 @@ msgstr ""
 msgid "Replace Image"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:56
+#: components/blocks/fau-big-teaser/edit.js:58
 #: components/blocks/fau-featured-event-teaser/edit.js:130
 #: components/blocks/fau-testimonial/edit.js:195
 #: components/blocks/fau-testimonial/edit.js:405
 msgid "Add Image"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:66
-#: components/blocks/fau-big-teaser/edit.js:185
+#: components/blocks/fau-big-teaser/edit.js:68
+#: components/blocks/fau-big-teaser/edit.js:217
 #: components/blocks/fau-featured-event-teaser/edit.js:140
 #: components/blocks/fau-featured-event-teaser/edit.js:220
 msgid "Remove Image"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:75
+#: components/blocks/fau-big-teaser/edit.js:77
 #: components/core-blocks/media-text/index.js:24
 msgid "Content"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:79
-msgid "Headline (max 100 characters)"
+#: components/blocks/fau-big-teaser/edit.js:81
+msgid "Headline Level"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:85
+#: components/blocks/fau-meta-headline/index.js:19
+#: components/blocks/fau-teaser-grid/edit.js:450
+msgid "Heading 2"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:89
+#: components/blocks/fau-meta-headline/index.js:24
+#: components/blocks/fau-teaser-grid/edit.js:456
+msgid "Heading 3"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:93
+#: components/blocks/fau-meta-headline/index.js:29
+#: components/blocks/fau-teaser-grid/edit.js:462
+msgid "Heading 4"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:97
+#: components/blocks/fau-meta-headline/index.js:34
+#: components/blocks/fau-teaser-grid/edit.js:468
+msgid "Heading 5"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:101
+#: components/blocks/fau-meta-headline/index.js:39
+#: components/blocks/fau-teaser-grid/edit.js:474
+msgid "Heading 6"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:111
+msgid "Headline (max 100 characters)"
+msgstr ""
+
+#: components/blocks/fau-big-teaser/edit.js:121
 msgid "Enter headline…"
 msgstr ""
 
 #. translators: %d: current character count
-#: components/blocks/fau-big-teaser/edit.js:92
+#: components/blocks/fau-big-teaser/edit.js:124
 msgid "%d/100 characters"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:98
+#: components/blocks/fau-big-teaser/edit.js:130
 msgid "Teaser Text (max 200 characters)"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:108
+#: components/blocks/fau-big-teaser/edit.js:140
 msgid "Enter teaser text…"
 msgstr ""
 
 #. translators: %d: current character count
-#: components/blocks/fau-big-teaser/edit.js:114
+#: components/blocks/fau-big-teaser/edit.js:146
 msgid "%d/200 characters"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:121
+#: components/blocks/fau-big-teaser/edit.js:153
 msgid "Link Text (max 40 characters)"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:131
+#: components/blocks/fau-big-teaser/edit.js:163
 msgid "Enter link text…"
 msgstr ""
 
 #. translators: %d: current character count
-#: components/blocks/fau-big-teaser/edit.js:137
+#: components/blocks/fau-big-teaser/edit.js:169
 msgid "%d/40 characters"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:148
+#: components/blocks/fau-big-teaser/edit.js:180
 msgid "Enter URL…"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:154
+#: components/blocks/fau-big-teaser/edit.js:186
 #: components/blocks/fau-featured-event-teaser/edit.js:175
 msgid "Image Settings"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:170
+#: components/blocks/fau-big-teaser/edit.js:202
 #: components/blocks/fau-featured-event-teaser/edit.js:195
 msgid "Select Image"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:207
+#: components/blocks/fau-big-teaser/edit.js:239
 msgid "Add your headline here…"
 msgstr ""
 
-#: components/blocks/fau-big-teaser/edit.js:227
+#: components/blocks/fau-big-teaser/edit.js:259
 msgid "Add your teaser text here…"
 msgstr ""
 
@@ -1624,7 +1850,20 @@ msgstr ""
 msgid "Choose Logo"
 msgstr ""
 
-#: components/blocks/fau-meta-headline/index.js:22
+#: components/blocks/fau-meta-headline/index.js:44
+msgid "Header element"
+msgstr ""
+
+#: components/blocks/fau-meta-headline/index.js:45
+msgid "Header"
+msgstr ""
+
+#: components/blocks/fau-meta-headline/index.js:67
+#: components/blocks/fau-teaser-grid/edit.js:447
+msgid "Change heading level"
+msgstr ""
+
+#: components/blocks/fau-meta-headline/index.js:90
 msgid "Enter meta headline…"
 msgstr ""
 
@@ -1668,19 +1907,19 @@ msgstr ""
 msgid "Menu Item"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:233
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:222
 msgid "Submenu Item"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:283
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:272
 msgid "This menu has no items. Please add items to the menu in Appearance → Menus."
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:294
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:283
 msgid "Loading menu items…"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:302
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:291
 msgid "No menu selected"
 msgstr ""
 
@@ -1801,64 +2040,35 @@ msgstr ""
 msgid "Remove post"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:131
-#: components/blocks/fau-testimonial/edit.js:453
-msgid "Remove"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:265
+#: components/blocks/fau-teaser-grid/edit.js:300
 msgid "All Categories"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:318
+#: components/blocks/fau-teaser-grid/edit.js:353
 msgid "Teaser Grid Block"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:361
+#: components/blocks/fau-teaser-grid/edit.js:396
 msgid "Pagination Settings"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:365
+#: components/blocks/fau-teaser-grid/edit.js:400
 msgid "Show Pagination"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:399
+#: components/blocks/fau-teaser-grid/edit.js:434
 msgid "Accessibility"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:401
+#: components/blocks/fau-teaser-grid/edit.js:436
 msgid "To ensure good accessibility and SEO, please make sure that there is only one H1 heading on the page. If you already have an H1 heading, use a different heading level for the teasers in this block."
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:412
-msgid "Change heading level"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:415
-msgid "Heading 2"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:421
-msgid "Heading 3"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:427
-msgid "Heading 4"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:433
-msgid "Heading 5"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:439
-msgid "Heading 6"
-msgstr ""
-
-#: components/blocks/fau-teaser-grid/edit.js:503
+#: components/blocks/fau-teaser-grid/edit.js:538
 msgid "No posts selected"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:530
+#: components/blocks/fau-teaser-grid/edit.js:567
 msgid "No items found"
 msgstr ""
 
@@ -2032,7 +2242,11 @@ msgstr ""
 msgid "Current:"
 msgstr ""
 
-#: components/utils/urlValidation.js:27
+#: components/utils/urlValidation.js:29
+msgid "Please enter a valid URL (not just text)"
+msgstr ""
+
+#: components/utils/urlValidation.js:39
 msgid "Please enter a valid URL"
 msgstr ""
 
@@ -2168,27 +2382,27 @@ msgstr ""
 
 #: theme.json
 msgctxt "Color name"
-msgid "Philosophische Fakultät"
+msgid "Faculty of Humanities, Social Sciences, and Theology"
 msgstr ""
 
 #: theme.json
 msgctxt "Color name"
-msgid "Rechts- und Wirtschaftswissenschaftliche Fakultät"
+msgid "Faculty of Business, Economics, and Law"
 msgstr ""
 
 #: theme.json
 msgctxt "Color name"
-msgid "Medizinische Fakultät"
+msgid "Faculty of Medicine"
 msgstr ""
 
 #: theme.json
 msgctxt "Color name"
-msgid "Naturwissenschaftliche Fakultät"
+msgid "Faculty of Sciences"
 msgstr ""
 
 #: theme.json
 msgctxt "Color name"
-msgid "Technische Fakultät"
+msgid "Faculty of Engineering"
 msgstr ""
 
 #: theme.json

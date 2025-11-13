@@ -2,7 +2,14 @@
 
 .fau-testimonial-item {
 	max-width: var(--base-max-width);
-	padding: 0 var(--Spacing-10x);
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_base-max-width_bleed_inline-margin);
+
+		@include smaller-or-equals("xs") {
+			margin-inline: var(--faue_fullbleed_inline-margin);
+		}
+	}
 
 	.testimonial-content {
 		display: flex;
@@ -62,7 +69,14 @@
 // Multiple testimonials
 .testimonial-carousel {
 	max-width: var(--base-max-width);
-	padding: 0 var(--Spacing-10x);
+
+	.wp-block-post-content > & {
+		margin-inline: var(--faue_base-max-width_bleed_inline-margin);
+
+		@include smaller-or-equals("xs") {
+			margin-inline: var(--faue_fullbleed_inline-margin);
+		}
+	}
 
 	.carousel-container .fau-testimonial-item {
 		max-width: unset;
@@ -82,12 +96,14 @@
 
 		.carousel-prev,
 		.carousel-next {
-			width: 2.5rem;
-			height: 2.5rem;
-			border: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
+			position: relative;
+			flex-shrink: 0;
+			width: var(--accessible-target-size);
+			height: var(--accessible-target-size);
+			border: 0;
+			outline: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
 			background-color: unset;
 			color: transparent;
-			position: relative;
 
 			&::before {
 				content: "";
@@ -104,7 +120,7 @@
 
 			&::before {
 				transform: rotate(180deg);
-				left: 0.875rem;
+				left: 1.1rem;
 			}
 
 			&:hover,
@@ -112,7 +128,7 @@
 
 				&::before {
 					transition: all 0.2s ease-in-out;
-					left: 0.625rem;
+					left: 0.8rem;
 				}
 			}
 		}
@@ -120,7 +136,7 @@
 		.carousel-next {
 
 			&::before {
-				right: 0.875rem;
+				right: 1.1rem;
 			}
 
 			&:hover,
@@ -128,19 +144,21 @@
 
 				&::before {
 					transition: all 0.2s ease-in-out;
-					right: 0.625rem;
+					right: 0.8rem;
 				}
 			}
 		}
 
 		.carousel-dots {
 			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
 			gap: 1.25rem;
 
 			button {
 				border: 0;
-				height: 1.125rem;
-				width: 1.125rem;
+				height: var(--accessible-target-size);
+				width: var(--accessible-target-size);
 				background-color: var(--FAU-Col-FAU-Weiss-100);
 				outline: 0.0625rem solid var(--FAU-Col-FAU-Blau-100);
 
@@ -148,7 +166,7 @@
 				&:hover,
 				&:focus-visible {
 					background-color: var(--FAU-Col-FAU-Blau-100);
-					border: 0.1875rem solid var(--FAU-Col-FAU-Weiss-100);
+					border: 1rem solid var(--FAU-Col-FAU-Weiss-100);
 				}
 
 				&:focus-visible {
@@ -165,13 +183,13 @@
 
 	.is-style-dark & {
 
-		blockquote,
-		cite {
-			color: var(--FAU-Col-FAU-Weiss-100);
-		}
-
 		.testimonial-content .testimonial-text {
 			background-color: var(--FAU-Col-FAU-Blau-100);
+
+			blockquote,
+			cite {
+				color: var(--FAU-Col-FAU-Weiss-100);
+			}
 		}
 
 		.carousel-controls {
@@ -244,5 +262,10 @@
 
 	.fau-testimonial-item .testimonial-content .testimonial-text {
 		padding: 0 var(--Spacing-5x);
+	}
+
+	.testimonial-carousel .carousel-controls {
+		padding: 0 var(--Spacing-5x);
+		gap: 2rem;
 	}
 }
