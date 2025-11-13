@@ -22,7 +22,7 @@
 			color: var(--FAU-Col-FAU-Schwarz-12_5);
 			position: relative;
 			counter-increment: copyright-counter;
-			
+
 
 			&::before {
 				content: "©";
@@ -30,7 +30,7 @@
 				color: var(--FAU-Col-FAU-Schwarz-12_5);
 				font-weight: 400;
 				white-space: nowrap;
-				
+
 			}
 
 			&::after {
