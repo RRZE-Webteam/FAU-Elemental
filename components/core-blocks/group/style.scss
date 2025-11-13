@@ -25,7 +25,7 @@
 		@include smaller-or-equals("xs") {
 			padding-inline: var(--Spacing-5x);
 		}
-	
+
 
 		&:first-child {
 			margin-block-start: 0;
