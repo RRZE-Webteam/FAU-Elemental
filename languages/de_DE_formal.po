@@ -450,7 +450,7 @@ msgstr "Aktiviert die blauen Brotkrummen"
 
 #: inc/theme-settings.php:45
 msgid "Website Type"
-msgstr "Webseitentyp"
+msgstr "Website-Typ"
 
 #: components/template-parts/navigation/fau-navigation.php:22
 #: inc/theme-settings.php:49
@@ -468,7 +468,7 @@ msgstr "Lehrstuhl"
 
 #: inc/theme-settings.php:85
 msgid "Copyright Info Priority"
-msgstr "Urheberrechtsinfopriorität"
+msgstr "Quelle Bildnachweise"
 
 #: inc/theme-settings.php:89
 msgid "Copyright Field"
@@ -2269,7 +2269,7 @@ msgstr "Adressinformationen"
 
 #: inc/customizer.php:1750
 msgid "Website type settings"
-msgstr "Webseitentyp-Einstellungen"
+msgstr "Website-Typ-Einstellungen"
 
 #: inc/customizer.php:1753
 msgid "Faculty configuration"
@@ -2441,10 +2441,6 @@ msgstr "Allgemeine Footer-Einstellungen"
 msgid "Hide Page Title (use portal hero)"
 msgstr "Seitentitel ausblenden (Portal-Hero verwenden)"
 
-#: inc/theme-settings.php:53
-msgid "FAU-internalCooperation"
-msgstr "FAU-interne Kooperationen"
-
 #: components/blocks/fau-meta-headline/index.js:44
 msgid "Header element"
 msgstr "Header Element"
@@ -2452,3 +2448,7 @@ msgstr "Header Element"
 #: components/blocks/fau-meta-headline/index.js:45
 msgid "Header"
 msgstr "Header"
+
+#: inc/theme-settings.php:53
+msgid "FAU-internal Cooperation"
+msgstr "FAU-interne Kooperation"
