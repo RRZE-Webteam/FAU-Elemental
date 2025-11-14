@@ -5,6 +5,7 @@
 	max-width: var(--wide-max-width);
 	display: flex;
 	gap: var(--Spacing-10x);
+	padding-inline: 0;
 
 	.wp-block-post-content > & {
 		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);

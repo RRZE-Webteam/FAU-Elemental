@@ -103,7 +103,7 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
         </p>
 
         <p>
-            <label><input type="checkbox" name="portal_menu_hide_title" id="portal_menu_hide_title" value="1" <?php checked($hide_title, true); ?>>
+            <label><input type="checkbox" name="portal_menu_hide_title_meta" id="portal_menu_hide_title_meta" value="1" <?php checked($hide_title, true); ?>>
             <?php esc_html_e('Hide Page Title (use portal hero)', 'fau-elemental'); ?></label>
         </p>
         
