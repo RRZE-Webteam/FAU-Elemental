@@ -2,15 +2,14 @@
 @use "../../ui/base/pagination" as *;
 
 .wp-block-fau-elemental-fau-teaser-grid {
-
 	max-width: var(--wide-max-width);
 
 	.wp-block-post-content > & {
 		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
+	}
 
-		&:has(.layout-1xl) {
-			margin-inline: var(--faue_wide-max-width_bleed_inline-margin);
-		}
+	ul.fau-teaser-grid.teaser-grid li {
+		margin-bottom: unset; // REMOVE LATER, temporary until generic selector is fixed
 	}
 
 	.fau-teaser-grid {
@@ -78,7 +77,7 @@
 						color: var(--FAU-Col-FAU-Weiss-100);
 						font-size: 0.875rem;
 						text-align: center;
-						line-height: var(--base-line-height);
+						line-height: var(--heading-line-height);
 
 						time {
 							position: absolute;
@@ -136,7 +135,7 @@
 								padding: 0;
 								font-size: 1.25rem;
 								font-weight: 700;
-								line-height: var(--base-line-height);
+								line-height: var(--heading-line-height);
 								letter-spacing: var(--letter-spacing-big);
 							}
 
@@ -197,20 +196,12 @@
 					}
 				}
 			}
-
-			// Remove top-margin for page headlines
-			&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column h2,
-			&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column h3,
-			&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column h4,
-			&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column h5,
-			&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column h6 {
-				margin-top: 0;
-			}
 		}
 
 		// Layout-l2s and Layout 2sl specific styles
 		&.layout-l2s,
 		&.layout-2sl {
+
 			// Use CSS Grid with a 3-item repeating pattern
 			display: grid;
 			gap: var(--Spacing-8x);
@@ -247,24 +238,6 @@
 
 			// Styles for first item in each group (large)
 			.teaser-group-item-1 .teaser-item {
-
-				.teaser-image-wrapper .teaser-meta {
-					height: 7.0625rem;
-					width: 7.0625rem;
-
-					time {
-
-						.date-day {
-							font-size: 3rem;
-						}
-
-						.date-month-year {
-							font-size: 1.15rem;
-							font-weight: 400;
-						}
-					}
-
-				}
 
 				.teaser-content-wrapper .teaser-content .content-column h2,
 				.teaser-content-wrapper .teaser-content .content-column h3,
@@ -361,8 +334,15 @@
 
 			&[data-variant="page"] {
 
-				.teaser-group-item-2 .teaser-item,
-				.teaser-group-item-3 .teaser-item {
+				.teaser-item .teaser-content-wrapper .teaser-content .content-column h2,
+				.teaser-item .teaser-content-wrapper .teaser-content .content-column h3,
+				.teaser-item .teaser-content-wrapper .teaser-content .content-column h4,
+				.teaser-item .teaser-content-wrapper .teaser-content .content-column h5,
+				.teaser-item .teaser-content-wrapper .teaser-content .content-column h6 {
+					margin: 0;
+				}
+
+				.teaser-group-item .teaser-item {
 
 					.teaser-content-wrapper .teaser-content .content-column {
 						display: flex;
@@ -399,7 +379,7 @@
 
 				.teaser-content-wrapper {
 					bottom: unset;
-					left: -5rem;
+					margin-left: -5rem;
 
 					.teaser-content {
 						padding: var(--Spacing-6x) 0 var(--Spacing-6x) var(--Spacing-6x);
@@ -553,14 +533,14 @@
 	}
 
 	.wp-block-button.is-style-secondary .wp-block-button__link.load-more-button {
-		border: 1px solid var(--FAU-Col-FAU-Dunkelblau-100);
+		border: 0.0625rem solid var(--FAU-Col-FAU-Dunkelblau-100);
 
 		&::before {
 			background-image: var(--icon-plus-weiss);
 			background-size: contain;
 			height: 1.5rem;
 			width: 1.5rem;
-			right: -36px;
+			right: -2.25rem;
 		}
 
 		&:hover,
@@ -718,16 +698,19 @@
 
 			&.layout-2s-left,
 			&.layout-2s-right {
-				grid-template-columns: 1fr;
+				//grid-template-columns: 1fr;
 
 				.teaser-item {
 					flex-direction: column;
 
-					.teaser-image-wrapper,
 					.teaser-content-wrapper {
-						width: 100%;
+						width: 90%;
 						left: unset;
-						bottom: unset;
+						bottom: 2.5rem;
+
+						.teaser-content {
+							width: unset;
+						}
 					}
 				}
 			}
@@ -735,15 +718,10 @@
 			&.layout-2s-right {
 
 				.teaser-item {
-					flex-direction: row;
 
 					.teaser-image-wrapper .teaser-meta {
 						left: 0;
 						right: unset;
-					}
-
-					.teaser-content-wrapper {
-						left: -2.5rem;
 					}
 				}
 			}
@@ -757,64 +735,13 @@
 
 		.fau-teaser-grid {
 			overflow: hidden;
+			gap: unset;
 
 			&.list-item,
 			&.layout-3m {
 				grid-template-columns: 1fr;
 
 				.teaser-item {
-					flex-direction: row;
-
-					.teaser-image-wrapper {
-
-						.teaser-image {
-							height: 9.375rem;
-							min-width: 9.375rem;
-						}
-
-						.teaser-meta {
-							width: 4.25rem;
-							height: 4.25rem;
-
-							time {
-								top: 0.5rem;
-
-								.date-day {
-									font-size: 1.5rem;
-								}
-
-								.date-month-year {
-									font-size: 0.875rem;
-									font-weight: 400;
-								}
-							}
-						}
-					}
-
-					.teaser-content-wrapper {
-						width: 100%;
-						bottom: unset;
-						left: -2.5rem;
-
-						.teaser-content {
-							width: calc(100% + 2.5rem);
-							padding: var(--Spacing-4x) var(--Spacing-4x);
-							padding-right: 0;
-							box-sizing: border-box;
-
-							.content-column {
-
-								h2,
-								h3,
-								h4,
-								h5,
-								h6 {
-									font-size: 1rem;
-									margin-bottom: 0;
-								}
-							}
-						}
-					}
 
 					// Display pages
 					&.page-teaser .teaser-content-wrapper .teaser-content .content-column h2,
@@ -826,10 +753,6 @@
 					}
 				}
 
-				.excerpt {
-					display: none;
-				}
-
 				&[data-variant="page"] .teaser-item .teaser-content-wrapper .teaser-content .content-column {
 					display: flex;
 					align-items: center;
@@ -838,6 +761,7 @@
 
 			&.layout-l2s,
 			&.layout-2sl {
+				gap: unset;
 
 				.teaser-group {
 					grid-template-rows: 1fr;
@@ -847,10 +771,78 @@
 						"a"
 						"b";
 				}
-			}
 
-			&.layout-l2s .teaser-item:first-child {
-				margin-bottom: -2.5rem; // Counter teaser-content offset for first item
+				.teaser-item .teaser-content-wrapper .teaser-content {
+					padding: var(--Spacing-4x) 0 var(--Spacing-4x) var(--Spacing-4x);
+				}
+
+				.teaser-group-item-2,
+				.teaser-group-item-3 {
+
+					.teaser-item {
+						flex-direction: column;
+
+						.teaser-content-wrapper {
+							width: 90%;
+							bottom: 2.5rem;
+
+							.teaser-content {
+								width: unset;
+							}
+						}
+
+						.teaser-image-wrapper {
+							width: 100%;
+
+							.teaser-image img {
+								min-height: unset;
+							}
+						}
+					}
+
+					.teaser-item .post-teaser[data-variant="post"] {
+
+						.content-column {
+
+							h2,
+							h3,
+							h4,
+							h5,
+							h6 {
+								margin: var(--Spacing-3x) 0;
+							}
+
+							.excerpt {
+								display: -webkit-box;
+							}
+						}
+					}
+				}
+
+				.teaser-group-item-3 .teaser-item {
+
+					.teaser-image-wrapper {
+
+						.teaser-meta {
+							left: 0;
+						}
+					}
+				}
+
+				.teaser-group-item-2 .teaser-item .teaser-content-wrapper {
+					left: unset;
+				}
+
+				.teaser-group-item-1 .teaser-item {
+
+					.teaser-content-wrapper .teaser-content .content-column h2,
+					.teaser-content-wrapper .teaser-content .content-column h3,
+					.teaser-content-wrapper .teaser-content .content-column h4,
+					.teaser-content-wrapper .teaser-content .content-column h5,
+					.teaser-content-wrapper .teaser-content .content-column h6 {
+						font-size: 1.25rem;
+					}
+				}
 			}
 
 			&.layout-1xl {
@@ -860,7 +852,7 @@
 					flex-direction: column;
 
 					.teaser-content-wrapper {
-						left: unset;
+						margin-left: unset;
 						bottom: 2.5rem;
 
 						.teaser-content .content-column .clamp-3 [aria-hidden="true"] {
@@ -874,18 +866,6 @@
 			&.layout-2s-left,
 			&.layout-2s-right {
 				grid-template-columns: 1fr;
-			}
-
-			&.layout-2s-left,
-			&.layout-2s-right {
-
-				.teaser-item .teaser-content-wrapper .teaser-content .content-column h2,
-				.teaser-item .teaser-content-wrapper .teaser-content .content-column h3,
-				.teaser-item .teaser-content-wrapper .teaser-content .content-column h4,
-				.teaser-item .teaser-content-wrapper .teaser-content .content-column h5,
-				.teaser-item .teaser-content-wrapper .teaser-content .content-column h6 {
-					font-size: 1rem;
-				}
 			}
 
 			&.layout-2sl {
