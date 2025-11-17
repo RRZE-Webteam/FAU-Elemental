@@ -64,12 +64,12 @@ add_action('init', function () {
 
     // Configure Search Modal (Special modal for search functionality)
     $menu_modal->register_modal('search', array(
-        'theme_locations' => array(), // No menu locations needed for search
+        'theme_locations' => array('search_options_menu'), // Search options menu below search block
         'use_global_menu' => false,
         'modal_class' => 'menu-modal',
         'menu_class' => 'menu-modal__menu',
         'aria_label' => __('Search', 'fau-elemental'),
-        'depth' => 0,
+        'depth' => 1,
         'walker' => null,
         'show_back_button' => false,
         'show_close_button' => true,

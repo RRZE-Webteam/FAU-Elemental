@@ -730,8 +730,18 @@ html:has(body.modal-open) {
 		margin-bottom: var(--Spacing-14x);
 	}
 
-	&__search-heading {
+	&__search-heading,
+	&__search-options-heading {
 		padding: 0 var(--Spacing-6x);
+	}
+
+	// Search modal specific styles
+	&#search-modal {
+
+		.menu-modal__menu li a {
+			font-size: 1rem;
+			font-weight: 600;
+		}
 	}
 
 	&__submenu-toggle {
