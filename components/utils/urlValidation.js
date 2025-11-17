@@ -33,6 +33,60 @@ export const validateUrl = ( url, required = false ) => {
 		};
 	}
 
+	const urlLower = url.toLowerCase();
+
+	// Special cases: mailto:, .ics files, and feed URLs
+	// Allow mailto: links
+	if ( urlLower.startsWith( 'mailto:' ) ) {
+		// Validate mailto: format (mailto:email@domain.com)
+		if ( /^mailto:[^\s@]+@[^\s@]+\.[^\s@]+/.test( url ) ) {
+			return { isValid: true, message: '' };
+		}
+		return {
+			isValid: false,
+			message: __( 'Please enter a valid email address', 'fau-elemental' ),
+		};
+	}
+
+	// Allow feed URLs (contains /feed)
+	if ( urlLower.includes( '/feed' ) ) {
+		// If no scheme, add https:// for validation
+		let urlToValidate = url;
+		if ( ! /^https?:\/\//.test( url ) ) {
+			urlToValidate = 'https://' + url;
+		}
+		// Basic validation - check if it looks like a URL
+		try {
+			new URL( urlToValidate );
+			return { isValid: true, message: '' };
+		} catch {
+			return {
+				isValid: false,
+				message: __( 'Please enter a valid URL', 'fau-elemental' ),
+			};
+		}
+	}
+
+	// Allow .ics files (calendar files)
+	if ( urlLower.endsWith( '.ics' ) ) {
+		// If no scheme, add https:// for validation
+		let urlToValidate = url;
+		if ( ! /^https?:\/\//.test( url ) ) {
+			urlToValidate = 'https://' + url;
+		}
+		// Basic validation - check if it looks like a URL
+		try {
+			new URL( urlToValidate );
+			return { isValid: true, message: '' };
+		} catch {
+			return {
+				isValid: false,
+				message: __( 'Please enter a valid URL', 'fau-elemental' ),
+			};
+		}
+	}
+
+	// For regular URLs, use standard validation
 	if ( ! isURL( url ) ) {
 		return {
 			isValid: false,
