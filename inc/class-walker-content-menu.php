@@ -45,6 +45,10 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
             return;
         }
         
+        if ($depth >= 2) {
+            return;
+        }
+        
         // Get menu item details
         $title = apply_filters('the_title', $item->title, $item->ID);
         $permalink = !empty($item->url) ? $item->url : '';
@@ -111,6 +115,10 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
             return;
         }
 
+        if ($depth >= 2) {
+            return;
+        }
+
         if ($depth === 0) {
             // Parent item (top level)
             $output .= $indent . "\t</div></div>\n";
@@ -129,6 +137,10 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
             return;
         }
 
+        if ($depth >= 1) {
+            return;
+        }
+
         $indent = str_repeat("\t", $depth + 3);
         $output .= "$indent<ul>\n";
     }
@@ -138,6 +150,10 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
      */
     public function end_lvl(&$output, $depth = 0, $args = array()) {
         if (!$this->settings['showsubs']) {
+            return;
+        }
+
+        if ($depth >= 1) {
             return;
         }
 
@@ -216,6 +232,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 'link_before' => '',
                 'link_after' => '',
                 'item_spacing' => 'discard',
+                'depth' => 2,
                 'walker' => new Walker_Content_Menu($settings)
             )
         );
