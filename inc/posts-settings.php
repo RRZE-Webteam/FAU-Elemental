@@ -77,7 +77,8 @@ add_action('save_post', 'save_post_header_options_meta_box');
  * Add caption to post featured image blocks and wrap img in div
  * 
  * This adds the caption from the media library to the featured image
- * when rendered with the post-featured-image block and wraps the img element in a div
+ * when rendered with the post-featured-image block and wraps the img element in a div.
+ * Also fixes the image size to use larger images with proper responsive sizes attribute.
  *
  * @param string $block_content The block content.
  * @param array  $block         The full block, including name and attributes.
@@ -91,13 +92,6 @@ function fau_add_caption_to_featured_image($block_content, $block) {
             return $block_content;
         }
         
-        // Wrap the img element in a div
-        $block_content = preg_replace(
-            '/(<img[^>]*>)/',
-            '<div class="wp-block-post-featured-image__wrapper">$1</div>',
-            $block_content
-        );
-        
         // Get the post ID and the attachment ID
         $post_id = get_the_ID();
         $thumbnail_id = get_post_thumbnail_id($post_id);
@@ -106,11 +100,44 @@ function fau_add_caption_to_featured_image($block_content, $block) {
             return $block_content;
         }
         
-        // Get the attachment post to retrieve the caption
+        // Get the attachment post to retrieve the caption and alt text
         $attachment = get_post($thumbnail_id);
         if (!$attachment) {
             return $block_content;
         }
+        
+        // Get alt text from attachment meta or use post title as fallback
+        $alt_text = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
+        if (empty($alt_text)) {
+            $alt_text = get_the_title($post_id);
+        }
+        
+        // Generate responsive image with proper size and sizes attribute
+        // Use 'large' size as base, with sizes attribute for full-width layout
+        // The sizes attribute matches the layout: full width on mobile, constrained on desktop
+        // Max width is 1094px (base-max-width) but use 1320px to account for high-DPI displays
+        $responsive_image = wp_get_attachment_image($thumbnail_id, 'large', false, [
+            'alt' => $alt_text,
+            'sizes' => '(max-width: 999px) 100vw, (max-width: 1199px) 90vw, 1320px',
+            'loading' => 'eager',
+            'fetchpriority' => 'high',
+        ]);
+        
+        if (empty($responsive_image)) {
+            return $block_content;
+        }
+        
+        // Wrap the responsive image in a div
+        $wrapped_image = '<div class="wp-block-post-featured-image__wrapper">' . $responsive_image . '</div>';
+        
+        // Replace the img tag with our new responsive image
+        // This preserves the figure structure and any existing classes
+        $block_content = preg_replace(
+            '/<img[^>]*>/',
+            $wrapped_image,
+            $block_content,
+            1
+        );
         
         // Get the caption from the attachment's excerpt
         $caption = $attachment->post_excerpt;
