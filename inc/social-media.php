@@ -171,7 +171,7 @@ function faue_render_social_media_links($mode = 'auto') {
         }
         
         echo '<li>';
-        echo '<a href="' . esc_url($url) . '" class="' . esc_attr($css_class) . '" target="_blank" rel="noopener"' . $data_attr . '>';
+        echo '<a href="' . esc_url($url) . '" class="' . esc_attr($css_class) . '"' . $data_attr . '>';
         echo '<span class="sr-only">' . esc_html($label) . '</span>';
         echo '</a>';
         echo '</li>';
@@ -190,7 +190,7 @@ class FAU_Social_Menu_Walker extends Walker_Nav_Menu {
         $label = $platform ? $platforms[$platform] : $item->title;
         
         $output .= '<li>';
-        $output .= '<a href="' . esc_url($item->url) . '" class="' . esc_attr($platform) . '" target="_blank" rel="noopener">';
+        $output .= '<a href="' . esc_url($item->url) . '" class="' . esc_attr($platform) . '">';
         $output .= '<span class="sr-only">' . esc_html($label) . '</span>';
         $output .= '</a>';
     }
