@@ -44,7 +44,10 @@ export const validateUrl = ( url, required = false ) => {
 		}
 		return {
 			isValid: false,
-			message: __( 'Please enter a valid email address', 'fau-elemental' ),
+			message: __(
+				'Please enter a valid email address',
+				'fau-elemental'
+			),
 		};
 	}
 
