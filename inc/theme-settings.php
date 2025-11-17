@@ -34,6 +34,21 @@ function faue_customize_register($wp_customize) {
         'priority' => 15,
     ]);
 
+    // Search Options Menu Heading Setting
+    $wp_customize->add_setting('faue_search_options_heading', [
+        'default' => __('Additional search options', 'fau-elemental'),
+        'transport' => 'refresh',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    
+    $wp_customize->add_control('faue_search_options_heading', [
+        'label' => __('Search Options Menu Heading', 'fau-elemental'),
+        'description' => __('Heading text displayed above the search options menu in the search modal', 'fau-elemental'),
+        'section' => 'faue_header_settings',
+        'type' => 'text',
+        'priority' => 20,
+    ]);
+
     // Website Type Setting
     $wp_customize->add_setting('faue_website_type', array(
         'default'           => faue_get_default('faue_website_type'),
