@@ -349,6 +349,22 @@
 						align-items: center;
 					}
 				}
+
+				.teaser-group-item-1 .teaser-item {
+
+					.teaser-content-wrapper .teaser-content .content-column {
+						flex-direction: column;
+						align-items: flex-start;
+
+						h2,
+						h3,
+						h4,
+						h5,
+						h6 {
+							margin-bottom: var(--Spacing-3x);
+						}
+					}
+				}
 			}
 		}
 
