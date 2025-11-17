@@ -147,9 +147,6 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
             return;
         }
 
-        if ($depth >= 1) {
-            return;
-        }
 
         $indent = str_repeat("\t", $depth + 3);
         $output .= "$indent</ul>\n";
