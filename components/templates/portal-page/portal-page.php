@@ -39,10 +39,12 @@ $show_subs = !get_post_meta($page_id, 'portal_menu_hide_subs', true);
 $no_thumbs = get_post_meta($page_id, 'portal_menu_hide_thumbs', true) ?: false;
 $is_dark = get_post_meta($page_id, 'portal_menu_is_dark', true) ?: false;
 $hide_title_meta_key = FAU_Elemental_Portal_Menu_Config::get_meta_field('hide_title');
-$hide_title_raw = $hide_title_meta_key ? get_post_meta($page_id, $hide_title_meta_key, true) : '';
-$hide_title = ($hide_title_raw === '' && $hide_title_meta_key)
-    ? (bool) FAU_Elemental_Portal_Menu_Config::get_default('hide_title')
-    : (bool) $hide_title_raw;
+if ($hide_title_meta_key && metadata_exists('post', $page_id, $hide_title_meta_key)) {
+    $hide_title_raw = get_post_meta($page_id, $hide_title_meta_key, true);
+    $hide_title = (bool) $hide_title_raw;
+} else {
+    $hide_title = (bool) FAU_Elemental_Portal_Menu_Config::get_default('hide_title');
+}
 ?>
 
 <main id="main" class="site-main">

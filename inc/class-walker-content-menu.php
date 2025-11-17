@@ -110,7 +110,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
         if (!$this->settings['showsubs'] && $depth !== 0) {
             return;
         }
-
+    
         if ($depth === 0) {
             // Parent item (top level)
             $output .= $indent . "\t</div></div>\n";
@@ -216,6 +216,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 'link_before' => '',
                 'link_after' => '',
                 'item_spacing' => 'discard',
+                'depth' => 2,
                 'walker' => new Walker_Content_Menu($settings)
             )
         );

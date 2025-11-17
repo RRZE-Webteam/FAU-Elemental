@@ -102,6 +102,7 @@ function faue_get_social_media_menu_links() {
 function faue_extract_platform_from_menu_item($item) {
     $platforms = faue_get_combined_social_platforms();
     $platform_keys = array_keys($platforms);
+    $url = strtolower($item->url);
     
     // Check CSS classes for platform name
     foreach ($item->classes as $class) {
@@ -118,9 +119,48 @@ function faue_extract_platform_from_menu_item($item) {
         }
     }
     
+    // Check for special URL patterns first
+    if (strpos($url, 'mailto:') === 0) {
+        return 'email';
+    }
+    
+    // Check for feed URLs (contains /feed)
+    if (strpos($url, '/feed') !== false) {
+        return 'rss';
+    }
+    
+    if (substr($url, -4) === '.ics') {
+        return 'calendar';
+    }
+    
+    // Domain-based detection mapping
+    $domain_mapping = array(
+        'bsky.app' => 'bluesky',
+        'twitter.com' => 'twitter',
+        'x.com' => 'twitter',
+        'pinterest.com' => 'pinterest',
+        'reddit.com' => 'reddit',
+        'community.fau.de' => 'community-fau',
+        'indeed.com' => 'indeed',
+        'whatsapp.com' => 'whatsapp',
+        'wa.me' => 'whatsapp',
+        'discord.com' => 'discord',
+        'discord.gg' => 'discord',
+        'twitch.tv' => 'twitch',
+        'arxiv.org' => 'arxiv',
+        'academia.edu' => 'academia'
+    );
+    
+    // Check URL for domain matches
+    foreach ($domain_mapping as $domain => $platform) {
+        if (strpos($url, $domain) !== false) {
+            return $platform;
+        }
+    }
+    
     // Fallback: Check URL for platform name (backward compatibility)
     foreach ($platform_keys as $platform) {
-        if (strpos($item->url, $platform) !== false) {
+        if (strpos($url, $platform) !== false) {
             return $platform;
         }
     }
@@ -171,7 +211,7 @@ function faue_render_social_media_links($mode = 'auto') {
         }
         
         echo '<li>';
-        echo '<a href="' . esc_url($url) . '" class="' . esc_attr($css_class) . '" target="_blank" rel="noopener"' . $data_attr . '>';
+        echo '<a href="' . esc_url($url) . '" class="' . esc_attr($css_class) . '"' . $data_attr . '>';
         echo '<span class="sr-only">' . esc_html($label) . '</span>';
         echo '</a>';
         echo '</li>';
@@ -190,7 +230,7 @@ class FAU_Social_Menu_Walker extends Walker_Nav_Menu {
         $label = $platform ? $platforms[$platform] : $item->title;
         
         $output .= '<li>';
-        $output .= '<a href="' . esc_url($item->url) . '" class="' . esc_attr($platform) . '" target="_blank" rel="noopener">';
+        $output .= '<a href="' . esc_url($item->url) . '" class="' . esc_attr($platform) . '">';
         $output .= '<span class="sr-only">' . esc_html($label) . '</span>';
         $output .= '</a>';
     }
