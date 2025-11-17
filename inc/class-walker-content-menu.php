@@ -45,7 +45,6 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
             return;
         }
         
-        
         // Get menu item details
         $title = apply_filters('the_title', $item->title, $item->ID);
         $permalink = !empty($item->url) ? $item->url : '';
@@ -111,7 +110,6 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
         if (!$this->settings['showsubs'] && $depth !== 0) {
             return;
         }
-
     
         if ($depth === 0) {
             // Parent item (top level)
@@ -142,7 +140,6 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
         if (!$this->settings['showsubs']) {
             return;
         }
-
 
         $indent = str_repeat("\t", $depth + 3);
         $output .= "$indent</ul>\n";
