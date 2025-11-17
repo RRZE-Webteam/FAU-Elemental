@@ -65,10 +65,12 @@ function fau_elemental_portal_menu_meta_box_callback($post) {
     $is_dark = (bool) get_post_meta($post->ID, 'portal_menu_is_dark', true);
 
     $hide_title_meta_key = FAU_Elemental_Portal_Menu_Config::get_meta_field('hide_title');
-    $hide_title_raw = $hide_title_meta_key ? get_post_meta($post->ID, $hide_title_meta_key, true) : '';
-    $hide_title = ($hide_title_raw === '' && $hide_title_meta_key)
-        ? (bool) FAU_Elemental_Portal_Menu_Config::get_default('hide_title')
-        : (bool) $hide_title_raw;
+    if ($hide_title_meta_key && metadata_exists('post', $post->ID, $hide_title_meta_key)) {
+        $hide_title_raw = get_post_meta($post->ID, $hide_title_meta_key, true);
+        $hide_title = (bool) $hide_title_raw;
+    } else {
+        $hide_title = (bool) FAU_Elemental_Portal_Menu_Config::get_default('hide_title');
+    }
 
     // Get all menus
     $menus = fau_elemental_get_nav_menus();
