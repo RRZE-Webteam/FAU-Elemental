@@ -15,8 +15,7 @@ footer.wp-block-template-part {
 	.footer-meta-menu,
 	.footer-important-links,
 	.social-links,
-	.menu-item,
-	.copyright-info-list {
+	.menu-item {
 
 		a {
 
@@ -56,6 +55,27 @@ footer.wp-block-template-part {
 		}
 	}
 
+	// Copyright info list links - allow wrapping without fixed height
+	.copyright-info-list {
+
+		a {
+			display: inline;
+			height: auto;
+			min-height: var(--accessible-target-size);
+			position: relative;
+			font-size: 1rem;
+			line-height: var(--base-line-height);
+			font-weight: 400;
+			text-decoration: none;
+			color: var(--FAU-Col-FAU-Weiss-100);
+			word-break: break-word;
+			overflow-wrap: anywhere;
+			white-space: normal;
+
+
+		}
+	}
+
 	// More space between icon and underline for socials
 	.social-links a::after {
 		bottom: -0.5rem;
@@ -81,6 +101,7 @@ footer.wp-block-template-part {
 			margin-bottom: var(--Spacing-2x);
 			color: var(--FAU-Col-FAU-Weiss-100);
 			font-size: var(--H-Heading-2);
+			line-height: var(--heading-line-height);
 			font-weight: 700;
 		}
 
@@ -178,6 +199,7 @@ footer.wp-block-template-part {
 				color: var(--FAU-Col-FAU-Weiss-100);
 				font-size: 1rem;
 				font-weight: 500;
+				line-height: var(--footer-logo-tagline-line-height);
 				word-break: keep-all;
 			}
 		}
@@ -213,6 +235,22 @@ footer.wp-block-template-part {
 							display: none; // no list style
 						}
 					}
+				}
+			}
+
+			.footer-bottom-bottom {
+
+				.footer-left {
+					flex: 1 1 0;
+					min-width: 20rem;
+				}
+
+				.footer-right {
+					flex: 0 1 auto;
+				}
+
+				.social-links {
+					flex-wrap: wrap;
 				}
 			}
 
@@ -460,5 +498,13 @@ footer.wp-block-template-part {
 		.footer-bottom {
 			padding: var(--Spacing-6x) var(--Spacing-5x);
 		}
+	}
+}
+
+// Desktop: increase min-width for copyright info
+@include bigger-than("small") {
+
+	.site-footer .footer-bottom .footer-bottom-wrapper .footer-bottom-bottom .footer-left {
+		min-width: 40rem;
 	}
 }

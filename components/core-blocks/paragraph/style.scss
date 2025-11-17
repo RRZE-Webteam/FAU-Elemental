@@ -69,7 +69,7 @@ a {
 .is-style-intro-text {
 	font-size: var(--P-Intro-Text);
 	font-weight: 600;
-	line-height: 1.6;
+	line-height: var(--body-text-line-height);
 }
 
 .is-style-small-text {

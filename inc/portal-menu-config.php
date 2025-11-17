@@ -41,7 +41,7 @@ class FAU_Elemental_Portal_Menu_Config {
         'hide_subs' => 'portal_menu_hide_subs',
         'hide_thumbs' => 'portal_menu_hide_thumbs',
         'is_dark' => 'portal_menu_is_dark',
-        'hide_title' => 'portal_menu_hide_title'
+        'hide_title' => 'portal_menu_hide_title_meta'
     ];
     
     /**
