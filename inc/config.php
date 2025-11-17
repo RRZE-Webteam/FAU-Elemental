@@ -51,7 +51,20 @@ $faue_social_platforms = array(
     'bluesky' => 'Bluesky',
     'youtube' => 'YouTube',
     'tiktok' => 'TikTok',
-    'threads' => 'Threads'
+    'threads' => 'Threads',
+    'twitter' => 'Twitter',
+    'pinterest' => 'Pinterest',
+    'reddit' => 'Reddit',
+    'community-fau' => 'FAU Community',
+    'indeed' => 'Indeed',
+    'whatsapp' => 'WhatsApp',
+    'discord' => 'Discord',
+    'twitch' => 'Twitch',
+    'arxiv' => 'arXiv',
+    'academia' => 'Academia.edu',
+    'email' => 'E-Mail',
+    'rss' => 'RSS Feed',
+    'calendar' => 'Calendar'
 );
 
 // Helper function to get default values

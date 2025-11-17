@@ -345,6 +345,62 @@ footer.wp-block-template-part {
 				background-image: var(--icon-threads);
 			}
 
+			&.twitter {
+				background-image: var(--icon-twitter);
+			}
+
+			&.pinterest {
+				background-image: var(--icon-pinterest);
+			}
+
+			&.reddit {
+				background-image: var(--icon-reddit);
+			}
+
+			&.community-fau {
+				background-image: var(--icon-community-fau);
+			}
+
+			&.indeed {
+				background-image: var(--icon-indeed);
+				background-size: contain;
+			}
+
+			&.whatsapp {
+				background-image: var(--icon-whatsapp);
+			}
+
+			&.discord {
+				background-image: var(--icon-discord);
+			}
+
+			&.twitch {
+				background-image: var(--icon-twitch);
+			}
+
+			&.arxiv {
+				background-image: var(--icon-arxiv);
+			}
+
+			&.academia {
+				background-image: var(--icon-academia);
+				background-size: contain;
+			}
+
+			&.email {
+				background-image: var(--icon-email);
+				background-size: contain;
+			}
+
+			&.rss {
+				background-image: var(--icon-rss);
+			}
+
+			&.calendar {
+				background-image: var(--icon-calendar-ics);
+				background-size: contain;
+			}
+
 			// Custom social media icons (added via admin)
 			// Background images are set via JavaScript from data-custom-icon attribute
 			&.custom-icon {
