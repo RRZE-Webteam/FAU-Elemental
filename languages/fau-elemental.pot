@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.4.31\n"
+"Project-Id-Version: FAU-Elemental 0.4.32\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-17T13:24:06+00:00\n"
+"POT-Creation-Date: 2025-11-17T14:35:14+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -328,83 +328,88 @@ msgstr ""
 msgid "Search all pages and documents:"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:323
+#: components/template-parts/navigation/menu-modal.php:260
+#: components/template-parts/search-results/search-results.php:437
+msgid "Additional search options"
+msgstr ""
+
+#: components/template-parts/navigation/menu-modal.php:338
 msgid "No menu items found."
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:369
+#: components/template-parts/navigation/menu-modal.php:384
 msgid "Use Tab to navigate through menu items, Enter to select, Escape to close, or use the Close button."
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:378
+#: components/template-parts/navigation/menu-modal.php:393
 msgid "Back to main menu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:380
+#: components/template-parts/navigation/menu-modal.php:395
 msgid "Back"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:385
+#: components/template-parts/navigation/menu-modal.php:400
 msgid "Close menu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:386
+#: components/template-parts/navigation/menu-modal.php:401
 msgid "Close"
 msgstr ""
 
 #. translators: title of the submenu
-#: components/template-parts/navigation/menu-modal.php:487
-#: components/template-parts/navigation/menu-modal.php:560
+#: components/template-parts/navigation/menu-modal.php:502
+#: components/template-parts/navigation/menu-modal.php:575
 #: components/template-parts/navigation/mixed-navigation-walker.php:479
 #: components/template-parts/navigation/mixed-navigation-walker.php:681
 msgid "Open %s submenu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:596
+#: components/template-parts/navigation/menu-modal.php:611
 msgid "Overview:"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:597
+#: components/template-parts/navigation/menu-modal.php:612
 msgid "Menu opened"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:598
+#: components/template-parts/navigation/menu-modal.php:613
 msgid "Menu closed"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:599
+#: components/template-parts/navigation/menu-modal.php:614
 msgid "Navigated to"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:600
+#: components/template-parts/navigation/menu-modal.php:615
 msgid "submenu"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:601
+#: components/template-parts/navigation/menu-modal.php:616
 msgid "submenu collapsed"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:602
+#: components/template-parts/navigation/menu-modal.php:617
 msgid "submenu expanded"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:603
+#: components/template-parts/navigation/menu-modal.php:618
 msgid "Navigated back"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:604
+#: components/template-parts/navigation/menu-modal.php:619
 msgid "Moved to last menu item"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:605
+#: components/template-parts/navigation/menu-modal.php:620
 msgid "Moved to close button"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:606
+#: components/template-parts/navigation/menu-modal.php:621
 msgid "Menu breadcrumbs"
 msgstr ""
 
-#: components/template-parts/navigation/menu-modal.php:607
+#: components/template-parts/navigation/menu-modal.php:622
 msgid "Go to"
 msgstr ""
 
@@ -559,10 +564,6 @@ msgstr ""
 
 #: components/template-parts/search-results/search-results.php:430
 msgid "Unfortunately, we were unable to find any matching search results for the following query:"
-msgstr ""
-
-#: components/template-parts/search-results/search-results.php:437
-msgid "Additional search options"
 msgstr ""
 
 #: components/templates/pages/archive-grid-util.php:14
