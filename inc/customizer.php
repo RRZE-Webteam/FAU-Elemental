@@ -84,7 +84,45 @@ function faue_sanitize_social_media_url($url) {
         return '';
     }
     
-    // Ensure the URL has a proper scheme
+    // Special cases: mailto:, .ics files, and feed URLs
+    $url_lower = strtolower($url);
+    
+    // Allow mailto: links
+    if (strpos($url_lower, 'mailto:') === 0) {
+        // Validate mailto: format (mailto:email@domain.com)
+        if (preg_match('/^mailto:[^\s@]+@[^\s@]+\.[^\s@]+/', $url)) {
+            return esc_url_raw($url);
+        }
+        return '';
+    }
+    
+    // Allow feed URLs (contains /feed)
+    if (strpos($url_lower, '/feed') !== false) {
+        // If no scheme, add https://
+        if (!preg_match('/^https?:\/\//', $url)) {
+            $url = 'https://' . $url;
+        }
+        // Basic validation - check if it looks like a URL
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            return esc_url_raw($url);
+        }
+        return '';
+    }
+    
+    // Allow .ics files (calendar files)
+    if (substr($url_lower, -4) === '.ics') {
+        // If no scheme, add https://
+        if (!preg_match('/^https?:\/\//', $url)) {
+            $url = 'https://' . $url;
+        }
+        // Basic validation - check if it looks like a URL
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            return esc_url_raw($url);
+        }
+        return '';
+    }
+    
+    // For regular URLs, ensure the URL has a proper scheme
     if (!preg_match('/^https?:\/\//', $url)) {
         // If no scheme, add https://
         $url = 'https://' . $url;
