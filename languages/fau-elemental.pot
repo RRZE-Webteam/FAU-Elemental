@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.4.28\n"
+"Project-Id-Version: FAU-Elemental 0.4.30\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-17T11:02:11+00:00\n"
+"POT-Creation-Date: 2025-11-17T12:04:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -315,7 +315,7 @@ msgid "Open menu"
 msgstr ""
 
 #: components/template-parts/navigation/main-navigation.php:50
-#: inc/portal-page-settings.php:79
+#: inc/portal-page-settings.php:81
 #: components/blocks/fau-portalmenu/edit.js:64
 msgid "Menu"
 msgstr ""
@@ -1084,24 +1084,24 @@ msgstr ""
 msgid "Portal Menu Settings"
 msgstr ""
 
-#: inc/portal-page-settings.php:81
+#: inc/portal-page-settings.php:83
 msgid "- Select Menu -"
 msgstr ""
 
-#: inc/portal-page-settings.php:92
+#: inc/portal-page-settings.php:94
 msgid "Hide Submenus"
 msgstr ""
 
-#: inc/portal-page-settings.php:97
+#: inc/portal-page-settings.php:99
 #: components/blocks/fau-portalmenu/edit.js:92
 msgid "Hide Thumbnails"
 msgstr ""
 
-#: inc/portal-page-settings.php:102
+#: inc/portal-page-settings.php:104
 msgid "Dark Style"
 msgstr ""
 
-#: inc/portal-page-settings.php:107
+#: inc/portal-page-settings.php:109
 msgid "Hide Page Title (use portal hero)"
 msgstr ""
 
