@@ -686,6 +686,7 @@ figure:has(> img)::before {
 	background-color: rgba(0, 0, 0, 0.05);
 	width: 100%;
 	height: 100%;
+	z-index: 1;
 }
 
 // Basic form style - Exceptions for CF7
