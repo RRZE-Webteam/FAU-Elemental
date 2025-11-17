@@ -564,7 +564,6 @@ class Menu_Modal_Hierarchy_Walker extends Walker_Nav_Menu {
         } else {
             // For items without children, use regular links
             $attributes = ! empty($item->attr_title) ? ' title="'  . esc_attr($item->attr_title) .'"' : '';
-            $attributes .= ! empty($item->target)     ? ' target="' . esc_attr($item->target     ) .'"' : '';
             $attributes .= ! empty($item->xfn)        ? ' rel="'    . esc_attr($item->xfn        ) .'"' : '';
             $attributes .= ! empty($item->url)        ? ' href="'   . $escaped_item_url_full .'"' : '';
 
