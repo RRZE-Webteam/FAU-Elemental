@@ -105,9 +105,14 @@ function fau_elemental_template_include($template) {
             }
         }
         
-        // If the requested template isn't found but the page has a portal menu ID
-        // Try to use the portal template
-        if (get_post_meta(get_the_ID(), 'portal_menu_id', true)) {
+        // Only force portal template if:
+        // 1. User has portal_menu_id set
+        // 2. User hasn't explicitly cleared it
+        // 3. Current template is default or empty (user hasn't explicitly chosen another template)
+        $menu_id = get_post_meta(get_the_ID(), 'portal_menu_id', true);
+        $explicitly_cleared = get_post_meta(get_the_ID(), 'portal_menu_explicitly_cleared', true);
+        
+        if ($menu_id && !$explicitly_cleared && (empty($template_slug) || $template_slug === 'default')) {
             $portal_template = locate_template([FAU_Elemental_Portal_Menu_Config::TEMPLATE]);
             if (!empty($portal_template)) {
                 error_log('FAU Elemental: Portal menu ID found, using template: ' . FAU_Elemental_Portal_Menu_Config::TEMPLATE);
