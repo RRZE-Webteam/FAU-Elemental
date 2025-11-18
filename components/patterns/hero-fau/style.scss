@@ -30,7 +30,7 @@
 
 				.hero-front-page-title {
 					font-size: 3.85rem;
-					line-height: var(--heading-line-height);
+					line-height: var(--heading-low-line-height);
 					font-weight: 700;
 					letter-spacing: var(--letter-spacing-big);
 					padding: 0;
@@ -47,7 +47,7 @@
 		}
 
 		&__background {
-			background: linear-gradient(to top left, transparent, transparent, rgba(0, 0, 0, 0.5));
+			background: linear-gradient(to top left, transparent, transparent, rgba(0, 0, 0, 0.7));
 
 			&.has-background-dim.has-background-dim-0 {
 				opacity: 1; // Always show overlay

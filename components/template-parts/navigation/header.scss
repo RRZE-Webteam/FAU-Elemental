@@ -341,7 +341,7 @@
 					top: -0.14rem;
 					font-size: 0.775rem;
 					color: var(--FAU-Col-FAU-Weiss-100);
-					line-height: var(--header-logo-text-line-height);
+					line-height: var(--heading-low-line-height);
 					font-weight: 600;
 					letter-spacing: var(--letter-spacing-small);
 
@@ -730,8 +730,27 @@ html:has(body.modal-open) {
 		margin-bottom: var(--Spacing-14x);
 	}
 
-	&__search-heading {
+	&__search-heading,
+	&__search-options-heading {
 		padding: 0 var(--Spacing-6x);
+	}
+
+	// Search modal specific styles
+	&#search-modal {
+
+		.menu-modal__menu li {
+
+			&::before,
+			&::after {
+				display: none;
+			}
+		}
+
+		.menu-modal__menu li a {
+			font-size: 1rem;
+			font-weight: 600;
+			padding: 1rem 1.5rem;
+		}
 	}
 
 	&__submenu-toggle {

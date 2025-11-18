@@ -253,6 +253,22 @@ class Menu_Modal {
                 echo do_blocks($block_content);
                 echo '</div>';
             }
+            
+            // Render search options menu below the search block
+            if (has_nav_menu('search_options_menu')) {
+                $search_options_heading = get_theme_mod('faue_search_options_heading', __('Additional search options', 'fau-elemental'));
+                echo '<div class="menu-modal__search-options">';
+                echo '<h4 class="menu-modal__search-options-heading">' . esc_html($search_options_heading) . '</h4>';
+                wp_nav_menu(array(
+                    'theme_location' => 'search_options_menu',
+                    'container' => false,
+                    'menu_class' => $config['menu_class'] . ' menu-modal__search-options-menu',
+                    'depth' => $config['depth'],
+                    'fallback_cb' => false,
+                ));
+                echo '</div>';
+            }
+            
             return;
         }
 

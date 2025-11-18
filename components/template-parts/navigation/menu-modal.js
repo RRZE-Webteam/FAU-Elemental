@@ -1048,7 +1048,9 @@
 				menuCacheKey
 			);
 
-			$menu.children( '.menu-item' ).show();
+			// Show all menu items (not just direct children) to restore items hidden during navigation
+			// Use the modal as the search scope to ensure we find all items, including nested ones
+			$modal.find( '.menu-item' ).show();
 			$menu.find( '.sub-menu' ).hide();
 			$menu.find( '.menu-item-overview' ).remove();
 			$menu.find( '.menu-modal__level-heading' ).remove();
