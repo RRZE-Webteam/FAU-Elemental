@@ -24,6 +24,7 @@
 		transition: var(--basic-animation);
 		aspect-ratio: 16/9;
 		border: none;
+		min-width: -webkit-fill-available; // fix for Safari
 
 		// Only apply hover effect when there's a link
 		&--has-link {
