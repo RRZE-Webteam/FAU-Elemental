@@ -138,9 +138,24 @@ function fau_elemental_save_portal_menu_meta_box_data($post_id) {
         return;
     }
 
-    // Save the menu ID regardless of template - it helps if they switch templates later
+    // Save or delete the menu ID based on user selection
     if (isset($_POST['portal_menu_id'])) {
-        update_post_meta($post_id, 'portal_menu_id', sanitize_text_field($_POST['portal_menu_id']));
+        $menu_id = sanitize_text_field($_POST['portal_menu_id']);
+        if (!empty($menu_id)) {
+            update_post_meta($post_id, 'portal_menu_id', $menu_id);
+            // Clear the explicitly cleared flag if user selected a menu
+            delete_post_meta($post_id, 'portal_menu_explicitly_cleared');
+            // Delete old metadata since user has explicitly selected a new menu
+            delete_post_meta($post_id, 'portalmenu-slug');
+            delete_post_meta($post_id, 'portalmenu-slug_oben');
+        } else {
+            // User explicitly cleared the menu - delete it and mark as cleared
+            delete_post_meta($post_id, 'portal_menu_id');
+            // Delete old metadata to prevent future auto-migrations
+            delete_post_meta($post_id, 'portalmenu-slug');
+            delete_post_meta($post_id, 'portalmenu-slug_oben');
+            update_post_meta($post_id, 'portal_menu_explicitly_cleared', true);
+        }
     }
 
     // Save checkboxes
