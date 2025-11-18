@@ -1,6 +1,6 @@
 @use "../../ui/mixins/mixins" as *;
 
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.mini-list-file {
 
@@ -10,7 +10,7 @@
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.mini-list-file {
 

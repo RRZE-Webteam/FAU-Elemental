@@ -20,7 +20,7 @@ div.wp-block-file {
 			border: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 		}
 
-		@include smaller-or-equals("x-small") {
+		@include smaller-than("x-small") {
 			gap: var(--Spacing-4x);
 			padding: var(--Spacing-4x);
 		}
@@ -37,7 +37,7 @@ div.wp-block-file {
 					color: 0.0625rem solid var(--FAU-Col-FAU-Weiss-100);
 				}
 
-				@include smaller-or-equals("small") {
+				@include smaller-than("small") {
 					word-wrap: anywhere;
 				}
 
@@ -85,7 +85,7 @@ div.wp-block-file {
 							}
 						}
 
-						@include smaller-or-equals("small") {
+						@include smaller-than("small") {
 							flex-direction: column;
 							gap: 0.3125rem;
 							padding-right: 2.5rem;

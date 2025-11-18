@@ -5,26 +5,26 @@ $breakpoint-sm: 768px;
 $breakpoint-md: 1440px;
 $breakpoint-lg: 1920px;
 
-@mixin smaller-or-equals($size) {
+@mixin smaller-than($size) {
 
 	@if $size == "xs" or $size == "x-small" {
 
-		@media (max-width: $breakpoint-xs) {
+		@media (max-width: #{$breakpoint-xs - 1px}) {
 			@content;
 		}
 	} @else if $size == "sm" or $size == "small" {
 
-		@media (max-width: $breakpoint-sm) {
+		@media (max-width: #{$breakpoint-sm - 1px}) {
 			@content;
 		}
 	} @else if $size == "md" or $size == "medium" {
 
-		@media (max-width: $breakpoint-md) {
+		@media (max-width: #{$breakpoint-md - 1px}) {
 			@content;
 		}
 	} @else if $size == "lg" or $size == "large" {
 
-		@media (max-width: $breakpoint-lg) {
+		@media (max-width: #{$breakpoint-lg - 1px}) {
 			@content;
 		}
 	} @else {
