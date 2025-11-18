@@ -1,6 +1,7 @@
 @use "../../ui/mixins/mixins" as *;
 
 .post-header {
+	margin-bottom: var(--Spacing-8x);
 
 	.post-header-content {
 		max-width: var(--small-max-width);
@@ -23,7 +24,6 @@
 
 	.wp-block-post-featured-image {
 		margin-inline: auto;
-		margin-bottom: var(--Spacing-8x);
 	}
 
 	.post-categories::before {

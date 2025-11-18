@@ -2,10 +2,32 @@
 	padding: var(--Spacing-3x) 0.6rem;
 }
 
+.fau-elemental #menu-website-modal .menu-website-modal__content {
+
+	.fau-language-switcher-wrapper::before {
+		content: none;
+	}
+
+	.rrze-multilang-widget {
+
+		ul li {
+			border-top: none;
+
+			a {
+				font-weight: 600;
+			}
+		}
+	}
+}
+
 .fau-elemental #site-navigation {
 
 	.rrze-multilang,
 	.rrze-multilang-widget {
+
+		div.notranslation {
+			display: none;
+		}
 
 		ul {
 			display: flex;
@@ -13,6 +35,10 @@
 			gap: var(--Spacing-4x);
 			margin: 0;
 			padding: 0;
+
+			li {
+				list-style: none;
+			}
 
 			li a {
 				color: var(--FAU-Col-FAU-Weiss-100);

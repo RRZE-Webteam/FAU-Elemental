@@ -1897,7 +1897,6 @@ function fau_hero_styles() {
     $css = '';
     if (!$show_text) {
         $css = '@media screen and (max-width: 991px) { .hero-mobile-optional { display: none; } }';
-        $css .= '@media screen and (max-width: 393px) { .wp-block-group.hero-content.is-layout-flow { margin-bottom: 8.125rem; } }';
     }
 
     if ($css) {
