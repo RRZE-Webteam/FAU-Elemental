@@ -145,16 +145,13 @@ function fau_elemental_save_portal_menu_meta_box_data($post_id) {
             update_post_meta($post_id, 'portal_menu_id', $menu_id);
             // Clear the explicitly cleared flag if user selected a menu
             delete_post_meta($post_id, 'portal_menu_explicitly_cleared');
-            // Delete old metadata since user has explicitly selected a new menu
-            delete_post_meta($post_id, 'portalmenu-slug');
-            delete_post_meta($post_id, 'portalmenu-slug_oben');
+            // Mark that user has explicitly set menu (prevents auto-migration)
+            update_post_meta($post_id, 'portal_menu_user_set_at', current_time('mysql'));
         } else {
             // User explicitly cleared the menu - delete it and mark as cleared
             delete_post_meta($post_id, 'portal_menu_id');
-            // Delete old metadata to prevent future auto-migrations
-            delete_post_meta($post_id, 'portalmenu-slug');
-            delete_post_meta($post_id, 'portalmenu-slug_oben');
             update_post_meta($post_id, 'portal_menu_explicitly_cleared', true);
+            update_post_meta($post_id, 'portal_menu_user_set_at', current_time('mysql'));
         }
     }
 
