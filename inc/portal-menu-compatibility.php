@@ -72,8 +72,6 @@ function fau_elemental_check_old_portal_menu_settings() {
                     if ($nothumbs) {
                         update_post_meta($post_id, 'portal_menu_hide_thumbs', true);
                     }
-                    // Delete old metadata after migration
-                    delete_post_meta($post_id, 'portalmenu-slug');
                 } else {
                     // Top menu settings
                     $nosub = get_post_meta($post_id, 'fauval_portalmenu_nosub_oben', true);
@@ -85,9 +83,10 @@ function fau_elemental_check_old_portal_menu_settings() {
                     if ($nothumbs) {
                         update_post_meta($post_id, 'portal_menu_hide_thumbs', true);
                     }
-                    // Delete old metadata after migration
-                    delete_post_meta($post_id, 'portalmenu-slug_oben');
                 }
+                
+                // Mark migration as completed - don't delete old data, just track migration
+                update_post_meta($post_id, 'portal_menu_migrated_at', current_time('mysql'));
                 
                 // Ensure the page uses the portal page template
                 update_post_meta($post_id, '_wp_page_template', FAU_Elemental_Portal_Menu_Config::TEMPLATE);
@@ -152,6 +151,8 @@ function fau_elemental_check_content_for_old_shortcodes($post_id) {
                     if ($menu_obj) {
                         // Always set portal menu ID regardless of template
                         update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
+                        // Mark migration from shortcode
+                        update_post_meta($post_id, 'portal_menu_migrated_at', current_time('mysql'));
                         error_log("Set portal_menu_id to {$menu_obj->term_id} for post $post_id from shortcode");
                         
                         // Handle other attributes
@@ -179,15 +180,21 @@ function fau_elemental_handle_portal_page_save($post_id) {
         return;
     }
     
-    // Check if user explicitly cleared the menu - if so, don't auto-migrate
+    // Check if migration already completed or user explicitly set/cleared menu
+    $migrated_at = get_post_meta($post_id, 'portal_menu_migrated_at', true);
+    $user_set_at = get_post_meta($post_id, 'portal_menu_user_set_at', true);
     $explicitly_cleared = get_post_meta($post_id, 'portal_menu_explicitly_cleared', true);
+    
+    // Skip if already migrated or user has explicitly set/cleared menu
+    if ($migrated_at || $user_set_at) {
+        return;
+    }
+    
+    // Check if user explicitly cleared the menu - if so, don't auto-migrate
     if ($explicitly_cleared) {
         // Only auto-migrate if we're using the portal template - user might have cleared it intentionally
         $template = get_post_meta($post_id, '_wp_page_template', true);
         if ($template !== FAU_Elemental_Portal_Menu_Config::TEMPLATE && $template !== 'portal-page.php') {
-            // User cleared menu and switched template - delete old metadata to prevent future migrations
-            delete_post_meta($post_id, 'portalmenu-slug');
-            delete_post_meta($post_id, 'portalmenu-slug_oben');
             return; // User cleared menu and switched template - respect that
         }
     }
@@ -215,9 +222,8 @@ function fau_elemental_handle_portal_page_save($post_id) {
                 if ($template === FAU_Elemental_Portal_Menu_Config::TEMPLATE || $template === 'portal-page.php') {
                     update_post_meta($post_id, 'portal_menu_id', $menu_obj->term_id);
                     delete_post_meta($post_id, 'portal_menu_explicitly_cleared'); // Clear the flag
-                    // Delete old metadata to prevent re-migration
-                    delete_post_meta($post_id, 'portalmenu-slug');
-                    delete_post_meta($post_id, 'portalmenu-slug_oben');
+                    // Mark migration as completed - don't delete old data
+                    update_post_meta($post_id, 'portal_menu_migrated_at', current_time('mysql'));
                     error_log("Portal menu save handler: Set portal_menu_id to {$menu_obj->term_id} for post $post_id from old slug");
                 }
             }
@@ -375,6 +381,15 @@ function fau_elemental_migrate_portal_menu_settings($post_id) {
         return false;
     }
     
+    // Skip if already migrated or user explicitly set menu
+    if (get_post_meta($post_id, 'portal_menu_migrated_at', true)) {
+        return false; // Already migrated
+    }
+    
+    if (get_post_meta($post_id, 'portal_menu_user_set_at', true)) {
+        return false; // User explicitly set menu via UI
+    }
+    
     // Check if we need to migrate
     $old_menu = get_post_meta($post_id, 'portalmenu-slug', true);
     $old_menu_top = get_post_meta($post_id, 'portalmenu-slug_oben', true);
@@ -423,9 +438,8 @@ function fau_elemental_migrate_portal_menu_settings($post_id) {
             update_post_meta($post_id, 'portal_menu_hide_subs', true);
         }
         
-        // Delete old metadata after successful migration to prevent re-migration
-        delete_post_meta($post_id, 'portalmenu-slug');
-        delete_post_meta($post_id, 'portalmenu-slug_oben');
+        // Mark migration as completed - don't delete old data, just track migration
+        update_post_meta($post_id, 'portal_menu_migrated_at', current_time('mysql'));
         
         // Check if the page is using a custom template
         $template = get_post_meta($post_id, '_wp_page_template', true);
