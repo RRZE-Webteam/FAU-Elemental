@@ -31,6 +31,9 @@ require_once get_template_directory() . '/inc/posts-settings.php';
 // Theme settings
 require_once get_template_directory() . '/inc/theme-settings.php';
 
+// Content sanitization
+require_once get_template_directory() . '/inc/content-sanitization.php';
+
 // Include post meta functionality
 require_once get_template_directory() . '/inc/post-meta.php';
 
