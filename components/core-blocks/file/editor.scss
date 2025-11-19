@@ -51,7 +51,7 @@
 						}
 					}
 
-					@include smaller-or-equals("small") {
+					@include smaller-than("small") {
 						flex-direction: column;
 						gap: 5px;
 						padding-right: 40px;

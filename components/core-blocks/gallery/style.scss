@@ -37,7 +37,7 @@ figure.wp-block-image:has(figcaption)::before {
 	.wp-block-post-content > & {
 		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
 
-		@include smaller-or-equals("xs") {
+		@include smaller-than("xs") {
 			margin-inline: var(--faue_fullbleed_inline-margin);
 		}
 	}
@@ -168,7 +168,7 @@ figure.wp-block-image:has(figcaption)::before {
 	max-width: var(--base-max-width);
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.wp-block-gallery-container {
 		padding: 0;

@@ -10,7 +10,7 @@
 	.wp-block-post-content > & {
 		margin-inline: var(--faue_wide-max-width_bleed_minimal_inline-margin);
 
-		@include smaller-or-equals("xs") {
+		@include smaller-than("xs") {
 			margin-inline: var(--faue_fullbleed_inline-margin);
 		}
 	}
@@ -215,7 +215,7 @@
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.wp-block-fau-elemental-featured-event-teaser {
 		margin: 0;

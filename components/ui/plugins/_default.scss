@@ -7,7 +7,7 @@ main:not(.archive-page, .search-results-page, .error-page, :has(.wp-block-post-c
 	--faue_content_inline-margin: max(var(--faue_minimal_inline-margin), var(--faue_small-max-width_inline-margin));
 	margin-inline: var(--faue_content_inline-margin);
 
-	@include smaller-or-equals("xs") {
+	@include smaller-than("xs") {
 		--faue_minimal_inline-margin: var(--Spacing-5x);
 	}
 }

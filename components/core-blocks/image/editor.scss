@@ -8,7 +8,7 @@
 		.is-root-container > & {
 			margin-inline: var(--faue_base-max-width_bleed_inline-margin);
 
-			@include smaller-or-equals("xs") {
+			@include smaller-than("xs") {
 				margin-inline: var(--faue_fullbleed_inline-margin);
 			}
 		}

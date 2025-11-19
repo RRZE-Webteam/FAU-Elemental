@@ -55,7 +55,7 @@ h6 {
 }
 
 // Responsive
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	h2 {
 		font-size: 1.5rem;

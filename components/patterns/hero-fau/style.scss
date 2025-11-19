@@ -110,9 +110,10 @@
 	}
 }
 
-@include smaller-or-equals("medium") {
+@include smaller-than("medium") {
 
 	.hero-fau .wp-block-cover {
+		padding: var(--Spacing-10x);
 		min-height: 46.875rem;
 
 		.wp-block-cover__inner-container .hero-content {
@@ -121,10 +122,10 @@
 	}
 }
 
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.hero-fau .wp-block-cover {
-		padding: var(--Spacing-10x);
+		padding: var(--Spacing-10x) var(--Spacing-10x) var(--Spacing-10x) 0;
 		min-height: 37rem;
 
 		.wp-block-cover__inner-container .hero-content {
@@ -142,10 +143,9 @@
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.hero-fau .wp-block-cover {
-		padding-left: unset;
 
 		.wp-block-cover__inner-container .hero-content {
 			padding: var(--Spacing-4x) var(--Spacing-5x);
