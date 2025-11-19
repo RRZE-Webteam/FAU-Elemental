@@ -87,7 +87,7 @@ ol.wp-block-list {
 			padding: 0 var(--Spacing-10x) 0 var(--Spacing-16x);
 		}
 
-		@include smaller-or-equals("x-small") {
+		@include smaller-than("x-small") {
 			padding: 0 var(--Spacing-5x) 0 var(--Spacing-12x);
 		}
 	}
@@ -162,7 +162,7 @@ ol.wp-block-list {
 	}
 }
 
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.is-layout-flow {
 
@@ -189,7 +189,7 @@ ol.wp-block-list {
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.wp-block-list {
 		font-size: 1rem;

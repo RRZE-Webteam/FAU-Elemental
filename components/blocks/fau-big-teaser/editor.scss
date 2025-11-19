@@ -55,7 +55,7 @@
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.fau-big-teaser-editor-preview {
 		padding: unset;

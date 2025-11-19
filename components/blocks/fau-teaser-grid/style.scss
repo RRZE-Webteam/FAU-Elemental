@@ -593,7 +593,7 @@
 }
 
 // Responsive
-@include smaller-or-equals("medium") {
+@include smaller-than("medium") {
 
 	.wp-block-fau-elemental-fau-teaser-grid .fau-teaser-grid {
 
@@ -745,7 +745,7 @@
 	}
 }
 
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.wp-block-fau-elemental-fau-teaser-grid {
 

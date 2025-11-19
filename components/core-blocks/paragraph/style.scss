@@ -96,7 +96,7 @@ figcaption {
 }
 
 // Responsive
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	p {
 		font-size: 1rem;

@@ -31,14 +31,14 @@
 }
 
 // Responsive
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.big-buttons .big-buttons-content-wrapper > p {
 		max-width: 100%;
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.big-buttons .big-buttons-content-wrapper {
 		padding: 0 var(--Spacing-5x);

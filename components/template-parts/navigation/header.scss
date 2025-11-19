@@ -1052,7 +1052,18 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	}
 }
 
-@include smaller-or-equals("medium") {
+@media screen and (max-width: 1919px) {
+
+	.home:not(.blog).has-hero-block .site-header-top__wrapper {
+		padding-right: var(--Spacing-6x);
+	}
+
+	.home:not(.blog).has-hero-block .main-navigation__logo {
+		left: 3.75rem;
+	}
+}
+
+@include smaller-than("medium") {
 
 	.menu-modal,
 	.menu-meta-nav__modal,
@@ -1062,16 +1073,9 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 			width: 500px;
 		}
 	}
-}
-
-@media screen and (max-width: 1919px) {
-
-	.home:not(.blog).has-hero-block .site-header-top__wrapper {
-		padding-right: var(--Spacing-6x);
-	}
 
 	.home:not(.blog).has-hero-block .main-navigation__logo {
-		left: 3.75rem;
+		left: var(--Spacing-10x);
 	}
 }
 
@@ -1112,7 +1116,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	}
 }
 
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.menu-modal,
 	.menu-meta-nav__modal,
@@ -1123,8 +1127,23 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 		}
 	}
 
-	.home:not(.blog).has-hero-block .site-header__main .main-navigation__logo {
-		left: var(--Spacing-10x);
+	.home:not(.blog).has-hero-block .site-header__main {
+		top: 6.3rem;
+
+		.main-navigation__logo {
+			left: var(--Spacing-5x);
+		}
+	}
+
+	.site-header {
+
+		&__top .fau-navigation {
+			padding-right: var(--Spacing-4x);
+		}
+
+		&__main {
+			padding: 4.2rem var(--Spacing-5x) var(--Spacing-4x) var(--Spacing-5x);
+		}
 	}
 }
 
@@ -1300,7 +1319,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 		}
 
 		&__main {
-			padding: 1.6rem 1.675rem var(--Spacing-2x) var(--Spacing-10x);
+			padding: 1.6rem 0.6rem var(--Spacing-2x) var(--Spacing-5x);
 		}
 	}
 
@@ -1353,7 +1372,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.site-header {
 
@@ -1379,10 +1398,6 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	.home:not(.blog).has-hero-block .site-header__main {
 
 		.main-navigation {
-
-			&__logo {
-				left: var(--Spacing-5x);
-			}
 
 			&__toggle-text {
 				display: none;

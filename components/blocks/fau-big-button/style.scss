@@ -594,7 +594,7 @@
 }
 
 // Responsive
-@include smaller-or-equals("medium") {
+@include smaller-than("medium") {
 
 	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons,
 	.fau-big-button-teaser-group.fau-big-button-teaser-group--large .fau-big-button-teaser-group__buttons {
@@ -609,7 +609,7 @@
 	}
 }
 
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons,
 	.fau-big-button-teaser-group.fau-big-button-teaser-group--large .fau-big-button-teaser-group__buttons {
@@ -617,7 +617,7 @@
 	}
 }
 
-// @include smaller-or-equals("x-small") {
+// @include smaller-than("x-small") {
 
 // 	.fau-big-button-teaser-group .fau-big-button-teaser-group__buttons {
 // 		padding: 0 var(--Spacing-5x);

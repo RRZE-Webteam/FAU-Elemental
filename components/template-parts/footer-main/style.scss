@@ -433,7 +433,7 @@ footer.wp-block-template-part {
 	.fau-claim {
 		margin-bottom: var(--Spacing-14x);
 
-		@include smaller-or-equals("x-small") {
+		@include smaller-than("x-small") {
 			margin-bottom: var(--Spacing-8x);
 		}
 	}
@@ -497,15 +497,19 @@ footer.wp-block-template-part {
 	}
 }
 
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.site-footer {
 
-		.footer-bottom .footer-bottom-wrapper .footer-bottom-top {
-			flex-wrap: wrap;
+		.footer-bottom {
+			padding: var(--Spacing-8x) var(--Spacing-5x);
 
-			.footer-right .footer-meta-menu {
-				justify-content: flex-start;
+			.footer-bottom-wrapper .footer-bottom-top {
+				flex-wrap: wrap;
+
+				.footer-right .footer-meta-menu {
+					justify-content: flex-start;
+				}
 			}
 		}
 
@@ -520,6 +524,10 @@ footer.wp-block-template-part {
 
 		.social-links {
 			justify-content: flex-start;
+		}
+
+		.footer-main {
+			padding: 0 var(--Spacing-5x);
 		}
 	}
 }
@@ -538,7 +546,7 @@ footer.wp-block-template-part {
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.site-footer {
 
