@@ -3,26 +3,27 @@
 	.copyright-info-label {
 		display: block;
 		color: var(--FAU-Col-FAU-Weiss-100);
-		padding-top: var(--Spacing-4x);
+		padding: var(--Spacing-4x) 0 var(--Spacing-6x) 0;
 		font-weight: 400;
-		font-size: 1.1rem;
+		font-size: 1rem;
 		line-height: var(--base-line-height);
 	}
 
 	.copyright-info-list {
 		display: inline-flex;
 		flex-wrap: wrap;
-		gap: 0 var(--Spacing-6x);
+		gap: var(--Spacing-6x);
 		list-style: none;
 		margin: 0;
 		padding: 0;
 
 		li {
+			display: flex;
+			align-items: first baseline;
 			font-size: var(--P-Caption);
 			color: var(--FAU-Col-FAU-Schwarz-12_5);
 			position: relative;
 			counter-increment: copyright-counter;
-
 
 			&::before {
 				content: "©";

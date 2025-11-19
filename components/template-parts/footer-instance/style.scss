@@ -109,6 +109,7 @@
 				.important-links-list {
 					display: flex;
 					flex-direction: column;
+					gap: var(--Spacing-3x);
 					margin: 0;
 
 					li {
@@ -410,7 +411,6 @@
 
 			.footer-instance-contact .footer-important-links .important-links-list {
 				flex-direction: column;
-				gap: unset;
 			}
 		}
 	}

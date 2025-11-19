@@ -15,13 +15,12 @@ footer.wp-block-template-part {
 	.footer-meta-menu,
 	.footer-important-links,
 	.social-links,
-	.menu-item {
+	.menu-item,
+	.copyright-info-list {
 
 		a {
-
 			display: inline-flex;
 			align-items: center;
-			height: var(--accessible-target-size);
 			position: relative;
 			font-size: 1rem;
 			line-height: var(--base-line-height);
@@ -38,7 +37,7 @@ footer.wp-block-template-part {
 				display: block;
 				width: 100%;
 				height: 0.125rem;
-				bottom: 0.5rem;
+				bottom: -0.15rem;
 				background-color: var(--FAU-Col-FAU-Weiss-100);
 				transform: scaleX(0);
 				transition: var(--basic-animation);
@@ -55,24 +54,10 @@ footer.wp-block-template-part {
 		}
 	}
 
-	// Copyright info list links - allow wrapping without fixed height
 	.copyright-info-list {
 
 		a {
-			display: inline;
-			height: auto;
-			min-height: var(--accessible-target-size);
-			position: relative;
-			font-size: 1rem;
-			line-height: var(--base-line-height);
-			font-weight: 400;
-			text-decoration: none;
-			color: var(--FAU-Col-FAU-Weiss-100);
-			word-break: break-word;
-			overflow-wrap: anywhere;
-			white-space: normal;
-
-
+			font-size: 0.875rem;
 		}
 	}
 
@@ -142,7 +127,6 @@ footer.wp-block-template-part {
 				a {
 					display: inline-flex;
 					align-items: center;
-					height: var(--accessible-target-size);
 					color: var(--FAU-Col-FAU-Weiss-100);
 					font-size: 1rem;
 					font-weight: 700;
@@ -150,11 +134,12 @@ footer.wp-block-template-part {
 				}
 
 				.sub-menu {
-					list-style: none;
-					padding-left: unset; // no ul padding
 					display: flex;
 					flex-direction: column;
-					margin: var(--Spacing-1x) 0 0 0;
+					gap: var(--Spacing-4x);
+					list-style: none;
+					padding-left: unset; // no ul padding
+					margin: var(--Spacing-6x) 0 0 0;
 
 					li {
 						margin-left: unset;
@@ -247,10 +232,6 @@ footer.wp-block-template-part {
 				.social-links {
 					flex-wrap: wrap;
 				}
-			}
-
-			.footer-bottom-bottom .wp-block-fau-elemental-copyright-info .copyright-info-list li {
-				font-size: 0.875rem;
 			}
 
 			.photo-credits {
@@ -445,6 +426,7 @@ footer.wp-block-template-part {
 
 		.footer-lists .footer-lists-menu {
 			grid-template-columns: repeat(2, 1fr);
+			gap: var(--Spacing-12x);
 		}
 
 		.footer-bottom .footer-bottom-wrapper {
@@ -476,10 +458,6 @@ footer.wp-block-template-part {
 			p {
 				font-size: 1rem;
 			}
-		}
-
-		.social-links {
-			flex-wrap: wrap;
 		}
 	}
 }
