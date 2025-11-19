@@ -258,7 +258,7 @@
 }
 
 // Responsive
-@include smaller-or-equals("medium") {
+@include smaller-than("medium") {
 
 	.fau-global-search__outer-wrapper {
 		max-width: var(--wide-max-width);
@@ -284,7 +284,7 @@
 	}
 }
 // Responsive
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.fau-global-search-wrapper {
 
@@ -298,16 +298,21 @@
 		}
 	}
 
-	.search-results-page h1 {
-		font-size: 2.5rem;
+	.search-results-page {
+
+		h1 {
+			font-size: 2.5rem;
+		}
+
+		h1,
+		.search-form-container,
+		.no-results {
+			padding: 0 var(--Spacing-5x);
+		}
 	}
 }
 
-@include smaller-or-equals("x-small") {
-
-	.fau-global-search__outer-wrapper {
-		padding: var(--Spacing-6x) var(--Spacing-5x);
-	}
+@include smaller-than("x-small") {
 
 	.fau-global-search-wrapper {
 
@@ -324,12 +329,6 @@
 
 		h1 {
 			font-size: 1.75rem;
-		}
-
-		h1,
-		.search-form-container,
-		.no-results {
-			padding: 0 var(--Spacing-5x);
 		}
 	}
 }

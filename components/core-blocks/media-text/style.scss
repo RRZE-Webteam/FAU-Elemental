@@ -35,7 +35,7 @@
 	}
 }
 
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.wp-block-media-text {
 		gap: var(--Spacing-4x);

@@ -60,7 +60,7 @@
 		.wp-block-post-content > & {
 			margin-inline: var(--faue_base-max-width_bleed_inline-margin);
 
-			@include smaller-or-equals("xs") {
+			@include smaller-than("xs") {
 				margin-inline: var(--faue_fullbleed_inline-margin);
 			}
 		}
@@ -186,14 +186,14 @@
 
 // Responsive
 
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.wp-block-image.is-style-large figcaption {
 		box-sizing: border-box;
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.wp-block-image {
 

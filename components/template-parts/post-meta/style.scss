@@ -71,13 +71,13 @@
 		}
 	}
 
-	@include smaller-or-equals("x-small") {
+	@include smaller-than("x-small") {
 		padding: var(--Spacing-8x) var(--Spacing-5x);
 	}
 }
 
 // Responsive
-@include smaller-or-equals("x-small") {
+@include smaller-than("small") {
 
 	.post-meta {
 		padding: 0 var(--Spacing-5x);

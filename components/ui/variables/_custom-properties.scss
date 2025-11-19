@@ -141,4 +141,9 @@
 
 	/* Accessible target min. size AAA */
 	--accessible-target-size: 2.75rem;
+
+	/* Form Properties */
+	--form-padding-horizontal: var(--Spacing-10x);
+	--wsf-form-padding-horizontal: var(--Spacing-10x);
+	--wpcf7-form-padding-horizontal: var(--Spacing-10x);
 }

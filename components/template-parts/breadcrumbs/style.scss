@@ -97,9 +97,10 @@
 }
 
 // Responsive
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.breadcrumbs {
+		padding: var(--Spacing-1x) var(--Spacing-5x);
 
 		&__list {
 			padding-left: unset; // Remove padding since no home icon on mobile
@@ -123,13 +124,6 @@
 				display: none;
 			}
 		}
-	}
-}
-
-@include smaller-or-equals("x-small") {
-
-	.breadcrumbs {
-		padding: var(--Spacing-1x) var(--Spacing-5x);
 	}
 }
 

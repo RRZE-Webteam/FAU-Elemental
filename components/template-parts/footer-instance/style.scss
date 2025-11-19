@@ -361,7 +361,7 @@
 	}
 }
 
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.site-footer {
 
@@ -379,6 +379,10 @@
 			#fau-info-section .fau-claim p {
 				flex-basis: unset;
 			}
+		}
+
+		.footer-content--instance {
+			padding: var(--Spacing-8x) var(--Spacing-5x);
 		}
 	}
 }
@@ -402,12 +406,11 @@
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.site-footer {
 
 		.footer-content--instance {
-			padding: var(--Spacing-8x) var(--Spacing-5x);
 
 			.footer-instance-contact .footer-important-links .important-links-list {
 				flex-direction: column;

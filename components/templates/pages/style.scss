@@ -194,7 +194,7 @@
 }
 
 // Responsive
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.archive-page .blog-header .blog-title,
 	.category-archive .blog-header .blog-title,
@@ -203,7 +203,7 @@
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.archive-page .blog-header .blog-title,
 	.category-archive .blog-header .blog-title,
