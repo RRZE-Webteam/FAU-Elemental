@@ -241,12 +241,7 @@ footer.wp-block-template-part {
 			.footer-bottom-bottom {
 
 				.footer-left {
-					flex: 1 1 0;
-					min-width: 20rem;
-				}
-
-				.footer-right {
-					flex: 0 1 auto;
+					max-width: 50%;
 				}
 
 				.social-links {
@@ -486,14 +481,6 @@ footer.wp-block-template-part {
 		.social-links {
 			flex-wrap: wrap;
 		}
-
-		.footer-bottom-bottom {
-
-			.footer-left,
-			.footer-right {
-				width: 50%;
-			}
-		}
 	}
 }
 
@@ -501,20 +488,22 @@ footer.wp-block-template-part {
 
 	.site-footer {
 
-		.footer-bottom .footer-bottom-wrapper .footer-bottom-top {
-			flex-wrap: wrap;
+		.footer-bottom .footer-bottom-wrapper {
 
-			.footer-right .footer-meta-menu {
-				justify-content: flex-start;
+			.footer-bottom-top {
+				flex-wrap: wrap;
+
+				.footer-right .footer-meta-menu {
+					justify-content: flex-start;
+				}
 			}
-		}
 
-		.footer-bottom-bottom {
-			flex-direction: column-reverse;
+			.footer-bottom-bottom {
+				flex-direction: column-reverse;
 
-			.footer-left,
-			.footer-right {
-				width: unset;
+				.footer-left {
+					max-width: unset;
+				}
 			}
 		}
 
@@ -554,13 +543,5 @@ footer.wp-block-template-part {
 		.footer-bottom {
 			padding: var(--Spacing-6x) var(--Spacing-5x);
 		}
-	}
-}
-
-// Desktop: increase min-width for copyright info
-@include bigger-than("small") {
-
-	.site-footer .footer-bottom .footer-bottom-wrapper .footer-bottom-bottom .footer-left {
-		min-width: 40rem;
 	}
 }
