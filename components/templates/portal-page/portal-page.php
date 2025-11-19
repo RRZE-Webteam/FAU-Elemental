@@ -22,14 +22,23 @@ if ($menu_id) {
 }
 
 // If no menu is set, try to find an old menu slug
+// But only if user hasn't explicitly cleared the menu
 if (!$menu_name) {
-    $old_menu_slug = get_post_meta($page_id, 'portalmenu-slug', true);
-    if ($old_menu_slug) {
-        $menu_name = $old_menu_slug;
-        $menu_obj = get_term_by('name', $old_menu_slug, 'nav_menu');
-        if ($menu_obj) {
-            // Save the menu ID for future use
-            update_post_meta($page_id, 'portal_menu_id', $menu_obj->term_id);
+    $explicitly_cleared = get_post_meta($page_id, 'portal_menu_explicitly_cleared', true);
+    $user_set_at = get_post_meta($page_id, 'portal_menu_user_set_at', true);
+    
+    // Don't fall back to old metadata if user explicitly cleared the menu
+    if (!$explicitly_cleared && !$user_set_at) {
+        $old_menu_slug = get_post_meta($page_id, 'portalmenu-slug', true);
+        if ($old_menu_slug) {
+            $menu_name = $old_menu_slug;
+            $menu_obj = get_term_by('name', $old_menu_slug, 'nav_menu');
+            if ($menu_obj) {
+                // Save the menu ID for future use
+                update_post_meta($page_id, 'portal_menu_id', $menu_obj->term_id);
+                // Mark as migrated to prevent re-migration
+                update_post_meta($page_id, 'portal_menu_migrated_at', current_time('mysql'));
+            }
         }
     }
 }
