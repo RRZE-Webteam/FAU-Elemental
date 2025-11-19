@@ -35,7 +35,7 @@
 }
 
 // Responsive
-@include smaller-or-equals("medium") {
+@include smaller-than("medium") {
 
 	main .wp-block-fau-elemental-fau-meta-headline {
 		margin-left: 10rem !important; // Necessary to override WP style that already uses !important
@@ -53,7 +53,7 @@
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	main .wp-block-fau-elemental-fau-meta-headline {
 		margin-left: 3rem !important; // Necessary to override WP style that already uses !important

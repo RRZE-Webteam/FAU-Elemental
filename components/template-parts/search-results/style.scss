@@ -124,7 +124,7 @@
 	}
 
 	// Mobile responsive layout
-	@include smaller-or-equals("sm") {
+	@include smaller-than("sm") {
 
 		.result-content {
 			display: block;

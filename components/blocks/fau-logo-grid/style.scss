@@ -58,7 +58,7 @@
 
 
 // Tablet and smaller (max-width: 1440px)
-@include smaller-or-equals("medium") {
+@include smaller-than("medium") {
 
 	.fau-logo-grid {
 
@@ -69,7 +69,7 @@
 }
 
 // Mobile and smaller (max-width: 768px)
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.fau-logo-grid {
 
@@ -83,7 +83,7 @@
 	}
 }
 // Mobile and smaller (max-width: 768px)
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.fau-logo-grid {
 

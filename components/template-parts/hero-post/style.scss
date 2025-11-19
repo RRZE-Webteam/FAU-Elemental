@@ -11,7 +11,7 @@
 		gap: var(--Spacing-3x);
 		padding: 0 var(--Spacing-10x);
 
-		@include smaller-or-equals("x-small") {
+		@include smaller-than("x-small") {
 			padding: 0 var(--Spacing-5x);
 		}
 	}
@@ -58,17 +58,21 @@
 }
 
 // Responsive
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.post-header {
 
 		.wp-block-post-title {
 			font-size: 2.5rem;
 		}
+
+		.post-header-content {
+			padding: 0 var(--Spacing-5x);
+		}
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.post-header {
 

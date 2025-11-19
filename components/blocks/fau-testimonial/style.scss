@@ -6,7 +6,7 @@
 	.wp-block-post-content > & {
 		margin-inline: var(--faue_base-max-width_bleed_inline-margin);
 
-		@include smaller-or-equals("xs") {
+		@include smaller-than("xs") {
 			margin-inline: var(--faue_fullbleed_inline-margin);
 		}
 	}
@@ -73,7 +73,7 @@
 	.wp-block-post-content > & {
 		margin-inline: var(--faue_base-max-width_bleed_inline-margin);
 
-		@include smaller-or-equals("xs") {
+		@include smaller-than("xs") {
 			margin-inline: var(--faue_fullbleed_inline-margin);
 		}
 	}
@@ -218,7 +218,7 @@
 }
 
 // Responsive
-@include smaller-or-equals("medium") {
+@include smaller-than("medium") {
 
 	.fau-testimonial-item {
 
@@ -228,7 +228,7 @@
 	}
 }
 
-@include smaller-or-equals("small") {
+@include smaller-than("small") {
 
 	.fau-testimonial-item {
 
@@ -248,12 +248,16 @@
 		}
 	}
 
-	.testimonial-carousel .carousel-controls {
-		margin-top: var(--Spacing-10x);
+	.testimonial-carousel {
+		padding: 0 var(--Spacing-5x);
+
+		.carousel-controls {
+			margin-top: var(--Spacing-10x);
+		}
 	}
 }
 
-@include smaller-or-equals("x-small") {
+@include smaller-than("x-small") {
 
 	.fau-testimonial-item,
 	.testimonial-carousel {
