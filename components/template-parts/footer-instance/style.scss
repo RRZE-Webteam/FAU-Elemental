@@ -137,6 +137,7 @@
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+			gap: var(--Spacing-6x);
 
 			.footer-menu-list {
 				display: flex;
@@ -155,13 +156,16 @@
 				}
 
 				li {
-					flex-shrink: 0;
 
 					&::before {
 						display: none; // no list style
 					}
 				}
 			}
+		}
+
+		.social-links {
+			flex-wrap: wrap;
 		}
 	}
 
@@ -330,7 +334,7 @@
 
 					.important-links-list {
 						flex-direction: row;
-						gap: var(--Spacing-12x);
+						gap: var(--Spacing-6x);
 						flex-wrap: wrap;
 					}
 				}
@@ -410,7 +414,6 @@
 
 			.footer-instance-contact .footer-important-links .important-links-list {
 				flex-direction: column;
-				gap: var(--Spacing-3x);
 			}
 		}
 	}

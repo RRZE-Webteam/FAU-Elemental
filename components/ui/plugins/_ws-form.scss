@@ -8,6 +8,15 @@ main {
 			color: var(--FAU-Col-FAU-Blau-100);
 		}
 
+		*::before {
+			margin-right: 0.55rem;
+		}
+
+		.wsf-grid {
+			margin-left: 0;
+			margin-right: 0;
+		}
+
 		.wsf-tile .wsf-fields {
 
 			input,
