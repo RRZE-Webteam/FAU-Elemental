@@ -28,24 +28,30 @@ function fau_elemental_remove_inline_styles_from_content($content) {
         return $content;
     }
 
-    $content = preg_replace_callback('/<(img|div|span|p|h1|h2|h3|h4|h5|h6|a|figure|figcaption)\b([^>]*?)\sstyle="([^"]*)"\s?([^>]*)>/i', function ($matches) {
+    $content = preg_replace_callback('/<(img|div|span|p|h1|h2|h3|h4|h5|h6|a|figure|figcaption)\b([^>]*?)\s+style\s*=\s*"([^"]*)"([^>]*)>/i', function ($matches) {
         $tag = $matches[1];
+        $before_style = $matches[2];
         $style_content = $matches[3];
+        $after_style = $matches[4];
 
-        if ($tag === 'img') {
+        if ($tag === 'img' || $tag === 'figure') {
             $new_style = preg_replace('/(width|max-width|min-width|height|max-height|min-height)\s*:\s*[^;]+;?\s*/i', '', $style_content);
         } else {
             $new_style = preg_replace('/(width|max-width|min-width)\s*:\s*[^;]+;?\s*/i', '', $style_content);
         }
 
         if (trim($new_style) === '') {
-            return "<{$matches[1]}{$matches[2]}{$matches[4]}>";
+            return "<{$tag}{$before_style}{$after_style}>";
         } else {
-            return "<{$matches[1]}{$matches[2]} style=\"" . esc_attr(trim($new_style)) . "\"{$matches[4]}>";
+            return "<{$tag}{$before_style} style=\"" . esc_attr(trim($new_style)) . "\"{$after_style}>";
         }
     }, $content);
 
     $content = preg_replace('/\sstyle="\s*"/i', '', $content);
+    
+    $content = preg_replace('/<(img|figure)\b([^>]*?)\s+width\s*=\s*"[^"]*"([^>]*)>/i', '<$1$2$3>', $content);
+    $content = preg_replace('/<(img|figure)\b([^>]*?)\s+height\s*=\s*"[^"]*"([^>]*)>/i', '<$1$2$3>', $content);
+    
     return $content;
 }
 
