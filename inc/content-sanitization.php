@@ -82,6 +82,8 @@ function fau_elemental_remove_inline_styles_from_content($content) {
         $attributes = preg_replace('/width\s*=\s*["\'][^"\']*["\']/i', '', $attributes);
         $attributes = preg_replace('/\s+height\s*=\s*["\'][^"\']*["\']/i', '', $attributes);
         $attributes = preg_replace('/height\s*=\s*["\'][^"\']*["\']/i', '', $attributes);
+        $attributes = preg_replace('/\s+sizes\s*=\s*["\'][^"\']*["\']/i', '', $attributes);
+        $attributes = preg_replace('/sizes\s*=\s*["\'][^"\']*["\']/i', '', $attributes);
         $attributes = preg_replace('/\s+/', ' ', $attributes);
         $attributes = trim($attributes);
         
