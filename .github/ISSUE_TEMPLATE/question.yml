@@ -1,0 +1,68 @@
+name: 'Anwenderfrage'
+description: 'Stellen Sie eine Frage zur Anwendung oder Konfiguration.'
+title: '[Frage] Kurze Zusammenfassung Ihrer Frage'
+labels:
+    - Triage
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Bitte beschreiben Sie Ihre Frage möglichst konkret, damit wir schnell helfen können.
+
+    - type: dropdown
+      id: area
+      attributes:
+          label: Bereich
+          description: |
+              Wozu haben Sie eine Frage?
+          options:
+              - WordPress Blockeditor (Bearbeitungsmaske)
+              - Frontend
+              - Einstellungen / Konfiguration
+              - Rollen & Rechte
+              - Performance / Caching
+              - Sonstiges
+      validations:
+          required: true
+
+    - type: input
+      id: page_url
+      attributes:
+          label: URL zur betroffenen Seite (optional)
+          description: |
+              Falls sich Ihre Frage auf eine konkrete Seite bezieht.
+          placeholder: 'https://example.com/beispiel-seite/'
+      validations:
+          required: false
+
+    - type: textarea
+      id: question
+      attributes:
+          label: Ihre Frage
+          description: |
+              Beschreiben Sie Ihr Anliegen und was Sie bereits versucht haben.
+          placeholder: |
+              Ich möchte folgendes erreichen …
+              Bisher habe ich folgendes versucht …
+      validations:
+          required: true
+
+    - type: textarea
+      id: context
+      attributes:
+          label: Kontext / Rahmenbedingungen
+          description: |
+              Angaben zur Umgebung (z. B. WordPress-Version, besondere Plugins, Hosting), soweit relevant.
+          placeholder: 'WordPress-Version, relevante Plugins, besondere Anforderungen …'
+      validations:
+          required: false
+
+    - type: textarea
+      id: screenshots
+      attributes:
+          label: Screenshot(s) (optional)
+          description: |
+              Optional können Sie Screenshots anhängen, die Ihre Frage veranschaulichen.
+          render: image
+      validations:
+          required: false
