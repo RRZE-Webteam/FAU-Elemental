@@ -1,0 +1,86 @@
+name: 'Feature wünschen'
+description: 'Schlagen Sie eine neue Funktion oder eine Verbesserung vor.'
+title: '[Feature] Kurze Beschreibung des gewünschten Features'
+labels:
+    - Triage
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Helfen Sie mit, das Projekt zu verbessern. Bitte beschreiben Sie das gewünschte Feature so konkret wie möglich.
+
+    - type: dropdown
+      id: feature_type
+      attributes:
+          label: Art des Features
+          options:
+              - Neue Funktion
+              - Verbesserung einer bestehenden Funktion
+              - Performance-Optimierung
+              - Usability / UX
+              - Entwickler-API / Hooks
+              - Sonstiges
+      validations:
+          required: true
+
+    - type: dropdown
+      id: impact
+      attributes:
+          label: Erwarteter Nutzen
+          options:
+              - Kritisch (für viele Anwender unverzichtbar)
+              - Hoch (verbessert den Alltag deutlich)
+              - Mittel (nice-to-have, häufige Nutzung)
+              - Niedrig (nice-to-have, gelegentliche Nutzung)
+      validations:
+          required: true
+
+    - type: textarea
+      id: description
+      attributes:
+          label: Beschreibung des gewünschten Features
+          description: |
+              Beschreiben Sie das Feature, das Sie sich wünschen.
+          placeholder: 'Ich wünsche mir eine Möglichkeit, XYZ direkt im Blockeditor konfigurieren zu können …'
+      validations:
+          required: true
+
+    - type: textarea
+      id: use_case
+      attributes:
+          label: Anwendungsfall / Use Case
+          description: |
+              Beschreiben Sie typische Szenarien, in denen dieses Feature verwendet würde.
+          placeholder: 'Als Redakteur möchte ich … damit ich …'
+      validations:
+          required: true
+
+    - type: input
+      id: related_url
+      attributes:
+          label: Relevante URLs (optional)
+          description: |
+              Links zu Beispielen, Referenzen oder ähnlichen Implementierungen.
+          placeholder: 'https://example.com/beispiel-feature/'
+      validations:
+          required: false
+
+    - type: textarea
+      id: alternatives
+      attributes:
+          label: Bereits genutzte Alternativen
+          description: |
+              Welche Workarounds oder Alternativlösungen verwenden Sie aktuell?
+          placeholder: 'Derzeit nutzen wir … als Workaround, was folgende Nachteile hat …'
+      validations:
+          required: false
+
+    - type: textarea
+      id: additional_info
+      attributes:
+          label: Weitere Anmerkungen
+          description: |
+              Weitere Ideen, Edge Cases oder Designvorschläge.
+          placeholder: 'Weitere Details, z. B. zu Berechtigungen, UI-Layout, Kompatibilität etc.'
+      validations:
+          required: false

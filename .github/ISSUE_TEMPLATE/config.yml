@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+
+contact_links:
+    - name: Support-Anfrage per E-Mail
+      url: https://www.wp.rrze.fau.de/room/individuelle-wordpress-sprechstunde/
+      about: |
+          Schicken Sie uns eine E-Mail an webmaster@fau.de, wenn Sie ein persönliches Support-Ticket erstellen möchten
+          oder vertrauliche Informationen nicht öffentlich in GitHub teilen können.
