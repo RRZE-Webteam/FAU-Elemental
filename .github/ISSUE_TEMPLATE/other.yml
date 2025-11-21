@@ -1,0 +1,63 @@
+name: 'Sonstiges'
+description: 'Allgemeines Feedback, organisatorische Themen oder Meldungen, die nicht in andere Kategorien passen.'
+title: '[Sonstiges] Kurze Beschreibung'
+labels:
+    - Triage
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Nutzen Sie dieses Formular für Anliegen, die nicht zu Fehlern, Feature-Wünschen oder Anwenderfragen passen.
+
+    - type: dropdown
+      id: category
+      attributes:
+          label: Kategorie
+          options:
+              - Allgemeines Feedback
+              - Dokumentation
+              - Organisation / Prozess
+              - Sicherheit / Datenschutz
+              - Sonstiges
+      validations:
+          required: true
+
+    - type: input
+      id: related_url
+      attributes:
+          label: Relevante URL (optional)
+          description: |
+              Falls sich Ihr Anliegen auf eine bestimmte Seite oder Ressource bezieht.
+          placeholder: 'https://example.com/'
+      validations:
+          required: false
+
+    - type: textarea
+      id: description
+      attributes:
+          label: Beschreibung Ihres Anliegens
+          description: |
+              Beschreiben Sie Ihr Anliegen so konkret wie möglich.
+          placeholder: 'Kurze, aber präzise Beschreibung …'
+      validations:
+          required: true
+
+    - type: textarea
+      id: screenshots
+      attributes:
+          label: Screenshot(s) (optional)
+          description: |
+              Optional können Sie Screenshots oder andere Bilder anhängen.
+          render: image
+      validations:
+          required: false
+
+    - type: textarea
+      id: additional_info
+      attributes:
+          label: Weitere Informationen
+          description: |
+              Ergänzende Hinweise, Hintergrundinformationen oder Vorschläge.
+          placeholder: 'Weitere Details, die für die Bearbeitung hilfreich sein könnten …'
+      validations:
+          required: false

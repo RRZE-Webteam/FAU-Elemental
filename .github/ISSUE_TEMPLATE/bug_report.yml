@@ -1,0 +1,153 @@
+name: 'Fehler melden'
+description: 'Melden Sie einen Fehler oder ein unerwartetes Verhalten.'
+title: '[Bug] Kurze, prägnante Fehlerbeschreibung'
+labels:
+    - Triage
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Vielen Dank für Ihre Meldung. Bitte füllen Sie das Formular so vollständig wie möglich aus.
+
+    - type: dropdown
+      id: scope
+      attributes:
+          label: Bereich, in dem das Problem auftritt
+          options:
+              - WordPress Blockeditor (Bearbeitungsmaske)
+              - Frontend
+              - Beides (Editor & Frontend)
+              - Weiß nicht / schwer zu sagen
+          description: |
+              Wo tritt das Problem hauptsächlich auf?
+      validations:
+          required: true
+
+    - type: dropdown
+      id: browser
+      attributes:
+          label: Verwendeter Browser
+          description: In welchem Browser tritt das Problem auf?
+          options:
+              - Safari
+              - Firefox
+              - Chrome
+              - Edge
+              - Opera
+              - Sonstiger
+      validations:
+          required: true
+
+    - type: input
+      id: browser_other
+      attributes:
+          label: Sonstiger Browser
+          description: |
+              Nur ausfüllen, falls oben "Sonstiger" ausgewählt wurde (z. B. Version + Betriebssystem).
+          placeholder: 'z. B. Brave 1.62.153 auf Windows 11'
+      validations:
+          required: false
+
+    - type: dropdown
+      id: urgency
+      attributes:
+          label: Dringlichkeit / Auswirkung
+          options:
+              - Blocker (System nicht nutzbar)
+              - Hoch (wichtige Funktion stark beeinträchtigt)
+              - Mittel (Workaround möglich)
+              - Niedrig (kosmetisches Problem)
+      validations:
+          required: true
+
+    - type: input
+      id: page_url
+      attributes:
+          label: URL zur Website/Inhaltsseite
+          description: |
+              Link zur Seite, auf der das Problem auftritt (Frontend oder Bearbeitungsmaske).
+          placeholder: 'https://example.com/beispiel-seite/'
+      validations:
+          required: false
+
+    - type: textarea
+      id: summary
+      attributes:
+          label: Kurzbeschreibung des Fehlers
+          description: |
+              Fassen Sie den Fehler in 1–3 Sätzen zusammen.
+          placeholder: 'Beim Speichern des Beitrags erscheint eine Fehlermeldung und die Änderungen gehen verloren.'
+      validations:
+          required: true
+
+    - type: textarea
+      id: steps_to_reproduce
+      attributes:
+          label: Schritte zur Reproduktion
+          description: |
+              Beschreiben Sie Schritt für Schritt, wie der Fehler ausgelöst werden kann.
+          placeholder: |
+              1. Im Dashboard auf "Beiträge" klicken
+              2. Beitrag "XY" bearbeiten
+              3. Block "ABC" einfügen
+              4. Auf "Aktualisieren" klicken
+              5. Fehlermeldung erscheint
+      validations:
+          required: true
+
+    - type: textarea
+      id: expected_behavior
+      attributes:
+          label: Erwartetes Verhalten
+          description: Was hätten Sie an dieser Stelle erwartet?
+          placeholder: 'Der Beitrag wird ohne Fehlermeldung gespeichert und die Seite lädt normal.'
+      validations:
+          required: true
+
+    - type: textarea
+      id: actual_behavior
+      attributes:
+          label: Tatsächliches Verhalten
+          description: Was passiert stattdessen?
+          placeholder: "Es erscheint die Meldung 'Beim Aktualisieren ist ein Fehler aufgetreten', und der Inhalt wird nicht gespeichert."
+      validations:
+          required: true
+
+    - type: textarea
+      id: environment
+      attributes:
+          label: Systemumgebung
+          description: |
+              Sofern bekannt:
+              - WordPress-Version
+              - PHP-Version
+              - Theme & Version
+              - Relevante Plugins & Versionen
+          placeholder: |
+              - WordPress 6.6.2
+              - PHP 8.1
+              - Theme: Twenty Twenty-Four 1.2
+              - Plugin: Beispiel-Plugin 2.3.1
+      validations:
+          required: false
+
+    - type: textarea
+      id: screenshots
+      attributes:
+          label: Screenshot(s)
+          description: |
+              Bitte fügen Sie ein oder mehrere Screenshots ein, die das Problem zeigen.
+              Sie können Dateien per Drag & Drop hier einfügen.
+          render: image
+      validations:
+          required: false
+
+    - type: textarea
+      id: additional_info
+      attributes:
+          label: Weitere Informationen
+          description: |
+              Zusätzliche Hinweise, Log-Ausgaben, Fehlermeldungen etc.
+          placeholder: 'Weitere technische Details, Log-Auszüge, besondere Konfigurationen …'
+      validations:
+          required: false
