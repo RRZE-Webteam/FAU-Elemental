@@ -1,6 +1,20 @@
+import { createBlock, rawHandler } from '@wordpress/blocks';
+import {
+	Button,
+	Notice,
+	Card,
+	CardBody,
+	CardHeader,
+	ExternalLink,
+	__experimentalText as Text,
+} from '@wordpress/components';
 import { select, subscribe, dispatch } from '@wordpress/data';
+import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
 // import { addFilter } from '@wordpress/hooks';
 // import { createHigherOrderComponent } from '@wordpress/compose';
+import { __, sprintf } from '@wordpress/i18n';
+import { registerPlugin } from '@wordpress/plugins';
+import { Fragment, RawHTML, useMemo, useState } from '@wordpress/element';
 import { unregisterFormatType } from '@wordpress/rich-text';
 
 // Import all core-blocks
@@ -341,6 +355,510 @@ function countFAUHeroOccurrences( blocks ) {
 	} );
 
 	return count;
+}
+
+// Legacy sidebar helpers ----------------------------------------------------
+const legacySidebarContext = window.fauElementalLegacySidebar || null;
+
+const escapeHtml = ( value = '' ) =>
+	String( value )
+		.replace( /&/g, '&amp;' )
+		.replace( /</g, '&lt;' )
+		.replace( />/g, '&gt;' );
+
+const escapeAttribute = ( value = '' ) =>
+	escapeHtml( value ).replace( /"/g, '&quot;' );
+
+const parseHtmlToBlocks = ( html ) => {
+	const trimmed = ( html || '' ).trim();
+	if ( ! trimmed ) {
+		return [];
+	}
+
+	try {
+		const parsed = rawHandler( { HTML: trimmed } ) || [];
+		if ( parsed.length ) {
+			return parsed;
+		}
+	} catch ( error ) {
+		// Fallback handled below
+	}
+
+	return [
+		createBlock( 'core/paragraph', {
+			content: trimmed,
+		} ),
+	];
+};
+
+const buildListBlockFromLinks = ( links ) => {
+	if ( ! Array.isArray( links ) || ! links.length ) {
+		return null;
+	}
+
+	const itemsHtml = links
+		.map( ( entry ) => {
+			const label = escapeHtml( entry.title || '' );
+			if ( entry.url ) {
+				return `<li><a href="${ escapeAttribute(
+					entry.url
+				) }">${ label }</a></li>`;
+			}
+			return `<li>${ label }</li>`;
+		} )
+		.join( '' );
+
+	if ( ! itemsHtml ) {
+		return null;
+	}
+
+	return createBlock( 'core/list', {
+		values: itemsHtml,
+	} );
+};
+
+const buildLegacyBlocks = ( data, strings = {} ) => {
+	const blocks = [];
+	if ( ! data ) {
+		return blocks;
+	}
+
+	const headingLabel = ( text, fallback ) => text || fallback || '';
+
+	const addHeading = ( text ) => {
+		if ( ! text ) {
+			return;
+		}
+		blocks.push(
+			createBlock( 'core/heading', {
+				level: 3,
+				content: text,
+			} )
+		);
+	};
+
+	const addContentBlocks = ( html ) => {
+		parseHtmlToBlocks( html ).forEach( ( block ) => blocks.push( block ) );
+	};
+
+	if ( data.top ) {
+		addHeading( data.top.title );
+		addContentBlocks( data.top.content );
+	}
+
+	if ( data.contacts ) {
+		const contactHeading = headingLabel(
+			data.contacts.title,
+			strings.contactsLabel || __( 'Contacts', 'fau-elemental' )
+		);
+		addHeading( contactHeading );
+		if ( data.contacts.shortcode ) {
+			blocks.push(
+				createBlock( 'core/shortcode', {
+					text: data.contacts.shortcode,
+				} )
+			);
+		}
+	}
+
+	if ( data.linkBlocks && data.linkBlocks.length ) {
+		data.linkBlocks.forEach( ( block ) => {
+			if ( block.title ) {
+				addHeading( block.title );
+			}
+			const listBlock = buildListBlockFromLinks( block.links );
+			if ( listBlock ) {
+				blocks.push( listBlock );
+			}
+		} );
+	}
+
+	if ( data.bottom ) {
+		addHeading( data.bottom.title );
+		addContentBlocks( data.bottom.content );
+	}
+
+	return blocks;
+};
+
+const cardSpacingStyle = { marginBottom: '16px' };
+const shortcodeBoxStyle = {
+	backgroundColor: '#f6f7f7',
+	borderRadius: '4px',
+	fontFamily: 'monospace',
+	padding: '8px 12px',
+	display: 'inline-block',
+	marginBottom: '12px',
+};
+const actionsSpacingStyle = {
+	marginTop: '16px',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '8px',
+};
+
+const LegacyTextSection = ( { label, data, strings, sectionKey } ) => {
+	if ( ! data || ( ! data.title && ! data.content ) ) {
+		return null;
+	}
+
+	return (
+		<Card key={ sectionKey } style={ cardSpacingStyle }>
+			<CardHeader>
+				<Text variant="title.small">{ label }</Text>
+			</CardHeader>
+			<CardBody>
+				{ data.title && (
+					<Text as="p">
+						<strong>
+							{ strings.titleLabel ||
+								__( 'Title', 'fau-elemental' ) }
+							:
+						</strong>{ ' ' }
+						{ data.title }
+					</Text>
+				) }
+				{ data.content && <RawHTML>{ data.content }</RawHTML> }
+			</CardBody>
+		</Card>
+	);
+};
+
+const LegacyListSection = ( {
+	label,
+	title,
+	entries,
+	strings,
+	fallback,
+	sectionKey,
+} ) => {
+	if ( ! entries || ! entries.length ) {
+		return null;
+	}
+
+	return (
+		<Card key={ sectionKey } style={ cardSpacingStyle }>
+			<CardHeader>
+				<Text variant="title.small">{ label }</Text>
+			</CardHeader>
+			<CardBody>
+				{ title && (
+					<Text as="p">
+						<strong>
+							{ strings.titleLabel ||
+								__( 'Title', 'fau-elemental' ) }
+							:
+						</strong>{ ' ' }
+						{ title }
+					</Text>
+				) }
+				{ entries.map( ( entry, index ) => (
+					<div key={ `${ sectionKey }-${ entry.id || index }` }>
+						<Text as="p">
+							<strong>{ entry.title || fallback }</strong>
+						</Text>
+						{ entry.url && (
+							<ExternalLink href={ entry.url }>
+								{ entry.url }
+							</ExternalLink>
+						) }
+					</div>
+				) ) }
+			</CardBody>
+		</Card>
+	);
+};
+
+const LegacyContactsSection = ( { data, strings } ) => {
+	if ( ! data ) {
+		return null;
+	}
+
+	const label = strings.contactsLabel || __( 'Contacts', 'fau-elemental' );
+	const shortcode = data.shortcode;
+	const entries = data.items || [];
+	const shortcodeLabel =
+		strings.shortcodeLabel || __( 'Legacy shortcode', 'fau-elemental' );
+	const shortcodeDescription =
+		strings.shortcodeDescription ||
+		__(
+			'Add this shortcode to display the selected contacts.',
+			'fau-elemental'
+		);
+
+	return (
+		<Card key="legacy-contacts" style={ cardSpacingStyle }>
+			<CardHeader>
+				<Text variant="title.small">{ label }</Text>
+			</CardHeader>
+			<CardBody>
+				{ data.title && (
+					<Text as="p">
+						<strong>
+							{ strings.titleLabel ||
+								__( 'Title', 'fau-elemental' ) }
+							:
+						</strong>{ ' ' }
+						{ data.title }
+					</Text>
+				) }
+				{ shortcode && (
+					<Fragment>
+						<Text as="p">
+							<strong>{ shortcodeLabel }</strong>
+						</Text>
+						<code style={ shortcodeBoxStyle }>{ shortcode }</code>
+						<Text as="p">{ shortcodeDescription }</Text>
+					</Fragment>
+				) }
+				{ entries.length > 0 && (
+					<div>
+						<Text as="p">
+							<strong>
+								{ strings.linksLabel ||
+									__( 'Links', 'fau-elemental' ) }
+							</strong>
+						</Text>
+						<ul className="fau-legacy-sidebar__list">
+							{ entries.map( ( entry, index ) => (
+								<li
+									key={ `${
+										entry.id || 'contact'
+									}-${ index }` }
+								>
+									<Text as="span">
+										{ entry.title ||
+											strings.contactFallback ||
+											__( 'Contact', 'fau-elemental' ) }
+									</Text>
+									{ entry.id && (
+										<Text as="span">{ ` (ID ${ entry.id })` }</Text>
+									) }
+								</li>
+							) ) }
+						</ul>
+					</div>
+				) }
+			</CardBody>
+		</Card>
+	);
+};
+
+const getLegacySidebarSections = ( data, strings ) => {
+	const sections = [];
+
+	if ( data?.top && ( data.top.title || data.top.content ) ) {
+		sections.push(
+			<LegacyTextSection
+				key="legacy-top"
+				sectionKey="legacy-top"
+				label={
+					strings.textTopLabel || __( 'Top text', 'fau-elemental' )
+				}
+				data={ data.top }
+				strings={ strings }
+			/>
+		);
+	}
+
+	if ( data?.contacts?.items?.length ) {
+		sections.push(
+			<LegacyContactsSection
+				key="legacy-contacts"
+				data={ data.contacts }
+				strings={ strings }
+			/>
+		);
+	}
+
+	if ( data?.linkBlocks?.length ) {
+		data.linkBlocks.forEach( ( block ) => {
+			if ( ! block.links?.length && ! block.title ) {
+				return;
+			}
+			const blockLabel = strings.linkBlockLabel
+				? strings.linkBlockLabel.replace( '%d', block.block )
+				: sprintf(
+						/* translators: %d: link block number */
+						__( 'Link block %d', 'fau-elemental' ),
+						block.block
+				  );
+			sections.push(
+				<LegacyListSection
+					key={ `legacy-link-block-${ block.block }` }
+					sectionKey={ `legacy-link-block-${ block.block }` }
+					label={ blockLabel }
+					title={ block.title }
+					entries={ block.links }
+					strings={ strings }
+					fallback={
+						strings.linkFallback || __( 'Link', 'fau-elemental' )
+					}
+				/>
+			);
+		} );
+	}
+
+	if ( data?.bottom && ( data.bottom.title || data.bottom.content ) ) {
+		sections.push(
+			<LegacyTextSection
+				key="legacy-bottom"
+				sectionKey="legacy-bottom"
+				label={
+					strings.textBottomLabel ||
+					__( 'Bottom text', 'fau-elemental' )
+				}
+				data={ data.bottom }
+				strings={ strings }
+			/>
+		);
+	}
+
+	return sections.length ? sections : null;
+};
+
+if ( legacySidebarContext?.data?.hasLegacyData ) {
+	const legacySidebarData = legacySidebarContext.data;
+	const legacySidebarStrings = legacySidebarContext.strings || {};
+
+	const LegacySidebarIcon = () => (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			height="24"
+			viewBox="0 -960 960 960"
+			width="24"
+			fill="currentColor"
+			role="img"
+			aria-hidden="true"
+		>
+			<path d="M280-160q-50 0-85-35t-35-85H60l18-80h113q17-19 40-29.5t49-10.5q26 0 49 10.5t40 29.5h167l84-360H182l4-17q6-28 27.5-45.5T264-800h456l-37 160h117l120 160-40 200h-80q0 50-35 85t-85 35q-50 0-85-35t-35-85H400q0 50-35 85t-85 35Zm357-280h193l4-21-74-99h-95l-28 120Zm-19-273 2-7-84 360 2-7 34-146 46-200ZM20-427l20-80h220l-20 80H20Zm80-146 20-80h260l-20 80H100Zm180 333q17 0 28.5-11.5T320-280q0-17-11.5-28.5T280-320q-17 0-28.5 11.5T240-280q0 17 11.5 28.5T280-240Zm400 0q17 0 28.5-11.5T720-280q0-17-11.5-28.5T680-320q-17 0-28.5 11.5T640-280q0 17 11.5 28.5T680-240Z" />
+		</svg>
+	);
+
+	const LegacySidebarControls = () => {
+		const [ hasInserted, setHasInserted ] = useState( false );
+		const sections = useMemo(
+			() =>
+				getLegacySidebarSections(
+					legacySidebarData,
+					legacySidebarStrings
+				),
+			[ legacySidebarData, legacySidebarStrings ]
+		);
+		const legacyBlocksPreview = useMemo(
+			() => buildLegacyBlocks( legacySidebarData, legacySidebarStrings ),
+			[ legacySidebarData, legacySidebarStrings ]
+		);
+		const canInsertLegacyBlocks = legacyBlocksPreview.length > 0;
+		const orderMessage =
+			legacySidebarData.order === 1
+				? legacySidebarStrings.orderLinksFirst
+				: legacySidebarData.order === 0
+				? legacySidebarStrings.orderContactsFirst
+				: '';
+
+		const handleInsert = () => {
+			const blocksToInsert = buildLegacyBlocks(
+				legacySidebarData,
+				legacySidebarStrings
+			);
+			if ( ! blocksToInsert.length ) {
+				return;
+			}
+			dispatch( 'core/block-editor' ).insertBlocks( blocksToInsert );
+			setHasInserted( true );
+		};
+
+		const title =
+			legacySidebarStrings.panelTitle ||
+			__( 'Migration Assistant', 'fau-elemental' );
+		const menuLabel =
+			legacySidebarStrings.menuLabel ||
+			__( 'Migration Assistant', 'fau-elemental' );
+
+		return (
+			<Fragment>
+				<PluginSidebarMoreMenuItem target="fau-legacy-sidebar">
+					{ menuLabel }
+				</PluginSidebarMoreMenuItem>
+				<PluginSidebar
+					name="fau-legacy-sidebar"
+					title={ title }
+					icon={ <LegacySidebarIcon /> }
+				>
+					<div style={ { padding: '16px 20px' } }>
+						<Text as="p">
+							{ legacySidebarStrings.panelDescription ||
+								__(
+									'This page still holds sidebar entries from the previous theme. Review the content below or append it to the page as a Classic block.',
+									'fau-elemental'
+								) }
+						</Text>
+						{ orderMessage && (
+							<Notice status="info" isDismissible={ false }>
+								{ orderMessage }
+							</Notice>
+						) }
+						{ sections && sections.length > 0 && (
+							<div
+								style={ {
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '16px',
+									marginTop: '12px',
+								} }
+							>
+								{ sections }
+							</div>
+						) }
+						{ ( canInsertLegacyBlocks || hasInserted ) && (
+							<div style={ actionsSpacingStyle }>
+								{ canInsertLegacyBlocks && (
+									<Button
+										variant="secondary"
+										onClick={ handleInsert }
+										disabled={
+											hasInserted ||
+											! canInsertLegacyBlocks
+										}
+									>
+										{ hasInserted
+											? legacySidebarStrings.insertedLabel ||
+											  __(
+													'Legacy sidebar content was inserted.',
+													'fau-elemental'
+											  )
+											: legacySidebarStrings.insertButton ||
+											  __(
+													'Insert legacy sidebar content',
+													'fau-elemental'
+											  ) }
+									</Button>
+								) }
+								{ hasInserted && (
+									<Notice
+										status="success"
+										isDismissible={ false }
+									>
+										{ legacySidebarStrings.insertedLabel ||
+											__(
+												'Legacy sidebar content was inserted at the bottom of the page.',
+												'fau-elemental'
+											) }
+									</Notice>
+								) }
+							</div>
+						) }
+					</div>
+				</PluginSidebar>
+			</Fragment>
+		);
+	};
+
+	registerPlugin( 'fau-legacy-sidebar-toolbar', {
+		render: LegacySidebarControls,
+		icon: <LegacySidebarIcon />,
+	} );
 }
 
 const portalMenuSettings = document.getElementById(
