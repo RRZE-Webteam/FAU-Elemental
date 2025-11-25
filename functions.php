@@ -75,6 +75,9 @@ require_once get_template_directory() . '/components/template-parts/pagination/p
 // Widgets
 require_once get_template_directory() . '/inc/widgets.php';
 
+// Legacy sidebar compatibility
+require_once get_template_directory() . '/inc/legacy-sidebar.php';
+
 /**
  * Register custom page templates
  */
