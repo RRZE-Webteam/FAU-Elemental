@@ -75,6 +75,9 @@ require_once get_template_directory() . '/components/template-parts/pagination/p
 // Widgets
 require_once get_template_directory() . '/inc/widgets.php';
 
+// Legacy sidebar compatibility
+require_once get_template_directory() . '/inc/legacy-sidebar.php';
+
 /**
  * Register custom page templates
  */
@@ -361,3 +364,43 @@ function fau_elemental_register_page_categories() {
     );
 }
 add_action('init', 'fau_elemental_register_page_categories');
+
+/*-----------------------------------------------------------------------------------*/
+/* create favicon metas
+/*-----------------------------------------------------------------------------------*/
+function fau_create_meta_favicon() {
+    if (function_exists('has_site_icon') && has_site_icon()) {
+        return;
+    }
+
+    $favicons_uri = trailingslashit(get_stylesheet_directory_uri()) . 'assets/images/favicons';
+    $default_color = '#04316a';
+    $faculty_colors = array(
+        'nat'  => '#7BB725',
+        'phil' => '#FDB735',
+        'rw'   => '#C50F3C',
+        'med'  => '#18B4F1',
+        'tf'   => '#8C9FB1',
+    );
+
+    $faculty_slug = get_theme_mod('faue_faculty');
+    $brand_color  = isset($faculty_colors[$faculty_slug]) ? $faculty_colors[$faculty_slug] : $default_color;
+
+    $tags = [
+        sprintf('<link rel="shortcut icon" href="%s/favicon.ico">', $favicons_uri),
+        sprintf('<link rel="apple-touch-icon" sizes="180x180" href="%s/favicon-apple-touch.png">', $favicons_uri),
+        sprintf('<link rel="icon" type="image/png" sizes="180x180" href="%s/favicon-180x180.png">', $favicons_uri),
+        sprintf('<link rel="icon" type="image/svg+xml" href="%s/favicon.svg" sizes="any">', $favicons_uri),
+        sprintf('<link rel="mask-icon" href="%s/favicon-mask.svg" color="%s">', $favicons_uri, esc_attr($brand_color)),
+        sprintf('<meta name="msapplication-TileColor" content="%s">', esc_attr($brand_color)),
+        sprintf('<meta name="msapplication-TileImage" content="%s/favicon-180x180.png">', $favicons_uri),
+        sprintf('<meta name="theme-color" content="%s">', esc_attr($brand_color)),
+    ];
+
+    echo implode("\n", $tags) . "\n";
+}
+
+add_action('wp_head', 'fau_create_meta_favicon');
+// add favicon for frontend
+add_action('admin_head', 'fau_create_meta_favicon');
+// add favicon for backend

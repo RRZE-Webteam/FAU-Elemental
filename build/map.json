@@ -234,28 +234,16 @@
   "components/ui/editor/editor.js": [
     "build/js/editor.js"
   ],
-  "components/core-blocks/file/index.js": [
-    "build/js/editor.js"
-  ],
-  "components/core-blocks/gallery/index.js": [
-    "build/js/editor.js"
-  ],
   "components/core-blocks/button/index.js": [
     "build/js/editor.js"
   ],
-  "components/core-blocks/cover/index.js": [
-    "build/js/editor.js"
-  ],
-  "components/core-blocks/details/index.js": [
+  "components/core-blocks/file/index.js": [
     "build/js/editor.js"
   ],
   "components/core-blocks/group/index.js": [
     "build/js/editor.js"
   ],
   "components/core-blocks/image/index.js": [
-    "build/js/editor.js"
-  ],
-  "components/core-blocks/list/index.js": [
     "build/js/editor.js"
   ],
   "components/core-blocks/media-text/index.js": [
@@ -267,13 +255,25 @@
   "components/core-blocks/separator/index.js": [
     "build/js/editor.js"
   ],
-  "components/core-blocks/spacer/index.js": [
-    "build/js/editor.js"
-  ],
   "components/core-blocks/table/index.js": [
     "build/js/editor.js"
   ],
   "components/core-blocks/tag-cloud/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/cover/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/list/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/spacer/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/gallery/index.js": [
+    "build/js/editor.js"
+  ],
+  "components/core-blocks/details/index.js": [
     "build/js/editor.js"
   ],
   "components/core-blocks/image/utils.js": [
