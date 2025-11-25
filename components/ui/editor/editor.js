@@ -6,7 +6,6 @@ import {
 	CardBody,
 	CardHeader,
 	ExternalLink,
-	PanelBody,
 	__experimentalText as Text,
 } from '@wordpress/components';
 import { select, subscribe, dispatch } from '@wordpress/data';
@@ -401,7 +400,9 @@ const buildListBlockFromLinks = ( links ) => {
 		.map( ( entry ) => {
 			const label = escapeHtml( entry.title || '' );
 			if ( entry.url ) {
-				return `<li><a href="${ escapeAttribute( entry.url ) }">${ label }</a></li>`;
+				return `<li><a href="${ escapeAttribute(
+					entry.url
+				) }">${ label }</a></li>`;
 			}
 			return `<li>${ label }</li>`;
 		} )
@@ -422,8 +423,7 @@ const buildLegacyBlocks = ( data, strings = {} ) => {
 		return blocks;
 	}
 
-	const headingLabel = ( text, fallback ) =>
-		text || fallback || '';
+	const headingLabel = ( text, fallback ) => text || fallback || '';
 
 	const addHeading = ( text ) => {
 		if ( ! text ) {
@@ -490,7 +490,12 @@ const shortcodeBoxStyle = {
 	display: 'inline-block',
 	marginBottom: '12px',
 };
-const actionsSpacingStyle = { marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px' };
+const actionsSpacingStyle = {
+	marginTop: '16px',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '8px',
+};
 
 const LegacyTextSection = ( { label, data, strings, sectionKey } ) => {
 	if ( ! data || ( ! data.title && ! data.content ) ) {
@@ -506,8 +511,10 @@ const LegacyTextSection = ( { label, data, strings, sectionKey } ) => {
 				{ data.title && (
 					<Text as="p">
 						<strong>
-							{ strings.titleLabel || __( 'Title', 'fau-elemental' ) }:
-						</strong>{' '}
+							{ strings.titleLabel ||
+								__( 'Title', 'fau-elemental' ) }
+							:
+						</strong>{ ' ' }
 						{ data.title }
 					</Text>
 				) }
@@ -538,8 +545,10 @@ const LegacyListSection = ( {
 				{ title && (
 					<Text as="p">
 						<strong>
-							{ strings.titleLabel || __( 'Title', 'fau-elemental' ) }:
-						</strong>{' '}
+							{ strings.titleLabel ||
+								__( 'Title', 'fau-elemental' ) }
+							:
+						</strong>{ ' ' }
 						{ title }
 					</Text>
 				) }
@@ -572,7 +581,10 @@ const LegacyContactsSection = ( { data, strings } ) => {
 		strings.shortcodeLabel || __( 'Legacy shortcode', 'fau-elemental' );
 	const shortcodeDescription =
 		strings.shortcodeDescription ||
-		__( 'Add this shortcode to display the selected contacts.', 'fau-elemental' );
+		__(
+			'Add this shortcode to display the selected contacts.',
+			'fau-elemental'
+		);
 
 	return (
 		<Card key="legacy-contacts" style={ cardSpacingStyle }>
@@ -583,8 +595,10 @@ const LegacyContactsSection = ( { data, strings } ) => {
 				{ data.title && (
 					<Text as="p">
 						<strong>
-							{ strings.titleLabel || __( 'Title', 'fau-elemental' ) }:
-						</strong>{' '}
+							{ strings.titleLabel ||
+								__( 'Title', 'fau-elemental' ) }
+							:
+						</strong>{ ' ' }
 						{ data.title }
 					</Text>
 				) }
@@ -601,12 +615,17 @@ const LegacyContactsSection = ( { data, strings } ) => {
 					<div>
 						<Text as="p">
 							<strong>
-								{ strings.linksLabel || __( 'Links', 'fau-elemental' ) }
+								{ strings.linksLabel ||
+									__( 'Links', 'fau-elemental' ) }
 							</strong>
 						</Text>
 						<ul className="fau-legacy-sidebar__list">
 							{ entries.map( ( entry, index ) => (
-								<li key={ `${ entry.id || 'contact' }-${ index }` }>
+								<li
+									key={ `${
+										entry.id || 'contact'
+									}-${ index }` }
+								>
 									<Text as="span">
 										{ entry.title ||
 											strings.contactFallback ||
@@ -633,7 +652,9 @@ const getLegacySidebarSections = ( data, strings ) => {
 			<LegacyTextSection
 				key="legacy-top"
 				sectionKey="legacy-top"
-				label={ strings.textTopLabel || __( 'Top text', 'fau-elemental' ) }
+				label={
+					strings.textTopLabel || __( 'Top text', 'fau-elemental' )
+				}
 				data={ data.top }
 				strings={ strings }
 			/>
@@ -655,19 +676,24 @@ const getLegacySidebarSections = ( data, strings ) => {
 			if ( ! block.links?.length && ! block.title ) {
 				return;
 			}
+			const blockLabel = strings.linkBlockLabel
+				? strings.linkBlockLabel.replace( '%d', block.block )
+				: sprintf(
+						/* translators: %d: link block number */
+						__( 'Link block %d', 'fau-elemental' ),
+						block.block
+				  );
 			sections.push(
 				<LegacyListSection
 					key={ `legacy-link-block-${ block.block }` }
 					sectionKey={ `legacy-link-block-${ block.block }` }
-					label={
-						strings.linkBlockLabel
-							? sprintf( strings.linkBlockLabel, block.block )
-							: sprintf( __( 'Link block %d', 'fau-elemental' ), block.block )
-					}
+					label={ blockLabel }
 					title={ block.title }
 					entries={ block.links }
 					strings={ strings }
-					fallback={ strings.linkFallback || __( 'Link', 'fau-elemental' ) }
+					fallback={
+						strings.linkFallback || __( 'Link', 'fau-elemental' )
+					}
 				/>
 			);
 		} );
@@ -678,7 +704,10 @@ const getLegacySidebarSections = ( data, strings ) => {
 			<LegacyTextSection
 				key="legacy-bottom"
 				sectionKey="legacy-bottom"
-				label={ strings.textBottomLabel || __( 'Bottom text', 'fau-elemental' ) }
+				label={
+					strings.textBottomLabel ||
+					__( 'Bottom text', 'fau-elemental' )
+				}
 				data={ data.bottom }
 				strings={ strings }
 			/>
@@ -709,7 +738,11 @@ if ( legacySidebarContext?.data?.hasLegacyData ) {
 	const LegacySidebarControls = () => {
 		const [ hasInserted, setHasInserted ] = useState( false );
 		const sections = useMemo(
-			() => getLegacySidebarSections( legacySidebarData, legacySidebarStrings ),
+			() =>
+				getLegacySidebarSections(
+					legacySidebarData,
+					legacySidebarStrings
+				),
 			[ legacySidebarData, legacySidebarStrings ]
 		);
 		const legacyBlocksPreview = useMemo(
@@ -778,36 +811,40 @@ if ( legacySidebarContext?.data?.hasLegacyData ) {
 								{ sections }
 							</div>
 						) }
-					{ ( canInsertLegacyBlocks || hasInserted ) && (
-						<div style={ actionsSpacingStyle }>
-							{ canInsertLegacyBlocks && (
-								<Button
-									variant="secondary"
-									onClick={ handleInsert }
-									disabled={ hasInserted || ! canInsertLegacyBlocks }
-								>
-									{ hasInserted
-										? legacySidebarStrings.insertedLabel ||
-												__(
+						{ ( canInsertLegacyBlocks || hasInserted ) && (
+							<div style={ actionsSpacingStyle }>
+								{ canInsertLegacyBlocks && (
+									<Button
+										variant="secondary"
+										onClick={ handleInsert }
+										disabled={
+											hasInserted ||
+											! canInsertLegacyBlocks
+										}
+									>
+										{ hasInserted
+											? legacySidebarStrings.insertedLabel ||
+											  __(
 													'Legacy sidebar content was inserted.',
 													'fau-elemental'
-												)
+											  )
 											: legacySidebarStrings.insertButton ||
-												__(
+											  __(
 													'Insert legacy sidebar content',
 													'fau-elemental'
-												)
-										}
+											  ) }
 									</Button>
 								) }
-							{ hasInserted && (
-									<Notice status="success" isDismissible={ false }>
+								{ hasInserted && (
+									<Notice
+										status="success"
+										isDismissible={ false }
+									>
 										{ legacySidebarStrings.insertedLabel ||
 											__(
 												'Legacy sidebar content was inserted at the bottom of the page.',
 												'fau-elemental'
-											)
-										}
+											) }
 									</Notice>
 								) }
 							</div>
