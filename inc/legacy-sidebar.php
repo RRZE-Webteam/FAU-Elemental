@@ -111,7 +111,7 @@ class FAU_Elemental_Legacy_Sidebar {
      */
     private static function get_ui_strings() {
         return array(
-            'panelTitle' => __('Legacy Sidebar Content', 'fau-elemental'),
+            'panelTitle' => __('Migration Assistant', 'fau-elemental'),
             'panelDescription' => __('This page still contains sidebar entries that were stored in the FAU-Einrichtungen theme. Use this reference to copy the content or inject it into the current page.', 'fau-elemental'),
             'orderLinksFirst' => __('Links were displayed before contacts in the legacy sidebar.', 'fau-elemental'),
             'orderContactsFirst' => __('Contacts were displayed before links in the legacy sidebar.', 'fau-elemental'),
@@ -122,11 +122,13 @@ class FAU_Elemental_Legacy_Sidebar {
             'titleLabel' => __('Title', 'fau-elemental'),
             'contentLabel' => __('Content', 'fau-elemental'),
             'linksLabel' => __('Links', 'fau-elemental'),
-            'insertButton' => __('Insert as Classic block', 'fau-elemental'),
-            'insertedLabel' => __('Legacy sidebar content was inserted at the bottom of the page.', 'fau-elemental'),
+            'insertButton' => __('Insert as blocks', 'fau-elemental'),
+            'insertedLabel' => __('Legacy sidebar content inserted.', 'fau-elemental'),
             'noTitleFallback' => __('No title', 'fau-elemental'),
             'contactFallback' => __('Contact', 'fau-elemental'),
             'linkFallback' => __('Link', 'fau-elemental'),
+            'shortcodeLabel' => __('Legacy shortcode', 'fau-elemental'),
+            'shortcodeDescription' => __('Add this shortcode to display the selected contacts.', 'fau-elemental'),
         );
     }
 
@@ -164,6 +166,7 @@ class FAU_Elemental_Legacy_Sidebar {
         }
 
         $items = array();
+        $shortcode_ids = array();
         foreach ($ids as $raw_id) {
             $person_id = absint($raw_id);
             if (!$person_id) {
@@ -174,6 +177,8 @@ class FAU_Elemental_Legacy_Sidebar {
             if ('' === $title) {
                 continue;
             }
+
+            $shortcode_ids[] = $person_id;
 
             $items[] = array(
                 'id' => $person_id,
@@ -187,10 +192,15 @@ class FAU_Elemental_Legacy_Sidebar {
         }
 
         $title = sanitize_text_field(get_post_meta($post_id, 'sidebar_title_personen', true));
+        $shortcode = '';
+        if (!empty($shortcode_ids)) {
+            $shortcode = '[kontakt id="' . implode(',', array_map('absint', $shortcode_ids)) . '"]';
+        }
 
         return array(
             'title' => $title,
             'items' => $items,
+            'shortcode' => $shortcode,
         );
     }
 

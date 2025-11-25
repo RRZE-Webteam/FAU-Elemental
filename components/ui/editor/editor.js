@@ -1,4 +1,4 @@
-import { createBlock } from '@wordpress/blocks';
+import { createBlock, rawHandler } from '@wordpress/blocks';
 import {
 	Button,
 	Notice,
@@ -370,79 +370,126 @@ const escapeHtml = ( value = '' ) =>
 const escapeAttribute = ( value = '' ) =>
 	escapeHtml( value ).replace( /"/g, '&quot;' );
 
-const buildLegacySidebarHtml = ( data, strings ) => {
+const parseHtmlToBlocks = ( html ) => {
+	const trimmed = ( html || '' ).trim();
+	if ( ! trimmed ) {
+		return [];
+	}
+
+	try {
+		const parsed = rawHandler( { HTML: trimmed } ) || [];
+		if ( parsed.length ) {
+			return parsed;
+		}
+	} catch ( error ) {
+		// Fallback handled below
+	}
+
+	return [
+		createBlock( 'core/paragraph', {
+			content: trimmed,
+		} ),
+	];
+};
+
+const buildListBlockFromLinks = ( links ) => {
+	if ( ! Array.isArray( links ) || ! links.length ) {
+		return null;
+	}
+
+	const itemsHtml = links
+		.map( ( entry ) => {
+			const label = escapeHtml( entry.title || '' );
+			if ( entry.url ) {
+				return `<li><a href="${ escapeAttribute( entry.url ) }">${ label }</a></li>`;
+			}
+			return `<li>${ label }</li>`;
+		} )
+		.join( '' );
+
+	if ( ! itemsHtml ) {
+		return null;
+	}
+
+	return createBlock( 'core/list', {
+		values: itemsHtml,
+	} );
+};
+
+const buildLegacyBlocks = ( data, strings = {} ) => {
+	const blocks = [];
 	if ( ! data ) {
-		return '';
+		return blocks;
 	}
 
-	const sections = [];
+	const headingLabel = ( text, fallback ) =>
+		text || fallback || '';
 
-	if ( data.top && ( data.top.title || data.top.content ) ) {
-		const heading = data.top.title
-			? `<h3>${ escapeHtml( data.top.title ) }</h3>`
-			: '';
-		const body = data.top.content || '';
-		sections.push(
-			`<section class="legacy-sidebar-section legacy-sidebar-text-top">${ heading }${ body }</section>`
-		);
-	}
-
-	if ( data.contacts && data.contacts.items && data.contacts.items.length ) {
-		const list = data.contacts.items
-			.map( ( item ) => {
-				const label = item.title || strings.contactFallback || '';
-				const linkLabel = escapeHtml( label );
-				const url = item.url
-					? `<span class="legacy-sidebar-link">${ escapeHtml( item.url ) }</span>`
-					: '';
-				return `<li><span class="legacy-sidebar-item-title">${ linkLabel }</span>${ url }</li>`;
+	const addHeading = ( text ) => {
+		if ( ! text ) {
+			return;
+		}
+		blocks.push(
+			createBlock( 'core/heading', {
+				level: 3,
+				content: text,
 			} )
-			.join( '' );
-		const heading = data.contacts.title
-			? `<h3>${ escapeHtml( data.contacts.title ) }</h3>`
-			: '';
-		sections.push(
-			`<section class="legacy-sidebar-section legacy-sidebar-contacts">${ heading }<ul>${ list }</ul></section>`
 		);
+	};
+
+	const addContentBlocks = ( html ) => {
+		parseHtmlToBlocks( html ).forEach( ( block ) => blocks.push( block ) );
+	};
+
+	if ( data.top ) {
+		addHeading( data.top.title );
+		addContentBlocks( data.top.content );
+	}
+
+	if ( data.contacts ) {
+		const contactHeading = headingLabel(
+			data.contacts.title,
+			strings.contactsLabel || __( 'Contacts', 'fau-elemental' )
+		);
+		addHeading( contactHeading );
+		if ( data.contacts.shortcode ) {
+			blocks.push(
+				createBlock( 'core/shortcode', {
+					text: data.contacts.shortcode,
+				} )
+			);
+		}
 	}
 
 	if ( data.linkBlocks && data.linkBlocks.length ) {
 		data.linkBlocks.forEach( ( block ) => {
-			if ( ! block.links || ! block.links.length ) {
-				return;
+			if ( block.title ) {
+				addHeading( block.title );
 			}
-			const heading = block.title
-				? `<h3>${ escapeHtml( block.title ) }</h3>`
-				: '';
-			const list = block.links
-				.map( ( entry ) => {
-					const label = entry.title || strings.linkFallback || '';
-					const link = entry.url
-						? `<a href="${ escapeAttribute( entry.url ) }">${ escapeHtml( label ) }</a>`
-						: `<span class="legacy-sidebar-item-title">${ escapeHtml( label ) }</span>`;
-					return `<li>${ link }${ entry.url ? '' : '' }</li>`;
-				} )
-				.join( '' );
-			sections.push(
-				`<section class="legacy-sidebar-section legacy-sidebar-links">${ heading }<ul>${ list }</ul></section>`
-			);
+			const listBlock = buildListBlockFromLinks( block.links );
+			if ( listBlock ) {
+				blocks.push( listBlock );
+			}
 		} );
 	}
 
-	if ( data.bottom && ( data.bottom.title || data.bottom.content ) ) {
-		const heading = data.bottom.title
-			? `<h3>${ escapeHtml( data.bottom.title ) }</h3>`
-			: '';
-		const body = data.bottom.content || '';
-		sections.push(
-			`<section class="legacy-sidebar-section legacy-sidebar-text-bottom">${ heading }${ body }</section>`
-		);
+	if ( data.bottom ) {
+		addHeading( data.bottom.title );
+		addContentBlocks( data.bottom.content );
 	}
 
-	return sections.join( '' );
+	return blocks;
 };
 
 const cardSpacingStyle = { marginBottom: '16px' };
+const shortcodeBoxStyle = {
+	backgroundColor: '#f6f7f7',
+	borderRadius: '4px',
+	fontFamily: 'monospace',
+	padding: '8px 12px',
+	display: 'inline-block',
+	marginBottom: '12px',
+};
 const actionsSpacingStyle = { marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px' };
 
 const LegacyTextSection = ( { label, data, strings, sectionKey } ) => {
@@ -477,7 +524,6 @@ const LegacyListSection = ( {
 	strings,
 	fallback,
 	sectionKey,
- 	withIdentifiers = false,
 } ) => {
 	if ( ! entries || ! entries.length ) {
 		return null;
@@ -499,12 +545,9 @@ const LegacyListSection = ( {
 				) }
 				{ entries.map( ( entry, index ) => (
 					<div key={ `${ sectionKey }-${ entry.id || index }` }>
-					<Text as="p">
-						<strong>{ entry.title || fallback }</strong>
-						{ withIdentifiers && entry.id
-							? ` (ID ${ entry.id })`
-							: '' }
-					</Text>
+						<Text as="p">
+							<strong>{ entry.title || fallback }</strong>
+						</Text>
 						{ entry.url && (
 							<ExternalLink href={ entry.url }>
 								{ entry.url }
@@ -512,6 +555,71 @@ const LegacyListSection = ( {
 						) }
 					</div>
 				) ) }
+			</CardBody>
+		</Card>
+	);
+};
+
+const LegacyContactsSection = ( { data, strings } ) => {
+	if ( ! data ) {
+		return null;
+	}
+
+	const label = strings.contactsLabel || __( 'Contacts', 'fau-elemental' );
+	const shortcode = data.shortcode;
+	const entries = data.items || [];
+	const shortcodeLabel =
+		strings.shortcodeLabel || __( 'Legacy shortcode', 'fau-elemental' );
+	const shortcodeDescription =
+		strings.shortcodeDescription ||
+		__( 'Add this shortcode to display the selected contacts.', 'fau-elemental' );
+
+	return (
+		<Card key="legacy-contacts" style={ cardSpacingStyle }>
+			<CardHeader>
+				<Text variant="title.small">{ label }</Text>
+			</CardHeader>
+			<CardBody>
+				{ data.title && (
+					<Text as="p">
+						<strong>
+							{ strings.titleLabel || __( 'Title', 'fau-elemental' ) }:
+						</strong>{' '}
+						{ data.title }
+					</Text>
+				) }
+				{ shortcode && (
+					<Fragment>
+						<Text as="p">
+							<strong>{ shortcodeLabel }</strong>
+						</Text>
+						<code style={ shortcodeBoxStyle }>{ shortcode }</code>
+						<Text as="p">{ shortcodeDescription }</Text>
+					</Fragment>
+				) }
+				{ entries.length > 0 && (
+					<div>
+						<Text as="p">
+							<strong>
+								{ strings.linksLabel || __( 'Links', 'fau-elemental' ) }
+							</strong>
+						</Text>
+						<ul className="fau-legacy-sidebar__list">
+							{ entries.map( ( entry, index ) => (
+								<li key={ `${ entry.id || 'contact' }-${ index }` }>
+									<Text as="span">
+										{ entry.title ||
+											strings.contactFallback ||
+											__( 'Contact', 'fau-elemental' ) }
+									</Text>
+									{ entry.id && (
+										<Text as="span">{ ` (ID ${ entry.id })` }</Text>
+									) }
+								</li>
+							) ) }
+						</ul>
+					</div>
+				) }
 			</CardBody>
 		</Card>
 	);
@@ -534,15 +642,10 @@ const getLegacySidebarSections = ( data, strings ) => {
 
 	if ( data?.contacts?.items?.length ) {
 		sections.push(
-			<LegacyListSection
+			<LegacyContactsSection
 				key="legacy-contacts"
-				sectionKey="legacy-contacts"
-				label={ strings.contactsLabel || __( 'Contacts', 'fau-elemental' ) }
-				title={ data.contacts.title }
-				entries={ data.contacts.items }
+				data={ data.contacts }
 				strings={ strings }
-				fallback={ strings.contactFallback || __( 'Contact', 'fau-elemental' ) }
-				withIdentifiers
 			/>
 		);
 	}
@@ -589,16 +692,31 @@ if ( legacySidebarContext?.data?.hasLegacyData ) {
 	const legacySidebarData = legacySidebarContext.data;
 	const legacySidebarStrings = legacySidebarContext.strings || {};
 
+	const LegacySidebarIcon = () => (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			height="24"
+			viewBox="0 -960 960 960"
+			width="24"
+			fill="currentColor"
+			role="img"
+			aria-hidden="true"
+		>
+			<path d="M280-160q-50 0-85-35t-35-85H60l18-80h113q17-19 40-29.5t49-10.5q26 0 49 10.5t40 29.5h167l84-360H182l4-17q6-28 27.5-45.5T264-800h456l-37 160h117l120 160-40 200h-80q0 50-35 85t-85 35q-50 0-85-35t-35-85H400q0 50-35 85t-85 35Zm357-280h193l4-21-74-99h-95l-28 120Zm-19-273 2-7-84 360 2-7 34-146 46-200ZM20-427l20-80h220l-20 80H20Zm80-146 20-80h260l-20 80H100Zm180 333q17 0 28.5-11.5T320-280q0-17-11.5-28.5T280-320q-17 0-28.5 11.5T240-280q0 17 11.5 28.5T280-240Zm400 0q17 0 28.5-11.5T720-280q0-17-11.5-28.5T680-320q-17 0-28.5 11.5T640-280q0 17 11.5 28.5T680-240Z" />
+		</svg>
+	);
+
 	const LegacySidebarControls = () => {
 		const [ hasInserted, setHasInserted ] = useState( false );
 		const sections = useMemo(
 			() => getLegacySidebarSections( legacySidebarData, legacySidebarStrings ),
 			[ legacySidebarData, legacySidebarStrings ]
 		);
-		const htmlContent = useMemo(
-			() => buildLegacySidebarHtml( legacySidebarData, legacySidebarStrings ),
+		const legacyBlocksPreview = useMemo(
+			() => buildLegacyBlocks( legacySidebarData, legacySidebarStrings ),
 			[ legacySidebarData, legacySidebarStrings ]
 		);
+		const canInsertLegacyBlocks = legacyBlocksPreview.length > 0;
 		const orderMessage =
 			legacySidebarData.order === 1
 				? legacySidebarStrings.orderLinksFirst
@@ -607,22 +725,23 @@ if ( legacySidebarContext?.data?.hasLegacyData ) {
 				: '';
 
 		const handleInsert = () => {
-			if ( ! htmlContent ) {
+			const blocksToInsert = buildLegacyBlocks(
+				legacySidebarData,
+				legacySidebarStrings
+			);
+			if ( ! blocksToInsert.length ) {
 				return;
 			}
-			const classicBlock = createBlock( 'core/freeform', {
-				content: htmlContent,
-			} );
-			dispatch( 'core/block-editor' ).insertBlocks( classicBlock );
+			dispatch( 'core/block-editor' ).insertBlocks( blocksToInsert );
 			setHasInserted( true );
 		};
 
 		const title =
 			legacySidebarStrings.panelTitle ||
-			__( 'Legacy Sidebar Content', 'fau-elemental' );
+			__( 'Migration Assistant', 'fau-elemental' );
 		const menuLabel =
 			legacySidebarStrings.menuLabel ||
-			__( 'Legacy Sidebar', 'fau-elemental' );
+			__( 'Migration Assistant', 'fau-elemental' );
 
 		return (
 			<Fragment>
@@ -632,9 +751,9 @@ if ( legacySidebarContext?.data?.hasLegacyData ) {
 				<PluginSidebar
 					name="fau-legacy-sidebar"
 					title={ title }
-					icon="index-card"
+					icon={ <LegacySidebarIcon /> }
 				>
-					<PanelBody initialOpen title={ title }>
+					<div style={ { padding: '16px 20px' } }>
 						<Text as="p">
 							{ legacySidebarStrings.panelDescription ||
 								__(
@@ -659,16 +778,16 @@ if ( legacySidebarContext?.data?.hasLegacyData ) {
 								{ sections }
 							</div>
 						) }
-						{ ( htmlContent || hasInserted ) && (
-							<div style={ actionsSpacingStyle }>
-								{ htmlContent && (
-									<Button
-										variant="secondary"
-										onClick={ handleInsert }
-										disabled={ hasInserted }
-									>
-										{ hasInserted
-											? legacySidebarStrings.insertedLabel ||
+					{ ( canInsertLegacyBlocks || hasInserted ) && (
+						<div style={ actionsSpacingStyle }>
+							{ canInsertLegacyBlocks && (
+								<Button
+									variant="secondary"
+									onClick={ handleInsert }
+									disabled={ hasInserted || ! canInsertLegacyBlocks }
+								>
+									{ hasInserted
+										? legacySidebarStrings.insertedLabel ||
 												__(
 													'Legacy sidebar content was inserted.',
 													'fau-elemental'
@@ -681,7 +800,7 @@ if ( legacySidebarContext?.data?.hasLegacyData ) {
 										}
 									</Button>
 								) }
-								{ hasInserted && (
+							{ hasInserted && (
 									<Notice status="success" isDismissible={ false }>
 										{ legacySidebarStrings.insertedLabel ||
 											__(
@@ -693,7 +812,7 @@ if ( legacySidebarContext?.data?.hasLegacyData ) {
 								) }
 							</div>
 						) }
-					</PanelBody>
+					</div>
 				</PluginSidebar>
 			</Fragment>
 		);
@@ -701,7 +820,7 @@ if ( legacySidebarContext?.data?.hasLegacyData ) {
 
 	registerPlugin( 'fau-legacy-sidebar-toolbar', {
 		render: LegacySidebarControls,
-		icon: 'index-card',
+		icon: <LegacySidebarIcon />,
 	} );
 }
 
