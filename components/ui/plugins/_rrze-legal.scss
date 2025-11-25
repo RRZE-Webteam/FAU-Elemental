@@ -13,8 +13,10 @@
 	}
 }
 
-.wp-theme-FAU-Elemental {
-	#RRZELegalBanner .middle-center {
-		align-items: start;
+@media screen and (width < 768px) {
+	.wp-theme-FAU-Elemental {
+		#RRZELegalBanner .middle-center {
+			align-items: start;
+		}
 	}
 }
