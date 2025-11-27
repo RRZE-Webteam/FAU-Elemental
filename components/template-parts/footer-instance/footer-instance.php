@@ -195,29 +195,9 @@
 
                 <?php
                 require_once get_theme_file_path('components/template-parts/footer-instance/footer-target-groups.php');
-                
-                $target_groups = array(
-                    array(
-                        'title' => get_theme_mod('target_section1_title', __('Target Group Section 1', 'fau-elemental')),
-                        'description' => get_theme_mod('target_section1_description', __('History, features, data, structure and more', 'fau-elemental')),
-                        'link' => get_theme_mod('target_section1_link', '')
-                    ),
-                    array(
-                        'title' => get_theme_mod('target_section2_title', __('Target Group Section 2', 'fau-elemental')),
-                        'description' => get_theme_mod('target_section2_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
-                        'link' => get_theme_mod('target_section2_link', '')
-                    ),
-                    array(
-                        'title' => get_theme_mod('target_section3_title', __('Target Group Section 3', 'fau-elemental')),
-                        'description' => get_theme_mod('target_section3_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
-                        'link' => get_theme_mod('target_section3_link', '')
-                    ),
-                    array(
-                        'title' => get_theme_mod('target_section4_title', __('Target Group Section 4', 'fau-elemental')),
-                        'description' => get_theme_mod('target_section4_description', __('Focus areas, mission, reputation, achievements and more', 'fau-elemental')),
-                        'link' => get_theme_mod('target_section4_link', '')
-                    )
-                );
+
+                // get settings from FAU site
+                $target_groups = faue_get_target_groups_from_fau_blog();
 
                 echo render_footer_target_groups($target_groups, 'outline', 'small');
                 ?>
