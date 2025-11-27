@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.4.51\n"
+"Project-Id-Version: FAU-Elemental 0.4.52\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-20T11:30:32+00:00\n"
+"POT-Creation-Date: 2025-11-27T14:27:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -239,40 +239,6 @@ msgid ""
 "Erlangen-Nürnberg"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:201
-#: components/template-parts/footer-main/footer-main.php:14
-msgid "Target Group Section 1"
-msgstr ""
-
-#: components/template-parts/footer-instance/footer-instance.php:202
-#: components/template-parts/footer-main/footer-main.php:15
-msgid "History, features, data, structure and more"
-msgstr ""
-
-#: components/template-parts/footer-instance/footer-instance.php:206
-#: components/template-parts/footer-main/footer-main.php:19
-msgid "Target Group Section 2"
-msgstr ""
-
-#: components/template-parts/footer-instance/footer-instance.php:207
-#: components/template-parts/footer-instance/footer-instance.php:212
-#: components/template-parts/footer-instance/footer-instance.php:217
-#: components/template-parts/footer-main/footer-main.php:20
-#: components/template-parts/footer-main/footer-main.php:25
-#: components/template-parts/footer-main/footer-main.php:30
-msgid "Focus areas, mission, reputation, achievements and more"
-msgstr ""
-
-#: components/template-parts/footer-instance/footer-instance.php:211
-#: components/template-parts/footer-main/footer-main.php:24
-msgid "Target Group Section 3"
-msgstr ""
-
-#: components/template-parts/footer-instance/footer-instance.php:216
-#: components/template-parts/footer-main/footer-main.php:29
-msgid "Target Group Section 4"
-msgstr ""
-
 #: components/template-parts/footer-main/footer-main.php:4
 #: inc/config.php:40
 msgid "FAU - Knowledge in Motion"
@@ -281,6 +247,32 @@ msgstr ""
 #: components/template-parts/footer-main/footer-main.php:5
 #: inc/config.php:41
 msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
+msgstr ""
+
+#: components/template-parts/footer-main/footer-main.php:14
+msgid "Target Group Section 1"
+msgstr ""
+
+#: components/template-parts/footer-main/footer-main.php:15
+msgid "History, features, data, structure and more"
+msgstr ""
+
+#: components/template-parts/footer-main/footer-main.php:19
+msgid "Target Group Section 2"
+msgstr ""
+
+#: components/template-parts/footer-main/footer-main.php:20
+#: components/template-parts/footer-main/footer-main.php:25
+#: components/template-parts/footer-main/footer-main.php:30
+msgid "Focus areas, mission, reputation, achievements and more"
+msgstr ""
+
+#: components/template-parts/footer-main/footer-main.php:24
+msgid "Target Group Section 3"
+msgstr ""
+
+#: components/template-parts/footer-main/footer-main.php:29
+msgid "Target Group Section 4"
 msgstr ""
 
 #: components/template-parts/navigation/fau-navigation.php:18
@@ -476,7 +468,7 @@ msgstr ""
 
 #. Template Name of the theme
 #: components/template-parts/search-results/search-results.php:225
-#: functions.php:86
+#: functions.php:89
 msgid "All Posts"
 msgstr ""
 
@@ -537,7 +529,7 @@ msgid "Post Category"
 msgstr ""
 
 #: components/template-parts/search-results/search-results.php:352
-#: functions.php:334
+#: functions.php:337
 msgid "Page Category"
 msgstr ""
 
@@ -572,7 +564,7 @@ msgid "Archive listing"
 msgstr ""
 
 #. Template Name of the theme
-#: functions.php:87
+#: functions.php:90
 msgid "All Pages"
 msgstr ""
 
@@ -581,7 +573,7 @@ msgid "Pages listing"
 msgstr ""
 
 #. Template Name of the theme
-#: functions.php:83
+#: functions.php:86
 msgid "Portal Page"
 msgstr ""
 
@@ -589,48 +581,48 @@ msgstr ""
 msgid "Pages:"
 msgstr ""
 
-#: functions.php:333
-#: functions.php:335
+#: functions.php:336
+#: functions.php:338
 msgid "Page Categories"
 msgstr ""
 
-#: functions.php:336
+#: functions.php:339
 msgid "All Page Categories"
 msgstr ""
 
-#: functions.php:337
+#: functions.php:340
 msgid "Edit Page Category"
 msgstr ""
 
-#: functions.php:338
+#: functions.php:341
 msgid "View Page Category"
 msgstr ""
 
-#: functions.php:339
+#: functions.php:342
 msgid "Update Page Category"
 msgstr ""
 
-#: functions.php:340
+#: functions.php:343
 msgid "Add New Page Category"
 msgstr ""
 
-#: functions.php:341
+#: functions.php:344
 msgid "New Page Category Name"
 msgstr ""
 
-#: functions.php:342
+#: functions.php:345
 msgid "Parent Page Category"
 msgstr ""
 
-#: functions.php:343
+#: functions.php:346
 msgid "Parent Page Category:"
 msgstr ""
 
-#: functions.php:344
+#: functions.php:347
 msgid "Search Page Categories"
 msgstr ""
 
-#: functions.php:345
+#: functions.php:348
 msgid "No page categories found"
 msgstr ""
 
@@ -1030,6 +1022,99 @@ msgstr ""
 msgid "Categories"
 msgstr ""
 
+#: inc/legacy-sidebar.php:114
+#: components/ui/editor/editor.js:774
+#: components/ui/editor/editor.js:777
+msgid "Migration Assistant"
+msgstr ""
+
+#: inc/legacy-sidebar.php:115
+msgid "This page still contains sidebar entries that were stored in the FAU-Einrichtungen theme. Use this reference to copy the content or inject it into the current page."
+msgstr ""
+
+#: inc/legacy-sidebar.php:116
+msgid "Links were displayed before contacts in the legacy sidebar."
+msgstr ""
+
+#: inc/legacy-sidebar.php:117
+msgid "Contacts were displayed before links in the legacy sidebar."
+msgstr ""
+
+#: inc/legacy-sidebar.php:118
+#: components/ui/editor/editor.js:656
+msgid "Top text"
+msgstr ""
+
+#: inc/legacy-sidebar.php:119
+#: components/ui/editor/editor.js:709
+msgid "Bottom text"
+msgstr ""
+
+#: inc/legacy-sidebar.php:120
+#: components/ui/editor/editor.js:452
+#: components/ui/editor/editor.js:577
+msgid "Contacts"
+msgstr ""
+
+#. translators: %d: link block number
+#: inc/legacy-sidebar.php:121
+#: components/ui/editor/editor.js:683
+msgid "Link block %d"
+msgstr ""
+
+#: inc/legacy-sidebar.php:122
+#: index.php:227
+#: components/blocks/fau-big-button/edit.js:306
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
+#: components/ui/editor/editor.js:515
+#: components/ui/editor/editor.js:549
+#: components/ui/editor/editor.js:599
+msgid "Title"
+msgstr ""
+
+#: inc/legacy-sidebar.php:123
+#: components/blocks/fau-big-teaser/edit.js:77
+#: components/core-blocks/media-text/index.js:24
+msgid "Content"
+msgstr ""
+
+#: inc/legacy-sidebar.php:124
+#: components/ui/editor/editor.js:619
+msgid "Links"
+msgstr ""
+
+#: inc/legacy-sidebar.php:125
+msgid "Insert as blocks"
+msgstr ""
+
+#: inc/legacy-sidebar.php:126
+msgid "Legacy sidebar content inserted."
+msgstr ""
+
+#: inc/legacy-sidebar.php:127
+msgid "No title"
+msgstr ""
+
+#: inc/legacy-sidebar.php:128
+#: components/ui/editor/editor.js:632
+msgid "Contact"
+msgstr ""
+
+#: inc/legacy-sidebar.php:129
+#: components/ui/editor/editor.js:695
+msgid "Link"
+msgstr ""
+
+#: inc/legacy-sidebar.php:130
+#: components/ui/editor/editor.js:581
+msgid "Legacy shortcode"
+msgstr ""
+
+#: inc/legacy-sidebar.php:131
+#: components/ui/editor/editor.js:584
+msgid "Add this shortcode to display the selected contacts."
+msgstr ""
+
 #: inc/menu-registration.php:23
 msgid "Header Primary Menu"
 msgstr ""
@@ -1407,12 +1492,6 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: index.php:227
-#: components/blocks/fau-big-button/edit.js:306
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
-msgid "Title"
-msgstr ""
-
 #: components/blocks/fau-big-button/edit.js:71
 msgid "Default"
 msgstr ""
@@ -1592,11 +1671,6 @@ msgstr ""
 #: components/blocks/fau-featured-event-teaser/edit.js:140
 #: components/blocks/fau-featured-event-teaser/edit.js:220
 msgid "Remove Image"
-msgstr ""
-
-#: components/blocks/fau-big-teaser/edit.js:77
-#: components/core-blocks/media-text/index.js:24
-msgid "Content"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:81
@@ -2250,6 +2324,22 @@ msgstr ""
 
 #: components/core-blocks/spacer/index.js:205
 msgid "Current:"
+msgstr ""
+
+#: components/ui/editor/editor.js:792
+msgid "This page still holds sidebar entries from the previous theme. Review the content below or append it to the page as a Classic block."
+msgstr ""
+
+#: components/ui/editor/editor.js:827
+msgid "Legacy sidebar content was inserted."
+msgstr ""
+
+#: components/ui/editor/editor.js:832
+msgid "Insert legacy sidebar content"
+msgstr ""
+
+#: components/ui/editor/editor.js:844
+msgid "Legacy sidebar content was inserted at the bottom of the page."
 msgstr ""
 
 #: components/utils/urlValidation.js:29
