@@ -10,53 +10,6 @@
 require_once get_template_directory() . '/components/blocks/fau-big-button/big-button.php';
 
 /**
- * Find the blog ID with website type 'fau' in a multisite network
- *
- * @return int|false Blog ID if found, false otherwise
- */
-function faue_get_fau_blog_id() {
-    if (!is_multisite()) {
-        return false;
-    }
-
-    // Check if we can use get_main_site_id() and verify it's the FAU site
-    $main_site_id = get_main_site_id();
-    if ($main_site_id) {
-        switch_to_blog($main_site_id);
-        try {
-            $website_type = get_theme_mod('faue_website_type', '');
-            if ($website_type === 'fau') {
-                $fau_blog_id = $main_site_id;
-            }
-        } finally {
-            restore_current_blog();
-        }
-        if (isset($fau_blog_id)) {
-            return $fau_blog_id;
-        }
-    }
-
-    // If main site is not FAU, search all sites
-    $sites = get_sites(array('number' => 0));
-    foreach ($sites as $site) {
-        switch_to_blog($site->blog_id);
-        try {
-            $website_type = get_theme_mod('faue_website_type', '');
-            if ($website_type === 'fau') {
-                $fau_blog_id = $site->blog_id;
-            }
-        } finally {
-            restore_current_blog();
-        }
-        if (isset($fau_blog_id)) {
-            return $fau_blog_id;
-        }
-    }
-
-    return false;
-}
-
-/**
  * Get target group settings from the FAU blog
  *
  * @return array Array of target group data
@@ -79,7 +32,16 @@ function faue_get_target_groups_from_fau_blog() {
     // Find the FAU blog
     $fau_blog_id = faue_get_fau_blog_id();
     if (!$fau_blog_id) {
-        // If no FAU blog found, return empty array (will use fallbacks)
+        // If no FAU blog found, use default fallback values based on locale
+        $locale = get_locale();
+        $is_german = (strpos($locale, 'de') === 0);
+        $default_key = $is_german ? 'faue_target_groups_de' : 'faue_target_groups_en';
+        $default_groups = faue_get_default($default_key);
+        
+        if ($default_groups && is_array($default_groups)) {
+            return $default_groups;
+        }
+        
         return $target_groups;
     }
 

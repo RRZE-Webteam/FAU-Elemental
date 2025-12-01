@@ -10,10 +10,10 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 		return null;
 	}
 
-	// Get the fallback image from theme customizer or use default logo
+	// Get the fallback image from theme customizer or use default fallback image
 	const FALLBACK_IMAGE =
 		( window.fauElemental && window.fauElemental.fallbackImageUrl ) ??
-		'/wp-content/themes/fau-elemental/assets/images/logo.svg';
+		'/wp-content/themes/fau-elemental/assets/images/Default_FAU_Schloss_blau.jpg';
 
 	const baseUrl = useSelect( ( select ) => getRestBaseUrl( select ), [] );
 

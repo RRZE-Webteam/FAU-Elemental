@@ -12,6 +12,9 @@ if (!defined('ABSPATH')) {
 // Configuration
 require_once get_template_directory() . '/inc/config.php';
 
+// FAU blog helper functions
+require_once get_template_directory() . '/inc/fau-blog-helpers.php';
+
 // Theme setup and core functionality
 require_once get_template_directory() . '/inc/theme-setup.php';
 

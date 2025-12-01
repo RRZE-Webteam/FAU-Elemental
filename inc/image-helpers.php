@@ -46,8 +46,8 @@ function faue_get_post_fallback_image($post_id = null, $size = 'full') {
         }
     }
     
-    // Return default logo as last resort
-    return get_template_directory_uri() . '/assets/images/logo.svg';
+    // Return default fallback image as last resort
+    return get_template_directory_uri() . '/assets/images/Default_FAU_Schloss_blau.jpg';
 }
 
 /**

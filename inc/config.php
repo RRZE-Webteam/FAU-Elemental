@@ -37,8 +37,54 @@ $faue_defaults = array(
     'fau_info_toggle_text' => __('Show more', 'fau-elemental'),
     'fau_info_toggle_text_expanded' => __('Show less', 'fau-elemental'),
     // Footer content defaults
-    'fau_footer_title' => __('FAU - Knowledge in Motion', 'fau-elemental'),
-    'fau_footer_description' => __('FAU is Germany\'s most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research.', 'fau-elemental'),
+    'fau_footer_title' => __('Moving knowledge', 'fau-elemental'),
+    'fau_footer_description' => __('FAU is the most innovative university in Germany, and second across Europe. Established in 1743, it is one of the largest universities in Germany, with approximately 40,000 students, over 600 professors and around 16,000 members of staff.', 'fau-elemental'),
+    // Target groups defaults (German)
+    'faue_target_groups_de' => array(
+        array(
+            'title' => 'Studieninteressierte',
+            'description' => 'Studium, Orientierung und Studiengänge',
+            'link' => 'https://www.fau.de/fuer-studieninteressierte/'
+        ),
+        array(
+            'title' => 'Studierende',
+            'description' => 'Services, Portale und Studieninformationen',
+            'link' => 'https://www.fau.de/fuer-studierende/'
+        ),
+        array(
+            'title' => 'Forschende',
+            'description' => 'Forschungsprofil, akademische Karriere und Erfolge',
+            'link' => 'https://www.fau.de/fuer-forschende-und-lehrende/'
+        ),
+        array(
+            'title' => 'Kooperationspartner',
+            'description' => 'Kooperationen, Patente und Transfer',
+            'link' => 'https://www.fau.de/services/fuer-unternehmen-und-partner/'
+        ),
+    ),
+    // Target groups defaults (English)
+    'faue_target_groups_en' => array(
+        array(
+            'title' => 'Prospective Students',
+            'description' => 'Study, orientation, and degree programs',
+            'link' => 'https://www.fau.eu/for-prospective-international-students/'
+        ),
+        array(
+            'title' => 'Students',
+            'description' => 'Services, portals, and study information',
+            'link' => 'https://www.fau.eu/for-students/'
+        ),
+        array(
+            'title' => 'Researchers',
+            'description' => 'Research profile, academic career, and achievements',
+            'link' => 'https://www.fau.eu/for-researchers-and-teaching-staff/'
+        ),
+        array(
+            'title' => 'Partners',
+            'description' => 'Collaborations, patents, and knowledge transfer',
+            'link' => 'https://www.fau.eu/for-companies-and-partners/'
+        ),
+    ),
 );
 
 // Social Media Platforms Configuration
