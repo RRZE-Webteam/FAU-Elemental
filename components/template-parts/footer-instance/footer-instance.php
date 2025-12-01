@@ -1,3 +1,7 @@
+<?php
+// Ensure footer target groups functions are available
+require_once get_theme_file_path('components/template-parts/footer-instance/footer-target-groups.php');
+?>
 <div class="footer-content footer-content--instance">
     <div class="footer-content--instance-wrapper">
 
@@ -189,13 +193,14 @@
 
             <div id="fau-info-section" class="footer-bottom-row fau-info-section">
                 <section class="fau-claim" aria-labelledby="claim-title">
-                    <p id="claim-title"><?php echo esc_html(get_theme_mod('fau_footer_title', faue_get_default('fau_footer_title'))); ?></p>
-                    <p><?php echo wp_kses_post(get_theme_mod('fau_footer_description', faue_get_default('fau_footer_description'))); ?></p>
+                    <?php
+                    $fau_footer_content = faue_get_footer_title_description_from_fau_blog();
+                    ?>
+                    <p id="claim-title"><?php echo esc_html($fau_footer_content['title']); ?></p>
+                    <p><?php echo wp_kses_post($fau_footer_content['description']); ?></p>
                 </section>
 
                 <?php
-                require_once get_theme_file_path('components/template-parts/footer-instance/footer-target-groups.php');
-
                 // get settings from FAU site
                 $target_groups = faue_get_target_groups_from_fau_blog();
 

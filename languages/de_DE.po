@@ -77,44 +77,44 @@ msgstr "Start"
 msgid "Search Results"
 msgstr "Suchergebnisse"
 
-#: components/template-parts/footer-instance/footer-instance.php:16
+#: components/template-parts/footer-instance/footer-instance.php:20
 msgid "Contact and Directions"
 msgstr "Kontakt und Anfahrt"
 
-#: components/template-parts/footer-instance/footer-instance.php:22
+#: components/template-parts/footer-instance/footer-instance.php:26
 msgid "Friedrich-Alexander-Universität Erlangen-Nürnberg"
 msgstr "Friedrich-Alexander-Universität Erlangen-Nürnberg"
 
-#: components/template-parts/footer-instance/footer-instance.php:83
+#: components/template-parts/footer-instance/footer-instance.php:87
 msgid "Phone"
 msgstr "Telefon"
 
-#: components/template-parts/footer-instance/footer-instance.php:93
+#: components/template-parts/footer-instance/footer-instance.php:97
 msgid "Mail"
 msgstr "E-Mail"
 
-#: components/template-parts/footer-instance/footer-instance.php:104
+#: components/template-parts/footer-instance/footer-instance.php:108
 msgid "Directions"
 msgstr "Anfahrt"
 
-#: components/template-parts/footer-instance/footer-instance.php:117
+#: components/template-parts/footer-instance/footer-instance.php:121
 #: inc/customizer.php:196
 msgid "Important Links"
 msgstr "Wichtige Links"
 
-#: components/template-parts/footer-instance/footer-instance.php:150
+#: components/template-parts/footer-instance/footer-instance.php:154
 #: components/template-parts/footer-main/footer-main.php:104
 #: inc/customizer.php:576
 msgid "Social Media Links"
 msgstr "Social Media Links"
 
-#: components/template-parts/footer-instance/footer-instance.php:171
+#: components/template-parts/footer-instance/footer-instance.php:175
 #: components/template-parts/footer-main/footer-main.php:63
 #: header.php:53
 msgid "FAU Logo"
 msgstr "FAU Logo"
 
-#: components/template-parts/footer-instance/footer-instance.php:176
+#: components/template-parts/footer-instance/footer-instance.php:180
 #: components/template-parts/footer-main/footer-main.php:68
 msgid ""
 "Friedrich-Alexander-Universität\n"
@@ -128,45 +128,35 @@ msgid "Show more"
 msgstr "Mehr anzeigen"
 
 #: components/template-parts/footer-main/footer-main.php:4
-#: inc/config.php:40
 msgid "FAU - Knowledge in Motion"
 msgstr "FAU - Wissen in Bewegung"
 
 #: components/template-parts/footer-main/footer-main.php:5
-#: inc/config.php:41
 msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
 msgstr "Die FAU ist die innovativste Universität Deutschlands, euopaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung."
 
-#: components/template-parts/footer-instance/footer-instance.php:201
 #: components/template-parts/footer-main/footer-main.php:14
 msgid "Target Group Section 1"
 msgstr "Zielgruppe 1"
 
-#: components/template-parts/footer-instance/footer-instance.php:202
 #: components/template-parts/footer-main/footer-main.php:15
 msgid "History, features, data, structure and more"
 msgstr "Geschichte, Besonderheiten Daten, Struktur u.v.m"
 
-#: components/template-parts/footer-instance/footer-instance.php:206
 #: components/template-parts/footer-main/footer-main.php:19
 msgid "Target Group Section 2"
 msgstr "Zielgruppe 2"
 
-#: components/template-parts/footer-instance/footer-instance.php:207
-#: components/template-parts/footer-instance/footer-instance.php:212
-#: components/template-parts/footer-instance/footer-instance.php:217
 #: components/template-parts/footer-main/footer-main.php:20
 #: components/template-parts/footer-main/footer-main.php:25
 #: components/template-parts/footer-main/footer-main.php:30
 msgid "Focus areas, mission, reputation, achievements and more"
 msgstr "Schwerpunkte, Leitbild, Reputation, Erfolge u.v.m."
 
-#: components/template-parts/footer-instance/footer-instance.php:211
 #: components/template-parts/footer-main/footer-main.php:24
 msgid "Target Group Section 3"
 msgstr "Zielgruppe 3"
 
-#: components/template-parts/footer-instance/footer-instance.php:216
 #: components/template-parts/footer-main/footer-main.php:29
 msgid "Target Group Section 4"
 msgstr "Zielgruppe 4"
@@ -500,9 +490,13 @@ msgstr "Entfernen"
 msgid "Date"
 msgstr "Datum"
 
+#: inc/legacy-sidebar.php:122
 #: index.php:227
 #: components/blocks/fau-big-button/edit.js:306
 #: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
+#: components/ui/editor/editor.js:515
+#: components/ui/editor/editor.js:549
+#: components/ui/editor/editor.js:599
 msgid "Title"
 msgstr "Titel"
 
@@ -874,7 +868,7 @@ msgid "Open %s submenu"
 msgstr "%s Untermenü öffnen"
 
 #. Template Name of the theme
-#: functions.php:84
+#: functions.php:93
 msgid "All Pages"
 msgstr "Alle Seiten"
 
@@ -884,12 +878,12 @@ msgstr "Seitenliste"
 
 #. Template Name of the theme
 #: components/template-parts/search-results/search-results.php:225
-#: functions.php:83
+#: functions.php:92
 msgid "All Posts"
 msgstr "Alle Beiträge"
 
 #. Template Name of the theme
-#: functions.php:80
+#: functions.php:89
 msgid "Portal Page"
 msgstr "Portalseite"
 
@@ -1013,7 +1007,7 @@ msgstr "Diese Seite in Navigationsmenüs ausblenden"
 msgid "When checked, this page will not appear as a child page in navigation menus, even if it has a parent page."
 msgstr "Wenn aktiviert, wird diese Seite nicht als Unterseite in Navigationsmenüs angezeigt, auch wenn sie eine übergeordnete Seite hat."
 
-#: inc/portal-menu-compatibility.php:315
+#: inc/portal-menu-compatibility.php:349
 msgid "No menu could be found with the specified identifier."
 msgstr "Es konnte kein Menü mit der angegebenen Kennung gefunden werden."
 
@@ -1422,6 +1416,7 @@ msgstr "Bild hinzufügen"
 msgid "Remove Image"
 msgstr "Bild entfernen"
 
+#: inc/legacy-sidebar.php:123
 #: components/blocks/fau-big-teaser/edit.js:77
 #: components/core-blocks/media-text/index.js:24
 msgid "Content"
@@ -2078,7 +2073,7 @@ msgid "Post Category"
 msgstr "Beitragskategorie"
 
 #: components/template-parts/search-results/search-results.php:352
-#: functions.php:326
+#: functions.php:340
 msgid "Page Category"
 msgstr "Seitenkategorie"
 
@@ -2092,48 +2087,48 @@ msgstr "Leider konnten keine Suchergebnisse für die folgende Anfrage gefunden w
 msgid "Additional search options"
 msgstr "Weitere Suchoptionen"
 
-#: functions.php:325
-#: functions.php:327
+#: functions.php:339
+#: functions.php:341
 msgid "Page Categories"
 msgstr "Seitenkategorien"
 
-#: functions.php:328
+#: functions.php:342
 msgid "All Page Categories"
 msgstr "Alle Seitenkategorien"
 
-#: functions.php:329
+#: functions.php:343
 msgid "Edit Page Category"
 msgstr "Seitenkategorie bearbeiten"
 
-#: functions.php:330
+#: functions.php:344
 msgid "View Page Category"
 msgstr "Seitenkategorie ansehen"
 
-#: functions.php:331
+#: functions.php:345
 msgid "Update Page Category"
 msgstr "Seitenkategorie aktualisieren"
 
-#: functions.php:332
+#: functions.php:346
 msgid "Add New Page Category"
 msgstr "Neue Seitenkategorie"
 
-#: functions.php:333
+#: functions.php:347
 msgid "New Page Category Name"
 msgstr "Name der neuen Seitenkategorie"
 
-#: functions.php:334
+#: functions.php:348
 msgid "Parent Page Category"
 msgstr "Kategorie der Elternseite"
 
-#: functions.php:335
+#: functions.php:349
 msgid "Parent Page Category:"
 msgstr "Kategorie der Elternseite:"
 
-#: functions.php:336
+#: functions.php:350
 msgid "Search Page Categories"
 msgstr "Seitenkategorie suchen"
 
-#: functions.php:337
+#: functions.php:351
 msgid "No page categories found"
 msgstr "Keine Seitenkategorien gefunden"
 
@@ -2468,3 +2463,104 @@ msgstr "Überschrift, die über dem Suchoptionen-Menü im Such-Modal angezeigt w
 #: components/utils/urlValidation.js:47
 msgid "Please enter a valid email address"
 msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein"
+
+#: inc/config.php:40
+msgid "Moving knowledge"
+msgstr "Wissen bewegen"
+
+#: inc/config.php:41
+msgid "FAU is the most innovative university in Germany, and second across Europe. Established in 1743, it is one of the largest universities in Germany, with approximately 40,000 students, over 600 professors and around 16,000 members of staff."
+msgstr "Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovationsstärkste Universität Deutschlands. Gegründet 1743 ist sie mit rund 40.000 Studierenden, über 600 Professorinnen und Professoren und etwa 16.000 Mitarbeiterinnen und Mitarbeitern eine der größten Universitäten in Deutschland."
+
+#: inc/legacy-sidebar.php:114
+#: components/ui/editor/editor.js:774
+#: components/ui/editor/editor.js:777
+msgid "Migration Assistant"
+msgstr ""
+
+#: inc/legacy-sidebar.php:115
+msgid "This page still contains sidebar entries that were stored in the FAU-Einrichtungen theme. Use this reference to copy the content or inject it into the current page."
+msgstr ""
+
+#: inc/legacy-sidebar.php:116
+msgid "Links were displayed before contacts in the legacy sidebar."
+msgstr ""
+
+#: inc/legacy-sidebar.php:117
+msgid "Contacts were displayed before links in the legacy sidebar."
+msgstr ""
+
+#: inc/legacy-sidebar.php:118
+#: components/ui/editor/editor.js:656
+msgid "Top text"
+msgstr ""
+
+#: inc/legacy-sidebar.php:119
+#: components/ui/editor/editor.js:709
+msgid "Bottom text"
+msgstr ""
+
+#: inc/legacy-sidebar.php:120
+#: components/ui/editor/editor.js:452
+#: components/ui/editor/editor.js:577
+msgid "Contacts"
+msgstr ""
+
+#. translators: %d: link block number
+#: inc/legacy-sidebar.php:121
+#: components/ui/editor/editor.js:683
+msgid "Link block %d"
+msgstr ""
+
+#: inc/legacy-sidebar.php:124
+#: components/ui/editor/editor.js:619
+msgid "Links"
+msgstr ""
+
+#: inc/legacy-sidebar.php:125
+msgid "Insert as blocks"
+msgstr ""
+
+#: inc/legacy-sidebar.php:126
+msgid "Legacy sidebar content inserted."
+msgstr ""
+
+#: inc/legacy-sidebar.php:127
+msgid "No title"
+msgstr ""
+
+#: inc/legacy-sidebar.php:128
+#: components/ui/editor/editor.js:632
+msgid "Contact"
+msgstr ""
+
+#: inc/legacy-sidebar.php:129
+#: components/ui/editor/editor.js:695
+msgid "Link"
+msgstr ""
+
+#: inc/legacy-sidebar.php:130
+#: components/ui/editor/editor.js:581
+msgid "Legacy shortcode"
+msgstr ""
+
+#: inc/legacy-sidebar.php:131
+#: components/ui/editor/editor.js:584
+msgid "Add this shortcode to display the selected contacts."
+msgstr ""
+
+#: components/ui/editor/editor.js:792
+msgid "This page still holds sidebar entries from the previous theme. Review the content below or append it to the page as a Classic block."
+msgstr ""
+
+#: components/ui/editor/editor.js:827
+msgid "Legacy sidebar content was inserted."
+msgstr ""
+
+#: components/ui/editor/editor.js:832
+msgid "Insert legacy sidebar content"
+msgstr ""
+
+#: components/ui/editor/editor.js:844
+msgid "Legacy sidebar content was inserted at the bottom of the page."
+msgstr ""
