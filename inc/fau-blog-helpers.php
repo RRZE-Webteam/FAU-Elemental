@@ -20,7 +20,6 @@ function faue_get_fau_blog_id() {
         return false;
     }
 
-    // Check if we can use get_main_site_id() and verify it's the FAU site
     $main_site_id = get_main_site_id();
     if ($main_site_id) {
         switch_to_blog($main_site_id);
@@ -28,23 +27,6 @@ function faue_get_fau_blog_id() {
             $website_type = get_theme_mod('faue_website_type', '');
             if ($website_type === 'fau') {
                 $fau_blog_id = $main_site_id;
-            }
-        } finally {
-            restore_current_blog();
-        }
-        if (isset($fau_blog_id)) {
-            return $fau_blog_id;
-        }
-    }
-
-    // If main site is not FAU, search all sites
-    $sites = get_sites(array('number' => 0));
-    foreach ($sites as $site) {
-        switch_to_blog($site->blog_id);
-        try {
-            $website_type = get_theme_mod('faue_website_type', '');
-            if ($website_type === 'fau') {
-                $fau_blog_id = $site->blog_id;
             }
         } finally {
             restore_current_blog();
