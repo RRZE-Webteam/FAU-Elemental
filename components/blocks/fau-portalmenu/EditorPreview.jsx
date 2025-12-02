@@ -10,10 +10,10 @@ import { useSelect } from '@wordpress/data';
  * Shows actual menu items from the selected menu
  */
 export default function EditorPreview( { attributes } ) {
-	// Get the fallback image from theme customizer or use default logo
+	// Get the fallback image from theme customizer or use default fallback image
 	const FALLBACK_IMAGE =
 		( window.fauElemental && window.fauElemental.fallbackImageUrl ) ??
-		'/wp-content/themes/fau-elemental/assets/images/logo.svg';
+		'/wp-content/themes/fau-elemental/assets/images/Default_FAU_Schloss_blau.jpg';
 
 	// Fetch actual menu items
 	const menuItems = useSelect(
