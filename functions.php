@@ -97,7 +97,8 @@ function fau_elemental_register_page_templates($templates) {
 }
 add_filter('theme_page_templates', 'fau_elemental_register_page_templates', 11, 1);
 
-
+// Resolves issues with WP 6.9 new Optimization Strategies
+add_filter( 'should_load_separate_core_block_assets', '__return_false', 100 );
 
 /**
  * Fix portal template includes for different template locations
