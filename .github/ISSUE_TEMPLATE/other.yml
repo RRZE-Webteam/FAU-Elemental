@@ -21,6 +21,7 @@ body:
               - Sicherheit / Datenschutz
               - Usability
               - Barrierefreiheit
+              - Design
               - Sonstiges
       validations:
           required: true
