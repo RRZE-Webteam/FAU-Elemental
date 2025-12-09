@@ -13,11 +13,14 @@ body:
       id: category
       attributes:
           label: Kategorie
+          multiple: true
           options:
               - Allgemeines Feedback
               - Dokumentation
               - Organisation / Prozess
               - Sicherheit / Datenschutz
+              - Usability
+              - Barrierefreiheit
               - Sonstiges
       validations:
           required: true
@@ -42,22 +45,3 @@ body:
       validations:
           required: true
 
-    - type: textarea
-      id: screenshots
-      attributes:
-          label: Screenshot(s) (optional)
-          description: |
-              Optional können Sie Screenshots oder andere Bilder anhängen.
-          render: image
-      validations:
-          required: false
-
-    - type: textarea
-      id: additional_info
-      attributes:
-          label: Weitere Informationen
-          description: |
-              Ergänzende Hinweise, Hintergrundinformationen oder Vorschläge.
-          placeholder: 'Weitere Details, die für die Bearbeitung hilfreich sein könnten …'
-      validations:
-          required: false
