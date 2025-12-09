@@ -13,10 +13,11 @@ body:
       id: scope
       attributes:
           label: Bereich, in dem das Problem auftritt
+          multiple: true
           options:
               - WordPress Blockeditor (Bearbeitungsmaske)
               - Frontend
-              - Beides (Editor & Frontend)
+              - Code
               - Weiß nicht / schwer zu sagen
           description: |
               Wo tritt das Problem hauptsächlich auf?
@@ -28,6 +29,7 @@ body:
       attributes:
           label: Verwendeter Browser
           description: In welchem Browser tritt das Problem auf?
+          multiple: true
           options:
               - Safari
               - Firefox
@@ -128,17 +130,6 @@ body:
               - PHP 8.1
               - Theme: Twenty Twenty-Four 1.2
               - Plugin: Beispiel-Plugin 2.3.1
-      validations:
-          required: false
-
-    - type: textarea
-      id: screenshots
-      attributes:
-          label: Screenshot(s)
-          description: |
-              Bitte fügen Sie ein oder mehrere Screenshots ein, die das Problem zeigen.
-              Sie können Dateien per Drag & Drop hier einfügen.
-          render: image
       validations:
           required: false
 
