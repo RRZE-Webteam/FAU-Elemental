@@ -27,9 +27,12 @@
 
 		&__wrapper {
 			container-type: inline-size;
+			background-color: var(--FAU-Col-FAU-Schwarz-12_5);
 
 			> img {
-				max-height: calc(100cqw * 2 / 3);
+				aspect-ratio: 3 / 2;
+				object-fit: contain;
+				width: 100%;
 			}
 		}
 	}
