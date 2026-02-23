@@ -91,6 +91,14 @@ function fau_add_caption_to_featured_image($block_content, $block) {
             return $block_content;
         }
         
+        // Remove inline object-fit:cover added by WordPress core so our
+        // stylesheet rules (object-fit:contain) can take effect.
+        $block_content = preg_replace(
+            '/\s*style="[^"]*object-fit:\s*cover;?[^"]*"/',
+            '',
+            $block_content
+        );
+
         // Wrap the img element in a div
         $block_content = preg_replace(
             '/(<img[^>]*>)/',
