@@ -28,10 +28,9 @@ $navigation_classes = faue_get_header_navigation_classes();
             <?php fau_elemental_display_logo_title(); ?>
         </div>
 
-        <div class="main-navigation__direct-links">
-            <?php
-            // Check if primary menu exists
-            if (has_nav_menu('header_direct_links_menu')) {
+        <?php if (has_nav_menu('header_direct_links_menu')) : ?>
+            <div class="main-navigation__direct-links">
+                <?php
                 wp_nav_menu(array(
                     'theme_location' => 'header_direct_links_menu',
                     'menu_id'        => 'main-direct-links',
@@ -40,9 +39,9 @@ $navigation_classes = faue_get_header_navigation_classes();
                     'fallback_cb'    => false,
                     'depth'          => 1, // Only show top-level items in direct links
                 ));
-            }
-            ?>
-        </div>
+                ?>
+            </div>
+        <?php endif; ?>
 
         <?php if ($has_website_menu): ?>
             <div class="main-navigation__menu-container">

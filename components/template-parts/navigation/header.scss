@@ -218,7 +218,7 @@
 				background-image: var(--icon-chevron-weiss);
 			}
 
-			.main-navigation__menu-container::before {
+			.main-navigation__direct-links + .main-navigation__menu-container::before {
 				background-color: var(--FAU-Col-FAU-Schwarz-5);
 			}
 		}
@@ -245,7 +245,7 @@
 			background-image: var(--icon-chevron-fau-blau);
 		}
 
-		.main-navigation__menu-container::before {
+		.main-navigation__direct-links + .main-navigation__menu-container::before {
 			background-color: var(--FAU-Col-FAU-Blau-62_5);
 		}
 	}
@@ -310,7 +310,7 @@
 		position: relative;
 		flex-shrink: 0;
 
-		&::before {
+		.main-navigation__direct-links + &::before {
 			content: "";
 			position: absolute;
 			top: calc(50% - 0.75rem);
@@ -978,6 +978,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 				background-color: transparent;
 
 				&__container {
+					justify-content: flex-end;
 					gap: unset;
 				}
 
