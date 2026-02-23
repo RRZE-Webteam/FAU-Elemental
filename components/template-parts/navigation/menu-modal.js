@@ -761,7 +761,9 @@
 			$modal.data( 'navigation-stack', navigationStack );
 
 			lastLevel.parentLi.siblings().show();
-			lastLevel.parentLi.children( '.menu-modal__submenu-toggle' ).show();
+			lastLevel.parentLi
+				.children( '.menu-modal__submenu-toggle' )
+				.css( 'display', '' );
 			lastLevel.parentLi.children( '.sub-menu' ).hide();
 
 			$modal.find( '.menu-modal__level-heading' ).remove();
@@ -1061,7 +1063,7 @@
 				)
 				.attr( 'aria-expanded', 'false' )
 				.removeClass( 'expanded' )
-				.show();
+				.css( 'display', '' );
 			$modal
 				.find(
 					'.menu-modal__back-btn, .menu-meta-nav__modal__back-btn, .menu-website-modal__back-btn'
