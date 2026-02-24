@@ -1032,6 +1032,15 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 			}
 		}
 	}
+
+	// Dual logo visibility: desktop shows white, hides blue (for 'other' type)
+	.faubaselogo--white {
+		display: inline;
+	}
+
+	.faubaselogo--blue {
+		display: none;
+	}
 }
 
 // Responsive
@@ -1335,6 +1344,58 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 		}
 	}
 
+	// Mobile shared header for all hero front pages except fau.de
+	body:not(.fauorg-home).home:not(.blog).has-hero-block .site-header {
+
+		&__main {
+			position: relative;
+			top: auto;
+			padding: 0;
+
+			.main-navigation {
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+				padding: var(--Spacing-4x) var(--Spacing-10x);
+
+				&__container {
+					justify-content: space-between;
+				}
+
+				&__logo {
+					position: relative;
+					left: 0;
+					max-width: 23rem;
+
+					.baselogo img {
+						display: block;
+						scale: 1;
+						width: auto;
+						height: 2.4375rem;
+
+						// Dual logo: hide white, show blue on white-bg header
+						&.faubaselogo--white {
+							display: none;
+						}
+					}
+				}
+
+				&__toggle-icon > span {
+					background-color: var(--FAU-Col-FAU-Blau-100);
+				}
+
+				&__toggle-text {
+					display: none;
+				}
+
+				&__menu-container {
+					position: relative;
+					right: auto;
+					background-color: transparent;
+					padding: 0;
+				}
+			}
+		}
+	}
+
 	// Exception for front page with hero
 	.home:not(.blog).has-hero-block main {
 		padding-top: unset;
@@ -1408,6 +1469,11 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 				padding: 0.4rem var(--Spacing-2x);
 			}
 		}
+	}
+
+	// Match hero-chair-content x-small padding
+	body:not(.fauorg-home).home:not(.blog).has-hero-block .site-header__main .main-navigation {
+		padding: var(--Spacing-4x) var(--Spacing-5x);
 	}
 }
 
