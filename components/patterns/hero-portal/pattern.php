@@ -33,10 +33,10 @@
 
     <!-- wp:column  -->
     <div class="wp-block-column">
-        <!-- wp:cover {"url":"<?php echo esc_url(get_theme_file_uri('assets/images/hero-portal.png')); ?>","dimRatio":0,"contentPosition":"center","className":"is-dark-theme"} -->
+        <!-- wp:cover {"url":"<?php echo esc_url(get_theme_file_uri('assets/images/hero-portal.webp')); ?>","dimRatio":0,"contentPosition":"center","className":"is-dark-theme"} -->
         <div class="wp-block-cover is-dark-theme">
             <span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span>
-            <img class="wp-block-cover__image-background" alt="<?php echo esc_attr__('Students at FAU Erlangen-Nürnberg', 'fau-elemental'); ?>" src="<?php echo esc_url(get_theme_file_uri('assets/images/hero-portal.png')); ?>" data-object-fit="cover">
+            <img class="wp-block-cover__image-background" alt="<?php echo esc_attr__('Students at FAU Erlangen-Nürnberg', 'fau-elemental'); ?>" src="<?php echo esc_url(get_theme_file_uri('assets/images/hero-portal.webp')); ?>" data-object-fit="cover">
             <div class="wp-block-cover__inner-container">
                 <!-- wp:paragraph {"align":"center","placeholder":"Write title…","fontSize":"large","className":"hideParagraph"} -->
                 <p class="has-text-align-center has-large-font-size hideParagraph"></p>

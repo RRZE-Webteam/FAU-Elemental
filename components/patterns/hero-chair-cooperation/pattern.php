@@ -19,27 +19,27 @@ $chair_content = [
     'phil' => [
         'title' => 'Institut für Philosophie',
         'description' => 'Die Philosophische Fakultät der FAU ist eine der größten geisteswissenschaftlichen Fakultäten in Deutschland. Ihre Forschung und Lehre decken ein breites Spektrum von den klassischen Geisteswissenschaften bis zu modernen Kultur- und Sozialwissenschaften ab. Interdisziplinäre Ansätze und internationale Kooperationen prägen ihr Profil.',
-        'img' => '/assets/images/hero-faculty-phil.png'
+        'img' => '/assets/images/hero-faculty-phil.webp'
     ],
     'nat' => [
         'title' => 'Naturwissenschaftliche Fakultät',
         'description' => 'Die Naturwissenschaftliche Fakultät der FAU gehört zu den forschungsstärksten naturwissenschaftlichen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings. Innovative Forschung und exzellente Lehre prägen ihr Profil.',
-        'img' => '/assets/images/hero-faculty.jpg'
+        'img' => '/assets/images/hero-faculty.webp'
     ],
     'med' => [
         'title' => 'Medizinische Fakultät',
         'description' => 'Die Medizinische Fakultät der FAU zählt zu den traditionsreichsten und forschungsintensivsten Fakultäten in Deutschland. Sie ist eng mit dem Universitätsklinikum Erlangen verbunden und verbindet Spitzenmedizin mit moderner Lehre. Zahlreiche Forschungsverbünde tragen zu internationalen Fortschritten in der Medizin bei.',
-        'img' => '/assets/images/hero-faculty.jpg'
+        'img' => '/assets/images/hero-faculty.webp'
     ],
     'rw' => [
         'title' => 'Rechts- und Wirtschaftswissenschaftliche Fakultät',
         'description' => 'Die Rechts- und Wirtschaftswissenschaftliche Fakultät genießt hohes Ansehen in Forschung und Lehre. Sie verbindet eine lange Tradition juristischer und ökonomischer Ausbildung mit modernen, praxisorientierten Studiengängen. Ihre Institute sind national und international hervorragend vernetzt.',
-        'img' => '/assets/images/hero-faculty-rw.png'
+        'img' => '/assets/images/hero-faculty-rw.webp'
     ],
     'tf' => [
         'title' => 'Technische Fakultät',
         'description' => 'Die Technische Fakultät ist eine der jüngsten, aber zugleich dynamischsten Fakultäten der FAU. Sie vereint klassische Ingenieurwissenschaften mit modernen Zukunftsfeldern wie Künstliche Intelligenz, Medizintechnik und Materialwissenschaften. Ihre enge Kooperation mit der Industrie macht sie zu einem starken Partner für Innovation.',
-        'img' => '/assets/images/hero-faculty-tf.png'
+        'img' => '/assets/images/hero-faculty-tf.webp'
     ]
 ];
 
@@ -47,7 +47,7 @@ $chair_content = [
 $cooperation_content = [
     'title' => 'Kooperationen Headline Text here',
     'description' => 'Die Naturwissenschaftliche Fakultät der FAU gehört zu den forschungsstärksten naturwissenschaftlichen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
-    'img' => '/assets/images/hero-faculty-phil.png'
+    'img' => '/assets/images/hero-faculty-phil.webp'
 ];
 
 // Determine which content to use
