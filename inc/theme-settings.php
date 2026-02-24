@@ -90,6 +90,25 @@ function faue_customize_register($wp_customize) {
         'active_callback' => 'faue_is_faculty_or_chair_website',
     ));
 
+    // FAU Logo Color Setting (only for fau.de website type)
+    $wp_customize->add_setting('faue_fau_logo_color', array(
+        'default'           => faue_get_default('faue_fau_logo_color'),
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'faue_sanitize_fau_logo_color',
+    ));
+
+    $wp_customize->add_control('faue_fau_logo_color', array(
+        'label'           => __('FAU Logo Color', 'fau-elemental'),
+        'description'     => __('Choose the color of the FAU logo displayed in the header.', 'fau-elemental'),
+        'section'         => 'title_tagline',
+        'type'            => 'select',
+        'choices'         => array(
+            'white' => __('White', 'fau-elemental'),
+            'blue'  => __('Blue', 'fau-elemental'),
+        ),
+        'active_callback' => 'faue_is_fau_website',
+    ));
+
     // Copyright Info Priority
     $wp_customize->add_setting('faue_copyright_info_priority', array(
         'default'           => 'field',
@@ -159,6 +178,17 @@ function faue_is_faculty_website($control) {
         return false;
     }
     return 'faculty' === $setting->value();
+}
+
+/**
+ * Check if the website type is set to fau
+ */
+function faue_is_fau_website($control) {
+    $setting = $control->manager->get_setting('faue_website_type');
+    if (!$setting) {
+        return false;
+    }
+    return 'fau' === $setting->value();
 }
 
 /**
@@ -274,4 +304,17 @@ function faue_sanitize_faculty($input) {
  */
 function faue_sanitize_breadcrumb_mode($input) {
     return (bool) $input;
+}
+
+/**
+ * Sanitize FAU logo color input
+ */
+function faue_sanitize_fau_logo_color($input) {
+    $valid_colors = array('white', 'blue');
+
+    if (!in_array($input, $valid_colors)) {
+        return 'white';
+    }
+
+    return $input;
 }

@@ -12,6 +12,8 @@ if (!defined('ABSPATH')) {
 $faue_defaults = array(
     // Website Type
     'faue_website_type' => 'chair',
+    // FAU Logo Color (only applies to fau.de website type)
+    'faue_fau_logo_color' => 'white',
     // Breadcrumb Mode
     'faue_breadcrumb_variant_blue' => true,
     // Search Results Configuration
