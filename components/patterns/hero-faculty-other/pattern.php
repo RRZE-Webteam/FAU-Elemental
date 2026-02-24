@@ -19,28 +19,28 @@ $faculty_content = [
     'phil' => [
         'title' => 'Die Philosophische Fakultät und Fachbereich Theologie',
         'description' => 'Die Philosophische Fakultät der FAU gehört zu den forschungsstärksten philosophischen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
-        'img' => '/assets/images/hero-faculty-phil.png'
+        'img' => '/assets/images/hero-faculty-phil.webp'
     ],
     'nat' => [
         'title' => 'Die Naturwissenschaftliche Fakultät',
         'description' => 'Die Naturwissenschaftliche Fakultät der FAU gehört zu den forschungsstärksten naturwissenschaftlichen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
-        'img' => '/assets/images/hero-faculty.jpg'
+        'img' => '/assets/images/hero-faculty.webp'
     ],
     'med' => [
         'title' => 'Die Medizinische Fakultät',
         'description' => 'Die Medizinische Fakultät der FAU gehört zu den forschungsstärksten medizinischen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
-        'img' => '/assets/images/hero-faculty.jpg'
+        'img' => '/assets/images/hero-faculty.webp'
 
     ],
     'rw' => [
         'title' => 'Die Rechts- und Wirtschaftswissenschaftliche Fakultät',
         'description' => 'Die Rechts- und Wirtschaftswissenschaftliche Fakultät der FAU gehört zu den forschungsstärksten rechts- und wirtschaftswissenschaftlichen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
-        'img' => '/assets/images/hero-faculty-rw.png'
+        'img' => '/assets/images/hero-faculty-rw.webp'
     ],
     'tf' => [
         'title' => 'Die Technische Fakultät',
         'description' => 'Die Technische Fakultät der FAU gehört zu den forschungsstärksten technischen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
-        'img' => '/assets/images/hero-faculty-tf.png'
+        'img' => '/assets/images/hero-faculty-tf.webp'
     ]
 ];
 
@@ -48,7 +48,7 @@ $faculty_content = [
 $other_content = [
     'title' => 'Willkommen bei der FAU',
     'description' => 'Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist eine der forschungsstärksten Universitäten in Deutschland. Entdecken Sie unsere vielfältigen Angebote und Forschungsschwerpunkte.',
-    'img' => '/assets/images/hero-faculty-tf.png'
+    'img' => '/assets/images/hero-faculty-tf.webp'
 ];
 
 // Determine which content to use

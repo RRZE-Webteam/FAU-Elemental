@@ -14,10 +14,10 @@
 
 <!-- wp:group {"templateLock":"all", "className":"hero-fau"} -->
 <div class="wp-block-group hero-fau">
-    <!-- wp:cover {"templateLock":"all","url":"<?php echo esc_url(get_theme_file_uri('assets/images/hero-fau.jpg')); ?>","id":99,"dimRatio":50,"isUserOverlayColor":false} -->
+    <!-- wp:cover {"templateLock":"all","url":"<?php echo esc_url(get_theme_file_uri('assets/images/hero-fau.webp')); ?>","id":99,"dimRatio":50,"isUserOverlayColor":false} -->
     <div class="wp-block-cover">
         <span aria-hidden="true" class="wp-block-cover__background has-background-dim"></span>
-        <img class="wp-block-cover__image-background wp-image-99" alt="" src="<?php echo esc_url(get_theme_file_uri('assets/images/hero-fau.jpg')); ?>" data-object-fit="cover">
+        <img class="wp-block-cover__image-background wp-image-99" alt="" src="<?php echo esc_url(get_theme_file_uri('assets/images/hero-fau.webp')); ?>" data-object-fit="cover">
         <div class="wp-block-cover__inner-container">
             <!-- wp:group {"templateLock":"all","className":"hero-content is-style-dark"} -->
             <div class="wp-block-group hero-content is-style-dark">

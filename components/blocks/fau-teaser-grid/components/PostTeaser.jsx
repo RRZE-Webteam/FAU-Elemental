@@ -13,7 +13,7 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 	// Get the fallback image from theme customizer or use default fallback image
 	const FALLBACK_IMAGE =
 		( window.fauElemental && window.fauElemental.fallbackImageUrl ) ??
-		'/wp-content/themes/fau-elemental/assets/images/Default_FAU_Schloss_blau.jpg';
+		'/wp-content/themes/fau-elemental/assets/images/Default_FAU_Schloss_blau.webp';
 
 	const baseUrl = useSelect( ( select ) => getRestBaseUrl( select ), [] );
 
