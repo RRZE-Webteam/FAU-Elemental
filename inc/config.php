@@ -130,4 +130,12 @@ function faue_get_default($key, $subkey = null) {
 function faue_get_social_platforms() {
     global $faue_social_platforms;
     return $faue_social_platforms;
-} 
+}
+
+// Helper function to check if the website type is a cooperation type
+function faue_is_cooperation_website($website_type = null) {
+    if ($website_type === null) {
+        $website_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
+    }
+    return in_array($website_type, array('cooperation', 'cooperation-external'), true);
+}

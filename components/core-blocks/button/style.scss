@@ -87,7 +87,8 @@
 
 		.fauorg-home .is-style-dark &,
 		.fauorg-unterorg .is-style-dark &,
-		.fauorg-kooperation .is-style-dark & {
+		.fauorg-kooperation .is-style-dark &,
+		.fauorg-kooperation-extern .is-style-dark & {
 
 			&::before {
 				background-image: var(--icon-arrow-fau-blau);
@@ -148,7 +149,8 @@
 
 		.fauorg-home .is-style-dark &,
 		.fauorg-unterorg .is-style-dark &,
-		.fauorg-kooperation .is-style-dark & {
+		.fauorg-kooperation .is-style-dark &,
+		.fauorg-kooperation-extern .is-style-dark & {
 
 			&::before {
 				background-image: var(--icon-arrow-weiss);

@@ -110,6 +110,9 @@ function faue_get_org_classes() {
         case 'cooperation':
             $classes[] = 'fauorg-kooperation';
             break;
+        case 'cooperation-external':
+            $classes[] = 'fauorg-kooperation-extern';
+            break;
         case 'other':
             $classes[] = 'fauorg-sonstige';
             break;
