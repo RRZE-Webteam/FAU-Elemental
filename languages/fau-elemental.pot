@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-24T16:20:39+00:00\n"
+"POT-Creation-Date: 2026-02-26T13:07:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -226,13 +226,13 @@ msgstr ""
 msgid "Social Media Links"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:175
+#: components/template-parts/footer-instance/footer-instance.php:179
 #: components/template-parts/footer-main/footer-main.php:63
 #: header.php:53
 msgid "FAU Logo"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:180
+#: components/template-parts/footer-instance/footer-instance.php:184
 #: components/template-parts/footer-main/footer-main.php:68
 msgid ""
 "Friedrich-Alexander-Universität\n"
@@ -761,27 +761,27 @@ msgid "Configure contact information"
 msgstr ""
 
 #: inc/customizer.php:327
-#: inc/theme-settings.php:84
+#: inc/theme-settings.php:85
 msgid "Faculty of Humanities, Social Sciences, and Theology"
 msgstr ""
 
 #: inc/customizer.php:334
-#: inc/theme-settings.php:85
+#: inc/theme-settings.php:86
 msgid "Faculty of Sciences"
 msgstr ""
 
 #: inc/customizer.php:341
-#: inc/theme-settings.php:86
+#: inc/theme-settings.php:87
 msgid "Faculty of Medicine"
 msgstr ""
 
 #: inc/customizer.php:348
-#: inc/theme-settings.php:87
+#: inc/theme-settings.php:88
 msgid "Faculty of Business, Economics, and Law"
 msgstr ""
 
 #: inc/customizer.php:355
-#: inc/theme-settings.php:88
+#: inc/theme-settings.php:89
 msgid "Faculty of Engineering"
 msgstr ""
 
@@ -1398,7 +1398,7 @@ msgid "Website Type"
 msgstr ""
 
 #: inc/theme-settings.php:65
-#: inc/theme-settings.php:80
+#: inc/theme-settings.php:81
 msgid "Faculty"
 msgstr ""
 
@@ -1414,39 +1414,43 @@ msgstr ""
 msgid "FAU-internal Cooperation"
 msgstr ""
 
-#: inc/theme-settings.php:101
-msgid "FAU Logo Color"
+#: inc/theme-settings.php:69
+msgid "External Cooperation"
 msgstr ""
 
 #: inc/theme-settings.php:102
+msgid "FAU Logo Color"
+msgstr ""
+
+#: inc/theme-settings.php:103
 msgid "Choose the color of the FAU logo displayed in the header."
 msgstr ""
 
-#: inc/theme-settings.php:106
+#: inc/theme-settings.php:107
 msgid "White"
 msgstr ""
 
-#: inc/theme-settings.php:107
+#: inc/theme-settings.php:108
 msgid "Blue"
 msgstr ""
 
-#: inc/theme-settings.php:119
+#: inc/theme-settings.php:120
 msgid "Copyright Info Priority"
 msgstr ""
 
-#: inc/theme-settings.php:123
+#: inc/theme-settings.php:124
 msgid "Copyright Field"
 msgstr ""
 
-#: inc/theme-settings.php:124
+#: inc/theme-settings.php:125
 msgid "IPTC Image Metadata"
 msgstr ""
 
-#: inc/theme-settings.php:136
+#: inc/theme-settings.php:137
 msgid "Fallback Image"
 msgstr ""
 
-#: inc/theme-settings.php:137
+#: inc/theme-settings.php:138
 msgid "Choose a default image to use when no featured image is available for posts or pages."
 msgstr ""
 
