@@ -2476,91 +2476,91 @@ msgstr "Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovati
 #: components/ui/editor/editor.js:774
 #: components/ui/editor/editor.js:777
 msgid "Migration Assistant"
-msgstr ""
+msgstr "Migrationsassistent"
 
 #: inc/legacy-sidebar.php:115
 msgid "This page still contains sidebar entries that were stored in the FAU-Einrichtungen theme. Use this reference to copy the content or inject it into the current page."
-msgstr ""
+msgstr "Diese Seite enthält noch Sidebar-Einträge, die im FAU-Einrichtungen-Theme gespeichert wurden. Verwende diese Übersicht, um die Inhalte zu kopieren oder in die aktuelle Seite einzufügen."
 
 #: inc/legacy-sidebar.php:116
 msgid "Links were displayed before contacts in the legacy sidebar."
-msgstr ""
+msgstr "Links wurden in der alten Sidebar vor den Kontakten angezeigt."
 
 #: inc/legacy-sidebar.php:117
 msgid "Contacts were displayed before links in the legacy sidebar."
-msgstr ""
+msgstr "Kontakte wurden in der alten Sidebar vor den Links angezeigt."
 
 #: inc/legacy-sidebar.php:118
 #: components/ui/editor/editor.js:656
 msgid "Top text"
-msgstr ""
+msgstr "Text oben"
 
 #: inc/legacy-sidebar.php:119
 #: components/ui/editor/editor.js:709
 msgid "Bottom text"
-msgstr ""
+msgstr "Text unten"
 
 #: inc/legacy-sidebar.php:120
 #: components/ui/editor/editor.js:452
 #: components/ui/editor/editor.js:577
 msgid "Contacts"
-msgstr ""
+msgstr "Kontakte"
 
 #. translators: %d: link block number
 #: inc/legacy-sidebar.php:121
 #: components/ui/editor/editor.js:683
 msgid "Link block %d"
-msgstr ""
+msgstr "Link-Block %d"
 
 #: inc/legacy-sidebar.php:124
 #: components/ui/editor/editor.js:619
 msgid "Links"
-msgstr ""
+msgstr "Links"
 
 #: inc/legacy-sidebar.php:125
 msgid "Insert as blocks"
-msgstr ""
+msgstr "Als Blöcke einfügen"
 
 #: inc/legacy-sidebar.php:126
 msgid "Legacy sidebar content inserted."
-msgstr ""
+msgstr "Alte Sidebar-Inhalte wurden eingefügt."
 
 #: inc/legacy-sidebar.php:127
 msgid "No title"
-msgstr ""
+msgstr "Kein Titel"
 
 #: inc/legacy-sidebar.php:128
 #: components/ui/editor/editor.js:632
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: inc/legacy-sidebar.php:129
 #: components/ui/editor/editor.js:695
 msgid "Link"
-msgstr ""
+msgstr "Link"
 
 #: inc/legacy-sidebar.php:130
 #: components/ui/editor/editor.js:581
 msgid "Legacy shortcode"
-msgstr ""
+msgstr "Alter Shortcode"
 
 #: inc/legacy-sidebar.php:131
 #: components/ui/editor/editor.js:584
 msgid "Add this shortcode to display the selected contacts."
-msgstr ""
+msgstr "Füge diesen Shortcode hinzu, um die ausgewählten Kontakte anzuzeigen."
 
 #: components/ui/editor/editor.js:792
 msgid "This page still holds sidebar entries from the previous theme. Review the content below or append it to the page as a Classic block."
-msgstr ""
+msgstr "Diese Seite enthält noch Sidebar-Einträge aus dem vorherigen Theme. Überprüfe die Inhalte unten oder füge sie als Classic-Block zur Seite hinzu."
 
 #: components/ui/editor/editor.js:827
 msgid "Legacy sidebar content was inserted."
-msgstr ""
+msgstr "Alte Sidebar-Inhalte wurden eingefügt."
 
 #: components/ui/editor/editor.js:832
 msgid "Insert legacy sidebar content"
-msgstr ""
+msgstr "Alte Sidebar-Inhalte einfügen"
 
 #: components/ui/editor/editor.js:844
 msgid "Legacy sidebar content was inserted at the bottom of the page."
-msgstr ""
+msgstr "Alte Sidebar-Inhalte wurden am Ende der Seite eingefügt."
