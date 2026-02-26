@@ -141,7 +141,8 @@ function fau_elemental_display_logo_title() {
             $visible_shortcut = '';
             $visible_title = '';
             break;
-        case 'cooperation': // External cooperation
+        case 'cooperation-external':
+        case 'cooperation':
             $visible_toptitle_secondline = '';
             $visible_toptitle = '';
             $visible_shortcut = '';
@@ -167,7 +168,7 @@ function fau_elemental_display_logo_title() {
     echo '<span class="textlogo">';
     
     // Check if custom logo is set and website type is cooperation
-    if ($website_type === 'cooperation' && has_custom_logo()) {
+    if (faue_is_cooperation_website($website_type) && has_custom_logo()) {
         echo '<span class="baselogo">';
         // Add max-height style to the custom logo
         $custom_logo_id = get_theme_mod('custom_logo');
@@ -197,7 +198,7 @@ function fau_elemental_display_logo_title() {
 
     // Only show text elements for non-cooperation websites and non-front pages
     // Also show text elements on front page if it doesn't have a hero block
-    if ($website_type !== 'cooperation' && $should_show_link) {
+    if (!faue_is_cooperation_website($website_type) && $should_show_link) {
         echo '<span class="text">';
         if ($visible_toptitle) {
             echo '<span class="fau-title"' . ($visible_title ? ' aria-hidden="true"' : ' id="website-title"') . '>' . esc_html($visible_toptitle) . '</span> ';

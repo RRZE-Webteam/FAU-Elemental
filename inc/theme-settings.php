@@ -66,6 +66,7 @@ function faue_customize_register($wp_customize) {
             'chair'        => __('Chair', 'fau-elemental'),
             'other'        => __('Central Websites', 'fau-elemental'),
             'cooperation'  => __('FAU-internal Cooperation', 'fau-elemental'),
+            'cooperation-external' => __('External Cooperation', 'fau-elemental'),
         ),
     ));
 
@@ -201,7 +202,7 @@ function faue_show_custom_logo_control($control) {
         return false;
     }
     $website_type = $setting->value();
-    return $website_type === 'cooperation';
+    return faue_is_cooperation_website($website_type);
 }
 
 
@@ -209,7 +210,7 @@ function faue_show_custom_logo_control($control) {
  * Sanitize website type input
  */
 function faue_sanitize_website_type($input) {
-    $valid_types = array('fau', 'faculty', 'chair', 'other', 'cooperation');
+    $valid_types = array('fau', 'faculty', 'chair', 'other', 'cooperation', 'cooperation-external');
 
     if (!in_array($input, $valid_types)) {
         return 'fau';

@@ -3,7 +3,7 @@
  * Title: Hero: Chair
  * Slug: fau-elemental/hero-chair-cooperation
  * Categories: hero, fau-elemental
- * Website Types: chair, cooperation
+ * Website Types: chair, cooperation, cooperation-external
  * Viewport Width: 1376
  * Block Types: core/post-content
  * Post Types: page

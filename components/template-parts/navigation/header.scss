@@ -225,7 +225,8 @@
 	}
 
 	// Cooperation website type styles
-	.fauorg-kooperation & {
+	.fauorg-kooperation &,
+	.fauorg-kooperation-extern & {
 		background-color: var(--FAU-Col-FAU-Weiss-100);
 
 		.main-navigation__toggle-text,

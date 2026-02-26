@@ -163,6 +163,10 @@ require_once get_theme_file_path('components/template-parts/footer-instance/foot
     <div class="footer-bottom-wrapper">
         <?php
         $hide_fau_info = get_theme_mod('hide_fau_info_section', false);
+        $website_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
+        if ($website_type === 'cooperation-external') {
+            $hide_fau_info = true;
+        }
 
         if (!$hide_fau_info) : ?>
             <input type="checkbox" id="fau-info-toggle" class="fau-info-toggle-checkbox" aria-controls="fau-info-section">
