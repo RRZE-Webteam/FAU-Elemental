@@ -1052,6 +1052,10 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 		transform: translateX(-50%);
 	}
 
+	.home:not(.blog).has-hero-block .main-navigation__logo {
+		left: 3.75rem;
+	}
+
 	.menu-modal,
 	.menu-meta-nav__modal,
 	.menu-website-modal {
