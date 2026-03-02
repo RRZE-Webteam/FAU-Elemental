@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-02-26T13:07:53+00:00\n"
+"POT-Creation-Date: 2026-03-02T11:00:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -108,7 +108,7 @@ msgstr ""
 
 #: components/blocks/fau-logo-grid/render.php:83
 #: inc/shortcodes.php:176
-#: components/blocks/fau-logo-grid/edit.js:286
+#: components/blocks/fau-logo-grid/edit.js:287
 msgid "Logo"
 msgstr ""
 
@@ -736,7 +736,7 @@ msgstr ""
 #: inc/customizer.php:278
 #: inc/customizer.php:306
 #: inc/customizer.php:538
-#: components/blocks/fau-big-button/edit.js:317
+#: components/blocks/fau-big-button/edit.js:318
 msgid "Description"
 msgstr ""
 
@@ -1070,7 +1070,7 @@ msgstr ""
 
 #: inc/legacy-sidebar.php:122
 #: index.php:227
-#: components/blocks/fau-big-button/edit.js:306
+#: components/blocks/fau-big-button/edit.js:307
 #: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
 #: components/ui/editor/editor.js:515
 #: components/ui/editor/editor.js:549
@@ -1518,161 +1518,161 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:71
+#: components/blocks/fau-big-button/edit.js:72
 msgid "Default"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:72
+#: components/blocks/fau-big-button/edit.js:73
 msgid "FAU"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:73
+#: components/blocks/fau-big-button/edit.js:74
 msgid "Philosophy"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:74
+#: components/blocks/fau-big-button/edit.js:75
 msgid "Law & Economics"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:75
+#: components/blocks/fau-big-button/edit.js:76
 msgid "Medicine"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:76
+#: components/blocks/fau-big-button/edit.js:77
 msgid "Sciences"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:77
+#: components/blocks/fau-big-button/edit.js:78
 msgid "Technology"
 msgstr ""
 
 #. translators: %s: faculty type
-#: components/blocks/fau-big-button/edit.js:172
+#: components/blocks/fau-big-button/edit.js:173
 msgid "Using faculty color: %s"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:173
+#: components/blocks/fau-big-button/edit.js:174
 msgid "Unknown"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:183
+#: components/blocks/fau-big-button/edit.js:184
 msgid "Appearance Settings"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:187
+#: components/blocks/fau-big-button/edit.js:188
 msgid "Buttons Per Row"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:191
+#: components/blocks/fau-big-button/edit.js:192
 msgid "4 buttons"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:195
+#: components/blocks/fau-big-button/edit.js:196
 msgid "3 buttons"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:205
+#: components/blocks/fau-big-button/edit.js:206
 msgid "Variant"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:209
+#: components/blocks/fau-big-button/edit.js:210
 msgid "Filled"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:213
+#: components/blocks/fau-big-button/edit.js:214
 msgid "Outline"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:224
+#: components/blocks/fau-big-button/edit.js:225
 msgid "Items"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:229
-#: components/blocks/fau-big-button/edit.js:607
+#: components/blocks/fau-big-button/edit.js:230
+#: components/blocks/fau-big-button/edit.js:606
 msgid "Add Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:236
-#: components/blocks/fau-big-button/edit.js:242
+#: components/blocks/fau-big-button/edit.js:237
+#: components/blocks/fau-big-button/edit.js:243
 msgid "Untitled Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:237
+#: components/blocks/fau-big-button/edit.js:238
 msgid "Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:258
-#: components/blocks/fau-big-button/edit.js:269
-#: components/blocks/fau-big-button/edit.js:488
+#: components/blocks/fau-big-button/edit.js:259
+#: components/blocks/fau-big-button/edit.js:270
+#: components/blocks/fau-big-button/edit.js:487
 msgid "Move up"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:276
-#: components/blocks/fau-big-button/edit.js:289
-#: components/blocks/fau-big-button/edit.js:507
+#: components/blocks/fau-big-button/edit.js:277
+#: components/blocks/fau-big-button/edit.js:290
+#: components/blocks/fau-big-button/edit.js:506
 msgid "Move down"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:301
+#: components/blocks/fau-big-button/edit.js:302
 msgid "Remove Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:311
+#: components/blocks/fau-big-button/edit.js:312
 msgid "You can also click on the title in the preview to edit it directly."
 msgstr ""
 
 #. translators: %d: maximum character count
-#: components/blocks/fau-big-button/edit.js:332
+#: components/blocks/fau-big-button/edit.js:333
 msgid "Maximum %d characters recommended. You can also click on the description in the preview to edit it directly."
 msgstr ""
 
 #. translators: %1$d: current character count, %2$d: maximum character count
-#: components/blocks/fau-big-button/edit.js:350
+#: components/blocks/fau-big-button/edit.js:351
 msgid "%1$d / %2$d characters"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:360
+#: components/blocks/fau-big-button/edit.js:361
 msgid "URL"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:381
+#: components/blocks/fau-big-button/edit.js:382
 msgid "Required for display:"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:390
+#: components/blocks/fau-big-button/edit.js:391
 msgid "Title is required"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:398
+#: components/blocks/fau-big-button/edit.js:399
 #: components/utils/urlValidation.js:16
 msgid "URL is required"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:411
+#: components/blocks/fau-big-button/edit.js:412
 msgid "This item will not be displayed on the frontend until both title and URL are provided."
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:422
+#: components/blocks/fau-big-button/edit.js:423
 msgid "Color"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:445
+#: components/blocks/fau-big-button/edit.js:446
 msgid "No items added yet. Click \"Add Item\" to get started."
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:525
+#: components/blocks/fau-big-button/edit.js:524
 msgid "Remove item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:551
+#: components/blocks/fau-big-button/edit.js:550
 msgid "Enter title…"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:581
+#: components/blocks/fau-big-button/edit.js:580
 msgid "Add description…"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:602
+#: components/blocks/fau-big-button/edit.js:601
 msgid "Add new item"
 msgstr ""
 
@@ -1680,7 +1680,7 @@ msgstr ""
 #: components/blocks/fau-big-teaser/edit.js:201
 #: components/blocks/fau-featured-event-teaser/edit.js:126
 #: components/blocks/fau-featured-event-teaser/edit.js:191
-#: components/blocks/fau-logo-grid/edit.js:129
+#: components/blocks/fau-logo-grid/edit.js:130
 #: components/blocks/fau-testimonial/edit.js:196
 msgid "Replace Image"
 msgstr ""
@@ -1920,43 +1920,43 @@ msgstr ""
 msgid "Content Size: for editorial content, includes search scope selection and advanced features. Full Grid: for wide teaser components, simple search only."
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:104
+#: components/blocks/fau-logo-grid/edit.js:105
 msgid "Add Logo"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:115
+#: components/blocks/fau-logo-grid/edit.js:116
 msgid "Selected Logo Settings"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:130
+#: components/blocks/fau-logo-grid/edit.js:131
 msgid "Set Image"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:140
+#: components/blocks/fau-logo-grid/edit.js:141
 msgid "Remove Logo"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:150
+#: components/blocks/fau-logo-grid/edit.js:151
 msgid "Logo preview"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:169
+#: components/blocks/fau-logo-grid/edit.js:170
 msgid "Logo Link"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:179
+#: components/blocks/fau-logo-grid/edit.js:180
 msgid "Original Category:"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:192
+#: components/blocks/fau-logo-grid/edit.js:193
 msgid "This logo was migrated from the previous theme."
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:256
+#: components/blocks/fau-logo-grid/edit.js:257
 msgid "Select logo for editing"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:275
+#: components/blocks/fau-logo-grid/edit.js:276
 msgid "Choose Logo"
 msgstr ""
 
