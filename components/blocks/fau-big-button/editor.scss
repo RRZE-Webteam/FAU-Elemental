@@ -18,131 +18,118 @@
 
 
 .fau-big-button-teaser-group {
-	// Editor preview styles
-	.block-editor & {
+	// Editor-only styles (loaded via editorStyle in block.json)
 
-		// Make buttons non-interactive in editor
-		.fau-big-button-teaser-group__button-link {
-			pointer-events: none;
-			cursor: default;
+	// Show URL in editor for debugging
+	.fau-big-button-teaser-group__button-url {
+		display: block;
+		font-size: 0.75rem;
+		color: #666;
+		font-style: italic;
+		padding: 0.25rem 0;
+		border-top: 0.0625rem solid #eee;
+		margin-top: 0.5rem;
+	}
+
+	// Editor-specific hover effects (disabled)
+	.fau-big-button-teaser-group__button-content {
+		transition: none;
+	}
+
+	// Button container positioning
+	&__button {
+		position: relative;
+		cursor: default;
+
+		&:hover {
+
+			.fau-big-button-teaser-group__inline-controls {
+				opacity: 1;
+			}
 		}
 
-		// Show URL in editor for debugging
-		.fau-big-button-teaser-group__button-url {
-			display: block;
-			font-size: 0.75rem;
-			color: #666;
-			font-style: italic;
-			padding: 0.25rem 0;
-			border-top: 0.0625rem solid #eee;
-			margin-top: 0.5rem;
+		// Focus indicator for editor preview
+		&:focus-visible {
+			outline: 0.125rem solid #007cba;
+			outline-offset: 0.125rem;
+			border-radius: 0.125rem;
 		}
+	}
 
-		// Editor-specific hover effects (disabled)
-		.fau-big-button-teaser-group__button-content {
-			transition: none;
-		}
+	// Inline controls container
+	&__inline-controls {
+		position: absolute;
+		top: 0.5rem;
+		right: 0.5rem;
+		z-index: 15;
+		display: flex;
+		gap: 0.25rem;
 
-		.fau-big-button-teaser-group__button-link:hover {
-			transform: none;
-			box-shadow: none;
-		}
-
-		// Button container positioning
-		&__button {
-			position: relative;
-			cursor: default;
+		.components-button {
+			background-color: rgba(255, 255, 255, 0.95);
+			border: 0.0625rem solid #ddd;
+			min-width: 1.5rem;
+			height: 1.5rem;
+			box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.1);
 
 			&:hover {
-
-				.fau-big-button-teaser-group__inline-controls {
-					opacity: 1;
-				}
-			}
-
-			// Focus indicator for editor preview
-			&:focus-visible {
-				outline: 0.125rem solid #007cba;
-				outline-offset: 0.125rem;
-				border-radius: 0.125rem;
-			}
-		}
-
-		// Inline controls container
-		&__inline-controls {
-			position: absolute;
-			top: 0.5rem;
-			right: 0.5rem;
-			z-index: 15;
-			display: flex;
-			gap: 0.25rem;
-
-			.components-button {
-				background-color: rgba(255, 255, 255, 0.95);
-				border: 0.0625rem solid #ddd;
-				min-width: 1.5rem;
-				height: 1.5rem;
-				box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.1);
-
-				&:hover {
-					background-color: rgba(255, 255, 255, 1);
-					border-color: #999;
-				}
-			}
-		}
-
-		// Move buttons specific styling
-		&__move-up,
-		&__move-down {
-			background-color: rgba(255, 255, 255, 0.9);
-			border: 0.0625rem solid #ddd;
-		}
-
-		// Add button styling
-		&__add-button {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			border: 0.125rem dashed #ddd;
-			border-radius: 0.25rem;
-			background-color: #f9f9f9;
-
-			&--small {
-				min-height: 7.5rem;
-			}
-
-			&--large {
-				min-height: 7.5rem;
-			}
-
-
-		}
-
-		// URL preview styling
-		&__url-preview {
-			margin-top: 0.5rem;
-			font-size: 0.75rem;
-			opacity: 0.7;
-
-			strong {
-				font-weight: 600;
-			}
-		}
-
-		// RichText editing states
-		.rich-text {
-			cursor: text;
-
-			&:focus,
-			&.is-selected {
-				outline: 0.0625rem solid #007cba;
-				outline-offset: 0.0625rem;
+				background-color: rgba(255, 255, 255, 1);
+				border-color: #999;
 			}
 		}
 	}
 
+	// Move buttons specific styling
+	&__move-up,
+	&__move-down {
+		background-color: rgba(255, 255, 255, 0.9);
+		border: 0.0625rem solid #ddd;
+	}
+
+	// Add button styling
+	&__add-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 0.125rem dashed #ddd;
+		border-radius: 0.25rem;
+		background-color: #f9f9f9;
+
+		&--small {
+			min-height: 7.5rem;
+		}
+
+		&--large {
+			min-height: 7.5rem;
+		}
+
+
+	}
+
+	// URL preview styling
+	&__url-preview {
+		margin-top: 0.5rem;
+		font-size: 0.75rem;
+		opacity: 0.7;
+
+		strong {
+			font-weight: 600;
+		}
+	}
+
+	// RichText editing states
+	.rich-text {
+		cursor: text;
+
+		&:focus,
+		&.is-selected {
+			outline: 0.0625rem solid #007cba;
+			outline-offset: 0.0625rem;
+		}
+	}
+
 	// Selected state in editor
-	.block-editor &.is-selected {
+	&.is-selected {
 		border-color: #007cba;
 		box-shadow: 0 0 0 0.0625rem #007cba;
 
@@ -153,7 +140,7 @@
 }
 
 // Individual button faculty colors for faculty showcase mode in editor
-.block-editor .fau-big-button-teaser-group.fau-big-button-teaser-group--faculty-showcase {
+.fau-big-button-teaser-group.fau-big-button-teaser-group--faculty-showcase {
 
 	.fau-big-button-teaser-group__buttons {
 

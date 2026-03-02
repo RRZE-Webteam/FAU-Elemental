@@ -13,6 +13,7 @@ import {
 	Button,
 	ToolbarGroup,
 } from '@wordpress/components';
+import { plus } from '@wordpress/icons';
 
 export default function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps();
@@ -100,7 +101,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			<BlockControls>
 				<ToolbarGroup>
 					<Button
-						icon="plus"
+						icon={ plus }
 						label={ __( 'Add Logo', 'fau-elemental' ) }
 						onClick={ addLogo }
 					/>
