@@ -19,10 +19,6 @@
 @use "../../patterns/hero-chair-cooperation/editor" as *;
 @use "../../patterns/hero-faculty-other/editor" as *;
 
-.editor-visual-editor {
-	container-type: inline-size;
-}
-
 .editor-resizable-editor > div {
 	background-color: var(--FAU-Col-FAU-Weiss-100);
 }

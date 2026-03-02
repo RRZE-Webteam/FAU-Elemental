@@ -17,6 +17,7 @@ import {
 	ButtonGroup,
 } from '@wordpress/components';
 import { useEffect, useMemo } from '@wordpress/element';
+import { arrowUp, arrowDown, trash, plus } from '@wordpress/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { validateUrl } from '../../utils/urlValidation';
 
@@ -474,12 +475,10 @@ export default function Edit( { attributes, setAttributes } ) {
 							: `${ buttonClasses } fau-big-button-teaser-group__button--incomplete`;
 
 						return (
+							// eslint-disable-next-line jsx-a11y/anchor-is-valid -- <a> without href used as non-interactive editor preview container matching frontend a-tag styles
 							<a
 								key={ item.id || index }
-								href="#preview"
 								className={ `${ previewClasses } disabled` }
-								onClick={ ( e ) => e.preventDefault() }
-								role="button"
 							>
 								{ /* Inline controls */ }
 								<div className="fau-big-button-teaser-group__inline-controls">
@@ -491,7 +490,7 @@ export default function Edit( { attributes, setAttributes } ) {
 											) }
 										>
 											<Button
-												icon="arrow-up-alt2"
+												icon={ arrowUp }
 												isSmall
 												className="fau-big-button-teaser-group__move-up"
 												onClick={ ( e ) => {
@@ -510,7 +509,7 @@ export default function Edit( { attributes, setAttributes } ) {
 												) }
 											>
 												<Button
-													icon="arrow-down-alt2"
+													icon={ arrowDown }
 													isSmall
 													className="fau-big-button-teaser-group__move-down"
 													onClick={ ( e ) => {
@@ -528,7 +527,7 @@ export default function Edit( { attributes, setAttributes } ) {
 											) }
 										>
 											<Button
-												icon="trash"
+												icon={ trash }
 												isSmall
 												isDestructive
 												className="fau-big-button-teaser-group__button-remove"
@@ -601,7 +600,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					>
 						<Tooltip text={ __( 'Add new item', 'fau-elemental' ) }>
 							<Button
-								icon="plus"
+								icon={ plus }
 								isPrimary
 								onClick={ addItem }
 								label={ __( 'Add Item', 'fau-elemental' ) }
