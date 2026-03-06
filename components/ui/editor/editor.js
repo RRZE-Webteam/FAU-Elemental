@@ -17,6 +17,9 @@ import { registerPlugin } from '@wordpress/plugins';
 import { Fragment, RawHTML, useMemo, useState } from '@wordpress/element';
 import { unregisterFormatType } from '@wordpress/rich-text';
 
+// Editor iframe body class injection (persistent MutationObserver pattern).
+import './iframe-body-class-injection';
+
 // Import all core-blocks
 import '../../core-blocks/button/index.js';
 import '../../core-blocks/cover/index.js';
