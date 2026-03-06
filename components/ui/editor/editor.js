@@ -17,6 +17,9 @@ import { registerPlugin } from '@wordpress/plugins';
 import { Fragment, RawHTML, useMemo, useState } from '@wordpress/element';
 import { unregisterFormatType } from '@wordpress/rich-text';
 
+// Editor iframe body class injection (persistent MutationObserver pattern).
+import './iframe-body-class-injection';
+
 // Import all core-blocks
 import '../../core-blocks/button/index.js';
 import '../../core-blocks/cover/index.js';
@@ -860,78 +863,6 @@ if ( legacySidebarContext?.data?.hasLegacyData ) {
 		icon: <LegacySidebarIcon />,
 	} );
 }
-
-/**
- * Editor Iframe Body Class Injection
- *
- * Mirrors the PHP faue_get_org_classes() logic to inject faculty/website-type
- * body classes into the iframed editor canvas. WordPress's transformStyles
- * scopes editor CSS so that `body.faculty-phil .block` becomes
- * `.editor-styles-wrapper.faculty-phil .block` (same-element compound selector),
- * which only works if the iframe body actually carries these classes.
- */
-( () => {
-	const { websiteType, facultyType } = window.fauElemental || {};
-	const orgClasses = [];
-
-	switch ( websiteType ) {
-		case 'fau':
-			orgClasses.push( 'fauorg-home' );
-			break;
-		case 'faculty':
-			orgClasses.push( 'fauorg-fakultaet' );
-			if ( facultyType ) {
-				orgClasses.push( `faculty-${ facultyType }` );
-			}
-			break;
-		case 'chair':
-			orgClasses.push( 'fauorg-unterorg' );
-			if ( facultyType ) {
-				orgClasses.push( `faculty-${ facultyType }` );
-			}
-			break;
-		case 'cooperation':
-			orgClasses.push( 'fauorg-kooperation' );
-			break;
-		case 'cooperation-external':
-			orgClasses.push( 'fauorg-kooperation-extern' );
-			break;
-		case 'other':
-			orgClasses.push( 'fauorg-sonstige' );
-			break;
-	}
-
-	if ( orgClasses.length ) {
-		const applyClasses = () => {
-			const iframe = document.querySelector(
-				'iframe[name="editor-canvas"]'
-			);
-			if ( ! iframe?.contentDocument?.body ) {
-				return false;
-			}
-			orgClasses.forEach( ( cls ) =>
-				iframe.contentDocument.body.classList.add( cls )
-			);
-			return true;
-		};
-
-		if ( ! applyClasses() ) {
-			const observer = new MutationObserver( () => {
-				if ( applyClasses() ) {
-					observer.disconnect();
-					const iframe = document.querySelector(
-						'iframe[name="editor-canvas"]'
-					);
-					iframe?.addEventListener( 'load', () => applyClasses() );
-				}
-			} );
-			observer.observe( document.body, {
-				childList: true,
-				subtree: true,
-			} );
-		}
-	}
-} )();
 
 const portalMenuSettings = document.getElementById(
 	'fau_elemental_portal_menu_settings'
