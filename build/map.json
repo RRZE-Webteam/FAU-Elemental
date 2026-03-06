@@ -292,6 +292,9 @@
   "components/core-blocks/image/utils.js": [
     "build/js/editor.js"
   ],
+  "components/ui/editor/iframe-body-class-injection.js": [
+    "build/js/editor.js"
+  ],
   "components/core-blocks/gallery/gallery-slider.js": [
     "build/js/gallery-slider.js"
   ],
