@@ -1349,8 +1349,54 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 		}
 	}
 
-	// Mobile shared header for all hero front pages except fau.de
-	body:not(.fauorg-home).home:not(.blog).has-hero-block .site-header {
+	// Exception for front page with hero
+	.home:not(.blog).has-hero-block main {
+		padding-top: unset;
+	}
+
+	body:not(.home:not(.blog).has-hero-block) .site-header {
+
+		&__main {
+
+			.main-navigation {
+
+				&__logo {
+					max-width: 23rem;
+
+					.baselogo img {
+						width: 6.25rem;
+						height: 2.4375rem;
+					}
+				}
+
+				&__logo a .textlogo {
+					gap: 0.6rem;
+
+					.text {
+						top: -0.125rem;
+						font-size: 0.5rem;
+						line-height: var(--heading-line-height);
+					}
+				}
+
+				&__toggle-text {
+					display: none;
+				}
+			}
+		}
+	}
+}
+
+// White bar header for hero front pages (except fau.de, faculty, Einrichtungen)
+// Activates at 1250px where hero goes full-width
+// and dark backgrounds hide the logo
+@media screen and (max-width: 1250px) {
+
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-unterorg).home:not(.blog).has-hero-block .site-header {
+
+		&__top {
+			display: none;
+		}
 
 		&__main {
 			position: relative;
@@ -1391,49 +1437,38 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 					display: none;
 				}
 
+				&__direct-links {
+					display: none;
+				}
+
 				&__menu-container {
 					position: relative;
 					right: auto;
 					background-color: transparent;
 					padding: 0;
+
+					&::before {
+						display: none;
+					}
 				}
 			}
 		}
 	}
 
-	// Exception for front page with hero
-	.home:not(.blog).has-hero-block main {
+	// Remove top padding that compensates for fixed header
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-unterorg).home:not(.blog).has-hero-block main {
 		padding-top: unset;
 	}
 
-	body:not(.home:not(.blog).has-hero-block) .site-header {
+	// Reset modal offset (no fau-navigation to clear)
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-unterorg).home:not(.blog).has-hero-block {
 
-		&__main {
+		.menu-modal,
+		.menu-meta-nav__modal,
+		.menu-website-modal {
 
-			.main-navigation {
-
-				&__logo {
-					max-width: 23rem;
-
-					.baselogo img {
-						width: 6.25rem;
-						height: 2.4375rem;
-					}
-				}
-
-				&__logo a .textlogo {
-					gap: 0.6rem;
-
-					.text {
-						top: -0.125rem;
-						font-size: 0.5rem;
-						line-height: var(--heading-line-height);
-					}
-				}
-
-				&__toggle-text {
-					display: none;
-				}
+			&.is-open {
+				top: 0;
 			}
 		}
 	}
@@ -1477,7 +1512,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	}
 
 	// Match hero-chair-content x-small padding
-	body:not(.fauorg-home).home:not(.blog).has-hero-block .site-header__main .main-navigation {
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-unterorg).home:not(.blog).has-hero-block .site-header__main .main-navigation {
 		padding: var(--Spacing-4x) var(--Spacing-5x);
 	}
 }
