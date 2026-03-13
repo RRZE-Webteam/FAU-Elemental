@@ -127,14 +127,6 @@ msgstr ""
 msgid "Show more"
 msgstr "Mehr anzeigen"
 
-#: components/template-parts/footer-main/footer-main.php:4
-msgid "FAU - Knowledge in Motion"
-msgstr "FAU - Wissen in Bewegung"
-
-#: components/template-parts/footer-main/footer-main.php:5
-msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
-msgstr "Die FAU ist die innovativste Universität Deutschlands, euopaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung."
-
 #: components/template-parts/footer-main/footer-main.php:14
 msgid "Target Group Section 1"
 msgstr "Zielgruppe 1"
@@ -213,10 +205,6 @@ msgstr "Überschrift"
 #: inc/customizer.php:251
 msgid "Main heading for the claim section"
 msgstr "Hauptüberschrift im Footer"
-
-#: inc/customizer.php:262
-msgid "Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung."
-msgstr "Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung."
 
 #: inc/customizer.php:266
 msgid "Text"
@@ -2468,10 +2456,6 @@ msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein"
 msgid "Moving knowledge"
 msgstr "Wissen bewegen"
 
-#: inc/config.php:43
-msgid "FAU is the most innovative university in Germany, and second across Europe. Established in 1743, it is one of the largest universities in Germany, with approximately 40,000 students, over 600 professors and around 16,000 members of staff."
-msgstr "Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovationsstärkste Universität Deutschlands. Gegründet 1743 ist sie mit rund 40.000 Studierenden, über 600 Professorinnen und Professoren und etwa 16.000 Mitarbeiterinnen und Mitarbeitern eine der größten Universitäten in Deutschland."
-
 #: inc/legacy-sidebar.php:114
 #: components/ui/editor/editor.js:777
 #: components/ui/editor/editor.js:780
@@ -2584,3 +2568,19 @@ msgstr "Weiß"
 #: inc/theme-settings.php:108
 msgid "Blue"
 msgstr "Blau"
+
+#: inc/customizer.php:262
+msgid "Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovationsstärkste Universität Deutschlands. Gegründet 1743 ist sie mit rund 40.000 Studierenden, über 600 Professorinnen und Professoren und etwa 6.700 Mitarbeiterinnen und Mitarbeitern eine der größten Universitäten in Deutschland."
+msgstr "Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovationsstärkste Universität Deutschlands. Gegründet 1743 ist sie mit rund 40.000 Studierenden, über 600 Professorinnen und Professoren und etwa 6.700 Mitarbeiterinnen und Mitarbeitern eine der größten Universitäten in Deutschland."
+
+#: components/template-parts/footer-main/footer-main.php:4
+msgid "FAU - Knowledge in Motion"
+msgstr "Wissen bewegen"
+
+#: components/template-parts/footer-main/footer-main.php:5
+msgid "FAU is Germany's most innovative university, ranking second in Europe. With 40,000 students, we are one of the largest universities in Germany with outstanding teaching and excellent research."
+msgstr "Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovationsstärkste Universität Deutschlands. Gegründet 1743 ist sie mit rund 40.000 Studierenden, über 600 Professorinnen und Professoren und etwa 6.700 Mitarbeiterinnen und Mitarbeitern eine der größten Universitäten in Deutschland."
+
+#: inc/config.php:43
+msgid "FAU is the most innovative university in Germany, and second across Europe. Established in 1743, it is one of the largest universities in Germany, with approximately 40,000 students, over 600 professors and around 16,000 members of staff."
+msgstr "Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovationsstärkste Universität Deutschlands. Gegründet 1743 ist sie mit rund 40.000 Studierenden, über 600 Professorinnen und Professoren und etwa 6.700 Mitarbeiterinnen und Mitarbeitern eine der größten Universitäten in Deutschland."
