@@ -243,7 +243,7 @@ function fau_customizer_settings($wp_customize) {
     
     // Überschrift (was FAU Claim Title)
     $wp_customize->add_setting('fau_footer_title', [
-        'default' => 'FAU - Wissen in Bewegung',
+        'default' => 'Wissen bewegen',
         'sanitize_callback' => 'sanitize_text_field'
     ]);
     $wp_customize->add_control('fau_footer_title', [
@@ -259,7 +259,7 @@ function fau_customizer_settings($wp_customize) {
     
     // Text (was FAU Claim Text)
     $wp_customize->add_setting('fau_footer_description', [
-        'default' => __('Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung.', 'fau-elemental'),
+        'default' => __('Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovationsstärkste Universität Deutschlands. Gegründet 1743 ist sie mit rund 40.000 Studierenden, über 600 Professorinnen und Professoren und etwa 6.700 Mitarbeiterinnen und Mitarbeitern eine der größten Universitäten in Deutschland.', 'fau-elemental'),
         'sanitize_callback' => 'sanitize_textarea_field'
     ]);
     $wp_customize->add_control('fau_footer_description', [

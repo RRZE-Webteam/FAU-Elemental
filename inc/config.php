@@ -45,22 +45,22 @@ $faue_defaults = array(
     'faue_target_groups_de' => array(
         array(
             'title' => 'Studieninteressierte',
-            'description' => 'Studium, Orientierung und Studiengänge',
+            'description' => 'Studium, Orientierung und Studiengänge an der FAU',
             'link' => 'https://www.fau.de/fuer-studieninteressierte/'
         ),
         array(
             'title' => 'Studierende',
-            'description' => 'Services, Portale und Studieninformationen',
+            'description' => 'Services, Portal und Studieninformationen der FAU',
             'link' => 'https://www.fau.de/fuer-studierende/'
         ),
         array(
             'title' => 'Forschende',
-            'description' => 'Forschungsprofil, akademische Karriere und Erfolge',
+            'description' => 'Forschungsprofil, akademische Karriere und Erfolge der FAU',
             'link' => 'https://www.fau.de/fuer-forschende-und-lehrende/'
         ),
         array(
             'title' => 'Kooperationspartner',
-            'description' => 'Kooperationen, Patente und Transfer',
+            'description' => 'Kooperationen, Patente und Transfer der FAU',
             'link' => 'https://www.fau.de/services/fuer-unternehmen-und-partner/'
         ),
     ),
