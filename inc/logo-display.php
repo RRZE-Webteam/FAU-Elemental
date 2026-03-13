@@ -174,7 +174,7 @@ function fau_elemental_display_logo_title() {
         $custom_logo_id = get_theme_mod('custom_logo');
         $custom_logo = wp_get_attachment_image_src($custom_logo_id, 'full');
         if ($custom_logo) {
-            echo '<img src="' . esc_url($custom_logo[0]) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="custom-logo" style="max-height: 60px;">';
+            echo '<img src="' . esc_url($custom_logo[0]) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="custom-logo" style="height: 60px; max-width: 200px;">';
         } else {
             the_custom_logo();
         }
