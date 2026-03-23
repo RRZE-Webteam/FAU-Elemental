@@ -327,6 +327,10 @@
 		align-items: center;
 		max-width: 33rem;
 
+		img {
+			max-width: 100%;
+		}
+
 		a {
 			text-decoration: none;
 
@@ -1420,7 +1424,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 						display: block;
 						scale: 1;
 						width: auto;
-						height: 2.4375rem;
+						height: 3.75rem;
 
 						// Dual logo: hide white, show blue on white-bg header
 						&.faubaselogo--white {
