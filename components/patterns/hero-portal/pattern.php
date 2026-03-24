@@ -16,7 +16,7 @@
     <div class="wp-block-column">
         <!-- wp:post-title {"level":1, "lock":{"move":true}} /-->
         <!-- wp:paragraph {"className":"post-description", "lock":{"move":true}} -->
-        <p class="post-description"><?php echo esc_html__('Are you interested in studying natural sciences or mathematics? Then FAU in Erlangen is the right place for you. Friedrich-Alexander-Universität Erlangen-Nürnberg offers degree programs in all areas of natural sciences and mathematics – both as undergraduate Bachelor’s and advanced Master’s programs. The degree programs in food chemistry, pharmacy, and teaching end with a state examination.', 'fau-elemental'); ?></p>
+        <p class="post-description"><?php echo esc_html__('Beschreibung Ihrer Portalseite. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.', 'fau-elemental'); ?></p>
         <!-- /wp:paragraph -->
 
         <!-- wp:buttons -->
