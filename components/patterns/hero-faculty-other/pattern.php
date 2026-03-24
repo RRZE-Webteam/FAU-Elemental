@@ -17,29 +17,28 @@ $current_faculty = get_theme_mod('faue_faculty', 'phil');
 // Faculty-specific content
 $faculty_content = [
     'phil' => [
-        'title' => 'Die Philosophische Fakultät und Fachbereich Theologie',
-        'description' => 'Die Philosophische Fakultät der FAU gehört zu den forschungsstärksten philosophischen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
+        'title' => 'Name der Fakultät oder des Departments',
+        'description' => 'Kurzbeschreibung der Fakultät oder des Departments',
         'img' => '/assets/images/hero-faculty-phil.webp'
     ],
     'nat' => [
-        'title' => 'Die Naturwissenschaftliche Fakultät',
-        'description' => 'Die Naturwissenschaftliche Fakultät der FAU gehört zu den forschungsstärksten naturwissenschaftlichen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
+        'title' => 'Name der Fakultät oder des Departments',
+        'description' => 'Kurzbeschreibung der Fakultät oder des Departments',
         'img' => '/assets/images/hero-faculty.webp'
     ],
     'med' => [
-        'title' => 'Die Medizinische Fakultät',
-        'description' => 'Die Medizinische Fakultät der FAU gehört zu den forschungsstärksten medizinischen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
+        'title' => 'Name der Fakultät oder des Departments',
+        'description' => 'Kurzbeschreibung der Fakultät oder des Departments',
         'img' => '/assets/images/hero-faculty.webp'
-
     ],
     'rw' => [
-        'title' => 'Die Rechts- und Wirtschaftswissenschaftliche Fakultät',
-        'description' => 'Die Rechts- und Wirtschaftswissenschaftliche Fakultät der FAU gehört zu den forschungsstärksten rechts- und wirtschaftswissenschaftlichen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
+        'title' => 'Name der Fakultät oder des Departments',
+        'description' => 'Kurzbeschreibung der Fakultät oder des Departments',
         'img' => '/assets/images/hero-faculty-rw.webp'
     ],
     'tf' => [
-        'title' => 'Die Technische Fakultät',
-        'description' => 'Die Technische Fakultät der FAU gehört zu den forschungsstärksten technischen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings.',
+        'title' => 'Name der Fakultät oder des Departments',
+        'description' => 'Kurzbeschreibung der Fakultät oder des Departments',
         'img' => '/assets/images/hero-faculty-tf.webp'
     ]
 ];
@@ -80,7 +79,7 @@ if ($current_website_type === 'other') {
                 <!-- wp:buttons -->
                 <div class="wp-block-buttons">
                     <!-- wp:button {"className":"is-style-tertiary"} -->
-                    <div class="wp-block-button is-style-tertiary"><a class="wp-block-button__link wp-element-button">Mehr erfahren</a></div>
+                    <div class="wp-block-button is-style-tertiary"><a class="wp-block-button__link wp-element-button">Button Text</a></div>
                     <!-- /wp:button -->
                 </div>
                 <!-- /wp:buttons -->

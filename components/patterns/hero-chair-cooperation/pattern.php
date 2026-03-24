@@ -17,28 +17,28 @@ $current_faculty = get_theme_mod('faue_faculty', 'phil');
 // Chair-specific content for each faculty
 $chair_content = [
     'phil' => [
-        'title' => 'Institut für Philosophie',
-        'description' => 'Die Philosophische Fakultät der FAU ist eine der größten geisteswissenschaftlichen Fakultäten in Deutschland. Ihre Forschung und Lehre decken ein breites Spektrum von den klassischen Geisteswissenschaften bis zu modernen Kultur- und Sozialwissenschaften ab. Interdisziplinäre Ansätze und internationale Kooperationen prägen ihr Profil.',
+        'title' => 'Name des Lehrstuhls oder des Instituts',
+        'description' => 'Kurzbeschreibung des Lehrstuhls oder Instituts',
         'img' => '/assets/images/hero-faculty-phil.webp'
     ],
     'nat' => [
-        'title' => 'Naturwissenschaftliche Fakultät',
-        'description' => 'Die Naturwissenschaftliche Fakultät der FAU gehört zu den forschungsstärksten naturwissenschaftlichen Fakultäten in Deutschland. Ihre Fachbereiche belegen regelmäßig vorderste Plätze in unterschiedlichsten Rankings. Innovative Forschung und exzellente Lehre prägen ihr Profil.',
+        'title' => 'Name des Lehrstuhls oder des Instituts',
+        'description' => 'Kurzbeschreibung des Lehrstuhls oder Instituts',
         'img' => '/assets/images/hero-faculty.webp'
     ],
     'med' => [
-        'title' => 'Medizinische Fakultät',
-        'description' => 'Die Medizinische Fakultät der FAU zählt zu den traditionsreichsten und forschungsintensivsten Fakultäten in Deutschland. Sie ist eng mit dem Universitätsklinikum Erlangen verbunden und verbindet Spitzenmedizin mit moderner Lehre. Zahlreiche Forschungsverbünde tragen zu internationalen Fortschritten in der Medizin bei.',
+        'title' => 'Name des Lehrstuhls oder des Instituts',
+        'description' => 'Kurzbeschreibung des Lehrstuhls oder Instituts',
         'img' => '/assets/images/hero-faculty.webp'
     ],
     'rw' => [
-        'title' => 'Rechts- und Wirtschaftswissenschaftliche Fakultät',
-        'description' => 'Die Rechts- und Wirtschaftswissenschaftliche Fakultät genießt hohes Ansehen in Forschung und Lehre. Sie verbindet eine lange Tradition juristischer und ökonomischer Ausbildung mit modernen, praxisorientierten Studiengängen. Ihre Institute sind national und international hervorragend vernetzt.',
+        'title' => 'Name des Lehrstuhls oder des Instituts',
+        'description' => 'Kurzbeschreibung des Lehrstuhls oder Instituts',
         'img' => '/assets/images/hero-faculty-rw.webp'
     ],
     'tf' => [
-        'title' => 'Technische Fakultät',
-        'description' => 'Die Technische Fakultät ist eine der jüngsten, aber zugleich dynamischsten Fakultäten der FAU. Sie vereint klassische Ingenieurwissenschaften mit modernen Zukunftsfeldern wie Künstliche Intelligenz, Medizintechnik und Materialwissenschaften. Ihre enge Kooperation mit der Industrie macht sie zu einem starken Partner für Innovation.',
+        'title' => 'Name des Lehrstuhls oder des Instituts',
+        'description' => 'Kurzbeschreibung des Lehrstuhls oder Instituts',
         'img' => '/assets/images/hero-faculty-tf.webp'
     ]
 ];
@@ -79,7 +79,8 @@ if ($current_website_type === 'chair') {
                 <!-- wp:buttons -->
                 <div class="wp-block-buttons">
                     <!-- wp:button {"className":"is-style-secondary"} -->
-                    <div class="wp-block-button is-style-secondary"><a class="wp-block-button__link wp-element-button">Mehr erfahren</a></div>
+                    <div class="wp-block-button is-style-secondary"><a class="wp-block-button__link wp-element-button">Button
+                            Text</a></div>
                     <!-- /wp:button -->
                 </div>
                 <!-- /wp:buttons -->
@@ -102,7 +103,8 @@ if ($current_website_type === 'chair') {
         <!-- wp:cover {"url":"<?php echo esc_url(get_theme_file_uri($current_content['img']));?>","dimRatio":0,"contentPosition":"center","className":"is-dark-theme"} -->
         <div class="wp-block-cover is-dark-theme">
             <span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span>
-            <img class="wp-block-cover__image-background" alt="" src="<?php echo esc_url(get_theme_file_uri($current_content['img'])); ?>" data-object-fit="cover">
+            <img class="wp-block-cover__image-background" alt=""
+                 src="<?php echo esc_url(get_theme_file_uri($current_content['img'])); ?>" data-object-fit="cover">
             <div class="wp-block-cover__inner-container">
                 <!-- wp:paragraph {"align":"center","placeholder":"Write title…","fontSize":"large","className":"hideParagraph"} -->
                 <p class="has-text-align-center has-large-font-size hideParagraph"></p>
