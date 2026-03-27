@@ -10,7 +10,13 @@ import {
 	Spinner,
 	__experimentalText as Text,
 } from '@wordpress/components';
-import { select, subscribe, dispatch, useSelect, useDispatch } from '@wordpress/data';
+import {
+	select,
+	subscribe,
+	dispatch,
+	useSelect,
+	useDispatch,
+} from '@wordpress/data';
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
 import { PluginDocumentSettingPanel } from '@wordpress/editor';
 // import { addFilter } from '@wordpress/hooks';
@@ -370,7 +376,8 @@ const TEASER_IMAGE_META_KEY = '_faue_teaser_image_id';
 
 const TeaserImagePanel = () => {
 	const { teaserImageId, postType } = useSelect( ( sel ) => {
-		const meta = sel( 'core/editor' ).getEditedPostAttribute( 'meta' ) || {};
+		const meta =
+			sel( 'core/editor' ).getEditedPostAttribute( 'meta' ) || {};
 		return {
 			teaserImageId: meta[ TEASER_IMAGE_META_KEY ] || 0,
 			postType: sel( 'core/editor' ).getCurrentPostType(),
@@ -427,10 +434,16 @@ const TeaserImagePanel = () => {
 							{ teaserImageId && media ? (
 								<Fragment>
 									<div
-										style={ { marginBottom: '8px', cursor: 'pointer' } }
+										style={ {
+											marginBottom: '8px',
+											cursor: 'pointer',
+										} }
 										onClick={ open }
 										onKeyDown={ ( e ) => {
-											if ( e.key === 'Enter' || e.key === ' ' ) {
+											if (
+												e.key === 'Enter' ||
+												e.key === ' '
+											) {
 												open();
 											}
 										} }
@@ -439,24 +452,30 @@ const TeaserImagePanel = () => {
 									>
 										<ResponsiveWrapper
 											naturalWidth={
-												media?.media_details?.width || 300
+												media?.media_details?.width ||
+												300
 											}
 											naturalHeight={
-												media?.media_details?.height || 200
+												media?.media_details?.height ||
+												200
 											}
 										>
 											<img
-												src={
-													media?.source_url || ''
-												}
-												alt={
-													media?.alt_text || ''
-												}
+												src={ media?.source_url || '' }
+												alt={ media?.alt_text || '' }
 											/>
 										</ResponsiveWrapper>
 									</div>
-									<div style={ { display: 'flex', gap: '8px' } }>
-										<Button variant="secondary" onClick={ open }>
+									<div
+										style={ {
+											display: 'flex',
+											gap: '8px',
+										} }
+									>
+										<Button
+											variant="secondary"
+											onClick={ open }
+										>
 											{ __( 'Replace', 'fau-elemental' ) }
 										</Button>
 										<Button
@@ -472,7 +491,10 @@ const TeaserImagePanel = () => {
 								<Spinner />
 							) : (
 								<Button variant="secondary" onClick={ open }>
-									{ __( 'Set teaser image', 'fau-elemental' ) }
+									{ __(
+										'Set teaser image',
+										'fau-elemental'
+									) }
 								</Button>
 							) }
 						</div>

@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 1.0.7\n"
+"Project-Id-Version: FAU-Elemental 1.0.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-23T11:13:34+00:00\n"
+"POT-Creation-Date: 2026-03-27T11:18:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -156,12 +156,12 @@ msgstr ""
 msgid "Loading…"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/teaser-item.php:146
+#: components/blocks/fau-teaser-grid/teaser-item.php:147
 msgid "Read more about"
 msgstr ""
 
 #: components/patterns/hero-portal/pattern.php:19
-msgid "Are you interested in studying natural sciences or mathematics? Then FAU in Erlangen is the right place for you. Friedrich-Alexander-Universität Erlangen-Nürnberg offers degree programs in all areas of natural sciences and mathematics – both as undergraduate Bachelor’s and advanced Master’s programs. The degree programs in food chemistry, pharmacy, and teaching end with a state examination."
+msgid "Beschreibung Ihrer Portalseite. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
 msgstr ""
 
 #: components/patterns/hero-portal/pattern.php:26
@@ -533,7 +533,7 @@ msgstr ""
 
 #. translators: %s: Menu item title
 #: components/template-parts/search-results/search-results.php:373
-#: inc/class-walker-content-menu.php:79
+#: inc/class-walker-content-menu.php:84
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:179
 msgid "Featured image for %s"
 msgstr ""
@@ -638,13 +638,13 @@ msgid "Hero"
 msgstr ""
 
 #. translators: Menu item title
-#: inc/class-walker-content-menu.php:99
+#: inc/class-walker-content-menu.php:104
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:200
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:230
 msgid "Go to %s"
 msgstr ""
 
-#: inc/class-walker-content-menu.php:210
+#: inc/class-walker-content-menu.php:215
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
 msgstr ""
@@ -1029,8 +1029,8 @@ msgid "Categories"
 msgstr ""
 
 #: inc/legacy-sidebar.php:114
-#: components/ui/editor/editor.js:777
-#: components/ui/editor/editor.js:780
+#: components/ui/editor/editor.js:926
+#: components/ui/editor/editor.js:929
 msgid "Migration Assistant"
 msgstr ""
 
@@ -1047,24 +1047,24 @@ msgid "Contacts were displayed before links in the legacy sidebar."
 msgstr ""
 
 #: inc/legacy-sidebar.php:118
-#: components/ui/editor/editor.js:659
+#: components/ui/editor/editor.js:808
 msgid "Top text"
 msgstr ""
 
 #: inc/legacy-sidebar.php:119
-#: components/ui/editor/editor.js:712
+#: components/ui/editor/editor.js:861
 msgid "Bottom text"
 msgstr ""
 
 #: inc/legacy-sidebar.php:120
-#: components/ui/editor/editor.js:455
-#: components/ui/editor/editor.js:580
+#: components/ui/editor/editor.js:604
+#: components/ui/editor/editor.js:729
 msgid "Contacts"
 msgstr ""
 
 #. translators: %d: link block number
 #: inc/legacy-sidebar.php:121
-#: components/ui/editor/editor.js:686
+#: components/ui/editor/editor.js:835
 msgid "Link block %d"
 msgstr ""
 
@@ -1072,9 +1072,9 @@ msgstr ""
 #: index.php:227
 #: components/blocks/fau-big-button/edit.js:307
 #: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
-#: components/ui/editor/editor.js:518
-#: components/ui/editor/editor.js:552
-#: components/ui/editor/editor.js:602
+#: components/ui/editor/editor.js:667
+#: components/ui/editor/editor.js:701
+#: components/ui/editor/editor.js:751
 msgid "Title"
 msgstr ""
 
@@ -1085,7 +1085,7 @@ msgid "Content"
 msgstr ""
 
 #: inc/legacy-sidebar.php:124
-#: components/ui/editor/editor.js:622
+#: components/ui/editor/editor.js:771
 msgid "Links"
 msgstr ""
 
@@ -1102,22 +1102,22 @@ msgid "No title"
 msgstr ""
 
 #: inc/legacy-sidebar.php:128
-#: components/ui/editor/editor.js:635
+#: components/ui/editor/editor.js:784
 msgid "Contact"
 msgstr ""
 
 #: inc/legacy-sidebar.php:129
-#: components/ui/editor/editor.js:698
+#: components/ui/editor/editor.js:847
 msgid "Link"
 msgstr ""
 
 #: inc/legacy-sidebar.php:130
-#: components/ui/editor/editor.js:584
+#: components/ui/editor/editor.js:733
 msgid "Legacy shortcode"
 msgstr ""
 
 #: inc/legacy-sidebar.php:131
-#: components/ui/editor/editor.js:587
+#: components/ui/editor/editor.js:736
 msgid "Add this shortcode to display the selected contacts."
 msgstr ""
 
@@ -1329,6 +1329,7 @@ msgstr ""
 #: inc/social-media-admin.php:145
 #: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:131
 #: components/blocks/fau-testimonial/edit.js:453
+#: components/ui/editor/editor.js:486
 msgid "Remove"
 msgstr ""
 
@@ -2251,6 +2252,7 @@ msgid "Add an image to accompany this testimonial"
 msgstr ""
 
 #: components/blocks/fau-testimonial/edit.js:437
+#: components/ui/editor/editor.js:479
 msgid "Replace"
 msgstr ""
 
@@ -2352,19 +2354,31 @@ msgstr ""
 msgid "Current:"
 msgstr ""
 
-#: components/ui/editor/editor.js:795
+#: components/ui/editor/editor.js:419
+msgid "Teaser Image"
+msgstr ""
+
+#: components/ui/editor/editor.js:422
+msgid "Override the featured image in teaser grids and portal menus."
+msgstr ""
+
+#: components/ui/editor/editor.js:494
+msgid "Set teaser image"
+msgstr ""
+
+#: components/ui/editor/editor.js:944
 msgid "This page still holds sidebar entries from the previous theme. Review the content below or append it to the page as a Classic block."
 msgstr ""
 
-#: components/ui/editor/editor.js:830
+#: components/ui/editor/editor.js:979
 msgid "Legacy sidebar content was inserted."
 msgstr ""
 
-#: components/ui/editor/editor.js:835
+#: components/ui/editor/editor.js:984
 msgid "Insert legacy sidebar content"
 msgstr ""
 
-#: components/ui/editor/editor.js:847
+#: components/ui/editor/editor.js:996
 msgid "Legacy sidebar content was inserted at the bottom of the page."
 msgstr ""
 
