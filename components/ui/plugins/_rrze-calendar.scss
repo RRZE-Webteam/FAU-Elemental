@@ -133,6 +133,11 @@ body.fau-elemental .is-style-dark div.rrze-calendar {
 
 		.event-info {
 			border-color: var(--FAU-Col-FAU-Weiss-100);
+
+			.event-time,
+			.event-location {
+				color: #fff;
+			}
 		}
 
 		.event-title a {
