@@ -58,15 +58,20 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                 $thumbnail = false;
                 $thumbnail_id = false;
 
-                // Prefer the menu item's object ID for performance and reliability
+                // Resolve the post ID for this menu item
+                $resolved_post_id = false;
                 if (!empty($item->object_id) && in_array($item->object, ['page', 'post'], true)) {
-                    $thumbnail_id = get_post_thumbnail_id((int) $item->object_id);
+                    $resolved_post_id = (int) $item->object_id;
+                } elseif (!empty($item->linked_post)) {
+                    $resolved_post_id = is_object($item->linked_post) ? $item->linked_post->ID : (int) $item->linked_post;
                 }
 
-                // Fallback to linked post data if available (preloaded via render_portalmenu)
-                if (!$thumbnail_id && !empty($item->linked_post)) {
-                    $post_id = is_object($item->linked_post) ? $item->linked_post->ID : $item->linked_post;
-                    $thumbnail_id = get_post_thumbnail_id((int) $post_id);
+                // Check for custom teaser image first, then featured image
+                if ($resolved_post_id) {
+                    $thumbnail_id = faue_get_teaser_image_id($resolved_post_id);
+                    if (!$thumbnail_id) {
+                        $thumbnail_id = get_post_thumbnail_id($resolved_post_id);
+                    }
                 }
 
                 if ($thumbnail_id) {
@@ -178,7 +183,7 @@ class Walker_Content_Menu extends Walker_Nav_Menu {
                     'post_status' => 'publish',
                     'posts_per_page' => count($batch),
                     'no_found_rows' => true,
-                    'update_post_meta_cache' => false, // Skip meta cache to save memory
+                    'update_post_meta_cache' => true, // Needed for teaser image meta lookup
                     'update_post_term_cache' => false, // Skip term cache to save memory
                     'update_post_author_cache' => false, // Skip author cache to save memory
                 ]);
