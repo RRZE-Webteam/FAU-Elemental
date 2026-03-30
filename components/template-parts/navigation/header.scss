@@ -1391,6 +1391,14 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	}
 }
 
+// Logo height for hero front pages (chair and cooperation only)
+body.wp-custom-logo .site-header {
+
+	&__main .main-navigation__logo .baselogo img {
+		height: 3.75rem;
+	}
+}
+
 // White bar header for hero front pages (chair and cooperation only)
 // Activates at 1250px where hero goes full-width
 // and dark backgrounds hide the logo
@@ -1424,7 +1432,6 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 						display: block;
 						scale: 1;
 						width: auto;
-						height: 3.75rem;
 
 						// Dual logo: hide white, show blue on white-bg header
 						&.faubaselogo--white {
