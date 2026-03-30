@@ -1368,7 +1368,9 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 					max-width: 23rem;
 
 					.baselogo img {
-						width: 6.25rem;
+						&:not(.custom-logo) {
+							width: 6.25rem;
+						}
 						height: 2.4375rem;
 					}
 				}
