@@ -180,19 +180,8 @@ function fau_elemental_display_logo_title() {
         }
         echo '</span>';
     } elseif ($faulogo) {
-        // 'other' type uses white logo on desktop but needs blue on mobile white-bg header
-        $original_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
-        $needs_dual_logo = $has_hero_block && is_front_page() && $original_type === 'other';
-
         echo '<span class="baselogo">';
-        if ($needs_dual_logo) {
-            $blue_logo = get_template_directory_uri() . '/assets/images/logo.svg';
-            $white_logo = get_template_directory_uri() . '/assets/images/Logo-white.svg';
-            echo '<img src="' . esc_url($blue_logo) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="faubaselogo faubaselogo--blue" width="150" height="58">';
-            echo '<img src="' . esc_url($white_logo) . '" alt="" class="faubaselogo faubaselogo--white" width="150" height="58" aria-hidden="true">';
-        } else {
-            echo '<img src="' . fau_get_svg_path("fau-logo-2021", false) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="faubaselogo" width="150" height="58">';
-        }
+        echo '<img src="' . fau_get_svg_path("fau-logo-2021", false) . '" alt="' . esc_attr(get_bloginfo('name')) . '" class="faubaselogo" width="150" height="58">';
         echo '</span>';
     }
 
