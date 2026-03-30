@@ -1391,12 +1391,12 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	}
 }
 
-// White bar header for hero front pages (except fau.de and faculty)
+// White bar header for hero front pages (chair and cooperation only)
 // Activates at 1250px where hero goes full-width
 // and dark backgrounds hide the logo
 @media screen and (max-width: 1250px) {
 
-	body:not(.fauorg-home):not(.fauorg-fakultaet).home:not(.blog).has-hero-block .site-header {
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block .site-header {
 
 		&__top {
 			display: none;
@@ -1460,12 +1460,12 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	}
 
 	// Remove top padding that compensates for fixed header
-	body:not(.fauorg-home):not(.fauorg-fakultaet).home:not(.blog).has-hero-block main {
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block main {
 		padding-top: unset;
 	}
 
 	// Reset modal offset (no fau-navigation to clear)
-	body:not(.fauorg-home):not(.fauorg-fakultaet).home:not(.blog).has-hero-block {
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block {
 
 		.menu-modal,
 		.menu-meta-nav__modal,
