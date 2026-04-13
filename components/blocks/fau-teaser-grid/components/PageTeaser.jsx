@@ -32,8 +32,7 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 		const teaserImageUrl = page.faue_teaser_image_url;
 		const featuredImageUrl =
 			page._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url;
-		const imageUrl =
-			teaserImageUrl || featuredImageUrl || FALLBACK_IMAGE;
+		const imageUrl = teaserImageUrl || featuredImageUrl || FALLBACK_IMAGE;
 
 		return {
 			image: imageUrl,

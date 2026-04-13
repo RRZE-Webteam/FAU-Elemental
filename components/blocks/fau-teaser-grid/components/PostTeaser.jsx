@@ -37,8 +37,7 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 		const teaserImageUrl = post.faue_teaser_image_url;
 		const featuredImageUrl =
 			post._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url;
-		const imageUrl =
-			teaserImageUrl || featuredImageUrl || FALLBACK_IMAGE;
+		const imageUrl = teaserImageUrl || featuredImageUrl || FALLBACK_IMAGE;
 
 		// Format date using WordPress locale
 		const locale =

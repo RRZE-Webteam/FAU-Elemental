@@ -2,14 +2,14 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 1.0.9\n"
+"Project-Id-Version: FAU-Elemental 1.0.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-03-30T09:37:09+00:00\n"
+"POT-Creation-Date: 2026-04-13T08:56:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -534,7 +534,7 @@ msgstr ""
 #. translators: %s: Menu item title
 #: components/template-parts/search-results/search-results.php:373
 #: inc/class-walker-content-menu.php:84
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:179
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:183
 msgid "Featured image for %s"
 msgstr ""
 
@@ -639,8 +639,8 @@ msgstr ""
 
 #. translators: Menu item title
 #: inc/class-walker-content-menu.php:104
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:200
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:230
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:204
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:234
 msgid "Go to %s"
 msgstr ""
 
@@ -2014,23 +2014,23 @@ msgstr ""
 msgid "Please select a menu in the block settings panel to display as a portal menu."
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:168
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:172
 msgid "Menu Item"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:222
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:226
 msgid "Submenu Item"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:272
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:276
 msgid "This menu has no items. Please add items to the menu in Appearance → Menus."
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:283
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:287
 msgid "Loading menu items…"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:291
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:295
 msgid "No menu selected"
 msgstr ""
 
