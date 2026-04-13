@@ -29,6 +29,34 @@ function faue_register_teaser_image_meta() {
 add_action( 'init', 'faue_register_teaser_image_meta' );
 
 /**
+ * Expose the resolved teaser image URL as a REST field so the block editor
+ * can render the custom teaser image in its previews.
+ */
+function faue_register_teaser_image_rest_field() {
+    foreach ( [ 'post', 'page' ] as $post_type ) {
+        register_rest_field(
+            $post_type,
+            'faue_teaser_image_url',
+            [
+                'get_callback' => function ( $object ) {
+                    $id = faue_get_teaser_image_id( $object['id'] );
+                    if ( ! $id ) {
+                        return '';
+                    }
+                    $url = wp_get_attachment_image_url( $id, 'medium_large' );
+                    return $url ? $url : '';
+                },
+                'schema'       => [
+                    'type'    => 'string',
+                    'context' => [ 'view', 'edit', 'embed' ],
+                ],
+            ]
+        );
+    }
+}
+add_action( 'rest_api_init', 'faue_register_teaser_image_rest_field' );
+
+/**
  * Get the teaser image attachment ID for a post.
  *
  * Returns the custom teaser image if set, otherwise 0.

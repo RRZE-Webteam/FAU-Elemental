@@ -28,12 +28,12 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 			};
 		}
 
-		// Check if there's a valid featured image
-		const hasFeaturedImage =
+		// Prefer the custom teaser image, then the featured image, then fallback
+		const teaserImageUrl = page.faue_teaser_image_url;
+		const featuredImageUrl =
 			page._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url;
-		const imageUrl = hasFeaturedImage
-			? page._embedded[ 'wp:featuredmedia' ][ 0 ].source_url
-			: FALLBACK_IMAGE;
+		const imageUrl =
+			teaserImageUrl || featuredImageUrl || FALLBACK_IMAGE;
 
 		return {
 			image: imageUrl,
@@ -48,6 +48,7 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 		page?.title?.rendered,
 		page?.excerpt?.rendered,
 		page?._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url,
+		page?.faue_teaser_image_url,
 		baseUrl,
 	] );
 
