@@ -45,7 +45,9 @@ export default function EditorPreview( { attributes } ) {
 						'page',
 						item.object_id
 					);
-					if ( page && page.featured_media ) {
+					if ( page && page.faue_teaser_image_url ) {
+						featuredImageUrl = page.faue_teaser_image_url;
+					} else if ( page && page.featured_media ) {
 						const media = select( 'core' ).getMedia(
 							page.featured_media
 						);
@@ -71,7 +73,9 @@ export default function EditorPreview( { attributes } ) {
 						'post',
 						item.object_id
 					);
-					if ( post && post.featured_media ) {
+					if ( post && post.faue_teaser_image_url ) {
+						featuredImageUrl = post.faue_teaser_image_url;
+					} else if ( post && post.featured_media ) {
 						const media = select( 'core' ).getMedia(
 							post.featured_media
 						);

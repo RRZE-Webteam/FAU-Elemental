@@ -39,6 +39,7 @@ export const usePosts = ( postVariant, queryParams ) => {
 				title: post.title,
 				excerpt: post.excerpt,
 				date: post.date,
+				faue_teaser_image_url: post.faue_teaser_image_url,
 				_embedded: post._embedded || {
 					'wp:featuredmedia': [],
 					'wp:term': [],
