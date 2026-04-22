@@ -59,7 +59,7 @@ msgstr "Inhalt"
 msgid "Load More"
 msgstr "Mehr laden"
 
-#: components/blocks/fau-teaser-grid/teaser-item.php:146
+#: components/blocks/fau-teaser-grid/teaser-item.php:147
 msgid "Read more about"
 msgstr "Mehr lesen über"
 
@@ -73,7 +73,7 @@ msgid "Start"
 msgstr "Start"
 
 #: components/template-parts/breadcrumbs/breadcrumbs.php:174
-#: components/template-parts/search-results/search-results.php:228
+#: components/template-parts/search-results/search-results.php:231
 msgid "Search Results"
 msgstr "Suchergebnisse"
 
@@ -457,7 +457,7 @@ msgid "IPTC Image Metadata"
 msgstr "IPTC Bildmetadaten"
 
 #. translators: search query
-#: components/template-parts/search-results/search-results.php:223
+#: components/template-parts/search-results/search-results.php:226
 #, php-format
 msgid "Search Results for: %s"
 msgstr "Suchergebnisse für: %s"
@@ -470,6 +470,7 @@ msgstr "Inhaltseinstellungen"
 #: inc/social-media-admin.php:145
 #: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:131
 #: components/blocks/fau-testimonial/edit.js:453
+#: components/ui/editor/editor.js:486
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -482,9 +483,9 @@ msgstr "Datum"
 #: index.php:227
 #: components/blocks/fau-big-button/edit.js:307
 #: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
-#: components/ui/editor/editor.js:518
-#: components/ui/editor/editor.js:552
-#: components/ui/editor/editor.js:602
+#: components/ui/editor/editor.js:667
+#: components/ui/editor/editor.js:701
+#: components/ui/editor/editor.js:751
 msgid "Title"
 msgstr "Titel"
 
@@ -605,7 +606,7 @@ msgstr "Ausgewählte Beiträge"
 msgid "Remove post"
 msgstr "Beitrag entfernen"
 
-#: components/template-parts/search-results/search-results.php:408
+#: components/template-parts/search-results/search-results.php:411
 #: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
 #: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:161
 msgid "Read more"
@@ -665,36 +666,36 @@ msgstr "FAU Elemental"
 #: components/template-parts/navigation/fau-navigation.php:47
 #: components/template-parts/navigation/menu-modal-config.php:71
 #: components/template-parts/navigation/menu-modal.php:249
-#: components/template-parts/search-results/search-results.php:237
+#: components/template-parts/search-results/search-results.php:240
 #: components/blocks/fau-global-search/edit.js:95
 msgid "Search"
 msgstr "Suchen"
 
-#: components/template-parts/search-results/search-results.php:305
+#: components/template-parts/search-results/search-results.php:308
 msgid "Search Results List"
 msgstr "Suchergebnisliste"
 
 #. translators: index of the search result
-#: components/template-parts/search-results/search-results.php:321
+#: components/template-parts/search-results/search-results.php:324
 #, php-format
 msgid "Search Result %d"
 msgstr "Suchergebnis %d"
 
 #. translators: %s: Menu item title
-#: components/template-parts/search-results/search-results.php:373
-#: inc/class-walker-content-menu.php:79
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:179
+#: components/template-parts/search-results/search-results.php:376
+#: inc/class-walker-content-menu.php:84
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:183
 #, php-format,js-format
 msgid "Featured image for %s"
 msgstr "Beitragsbild für %s"
 
 #. translators: title of the search result
-#: components/template-parts/search-results/search-results.php:406
+#: components/template-parts/search-results/search-results.php:409
 #, php-format
 msgid "Read more about %s"
 msgstr "Mehr lesen über %s"
 
-#: components/template-parts/search-results/search-results.php:428
+#: components/template-parts/search-results/search-results.php:431
 msgid "No Search Results"
 msgstr "Keine Suchergebnisse"
 
@@ -718,19 +719,19 @@ msgstr "Nächste Folie"
 msgid "Go to slide %s"
 msgstr "Zur Folie %s gehen"
 
-#: components/template-parts/search-results/search-results.php:258
+#: components/template-parts/search-results/search-results.php:261
 #: components/templates/pages/archive-grid-util.php:59
 #: index.php:203
 msgid "to"
 msgstr "bis"
 
-#: components/template-parts/search-results/search-results.php:260
+#: components/template-parts/search-results/search-results.php:263
 #: components/templates/pages/archive-grid-util.php:61
 #: index.php:205
 msgid "of"
 msgstr "von"
 
-#: components/template-parts/search-results/search-results.php:267
+#: components/template-parts/search-results/search-results.php:270
 #: components/templates/pages/archive-grid-util.php:68
 #: index.php:212
 msgid "total"
@@ -865,7 +866,7 @@ msgid "Pages listing"
 msgstr "Seitenliste"
 
 #. Template Name of the theme
-#: components/template-parts/search-results/search-results.php:225
+#: components/template-parts/search-results/search-results.php:228
 #: functions.php:92
 msgid "All Posts"
 msgstr "Alle Beiträge"
@@ -880,14 +881,14 @@ msgid "Pages:"
 msgstr "Seiten:"
 
 #. translators: Menu item title
-#: inc/class-walker-content-menu.php:99
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:200
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:230
+#: inc/class-walker-content-menu.php:104
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:204
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:234
 #, php-format,js-format
 msgid "Go to %s"
 msgstr "Zu %s gehen"
 
-#: inc/class-walker-content-menu.php:210
+#: inc/class-walker-content-menu.php:215
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
 msgstr "Portalmenü"
@@ -1056,23 +1057,23 @@ msgstr "Durchsuchen Sie alle Beiträge aus %s. Verwenden Sie die Filter unten, u
 msgid "Browse and filter through all our posts using the options below. Use pagination to navigate through multiple pages."
 msgstr "Durchsuchen und filtern Sie alle unsere Beiträge mit den Optionen unten. Verwenden Sie die Seitennummerierung, um durch mehrere Seiten zu navigieren."
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:168
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:172
 msgid "Menu Item"
 msgstr "Menüelement"
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:222
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:226
 msgid "Submenu Item"
 msgstr "Untermenüelement"
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:272
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:276
 msgid "This menu has no items. Please add items to the menu in Appearance → Menus."
 msgstr "Dieses Menü hat keine Elemente. Bitte fügen Sie Elemente zum Menü in Design → Menüs hinzu."
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:283
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:287
 msgid "Loading menu items…"
 msgstr "Menüelemente werden geladen…"
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:291
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:295
 msgid "No menu selected"
 msgstr "Kein Menü ausgewählt"
 
@@ -1207,10 +1208,6 @@ msgstr "Suchen…"
 #: components/blocks/fau-teaser-grid/edit.js:575
 msgid "Loading…"
 msgstr "Lädt…"
-
-#: components/patterns/hero-portal/pattern.php:19
-msgid "Are you interested in studying natural sciences or mathematics? Then FAU in Erlangen is the right place for you. Friedrich-Alexander-Universität Erlangen-Nürnberg offers degree programs in all areas of natural sciences and mathematics – both as undergraduate Bachelor’s and advanced Master’s programs. The degree programs in food chemistry, pharmacy, and teaching end with a state examination."
-msgstr "Interessieren Sie sich für ein Studium der Naturwissenschaften oder Mathematik? Dann ist die FAU in Erlangen der richtige Ort für Sie. Die Friedrich-Alexander-Universität Erlangen-Nürnberg bietet Studiengänge in allen Bereichen der Naturwissenschaften und Mathematik an – sowohl als grundständige Bachelor- als auch als weiterführende Masterstudiengänge. Die Studiengänge in Lebensmittelchemie, Pharmazie und Lehramt schließen mit einer Staatsprüfung ab."
 
 #: components/patterns/hero-portal/pattern.php:26
 msgid "Learn more"
@@ -1788,6 +1785,7 @@ msgid "Add an image to accompany this testimonial"
 msgstr "Fügen Sie ein Bild hinzu, um dieses Testimonial zu untermalen"
 
 #: components/blocks/fau-testimonial/edit.js:437
+#: components/ui/editor/editor.js:479
 msgid "Replace"
 msgstr "Ersetzen"
 
@@ -1977,27 +1975,27 @@ msgstr "seiten-navigation"
 msgid "Archive listing"
 msgstr "Archiv-Liste"
 
-#: components/template-parts/search-results/search-results.php:275
+#: components/template-parts/search-results/search-results.php:278
 #: components/templates/pages/archive-grid-util.php:76
 msgid "Sort by"
 msgstr "Sortieren nach"
 
-#: components/template-parts/search-results/search-results.php:279
+#: components/template-parts/search-results/search-results.php:282
 #: components/templates/pages/archive-grid-util.php:80
 msgid "Date - newest first"
 msgstr "Datum - neueste zuerst"
 
-#: components/template-parts/search-results/search-results.php:282
+#: components/template-parts/search-results/search-results.php:285
 #: components/templates/pages/archive-grid-util.php:83
 msgid "Date - oldest first"
 msgstr "Datum - älteste zuerst"
 
-#: components/template-parts/search-results/search-results.php:285
+#: components/template-parts/search-results/search-results.php:288
 #: components/templates/pages/archive-grid-util.php:86
 msgid "Title - ascending"
 msgstr "Titel - aufsteigend"
 
-#: components/template-parts/search-results/search-results.php:288
+#: components/template-parts/search-results/search-results.php:291
 #: components/templates/pages/archive-grid-util.php:89
 msgid "Title - descending"
 msgstr "Titel - absteigend"
@@ -2056,21 +2054,21 @@ msgstr "Vielleicht hilft Ihnen die Suche weiter."
 msgid "Other offers"
 msgstr "Andere Angebote"
 
-#: components/template-parts/search-results/search-results.php:345
+#: components/template-parts/search-results/search-results.php:348
 msgid "Post Category"
 msgstr "Beitragskategorie"
 
-#: components/template-parts/search-results/search-results.php:352
+#: components/template-parts/search-results/search-results.php:355
 #: functions.php:341
 msgid "Page Category"
 msgstr "Seitenkategorie"
 
-#: components/template-parts/search-results/search-results.php:430
+#: components/template-parts/search-results/search-results.php:433
 msgid "Unfortunately, we were unable to find any matching search results for the following query:"
 msgstr "Leider konnten keine Suchergebnisse für die folgende Anfrage gefunden werden:"
 
 #: components/template-parts/navigation/menu-modal.php:259
-#: components/template-parts/search-results/search-results.php:437
+#: components/template-parts/search-results/search-results.php:440
 #: inc/theme-settings.php:39
 msgid "Additional search options"
 msgstr "Weitere Suchoptionen"
@@ -2457,8 +2455,8 @@ msgid "Moving knowledge"
 msgstr "Wissen bewegen"
 
 #: inc/legacy-sidebar.php:114
-#: components/ui/editor/editor.js:777
-#: components/ui/editor/editor.js:780
+#: components/ui/editor/editor.js:926
+#: components/ui/editor/editor.js:929
 msgid "Migration Assistant"
 msgstr "Migrationsassistent"
 
@@ -2475,29 +2473,29 @@ msgid "Contacts were displayed before links in the legacy sidebar."
 msgstr "Kontakte wurden in der alten Sidebar vor den Links angezeigt."
 
 #: inc/legacy-sidebar.php:118
-#: components/ui/editor/editor.js:659
+#: components/ui/editor/editor.js:808
 msgid "Top text"
 msgstr "Text oben"
 
 #: inc/legacy-sidebar.php:119
-#: components/ui/editor/editor.js:712
+#: components/ui/editor/editor.js:861
 msgid "Bottom text"
 msgstr "Text unten"
 
 #: inc/legacy-sidebar.php:120
-#: components/ui/editor/editor.js:455
-#: components/ui/editor/editor.js:580
+#: components/ui/editor/editor.js:604
+#: components/ui/editor/editor.js:729
 msgid "Contacts"
 msgstr "Kontakte"
 
 #. translators: %d: link block number
 #: inc/legacy-sidebar.php:121
-#: components/ui/editor/editor.js:686
+#: components/ui/editor/editor.js:835
 msgid "Link block %d"
 msgstr "Link-Block %d"
 
 #: inc/legacy-sidebar.php:124
-#: components/ui/editor/editor.js:622
+#: components/ui/editor/editor.js:771
 msgid "Links"
 msgstr "Links"
 
@@ -2514,38 +2512,38 @@ msgid "No title"
 msgstr "Kein Titel"
 
 #: inc/legacy-sidebar.php:128
-#: components/ui/editor/editor.js:635
+#: components/ui/editor/editor.js:784
 msgid "Contact"
 msgstr "Kontakt"
 
 #: inc/legacy-sidebar.php:129
-#: components/ui/editor/editor.js:698
+#: components/ui/editor/editor.js:847
 msgid "Link"
 msgstr "Link"
 
 #: inc/legacy-sidebar.php:130
-#: components/ui/editor/editor.js:584
+#: components/ui/editor/editor.js:733
 msgid "Legacy shortcode"
 msgstr "Alter Shortcode"
 
 #: inc/legacy-sidebar.php:131
-#: components/ui/editor/editor.js:587
+#: components/ui/editor/editor.js:736
 msgid "Add this shortcode to display the selected contacts."
 msgstr "Fügen Sie diesen Shortcode hinzu, um die ausgewählten Kontakte anzuzeigen."
 
-#: components/ui/editor/editor.js:795
+#: components/ui/editor/editor.js:944
 msgid "This page still holds sidebar entries from the previous theme. Review the content below or append it to the page as a Classic block."
 msgstr "Diese Seite enthält noch Sidebar-Einträge aus dem vorherigen Theme. Überprüfen Sie die Inhalte unten oder fügen Sie sie als Classic-Block zur Seite hinzu."
 
-#: components/ui/editor/editor.js:830
+#: components/ui/editor/editor.js:979
 msgid "Legacy sidebar content was inserted."
 msgstr "Alte Sidebar-Inhalte wurden eingefügt."
 
-#: components/ui/editor/editor.js:835
+#: components/ui/editor/editor.js:984
 msgid "Insert legacy sidebar content"
 msgstr "Alte Sidebar-Inhalte einfügen"
 
-#: components/ui/editor/editor.js:847
+#: components/ui/editor/editor.js:996
 msgid "Legacy sidebar content was inserted at the bottom of the page."
 msgstr "Alte Sidebar-Inhalte wurden am Ende der Seite eingefügt."
 
@@ -2584,3 +2582,19 @@ msgstr "Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovati
 #: inc/config.php:43
 msgid "FAU is the most innovative university in Germany, and second across Europe. Established in 1743, it is one of the largest universities in Germany, with approximately 40,000 students, over 600 professors and around 16,000 members of staff."
 msgstr "Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovationsstärkste Universität Deutschlands. Gegründet 1743 ist sie mit rund 40.000 Studierenden, über 600 Professorinnen und Professoren und etwa 6.700 Mitarbeiterinnen und Mitarbeitern eine der größten Universitäten in Deutschland."
+
+#: components/patterns/hero-portal/pattern.php:19
+msgid "Beschreibung Ihrer Portalseite. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+msgstr "Beschreibung Ihrer Portalseite. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
+
+#: components/ui/editor/editor.js:419
+msgid "Teaser Image"
+msgstr "Teaser-Bild"
+
+#: components/ui/editor/editor.js:422
+msgid "Override the featured image in teaser grids and portal menus."
+msgstr "Überschreibt das Beitragsbild in Teaser-Grids und Portalmenüs."
+
+#: components/ui/editor/editor.js:494
+msgid "Set teaser image"
+msgstr "Teaser-Bild festlegen"
