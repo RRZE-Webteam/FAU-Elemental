@@ -30,6 +30,7 @@ if (empty($search_query)) {
     $all_posts_query = new WP_Query(array(
         'post_type' => array('post', 'page'),
         'post_status' => 'publish',
+        'has_password' => false,
         'posts_per_page' => 10
     ));
     
@@ -75,8 +76,9 @@ if (empty($search_query)) {
         $sql_query = "
             SELECT p.*, u.display_name as author_name
             FROM {$wpdb->posts} p
-            LEFT JOIN {$wpdb->users} u ON p.post_author = u.ID  
-            WHERE p.post_status = 'publish' 
+            LEFT JOIN {$wpdb->users} u ON p.post_author = u.ID
+            WHERE p.post_status = 'publish'
+            AND p.post_password = ''
             AND p.post_type IN ('post', 'page')
             AND ({$where_sql})
             ORDER BY p.post_date DESC
@@ -139,6 +141,7 @@ if (empty($search_query)) {
             's' => $search_query,
             'post_type' => array('post', 'page'),
             'post_status' => 'publish',
+            'has_password' => false,
             'posts_per_page' => 50
         ));
         
