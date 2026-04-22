@@ -2585,16 +2585,16 @@ msgstr "Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovati
 
 #: components/patterns/hero-portal/pattern.php:19
 msgid "Beschreibung Ihrer Portalseite. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
-msgstr ""
+msgstr "Beschreibung Ihrer Portalseite. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
 
 #: components/ui/editor/editor.js:419
 msgid "Teaser Image"
-msgstr ""
+msgstr "Teaser-Bild"
 
 #: components/ui/editor/editor.js:422
 msgid "Override the featured image in teaser grids and portal menus."
-msgstr ""
+msgstr "Überschreibt das Beitragsbild in Teaser-Grids und Portalmenüs."
 
 #: components/ui/editor/editor.js:494
 msgid "Set teaser image"
-msgstr ""
+msgstr "Teaser-Bild festlegen"
