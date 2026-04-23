@@ -224,9 +224,11 @@
 		}
 	}
 
-	// Cooperation website type styles
+	// Cooperation website type styles (all pages) and chair homepages
+	// (chair subpages keep their faculty background color)
 	.fauorg-kooperation &,
-	.fauorg-kooperation-extern & {
+	.fauorg-kooperation-extern &,
+	.fauorg-unterorg.home:not(.blog) & {
 		background-color: var(--FAU-Col-FAU-Weiss-100);
 
 		.main-navigation__toggle-text,
