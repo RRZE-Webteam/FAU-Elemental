@@ -224,11 +224,9 @@
 		}
 	}
 
-	// Cooperation website type styles (all pages) and chair homepages
-	// (chair subpages keep their faculty background color)
+	// Cooperation website type styles
 	.fauorg-kooperation &,
-	.fauorg-kooperation-extern &,
-	.fauorg-unterorg.home:not(.blog) & {
+	.fauorg-kooperation-extern & {
 		background-color: var(--FAU-Col-FAU-Weiss-100);
 
 		.main-navigation__toggle-text,
@@ -1404,96 +1402,85 @@ body.wp-custom-logo .site-header {
 	}
 }
 
-// White bar header for hero front pages (chair and cooperation only)
-// Activates at 1250px where hero goes full-width
-// and dark backgrounds hide the logo
+// Chair and cooperation homepages: at mobile/tablet render the header like
+// the subpage version instead of the floating hero layout (which still
+// applies at desktop). Chair homepage gets a white background (instead of
+// the faculty color) to match the cooperation treatment.
 @media screen and (max-width: 1250px) {
 
+	// Reset the hero floating rules so chair/cooperation/other homepages
+	// fall back to the standard subpage header layout
 	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block .site-header {
-
-		&__top {
-			display: none;
-		}
 
 		&__main {
 			position: relative;
 			top: auto;
-			padding: 0;
+			width: auto;
+			margin: 0 auto;
+			padding: 4.2rem var(--Spacing-10x) var(--Spacing-4x) var(--Spacing-10x);
+
+			@include smaller-than("x-small") {
+				padding: 1.6rem var(--Spacing-2x) var(--Spacing-2x) var(--Spacing-5x);
+			}
 
 			.main-navigation {
 				background-color: var(--FAU-Col-FAU-Weiss-100);
-				padding: var(--Spacing-4x) var(--Spacing-10x);
+				padding: 0;
 
 				&__container {
 					justify-content: space-between;
+					gap: var(--Spacing-14x);
 				}
 
 				&__logo {
 					position: relative;
-					left: 0;
-					max-width: 23rem;
 
 					.baselogo img {
-						display: block;
 						scale: 1;
-						width: auto;
+						transform-origin: initial;
 
-						// Dual logo: hide white, show blue on white-bg header
 						&.faubaselogo--white {
 							display: none;
 						}
 					}
 				}
 
-				&__toggle-icon > span {
-					background-color: var(--FAU-Col-FAU-Blau-100);
-				}
-
-				&__toggle-text {
-					display: none;
-				}
-
-				&__direct-links {
-					display: none;
-				}
-
+				&__direct-links,
 				&__menu-container {
-					position: relative;
-					right: auto;
 					background-color: transparent;
 					padding: 0;
+				}
 
-					&::before {
-						display: none;
-					}
+				&__menu-container::before {
+					left: auto;
 				}
 			}
 		}
 	}
 
-	// Remove top padding that compensates for fixed header
-	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block main {
-		padding-top: unset;
-	}
+	// Chair homepage: override the faculty background color with white
+	.fauorg-unterorg.home:not(.blog) .main-navigation {
+		background-color: var(--FAU-Col-FAU-Weiss-100);
 
-	// Reset modal offset (no fau-navigation to clear)
-	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block {
+		.main-navigation__toggle-text,
+		.main-navigation__direct-links ul li a {
+			color: var(--FAU-Col-FAU-Blau-100);
+		}
 
-		.menu-modal,
-		.menu-meta-nav__modal,
-		.menu-website-modal {
+		.main-navigation__logo .text {
+			color: var(--FAU-Col-FAU-Dunkelblau-100);
+		}
 
-			&.is-open {
-				top: 0;
-			}
+		.main-navigation__toggle-icon > span {
+			background-color: var(--FAU-Col-FAU-Blau-100);
+		}
 
-			&__container {
-				margin-bottom: 0;
-			}
+		.main-navigation__direct-links ul li a::after {
+			background-image: var(--icon-chevron-fau-blau);
+		}
 
-			&__header {
-				bottom: 0;
-			}
+		.main-navigation__direct-links + .main-navigation__menu-container::before {
+			background-color: var(--FAU-Col-FAU-Blau-62_5);
 		}
 	}
 }
@@ -1535,8 +1522,8 @@ body.wp-custom-logo .site-header {
 		}
 	}
 
-	// Match hero-chair-content x-small padding
-	body:not(.fauorg-home):not(.fauorg-fakultaet).home:not(.blog).has-hero-block .site-header__main .main-navigation {
+	// Match hero-content x-small padding for sonstige (other) hero layout
+	.fauorg-sonstige.home:not(.blog).has-hero-block .site-header__main .main-navigation {
 		padding: var(--Spacing-4x) var(--Spacing-5x);
 	}
 }
