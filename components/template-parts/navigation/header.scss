@@ -1474,8 +1474,13 @@ body.wp-custom-logo .site-header {
 					padding: 0;
 				}
 
-				&__menu-container::before {
-					left: auto;
+				&__menu-container {
+					position: relative;
+					right: auto;
+
+					&::before {
+						left: auto;
+					}
 				}
 
 				@media screen and (max-width: 599px) {
