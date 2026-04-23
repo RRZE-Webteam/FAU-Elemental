@@ -32,7 +32,15 @@ if (!function_exists('faue_has_hero_block')) {
         if (!is_front_page()) {
             return false;
         }
-        
+
+        // Chair and cooperation sites render the homepage header with the
+        // same standard layout as their subpages, so the floating hero-header
+        // treatment must not apply here.
+        $website_type = get_theme_mod('faue_website_type');
+        if (in_array($website_type, array('chair', 'cooperation', 'cooperation-external'), true)) {
+            return false;
+        }
+
         // Get the front page content
         $front_page_id = get_option('page_on_front');
         if (!$front_page_id) {
