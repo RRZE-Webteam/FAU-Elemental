@@ -1419,6 +1419,15 @@ body.wp-custom-logo .site-header {
 			margin: 0 auto;
 			padding: 4.2rem var(--Spacing-10x) var(--Spacing-4x) var(--Spacing-10x);
 
+			// Mirror the subpage responsive padding cascade
+			@include smaller-than("small") {
+				padding: 4.2rem var(--Spacing-5x) var(--Spacing-4x) var(--Spacing-5x);
+			}
+
+			@media screen and (max-width: 599px) {
+				padding: 1.6rem 0.6rem var(--Spacing-2x) var(--Spacing-5x);
+			}
+
 			@include smaller-than("x-small") {
 				padding: 1.6rem var(--Spacing-2x) var(--Spacing-2x) var(--Spacing-5x);
 			}
@@ -1434,6 +1443,7 @@ body.wp-custom-logo .site-header {
 
 				&__logo {
 					position: relative;
+					left: auto;
 
 					.baselogo img {
 						scale: 1;
@@ -1441,6 +1451,19 @@ body.wp-custom-logo .site-header {
 
 						&.faubaselogo--white {
 							display: none;
+						}
+					}
+
+					// Match subpage logo sizing at small viewports
+					@media screen and (max-width: 599px) {
+						max-width: 23rem;
+
+						.baselogo img {
+
+							&:not(.custom-logo) {
+								width: 6.25rem;
+							}
+							height: 2.4375rem;
 						}
 					}
 				}
