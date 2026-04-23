@@ -1477,6 +1477,13 @@ body.wp-custom-logo .site-header {
 				&__menu-container::before {
 					left: auto;
 				}
+
+				@media screen and (max-width: 599px) {
+
+					&__toggle-text {
+						display: none;
+					}
+				}
 			}
 		}
 	}
