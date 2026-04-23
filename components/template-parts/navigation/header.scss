@@ -1493,6 +1493,12 @@ body.wp-custom-logo .site-header {
 		}
 	}
 
+	// Main navigation sits in flow at <=1250px, so drop the top padding that
+	// compensates for the floating absolute header at desktop.
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block main {
+		padding-top: 0;
+	}
+
 	// Chair homepage: override the faculty background color with white
 	.fauorg-unterorg.home:not(.blog) .main-navigation {
 		background-color: var(--FAU-Col-FAU-Weiss-100);
