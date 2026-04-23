@@ -1394,7 +1394,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 	}
 }
 
-// Logo height for chair and cooperation sites
+// Logo height for hero front pages (chair and cooperation only)
 body.wp-custom-logo .site-header {
 
 	&__main .main-navigation__logo .baselogo img {
@@ -1402,76 +1402,81 @@ body.wp-custom-logo .site-header {
 	}
 }
 
-// Compact white-bar header for chair and cooperation sites
-// Applied to homepage and subpages for consistent spacing and logo size.
-// Activates at 1250px where hero goes full-width and dark backgrounds hide the logo.
-// Homepage-specific background color is added below; subpages keep their
-// faculty/cooperation background via earlier rules.
+// White bar header for hero front pages (chair and cooperation only)
+// Activates at 1250px where hero goes full-width
+// and dark backgrounds hide the logo
 @media screen and (max-width: 1250px) {
 
-	// Shared layout for chair and cooperation site types (homepage and subpages)
-	body.fauorg-unterorg,
-	body.fauorg-kooperation,
-	body.fauorg-kooperation-extern {
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block .site-header {
 
-		.site-header {
+		&__top {
+			display: none;
+		}
 
-			&__top {
-				display: none;
-			}
+		&__main {
+			position: relative;
+			top: auto;
+			padding: 0;
 
-			&__main {
-				position: relative;
-				top: auto;
-				padding: 0;
+			.main-navigation {
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+				padding: var(--Spacing-4x) var(--Spacing-10x);
 
-				.main-navigation {
-					padding: var(--Spacing-4x) var(--Spacing-10x);
+				&__container {
+					justify-content: space-between;
+				}
 
-					&__container {
-						justify-content: space-between;
-					}
+				&__logo {
+					position: relative;
+					left: 0;
+					max-width: 23rem;
 
-					&__logo {
-						position: relative;
-						left: 0;
-						max-width: 23rem;
+					.baselogo img {
+						display: block;
+						scale: 1;
+						width: auto;
 
-						.baselogo img {
-							display: block;
-							scale: 1;
-							width: auto;
-
-							// Dual logo: hide white, show blue on white-bg header
-							&.faubaselogo--white {
-								display: none;
-							}
-						}
-					}
-
-					&__toggle-text {
-						display: none;
-					}
-
-					&__direct-links {
-						display: none;
-					}
-
-					&__menu-container {
-						position: relative;
-						right: auto;
-						background-color: transparent;
-						padding: 0;
-
-						&::before {
+						// Dual logo: hide white, show blue on white-bg header
+						&.faubaselogo--white {
 							display: none;
 						}
 					}
 				}
+
+				&__toggle-icon > span {
+					background-color: var(--FAU-Col-FAU-Blau-100);
+				}
+
+				&__toggle-text {
+					display: none;
+				}
+
+				&__direct-links {
+					display: none;
+				}
+
+				&__menu-container {
+					position: relative;
+					right: auto;
+					background-color: transparent;
+					padding: 0;
+
+					&::before {
+						display: none;
+					}
+				}
 			}
 		}
+	}
 
-		// Reset modal offset (no fau-navigation top bar to clear)
+	// Remove top padding that compensates for fixed header
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block main {
+		padding-top: unset;
+	}
+
+	// Reset modal offset (no fau-navigation to clear)
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block {
+
 		.menu-modal,
 		.menu-meta-nav__modal,
 		.menu-website-modal {
@@ -1487,44 +1492,6 @@ body.wp-custom-logo .site-header {
 			&__header {
 				bottom: 0;
 			}
-		}
-	}
-
-	// Homepage-only: force white background and blue toggle icons.
-	// Subpages keep their faculty/cooperation background via earlier rules.
-	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block {
-
-		.site-header__main .main-navigation {
-			background-color: var(--FAU-Col-FAU-Weiss-100);
-		}
-
-		.main-navigation__toggle-icon > span {
-			background-color: var(--FAU-Col-FAU-Blau-100);
-		}
-
-		// Remove top padding that compensates for fixed header
-		main {
-			padding-top: unset;
-		}
-	}
-}
-
-// Keep logo sizing consistent with homepage for chair/cooperation subpages at mobile.
-// Overrides the generic subpage logo-shrink above so chair/cooperation subpages
-// don't get a smaller logo than their homepages.
-@media screen and (max-width: 599px) {
-
-	body.fauorg-unterorg:not(.home:not(.blog).has-hero-block),
-	body.fauorg-kooperation:not(.home:not(.blog).has-hero-block),
-	body.fauorg-kooperation-extern:not(.home:not(.blog).has-hero-block) {
-
-		.site-header__main .main-navigation__logo .baselogo img {
-
-			&:not(.custom-logo) {
-				width: auto;
-			}
-			// Let body.wp-custom-logo (3.75rem) or natural height take over
-			height: auto;
 		}
 	}
 }
@@ -1566,12 +1533,8 @@ body.wp-custom-logo .site-header {
 		}
 	}
 
-	// Match hero-chair-content x-small padding for chair and cooperation sites
-	// (homepage and subpages); preserve sonstige homepage behavior separately.
-	body.fauorg-unterorg .site-header__main .main-navigation,
-	body.fauorg-kooperation .site-header__main .main-navigation,
-	body.fauorg-kooperation-extern .site-header__main .main-navigation,
-	body.fauorg-sonstige.home:not(.blog).has-hero-block .site-header__main .main-navigation {
+	// Match hero-chair-content x-small padding
+	body:not(.fauorg-home):not(.fauorg-fakultaet).home:not(.blog).has-hero-block .site-header__main .main-navigation {
 		padding: var(--Spacing-4x) var(--Spacing-5x);
 	}
 }
