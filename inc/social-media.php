@@ -16,11 +16,32 @@ if (!defined('ABSPATH')) {
 
 /**
  * Get social media display mode
- * 
+ *
  * @return string 'menu' or 'customizer'
  */
 function faue_get_social_media_mode() {
     return get_theme_mod('faue_social_media_mode', 'menu');
+}
+
+/**
+ * Whether a custom social icon URL is hosted on this site.
+ *
+ * Remote icon URLs are rejected to avoid leaking visitor traffic to
+ * third-party hosts and to prevent admin-authored tracking pixels.
+ */
+function faue_is_local_icon_url($url) {
+    if (empty($url) || !is_string($url)) {
+        return false;
+    }
+
+    $url_host  = wp_parse_url($url, PHP_URL_HOST);
+    $site_host = wp_parse_url(home_url(), PHP_URL_HOST);
+
+    if (empty($url_host) || empty($site_host)) {
+        return false;
+    }
+
+    return strcasecmp($url_host, $site_host) === 0;
 }
 
 /**
@@ -203,7 +224,7 @@ function faue_render_social_media_links($mode = 'auto') {
         $css_class = $platform;
         $data_attr = '';
         
-        if ($custom_icon) {
+        if ($custom_icon && faue_is_local_icon_url($custom_icon)) {
             $css_class .= ' custom-icon';
             $data_attr = ' data-custom-icon="' . esc_url($custom_icon) . '"';
         } elseif (!$is_built_in && $mode === 'menu') {

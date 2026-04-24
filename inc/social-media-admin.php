@@ -99,9 +99,9 @@ function faue_custom_social_admin_page() {
                             <strong><?php _e('OR', 'fau-elemental'); ?></strong>
                         </div>
                         
-                        <input type="url" id="platform_icon_url" name="platform_icon_url" class="regular-text" 
-                               placeholder="<?php esc_attr_e('https://example.com/icon.svg', 'fau-elemental'); ?>" />
-                        <p class="description"><?php _e('Enter a direct URL to an SVG icon', 'fau-elemental'); ?></p>
+                        <input type="url" id="platform_icon_url" name="platform_icon_url" class="regular-text"
+                               placeholder="<?php echo esc_attr( trailingslashit( home_url() ) . 'wp-content/uploads/icon.svg' ); ?>" />
+                        <p class="description"><?php _e('Enter a direct URL to an SVG icon already hosted on this site (e.g. from the Media Library). Remote URLs are rejected to protect visitor privacy.', 'fau-elemental'); ?></p>
                     </td>
                 </tr>
             </table>
@@ -127,10 +127,13 @@ function faue_custom_social_admin_page() {
                     <td><strong><?php echo esc_html($platform['name']); ?></strong></td>
                     <td><code><?php echo esc_html($key); ?></code></td>
                     <td>
-                        <?php if (!empty($platform['icon_url'])): ?>
-                            <img src="<?php echo esc_url($platform['icon_url']); ?>" 
+                        <?php if (!empty($platform['icon_url']) && faue_is_local_icon_url($platform['icon_url'])): ?>
+                            <img src="<?php echo esc_url($platform['icon_url']); ?>"
                                  class="faue-social-icon-preview" alt="<?php echo esc_attr($platform['name']); ?>" />
                             <br><small><?php echo esc_html($platform['icon_url']); ?></small>
+                        <?php elseif (!empty($platform['icon_url'])): ?>
+                            <span class="dashicons dashicons-warning"></span> <?php esc_html_e('External icon blocked (remote URLs are not allowed).', 'fau-elemental'); ?>
+                            <br><small><code><?php echo esc_html($platform['icon_url']); ?></code></small>
                         <?php else: ?>
                             <span class="dashicons dashicons-warning"></span> <?php _e('No icon', 'fau-elemental'); ?>
                             <?php if (isset($platform['upload_error'])): ?>
@@ -222,7 +225,14 @@ function faue_save_custom_social_platforms() {
             });
         }
     } elseif (!empty($_POST['platform_icon_url'])) {
-        $icon_url = esc_url_raw($_POST['platform_icon_url']);
+        $candidate_url = esc_url_raw(wp_unslash($_POST['platform_icon_url']));
+        if (faue_is_local_icon_url($candidate_url)) {
+            $icon_url = $candidate_url;
+        } else {
+            add_action('admin_notices', function() {
+                echo '<div class="notice notice-error is-dismissible"><p>' . esc_html__('Icon URL must reference a file hosted on this site. Upload an SVG above, or paste a URL from your Media Library.', 'fau-elemental') . '</p></div>';
+            });
+        }
     }
     
     $custom_platforms[$platform_key] = array(
