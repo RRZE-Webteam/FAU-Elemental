@@ -467,7 +467,7 @@ msgstr "Suchergebnisse für: %s"
 msgid "Content Settings"
 msgstr "Inhaltseinstellungen"
 
-#: inc/social-media-admin.php:145
+#: inc/social-media-admin.php:148
 #: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:131
 #: components/blocks/fau-testimonial/edit.js:453
 #: components/ui/editor/editor.js:486
@@ -2321,14 +2321,6 @@ msgstr "Laden Sie eine SVG-Symbol-Datei hoch (empfohlene Größe: 24x24px)"
 msgid "OR"
 msgstr "ODER"
 
-#: inc/social-media-admin.php:103
-msgid "https://example.com/icon.svg"
-msgstr "https://example.com/icon.svg"
-
-#: inc/social-media-admin.php:104
-msgid "Enter a direct URL to an SVG icon"
-msgstr "Geben Sie eine direkte URL zu einem SVG-Symbol ein"
-
 #: inc/social-media-admin.php:109
 msgid "Add Platform"
 msgstr "Plattform hinzufügen"
@@ -2353,48 +2345,48 @@ msgstr "Symbol-Vorschau"
 msgid "Actions"
 msgstr "Aktionen"
 
-#: inc/social-media-admin.php:135
+#: inc/social-media-admin.php:138
 msgid "No icon"
 msgstr "Kein Symbol"
 
-#: inc/social-media-admin.php:145
+#: inc/social-media-admin.php:148
 msgid "Are you sure you want to remove this platform?"
 msgstr "Sind Sie sicher, dass Sie diese Plattform entfernen möchten?"
 
-#: inc/social-media-admin.php:155
+#: inc/social-media-admin.php:158
 msgid "Note:"
 msgstr "Hinweis:"
 
-#: inc/social-media-admin.php:155
+#: inc/social-media-admin.php:158
 msgid "After adding or removing platforms, you may need to refresh the customizer to see the changes."
 msgstr "Nach dem Hinzufügen oder Entfernen von Plattformen müssen Sie möglicherweise den Customizer aktualisieren, um die Änderungen zu sehen."
 
-#: inc/social-media-admin.php:174
+#: inc/social-media-admin.php:177
 msgid "Security check failed. Please try again."
 msgstr "Sicherheitsprüfung fehlgeschlagen. Bitte versuchen Sie es erneut."
 
-#: inc/social-media-admin.php:189
+#: inc/social-media-admin.php:192
 msgid "Platform removed successfully!"
 msgstr "Plattform erfolgreich entfernt!"
 
-#: inc/social-media-admin.php:205
+#: inc/social-media-admin.php:208
 msgid "Platform name and key are required."
 msgstr "Plattform-Name und Schlüssel sind erforderlich."
 
-#: inc/social-media-admin.php:221
+#: inc/social-media-admin.php:224
 msgid "Icon upload failed. Please ensure the file is a valid SVG and under 1MB."
 msgstr "Symbol-Upload fehlgeschlagen. Bitte stellen Sie sicher, dass die Datei eine gültige SVG ist und unter 1MB liegt."
 
-#: inc/social-media-admin.php:241
+#: inc/social-media-admin.php:251
 msgid "Platform added successfully with icon!"
 msgstr "Plattform erfolgreich mit Symbol hinzugefügt!"
 
-#: inc/social-media-admin.php:243
+#: inc/social-media-admin.php:253
 msgid "Platform added successfully, but no icon was uploaded."
 msgstr "Plattform erfolgreich hinzugefügt, aber kein Symbol hochgeladen."
 
 #. translators: 1: Number of custom platforms, 2: Admin URL for managing platforms
-#: inc/social-media-admin.php:354
+#: inc/social-media-admin.php:364
 msgid "You have %1$d custom social media platform(s). <a href=\"%2$s\">Manage them here</a>."
 msgstr "Sie haben %1$d benutzerdefinierte Social Media Plattform(en). <a href=\"%2$s\">Verwalten Sie sie hier</a>."
 
@@ -2598,3 +2590,15 @@ msgstr "Überschreibt das Beitragsbild in Teaser-Grids und Portalmenüs."
 #: components/ui/editor/editor.js:494
 msgid "Set teaser image"
 msgstr "Teaser-Bild festlegen"
+
+#: inc/social-media-admin.php:104
+msgid "Enter a direct URL to an SVG icon already hosted on this site (e.g. from the Media Library). Remote URLs are rejected to protect visitor privacy."
+msgstr "Geben Sie eine direkte URL zu einem SVG-Symbol ein, das bereits auf dieser Website gehostet wird (z. B. aus der Mediathek). Externe URLs werden zum Schutz der Privatsphäre der Besucher abgelehnt."
+
+#: inc/social-media-admin.php:135
+msgid "External icon blocked (remote URLs are not allowed)."
+msgstr "Externes Symbol blockiert (externe URLs sind nicht erlaubt)."
+
+#: inc/social-media-admin.php:233
+msgid "Icon URL must reference a file hosted on this site. Upload an SVG above, or paste a URL from your Media Library."
+msgstr "Die Symbol-URL muss auf eine Datei auf dieser Website verweisen. Laden Sie oben eine SVG-Datei hoch oder fügen Sie eine URL aus Ihrer Mediathek ein."
