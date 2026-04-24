@@ -13,6 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Character limits for the big button block (matching frontend behavior)
 define('FAU_BIG_BUTTON_DESCRIPTION_MAX_LENGTH', 80); // Only descriptions are trimmed in frontend
 
+// Allow-lists for values that are interpolated into CSS class names.
+// Keep in sync with the enum definitions in block.json.
+const FAU_BIG_BUTTON_ALLOWED_SIZES          = [ 'small', 'large' ];
+const FAU_BIG_BUTTON_ALLOWED_VARIANTS       = [ 'filled', 'outline' ];
+const FAU_BIG_BUTTON_ALLOWED_FACULTY_COLORS = [ 'fau', 'phil', 'rw', 'med', 'nat', 'tf' ];
+
 /**
  * Trim text by characters while respecting word boundaries
  *
@@ -72,11 +78,19 @@ function render_big_button_html($items, $options = []) {
     ];
     $options = wp_parse_args($options, $defaults);
 
+    // Constrain option values to their allow-lists before using them in class names.
+    $teaser_size = in_array($options['teaser_size'], FAU_BIG_BUTTON_ALLOWED_SIZES, true)
+        ? $options['teaser_size']
+        : 'small';
+    $variant = in_array($options['variant'], FAU_BIG_BUTTON_ALLOWED_VARIANTS, true)
+        ? $options['variant']
+        : 'filled';
+
     // Generate CSS classes
     $css_classes = [
         'fau-big-button-teaser-group',
-        'fau-big-button-teaser-group--' . $options['teaser_size'],
-        'fau-big-button-teaser-group--' . $options['variant'],
+        'fau-big-button-teaser-group--' . $teaser_size,
+        'fau-big-button-teaser-group--' . $variant,
         'fau-big-button-teaser-group--faculty-showcase'
     ];
 
@@ -87,10 +101,11 @@ function render_big_button_html($items, $options = []) {
         $css_classes[] = 'fau-big-button-teaser-group--light';
     }
 
-    // Use provided wrapper attributes or generate default
-    $wrapper_attributes = !empty($options['wrapper_attributes']) 
+    // Use provided wrapper attributes or generate default.
+    // get_block_wrapper_attributes() already escapes; the fallback path must escape itself.
+    $wrapper_attributes = !empty($options['wrapper_attributes'])
         ? $options['wrapper_attributes']
-        : 'class="' . implode(' ', $css_classes) . '"';
+        : 'class="' . esc_attr(implode(' ', $css_classes)) . '"';
 
     // Start building the output
     ob_start();
@@ -127,14 +142,18 @@ function render_big_button_html($items, $options = []) {
                     $effective_faculty_color = $faculty_type;
                 }
                 // For other website types (chair, other, cooperation), no faculty color
-                
-                if ($effective_faculty_color) {
+
+                // Only append the faculty-color modifier when the value is on the allow-list.
+                // This blocks attribute-injection via crafted block attrs (sanitize_text_field
+                // does not escape quotes, so a value like `rw" onclick="…` would otherwise
+                // break out of the class attribute).
+                if ($effective_faculty_color && in_array($effective_faculty_color, FAU_BIG_BUTTON_ALLOWED_FACULTY_COLORS, true)) {
                     $button_classes[] = 'fau-big-button-teaser-group__button--' . $effective_faculty_color;
                 }
-                
+
                 if (!empty($title) && !empty($url)) :
             ?>
-                <a href="<?php echo esc_url($url); ?>" class="<?php echo implode(' ', $button_classes); ?>" role="button">
+                <a href="<?php echo esc_url($url); ?>" class="<?php echo esc_attr(implode(' ', $button_classes)); ?>" role="button">
                     <p class="big-button-title">
                         <?php echo $title; ?>
                     </p>
