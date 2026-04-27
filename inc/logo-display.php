@@ -25,6 +25,9 @@ function fau_get_svg_path($name, $echo = true) {
         if (in_array($website_type, array('faculty', 'chair'))) {
             // Use blue logo for faculty and chair websites
             $svg_path = get_template_directory_uri() . '/assets/images/logo.svg';
+        } elseif ($website_type === 'fau' && !is_front_page()) {
+            // The faue_fau_logo_color setting only applies to the homepage; subpages always use the white logo
+            $svg_path = get_template_directory_uri() . '/assets/images/Logo-white.svg';
         } elseif ($website_type === 'fau' && get_theme_mod('faue_fau_logo_color', faue_get_default('faue_fau_logo_color')) === 'blue') {
             // Use blue logo when fau.de explicitly selects it
             $svg_path = get_template_directory_uri() . '/assets/images/logo.svg';
@@ -62,6 +65,9 @@ function fau_use_svg($name, $width = 0, $height = 0, $class = '', $echo = true) 
         if (in_array($website_type, array('faculty', 'chair'))) {
             // Use blue logo for faculty and chair websites
             $svg_path = get_template_directory() . '/assets/images/logo.svg';
+        } elseif ($website_type === 'fau' && !is_front_page()) {
+            // The faue_fau_logo_color setting only applies to the homepage; subpages always use the white logo
+            $svg_path = get_template_directory() . '/assets/images/Logo-white.svg';
         } elseif ($website_type === 'fau' && get_theme_mod('faue_fau_logo_color', faue_get_default('faue_fau_logo_color')) === 'blue') {
             // Use blue logo when fau.de explicitly selects it
             $svg_path = get_template_directory() . '/assets/images/logo.svg';

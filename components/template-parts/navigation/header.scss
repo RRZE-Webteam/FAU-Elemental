@@ -1569,6 +1569,29 @@ body.wp-custom-logo .site-header {
 	}
 }
 
+// Cooperation sites (internal and external) keep a 10%-larger logo at <=599px
+// on both homepage and subpages — the "more centered" floating-hero look that
+// existed before the chair/coop white-bar block (commit 6b73bb7c) out-specified
+// the original `scale: 1.1` rule from line 1351. Cooperation always renders
+// <img class="custom-logo"> (see inc/logo-display.php), so this only targets
+// `.custom-logo`. The :not() chain on the body selector beats the homepage
+// size rule's specificity so the override wins on both pages.
+// We use `max-height` (not `height`) plus `height: auto` so the image scales
+// down proportionally when horizontal space is tight (the existing
+// `max-width: 100%` from `.textlogo img` would otherwise compress wide
+// partner logos against a fixed height, distorting the aspect ratio).
+@media screen and (max-width: 599px) {
+
+	body.fauorg-kooperation:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige):not(.fauorg-unterorg),
+	body.fauorg-kooperation-extern:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige):not(.fauorg-unterorg) {
+
+		.site-header__main .main-navigation .main-navigation__logo .baselogo img.custom-logo {
+			height: auto;
+			max-height: 2.4375rem * 1.1; // 2.68125rem — 110% of the default subpage logo height
+		}
+	}
+}
+
 // Utility classes for hiding elements
 .u-hidden {
 	display: none;
