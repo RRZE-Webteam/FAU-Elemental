@@ -1576,7 +1576,6 @@ body.wp-custom-logo .site-header {
 // <img class="custom-logo"> (see inc/logo-display.php), so this only targets
 // `.custom-logo`. The :not() chain on the body selector beats the homepage
 // size rule's specificity so the override wins on both pages.
-//
 // We use `max-height` (not `height`) plus `height: auto` so the image scales
 // down proportionally when horizontal space is tight (the existing
 // `max-width: 100%` from `.textlogo img` would otherwise compress wide
