@@ -32,7 +32,7 @@ if (!function_exists('faue_has_hero_block')) {
         if (!is_front_page()) {
             return false;
         }
-        
+
         // Get the front page content
         $front_page_id = get_option('page_on_front');
         if (!$front_page_id) {

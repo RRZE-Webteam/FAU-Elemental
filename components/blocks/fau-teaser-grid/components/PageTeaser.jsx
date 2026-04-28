@@ -13,7 +13,7 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 	// Get the fallback image from theme customizer or use default fallback image
 	const FALLBACK_IMAGE =
 		( window.fauElemental && window.fauElemental.fallbackImageUrl ) ??
-		'/wp-content/themes/fau-elemental/assets/images/Default_FAU_Schloss_blau.jpg';
+		'/wp-content/themes/fau-elemental/assets/images/Default_FAU_Schloss_blau.webp';
 
 	const baseUrl = useSelect( ( select ) => getRestBaseUrl( select ), [] );
 
@@ -28,12 +28,11 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 			};
 		}
 
-		// Check if there's a valid featured image
-		const hasFeaturedImage =
+		// Prefer the custom teaser image, then the featured image, then fallback
+		const teaserImageUrl = page.faue_teaser_image_url;
+		const featuredImageUrl =
 			page._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url;
-		const imageUrl = hasFeaturedImage
-			? page._embedded[ 'wp:featuredmedia' ][ 0 ].source_url
-			: FALLBACK_IMAGE;
+		const imageUrl = teaserImageUrl || featuredImageUrl || FALLBACK_IMAGE;
 
 		return {
 			image: imageUrl,
@@ -48,6 +47,7 @@ export default function PageTeaser( { page, headingLevel = 'h4' } ) {
 		page?.title?.rendered,
 		page?.excerpt?.rendered,
 		page?._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url,
+		page?.faue_teaser_image_url,
 		baseUrl,
 	] );
 

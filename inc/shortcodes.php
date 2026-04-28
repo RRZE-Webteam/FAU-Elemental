@@ -386,7 +386,7 @@ new FAU_Elemental_Shortcodes();
 
 function faue_filter_gallery_shortcode($output, $attr, $instance) {
 
-    $ids = explode(',', $attr['ids']);
+    $ids = array_map('absint', explode(',', $attr['ids'] ?? ''));
 
     $block_html = '<!-- wp:gallery {"linkTo":"none"} --><div class="wp-block-gallery-container"><figure class="wp-block-gallery has-nested-images columns-1 is-cropped">';
 
@@ -394,9 +394,15 @@ function faue_filter_gallery_shortcode($output, $attr, $instance) {
     foreach ($ids as $index => $id) {
         $image_url = wp_get_attachment_image_url($id, 'full');
         $alt = get_post_meta($id, '_wp_attachment_image_alt', true);
+        $block_attrs = wp_json_encode(array(
+            'id'               => $id,
+            'sizeSlug'         => 'full',
+            'linkDestination'  => 'none',
+            'galleryIndexText' => ($index + 1) . '/' . $total_images,
+        ));
         $block_html .= '
-            <!-- wp:image {"id":' . $id . ',"sizeSlug":"full","linkDestination":"none","galleryIndexText":"' . $index + 1 . '/' . $total_images . '"} -->
-            <figure class="wp-block-image size-full"><img src="' . $image_url . '" alt="' . $alt . '" class="wp-image-' . $id . '"/></figure>
+            <!-- wp:image ' . $block_attrs . ' -->
+            <figure class="wp-block-image size-full"><img src="' . esc_url($image_url) . '" alt="' . esc_attr($alt) . '" class="wp-image-' . $id . '"/></figure>
             <!-- /wp:image -->
         ';
     }

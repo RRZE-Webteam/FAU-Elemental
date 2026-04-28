@@ -91,17 +91,48 @@ function fau_add_caption_to_featured_image($block_content, $block) {
             return $block_content;
         }
         
+        // Remove inline object-fit:cover added by WordPress core so our
+        // stylesheet rules (object-fit:contain) can take effect.
+        $block_content = preg_replace(
+            '/\s*style="[^"]*object-fit:\s*cover;?[^"]*"/',
+            '',
+            $block_content
+        );
+
+        // Get the post ID and the attachment ID
+        $post_id = get_the_ID();
+        $thumbnail_id = get_post_thumbnail_id($post_id);
+
+        // Override the default post-thumbnail src, dimensions, and sizes
+        // attribute with the "large" image to prevent blurry featured images
+        // from stale or undersized post-thumbnail metadata.
+        // The sizes value (1094px) matches --base-max-width in CSS.
+        if ($thumbnail_id) {
+            $large_src = wp_get_attachment_image_src($thumbnail_id, 'large');
+            if (!$large_src) {
+                $large_src = wp_get_attachment_image_src($thumbnail_id, 'full');
+            }
+
+            if ($large_src) {
+                $block_content = preg_replace('/\bsrc="[^"]*"/', 'src="' . esc_url($large_src[0]) . '"', $block_content, 1);
+                $block_content = preg_replace('/\bwidth="\d+"/', 'width="' . esc_attr($large_src[1]) . '"', $block_content, 1);
+                $block_content = preg_replace('/\bheight="\d+"/', 'height="' . esc_attr($large_src[2]) . '"', $block_content, 1);
+                $block_content = preg_replace(
+                    '/\bsizes="[^"]*"/',
+                    'sizes="(max-width: 1094px) 100vw, 1094px"',
+                    $block_content,
+                    1
+                );
+            }
+        }
+
         // Wrap the img element in a div
         $block_content = preg_replace(
             '/(<img[^>]*>)/',
             '<div class="wp-block-post-featured-image__wrapper">$1</div>',
             $block_content
         );
-        
-        // Get the post ID and the attachment ID
-        $post_id = get_the_ID();
-        $thumbnail_id = get_post_thumbnail_id($post_id);
-        
+
         if (!$thumbnail_id) {
             return $block_content;
         }

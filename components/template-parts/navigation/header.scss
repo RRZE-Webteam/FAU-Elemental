@@ -218,14 +218,15 @@
 				background-image: var(--icon-chevron-weiss);
 			}
 
-			.main-navigation__menu-container::before {
+			.main-navigation__direct-links + .main-navigation__menu-container::before {
 				background-color: var(--FAU-Col-FAU-Schwarz-5);
 			}
 		}
 	}
 
 	// Cooperation website type styles
-	.fauorg-kooperation & {
+	.fauorg-kooperation &,
+	.fauorg-kooperation-extern & {
 		background-color: var(--FAU-Col-FAU-Weiss-100);
 
 		.main-navigation__toggle-text,
@@ -245,7 +246,7 @@
 			background-image: var(--icon-chevron-fau-blau);
 		}
 
-		.main-navigation__menu-container::before {
+		.main-navigation__direct-links + .main-navigation__menu-container::before {
 			background-color: var(--FAU-Col-FAU-Blau-62_5);
 		}
 	}
@@ -310,7 +311,7 @@
 		position: relative;
 		flex-shrink: 0;
 
-		&::before {
+		.main-navigation__direct-links + &::before {
 			content: "";
 			position: absolute;
 			top: calc(50% - 0.75rem);
@@ -325,6 +326,10 @@
 		display: flex;
 		align-items: center;
 		max-width: 33rem;
+
+		img {
+			max-width: 100%;
+		}
 
 		a {
 			text-decoration: none;
@@ -978,6 +983,7 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 				background-color: transparent;
 
 				&__container {
+					justify-content: flex-end;
 					gap: unset;
 				}
 
@@ -1031,6 +1037,15 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 			}
 		}
 	}
+
+	// Dual logo visibility: desktop shows white, hides blue (for 'other' type)
+	.faubaselogo--white {
+		display: inline;
+	}
+
+	.faubaselogo--blue {
+		display: none;
+	}
 }
 
 // Responsive
@@ -1040,6 +1055,10 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 		max-width: 1800px;
 		left: 50%;
 		transform: translateX(-50%);
+	}
+
+	.home:not(.blog).has-hero-block .main-navigation__logo {
+		left: 0;
 	}
 
 	.menu-modal,
@@ -1349,7 +1368,10 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 					max-width: 23rem;
 
 					.baselogo img {
-						width: 6.25rem;
+
+						&:not(.custom-logo) {
+							width: 6.25rem;
+						}
 						height: 2.4375rem;
 					}
 				}
@@ -1368,6 +1390,138 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 					display: none;
 				}
 			}
+		}
+	}
+}
+
+// Logo height for hero front pages (chair and cooperation only)
+body.wp-custom-logo .site-header {
+
+	&__main .main-navigation__logo .baselogo img {
+		height: 3.75rem;
+	}
+}
+
+// Chair and cooperation homepages: at mobile/tablet render the header like
+// the subpage version instead of the floating hero layout (which still
+// applies at desktop). Chair homepage gets a white background (instead of
+// the faculty color) to match the cooperation treatment.
+@media screen and (max-width: 1250px) {
+
+	// Reset the hero floating rules so chair/cooperation/other homepages
+	// fall back to the standard subpage header layout
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block .site-header {
+
+		&__main {
+			position: relative;
+			top: auto;
+			width: auto;
+			margin: 0 auto;
+			padding: 4.2rem var(--Spacing-10x) var(--Spacing-4x) var(--Spacing-10x);
+
+			// Mirror the subpage responsive padding cascade
+			@include smaller-than("small") {
+				padding: 4.2rem var(--Spacing-5x) var(--Spacing-4x) var(--Spacing-5x);
+			}
+
+			@media screen and (max-width: 599px) {
+				padding: 1.6rem 0.6rem var(--Spacing-2x) var(--Spacing-5x);
+			}
+
+			@include smaller-than("x-small") {
+				padding: 1.6rem var(--Spacing-2x) var(--Spacing-2x) var(--Spacing-5x);
+			}
+
+			.main-navigation {
+				background-color: var(--FAU-Col-FAU-Weiss-100);
+				padding: 0;
+
+				&__container {
+					justify-content: space-between;
+					gap: var(--Spacing-14x);
+				}
+
+				&__logo {
+					position: relative;
+					left: auto;
+
+					.baselogo img {
+						scale: 1;
+						transform-origin: initial;
+
+						&.faubaselogo--white {
+							display: none;
+						}
+					}
+
+					// Match subpage logo sizing at small viewports
+					@media screen and (max-width: 599px) {
+						max-width: 23rem;
+
+						.baselogo img {
+
+							&:not(.custom-logo) {
+								width: 6.25rem;
+							}
+							height: 2.4375rem;
+						}
+					}
+				}
+
+				&__direct-links,
+				&__menu-container {
+					background-color: transparent;
+					padding: 0;
+				}
+
+				&__menu-container {
+					position: relative;
+					right: auto;
+
+					&::before {
+						left: auto;
+					}
+				}
+
+				@media screen and (max-width: 599px) {
+
+					&__toggle-text {
+						display: none;
+					}
+				}
+			}
+		}
+	}
+
+	// Main navigation sits in flow at <=1250px, so drop the top padding that
+	// compensates for the floating absolute header at desktop.
+	body:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige).home:not(.blog).has-hero-block main {
+		padding-top: 0;
+	}
+
+	// Chair homepage: override the faculty background color with white
+	.fauorg-unterorg.home:not(.blog) .main-navigation {
+		background-color: var(--FAU-Col-FAU-Weiss-100);
+
+		.main-navigation__toggle-text,
+		.main-navigation__direct-links ul li a {
+			color: var(--FAU-Col-FAU-Blau-100);
+		}
+
+		.main-navigation__logo .text {
+			color: var(--FAU-Col-FAU-Dunkelblau-100);
+		}
+
+		.main-navigation__toggle-icon > span {
+			background-color: var(--FAU-Col-FAU-Blau-100);
+		}
+
+		.main-navigation__direct-links ul li a::after {
+			background-image: var(--icon-chevron-fau-blau);
+		}
+
+		.main-navigation__direct-links + .main-navigation__menu-container::before {
+			background-color: var(--FAU-Col-FAU-Blau-62_5);
 		}
 	}
 }
@@ -1406,6 +1560,34 @@ body.home:not(.blog).has-hero-block.faculty-rw {
 			&__menu-container {
 				padding: 0.4rem var(--Spacing-2x);
 			}
+		}
+	}
+
+	// Match hero-content x-small padding for sonstige (other) hero layout
+	.fauorg-sonstige.home:not(.blog).has-hero-block .site-header__main .main-navigation {
+		padding: var(--Spacing-4x) var(--Spacing-5x);
+	}
+}
+
+// Cooperation sites (internal and external) keep a 10%-larger logo at <=599px
+// on both homepage and subpages — the "more centered" floating-hero look that
+// existed before the chair/coop white-bar block (commit 6b73bb7c) out-specified
+// the original `scale: 1.1` rule from line 1351. Cooperation always renders
+// <img class="custom-logo"> (see inc/logo-display.php), so this only targets
+// `.custom-logo`. The :not() chain on the body selector beats the homepage
+// size rule's specificity so the override wins on both pages.
+// We use `max-height` (not `height`) plus `height: auto` so the image scales
+// down proportionally when horizontal space is tight (the existing
+// `max-width: 100%` from `.textlogo img` would otherwise compress wide
+// partner logos against a fixed height, distorting the aspect ratio).
+@media screen and (max-width: 599px) {
+
+	body.fauorg-kooperation:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige):not(.fauorg-unterorg),
+	body.fauorg-kooperation-extern:not(.fauorg-home):not(.fauorg-fakultaet):not(.fauorg-sonstige):not(.fauorg-unterorg) {
+
+		.site-header__main .main-navigation .main-navigation__logo .baselogo img.custom-logo {
+			height: auto;
+			max-height: 2.4375rem * 1.1; // 2.68125rem — 110% of the default subpage logo height
 		}
 	}
 }

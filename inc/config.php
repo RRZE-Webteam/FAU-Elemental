@@ -12,6 +12,8 @@ if (!defined('ABSPATH')) {
 $faue_defaults = array(
     // Website Type
     'faue_website_type' => 'chair',
+    // FAU Logo Color (only applies to fau.de website type)
+    'faue_fau_logo_color' => 'white',
     // Breadcrumb Mode
     'faue_breadcrumb_variant_blue' => true,
     // Search Results Configuration
@@ -43,22 +45,22 @@ $faue_defaults = array(
     'faue_target_groups_de' => array(
         array(
             'title' => 'Studieninteressierte',
-            'description' => 'Studium, Orientierung und Studiengänge',
+            'description' => 'Studium, Orientierung und Studiengänge an der FAU',
             'link' => 'https://www.fau.de/fuer-studieninteressierte/'
         ),
         array(
             'title' => 'Studierende',
-            'description' => 'Services, Portale und Studieninformationen',
+            'description' => 'Services, Portal und Studieninformationen der FAU',
             'link' => 'https://www.fau.de/fuer-studierende/'
         ),
         array(
             'title' => 'Forschende',
-            'description' => 'Forschungsprofil, akademische Karriere und Erfolge',
+            'description' => 'Forschungsprofil, akademische Karriere und Erfolge der FAU',
             'link' => 'https://www.fau.de/fuer-forschende-und-lehrende/'
         ),
         array(
             'title' => 'Kooperationspartner',
-            'description' => 'Kooperationen, Patente und Transfer',
+            'description' => 'Kooperationen, Patente und Transfer der FAU',
             'link' => 'https://www.fau.de/services/fuer-unternehmen-und-partner/'
         ),
     ),
@@ -128,4 +130,12 @@ function faue_get_default($key, $subkey = null) {
 function faue_get_social_platforms() {
     global $faue_social_platforms;
     return $faue_social_platforms;
-} 
+}
+
+// Helper function to check if the website type is a cooperation type
+function faue_is_cooperation_website($website_type = null) {
+    if ($website_type === null) {
+        $website_type = get_theme_mod('faue_website_type', faue_get_default('faue_website_type'));
+    }
+    return in_array($website_type, array('cooperation', 'cooperation-external'), true);
+}

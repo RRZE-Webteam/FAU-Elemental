@@ -1,15 +1,15 @@
-# Copyright (C) 2025 TBD - theme author
+# Copyright (C) 2026 TBD - theme author
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 0.4.56\n"
+"Project-Id-Version: FAU-Elemental 1.0.14\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-12-16T16:32:51+00:00\n"
+"POT-Creation-Date: 2026-04-27T12:36:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: fau-elemental\n"
@@ -101,14 +101,14 @@ msgstr ""
 #: components/template-parts/navigation/fau-navigation.php:47
 #: components/template-parts/navigation/menu-modal-config.php:71
 #: components/template-parts/navigation/menu-modal.php:249
-#: components/template-parts/search-results/search-results.php:237
+#: components/template-parts/search-results/search-results.php:240
 #: components/blocks/fau-global-search/edit.js:95
 msgid "Search"
 msgstr ""
 
 #: components/blocks/fau-logo-grid/render.php:83
 #: inc/shortcodes.php:176
-#: components/blocks/fau-logo-grid/edit.js:286
+#: components/blocks/fau-logo-grid/edit.js:287
 msgid "Logo"
 msgstr ""
 
@@ -156,12 +156,12 @@ msgstr ""
 msgid "Loading…"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/teaser-item.php:146
+#: components/blocks/fau-teaser-grid/teaser-item.php:147
 msgid "Read more about"
 msgstr ""
 
 #: components/patterns/hero-portal/pattern.php:19
-msgid "Are you interested in studying natural sciences or mathematics? Then FAU in Erlangen is the right place for you. Friedrich-Alexander-Universität Erlangen-Nürnberg offers degree programs in all areas of natural sciences and mathematics – both as undergraduate Bachelor’s and advanced Master’s programs. The degree programs in food chemistry, pharmacy, and teaching end with a state examination."
+msgid "Beschreibung Ihrer Portalseite. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua."
 msgstr ""
 
 #: components/patterns/hero-portal/pattern.php:26
@@ -182,7 +182,7 @@ msgid "Start"
 msgstr ""
 
 #: components/template-parts/breadcrumbs/breadcrumbs.php:174
-#: components/template-parts/search-results/search-results.php:228
+#: components/template-parts/search-results/search-results.php:231
 msgid "Search Results"
 msgstr ""
 
@@ -226,13 +226,13 @@ msgstr ""
 msgid "Social Media Links"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:175
+#: components/template-parts/footer-instance/footer-instance.php:179
 #: components/template-parts/footer-main/footer-main.php:63
 #: header.php:53
 msgid "FAU Logo"
 msgstr ""
 
-#: components/template-parts/footer-instance/footer-instance.php:180
+#: components/template-parts/footer-instance/footer-instance.php:184
 #: components/template-parts/footer-main/footer-main.php:68
 msgid ""
 "Friedrich-Alexander-Universität\n"
@@ -300,11 +300,11 @@ msgstr ""
 msgid "Structure"
 msgstr ""
 
-#: components/template-parts/navigation/main-navigation.php:49
+#: components/template-parts/navigation/main-navigation.php:48
 msgid "Open menu"
 msgstr ""
 
-#: components/template-parts/navigation/main-navigation.php:50
+#: components/template-parts/navigation/main-navigation.php:49
 #: inc/portal-page-settings.php:81
 #: components/blocks/fau-portalmenu/edit.js:64
 msgid "Menu"
@@ -319,7 +319,7 @@ msgid "Search all pages and documents:"
 msgstr ""
 
 #: components/template-parts/navigation/menu-modal.php:259
-#: components/template-parts/search-results/search-results.php:437
+#: components/template-parts/search-results/search-results.php:440
 #: inc/theme-settings.php:39
 msgid "Additional search options"
 msgstr ""
@@ -460,100 +460,100 @@ msgid "Last update:"
 msgstr ""
 
 #. translators: search query
-#: components/template-parts/search-results/search-results.php:223
+#: components/template-parts/search-results/search-results.php:226
 msgid "Search Results for: %s"
 msgstr ""
 
 #. Template Name of the theme
-#: components/template-parts/search-results/search-results.php:225
+#: components/template-parts/search-results/search-results.php:228
 #: functions.php:92
 msgid "All Posts"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:258
+#: components/template-parts/search-results/search-results.php:261
 #: components/templates/pages/archive-grid-util.php:59
 #: index.php:203
 msgid "to"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:260
+#: components/template-parts/search-results/search-results.php:263
 #: components/templates/pages/archive-grid-util.php:61
 #: index.php:205
 msgid "of"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:267
+#: components/template-parts/search-results/search-results.php:270
 #: components/templates/pages/archive-grid-util.php:68
 #: index.php:212
 msgid "total"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:275
+#: components/template-parts/search-results/search-results.php:278
 #: components/templates/pages/archive-grid-util.php:76
 msgid "Sort by"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:279
+#: components/template-parts/search-results/search-results.php:282
 #: components/templates/pages/archive-grid-util.php:80
 msgid "Date - newest first"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:282
+#: components/template-parts/search-results/search-results.php:285
 #: components/templates/pages/archive-grid-util.php:83
 msgid "Date - oldest first"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:285
+#: components/template-parts/search-results/search-results.php:288
 #: components/templates/pages/archive-grid-util.php:86
 msgid "Title - ascending"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:288
+#: components/template-parts/search-results/search-results.php:291
 #: components/templates/pages/archive-grid-util.php:89
 msgid "Title - descending"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:305
+#: components/template-parts/search-results/search-results.php:308
 msgid "Search Results List"
 msgstr ""
 
 #. translators: index of the search result
-#: components/template-parts/search-results/search-results.php:321
+#: components/template-parts/search-results/search-results.php:324
 msgid "Search Result %d"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:345
+#: components/template-parts/search-results/search-results.php:348
 msgid "Post Category"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:352
+#: components/template-parts/search-results/search-results.php:355
 #: functions.php:341
 msgid "Page Category"
 msgstr ""
 
 #. translators: %s: Menu item title
-#: components/template-parts/search-results/search-results.php:373
-#: inc/class-walker-content-menu.php:79
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:179
+#: components/template-parts/search-results/search-results.php:376
+#: inc/class-walker-content-menu.php:84
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:183
 msgid "Featured image for %s"
 msgstr ""
 
 #. translators: title of the search result
-#: components/template-parts/search-results/search-results.php:406
+#: components/template-parts/search-results/search-results.php:409
 msgid "Read more about %s"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:408
+#: components/template-parts/search-results/search-results.php:411
 #: components/blocks/fau-teaser-grid/components/PageTeaser.jsx:121
 #: components/blocks/fau-teaser-grid/components/PostTeaser.jsx:161
 msgid "Read more"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:428
+#: components/template-parts/search-results/search-results.php:431
 msgid "No Search Results"
 msgstr ""
 
-#: components/template-parts/search-results/search-results.php:430
+#: components/template-parts/search-results/search-results.php:433
 msgid "Unfortunately, we were unable to find any matching search results for the following query:"
 msgstr ""
 
@@ -638,30 +638,30 @@ msgid "Hero"
 msgstr ""
 
 #. translators: Menu item title
-#: inc/class-walker-content-menu.php:99
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:200
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:230
+#: inc/class-walker-content-menu.php:104
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:204
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:234
 msgid "Go to %s"
 msgstr ""
 
-#: inc/class-walker-content-menu.php:210
+#: inc/class-walker-content-menu.php:215
 #: components/blocks/fau-portalmenu/edit.js:23
 msgid "Portal Menu"
 msgstr ""
 
-#: inc/config.php:37
+#: inc/config.php:39
 msgid "Show more"
 msgstr ""
 
-#: inc/config.php:38
+#: inc/config.php:40
 msgid "Show less"
 msgstr ""
 
-#: inc/config.php:40
+#: inc/config.php:42
 msgid "Moving knowledge"
 msgstr ""
 
-#: inc/config.php:41
+#: inc/config.php:43
 msgid "FAU is the most innovative university in Germany, and second across Europe. Established in 1743, it is one of the largest universities in Germany, with approximately 40,000 students, over 600 professors and around 16,000 members of staff."
 msgstr ""
 
@@ -722,7 +722,7 @@ msgid "Main heading for the claim section"
 msgstr ""
 
 #: inc/customizer.php:262
-msgid "Die FAU ist die innovativste Universität Deutschlands, europaweit auf dem zweiten Platz. Mit 40.000 Studierenden gehören wir zu den größten Hochschulen in Deutschland mit herausragender Lehre und exzellenter Forschung."
+msgid "Die Friedrich-Alexander-Universität Erlangen-Nürnberg ist die innovationsstärkste Universität Deutschlands. Gegründet 1743 ist sie mit rund 40.000 Studierenden, über 600 Professorinnen und Professoren und etwa 6.700 Mitarbeiterinnen und Mitarbeitern eine der größten Universitäten in Deutschland."
 msgstr ""
 
 #: inc/customizer.php:266
@@ -736,7 +736,7 @@ msgstr ""
 #: inc/customizer.php:278
 #: inc/customizer.php:306
 #: inc/customizer.php:538
-#: components/blocks/fau-big-button/edit.js:317
+#: components/blocks/fau-big-button/edit.js:318
 msgid "Description"
 msgstr ""
 
@@ -761,27 +761,27 @@ msgid "Configure contact information"
 msgstr ""
 
 #: inc/customizer.php:327
-#: inc/theme-settings.php:84
+#: inc/theme-settings.php:85
 msgid "Faculty of Humanities, Social Sciences, and Theology"
 msgstr ""
 
 #: inc/customizer.php:334
-#: inc/theme-settings.php:85
+#: inc/theme-settings.php:86
 msgid "Faculty of Sciences"
 msgstr ""
 
 #: inc/customizer.php:341
-#: inc/theme-settings.php:86
+#: inc/theme-settings.php:87
 msgid "Faculty of Medicine"
 msgstr ""
 
 #: inc/customizer.php:348
-#: inc/theme-settings.php:87
+#: inc/theme-settings.php:88
 msgid "Faculty of Business, Economics, and Law"
 msgstr ""
 
 #: inc/customizer.php:355
-#: inc/theme-settings.php:88
+#: inc/theme-settings.php:89
 msgid "Faculty of Engineering"
 msgstr ""
 
@@ -1029,8 +1029,8 @@ msgid "Categories"
 msgstr ""
 
 #: inc/legacy-sidebar.php:114
-#: components/ui/editor/editor.js:774
-#: components/ui/editor/editor.js:777
+#: components/ui/editor/editor.js:926
+#: components/ui/editor/editor.js:929
 msgid "Migration Assistant"
 msgstr ""
 
@@ -1047,34 +1047,34 @@ msgid "Contacts were displayed before links in the legacy sidebar."
 msgstr ""
 
 #: inc/legacy-sidebar.php:118
-#: components/ui/editor/editor.js:656
+#: components/ui/editor/editor.js:808
 msgid "Top text"
 msgstr ""
 
 #: inc/legacy-sidebar.php:119
-#: components/ui/editor/editor.js:709
+#: components/ui/editor/editor.js:861
 msgid "Bottom text"
 msgstr ""
 
 #: inc/legacy-sidebar.php:120
-#: components/ui/editor/editor.js:452
-#: components/ui/editor/editor.js:577
+#: components/ui/editor/editor.js:604
+#: components/ui/editor/editor.js:729
 msgid "Contacts"
 msgstr ""
 
 #. translators: %d: link block number
 #: inc/legacy-sidebar.php:121
-#: components/ui/editor/editor.js:683
+#: components/ui/editor/editor.js:835
 msgid "Link block %d"
 msgstr ""
 
 #: inc/legacy-sidebar.php:122
 #: index.php:227
-#: components/blocks/fau-big-button/edit.js:306
+#: components/blocks/fau-big-button/edit.js:307
 #: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
-#: components/ui/editor/editor.js:515
-#: components/ui/editor/editor.js:549
-#: components/ui/editor/editor.js:599
+#: components/ui/editor/editor.js:667
+#: components/ui/editor/editor.js:701
+#: components/ui/editor/editor.js:751
 msgid "Title"
 msgstr ""
 
@@ -1085,7 +1085,7 @@ msgid "Content"
 msgstr ""
 
 #: inc/legacy-sidebar.php:124
-#: components/ui/editor/editor.js:619
+#: components/ui/editor/editor.js:771
 msgid "Links"
 msgstr ""
 
@@ -1102,22 +1102,22 @@ msgid "No title"
 msgstr ""
 
 #: inc/legacy-sidebar.php:128
-#: components/ui/editor/editor.js:632
+#: components/ui/editor/editor.js:784
 msgid "Contact"
 msgstr ""
 
 #: inc/legacy-sidebar.php:129
-#: components/ui/editor/editor.js:695
+#: components/ui/editor/editor.js:847
 msgid "Link"
 msgstr ""
 
 #: inc/legacy-sidebar.php:130
-#: components/ui/editor/editor.js:581
+#: components/ui/editor/editor.js:733
 msgid "Legacy shortcode"
 msgstr ""
 
 #: inc/legacy-sidebar.php:131
-#: components/ui/editor/editor.js:584
+#: components/ui/editor/editor.js:736
 msgid "Add this shortcode to display the selected contacts."
 msgstr ""
 
@@ -1290,12 +1290,8 @@ msgstr ""
 msgid "OR"
 msgstr ""
 
-#: inc/social-media-admin.php:103
-msgid "https://example.com/icon.svg"
-msgstr ""
-
 #: inc/social-media-admin.php:104
-msgid "Enter a direct URL to an SVG icon"
+msgid "Enter a direct URL to an SVG icon already hosted on this site (e.g. from the Media Library). Remote URLs are rejected to protect visitor privacy."
 msgstr ""
 
 #: inc/social-media-admin.php:109
@@ -1323,53 +1319,62 @@ msgid "Actions"
 msgstr ""
 
 #: inc/social-media-admin.php:135
+msgid "External icon blocked (remote URLs are not allowed)."
+msgstr ""
+
+#: inc/social-media-admin.php:138
 msgid "No icon"
 msgstr ""
 
-#: inc/social-media-admin.php:145
+#: inc/social-media-admin.php:148
 #: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:131
 #: components/blocks/fau-testimonial/edit.js:453
+#: components/ui/editor/editor.js:486
 msgid "Remove"
 msgstr ""
 
-#: inc/social-media-admin.php:145
+#: inc/social-media-admin.php:148
 msgid "Are you sure you want to remove this platform?"
 msgstr ""
 
-#: inc/social-media-admin.php:155
+#: inc/social-media-admin.php:158
 msgid "Note:"
 msgstr ""
 
-#: inc/social-media-admin.php:155
+#: inc/social-media-admin.php:158
 msgid "After adding or removing platforms, you may need to refresh the customizer to see the changes."
 msgstr ""
 
-#: inc/social-media-admin.php:174
+#: inc/social-media-admin.php:177
 msgid "Security check failed. Please try again."
 msgstr ""
 
-#: inc/social-media-admin.php:189
+#: inc/social-media-admin.php:192
 msgid "Platform removed successfully!"
 msgstr ""
 
-#: inc/social-media-admin.php:205
+#: inc/social-media-admin.php:208
 msgid "Platform name and key are required."
 msgstr ""
 
-#: inc/social-media-admin.php:221
+#: inc/social-media-admin.php:224
 msgid "Icon upload failed. Please ensure the file is a valid SVG and under 1MB."
 msgstr ""
 
-#: inc/social-media-admin.php:241
+#: inc/social-media-admin.php:233
+msgid "Icon URL must reference a file hosted on this site. Upload an SVG above, or paste a URL from your Media Library."
+msgstr ""
+
+#: inc/social-media-admin.php:251
 msgid "Platform added successfully with icon!"
 msgstr ""
 
-#: inc/social-media-admin.php:243
+#: inc/social-media-admin.php:253
 msgid "Platform added successfully, but no icon was uploaded."
 msgstr ""
 
 #. translators: 1: Number of custom platforms, 2: Admin URL for managing platforms
-#: inc/social-media-admin.php:354
+#: inc/social-media-admin.php:364
 msgid "You have %1$d custom social media platform(s). <a href=\"%2$s\">Manage them here</a>."
 msgstr ""
 
@@ -1398,7 +1403,7 @@ msgid "Website Type"
 msgstr ""
 
 #: inc/theme-settings.php:65
-#: inc/theme-settings.php:80
+#: inc/theme-settings.php:81
 msgid "Faculty"
 msgstr ""
 
@@ -1414,23 +1419,43 @@ msgstr ""
 msgid "FAU-internal Cooperation"
 msgstr ""
 
-#: inc/theme-settings.php:100
+#: inc/theme-settings.php:69
+msgid "External Cooperation"
+msgstr ""
+
+#: inc/theme-settings.php:102
+msgid "FAU Logo Color"
+msgstr ""
+
+#: inc/theme-settings.php:103
+msgid "Choose the color of the FAU logo displayed in the header."
+msgstr ""
+
+#: inc/theme-settings.php:107
+msgid "White"
+msgstr ""
+
+#: inc/theme-settings.php:108
+msgid "Blue"
+msgstr ""
+
+#: inc/theme-settings.php:120
 msgid "Copyright Info Priority"
 msgstr ""
 
-#: inc/theme-settings.php:104
+#: inc/theme-settings.php:124
 msgid "Copyright Field"
 msgstr ""
 
-#: inc/theme-settings.php:105
+#: inc/theme-settings.php:125
 msgid "IPTC Image Metadata"
 msgstr ""
 
-#: inc/theme-settings.php:117
+#: inc/theme-settings.php:137
 msgid "Fallback Image"
 msgstr ""
 
-#: inc/theme-settings.php:118
+#: inc/theme-settings.php:138
 msgid "Choose a default image to use when no featured image is available for posts or pages."
 msgstr ""
 
@@ -1498,161 +1523,161 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:71
+#: components/blocks/fau-big-button/edit.js:72
 msgid "Default"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:72
+#: components/blocks/fau-big-button/edit.js:73
 msgid "FAU"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:73
+#: components/blocks/fau-big-button/edit.js:74
 msgid "Philosophy"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:74
+#: components/blocks/fau-big-button/edit.js:75
 msgid "Law & Economics"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:75
+#: components/blocks/fau-big-button/edit.js:76
 msgid "Medicine"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:76
+#: components/blocks/fau-big-button/edit.js:77
 msgid "Sciences"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:77
+#: components/blocks/fau-big-button/edit.js:78
 msgid "Technology"
 msgstr ""
 
 #. translators: %s: faculty type
-#: components/blocks/fau-big-button/edit.js:172
+#: components/blocks/fau-big-button/edit.js:173
 msgid "Using faculty color: %s"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:173
+#: components/blocks/fau-big-button/edit.js:174
 msgid "Unknown"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:183
+#: components/blocks/fau-big-button/edit.js:184
 msgid "Appearance Settings"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:187
+#: components/blocks/fau-big-button/edit.js:188
 msgid "Buttons Per Row"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:191
+#: components/blocks/fau-big-button/edit.js:192
 msgid "4 buttons"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:195
+#: components/blocks/fau-big-button/edit.js:196
 msgid "3 buttons"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:205
+#: components/blocks/fau-big-button/edit.js:206
 msgid "Variant"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:209
+#: components/blocks/fau-big-button/edit.js:210
 msgid "Filled"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:213
+#: components/blocks/fau-big-button/edit.js:214
 msgid "Outline"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:224
+#: components/blocks/fau-big-button/edit.js:225
 msgid "Items"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:229
-#: components/blocks/fau-big-button/edit.js:607
+#: components/blocks/fau-big-button/edit.js:230
+#: components/blocks/fau-big-button/edit.js:606
 msgid "Add Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:236
-#: components/blocks/fau-big-button/edit.js:242
+#: components/blocks/fau-big-button/edit.js:237
+#: components/blocks/fau-big-button/edit.js:243
 msgid "Untitled Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:237
+#: components/blocks/fau-big-button/edit.js:238
 msgid "Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:258
-#: components/blocks/fau-big-button/edit.js:269
-#: components/blocks/fau-big-button/edit.js:488
+#: components/blocks/fau-big-button/edit.js:259
+#: components/blocks/fau-big-button/edit.js:270
+#: components/blocks/fau-big-button/edit.js:487
 msgid "Move up"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:276
-#: components/blocks/fau-big-button/edit.js:289
-#: components/blocks/fau-big-button/edit.js:507
+#: components/blocks/fau-big-button/edit.js:277
+#: components/blocks/fau-big-button/edit.js:290
+#: components/blocks/fau-big-button/edit.js:506
 msgid "Move down"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:301
+#: components/blocks/fau-big-button/edit.js:302
 msgid "Remove Item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:311
+#: components/blocks/fau-big-button/edit.js:312
 msgid "You can also click on the title in the preview to edit it directly."
 msgstr ""
 
 #. translators: %d: maximum character count
-#: components/blocks/fau-big-button/edit.js:332
+#: components/blocks/fau-big-button/edit.js:333
 msgid "Maximum %d characters recommended. You can also click on the description in the preview to edit it directly."
 msgstr ""
 
 #. translators: %1$d: current character count, %2$d: maximum character count
-#: components/blocks/fau-big-button/edit.js:350
+#: components/blocks/fau-big-button/edit.js:351
 msgid "%1$d / %2$d characters"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:360
+#: components/blocks/fau-big-button/edit.js:361
 msgid "URL"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:381
+#: components/blocks/fau-big-button/edit.js:382
 msgid "Required for display:"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:390
+#: components/blocks/fau-big-button/edit.js:391
 msgid "Title is required"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:398
+#: components/blocks/fau-big-button/edit.js:399
 #: components/utils/urlValidation.js:16
 msgid "URL is required"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:411
+#: components/blocks/fau-big-button/edit.js:412
 msgid "This item will not be displayed on the frontend until both title and URL are provided."
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:422
+#: components/blocks/fau-big-button/edit.js:423
 msgid "Color"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:445
+#: components/blocks/fau-big-button/edit.js:446
 msgid "No items added yet. Click \"Add Item\" to get started."
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:525
+#: components/blocks/fau-big-button/edit.js:524
 msgid "Remove item"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:551
+#: components/blocks/fau-big-button/edit.js:550
 msgid "Enter title…"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:581
+#: components/blocks/fau-big-button/edit.js:580
 msgid "Add description…"
 msgstr ""
 
-#: components/blocks/fau-big-button/edit.js:602
+#: components/blocks/fau-big-button/edit.js:601
 msgid "Add new item"
 msgstr ""
 
@@ -1660,7 +1685,7 @@ msgstr ""
 #: components/blocks/fau-big-teaser/edit.js:201
 #: components/blocks/fau-featured-event-teaser/edit.js:126
 #: components/blocks/fau-featured-event-teaser/edit.js:191
-#: components/blocks/fau-logo-grid/edit.js:129
+#: components/blocks/fau-logo-grid/edit.js:130
 #: components/blocks/fau-testimonial/edit.js:196
 msgid "Replace Image"
 msgstr ""
@@ -1900,43 +1925,43 @@ msgstr ""
 msgid "Content Size: for editorial content, includes search scope selection and advanced features. Full Grid: for wide teaser components, simple search only."
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:104
+#: components/blocks/fau-logo-grid/edit.js:105
 msgid "Add Logo"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:115
+#: components/blocks/fau-logo-grid/edit.js:116
 msgid "Selected Logo Settings"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:130
+#: components/blocks/fau-logo-grid/edit.js:131
 msgid "Set Image"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:140
+#: components/blocks/fau-logo-grid/edit.js:141
 msgid "Remove Logo"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:150
+#: components/blocks/fau-logo-grid/edit.js:151
 msgid "Logo preview"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:169
+#: components/blocks/fau-logo-grid/edit.js:170
 msgid "Logo Link"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:179
+#: components/blocks/fau-logo-grid/edit.js:180
 msgid "Original Category:"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:192
+#: components/blocks/fau-logo-grid/edit.js:193
 msgid "This logo was migrated from the previous theme."
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:256
+#: components/blocks/fau-logo-grid/edit.js:257
 msgid "Select logo for editing"
 msgstr ""
 
-#: components/blocks/fau-logo-grid/edit.js:275
+#: components/blocks/fau-logo-grid/edit.js:276
 msgid "Choose Logo"
 msgstr ""
 
@@ -1993,23 +2018,23 @@ msgstr ""
 msgid "Please select a menu in the block settings panel to display as a portal menu."
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:168
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:172
 msgid "Menu Item"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:222
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:226
 msgid "Submenu Item"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:272
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:276
 msgid "This menu has no items. Please add items to the menu in Appearance → Menus."
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:283
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:287
 msgid "Loading menu items…"
 msgstr ""
 
-#: components/blocks/fau-portalmenu/EditorPreview.jsx:291
+#: components/blocks/fau-portalmenu/EditorPreview.jsx:295
 msgid "No menu selected"
 msgstr ""
 
@@ -2231,6 +2256,7 @@ msgid "Add an image to accompany this testimonial"
 msgstr ""
 
 #: components/blocks/fau-testimonial/edit.js:437
+#: components/ui/editor/editor.js:479
 msgid "Replace"
 msgstr ""
 
@@ -2332,19 +2358,31 @@ msgstr ""
 msgid "Current:"
 msgstr ""
 
-#: components/ui/editor/editor.js:792
+#: components/ui/editor/editor.js:419
+msgid "Teaser Image"
+msgstr ""
+
+#: components/ui/editor/editor.js:422
+msgid "Override the featured image in teaser grids and portal menus."
+msgstr ""
+
+#: components/ui/editor/editor.js:494
+msgid "Set teaser image"
+msgstr ""
+
+#: components/ui/editor/editor.js:944
 msgid "This page still holds sidebar entries from the previous theme. Review the content below or append it to the page as a Classic block."
 msgstr ""
 
-#: components/ui/editor/editor.js:827
+#: components/ui/editor/editor.js:979
 msgid "Legacy sidebar content was inserted."
 msgstr ""
 
-#: components/ui/editor/editor.js:832
+#: components/ui/editor/editor.js:984
 msgid "Insert legacy sidebar content"
 msgstr ""
 
-#: components/ui/editor/editor.js:844
+#: components/ui/editor/editor.js:996
 msgid "Legacy sidebar content was inserted at the bottom of the page."
 msgstr ""
 

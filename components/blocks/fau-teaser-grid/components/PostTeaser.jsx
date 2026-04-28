@@ -13,7 +13,7 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 	// Get the fallback image from theme customizer or use default fallback image
 	const FALLBACK_IMAGE =
 		( window.fauElemental && window.fauElemental.fallbackImageUrl ) ??
-		'/wp-content/themes/fau-elemental/assets/images/Default_FAU_Schloss_blau.jpg';
+		'/wp-content/themes/fau-elemental/assets/images/Default_FAU_Schloss_blau.webp';
 
 	const baseUrl = useSelect( ( select ) => getRestBaseUrl( select ), [] );
 
@@ -33,12 +33,11 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 
 		const dateObj = post.date ? new Date( post.date ) : null;
 
-		// Check if there's a valid featured image
-		const hasFeaturedImage =
+		// Prefer the custom teaser image, then the featured image, then fallback
+		const teaserImageUrl = post.faue_teaser_image_url;
+		const featuredImageUrl =
 			post._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url;
-		const imageUrl = hasFeaturedImage
-			? post._embedded[ 'wp:featuredmedia' ][ 0 ].source_url
-			: FALLBACK_IMAGE;
+		const imageUrl = teaserImageUrl || featuredImageUrl || FALLBACK_IMAGE;
 
 		// Format date using WordPress locale
 		const locale =
@@ -73,6 +72,7 @@ export default function PostTeaser( { post, headingLevel = 'h4' } ) {
 		post?.excerpt?.rendered,
 		post?._embedded?.[ 'wp:term' ]?.[ 0 ]?.[ 0 ]?.id,
 		post?._embedded?.[ 'wp:featuredmedia' ]?.[ 0 ]?.source_url,
+		post?.faue_teaser_image_url,
 		baseUrl,
 	] );
 

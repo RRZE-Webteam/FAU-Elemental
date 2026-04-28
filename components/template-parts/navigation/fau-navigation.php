@@ -16,7 +16,7 @@ $website_type = get_theme_mod('faue_website_type', faue_get_default('faue_websit
 ?>
 
 <nav class="fau-navigation" aria-label="<?php esc_attr_e('FAU Navigation', 'fau-elemental'); ?>">
-    <?php if ($website_type !== 'fau'): ?>
+    <?php if ($website_type !== 'fau' && $website_type !== 'cooperation-external'): ?>
     <a href="<?php echo esc_url(set_url_scheme('https://www.fau.de')); ?>" class="fau-navigation__fau-link">
         <span class="fau-navigation__back-icon"></span>
         <?php esc_html_e('FAU.de', 'fau-elemental'); ?>

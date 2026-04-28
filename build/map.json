@@ -16,6 +16,19 @@
   "components/utils/urlValidation.js": [
     "build/blocks/fau-big-button/index.js"
   ],
+  "node_modules/@wordpress/icons/build-module/library/arrow-down.mjs": [
+    "build/blocks/fau-big-button/index.js"
+  ],
+  "node_modules/@wordpress/icons/build-module/library/arrow-up.mjs": [
+    "build/blocks/fau-big-button/index.js"
+  ],
+  "node_modules/@wordpress/icons/build-module/library/plus.mjs": [
+    "build/blocks/fau-big-button/index.js",
+    "build/blocks/fau-logo-grid/index.js"
+  ],
+  "node_modules/@wordpress/icons/build-module/library/trash.mjs": [
+    "build/blocks/fau-big-button/index.js"
+  ],
   "node_modules/uuid/dist/esm-browser/v4.js": [
     "build/blocks/fau-big-button/index.js",
     "build/blocks/fau-meta-headline/index.js",
@@ -277,6 +290,9 @@
     "build/js/editor.js"
   ],
   "components/core-blocks/image/utils.js": [
+    "build/js/editor.js"
+  ],
+  "components/ui/editor/iframe-body-class-injection.js": [
     "build/js/editor.js"
   ],
   "components/core-blocks/gallery/gallery-slider.js": [

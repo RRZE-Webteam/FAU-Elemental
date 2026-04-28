@@ -10,6 +10,71 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Register the teaser image post meta for posts and pages.
+ */
+function faue_register_teaser_image_meta() {
+    $args = [
+        'show_in_rest'  => true,
+        'single'        => true,
+        'type'          => 'integer',
+        'default'       => 0,
+        'auth_callback' => function () {
+            return current_user_can( 'edit_posts' );
+        },
+    ];
+
+    register_post_meta( 'post', '_faue_teaser_image_id', $args );
+    register_post_meta( 'page', '_faue_teaser_image_id', $args );
+}
+add_action( 'init', 'faue_register_teaser_image_meta' );
+
+/**
+ * Expose the resolved teaser image URL as a REST field so the block editor
+ * can render the custom teaser image in its previews.
+ */
+function faue_register_teaser_image_rest_field() {
+    foreach ( [ 'post', 'page' ] as $post_type ) {
+        register_rest_field(
+            $post_type,
+            'faue_teaser_image_url',
+            [
+                'get_callback' => function ( $object ) {
+                    $id = faue_get_teaser_image_id( $object['id'] );
+                    if ( ! $id ) {
+                        return '';
+                    }
+                    $url = wp_get_attachment_image_url( $id, 'medium_large' );
+                    return $url ? $url : '';
+                },
+                'schema'       => [
+                    'type'    => 'string',
+                    'context' => [ 'view', 'edit', 'embed' ],
+                ],
+            ]
+        );
+    }
+}
+add_action( 'rest_api_init', 'faue_register_teaser_image_rest_field' );
+
+/**
+ * Get the teaser image attachment ID for a post.
+ *
+ * Returns the custom teaser image if set, otherwise 0.
+ *
+ * @param int $post_id The post ID.
+ * @return int Attachment ID or 0.
+ */
+function faue_get_teaser_image_id( $post_id ) {
+    $teaser_image_id = (int) get_post_meta( $post_id, '_faue_teaser_image_id', true );
+
+    if ( $teaser_image_id && wp_get_attachment_url( $teaser_image_id ) ) {
+        return $teaser_image_id;
+    }
+
+    return 0;
+}
+
+/**
  * Get the fallback image URL
  *
  * @return string The fallback image URL or empty string if not set
@@ -47,7 +112,7 @@ function faue_get_post_fallback_image($post_id = null, $size = 'full') {
     }
     
     // Return default fallback image as last resort
-    return get_template_directory_uri() . '/assets/images/Default_FAU_Schloss_blau.jpg';
+    return get_template_directory_uri() . '/assets/images/Default_FAU_Schloss_blau.webp';
 }
 
 /**

@@ -33,24 +33,71 @@ function fau_load_more_posts_handler() {
         return;
     }
 
-    // Get parameters with better sanitization
-    $variant = sanitize_text_field($_POST['variant'] ?? 'post');
-    $posts_per_page = absint($_POST['posts_per_page'] ?? 3);
-    $page = absint($_POST['page'] ?? 1);
-    $selected_category = absint($_POST['selected_category'] ?? 0);
-    $selected_author = absint($_POST['selected_author'] ?? 0);
-    $selected_year = absint($_POST['selected_year'] ?? 0);
-    $selected_month = absint($_POST['selected_month'] ?? 0);
-    $selected_day = absint($_POST['selected_day'] ?? 0);
-    $order_by = sanitize_text_field($_POST['order_by'] ?? 'date');
-    $order = sanitize_text_field($_POST['order'] ?? 'DESC');
-    $display_style = sanitize_text_field($_POST['display_style'] ?? 'teaser-grid');
-    $teaser_layout = sanitize_text_field($_POST['teaser_layout'] ?? '3m');
-    $heading_level = sanitize_text_field($_POST['heading_level'] ?? 'h4');
+    // Strict allowlists — this is a public (nopriv) endpoint, so every
+    // enum-like parameter must be validated against the values the block
+    // legitimately emits. Anything else is rejected to prevent scraping
+    // of non-targeted post types or expensive queries (DoS).
+    $allowed_variants       = ['post', 'page'];
+    $allowed_order_by       = ['date', 'title'];
+    $allowed_order          = ['ASC', 'DESC'];
+    $allowed_display_styles = ['teaser-grid', 'mini-list'];
+    $allowed_teaser_layouts = ['1xl', '2l', 'l2s', '2sl', '3m', '2s-left', '2s-right'];
+    $allowed_headings       = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
-    // Validate heading level
-    $allowed_headings = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-    if (!in_array($heading_level, $allowed_headings)) {
+    // Hard caps. The editor's RangeControl maxes postsPerPage at 12; allow a
+    // little headroom but never the unbounded value absint() would accept.
+    $max_posts_per_page = 24;
+    $max_page           = 1000;
+
+    $variant = sanitize_key($_POST['variant'] ?? 'post');
+    if (!in_array($variant, $allowed_variants, true)) {
+        $variant = 'post';
+    }
+
+    $posts_per_page = absint($_POST['posts_per_page'] ?? 3);
+    if ($posts_per_page < 1) {
+        $posts_per_page = 3;
+    }
+    if ($posts_per_page > $max_posts_per_page) {
+        $posts_per_page = $max_posts_per_page;
+    }
+
+    $page = absint($_POST['page'] ?? 1);
+    if ($page < 1) {
+        $page = 1;
+    }
+    if ($page > $max_page) {
+        $page = $max_page;
+    }
+
+    $selected_category = absint($_POST['selected_category'] ?? 0);
+    $selected_author   = absint($_POST['selected_author'] ?? 0);
+    $selected_year     = absint($_POST['selected_year'] ?? 0);
+    $selected_month    = absint($_POST['selected_month'] ?? 0);
+    $selected_day      = absint($_POST['selected_day'] ?? 0);
+
+    $order_by = sanitize_key($_POST['order_by'] ?? 'date');
+    if (!in_array($order_by, $allowed_order_by, true)) {
+        $order_by = 'date';
+    }
+
+    $order = strtoupper(sanitize_key($_POST['order'] ?? 'DESC'));
+    if (!in_array($order, $allowed_order, true)) {
+        $order = 'DESC';
+    }
+
+    $display_style = sanitize_key($_POST['display_style'] ?? 'teaser-grid');
+    if (!in_array($display_style, $allowed_display_styles, true)) {
+        $display_style = 'teaser-grid';
+    }
+
+    $teaser_layout = sanitize_key($_POST['teaser_layout'] ?? '3m');
+    if (!in_array($teaser_layout, $allowed_teaser_layouts, true)) {
+        $teaser_layout = '3m';
+    }
+
+    $heading_level = sanitize_key($_POST['heading_level'] ?? 'h4');
+    if (!in_array($heading_level, $allowed_headings, true)) {
         $heading_level = 'h4';
     }
 

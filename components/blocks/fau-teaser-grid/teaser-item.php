@@ -41,9 +41,10 @@ function fau_elemental_render_teaser_item($post, $variant, $grid_classes, $headi
     $output .= '<div class="teaser-image-wrapper">';
     $output .= '<div class="teaser-image">';
     
-    // Get featured image ID or fallback image
-    $featured_img_id = get_post_thumbnail_id($post->ID);
-    
+    // Check for custom teaser image first, then featured image, then fallback
+    $teaser_img_id = faue_get_teaser_image_id($post->ID);
+    $featured_img_id = $teaser_img_id ? $teaser_img_id : get_post_thumbnail_id($post->ID);
+
     if ($featured_img_id) {
         // Use wp_get_attachment_image for responsive images with srcset
         // Sizes: 3 columns on desktop (440px each), 2 columns on medium (50vw), 1 column on mobile (100vw)

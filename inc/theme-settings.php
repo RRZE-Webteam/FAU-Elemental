@@ -66,6 +66,7 @@ function faue_customize_register($wp_customize) {
             'chair'        => __('Chair', 'fau-elemental'),
             'other'        => __('Central Websites', 'fau-elemental'),
             'cooperation'  => __('FAU-internal Cooperation', 'fau-elemental'),
+            'cooperation-external' => __('External Cooperation', 'fau-elemental'),
         ),
     ));
 
@@ -88,6 +89,25 @@ function faue_customize_register($wp_customize) {
             'tf'   => __('Faculty of Engineering', 'fau-elemental'),
         ),
         'active_callback' => 'faue_is_faculty_or_chair_website',
+    ));
+
+    // FAU Logo Color Setting (only for fau.de website type)
+    $wp_customize->add_setting('faue_fau_logo_color', array(
+        'default'           => faue_get_default('faue_fau_logo_color'),
+        'transport'         => 'refresh',
+        'sanitize_callback' => 'faue_sanitize_fau_logo_color',
+    ));
+
+    $wp_customize->add_control('faue_fau_logo_color', array(
+        'label'           => __('FAU Logo Color', 'fau-elemental'),
+        'description'     => __('Choose the color of the FAU logo displayed in the header.', 'fau-elemental'),
+        'section'         => 'title_tagline',
+        'type'            => 'select',
+        'choices'         => array(
+            'white' => __('White', 'fau-elemental'),
+            'blue'  => __('Blue', 'fau-elemental'),
+        ),
+        'active_callback' => 'faue_is_fau_website',
     ));
 
     // Copyright Info Priority
@@ -162,6 +182,17 @@ function faue_is_faculty_website($control) {
 }
 
 /**
+ * Check if the website type is set to fau
+ */
+function faue_is_fau_website($control) {
+    $setting = $control->manager->get_setting('faue_website_type');
+    if (!$setting) {
+        return false;
+    }
+    return 'fau' === $setting->value();
+}
+
+/**
  * Check if the custom logo control should be shown
  * Show logo control only for cooperation websites
  */
@@ -171,7 +202,7 @@ function faue_show_custom_logo_control($control) {
         return false;
     }
     $website_type = $setting->value();
-    return $website_type === 'cooperation';
+    return faue_is_cooperation_website($website_type);
 }
 
 
@@ -179,7 +210,7 @@ function faue_show_custom_logo_control($control) {
  * Sanitize website type input
  */
 function faue_sanitize_website_type($input) {
-    $valid_types = array('fau', 'faculty', 'chair', 'other', 'cooperation');
+    $valid_types = array('fau', 'faculty', 'chair', 'other', 'cooperation', 'cooperation-external');
 
     if (!in_array($input, $valid_types)) {
         return 'fau';
@@ -202,59 +233,6 @@ function faue_sanitize_copyright_info_priority($input) {
 
 
 
-/**
- * Restrict specific blocks to certain post types
- * 
- * This function restricts the FAU Teaser Grid block to pages only
- */
-function restrict_blocks_by_post_type($allowed_blocks, $editor_context) {
-    if (empty($editor_context->post)) {
-        return $allowed_blocks;
-    }
-
-    $post_type = $editor_context->post->post_type;
-    $block_to_remove = 'fau-elemental/fau-teaser-grid';
-
-    if ($post_type === 'post') {
-        // If $allowed_blocks is true or null, we need to get all registered blocks
-        if ($allowed_blocks === true || is_null($allowed_blocks)) {
-            // Make sure WP_Block_Type_Registry class exists
-            if (class_exists('WP_Block_Type_Registry')) {
-                $registry = WP_Block_Type_Registry::get_instance();
-                $allowed_blocks = array_keys($registry->get_all_registered());
-            } else {
-                // If the registry class doesn't exist, we can't reliably filter blocks
-                return $allowed_blocks;
-            }
-        }
-
-        // Now that we've ensured $allowed_blocks is an array, we can safely filter it
-        if (is_array($allowed_blocks)) {
-            $allowed_blocks = array_diff($allowed_blocks, [$block_to_remove]);
-        }
-    }
-
-    return $allowed_blocks;
-}
-add_filter('allowed_block_types_all', 'restrict_blocks_by_post_type', 10, 2);
-
-function hide_teaser_grid_block_for_posts() {
-    global $post;
-
-    if (!is_admin() || get_post_type($post) !== 'post') {
-        return;
-    }
-
-    ?>
-    <script type="text/javascript">
-        wp.domReady(() => {
-            wp.blocks.unregisterBlockType('fau-elemental/fau-teaser-grid');
-        });
-    </script>
-    <?php
-}
-add_action('admin_footer', 'hide_teaser_grid_block_for_posts');
-
 
 /**
  * Sanitize faculty input
@@ -274,4 +252,17 @@ function faue_sanitize_faculty($input) {
  */
 function faue_sanitize_breadcrumb_mode($input) {
     return (bool) $input;
+}
+
+/**
+ * Sanitize FAU logo color input
+ */
+function faue_sanitize_fau_logo_color($input) {
+    $valid_colors = array('white', 'blue');
+
+    if (!in_array($input, $valid_colors)) {
+        return 'white';
+    }
+
+    return $input;
 }

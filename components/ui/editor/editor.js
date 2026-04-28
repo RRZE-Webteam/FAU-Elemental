@@ -6,16 +6,29 @@ import {
 	CardBody,
 	CardHeader,
 	ExternalLink,
+	ResponsiveWrapper,
+	Spinner,
 	__experimentalText as Text,
 } from '@wordpress/components';
-import { select, subscribe, dispatch } from '@wordpress/data';
+import {
+	select,
+	subscribe,
+	dispatch,
+	useSelect,
+	useDispatch,
+} from '@wordpress/data';
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
+import { PluginDocumentSettingPanel } from '@wordpress/editor';
 // import { addFilter } from '@wordpress/hooks';
 // import { createHigherOrderComponent } from '@wordpress/compose';
 import { __, sprintf } from '@wordpress/i18n';
 import { registerPlugin } from '@wordpress/plugins';
 import { Fragment, RawHTML, useMemo, useState } from '@wordpress/element';
 import { unregisterFormatType } from '@wordpress/rich-text';
+import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
+
+// Editor iframe body class injection (persistent MutationObserver pattern).
+import './iframe-body-class-injection';
 
 // Import all core-blocks
 import '../../core-blocks/button/index.js';
@@ -356,6 +369,145 @@ function countFAUHeroOccurrences( blocks ) {
 
 	return count;
 }
+
+// Teaser Image panel --------------------------------------------------------
+
+const TEASER_IMAGE_META_KEY = '_faue_teaser_image_id';
+
+const TeaserImagePanel = () => {
+	const { teaserImageId, postType } = useSelect( ( sel ) => {
+		const meta =
+			sel( 'core/editor' ).getEditedPostAttribute( 'meta' ) || {};
+		return {
+			teaserImageId: meta[ TEASER_IMAGE_META_KEY ] || 0,
+			postType: sel( 'core/editor' ).getCurrentPostType(),
+		};
+	}, [] );
+
+	const { editPost } = useDispatch( 'core/editor' );
+
+	// Only show for posts and pages
+	if ( postType !== 'post' && postType !== 'page' ) {
+		return null;
+	}
+
+	const media = useSelect(
+		( sel ) => {
+			if ( ! teaserImageId ) {
+				return null;
+			}
+			return sel( 'core' ).getMedia( teaserImageId );
+		},
+		[ teaserImageId ]
+	);
+
+	const setTeaserImage = ( image ) => {
+		editPost( {
+			meta: { [ TEASER_IMAGE_META_KEY ]: image ? image.id : 0 },
+		} );
+	};
+
+	const removeTeaserImage = () => {
+		editPost( {
+			meta: { [ TEASER_IMAGE_META_KEY ]: 0 },
+		} );
+	};
+
+	return (
+		<PluginDocumentSettingPanel
+			name="fau-teaser-image"
+			title={ __( 'Teaser Image', 'fau-elemental' ) }
+		>
+			<p style={ { fontSize: '12px', color: '#757575', marginTop: 0 } }>
+				{ __(
+					'Override the featured image in teaser grids and portal menus.',
+					'fau-elemental'
+				) }
+			</p>
+			<MediaUploadCheck>
+				<MediaUpload
+					onSelect={ setTeaserImage }
+					allowedTypes={ [ 'image' ] }
+					value={ teaserImageId }
+					render={ ( { open } ) => (
+						<div>
+							{ teaserImageId && media ? (
+								<Fragment>
+									<div
+										style={ {
+											marginBottom: '8px',
+											cursor: 'pointer',
+										} }
+										onClick={ open }
+										onKeyDown={ ( e ) => {
+											if (
+												e.key === 'Enter' ||
+												e.key === ' '
+											) {
+												open();
+											}
+										} }
+										role="button"
+										tabIndex={ 0 }
+									>
+										<ResponsiveWrapper
+											naturalWidth={
+												media?.media_details?.width ||
+												300
+											}
+											naturalHeight={
+												media?.media_details?.height ||
+												200
+											}
+										>
+											<img
+												src={ media?.source_url || '' }
+												alt={ media?.alt_text || '' }
+											/>
+										</ResponsiveWrapper>
+									</div>
+									<div
+										style={ {
+											display: 'flex',
+											gap: '8px',
+										} }
+									>
+										<Button
+											variant="secondary"
+											onClick={ open }
+										>
+											{ __( 'Replace', 'fau-elemental' ) }
+										</Button>
+										<Button
+											variant="link"
+											isDestructive
+											onClick={ removeTeaserImage }
+										>
+											{ __( 'Remove', 'fau-elemental' ) }
+										</Button>
+									</div>
+								</Fragment>
+							) : teaserImageId && ! media ? (
+								<Spinner />
+							) : (
+								<Button variant="secondary" onClick={ open }>
+									{ __(
+										'Set teaser image',
+										'fau-elemental'
+									) }
+								</Button>
+							) }
+						</div>
+					) }
+				/>
+			</MediaUploadCheck>
+		</PluginDocumentSettingPanel>
+	);
+};
+
+registerPlugin( 'fau-teaser-image-panel', {
+	render: TeaserImagePanel,
+} );
 
 // Legacy sidebar helpers ----------------------------------------------------
 const legacySidebarContext = window.fauElementalLegacySidebar || null;
@@ -860,6 +1012,78 @@ if ( legacySidebarContext?.data?.hasLegacyData ) {
 		icon: <LegacySidebarIcon />,
 	} );
 }
+
+/**
+ * Editor Iframe Body Class Injection
+ *
+ * Mirrors the PHP faue_get_org_classes() logic to inject faculty/website-type
+ * body classes into the iframed editor canvas. WordPress's transformStyles
+ * scopes editor CSS so that `body.faculty-phil .block` becomes
+ * `.editor-styles-wrapper.faculty-phil .block` (same-element compound selector),
+ * which only works if the iframe body actually carries these classes.
+ */
+( () => {
+	const { websiteType, facultyType } = window.fauElemental || {};
+	const orgClasses = [];
+
+	switch ( websiteType ) {
+		case 'fau':
+			orgClasses.push( 'fauorg-home' );
+			break;
+		case 'faculty':
+			orgClasses.push( 'fauorg-fakultaet' );
+			if ( facultyType ) {
+				orgClasses.push( `faculty-${ facultyType }` );
+			}
+			break;
+		case 'chair':
+			orgClasses.push( 'fauorg-unterorg' );
+			if ( facultyType ) {
+				orgClasses.push( `faculty-${ facultyType }` );
+			}
+			break;
+		case 'cooperation':
+			orgClasses.push( 'fauorg-kooperation' );
+			break;
+		case 'cooperation-external':
+			orgClasses.push( 'fauorg-kooperation-extern' );
+			break;
+		case 'other':
+			orgClasses.push( 'fauorg-sonstige' );
+			break;
+	}
+
+	if ( orgClasses.length ) {
+		const applyClasses = () => {
+			const iframe = document.querySelector(
+				'iframe[name="editor-canvas"]'
+			);
+			if ( ! iframe?.contentDocument?.body ) {
+				return false;
+			}
+			orgClasses.forEach( ( cls ) =>
+				iframe.contentDocument.body.classList.add( cls )
+			);
+			return true;
+		};
+
+		if ( ! applyClasses() ) {
+			const observer = new MutationObserver( () => {
+				if ( applyClasses() ) {
+					observer.disconnect();
+					const iframe = document.querySelector(
+						'iframe[name="editor-canvas"]'
+					);
+					iframe?.addEventListener( 'load', () => applyClasses() );
+				}
+			} );
+			observer.observe( document.body, {
+				childList: true,
+				subtree: true,
+			} );
+		}
+	}
+} )();
 
 const portalMenuSettings = document.getElementById(
 	'fau_elemental_portal_menu_settings'
