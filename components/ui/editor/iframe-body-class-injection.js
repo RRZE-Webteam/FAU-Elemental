@@ -1,11 +1,16 @@
 /**
  * Editor Iframe Body Class Injection
  *
- * Mirrors the PHP faue_get_org_classes() logic to inject faculty/website-type
- * body classes into the iframed editor canvas. WordPress's transformStyles
- * scopes editor CSS so that `body.faculty-phil .block` becomes
- * `.editor-styles-wrapper.faculty-phil .block` (same-element compound selector),
- * which only works if the iframe body actually carries these classes.
+ * Injects body classes into the iframed editor canvas so that editor stylesheets
+ * can target the same selectors as the frontend. Two categories are injected:
+ *   1. The PHP faue_get_org_classes() output — faculty/website-type classes
+ *      derived from customizer settings (e.g. `fauorg-fakultaet`, `faculty-phil`).
+ *   2. WordPress core's admin shell class `wp-theme-FAU-Elemental`, which core
+ *      adds to the outer admin <body> but does not propagate into the iframe.
+ *
+ * WordPress's transformStyles scopes editor CSS so that `body.faculty-phil .block`
+ * becomes `.editor-styles-wrapper.faculty-phil .block` (same-element compound
+ * selector), which only works if the iframe body actually carries these classes.
  *
  * Uses a persistent MutationObserver pattern (inspired by rrze-settings) that
  * survives iframe rebuilds by React. Unlike a one-shot observer, this keeps
@@ -16,6 +21,11 @@
  */
 
 const IFRAME_SELECTOR = 'iframe[name="editor-canvas"]';
+
+// Classes that are always injected, regardless of customizer settings.
+// `wp-theme-FAU-Elemental` mirrors WP core's admin body class so that editor
+// styles can target it inside the iframe canvas, not just the admin shell.
+const STATIC_BODY_CLASSES = [ 'wp-theme-FAU-Elemental' ];
 
 /**
  * Build the list of org classes from theme customizer settings.
@@ -146,7 +156,7 @@ function startObserving( classes ) {
 }
 
 // Initialize.
-const orgClasses = getOrgClasses();
-if ( orgClasses.length ) {
-	startObserving( orgClasses );
+const bodyClasses = [ ...STATIC_BODY_CLASSES, ...getOrgClasses() ];
+if ( bodyClasses.length ) {
+	startObserving( bodyClasses );
 }
