@@ -29,22 +29,17 @@
   "node_modules/@wordpress/icons/build-module/library/trash.mjs": [
     "build/blocks/fau-big-button/index.js"
   ],
-  "node_modules/uuid/dist/esm-browser/v4.js": [
+  "node_modules/uuid/dist/v4.js": [
     "build/blocks/fau-big-button/index.js",
     "build/blocks/fau-meta-headline/index.js",
     "build/blocks/fau-testimonial/index.js"
   ],
-  "node_modules/uuid/dist/esm-browser/native.js": [
+  "node_modules/uuid/dist/rng.js": [
     "build/blocks/fau-big-button/index.js",
     "build/blocks/fau-meta-headline/index.js",
     "build/blocks/fau-testimonial/index.js"
   ],
-  "node_modules/uuid/dist/esm-browser/rng.js": [
-    "build/blocks/fau-big-button/index.js",
-    "build/blocks/fau-meta-headline/index.js",
-    "build/blocks/fau-testimonial/index.js"
-  ],
-  "node_modules/uuid/dist/esm-browser/stringify.js": [
+  "node_modules/uuid/dist/stringify.js": [
     "build/blocks/fau-big-button/index.js",
     "build/blocks/fau-meta-headline/index.js",
     "build/blocks/fau-testimonial/index.js"
@@ -181,10 +176,10 @@
   "components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx": [
     "build/blocks/fau-teaser-grid/index.js"
   ],
-  "components/blocks/fau-teaser-grid/components/editor/useTeaserData.js": [
+  "components/blocks/fau-teaser-grid/utils/helpers.js": [
     "build/blocks/fau-teaser-grid/index.js"
   ],
-  "components/blocks/fau-teaser-grid/utils/helpers.js": [
+  "components/blocks/fau-teaser-grid/components/editor/useTeaserData.js": [
     "build/blocks/fau-teaser-grid/index.js"
   ],
   "components/blocks/fau-teaser-grid/style.scss": [
