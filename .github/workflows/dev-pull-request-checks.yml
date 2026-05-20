@@ -33,7 +33,7 @@ jobs:
           fi
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Check if JS code is formatted
         shell: bash
