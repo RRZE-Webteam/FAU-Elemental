@@ -113,7 +113,7 @@ function startObserving( classes ) {
 				attributes: true,
 				attributeFilter: [ 'class' ],
 			} );
-		} catch ( e ) {
+		} catch {
 			// Cross-origin iframe access may fail in some edge cases.
 		}
 	}

@@ -532,7 +532,7 @@ const parseHtmlToBlocks = ( html ) => {
 		if ( parsed.length ) {
 			return parsed;
 		}
-	} catch ( error ) {
+	} catch {
 		// Fallback handled below
 	}
 
