@@ -1,4 +1,6 @@
 {
+	"name": "fau-elemental",
+	"private": true,
 	"main": "build/index.js",
 	"scripts": {
 		"start": "wp-env start --update",
