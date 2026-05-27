@@ -32,7 +32,7 @@ $website_type = get_theme_mod('faue_website_type', faue_get_default('faue_websit
                 <span class="fau-navigation__services-icon"></span>
             </button>
         <?php endif; ?>
-        <?php if ($has_structure): ?>
+        <?php if ($has_structure && $website_type !== 'cooperation-external'): ?>
             <button type="button" class="fau-navigation__button menu-modal__open-btn"
                 data-modal-target="structure-modal"
                 aria-label="<?php esc_attr_e('Open Structure menu', 'fau-elemental'); ?>"
