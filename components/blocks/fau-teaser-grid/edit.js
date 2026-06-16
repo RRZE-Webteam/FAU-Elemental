@@ -23,6 +23,7 @@ import { ContentSettings } from './components/editor/ContentSettings';
 import {
 	usePostTypes,
 	useCategories,
+	useTags,
 	usePosts,
 	useAvailablePosts,
 	useTotalItems,
@@ -218,6 +219,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 		teaserLayout,
 		postsPerPage,
 		selectedCategory,
+		selectedTags = [],
 		currentPage,
 		orderBy,
 		order,
@@ -256,6 +258,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 	// Data hooks
 	const postTypes = usePostTypes();
 	const categories = useCategories();
+	const tags = useTags( variant );
 
 	// Memoize query parameters
 	const queryParams = useMemo(
@@ -266,6 +269,9 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			orderby: orderBy,
 			order: order.toLowerCase(),
 			...( selectedCategory ? { categories: selectedCategory } : {} ),
+			...( variant === 'post' && selectedTags.length
+				? { tags: selectedTags }
+				: {} ),
 			...( selectionMode === 'manual'
 				? { include: selectedPosts.map( ( x ) => x.id ) }
 				: {} ),
@@ -276,6 +282,7 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 			orderBy,
 			order,
 			selectedCategory,
+			selectedTags,
 			selectionMode,
 			selectedPosts,
 		]
@@ -283,7 +290,11 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 
 	const { items, isLoading } = usePosts( variant, queryParams );
 	const availablePosts = useAvailablePosts( searchTerm, variant );
-	const { totalItems } = useTotalItems( variant, selectedCategory );
+	const { totalItems } = useTotalItems(
+		variant,
+		selectedCategory,
+		selectedTags
+	);
 
 	// Memoize options
 	const postTypeOptions = useMemo(
@@ -383,12 +394,14 @@ export default function Edit( { attributes, setAttributes, clientId } ) {
 					<ContentSettings
 						variant={ variant }
 						selectedCategory={ selectedCategory }
+						selectedTags={ selectedTags }
 						postsPerPage={ postsPerPage }
 						orderBy={ orderBy }
 						order={ order }
 						setAttributes={ setAttributes }
 						categoryOptions={ categoryOptions }
 						categories={ categories }
+						tags={ tags }
 					/>
 				) }
 

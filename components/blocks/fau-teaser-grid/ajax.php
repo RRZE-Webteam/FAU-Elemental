@@ -71,6 +71,16 @@ function fau_load_more_posts_handler() {
     }
 
     $selected_category = absint($_POST['selected_category'] ?? 0);
+    $selected_tags_raw = $_POST['selected_tags'] ?? '';
+    $selected_tags = is_array($selected_tags_raw) ? $selected_tags_raw : explode(',', $selected_tags_raw);
+    if ($variant === 'post') {
+        $selected_tags = array_values(
+            array_filter(array_unique(array_map('absint', $selected_tags)))
+        );
+    } else {
+        $selected_tags = [];
+    }
+
     $selected_author   = absint($_POST['selected_author'] ?? 0);
     $selected_year     = absint($_POST['selected_year'] ?? 0);
     $selected_month    = absint($_POST['selected_month'] ?? 0);
@@ -113,6 +123,10 @@ function fau_load_more_posts_handler() {
 
     if ($selected_category > 0) {
         $query_args['cat'] = $selected_category;
+    }
+
+    if (!empty($selected_tags)) {
+        $query_args['tag__in'] = $selected_tags;
     }
 
     if ($selected_author > 0) {

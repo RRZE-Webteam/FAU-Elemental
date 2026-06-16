@@ -32,7 +32,12 @@ function render_block_fau_teaser_grid( $attributes, $content, $block ) {
     $current_page = $attributes['currentPage'] ?? 1;
     $posts_per_page = $attributes['postsPerPage'] ?? 6;
     $selected_category = $attributes['selectedCategory'] ?? 0;
-    $selected_tags = $attributes['selectedTags'] ?? [];
+    $selected_tags = [];
+    if ($variant === 'post') {
+        $selected_tags = array_values(
+            array_filter(array_map('absint', $attributes['selectedTags'] ?? []))
+        );
+    }
     $selected_author = $attributes['selectedAuthor'] ?? 0;
     $selected_year = $attributes['selectedYear'] ?? 0;
     $selected_month = $attributes['selectedMonth'] ?? 0;

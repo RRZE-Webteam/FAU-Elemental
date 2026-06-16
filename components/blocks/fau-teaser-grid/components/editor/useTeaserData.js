@@ -22,6 +22,24 @@ export const useCategories = () => {
 	}, [] );
 };
 
+export const useTags = ( variant ) => {
+	return useSelect(
+		( select ) => {
+			if ( variant !== 'post' ) {
+				return [];
+			}
+
+			return (
+				select( 'core' ).getEntityRecords( 'taxonomy', 'post_tag', {
+					per_page: -1,
+					hide_empty: false,
+				} ) || []
+			);
+		},
+		[ variant ]
+	);
+};
+
 export const usePosts = ( postVariant, queryParams ) => {
 	const getPosts = createSelector(
 		( select, variant, query ) => {
@@ -106,7 +124,11 @@ export const useAvailablePosts = ( searchTerm, variant ) => {
 	);
 };
 
-export const useTotalItems = ( variant, selectedCategory ) => {
+export const useTotalItems = (
+	variant,
+	selectedCategory,
+	selectedTags = []
+) => {
 	return useSelect(
 		( select ) => {
 			if ( ! variant ) {
@@ -117,6 +139,9 @@ export const useTotalItems = ( variant, selectedCategory ) => {
 				per_page: 1,
 				_fields: [ 'id' ],
 				...( selectedCategory ? { categories: selectedCategory } : {} ),
+				...( variant === 'post' && selectedTags.length
+					? { tags: selectedTags }
+					: {} ),
 			};
 
 			const posts = select( 'core' ).getEntityRecords(
@@ -132,6 +157,6 @@ export const useTotalItems = ( variant, selectedCategory ) => {
 				totalItems: Array.isArray( posts ) ? posts.length : 0,
 			};
 		},
-		[ variant, selectedCategory ]
+		[ variant, selectedCategory, selectedTags ]
 	);
 };
