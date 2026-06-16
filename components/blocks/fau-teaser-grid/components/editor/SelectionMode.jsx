@@ -29,6 +29,7 @@ export const SelectionMode = ( {
 					setAttributes( {
 						variant: value,
 						selectedCategory: 0,
+						selectedTags: [],
 						currentPage: 1,
 						selectedPosts: [],
 					} )

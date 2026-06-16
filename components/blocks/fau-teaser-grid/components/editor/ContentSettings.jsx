@@ -1,15 +1,22 @@
 import { __ } from '@wordpress/i18n';
-import { PanelBody, SelectControl, RangeControl } from '@wordpress/components';
+import {
+	PanelBody,
+	SelectControl,
+	RangeControl,
+	FormTokenField,
+} from '@wordpress/components';
 
 export const ContentSettings = ( {
 	variant,
 	selectedCategory,
+	selectedTags = [],
 	postsPerPage,
 	orderBy,
 	order,
 	setAttributes,
 	categoryOptions,
 	categories,
+	tags = [],
 } ) => {
 	const sortingOptions = [
 		{ label: __( 'Date', 'fau-elemental' ), value: 'date' },
@@ -20,6 +27,24 @@ export const ContentSettings = ( {
 		{ label: __( 'Ascending', 'fau-elemental' ), value: 'ASC' },
 		{ label: __( 'Descending', 'fau-elemental' ), value: 'DESC' },
 	];
+
+	const tagValues = selectedTags
+		.map( ( tagId ) => tags.find( ( tag ) => tag.id === tagId )?.name )
+		.filter( Boolean );
+	const tagSuggestions = tags.map( ( tag ) => tag.name );
+	const handleTagChange = ( values ) => {
+		const nextTags = values
+			.map(
+				( value ) =>
+					tags.find( ( tag ) => tag.name === value )?.id || null
+			)
+			.filter( Boolean );
+
+		setAttributes( {
+			selectedTags: [ ...new Set( nextTags ) ],
+			currentPage: 1,
+		} );
+	};
 
 	return (
 		<PanelBody title={ __( 'Content Settings', 'fau-elemental' ) }>
@@ -36,6 +61,21 @@ export const ContentSettings = ( {
 					}
 					help={ __(
 						'Select a category to filter posts.',
+						'fau-elemental'
+					) }
+					__nextHasNoMarginBottom={ true }
+					__next40pxDefaultSize={ true }
+				/>
+			) }
+
+			{ variant === 'post' && tags.length > 0 && (
+				<FormTokenField
+					label={ __( 'Tags', 'fau-elemental' ) }
+					value={ tagValues }
+					suggestions={ tagSuggestions }
+					onChange={ handleTagChange }
+					help={ __(
+						'Select one or more tags to filter content.',
 						'fau-elemental'
 					) }
 					__nextHasNoMarginBottom={ true }
