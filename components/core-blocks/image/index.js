@@ -13,7 +13,7 @@ import { addTallImageClass } from './utils';
 /**
  * Customizes the core/image block by:
  * 1. Removing default and rounded styles
- * 2. Adding custom 'large' and 'medium' styles
+ * 2. Adding custom 'large', 'medium', and 'scientific' styles
  * 3. Creating a default variation with full alignment and overlay
  *
  * This code runs when the DOM is ready and modifies the core image block
@@ -31,6 +31,12 @@ wp.domReady( () => {
 	registerBlockStyle( 'core/image', {
 		name: 'medium',
 		label: __( 'Medium', 'fau-elemental' ),
+		isDefault: false,
+	} );
+
+	registerBlockStyle( 'core/image', {
+		name: 'scientific',
+		label: __( 'Scientific', 'fau-elemental' ),
 		isDefault: false,
 	} );
 
