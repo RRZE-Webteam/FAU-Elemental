@@ -71,6 +71,53 @@
 		}
 	}
 
+	&.is-style-scientific {
+		max-width: var(--small-max-width);
+
+		&::before {
+			display: none;
+		}
+
+		button.image-fullscreen-btn{
+			display: none;
+		}
+
+		.image-wrapper,
+		&.has-overlay .image-wrapper {
+			box-sizing: border-box;
+			padding: var(--Spacing-4x);
+			padding-inline: 0;
+			padding-bottom: 0;
+
+			&::before {
+				content: none;
+			}
+		}
+
+		img,
+		img.tall-image {
+			aspect-ratio: auto;
+			width: auto;
+			max-width: 100%;
+			height: auto;
+			object-fit: contain;
+		}
+
+		figcaption {
+			box-sizing: border-box;
+			position: static;
+			width: 100%;
+			max-width: none;
+			margin: 0;
+			padding: var(--Spacing-4x) var(--Spacing-6x);
+			padding-inline: 0;
+			transform: none;
+			color: var(--FAU-Col-FAU-Schwarz-90);
+			font-size: var(--P-Caption);
+			text-align: left;
+		}
+	}
+
 	.image-fullscreen-btn {
 		position: absolute;
 		top: 0;

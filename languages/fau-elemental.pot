@@ -2273,13 +2273,13 @@ msgid "Tertiary"
 msgstr ""
 
 #: components/core-blocks/cover/index.js:44
-#: components/core-blocks/image/index.js:216
+#: components/core-blocks/image/index.js:222
 #: components/core-blocks/media-text/index.js:73
 msgid "Additional Settings"
 msgstr ""
 
 #: components/core-blocks/cover/index.js:51
-#: components/core-blocks/image/index.js:222
+#: components/core-blocks/image/index.js:228
 #: components/core-blocks/media-text/index.js:79
 msgid "Copyright Info"
 msgstr ""
@@ -2306,7 +2306,11 @@ msgstr ""
 msgid "Medium"
 msgstr ""
 
-#: components/core-blocks/image/index.js:233
+#: components/core-blocks/image/index.js:39
+msgid "Scientific"
+msgstr ""
+
+#: components/core-blocks/image/index.js:239
 msgid "Add Overlay"
 msgstr ""
 
