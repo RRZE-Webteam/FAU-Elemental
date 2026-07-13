@@ -45,7 +45,7 @@ $search_heading = isset($args['search_heading']) ? $args['search_heading'] : '';
         echo do_blocks($meta_headline_block);
 
         $portal_menu_attributes = wp_json_encode(array(
-            'menuId' => $error_page_menu_id,
+            'menuId' => (string) $error_page_menu_id,
             'showSubs' => true,
             'noThumbs' => false,
         ));
