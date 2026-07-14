@@ -32,17 +32,24 @@ $search_heading = isset($args['search_heading']) ? $args['search_heading'] : '';
     </div>
      
     <?php
-    // Add portal menu block with fallback menu
-    $menus = wp_get_nav_menus();
-    if (!empty($menus)) {
+    // Add portal menu block from the dedicated error page menu location.
+    $menu_locations = get_nav_menu_locations();
+    $error_page_menu_id = isset($menu_locations['error_page_menu']) ? absint($menu_locations['error_page_menu']) : 0;
+    $error_page_menu_items = $error_page_menu_id ? wp_get_nav_menu_items($error_page_menu_id) : array();
+
+    if (!empty($error_page_menu_items)) {
         // Add meta headline before portal menu
         $meta_headline_block = '<!-- wp:fau-elemental/fau-meta-headline {"headline":"' . __('Other offers', 'fau-elemental') . '","id":""} -->
 <h2 class="wp-block-fau-elemental-fau-meta-headline" id="headline-">' . __('Other offers', 'fau-elemental') . '</h2>
 <!-- /wp:fau-elemental/fau-meta-headline -->';
         echo do_blocks($meta_headline_block);
-        
-        $first_menu = $menus[0];
-        $portal_menu_block = '<!-- wp:fau-elemental/portalmenu {"menuName":"' . esc_attr($first_menu->name) . '","showSubs":true,"noThumbs":false} /-->';
+
+        $portal_menu_attributes = wp_json_encode(array(
+            'menuId' => (string) $error_page_menu_id,
+            'showSubs' => true,
+            'noThumbs' => false,
+        ));
+        $portal_menu_block = '<!-- wp:fau-elemental/portalmenu ' . $portal_menu_attributes . ' /-->';
         echo do_blocks($portal_menu_block);
     }
     ?>
