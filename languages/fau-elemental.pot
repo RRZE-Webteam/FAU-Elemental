@@ -2,16 +2,16 @@
 # This file is distributed under the GNU General Public License v3.0.
 msgid ""
 msgstr ""
-"Project-Id-Version: FAU-Elemental 1.0.17\n"
+"Project-Id-Version: FAU-Elemental 1.0.19\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/FAU-Elemental\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-05-27T15:19:27+00:00\n"
+"POT-Creation-Date: 2026-07-14T06:54:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: fau-elemental\n"
 
 #. Theme Name of the theme
@@ -81,6 +81,7 @@ msgstr ""
 
 #. translators: name of the wordpress category
 #: category.php:19
+#, php-format
 msgid "Browse all posts in the %s category."
 msgstr ""
 
@@ -124,35 +125,35 @@ msgstr ""
 msgid "Security check failed"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:73
-#: components/blocks/fau-teaser-grid/edit.js:493
+#: components/blocks/fau-teaser-grid/render.php:78
+#: components/blocks/fau-teaser-grid/edit.js:506
 msgid "Content grid"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:115
+#: components/blocks/fau-teaser-grid/render.php:120
 msgid "Content items"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:198
+#: components/blocks/fau-teaser-grid/render.php:203
 msgid "No items found."
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:224
+#: components/blocks/fau-teaser-grid/render.php:229
 msgid "Error loading posts"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:225
+#: components/blocks/fau-teaser-grid/render.php:230
 msgid "Loading error"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:256
-#: components/blocks/fau-teaser-grid/render.php:258
-#: components/blocks/fau-teaser-grid/edit.js:610
+#: components/blocks/fau-teaser-grid/render.php:261
+#: components/blocks/fau-teaser-grid/render.php:263
+#: components/blocks/fau-teaser-grid/edit.js:623
 msgid "Load More"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/render.php:257
-#: components/blocks/fau-teaser-grid/edit.js:575
+#: components/blocks/fau-teaser-grid/render.php:262
+#: components/blocks/fau-teaser-grid/edit.js:588
 msgid "Loading…"
 msgstr ""
 
@@ -190,8 +191,8 @@ msgstr ""
 msgid "404 - Page Not Found"
 msgstr ""
 
-#: components/template-parts/error-page/error-page.php:39
-#: components/template-parts/error-page/error-page.php:40
+#: components/template-parts/error-page/error-page.php:42
+#: components/template-parts/error-page/error-page.php:43
 msgid "Other offers"
 msgstr ""
 
@@ -353,6 +354,7 @@ msgstr ""
 #: components/template-parts/navigation/menu-modal.php:576
 #: components/template-parts/navigation/mixed-navigation-walker.php:479
 #: components/template-parts/navigation/mixed-navigation-walker.php:681
+#, php-format
 msgid "Open %s submenu"
 msgstr ""
 
@@ -418,7 +420,7 @@ msgid "page-navigation"
 msgstr ""
 
 #: components/template-parts/pagination/pagination.php:24
-#: components/blocks/fau-teaser-grid/edit.js:588
+#: components/blocks/fau-teaser-grid/edit.js:601
 msgid "Posts pagination"
 msgstr ""
 
@@ -447,6 +449,7 @@ msgstr ""
 #: components/template-parts/pagination/pagination.php:159
 #: components/template-parts/pagination/pagination.php:166
 #: components/template-parts/pagination/pagination.php:170
+#, php-format
 msgid "Page %d"
 msgstr ""
 
@@ -461,6 +464,7 @@ msgstr ""
 
 #. translators: search query
 #: components/template-parts/search-results/search-results.php:226
+#, php-format
 msgid "Search Results for: %s"
 msgstr ""
 
@@ -519,6 +523,7 @@ msgstr ""
 
 #. translators: index of the search result
 #: components/template-parts/search-results/search-results.php:324
+#, php-format
 msgid "Search Result %d"
 msgstr ""
 
@@ -535,11 +540,13 @@ msgstr ""
 #: components/template-parts/search-results/search-results.php:376
 #: inc/class-walker-content-menu.php:84
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:183
+#, php-format,js-format
 msgid "Featured image for %s"
 msgstr ""
 
 #. translators: title of the search result
 #: components/template-parts/search-results/search-results.php:409
+#, php-format
 msgid "Read more about %s"
 msgstr ""
 
@@ -641,6 +648,7 @@ msgstr ""
 #: inc/class-walker-content-menu.php:104
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:204
 #: components/blocks/fau-portalmenu/EditorPreview.jsx:234
+#, php-format,js-format
 msgid "Go to %s"
 msgstr ""
 
@@ -900,11 +908,13 @@ msgstr ""
 
 #. translators: %s: Social media platform name
 #: inc/customizer.php:614
+#, php-format
 msgid "%s URL"
 msgstr ""
 
 #. translators: %s: Social media platform name
 #: inc/customizer.php:620
+#, php-format
 msgid "Enter the %s URL (leave empty to hide)"
 msgstr ""
 
@@ -941,17 +951,17 @@ msgid "Archive pages settings"
 msgstr ""
 
 #: inc/customizer.php:703
-#: components/blocks/fau-teaser-grid/edit.js:409
+#: components/blocks/fau-teaser-grid/edit.js:422
 msgid "Pagination Type"
 msgstr ""
 
 #: inc/customizer.php:707
-#: components/blocks/fau-teaser-grid/edit.js:413
+#: components/blocks/fau-teaser-grid/edit.js:426
 msgid "Page Numbers"
 msgstr ""
 
 #: inc/customizer.php:708
-#: components/blocks/fau-teaser-grid/edit.js:420
+#: components/blocks/fau-teaser-grid/edit.js:433
 msgid "Load More Button"
 msgstr ""
 
@@ -973,6 +983,7 @@ msgstr ""
 
 #. translators: %s: name of the previous theme
 #: inc/customizer.php:1778
+#, php-format
 msgid "Theme settings were successfully migrated from %s!"
 msgstr ""
 
@@ -1065,13 +1076,14 @@ msgstr ""
 #. translators: %d: link block number
 #: inc/legacy-sidebar.php:121
 #: components/ui/editor/editor.js:835
+#, php-format,js-format
 msgid "Link block %d"
 msgstr ""
 
 #: inc/legacy-sidebar.php:122
 #: index.php:227
 #: components/blocks/fau-big-button/edit.js:307
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:16
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:23
 #: components/ui/editor/editor.js:667
 #: components/ui/editor/editor.js:701
 #: components/ui/editor/editor.js:751
@@ -1142,18 +1154,22 @@ msgid "Search Options Menu"
 msgstr ""
 
 #: inc/menu-registration.php:28
-msgid "Footer Menu"
+msgid "Error Page Menu"
 msgstr ""
 
 #: inc/menu-registration.php:29
-msgid "Footer Lists Menu"
+msgid "Footer Menu"
 msgstr ""
 
 #: inc/menu-registration.php:30
-msgid "Footer Important Links"
+msgid "Footer Lists Menu"
 msgstr ""
 
 #: inc/menu-registration.php:31
+msgid "Footer Important Links"
+msgstr ""
+
+#: inc/menu-registration.php:32
 msgid "Social Media Menu"
 msgstr ""
 
@@ -1238,6 +1254,7 @@ msgstr ""
 
 #. translators: owner/organization of the logo
 #: inc/shortcodes.php:174
+#, php-format
 msgid "Logo from %s"
 msgstr ""
 
@@ -1327,7 +1344,7 @@ msgid "No icon"
 msgstr ""
 
 #: inc/social-media-admin.php:148
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:131
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:132
 #: components/blocks/fau-testimonial/edit.js:453
 #: components/ui/editor/editor.js:486
 msgid "Remove"
@@ -1375,6 +1392,7 @@ msgstr ""
 
 #. translators: 1: Number of custom platforms, 2: Admin URL for managing platforms
 #: inc/social-media-admin.php:364
+#, php-format
 msgid "You have %1$d custom social media platform(s). <a href=\"%2$s\">Manage them here</a>."
 msgstr ""
 
@@ -1482,31 +1500,37 @@ msgstr ""
 
 #. translators: name of the wordpress category
 #: index.php:111
+#, php-format
 msgid "Browse all posts in the %s category. Use the filters below to refine your search."
 msgstr ""
 
 #. translators: name of the wordpress tag
 #: index.php:117
+#, php-format
 msgid "Browse all posts tagged with %s. Use the filters below to refine your search."
 msgstr ""
 
 #. translators: name of the post author
 #: index.php:123
+#, php-format
 msgid "Browse all posts by %s. Use the filters below to refine your search."
 msgstr ""
 
 #. translators: year number
 #: index.php:128
+#, php-format
 msgid "Browse all posts from the year %s. Use the filters below to refine your search."
 msgstr ""
 
 #. translators: year and month
 #: index.php:131
+#, php-format
 msgid "Browse all posts from %s. Use the filters below to refine your search."
 msgstr ""
 
 #. translators: year, month and date
 #: index.php:134
+#, php-format
 msgid "Browse all posts from the %s. Use the filters below to refine your search."
 msgstr ""
 
@@ -1519,7 +1543,7 @@ msgid "Sort by:"
 msgstr ""
 
 #: index.php:224
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:15
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:22
 msgid "Date"
 msgstr ""
 
@@ -1553,6 +1577,7 @@ msgstr ""
 
 #. translators: %s: faculty type
 #: components/blocks/fau-big-button/edit.js:173
+#, js-format
 msgid "Using faculty color: %s"
 msgstr ""
 
@@ -1628,11 +1653,13 @@ msgstr ""
 
 #. translators: %d: maximum character count
 #: components/blocks/fau-big-button/edit.js:333
+#, js-format
 msgid "Maximum %d characters recommended. You can also click on the description in the preview to edit it directly."
 msgstr ""
 
 #. translators: %1$d: current character count, %2$d: maximum character count
 #: components/blocks/fau-big-button/edit.js:351
+#, js-format
 msgid "%1$d / %2$d characters"
 msgstr ""
 
@@ -1710,31 +1737,31 @@ msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:85
 #: components/blocks/fau-meta-headline/index.js:19
-#: components/blocks/fau-teaser-grid/edit.js:450
+#: components/blocks/fau-teaser-grid/edit.js:463
 msgid "Heading 2"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:89
 #: components/blocks/fau-meta-headline/index.js:24
-#: components/blocks/fau-teaser-grid/edit.js:456
+#: components/blocks/fau-teaser-grid/edit.js:469
 msgid "Heading 3"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:93
 #: components/blocks/fau-meta-headline/index.js:29
-#: components/blocks/fau-teaser-grid/edit.js:462
+#: components/blocks/fau-teaser-grid/edit.js:475
 msgid "Heading 4"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:97
 #: components/blocks/fau-meta-headline/index.js:34
-#: components/blocks/fau-teaser-grid/edit.js:468
+#: components/blocks/fau-teaser-grid/edit.js:481
 msgid "Heading 5"
 msgstr ""
 
 #: components/blocks/fau-big-teaser/edit.js:101
 #: components/blocks/fau-meta-headline/index.js:39
-#: components/blocks/fau-teaser-grid/edit.js:474
+#: components/blocks/fau-teaser-grid/edit.js:487
 msgid "Heading 6"
 msgstr ""
 
@@ -1748,6 +1775,7 @@ msgstr ""
 
 #. translators: %d: current character count
 #: components/blocks/fau-big-teaser/edit.js:124
+#, js-format
 msgid "%d/100 characters"
 msgstr ""
 
@@ -1761,6 +1789,7 @@ msgstr ""
 
 #. translators: %d: current character count
 #: components/blocks/fau-big-teaser/edit.js:146
+#, js-format
 msgid "%d/200 characters"
 msgstr ""
 
@@ -1774,6 +1803,7 @@ msgstr ""
 
 #. translators: %d: current character count
 #: components/blocks/fau-big-teaser/edit.js:169
+#, js-format
 msgid "%d/40 characters"
 msgstr ""
 
@@ -1897,7 +1927,7 @@ msgid "Dec"
 msgstr ""
 
 #: components/blocks/fau-global-search/edit.js:23
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:25
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:50
 msgid "Content Settings"
 msgstr ""
 
@@ -1974,7 +2004,7 @@ msgid "Header"
 msgstr ""
 
 #: components/blocks/fau-meta-headline/index.js:67
-#: components/blocks/fau-teaser-grid/edit.js:447
+#: components/blocks/fau-teaser-grid/edit.js:460
 msgid "Change heading level"
 msgstr ""
 
@@ -2038,35 +2068,43 @@ msgstr ""
 msgid "No menu selected"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:20
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:27
 msgid "Ascending"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:21
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:28
 msgid "Descending"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:28
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:53
 msgid "Category"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:37
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:62
 msgid "Select a category to filter posts."
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:47
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:73
+msgid "Tags"
+msgstr ""
+
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:77
+msgid "Select one or more tags to filter content."
+msgstr ""
+
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:87
 msgid "Posts Per Page"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:57
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:97
 msgid "Set the maximum number of posts to display per page."
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:66
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:106
 msgid "Order By"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:75
+#: components/blocks/fau-teaser-grid/components/editor/ContentSettings.jsx:115
 msgid "Order"
 msgstr ""
 
@@ -2122,68 +2160,68 @@ msgstr ""
 msgid "Content Type"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:36
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:37
 msgid "Select the type of content to display."
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:45
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:46
 msgid "Selection mode options"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:59
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:60
 msgid "Automatic"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:63
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:64
 msgid "Manual Selection"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:70
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:85
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:71
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:86
 msgid "Search and select posts"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:97
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:98
 msgid "Type to search for posts. Use arrow keys to navigate and enter to select."
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:106
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:107
 msgid "Selected posts"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:126
+#: components/blocks/fau-teaser-grid/components/editor/SelectionMode.jsx:127
 msgid "Remove post"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:300
+#: components/blocks/fau-teaser-grid/edit.js:311
 msgid "All Categories"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:353
+#: components/blocks/fau-teaser-grid/edit.js:364
 msgid "Teaser Grid Block"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:396
+#: components/blocks/fau-teaser-grid/edit.js:409
 msgid "Pagination Settings"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:400
+#: components/blocks/fau-teaser-grid/edit.js:413
 msgid "Show Pagination"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:434
+#: components/blocks/fau-teaser-grid/edit.js:447
 msgid "Accessibility"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:436
+#: components/blocks/fau-teaser-grid/edit.js:449
 msgid "To ensure good accessibility and SEO, please make sure that there is only one H1 heading on the page. If you already have an H1 heading, use a different heading level for the teasers in this block."
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:538
+#: components/blocks/fau-teaser-grid/edit.js:551
 msgid "No posts selected"
 msgstr ""
 
-#: components/blocks/fau-teaser-grid/edit.js:567
+#: components/blocks/fau-teaser-grid/edit.js:580
 msgid "No items found"
 msgstr ""
 
@@ -2194,6 +2232,7 @@ msgstr ""
 
 #. translators: %s: slide index
 #: components/blocks/fau-testimonial/components/TestimonialCarousel.jsx:85
+#, js-format
 msgid "Go to slide %s"
 msgstr ""
 
