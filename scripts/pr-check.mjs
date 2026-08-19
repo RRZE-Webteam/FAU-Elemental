@@ -7,6 +7,7 @@ const noWpScripts = hasFlag( '--no-wp' );
 runCmd( 'npm run format' );
 runCmd( 'npm run lint:js' );
 runCmd( 'npm run lint:css' );
+runCmd( 'npm run test:php' );
 if ( ! noWpScripts ) {
 	runCmd( 'npm run i18n:check' );
 }

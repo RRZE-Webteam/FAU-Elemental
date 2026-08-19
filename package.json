@@ -15,6 +15,7 @@
 		"lint:css": "wp-scripts lint-style",
 		"fix:css": "wp-scripts lint-style --fix",
 		"lint:js": "wp-scripts lint-js",
+		"test:php": "php tests/copyright-info-regression.php",
 		"pr-check": "node scripts/pr-check.mjs",
 		"pr-check:no-wp": "node scripts/pr-check.mjs --no-wp",
 		"packages-update": "wp-scripts packages-update",

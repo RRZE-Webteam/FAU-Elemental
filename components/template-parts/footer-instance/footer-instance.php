@@ -218,7 +218,9 @@ require_once get_theme_file_path('components/template-parts/footer-instance/foot
                 <?php if (!is_single() || !get_theme_mod('faue_hide_copyright_on_single', faue_get_default('faue_hide_copyright_on_single'))) : ?>
                     <?php echo render_block([
                         'blockName' => 'fau-elemental/fau-copyright-info',
-                        'attrs' => [],
+                        'attrs' => [
+                            'postId' => is_singular() ? get_queried_object_id() : 0,
+                        ],
                         'innerBlocks' => [],
                         'innerHTML' => '',
                         'innerContent' => []
