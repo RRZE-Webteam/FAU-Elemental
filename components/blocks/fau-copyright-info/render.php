@@ -10,6 +10,51 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * Validate that a post ID belongs to an image attachment.
+ *
+ * Block markup can contain stale IDs after content is copied or imported. On a
+ * different site, such an ID may belong to a page or another post type.
+ *
+ * @param mixed $image_id Potential attachment ID.
+ * @return int|null Valid image attachment ID, or null.
+ */
+function fau_elemental_validate_image_attachment_id($image_id) {
+    $image_id = absint($image_id);
+
+    if (
+        !$image_id ||
+        get_post_type($image_id) !== 'attachment' ||
+        !wp_attachment_is_image($image_id)
+    ) {
+        return null;
+    }
+
+    return $image_id;
+}
+
+/**
+ * Get and validate the image attachment ID used by a supported block.
+ *
+ * @param array $block A parsed block.
+ * @return int|null Valid image attachment ID, or null.
+ */
+function fau_elemental_get_block_image_id($block) {
+    $image_id = null;
+
+    if ($block['blockName'] === 'core/image' && !empty($block['attrs']['id'])) {
+        $image_id = $block['attrs']['id'];
+    } else if ($block['blockName'] === 'core/media-text' && !empty($block['attrs']['mediaId'])) {
+        $image_id = $block['attrs']['mediaId'];
+    } else if ($block['blockName'] === 'core/cover' && !empty($block['attrs']['id'])) {
+        $image_id = $block['attrs']['id'];
+    } else if ($block['blockName'] === 'fau-elemental/fau-big-teaser' && !empty($block['attrs']['image']['id'])) {
+        $image_id = $block['attrs']['image']['id'];
+    }
+
+    return fau_elemental_validate_image_attachment_id($image_id);
+}
+
+/**
  * Get the copyright info from a block attribute 'copyrightInfo' if it is set. 
  * null if not.
  * 
@@ -18,21 +63,9 @@ if (!defined('ABSPATH')) {
  */
 function fau_elemental_gather_copyright_info_from_attribute($block) {
     if (!empty($block['attrs']['copyrightInfo'])) {
-        // Extract image ID from the same block using the same logic as metadata function
-        $image_id = null;
-        if ($block['blockName'] === 'core/image' && !empty($block['attrs']['id'])) {
-            $image_id = $block['attrs']['id'];
-        } else if ($block['blockName'] === 'core/media-text' && !empty($block['attrs']['mediaId'])) {
-            $image_id = $block['attrs']['mediaId'];
-        } else if ($block['blockName'] === 'core/cover' && !empty($block['attrs']['id'])) {
-            $image_id = $block['attrs']['id'];
-        } else if ($block['blockName'] === 'fau-elemental/fau-big-teaser' && !empty($block['attrs']['image']['id'])) {
-            $image_id = $block['attrs']['image']['id'];
-        }
-        
         return array(
             'text' => $block['attrs']['copyrightInfo'],
-            'image_id' => $image_id
+            'image_id' => fau_elemental_get_block_image_id($block)
         );
     }
     return null;
@@ -46,40 +79,15 @@ function fau_elemental_gather_copyright_info_from_attribute($block) {
  * @return array|null Array with 'text' and 'image_id' keys, or null if not present
  */
 function fau_elemental_gather_copyright_info_from_metadata($block) {
-    $image_id = null;
-    if ($block['blockName'] === 'core/image' && !empty($block['attrs']['id'])) {
-        $image_id = $block['attrs']['id'];
-    } else if ($block['blockName'] === 'core/media-text' && !empty($block['attrs']['mediaId'])) {
-        $image_id = $block['attrs']['mediaId'];
-    } else if ($block['blockName'] === 'core/cover' && !empty($block['attrs']['id'])) {
-        $image_id = $block['attrs']['id'];
-    } else if ($block['blockName'] === 'fau-elemental/fau-big-teaser' && !empty($block['attrs']['image']['id'])) {
-        $image_id = $block['attrs']['image']['id'];
-    } else {
+    $image_id = fau_elemental_get_block_image_id($block);
+
+    if (!$image_id) {
         return null;
     }
 
-    $image_metadata = wp_get_attachment_metadata($image_id);
-    
-    // Check for copyright info in image metadata
-    if (!empty($image_metadata['image_meta']['copyright'])) {
-        return array(
-            'text' => $image_metadata['image_meta']['copyright'],
-            'image_id' => $image_id
-        );
-    }
-    
-    // Check for copyright info in image description
-    $image_description = get_post_field('post_content', $image_id);
-    if (!empty($image_description)) {
-        return array(
-            'text' => $image_description,
-            'image_id' => $image_id
-        );
-    }
+    $copyright_info = fau_elemental_gather_copyright_info_from_image_id($image_id, 'iptc');
 
-    // Nothing found
-    return null;
+    return !empty($copyright_info) ? $copyright_info[0] : null;
 }
 
 /**
@@ -132,32 +140,68 @@ function fau_elemental_gather_copyright_info_recursive($blocks, $copyright_prio)
  * @return array Array of copyright information
  */
 function fau_elemental_gather_copyright_info_from_image_id($image_id, $copyright_prio) {
-    $copyright_info = array();
-    
+    $image_id = fau_elemental_validate_image_attachment_id($image_id);
+
     if (!$image_id) {
-        return $copyright_info;
+        return array();
     }
 
     $image_metadata = wp_get_attachment_metadata($image_id);
-    
-    // Check for copyright info in image metadata
-    if (!empty($image_metadata['image_meta']['copyright'])) {
-        $copyright_info[] = array(
-            'text' => $image_metadata['image_meta']['copyright'],
-            'image_id' => $image_id
-        );
-    }
-    
-    // Check for copyright info in image description
+    $metadata_copyright = !empty($image_metadata['image_meta']['copyright'])
+        ? $image_metadata['image_meta']['copyright']
+        : '';
     $image_description = get_post_field('post_content', $image_id);
-    if (!empty($image_description)) {
-        $copyright_info[] = array(
-            'text' => $image_description,
-            'image_id' => $image_id
+
+    // The attachment description acts as the field value for featured images,
+    // which do not have a block-level copyrightInfo attribute.
+    $candidates = $copyright_prio === 'field'
+        ? array($image_description, $metadata_copyright)
+        : array($metadata_copyright, $image_description);
+
+    foreach ($candidates as $copyright_text) {
+        if (!empty($copyright_text)) {
+            return array(
+                array(
+                    'text' => $copyright_text,
+                    'image_id' => $image_id
+                )
+            );
+        }
+    }
+
+    return array();
+}
+
+/**
+ * Remove duplicate copyright entries while preserving their original order.
+ *
+ * @param array $copyright_info Copyright entries.
+ * @return array Deduplicated copyright entries.
+ */
+function fau_elemental_deduplicate_copyright_info($copyright_info) {
+    $deduplicated = array();
+    $seen = array();
+
+    foreach ($copyright_info as $info) {
+        if (!is_array($info) || !array_key_exists('text', $info)) {
+            continue;
+        }
+
+        $image_id = !empty($info['image_id']) ? absint($info['image_id']) : 0;
+        $key = $image_id . ':' . md5((string) $info['text']);
+
+        if (isset($seen[$key])) {
+            continue;
+        }
+
+        $seen[$key] = true;
+        $deduplicated[] = array(
+            'text' => $info['text'],
+            'image_id' => $image_id ?: null
         );
     }
 
-    return $copyright_info;
+    return $deduplicated;
 }
 
 /**
@@ -166,24 +210,39 @@ function fau_elemental_gather_copyright_info_from_image_id($image_id, $copyright
  * @return array Array of copyright information
  */
 if (!function_exists('fau_elemental_gather_copyright_info')) {
-    function fau_elemental_gather_copyright_info() {
-        global $post;
+    function fau_elemental_gather_copyright_info($post_id = 0) {
         $copyright_info = array();
 
-        if (!$post) {
-            return $copyright_info;
+        $post_id = absint($post_id);
+        if (!$post_id && is_singular()) {
+            $post_id = absint(get_queried_object_id());
+        }
+
+        // Archive and search pages do not have one authoritative source post.
+        if (!$post_id) {
+            $filtered_info = apply_filters('fau_elemental_copyright_info', $copyright_info, 0);
+            return is_array($filtered_info)
+                ? fau_elemental_deduplicate_copyright_info($filtered_info)
+                : array();
+        }
+
+        $source_post = get_post($post_id);
+        if (!$source_post) {
+            $filtered_info = apply_filters('fau_elemental_copyright_info', $copyright_info, $post_id);
+            return is_array($filtered_info)
+                ? fau_elemental_deduplicate_copyright_info($filtered_info)
+                : array();
         }
 
         // Parse blocks to find blocks with copyright info
-        $blocks = parse_blocks($post->post_content);
+        $blocks = parse_blocks($source_post->post_content);
 
         // Get the copyright info priority from the options
         $copyright_prio = get_theme_mod('faue_copyright_info_priority', 'field');
         
         // First check for featured image copyright info if the post has a featured image
-        $copyright_info = array();
-        if (has_post_thumbnail()) {
-            $featured_image_id = get_post_thumbnail_id();
+        if (has_post_thumbnail($post_id)) {
+            $featured_image_id = get_post_thumbnail_id($post_id);
             $featured_image_copyright = fau_elemental_gather_copyright_info_from_image_id($featured_image_id, $copyright_prio);
             if (!empty($featured_image_copyright)) {
                 $copyright_info = array_merge($copyright_info, $featured_image_copyright);
@@ -195,7 +254,11 @@ if (!function_exists('fau_elemental_gather_copyright_info')) {
         $copyright_info = array_merge($copyright_info, $content_copyright_info);
 
         // Allow other plugins to add their copyright information
-        return apply_filters('fau_elemental_copyright_info', $copyright_info);
+        $filtered_info = apply_filters('fau_elemental_copyright_info', $copyright_info, $post_id);
+
+        return is_array($filtered_info)
+            ? fau_elemental_deduplicate_copyright_info($filtered_info)
+            : array();
     }
 }
 
@@ -208,7 +271,8 @@ if (!function_exists('fau_elemental_gather_copyright_info')) {
  */
 if (!function_exists('render_block_fau_copyright_info')) {
     function render_block_fau_copyright_info($attributes, $content) {
-        $copyright_info = fau_elemental_gather_copyright_info();
+        $post_id = !empty($attributes['postId']) ? absint($attributes['postId']) : 0;
+        $copyright_info = fau_elemental_gather_copyright_info($post_id);
 
         if (empty($copyright_info)) {
             return '';
