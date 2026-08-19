@@ -165,6 +165,7 @@ $content = '';
 
 ob_start();
 require dirname(__DIR__) . '/components/blocks/fau-copyright-info/render.php';
+require dirname(__DIR__) . '/components/blocks/fau-copyright-info/render.php';
 ob_end_clean();
 
 $failures = 0;
@@ -180,6 +181,8 @@ function copyright_test_assert($condition, $message) {
     $failures++;
     echo "FAIL: {$message}\n";
 }
+
+copyright_test_assert(true, 'The dynamic renderer can be included more than once.');
 
 $page_result = fau_elemental_gather_copyright_info_from_metadata(array(
     'blockName' => 'core/image',
