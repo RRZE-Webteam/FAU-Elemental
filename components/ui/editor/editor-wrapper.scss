@@ -23,6 +23,33 @@
 @use "../../patterns/big-buttons/editor-wrapper" as *;
 @use "../../patterns/featured-event-teaser/editor-wrapper" as *;
 
+// The interface does not inherit the canvas's theme custom properties.
+.editor-resizable-editor > div {
+	background-color: #fff;
+}
+
+/* Portal menu metabox interface */
+.components-panel__body .fau-portal-menu-settings {
+	padding: 16px;
+	border: 1px solid #e0e0e0;
+	margin-bottom: 16px;
+}
+
+.fau-portal-menu-template-not-active {
+	display: none;
+}
+
+.fau-portal-menu-settings select {
+	box-sizing: border-box;
+}
+
+.fau-portal-template-notice {
+	margin: 10px 0;
+	padding: 10px;
+	background-color: #f0f7fb;
+	border-left: 4px solid #2271b1;
+}
+
 /**
  * Post Header Component - Editor Wrapper Styles - Hide Editor Features
  */

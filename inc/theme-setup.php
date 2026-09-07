@@ -42,6 +42,8 @@ function faue_setup() {
     ));
 
 
+    // Let WordPress scope the theme stylesheet to the editor content canvas.
+    add_theme_support('editor-styles');
     add_editor_style(array(
         'style.css',
         'build/css/editor.css'
@@ -137,4 +139,4 @@ function faue_admin_body_class($classes) {
     
     return $classes;
 }
-add_filter('admin_body_class', 'faue_admin_body_class'); 
+add_filter('admin_body_class', 'faue_admin_body_class');

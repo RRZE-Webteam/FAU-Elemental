@@ -1,5 +1,6 @@
 /**
- * Editor Styles
+ * Editor canvas styles, scoped by WordPress through add_editor_style().
+ * Interface adjustments belong in editor-wrapper.scss.
  */
 
 /* Theme */
@@ -19,10 +20,6 @@
 @use "../../patterns/hero-chair-cooperation/editor" as *;
 @use "../../patterns/hero-faculty-other/editor" as *;
 
-.editor-resizable-editor > div {
-	background-color: var(--FAU-Col-FAU-Weiss-100);
-}
-
 html :where(.editor-styles-wrapper) {
 	font-family: var(--font-family-base);
 }
@@ -38,28 +35,6 @@ html :where(.editor-styles-wrapper) {
 
 .wp-block-file__content-wrapper > .wp-block-file > .wp-block-file {
 	margin-bottom: var(--Spacing-4x);
-}
-
-/* Fix metabox in Gutenberg */
-.components-panel__body .fau-portal-menu-settings {
-	padding: 16px;
-	border: 1px solid #e0e0e0;
-	margin-bottom: 16px;
-}
-
-.fau-portal-menu-template-not-active {
-	display: none;
-}
-
-.fau-portal-menu-settings select {
-	box-sizing: border-box;
-}
-
-.fau-portal-template-notice {
-	margin: 10px 0;
-	padding: 10px;
-	background-color: #f0f7fb;
-	border-left: 4px solid #2271b1;
 }
 
 :where(.wp-block-post-content) {

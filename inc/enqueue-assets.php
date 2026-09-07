@@ -28,20 +28,8 @@ function faue_enqueue_styles() {
 }
 add_action('wp_enqueue_scripts', 'faue_enqueue_styles');
 
-// Enqueue Editor Styles
+// Enqueue editor interface styles. Canvas styles are registered in faue_setup().
 function faue_enqueue_editor_assets() {
-    // Load main editor styles (compiled from editor.scss)
-    $editor_asset_path = get_theme_file_path('build/css/editor.asset.php');
-    if (file_exists($editor_asset_path)) {
-        $editor_asset = include $editor_asset_path;
-        wp_enqueue_style(
-            'faue-editor',
-            get_theme_file_uri('build/css/editor.css'),
-            $editor_asset['dependencies'],
-            $editor_asset['version']
-        );
-    }
-
     // Load editor wrapper styles
     $wrapper_asset_path = get_theme_file_path('build/css/editor-wrapper.asset.php');
     if (file_exists($wrapper_asset_path)) {
