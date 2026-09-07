@@ -18,6 +18,7 @@ class FAU_Page_Meta_Fields {
      * Initialize the meta fields
      */
     public function __construct() {
+        add_action('init', array($this, 'register_meta_fields'));
         add_action('add_meta_boxes', array($this, 'add_meta_boxes'));
         add_action('save_post', array($this, 'save_meta_fields'));
     }
@@ -26,6 +27,11 @@ class FAU_Page_Meta_Fields {
      * Add meta boxes to page edit screen
      */
     public function add_meta_boxes() {
+        $screen = get_current_screen();
+        if ($screen && $screen->is_block_editor()) {
+            return;
+        }
+
         add_meta_box(
             'fau_page_navigation_settings',
             __('Navigation Settings', 'fau-elemental'),
@@ -34,6 +40,24 @@ class FAU_Page_Meta_Fields {
             'side',
             'default'
         );
+    }
+
+    /**
+     * Expose the existing navigation flag to the native page settings panel.
+     */
+    public function register_meta_fields() {
+        register_post_meta('page', '_fau_hide_from_menu', [
+            'show_in_rest' => true,
+            'single' => true,
+            'type' => 'string',
+            'default' => '0',
+            'sanitize_callback' => static function ($value) {
+                return '1' === (string) $value ? '1' : '0';
+            },
+            'auth_callback' => static function ($allowed, $meta_key, $post_id) {
+                return current_user_can('edit_post', $post_id);
+            },
+        ]);
     }
     
     /**
@@ -103,4 +127,4 @@ class FAU_Page_Meta_Fields {
 }
 
 // Initialize the meta fields
-new FAU_Page_Meta_Fields(); 
+new FAU_Page_Meta_Fields();

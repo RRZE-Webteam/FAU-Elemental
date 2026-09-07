@@ -8,6 +8,8 @@ import {
 	ExternalLink,
 	ResponsiveWrapper,
 	Spinner,
+	TextControl,
+	ToggleControl,
 	__experimentalText as Text,
 } from '@wordpress/components';
 import {
@@ -507,6 +509,227 @@ const TeaserImagePanel = () => {
 
 registerPlugin( 'fau-teaser-image-panel', {
 	render: TeaserImagePanel,
+} );
+
+// Post settings panels -----------------------------------------------------
+
+const SHOW_CATEGORIES_META_KEY = 'show_categories';
+const USE_CUSTOM_LAST_UPDATED_META_KEY = '_faue_use_custom_last_updated';
+const CUSTOM_LAST_UPDATED_META_KEY = '_faue_custom_last_updated';
+const CUSTOM_PAGE_TITLE_META_KEY = '_fau_page_title';
+const HIDE_FROM_MENU_META_KEY = '_fau_hide_from_menu';
+
+const toDateTimeLocal = ( value ) => {
+	if ( ! value ) {
+		return '';
+	}
+
+	return String( value ).replace( ' ', 'T' ).slice( 0, 16 );
+};
+
+const toStoredDateTime = ( value ) => {
+	if ( ! value ) {
+		return '';
+	}
+
+	return `${ value.replace( 'T', ' ' ) }:00`;
+};
+
+const PostHeaderOptionsPanel = () => {
+	const { postType, showCategories } = useSelect( ( sel ) => {
+		const meta =
+			sel( 'core/editor' ).getEditedPostAttribute( 'meta' ) || {};
+
+		return {
+			postType: sel( 'core/editor' ).getCurrentPostType(),
+			showCategories: meta[ SHOW_CATEGORIES_META_KEY ] !== '0',
+		};
+	}, [] );
+	const { editPost } = useDispatch( 'core/editor' );
+
+	if ( postType !== 'post' ) {
+		return null;
+	}
+
+	return (
+		<PluginDocumentSettingPanel
+			name="fau-post-header-options"
+			title={ __( 'Post Header Options', 'fau-elemental' ) }
+		>
+			<ToggleControl
+				label={ __( 'Show categories', 'fau-elemental' ) }
+				checked={ showCategories }
+				onChange={ ( checked ) =>
+					editPost( {
+						meta: {
+							[ SHOW_CATEGORIES_META_KEY ]: checked ? '1' : '0',
+						},
+					} )
+				}
+			/>
+		</PluginDocumentSettingPanel>
+	);
+};
+
+const LastUpdatedPanel = () => {
+	const { postType, useCustomDate, customDate, modifiedDate } = useSelect(
+		( sel ) => {
+			const meta =
+				sel( 'core/editor' ).getEditedPostAttribute( 'meta' ) || {};
+
+			return {
+				postType: sel( 'core/editor' ).getCurrentPostType(),
+				useCustomDate: meta[ USE_CUSTOM_LAST_UPDATED_META_KEY ] === '1',
+				customDate: meta[ CUSTOM_LAST_UPDATED_META_KEY ] || '',
+				modifiedDate:
+					sel( 'core/editor' ).getEditedPostAttribute( 'modified' ) ||
+					'',
+			};
+		},
+		[]
+	);
+	const { editPost } = useDispatch( 'core/editor' );
+	const showPostMeta = Boolean( window.fauElemental?.showPostMeta ?? true );
+
+	if ( ! showPostMeta || ( postType !== 'post' && postType !== 'page' ) ) {
+		return null;
+	}
+
+	const dateTimeValue = toDateTimeLocal( customDate );
+	const toggleCustomDate = ( checked ) => {
+		editPost( {
+			meta: {
+				[ USE_CUSTOM_LAST_UPDATED_META_KEY ]: checked ? '1' : '0',
+				[ CUSTOM_LAST_UPDATED_META_KEY ]: checked
+					? toStoredDateTime(
+							dateTimeValue || toDateTimeLocal( modifiedDate )
+					  )
+					: '',
+			},
+		} );
+	};
+
+	return (
+		<PluginDocumentSettingPanel
+			name="fau-last-updated"
+			title={ __( 'Last Updated Date', 'fau-elemental' ) }
+		>
+			<ToggleControl
+				label={ __( 'Use custom last updated date', 'fau-elemental' ) }
+				checked={ useCustomDate }
+				onChange={ toggleCustomDate }
+			/>
+			{ useCustomDate && (
+				<TextControl
+					type="datetime-local"
+					label={ __( 'Custom date:', 'fau-elemental' ) }
+					value={ dateTimeValue }
+					onChange={ ( value ) =>
+						editPost( {
+							meta: {
+								[ CUSTOM_LAST_UPDATED_META_KEY ]:
+									toStoredDateTime( value ),
+							},
+						} )
+					}
+				/>
+			) }
+		</PluginDocumentSettingPanel>
+	);
+};
+
+const PageTitlePanel = () => {
+	const { postType, pageTitle } = useSelect( ( sel ) => {
+		const meta =
+			sel( 'core/editor' ).getEditedPostAttribute( 'meta' ) || {};
+
+		return {
+			postType: sel( 'core/editor' ).getCurrentPostType(),
+			pageTitle: meta[ CUSTOM_PAGE_TITLE_META_KEY ] || '',
+		};
+	}, [] );
+	const { editPost } = useDispatch( 'core/editor' );
+	const showPostMeta = Boolean( window.fauElemental?.showPostMeta ?? true );
+
+	if ( ! showPostMeta || ( postType !== 'post' && postType !== 'page' ) ) {
+		return null;
+	}
+
+	return (
+		<PluginDocumentSettingPanel
+			name="fau-page-title"
+			title={ __( 'Page Title Settings', 'fau-elemental' ) }
+		>
+			<TextControl
+				label={ __( 'Custom Page Title', 'fau-elemental' ) }
+				help={ __(
+					'Set a custom title for this page. This will be used as the main page title while keeping the URL slug, breadcrumb, and navigation unchanged.',
+					'fau-elemental'
+				) }
+				value={ pageTitle }
+				onChange={ ( value ) =>
+					editPost( {
+						meta: { [ CUSTOM_PAGE_TITLE_META_KEY ]: value },
+					} )
+				}
+			/>
+		</PluginDocumentSettingPanel>
+	);
+};
+
+const PageNavigationPanel = () => {
+	const { postType, hideFromMenu } = useSelect( ( sel ) => {
+		const meta =
+			sel( 'core/editor' ).getEditedPostAttribute( 'meta' ) || {};
+		return {
+			postType: sel( 'core/editor' ).getCurrentPostType(),
+			hideFromMenu: meta[ HIDE_FROM_MENU_META_KEY ] === '1',
+		};
+	}, [] );
+	const { editPost } = useDispatch( 'core/editor' );
+
+	if ( postType !== 'page' ) {
+		return null;
+	}
+
+	return (
+		<PluginDocumentSettingPanel
+			name="fau-page-navigation"
+			title={ __( 'Navigation Settings', 'fau-elemental' ) }
+		>
+			<ToggleControl
+				label={ __(
+					'Hide this page from navigation menus',
+					'fau-elemental'
+				) }
+				help={ __(
+					'When checked, this page will not appear as a child page in navigation menus, even if it has a parent page.',
+					'fau-elemental'
+				) }
+				checked={ hideFromMenu }
+				onChange={ ( checked ) =>
+					editPost( {
+						meta: {
+							[ HIDE_FROM_MENU_META_KEY ]: checked ? '1' : '0',
+						},
+					} )
+				}
+			/>
+		</PluginDocumentSettingPanel>
+	);
+};
+
+const PostSettingsPanels = () => (
+	<Fragment>
+		<PostHeaderOptionsPanel />
+		<LastUpdatedPanel />
+		<PageTitlePanel />
+		<PageNavigationPanel />
+	</Fragment>
+);
+
+registerPlugin( 'fau-post-settings-panels', {
+	render: PostSettingsPanels,
 } );
 
 // Legacy sidebar helpers ----------------------------------------------------

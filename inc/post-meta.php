@@ -17,6 +17,11 @@ function faue_add_post_meta_boxes() {
     if (!function_exists('faue_show_post_meta') || !faue_show_post_meta()) {
         return;
     }
+
+    $screen = get_current_screen();
+    if ($screen && $screen->is_block_editor()) {
+        return;
+    }
     
     // Add meta box for custom last updated date
     add_meta_box(
@@ -61,6 +66,54 @@ function faue_add_post_meta_boxes() {
 add_action('add_meta_boxes', 'faue_add_post_meta_boxes');
 
 /**
+ * Register post metadata used by the Block Editor panels.
+ */
+function faue_register_post_meta_fields() {
+    $auth_callback = static function ($allowed, $meta_key, $post_id) {
+        return current_user_can('edit_post', $post_id);
+    };
+
+    $fields = [
+        '_faue_use_custom_last_updated' => [
+            'default' => '0',
+            'sanitize_callback' => static function ($value) {
+                return '1' === (string) $value ? '1' : '0';
+            },
+        ],
+        '_faue_custom_last_updated' => [
+            'default' => '',
+            'sanitize_callback' => static function ($value) {
+                $validated = faue_validate_datetime(sanitize_text_field($value));
+                return $validated ?: '';
+            },
+        ],
+        '_fau_page_title' => [
+            'default' => '',
+            'sanitize_callback' => 'sanitize_text_field',
+        ],
+    ];
+
+    foreach (['post', 'page'] as $post_type) {
+        foreach ($fields as $meta_key => $field_args) {
+            register_post_meta(
+                $post_type,
+                $meta_key,
+                array_merge(
+                    [
+                        'show_in_rest' => true,
+                        'single' => true,
+                        'type' => 'string',
+                        'auth_callback' => $auth_callback,
+                    ],
+                    $field_args
+                )
+            );
+        }
+    }
+}
+add_action('init', 'faue_register_post_meta_fields');
+
+/**
  * Enqueue admin scripts and styles for post meta
  */
 function faue_enqueue_post_meta_admin_assets($hook) {
@@ -77,6 +130,11 @@ function faue_enqueue_post_meta_admin_assets($hook) {
     // Check if we're editing a post or page
     global $post_type;
     if (!in_array($post_type, ['post', 'page'], true)) {
+        return;
+    }
+
+    $screen = get_current_screen();
+    if ($screen && $screen->is_block_editor()) {
         return;
     }
     
@@ -164,13 +222,13 @@ function faue_validate_datetime($datetime_string) {
     if (empty($datetime_string)) {
         return false;
     }
-    
-    // Try to create DateTime object from the format
-    $datetime = DateTime::createFromFormat('Y-m-d\TH:i', $datetime_string);
-    
-    // Check if the date was created successfully and matches the input
-    if ($datetime && $datetime->format('Y-m-d\TH:i') === $datetime_string) {
-        return $datetime->format('Y-m-d H:i:s');
+
+    $formats = ['Y-m-d\TH:i', 'Y-m-d H:i:s'];
+    foreach ($formats as $format) {
+        $datetime = DateTime::createFromFormat($format, $datetime_string);
+        if ($datetime && $datetime->format($format) === $datetime_string) {
+            return $datetime->format('Y-m-d H:i:s');
+        }
     }
     
     return false;
@@ -328,4 +386,3 @@ function faue_render_block_custom_page_title($block_content, $block) {
 
     return preg_replace('/>([^<]*)</', '>' . esc_html($custom_title) . '<', $block_content, 1);
 }
-

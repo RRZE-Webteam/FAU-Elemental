@@ -13,6 +13,11 @@
  * Add Post Header Options meta box
  */
 function add_post_header_options_meta_box() {
+    $screen = get_current_screen();
+    if ($screen && $screen->is_block_editor()) {
+        return;
+    }
+
     add_meta_box(
         'post_header_options',
         __('Post Header Options', 'fau-elemental'),
@@ -23,6 +28,29 @@ function add_post_header_options_meta_box() {
     );
 }
 add_action('add_meta_boxes', 'add_post_header_options_meta_box');
+
+/**
+ * Register post header settings for the Block Editor.
+ */
+function faue_register_post_header_options_meta() {
+    register_post_meta(
+        'post',
+        'show_categories',
+        [
+            'show_in_rest' => true,
+            'single' => true,
+            'type' => 'string',
+            'default' => '1',
+            'sanitize_callback' => static function ($value) {
+                return '1' === (string) $value ? '1' : '0';
+            },
+            'auth_callback' => static function ($allowed, $meta_key, $post_id) {
+                return current_user_can('edit_post', $post_id);
+            },
+        ]
+    );
+}
+add_action('init', 'faue_register_post_header_options_meta');
 
 /**
  * Render Post Header Options meta box

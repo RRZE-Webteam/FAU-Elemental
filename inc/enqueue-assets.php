@@ -82,6 +82,7 @@ function faue_enqueue_block_editor_script() {
                 'facultyType' => get_theme_mod('faue_faculty', 'phil'),
                 'fallbackImageUrl' => faue_get_post_fallback_image(),
                 'locale' => get_locale(),
+                'showPostMeta' => function_exists('faue_show_post_meta') ? faue_show_post_meta() : true,
             )
         );
     }
