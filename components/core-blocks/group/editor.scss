@@ -1,0 +1,8 @@
+/**
+ * Center the empty Group's inserter without changing its content layout.
+ * Core resets appender margins to zero, while the theme caps its width.
+ * Leave populated Groups, nested plugin appenders, and flex/grid layouts alone.
+ */
+.wp-block-group[data-type="core/group"]:not(.is-layout-flex):not(.is-layout-grid) > .block-list-appender:only-child {
+	margin-inline: auto;
+}
